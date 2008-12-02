@@ -1,3 +1,5 @@
 #summary What is Enterprise Architect
 
-Enterprise Architect is a UML modeling tool developed by [http://www.sparxsystems.com Sparx Systems]. The UMM 2 Add-In extends Enterprise Architect to support UMM 2.0. 
+Enterprise Architect is a UML modeling tool developed by [http://www.sparxsystems.com Sparx Systems]. The VIENNA Add-In extends Enterprise Architect to support inter-orgainzational business process modeling and business document modeling.
+
+The used technologies are UN/CEFACT's Modeling Methodology (UMM) and UN/CEFACT's Core Components Technical Specification (CCTS). 
