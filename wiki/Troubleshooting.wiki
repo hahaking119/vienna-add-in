@@ -1,0 +1,16 @@
+#summary The troubleshooting provides help for the most common problems when installing and using the UMM2 Add-In.
+
+= Troubleshooting =
+
+
+* _Q: After I have installed the UMM2AddIn I cannot see the UMM2AddIn menu item in the Enterprise Architect Add-Ins menu._
+
+A: If you have installed the UMM2AddIn choosing the option "Install for all users of this computer" you have to manually add the registry entries, necessary for the UMM2AddIn. Go to the folder to which the UMM2AddIn was installed - usually C:\Program Files\UMM2AddInProject\UMM2AddIn. Select the subfolder \registry and double click on the file umm2addin.reg.
+
+* _Q: After I have started the installation of the UMM2AddIn the installer wants to download the .NET framework_
+
+A: The UMM2AddIn requires the .NET framework and will not be installed without the framework being present.
+
+* _Q: After I have started the installation of the UMM2AddIn the installer starts to download updates for the .NET framework._
+
+A: The installer automatically checks, whether you are using the most recent version of the .NET. If not, the most recent version will be downloaded.
