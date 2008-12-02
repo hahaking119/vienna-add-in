@@ -9,4 +9,4 @@
 
 = Checkout from SVN = 
 
-If you want to checkout the latest source from SVN in order to participate in development please refer to CheckoutFromSvn
+If you want to checkout the latest source from SVN in order to participate in development please refer to http://code.google.com/p/vienna-add-in/wiki/CheckoutfromSVN
