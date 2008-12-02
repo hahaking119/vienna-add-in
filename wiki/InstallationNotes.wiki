@@ -1,0 +1,23 @@
+#summary Installation notes for the UMM 2 Add-In
+
+
+= How to install the Add-In using the Installation Package =
+
+ # Go to [http://code.google.com/p/umm2-addin/downloads/list Downloads] and download the latest version of the UMM 2 Add-In Installer.
+ # Follow the instructions given by the Installer
+ # *Important!* When installing the UMM 2 Add-in select install "just for me" and not "for everyone". If you choose "for everyone" the menu entry of the UMM 2 Add-In will not appear in the menu bar of Enterprise Architect. Please see the following [http://code.google.com/p/umm2-addin/issues/detail?id=17 issue] for a solution if you have installed the UMM 2 Add-In in "for everyone" mode.
+ # When finished, open Enterprise Architect. The Add-In should be automatically enabled. In case it does not or any error occurs, please file an [http://code.google.com/p/umm2-addin/issues/list issue] giving us detailed information.
+
+= How to install the MDG Technology File =
+
+The first release of the UMM 2 Add-In for EnterpriseArchitect (EA) is released as MDG technology file. It contains the UML Profile for UMM 2.0 and supports EA's QuickLinker functionality. The following steps describe how to install the MDG technology file within EnterpriseArchitect: 
+
+  # Go to [http://code.google.com/p/umm2-addin/downloads/list Downloads] and choose the MDG file download (currently Version 0.1). Unzip the archive after downloading.
+  # In Enterprise Architect go to Resource View (usually defined as a tab below the Project Browser)
+  # In the Resource View right click on the MDG Technology and select the option Import Technology
+  # Choose the UMM profile (the .xml file within the archive just have just unpacked).
+  # The profile is now loaded into your toolbox on the left hand side
+
+= Checkout from SVN = 
+
+If you want to checkout the latest source from SVN in order to participate in development please refer to CheckoutFromSvn
