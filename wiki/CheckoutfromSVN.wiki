@@ -31,4 +31,4 @@ For your convenience, we included a registry file *viennaaddin.reg* within the s
 
 *Congratulations, the VIENNA Add-In should now be available within EnterpriseArchitect*
 
-In case you experience any difficulties building the code or installing it please submit and issue using the issue tracker. We will provide a solution as quickly as possible.
+In case you experience any difficulties building the code or installing it please submit an issue using the issue tracker. We will provide a solution as quickly as possible.
