@@ -22,10 +22,13 @@ For your convenience, we included a registry file *viennaaddin.reg* within the s
 
 = Register the compiled UMM 2 Add-In with your system = 
 
-  * Before you've compiled the UMM 2 Add-In within Visual Studio. The resulting DLL file has now to be registered with your system. If you have checked out the solution under `C:\UMM2AddIn` the DLL is found under `C:\UMM2AddIn\UMM2AddIn\bin\Debug\UMM2AddIn.dll`. If you chose a different path, locate the DLL now. 
+  * Build the VIENNA Add-In solution in Visual Studio. It is not necessary to build the Installers in this step. The resulting DLL file now has to be registered with your system. If you have checked out the solution under `C:\VIENNAAddIn` the DLL is found under `C:\VIENNAAddIn\VIENNAAddIn\bin\Debug\VIENNAAddIn.dll`. If you chose a different path, locate the DLL now. 
+  * In general you should develop in Debug mode in Visual Studio and not in Release mode.
   * Open a console (command line) window (if you run Windows Vista, you may need to open the console under elevated (Administrator) privileges.
-  * Type the following command `C:\>regsvr32 C:\UMM2AddIn\UMM2AddIn\bin\Debug\UMM2AddIn.dll`
-(you know, if you chose a different path, substitute the path to the DLL file accordingly). There may occur an error message that some _entry-point DllRegisterServer was not found_, or whatever. You can ignore that. 
+  * Type the following command `C:\>regsvr32 C:\VIENNAAddIn\VIENNAAddIn\bin\Debug\VIENNAAddIn.dll`
+(if you chose a different path, substitute the path to the DLL file accordingly). There may occur an error message that some _entry-point DllRegisterServer was not found_, or similar. You can ignore that. 
 
 
-*Congratulations, the UMM 2 Add-In should now be available within EnterpriseArchitect*
+*Congratulations, the VIENNA Add-In should now be available within EnterpriseArchitect*
+
+In case you experience any difficulties building the code or installing it please submit and issue using the issue tracker. We will provide a solution as quickly as possible.
