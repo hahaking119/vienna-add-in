@@ -12,7 +12,7 @@
 
 = Register the VIENNA Add-In  within EnterpriseArchitect = 
 
-  * The VIENNA Add-In  must requires some keys within the Windows Registry
+  * The VIENNA Add-In requires some keys within the Windows Registry
     * A key to register the Add-In with EnterpriseArchitect
     * Some keys that the Add-In needs itself
 
