@@ -368,14 +368,13 @@ namespace VIENNAAddIn.constants
 
     internal enum BusinessLibraryTV
     {
-        baseURL,
-        baseURN,
-        owner,
+        businessTerm,
         copyright,
+        owner,
         reference,
         status,
-        version,
-        businessTerm
+        URI,
+        version
     }
 
     internal enum BusinessCategoryTV

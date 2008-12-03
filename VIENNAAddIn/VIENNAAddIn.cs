@@ -26,6 +26,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.workflow;
 
 namespace VIENNAAddIn
 {
@@ -230,6 +231,7 @@ namespace VIENNAAddIn
                 if (menuname == "-" + AddInSettings.getAddInCaption())
                 {
                     menu.Add("&Set Model as UMM2 Model");
+                    menu.Add("&Create initial UMM 2 model structure");
                     menu.Add("-");
                     menu.Add("Validate All - &CCTS");
                     menu.Add("Validate All - &UMM2");
@@ -384,11 +386,11 @@ namespace VIENNAAddIn
                            
                         }
                     }
-                //    else if (menuitem == "&Create initial UMM2 model structure")
-                //    {
-                //        InitialModelStructureCreationForm imscForm = new InitialModelStructureCreationForm(repository);
-                //        imscForm.ShowDialog();
-                //    }
+                    else if (menuitem == "&Create initial UMM 2 model structure")
+                    {
+                        InitialPackageStructureCreator creator = new InitialPackageStructureCreator(repository);
+                        creator.Show();
+                    }
                 //    else if (menuitem == "&Options")
                 //    {
                 //        OptionsForm optionsForm = new OptionsForm(repository);
