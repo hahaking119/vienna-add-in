@@ -261,6 +261,13 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Utils\SortAttribute.cs" />
+    <Compile Include="workflow\InitialPackageStructureCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="workflow\InitialPackageStructureCreator.Designer.cs">
+      <DependentUpon>InitialPackageStructureCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="workflow\ModelStructureCreator.cs" />
     <Compile Include="WSDLGenerator\Setting\TemplateSetting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -431,6 +438,9 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     </EmbeddedResource>
     <EmbeddedResource Include="validator\ValidatorForm.resx">
       <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="workflow\InitialPackageStructureCreator.resx">
+      <DependentUpon>InitialPackageStructureCreator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WSDLGenerator\Setting\TemplateSetting.resx">
       <DependentUpon>TemplateSetting.cs</DependentUpon>
