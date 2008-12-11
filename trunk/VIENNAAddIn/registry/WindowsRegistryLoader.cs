@@ -83,7 +83,20 @@ namespace VIENNAAddIn.registry
             }
             return getHomeDirectory() + mdgfileLocation;
         }
-        
+
+        /// <summary>
+        /// returns the absolute location of the MDG file.
+        /// </summary>
+        /// <returns>relative location of MDG file</returns>
+        internal static String getMDGFileGIEM()
+        {
+            String mdgfileLocation = (String)VIENNAAddInKey.GetValue("mdgfilegiem");
+            if (mdgfileLocation == null || mdgfileLocation.Trim().Length == 0)
+            {
+                throw new RegistryAccessException("MDGFile Key not found");
+            }
+            return getHomeDirectory() + mdgfileLocation;
+        }
 
         /// <summary>
         /// returns the absoluate location of the images 

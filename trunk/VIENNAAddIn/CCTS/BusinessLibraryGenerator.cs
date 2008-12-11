@@ -350,6 +350,7 @@ namespace VIENNAAddIn.CCTS
             //check if current package is already generated
             if (isAlreadyInBLGenArray(p.Name) != "")
             {
+                this.appendInfoMessage("The schema was created successfully.", p.Name);
                 return;
             }
 
@@ -357,7 +358,7 @@ namespace VIENNAAddIn.CCTS
             string error = "";
             System.Collections.ICollection ccGenCollection = null;
             CCGenerator ccGenerator = new CCGenerator(this.repository, p.PackageID.ToString(), this.annotate,
-                this.blnIncludeLinkedSchema, this.blnAlias, this.blnNillable, this.path, alreadyCreatedSchemasBLGen);//, this);
+                this.blnIncludeLinkedSchema, this.blnAlias, this.blnNillable, this.path, this, alreadyCreatedSchemasBLGen, true);//, this);
 
             try
             {
@@ -422,6 +423,7 @@ namespace VIENNAAddIn.CCTS
             //check if current package is already generated
             if (isAlreadyInBLGenArray(p.Name) != "")
             {
+                this.appendInfoMessage("The schema was created successfully.", p.Name);
                 return;
             }
 
@@ -450,9 +452,9 @@ namespace VIENNAAddIn.CCTS
             
             string error = "";
             System.Collections.ICollection docGenCollection = null;
-            DOCGenerator docGenerator = new DOCGenerator(this.repository, p.PackageID.ToString(), this.annotate, 
-                this.blnNillable, this.blnIncludeLinkedSchema,this.blnAlias, this.path, alreadyCreatedSchemasBLGen, this);
-
+            DOCGenerator docGenerator = new DOCGenerator(this.repository, p.PackageID.ToString(), this.annotate,
+                this.blnIncludeLinkedSchema, this.blnAlias, this.blnNillable, this.path, this, this.alreadyCreatedSchemasBLGen, true);
+            
             try
             {
                 //docGenerator.path = this.path;
@@ -534,6 +536,7 @@ namespace VIENNAAddIn.CCTS
             //check if current package is already generated
             if (isAlreadyInBLGenArray(p.Name) != "")
             {
+                this.appendInfoMessage("The schema was created successfully.", p.Name);
                 return;
             }
 
@@ -541,7 +544,7 @@ namespace VIENNAAddIn.CCTS
             string error = "";
             System.Collections.ICollection bieGenCollection = null;
             BIEGenerator bieGenerator = new BIEGenerator(this.repository, p.PackageID.ToString(), this.chkAnnotateElement.Checked, 
-                this.blnIncludeLinkedSchema, this.blnAlias, this.blnNillable, this.path, alreadyCreatedSchemasBLGen); //, this);
+                this.blnIncludeLinkedSchema, this.blnAlias, this.blnNillable, this.path, this, this.alreadyCreatedSchemasBLGen, true); //, this);
 
             try
             {
@@ -606,6 +609,7 @@ namespace VIENNAAddIn.CCTS
             //check if current package is already generated
             if (isAlreadyInBLGenArray(p.Name) != "")
             {
+                this.appendInfoMessage("The schema was created successfully.", p.Name);
                 return;
             }
 
@@ -676,6 +680,7 @@ namespace VIENNAAddIn.CCTS
             //check if current package is already generated
             if (isAlreadyInBLGenArray(p.Name) != "")
             {
+                this.appendInfoMessage("The schema was created successfully.", p.Name);
                 return;
             }
 
@@ -747,6 +752,7 @@ namespace VIENNAAddIn.CCTS
             //check if current package is already generated
             if (isAlreadyInBLGenArray(p.Name) != "")
             {
+                this.appendInfoMessage("The schema was created successfully.", p.Name);
                 return;
             }
 

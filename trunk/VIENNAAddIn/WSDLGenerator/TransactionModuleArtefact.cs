@@ -484,8 +484,8 @@ namespace VIENNAAddIn.WSDLGenerator
 
             this.WSDL_TM_FileLocation = "../WSDL/" + System.IO.Path.GetFileName(this.wsdlPath);
             this.WSDL_BT_FileLocation = "../WSDL/" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
-            this.WSDL_BS_FileLocation = "../WSDL/" + "VIENNAAddInBusinessSignal.wsdl";
-            this.WSDL_TMM_FileLocation = "../WSDL/" + "VIENNAAddInTransactionModuleMessage.wsdl";
+            this.WSDL_BS_FileLocation = "../WSDL/" + "GIEMBusinessSignal.wsdl";
+            this.WSDL_TMM_FileLocation = "../WSDL/" + "GIEMTransactionModuleMessage.wsdl";
 
             string BTname = removeSpace(this.requestingBusinessActivity.Name);
             //string BTnameResponder = removeSpace(this.respondingBusinessActivity.Name);
@@ -542,8 +542,8 @@ namespace VIENNAAddIn.WSDLGenerator
 
             this.WSDL_TM_FileLocation = "../WSDL/" + System.IO.Path.GetFileName(this.wsdlPath);
             this.WSDL_BT_FileLocation = "../WSDL/" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
-            this.WSDL_BS_FileLocation = "../WSDL/" + "VIENNAAddInBusinessSignal.wsdl";
-            this.WSDL_TMM_FileLocation = "../WSDL/" + "VIENNAAddInTransactionModuleMessage.wsdl";
+            this.WSDL_BS_FileLocation = "../WSDL/" + "GIEMBusinessSignal.wsdl";
+            this.WSDL_TMM_FileLocation = "../WSDL/" + "GIEMTransactionModuleMessage.wsdl";
 
             string BTname = removeSpace(this.requestingBusinessActivity.Name);
             string BTnameResponder = removeSpace(this.respondingBusinessActivity.Name);
@@ -759,7 +759,7 @@ namespace VIENNAAddIn.WSDLGenerator
 
                     CopyWSDLFolder();
 
-                    //Check VIENNAAddInTransactionModuleMessage.wsdl path of "include" tag
+                    //Check GIEMTransactionModuleMessage.wsdl path of "include" tag
                     CheckAndResetTransactionModule();
 
                     CopySchemaCollectionFolder();
@@ -1074,7 +1074,7 @@ namespace VIENNAAddIn.WSDLGenerator
         {
             EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
 
-            this.sourceTransModule = this.path + @"WSDL\VIENNAAddInTransactionModuleMessage.wsdl";
+            this.sourceTransModule = this.path + @"WSDL\GIEMTransactionModuleMessage.wsdl";
             this.sourceBusTrans = this.path + @"WSDL\" + removeSpace(pkg.Name) + ".wsdl";
             
             setPath();
@@ -2064,7 +2064,7 @@ namespace VIENNAAddIn.WSDLGenerator
 
             w.WriteAttributeString("xmlns", this.transModulePrefix, null, getNamespaceFromWSDLFile(this.transModulePath));
             w.WriteAttributeString("xmlns", this.busTransPrefix, null, getNamespaceFromWSDLFile(this.busTransPath));
-            w.WriteAttributeString("xmlns", this.busSignalPrefix, null, getNamespaceFromWSDLFile(this.wsdlPath + "VIENNAAddInBusinessSignal.wsdl"));
+            w.WriteAttributeString("xmlns", this.busSignalPrefix, null, getNamespaceFromWSDLFile(this.wsdlPath + "GIEMBusinessSignal.wsdl"));
             w.WriteAttributeString("xmlns", this.sbdHeaderPrefix, null, "urn:xml-gov-au:draft:data:messagingAggregates:1.1");//getNamespaceFromXSDFile(this.schemaColPath + @"NatCore\data\SBDHeader.xsd"));
 
 
@@ -2087,7 +2087,7 @@ namespace VIENNAAddIn.WSDLGenerator
             this.wsdlPath = this.path + "WSDL" + @"\";
             this.schemaColPath = this.path + "Schemas" + @"\";
             this.busTransPath = this.path + "WSDL" + @"\" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
-            this.transModulePath = this.path + @"WSDL\VIENNAAddInTransactionModuleMessage.wsdl";
+            this.transModulePath = this.path + @"WSDL\GIEMTransactionModuleMessage.wsdl";
         }
 
 
@@ -2099,7 +2099,7 @@ namespace VIENNAAddIn.WSDLGenerator
 
         private void CheckAndResetTransactionModule()
         {
-            if (System.IO.File.Exists(this.wsdlPath + "VIENNAAddInTransactionModuleMessage.wsdl"))
+            if (System.IO.File.Exists(this.wsdlPath + "GIEMTransactionModuleMessage.wsdl"))
             //if (this.sourceTransModule != this.transModulePath)
             {
                 //System.IO.File.Copy(this.sourceTransModule, this.transModulePath, true);
@@ -2107,18 +2107,18 @@ namespace VIENNAAddIn.WSDLGenerator
                 try
                 {
                     findTransactionModule();
-                    //resetting the relative path of imported schema in VIENNAAddInTransactionModuleMessage.wsdl
+                    //resetting the relative path of imported schema in GIEMTransactionModuleMessage.wsdl
                     resetRelativePath();
                 }
                 catch (Exception excp)
                 {
-                    throw new Exception("Failed change relative path on VIENNAAddIn Transaction Module Message caused by " + excp.Message);
+                    throw new Exception("Failed change relative path on GIEM Transaction Module Message caused by " + excp.Message);
                 }
             }
 
             else
             {
-                throw new Exception("Can not find VIENNAAddInTransactionModuleMessage.wsdl in " + this.wsdlPath);
+                throw new Exception("Can not find GIEMTransactionModuleMessage.wsdl in " + this.wsdlPath);
             }
         }
 
@@ -2398,7 +2398,7 @@ namespace VIENNAAddIn.WSDLGenerator
             //this.wsdlPath = this.path + "WSDL" + @"\";
             //this.schemaColPath = this.path + "Schemas" + @"\";
             //this.busTransPath = this.path + "WSDL" + @"\" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
-            //this.transModulePath = this.path + @"WSDL\VIENNAAddInTransactionModuleMessage.wsdl";
+            //this.transModulePath = this.path + @"WSDL\GIEMTransactionModuleMessage.wsdl";
         }
 
         private string getNamespaceFromWSDLFile(string path)
