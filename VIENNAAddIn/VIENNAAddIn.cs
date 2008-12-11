@@ -19,7 +19,6 @@ using VIENNAAddIn.common;
 using VIENNAAddIn.constants;
 using VIENNAAddIn.ErrorReporter;
 using VIENNAAddIn.validator;
-using VIENNAAddIn.common;
 
 using Microsoft.Win32;
 using System.Threading;
@@ -32,7 +31,7 @@ namespace VIENNAAddIn
 {
     #region Interface
 
-    [Guid("408e490c-6138-4985-9df2-f1ba4b46ef42"),
+    [Guid("CF25D0B4-8D4E-419e-A4B1-AB4C9D90D62E"),
     InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface VIENNAAddInEvents
     {
@@ -40,7 +39,7 @@ namespace VIENNAAddIn
         //object EA_OnInitializeTechnologies(EA.Repository repository);
     }
 
-    [Guid("cc5cb3bb-74aa-4c02-8047-eaeb319aa788")]
+    [Guid("AC600C85-5BFE-45d5-9D5C-EEE1B5BE852B")]
     public interface VIENNAAddInInterface
     {
 
@@ -94,7 +93,7 @@ namespace VIENNAAddIn
     #endregion
 
 
-    [Guid("65c6da29-9b7d-48a0-8de5-c2b17233d906"),
+    [Guid("ADFF62A3-BEB5-4f39-9F79-560989B6E48B"),
     ClassInterface(ClassInterfaceType.None),
     ComSourceInterfaces(typeof(VIENNAAddInEvents))]
     public class VIENNAAddIn : VIENNAAddInInterface
@@ -311,6 +310,7 @@ namespace VIENNAAddIn
 
                 if (menuitem == "&Import CCTS Library")
                 {
+                    
                     Utility.importCCTSLibrary(repository, true);
 
                 }
@@ -459,8 +459,10 @@ namespace VIENNAAddIn
 
 
                     }
-
-
+                    else if (menuitem == "Validate All - &CCTS")
+                    {
+                        MessageBox.Show("Sorry this feature has not been activated.", "Info");
+                    }
 
                     //        String scope = "";
                     //        if (menuitem == "Validate All - &CCTS")
@@ -884,6 +886,16 @@ namespace VIENNAAddIn
                 EA.Package p = (EA.Package)obj;
                 s = "" + p.PackageID;
             }
+            else if (otype == EA.ObjectType.otDiagram)
+            {
+                EA.Diagram dgr = (EA.Diagram)obj;
+                s = dgr.PackageID.ToString();
+            }
+            else if (otype == EA.ObjectType.otElement)
+            {
+                EA.Element elm = (EA.Element)obj;
+                s = elm.PackageID.ToString();
+            }
 
             return s;
         }
@@ -1057,16 +1069,16 @@ namespace VIENNAAddIn
 
                 /* if the package is a BusinessRequirementsView or BusinessTransactionView, than enable the menu
                 to add a subpackage */
-                if (stereotype != null && ((stereotype.Equals(UMM.bRequirementsV.ToString())) ||
-                    (stereotype.Equals(UMM.bTransactionV.ToString()))))
+                if (stereotype != null && ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessRequirementsView.ToString())) || //UMM.bRequirementsV.ToString())) ||
+                    (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString())))) // UMM.bTransactionV.ToString()))))
                 {
-                    if (stereotype != null && stereotype.Equals(UMM.bTransactionV.ToString()))
+                    if (stereotype != null && stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()))//UMM.bTransactionV.ToString()))
                     {
                         VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
                         VIENNAAddInTreeViewMenu.Add("Generate Transaction Module Artefacts");
                     }
                 }
-                else if (stereotype != null && stereotype.Equals(UMM.bChoreographyV.ToString()))
+                else if (stereotype != null && stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()))//UMM.bChoreographyV.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
                     VIENNAAddInTreeViewMenu.Add("Generate ALL Transaction Module Artefacts");
@@ -1422,7 +1434,7 @@ namespace VIENNAAddIn
                          * and profiles */
             try
             {
-                String mdgFile = WindowsRegistryLoader.getMDGFile();
+                String mdgFile = WindowsRegistryLoader.getMDGFileGIEM();
                 StreamReader sr = new StreamReader(mdgFile);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();

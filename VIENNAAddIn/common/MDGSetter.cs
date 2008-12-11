@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using System.IO;
 
 
-using VIENNAAddIn.registry;
+//using VIENNAAddIn.common;
 
 
 namespace VIENNAAddIn.common

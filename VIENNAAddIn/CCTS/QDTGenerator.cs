@@ -183,7 +183,6 @@ namespace VIENNAAddIn.CCTS {
             foreach (EA.Element e in p.Elements) {
                 elementCount++;
                 if (e.Stereotype.Equals(CCTS_Types.QDT.ToString())) {
-
                     schema.Items.Add(getSchemaElement(e, schema));
                 }
                 //After every 20th iteration we perform a progress step
@@ -200,8 +199,8 @@ namespace VIENNAAddIn.CCTS {
                 //xsdSet.Compile();
             }
             catch (XmlSchemaException xse) {
-                Console.Write(xse.Message.ToString());
-                Console.Write(xse.StackTrace.ToString());
+                //Console.Write(xse.Message.ToString());
+                //Console.Write(xse.StackTrace.ToString());
                 throw xse;
             }
                        
@@ -391,8 +390,9 @@ namespace VIENNAAddIn.CCTS {
                     isBuildIn = false;
                 }
                 catch (Exception eex) {
-                    throw new UnexpectedElementException("Can not find classifier ID for element " + e.Name,"Error occurs when trying to get classifier ID fo element " 
+                    this.appendErrorMessage("Can not find classifier ID for element " + e.Name, "Error occurs when trying to get classifier ID fo element "
                         + e.Name + " in package " + this.repository.GetPackageByID(e.PackageID).Name);
+                    return null;
                 }
 
                 EA.Element classifierElement = null;

@@ -323,7 +323,7 @@ namespace VIENNAAddIn.WSDLGenerator
         {
             this.schemaColPath = this.path + "Schemas" + @"\";
             this.wsdlPath = this.path + "WSDL" + @"\";
-            this.busSignalPath = this.path + @"WSDL\VIENNAAddInBusinessSignal.wsdl";
+            this.busSignalPath = this.path + @"WSDL\GIEMBusinessSignal.wsdl";
         }
 
         private void CreateDirectoryStructure()
@@ -699,13 +699,13 @@ namespace VIENNAAddIn.WSDLGenerator
         /// </summary>
         private void CheckBusinessSignal()
         {
-            System.IO.File.Copy(this.sourceBusSignal, this.wsdlPath + "VIENNAAddInBusinessSignal.wsdl", true);
+            System.IO.File.Copy(this.sourceBusSignal, this.wsdlPath + "GIEMBusinessSignal.wsdl", true);
 
             try
             {
                 //finding the location of business signal in the model
                 findBusinessSignal();
-                //resetting the relative path of imported schema in VIENNAAddInBusinessSignal.wsdl
+                //resetting the relative path of imported schema in GIEMBusinessSignal.wsdl
                 resetBusSignalRelativePath();
             }
             catch (Exception excp)
