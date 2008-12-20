@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:UMM2_-_Business_Information_View_-_Abstract_Syntax="http://www.sparxsystems.com/profiles/UMM2_-_Business_Information_View_-_Abstract_Syntax/1.0">
+	<xmi:Documentation exporter="Enterprise Architect" exporterVersion="6.5"/>
+	<uml:Model xmi:type="uml:Model" name="EA_Model" visibility="public">
+		<packagedElement xmi:type="uml:Package" xmi:id="EAPK_289F6AF0_D669_4bfd_857B_36BEE2D98997" name="UMM2 Sample Business Information View" visibility="public">
+			<packagedElement xmi:type="uml:Class" xmi:id="EAID_62DCFF89_298C_4cfb_BBB4_7523DBC7338E" name="UMM2 Sample Information Envelope1" visibility="public"/>
+		</packagedElement>
+		<UMM2_-_Business_Information_View_-_Abstract_Syntax:InfEnvelope base_Class="EAID_62DCFF89_298C_4cfb_BBB4_7523DBC7338E"/>
+		<uml:Profile xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.1/uml.xml" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmi:id="1DEE620E-C" nsPrefix="UMM2_-_Business_Information_View_-_Abstract_Syntax" name="UMM2 - Business Information View - Abstract Syntax" metamodelReference="mmref01">
+			<ownedComment xmi:type="uml:Comment" xmi:id="comment01" annotatedElement="1DEE620E-C">
+				<body>UMM2 - Business Information View - Abstract Syntax Version:1.0</body>
+			</ownedComment>
+			<packageImport xmi:id="mmref01">
+				<importedPackage href="http://schema.omg.org/spec/UML/2.1/uml.xml"/>
+			</packageImport>
+			<packagedElement xmi:type="uml:Stereotype" xmi:id="InfEnvelope" name="InfEnvelope">
+				<generalization xmi:type="uml:Generalization" xmi:id="InfEnvelope_generalization" general="bInformation"/>
+				<ownedAttribute xmi:type="uml:Property" xmi:id="InfEnvelope-base_Class" name="base_Class" association="Class_InfEnvelope">
+					<type href="http://schema.omg.org/spec/UML/2.1/uml.xml#Class"/>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Extension" xmi:id="Class_InfEnvelope" name="A_Class_InfEnvelope" memberEnd="extension_InfEnvelope InfEnvelope-base_Class">
+				<ownedEnd xmi:id="extension_InfEnvelope" name="extension_InfEnvelope" type="InfEnvelope" isComposite="true" lower="0" upper="1" memberEnd="extension_InfEnvelope InfEnvelope-base_Class"/>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Stereotype" xmi:id="bInformation" name="bInformation" isAbstract="true">
+				<ownedAttribute xmi:type="uml:Property" xmi:id="bInformation-base_Class" name="base_Class" association="Class_bInformation">
+					<type href="http://schema.omg.org/spec/UML/2.1/uml.xml#Class"/>
+				</ownedAttribute>
+			</packagedElement>
+			<packagedElement xmi:type="uml:Extension" xmi:id="Class_bInformation" name="A_Class_bInformation" memberEnd="extension_bInformation bInformation-base_Class">
+				<ownedEnd xmi:id="extension_bInformation" name="extension_bInformation" type="bInformation" isComposite="true" lower="0" upper="1" memberEnd="extension_bInformation bInformation-base_Class"/>
+			</packagedElement>
+		</uml:Profile>
+	</uml:Model>
+	<xmi:Extension extender="Enterprise Architect" extenderID="6.5">
+		<elements>
+			<element xmi:idref="EAPK_289F6AF0_D669_4bfd_857B_36BEE2D98997" xmi:type="uml:Package" name="UMM2 Sample Business Information View" scope="public">
+				<model package2="EAID_289F6AF0_D669_4bfd_857B_36BEE2D98997" package="EAPK_FDC9300D_F4F5_4614_969D_AB76E75ECAA7" tpos="0" ea_localid="58" ea_eleType="package"/>
+				<properties isSpecification="false" sType="Package" nType="0" scope="public" stereotype="bInformationV"/>
+				<project author="TM" version="1.0" phase="1.0" created="2008-11-17 15:46:11" modified="2008-11-17 15:46:23" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<modelDocument/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={97E5954A-CCEF-4ecd-B941-57E140765A32}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=bInformationV;GUID={0DC5953B-69D5-4f69-965D-1BEDB80D8036};@ENDSTEREO;$DES;$CLT={289F6AF0-D669-4bfd-857B-36BEE2D98997}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="UMM2 Model Patterns"/>
+				<packageproperties version="1.0"/>
+				<paths/>
+				<times created="2008-11-17 00:00:00" modified="2008-11-17 00:00:00"/>
+				<flags iscontrolled="FALSE" isprotected="FALSE" usedtd="FALSE" logxml="FALSE" packageFlags="isModel=1;VICON=3;"/>
+			</element>
+			<element xmi:idref="EAID_62DCFF89_298C_4cfb_BBB4_7523DBC7338E" xmi:type="uml:Class" name="UMM2 Sample Information Envelope1" scope="public">
+				<model package="EAPK_289F6AF0_D669_4bfd_857B_36BEE2D98997" tpos="0" ea_localid="600" ea_eleType="element"/>
+				<properties isSpecification="false" sType="Class" nType="0" scope="public" stereotype="InfEnvelope" isRoot="false" isLeaf="false" isAbstract="false" isActive="false"/>
+				<project author="TM" version="1.0" phase="1.0" created="2008-11-17 15:47:37" modified="2008-11-17 15:47:52" complexity="1" status="Proposed"/>
+				<code gentype="Java"/>
+				<style appearance="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+				<modelDocument/>
+				<tags/>
+				<xrefs value="$XREFPROP=$XID={E66D579A-A4AF-4c70-9819-FB763B88DA72}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=InfEnvelope;GUID={D0ED9291-221D-49fb-AE23-3403B8CEC39E};@ENDSTEREO;$DES;$CLT={62DCFF89-298C-4cfb-BBB4-7523DBC7338E}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;$XREFPROP=$XID={9F3C2DE9-FC89-40d9-9362-E3C7960CA433}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isActive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={62DCFF89-298C-4cfb-BBB4-7523DBC7338E}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<extendedProperties tagged="0" package_name="UMM2 Sample Business Information View"/>
+			</element>
+		</elements>
+		<connectors/>
+		<diagrams>
+			<diagram xmi:id="EAID_4BFBDA31_318C_4860_8F40_0C5B6FB5F969">
+				<model package="EAPK_289F6AF0_D669_4bfd_857B_36BEE2D98997" localID="87" owner="EAPK_289F6AF0_D669_4bfd_857B_36BEE2D98997"/>
+				<properties name="UMM2 Sample Business Information View" type="Logical"/>
+				<project author="motal" version="1.0" created="2008-11-17 15:46:40" modified="2008-11-17 15:47:53"/>
+				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=1;PPgs.cy=1;DocSize.cx=780;DocSize.cy=1138;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
+				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;width=1;"/>
+				<elements>
+					<element geometry="Left=230;Top=190;Right=330;Bottom=270;" subject="EAID_62DCFF89_298C_4cfb_BBB4_7523DBC7338E" seqno="1" style="DUID=809F8F6C;HideIcon=0;"/>
+				</elements>
+			</diagram>
+		</diagrams>
+	</xmi:Extension>
+</xmi:XMI>

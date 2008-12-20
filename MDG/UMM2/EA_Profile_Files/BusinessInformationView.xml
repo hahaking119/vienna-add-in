@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="1DEE620E-C" name="UMM2 - Business Information View - Abstract Syntax" version="1.0" notes="UMM2 - Business Information View - Abstract Syntax"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="bInformation" metatype="Business Information" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="InfEnvelope" metatype="Information Envelope" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bInformation"/>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

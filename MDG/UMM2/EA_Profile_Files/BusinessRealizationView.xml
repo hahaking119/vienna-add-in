@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="8885AD2C-3" name="UMM2 - Business Realization View - Abstract Syntax" version="1.0" notes="UMM2 - Business Realization View - Abstract Syntax"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="bRealization" metatype="Business Collaboration Realization" notes="" bgcolor="13090035" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+				<AppliesTo>
+					<Apply type="UseCase"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="AuthorizedRole" metatype="Authorized Role" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Actor"/>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="mapsTo" metatype="Maps To" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="bCollaborationUC" metatype="Business Collaboration Use Case" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0" generalizes="bProcessUC"/>
+			<Stereotype name="bProcessUC" metatype="Business Process Use Case" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+				<AppliesTo>
+					<Apply type="UseCase"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="actions" type="string" description="" unit="" values="" default=""/>
+					<Tag name="beginsWhen" type="string" description="" unit="" values="" default=""/>
+					<Tag name="definition" type="string" description="" unit="" values="" default=""/>
+					<Tag name="endsWhen" type="string" description="" unit="" values="" default=""/>
+					<Tag name="exceptions" type="string" description="" unit="" values="" default=""/>
+					<Tag name="postCondition" type="string" description="" unit="" values="" default=""/>
+					<Tag name="preCondition" type="string" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="bPartner" metatype="Business Partner" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0"/>
+			<Stereotype name="participates" metatype="Participates" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Association">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="interest" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="realizes" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Realisation">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

@@ -1,0 +1,1048 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2008-11-12 12:50:28">
+	<XMI.header>
+		<XMI.documentation>
+			<XMI.exporter>Enterprise Architect</XMI.exporter>
+			<XMI.exporterVersion>2.5</XMI.exporterVersion>
+		</XMI.documentation>
+	</XMI.header>
+	<XMI.content>
+		<UML:Model name="EA Model" xmi.id="MX_EAID_DB229762_42DF_4d6b_969B_8B733A629A33">
+			<UML:Namespace.ownedElement>
+				<UML:ActivityModel xmi.id="EAID_DB229762_42DF_4d6b_969B_8B733A629A33_ActivityModel" context="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33" name="ActivityModel" visibility="public">
+					<UML:StateMachine.transitions>
+						<UML:Transition xmi.id="EAID_0D566051_B5F8_4c56_B7A4_D64074603F7E" visibility="public" source="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164" target="EAID_1A8D3387_4B0B_4796_B92D_C72FB513D290">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="ObjectFlow"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="379"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Action"/>
+								<UML:TaggedValue tag="ea_targetType" value="Object"/>
+								<UML:TaggedValue tag="ea_sourceID" value="484"/>
+								<UML:TaggedValue tag="ea_targetID" value="479"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={8B9E0529-40C6-403b-ABE0-EDEFFC686BE0}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=outputEffect@ENDNAME;@TYPE=ObjectFlowEffectKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isMultireceive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isMulticast@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=inputEffect@ENDNAME;@TYPE=ObjectFlowEffectKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={0D566051-B5F8-4c56-B7A4-D64074603F7E}$CLT;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Transition>
+						<UML:Transition xmi.id="EAID_2E0F1E4C_280F_4611_9352_2F83C229E513" visibility="public" source="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164" target="EAID_A44B25F1_F855_42ae_BC52_AB0306A0A505">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="ControlFlow"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="380"/>
+								<UML:TaggedValue tag="ea_targetName" value="Control Failure"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Action"/>
+								<UML:TaggedValue tag="ea_targetType" value="StateNode"/>
+								<UML:TaggedValue tag="ea_sourceID" value="484"/>
+								<UML:TaggedValue tag="ea_targetID" value="489"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Transition>
+						<UML:Transition xmi.id="EAID_430B821A_63D7_4423_948E_2003683E8D22" visibility="public" source="EAID_F6879A30_D636_4ae1_8C2D_CCE0BF3F9915" target="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="ControlFlow"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="378"/>
+								<UML:TaggedValue tag="ea_sourceType" value="StateNode"/>
+								<UML:TaggedValue tag="ea_targetType" value="Action"/>
+								<UML:TaggedValue tag="ea_sourceID" value="485"/>
+								<UML:TaggedValue tag="ea_targetID" value="484"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Transition>
+						<UML:Transition xmi.id="EAID_DD0646C4_F91A_4712_BE86_551C5130130E" visibility="public" source="EAID_1A8D3387_4B0B_4796_B92D_C72FB513D290" target="EAID_1FB55205_486C_4c87_A3F7_B66541BCA40D">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="ObjectFlow"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="377"/>
+								<UML:TaggedValue tag="ea_targetName" value="Business Success"/>
+								<UML:TaggedValue tag="ea_sourceType" value="Object"/>
+								<UML:TaggedValue tag="ea_targetType" value="StateNode"/>
+								<UML:TaggedValue tag="ea_sourceID" value="479"/>
+								<UML:TaggedValue tag="ea_targetID" value="486"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={C114B06F-08F8-4968-8882-D117BA5ED61D}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=outputEffect@ENDNAME;@TYPE=ObjectFlowEffectKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isMultireceive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isMulticast@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=inputEffect@ENDNAME;@TYPE=ObjectFlowEffectKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={DD0646C4-F91A-4712-BE86-551C5130130E}$CLT;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Transition>
+						<UML:Transition xmi.id="EAID_3CE62AFF_FD59_4e67_89DF_BADDB0D29935" visibility="public" source="EAID_22E591E4_B7B8_424a_8A96_920429DD1267" target="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0">
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="style" value="3"/>
+								<UML:TaggedValue tag="ea_type" value="ObjectFlow"/>
+								<UML:TaggedValue tag="direction" value="Source -&gt; Destination"/>
+								<UML:TaggedValue tag="linemode" value="3"/>
+								<UML:TaggedValue tag="linecolor" value="-1"/>
+								<UML:TaggedValue tag="linewidth" value="0"/>
+								<UML:TaggedValue tag="seqno" value="0"/>
+								<UML:TaggedValue tag="headStyle" value="0"/>
+								<UML:TaggedValue tag="lineStyle" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="385"/>
+								<UML:TaggedValue tag="ea_sourceType" value="ActionPin"/>
+								<UML:TaggedValue tag="ea_targetType" value="ActionPin"/>
+								<UML:TaggedValue tag="ea_sourceID" value="475"/>
+								<UML:TaggedValue tag="ea_targetID" value="474"/>
+								<UML:TaggedValue tag="src_visibility" value="Public"/>
+								<UML:TaggedValue tag="src_aggregation" value="0"/>
+								<UML:TaggedValue tag="src_isOrdered" value="false"/>
+								<UML:TaggedValue tag="src_targetScope" value="instance"/>
+								<UML:TaggedValue tag="src_changeable" value="none"/>
+								<UML:TaggedValue tag="src_isNavigable" value="false"/>
+								<UML:TaggedValue tag="src_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="src_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="dst_visibility" value="Public"/>
+								<UML:TaggedValue tag="dst_aggregation" value="0"/>
+								<UML:TaggedValue tag="dst_isOrdered" value="false"/>
+								<UML:TaggedValue tag="dst_targetScope" value="instance"/>
+								<UML:TaggedValue tag="dst_changeable" value="none"/>
+								<UML:TaggedValue tag="dst_isNavigable" value="true"/>
+								<UML:TaggedValue tag="dst_containment" value="Unspecified"/>
+								<UML:TaggedValue tag="dst_style" value="Union=0;Derived=0;AllowDuplicates=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={DE5025A4-4B7E-45a8-8B06-1E286DC91FA4}$XID;$NAM=CustomProperties$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=outputEffect@ENDNAME;@TYPE=ObjectFlowEffectKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isMultireceive@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isMulticast@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=inputEffect@ENDNAME;@TYPE=ObjectFlowEffectKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={3CE62AFF-FD59-4e67-89DF-BADDB0D29935}$CLT;$ENDXREF;"/>
+								<UML:TaggedValue tag="virtualInheritance" value="0"/>
+							</UML:ModelElement.taggedValue>
+						</UML:Transition>
+					</UML:StateMachine.transitions>
+					<UML:StateMachine.top>
+						<UML:CompositeState xmi.id="EAID_DB229762_42DF_4d6b_969B_8B733A629A33_Activity_Top" name="{top}">
+							<UML:CompositeState.substate>
+								<UML:ActionState xmi.id="EAID_1783B4F7_B4B5_47a9_B3CE_CB7B08E58E4E" visibility="public" namespace="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="bTPartition"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="documentation" value="Responding Partition"/>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="ActivityPartition"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+										<UML:TaggedValue tag="date_created" value="2008-11-10 19:10:07"/>
+										<UML:TaggedValue tag="date_modified" value="2008-11-12 10:05:15"/>
+										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="pl"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="bTPartition"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="488"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=3;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={51DABC0B-3D69-495f-9225-80C9EDF6788D}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isExternal@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDimension@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={1783B4F7-B4B5-47a9-B3CE-CB7B08E58E4E}$CLT;$ENDXREF;$XREFPROP=$XID={C03F8050-DFCE-49ba-95B2-472927F0C822}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=bTPartition;GUID={E0C4B1A0-1E0C-4910-97EB-4F68DD326BC7};@ENDSTEREO;$DES;$CLT={1783B4F7-B4B5-47a9-B3CE-CB7B08E58E4E}$CLT;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:ActionState>
+								<UML:ActionState xmi.id="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275" visibility="public" namespace="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="bTPartition"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="documentation" value="Requesting Partition"/>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="ActivityPartition"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+										<UML:TaggedValue tag="date_created" value="2008-11-10 19:09:42"/>
+										<UML:TaggedValue tag="date_modified" value="2008-11-10 19:42:32"/>
+										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="pl"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="bTPartition"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="487"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=3;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={BFBCCBD4-8D61-43d4-853A-D9419FD13F1D}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=isExternal@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isDimension@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={AB492BAD-A1B3-4ede-A439-C7DC5157A275}$CLT;$ENDXREF;$XREFPROP=$XID={2F0394E9-2E6C-4fa4-914B-96AC8CAAA3BB}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=bTPartition;GUID={E0C4B1A0-1E0C-4910-97EB-4F68DD326BC7};@ENDSTEREO;$DES;$CLT={AB492BAD-A1B3-4ede-A439-C7DC5157A275}$CLT;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:ActionState>
+								<UML:ActionState xmi.id="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164" visibility="public" namespace="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="ReqAction"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="documentation" value="Requesting Business Action"/>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Action"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+										<UML:TaggedValue tag="owner" value="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275"/>
+										<UML:TaggedValue tag="date_created" value="2008-11-10 19:46:46"/>
+										<UML:TaggedValue tag="date_modified" value="2008-11-10 19:50:05"/>
+										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="pl"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="ReqAction"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="484"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={00A487CB-2E5F-49a8-BCF1-32F09EF1AB34}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=ReqAction;GUID={C4AC4029-0A2C-478b-A14A-D98E6B8A53D7};@ENDSTEREO;$DES;$CLT={AACA22AA-8AA5-46e9-A837-43DA86504164}$CLT;$ENDXREF;$XREFPROP=$XID={1F9F6A9C-AA9B-4550-A970-9F68F1D99B33}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=effect@ENDNAME;@TYPE=string@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=kind@ENDNAME;@TYPE=ActionKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=context@ENDNAME;@TYPE=xref@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={AACA22AA-8AA5-46e9-A837-43DA86504164}$CLT;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:ActionState>
+								<UML:PseudoState xmi.id="EAID_F6879A30_D636_4ae1_8C2D_CCE0BF3F9915" visibility="public" namespace="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="StateNode"/>
+										<UML:TaggedValue tag="ea_ntype" value="100"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+										<UML:TaggedValue tag="owner" value="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275"/>
+										<UML:TaggedValue tag="date_created" value="2008-11-10 19:47:00"/>
+										<UML:TaggedValue tag="date_modified" value="2008-11-10 19:47:02"/>
+										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="pl"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="485"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={CF9866A6-1ED6-4ed9-B614-AF90F54EDC05}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=kind@ENDNAME;@TYPE=PseudoStateKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={F6879A30-D636-4ae1-8C2D-CCE0BF3F9915}$CLT;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:PseudoState>
+								<UML:ActionState xmi.id="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19" visibility="public" namespace="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33">
+									<UML:ModelElement.stereotype>
+										<UML:Stereotype name="ResAction"/>
+									</UML:ModelElement.stereotype>
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="documentation" value="Responding Business Action"/>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="Action"/>
+										<UML:TaggedValue tag="ea_ntype" value="0"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+										<UML:TaggedValue tag="owner" value="EAID_1783B4F7_B4B5_47a9_B3CE_CB7B08E58E4E"/>
+										<UML:TaggedValue tag="date_created" value="2008-11-10 19:48:14"/>
+										<UML:TaggedValue tag="date_modified" value="2008-11-10 19:50:09"/>
+										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="pl"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="stereotype" value="ResAction"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="483"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={555C3DE2-BBD3-41d3-814F-1478210D1355}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=ResAction;GUID={E7527068-988A-4b20-AE5F-0CC4BDEB186A};@ENDSTEREO;$DES;$CLT={7C863408-5B2A-447e-8912-74C7D2D08A19}$CLT;$ENDXREF;$XREFPROP=$XID={8B60AD81-9068-4125-ADE7-ABC019E27C0B}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=effect@ENDNAME;@TYPE=string@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=kind@ENDNAME;@TYPE=ActionKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=context@ENDNAME;@TYPE=xref@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={7C863408-5B2A-447e-8912-74C7D2D08A19}$CLT;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:ActionState>
+								<UML:PseudoState name="Control Failure" xmi.id="EAID_A44B25F1_F855_42ae_BC52_AB0306A0A505" visibility="public" namespace="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33" kind="final">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="StateNode"/>
+										<UML:TaggedValue tag="ea_ntype" value="101"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+										<UML:TaggedValue tag="owner" value="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275"/>
+										<UML:TaggedValue tag="date_created" value="2008-11-11 08:09:41"/>
+										<UML:TaggedValue tag="date_modified" value="2008-11-11 08:09:45"/>
+										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="pl"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="489"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={92CE34F5-AC4D-477d-AA0F-FA863EF6D7F1}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=kind@ENDNAME;@TYPE=PseudoStateKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={A44B25F1-F855-42ae-BC52-AB0306A0A505}$CLT;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:PseudoState>
+								<UML:PseudoState name="Business Success" xmi.id="EAID_1FB55205_486C_4c87_A3F7_B66541BCA40D" visibility="public" namespace="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33" kind="final">
+									<UML:ModelElement.taggedValue>
+										<UML:TaggedValue tag="isSpecification" value="false"/>
+										<UML:TaggedValue tag="ea_stype" value="StateNode"/>
+										<UML:TaggedValue tag="ea_ntype" value="101"/>
+										<UML:TaggedValue tag="version" value="1.0"/>
+										<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+										<UML:TaggedValue tag="owner" value="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275"/>
+										<UML:TaggedValue tag="date_created" value="2008-11-11 08:27:09"/>
+										<UML:TaggedValue tag="date_modified" value="2008-11-11 08:27:15"/>
+										<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+										<UML:TaggedValue tag="tagged" value="0"/>
+										<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+										<UML:TaggedValue tag="phase" value="1.0"/>
+										<UML:TaggedValue tag="author" value="pl"/>
+										<UML:TaggedValue tag="complexity" value="1"/>
+										<UML:TaggedValue tag="status" value="Proposed"/>
+										<UML:TaggedValue tag="tpos" value="0"/>
+										<UML:TaggedValue tag="ea_localid" value="486"/>
+										<UML:TaggedValue tag="ea_eleType" value="element"/>
+										<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=-1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+										<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={3CDD919B-74B1-45ff-BCC4-A16F1B00734A}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=kind@ENDNAME;@TYPE=PseudoStateKind@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={1FB55205-486C-4c87-A3F7-B66541BCA40D}$CLT;$ENDXREF;"/>
+									</UML:ModelElement.taggedValue>
+								</UML:PseudoState>
+							</UML:CompositeState.substate>
+						</UML:CompositeState>
+					</UML:StateMachine.top>
+				</UML:ActivityModel>
+				<UML:Collaboration xmi.id="EAID_DB229762_42DF_4d6b_969B_8B733A629A33_Collaboration" name="Collaborations">
+					<UML:Namespace.ownedElement>
+						<UML:ClassifierRole xmi.id="EAID_1A8D3387_4B0B_4796_B92D_C72FB513D290" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="bESharedState"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="documentation" value="Shared Business Entity State to Business Success"/>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="Object"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+								<UML:TaggedValue tag="owner" value="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275"/>
+								<UML:TaggedValue tag="date_created" value="2008-11-11 08:14:05"/>
+								<UML:TaggedValue tag="date_modified" value="2008-11-11 08:14:16"/>
+								<UML:TaggedValue tag="gentype" value="Java"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="pl"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="bESharedState"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="479"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={9596FA9B-B4C5-4bbf-87C7-9538E46FA2E2}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=bESharedState;GUID={5743C07B-BB06-46c7-87D3-E23EDF9D0F55};@ENDSTEREO;$DES;$CLT={1A8D3387-4B0B-4796-B92D-C72FB513D290}$CLT;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:ClassifierRole>
+						<UML:ClassifierRole xmi.id="EAID_22E591E4_B7B8_424a_8A96_920429DD1267" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="ReqInfPin"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="documentation" value="Requesting Information Pin on Requesting Business Action"/>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="ActionPin"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+								<UML:TaggedValue tag="owner" value="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+								<UML:TaggedValue tag="date_created" value="2008-11-12 10:49:30"/>
+								<UML:TaggedValue tag="date_modified" value="2008-11-12 10:49:55"/>
+								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="pl"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="ReqInfPin"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="475"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={E2F0F5B1-7B8B-4e4f-B0C3-CCF3EFA47BB7}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=objectState@ENDNAME;@TYPE=string@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isException@ENDNAME;@TYPE=boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=kind@ENDNAME;@TYPE=PinDirection@ENDTYPE;@VALU=input@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isStream@ENDNAME;@TYPE=boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=ordering@ENDNAME;@TYPE=ObjectNodeOrderingKind@ENDTYPE;@VALU=FIFO@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isControlType@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={22E591E4-B7B8-424a-8A96-920429DD1267}$CLT;$ENDXREF;$XREFPROP=$XID={FC0A9756-8082-4c0f-8E71-EBA9F2C3F868}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=ReqInfPin;GUID={63C5C7C6-FF27-46fc-9103-D20AEBA097BA};@ENDSTEREO;$DES;$CLT={22E591E4-B7B8-424a-8A96-920429DD1267}$CLT;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:ClassifierRole>
+						<UML:ClassifierRole xmi.id="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0" visibility="public" base="EAID_11111111_5487_4080_A7F4_41526CB0AA00">
+							<UML:ModelElement.stereotype>
+								<UML:Stereotype name="ReqInfPin"/>
+							</UML:ModelElement.stereotype>
+							<UML:ModelElement.taggedValue>
+								<UML:TaggedValue tag="documentation" value="Requesting Information Pin on Responding Business Action"/>
+								<UML:TaggedValue tag="isSpecification" value="false"/>
+								<UML:TaggedValue tag="ea_stype" value="ActionPin"/>
+								<UML:TaggedValue tag="ea_ntype" value="0"/>
+								<UML:TaggedValue tag="version" value="1.0"/>
+								<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+								<UML:TaggedValue tag="owner" value="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19"/>
+								<UML:TaggedValue tag="date_created" value="2008-11-12 10:50:02"/>
+								<UML:TaggedValue tag="date_modified" value="2008-11-12 10:50:21"/>
+								<UML:TaggedValue tag="gentype" value="&lt;none&gt;"/>
+								<UML:TaggedValue tag="tagged" value="0"/>
+								<UML:TaggedValue tag="package_name" value="Information Distribution"/>
+								<UML:TaggedValue tag="phase" value="1.0"/>
+								<UML:TaggedValue tag="author" value="pl"/>
+								<UML:TaggedValue tag="complexity" value="1"/>
+								<UML:TaggedValue tag="status" value="Proposed"/>
+								<UML:TaggedValue tag="stereotype" value="ReqInfPin"/>
+								<UML:TaggedValue tag="tpos" value="0"/>
+								<UML:TaggedValue tag="ea_localid" value="474"/>
+								<UML:TaggedValue tag="ea_eleType" value="element"/>
+								<UML:TaggedValue tag="style" value="BackColor=-1;BorderColor=-1;BorderWidth=1;FontColor=-1;VSwimLanes=1;HSwimLanes=1;BorderStyle=0;"/>
+								<UML:TaggedValue tag="$ea_xref_property" value="$XREFPROP=$XID={0D6B769C-87D9-4090-8CB5-B793D066B7B2}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@PROP=@NAME=objectState@ENDNAME;@TYPE=string@ENDTYPE;@VALU=@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isException@ENDNAME;@TYPE=boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=kind@ENDNAME;@TYPE=PinDirection@ENDTYPE;@VALU=input@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isStream@ENDNAME;@TYPE=boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=ordering@ENDNAME;@TYPE=ObjectNodeOrderingKind@ENDTYPE;@VALU=FIFO@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isControlType@ENDNAME;@TYPE=Boolean@ENDTYPE;@VALU=false@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={5B9DEE31-D6CF-4a94-A07F-87B8FBD64EF0}$CLT;$ENDXREF;$XREFPROP=$XID={B7A61D40-2977-479a-9AB0-2DBC2C6CAB78}$XID;$NAM=Stereotypes$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$DES=@STEREO;Name=ReqInfPin;GUID={63C5C7C6-FF27-46fc-9103-D20AEBA097BA};@ENDSTEREO;$DES;$CLT={5B9DEE31-D6CF-4a94-A07F-87B8FBD64EF0}$CLT;$ENDXREF;"/>
+							</UML:ModelElement.taggedValue>
+						</UML:ClassifierRole>
+					</UML:Namespace.ownedElement>
+					<UML:Collaboration.interaction/>
+				</UML:Collaboration>
+			</UML:Namespace.ownedElement>
+		</UML:Model>
+		<UML:TaggedValue tag="isAuthorizationRequired" xmi.id="EAID_38B574CE_1903_8c19_A84F_1D39DF738493" value="false#NOTES#Values: true,false&#xA;" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="isIntelligibleCheckRequired" xmi.id="EAID_84EB90EF_2784_8327_846D_2C61875590A3" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="isNonRepudiationReceiptRequired" xmi.id="EAID_FBE208F8_15ED_0615_B56E_2041D4986936" value="false#NOTES#Values: true,false&#xA;" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="isNonRepudiationRequired" xmi.id="EAID_F0AE8C2C_72E1_6072_9E21_AE028A697253" value="false#NOTES#Values: true,false&#xA;" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="retryCount" xmi.id="EAID_C848CF82_350F_4d1d_BC1B_EC4CCC7D6DD7" value="NULL" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="timeToAcknowledgeProcessing" xmi.id="EAID_1D08BF93_3628_2136_8B6D_E6D8F4F36790" value="NULL" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="timeToAcknowledgeReceipt" xmi.id="EAID_DDF47722_6DD7_c56d_94BD_C449F78A4A4F" value="NULL" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="timeToRespond" xmi.id="EAID_CC13357D_B19E_42cc_8D6D_03CBBC2498FD" value="24H" modelElement="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164"/>
+		<UML:TaggedValue tag="isAuthorizationRequired" xmi.id="EAID_38B574CE_1903_8c19_89AE_1F4A91A8D426" value="false#NOTES#Values: true,false&#xA;" modelElement="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19"/>
+		<UML:TaggedValue tag="isIntelligibleCheckRequired" xmi.id="EAID_84EB90EF_2784_8327_A6A7_1841E7B06863" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19"/>
+		<UML:TaggedValue tag="isNonRepudiationReceiptRequired" xmi.id="EAID_FBE208F8_15ED_0615_A9D5_08303814FE58" value="false#NOTES#Values: true,false&#xA;" modelElement="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19"/>
+		<UML:TaggedValue tag="isNonRepudiationRequired" xmi.id="EAID_F0AE8C2C_72E1_6072_8212_D277BBE3649B" value="false#NOTES#Values: true,false&#xA;" modelElement="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19"/>
+		<UML:TaggedValue tag="timeToAcknowledgeProcessing" xmi.id="EAID_1D08BF93_3628_2136_972C_2AC098A8D5A1" value="NULL" modelElement="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19"/>
+		<UML:TaggedValue tag="timeToAcknowledgeReceipt" xmi.id="EAID_DDF47722_6DD7_c56d_A47D_54E5F843E00D" value="NULL" modelElement="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19"/>
+		<UML:TaggedValue tag="isAuthenticated" xmi.id="EAID_71992A9F_354E_c435_B9E3_3309DC2DA721" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_22E591E4_B7B8_424a_8A96_920429DD1267"/>
+		<UML:TaggedValue tag="isConfidential" xmi.id="EAID_C8D9006C_F13B_65f1_AB14_C81390E4FD6E" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_22E591E4_B7B8_424a_8A96_920429DD1267"/>
+		<UML:TaggedValue tag="isTamperProof" xmi.id="EAID_E7EB69AB_EC7A_e2ec_95BE_421320259EB3" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_22E591E4_B7B8_424a_8A96_920429DD1267"/>
+		<UML:TaggedValue tag="isAuthenticated" xmi.id="EAID_71992A9F_354E_c435_BA41_36D957C2A361" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0"/>
+		<UML:TaggedValue tag="isConfidential" xmi.id="EAID_C8D9006C_F13B_65f1_A726_201804947A1C" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0"/>
+		<UML:TaggedValue tag="isTamperProof" xmi.id="EAID_E7EB69AB_EC7A_e2ec_BC96_5D8A88334DD8" value="true#NOTES#Values: true,false&#xA;" modelElement="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0"/>
+		<UML:Diagram name="Information Distribution" xmi.id="EAID_8493DB2E_86C6_4efd_ADE7_A10308B22F77" diagramType="ActivityDiagram" owner="EAPK_8493DB2E_86C6_4efd_ADE7_A10308B22F77" toolName="Enterprise Architect 2.5">
+			<UML:ModelElement.taggedValue>
+				<UML:TaggedValue tag="version" value="1.0"/>
+				<UML:TaggedValue tag="author" value="pl"/>
+				<UML:TaggedValue tag="created_date" value="2008-11-10 19:09:32"/>
+				<UML:TaggedValue tag="modified_date" value="2008-11-12 11:09:16"/>
+				<UML:TaggedValue tag="package" value="EAPK_DB229762_42DF_4d6b_969B_8B733A629A33"/>
+				<UML:TaggedValue tag="type" value="Activity"/>
+				<UML:TaggedValue tag="swimlanes" value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
+				<UML:TaggedValue tag="matrixitems" value="locked=false;matrixactive=false;swimlanesactive=true;width=1;"/>
+				<UML:TaggedValue tag="ea_localid" value="62"/>
+				<UML:TaggedValue tag="EAStyle" value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=1;PPgs.cy=1;DocSize.cx=827;DocSize.cy=1169;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+				<UML:TaggedValue tag="styleex" value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
+			</UML:ModelElement.taggedValue>
+			<UML:Diagram.element>
+				<UML:DiagramElement geometry="Left=420;Top=115;Right=436;Bottom=131;" subject="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0" seqno="1" style="DUID=52F0904C;HideIcon=0;LBL=;"/>
+				<UML:DiagramElement geometry="Left=228;Top=113;Right=244;Bottom=129;" subject="EAID_22E591E4_B7B8_424a_8A96_920429DD1267" seqno="2" style="DUID=CAF41A97;HideIcon=0;LBL=;"/>
+				<UML:DiagramElement geometry="Left=100;Top=405;Right=120;Bottom=425;" subject="EAID_1FB55205_486C_4c87_A3F7_B66541BCA40D" seqno="3" style="DUID=8074B859;LBL=CX=85:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:ALT=0:ROT=0;"/>
+				<UML:DiagramElement geometry="Left=60;Top=319;Right=158;Bottom=370;" subject="EAID_1A8D3387_4B0B_4796_B92D_C72FB513D290" seqno="4" style="DUID=5CEA98CC;HideIcon=0;"/>
+				<UML:DiagramElement geometry="Left=49;Top=179;Right=69;Bottom=199;" subject="EAID_A44B25F1_F855_42ae_BC52_AB0306A0A505" seqno="5" style="DUID=99B2E7AC;LBL=CX=68:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:ALT=0:ROT=0;"/>
+				<UML:DiagramElement geometry="Left=435;Top=99;Right=562;Bottom=271;" subject="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19" seqno="6" style="DUID=0F7274AB;HideIcon=0;"/>
+				<UML:DiagramElement geometry="Left=155;Top=53;Right=175;Bottom=73;" subject="EAID_F6879A30_D636_4ae1_8C2D_CCE0BF3F9915" seqno="7" style="DUID=C4053909;LBL=;"/>
+				<UML:DiagramElement geometry="Left=103;Top=99;Right=229;Bottom=282;" subject="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164" seqno="8" style="DUID=388DEDDC;HideIcon=0;"/>
+				<UML:DiagramElement geometry="Left=21;Top=16;Right=282;Bottom=454;" subject="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275" seqno="9" style="DUID=8C411705;VPartition=1;"/>
+				<UML:DiagramElement geometry="Left=299;Top=19;Right=582;Bottom=454;" subject="EAID_1783B4F7_B4B5_47a9_B3CE_CB7B08E58E4E" seqno="10" style="DUID=A7845F6D;VPartition=1;"/>
+				<UML:DiagramElement geometry="SX=0;SY=1;EX=0;EY=3;EDGE=2;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_3CE62AFF_FD59_4e67_89DF_BADDB0D29935" style="Mode=3;EOID=52F0904C;SOID=CAF41A97;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=4;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_2E0F1E4C_280F_4611_9352_2F83C229E513" style="Mode=3;EOID=99B2E7AC;SOID=388DEDDC;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=-39;SY=1;EX=18;EY=0;EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_0D566051_B5F8_4c56_B7A4_D64074603F7E" style="Mode=3;EOID=5CEA98CC;SOID=388DEDDC;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=-1;SY=-9;EX=0;EY=0;EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_430B821A_63D7_4423_948E_2003683E8D22" style="Mode=3;EOID=388DEDDC;SOID=C4053909;Color=-1;LWidth=0;Hidden=0;"/>
+				<UML:DiagramElement geometry="SX=0;SY=0;EX=0;EY=0;EDGE=3;$LLB=;LLT=;LMT=;LMB=;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_DD0646C4_F91A_4712_BE86_551C5130130E" style="Mode=3;EOID=8074B859;SOID=5CEA98CC;Color=-1;LWidth=0;Hidden=0;"/>
+			</UML:Diagram.element>
+		</UML:Diagram>
+	</XMI.content>
+	<XMI.difference/>
+	<XMI.extensions xmi.extender="Enterprise Architect 2.5">
+		<EAStub xmi.id="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164" UMLType="Action"/>
+		<EAStub xmi.id="EAID_1A8D3387_4B0B_4796_B92D_C72FB513D290" UMLType="Object"/>
+		<EAStub xmi.id="EAID_A44B25F1_F855_42ae_BC52_AB0306A0A505" name="Control Failure" UMLType="StateNode"/>
+		<EAStub xmi.id="EAID_F6879A30_D636_4ae1_8C2D_CCE0BF3F9915" UMLType="StateNode"/>
+		<EAStub xmi.id="EAID_1FB55205_486C_4c87_A3F7_B66541BCA40D" name="Business Success" UMLType="StateNode"/>
+		<EAStub xmi.id="EAID_22E591E4_B7B8_424a_8A96_920429DD1267" UMLType="ActionPin"/>
+		<EAStub xmi.id="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0" UMLType="ActionPin"/>
+		<UMLPattern name="Information Distribution" category="Basic Patterns" version="1.0" notes="">
+			<UMLPattern.PromptList>
+				<Element name=":ActionPin" guid="EAID_5B9DEE31_D6CF_4a94_A07F_87B8FBD64EF0" id="474" prompt="no" link="no" classifier="yes" type="no">
+					<Comment comment="Requesting Information Pin on Responding Business Action">
+						<![CDATA[Requesting Information Pin on Responding Business Action]]>
+					</Comment>
+				</Element>
+				<Element name=":ActionPin" guid="EAID_22E591E4_B7B8_424a_8A96_920429DD1267" id="475" prompt="no" link="no" classifier="yes" type="no">
+					<Comment comment="Requesting Information Pin on Requesting Business Action">
+						<![CDATA[Requesting Information Pin on Requesting Business Action]]>
+					</Comment>
+				</Element>
+				<Element name="Business Success:StateNode" guid="EAID_1FB55205_486C_4c87_A3F7_B66541BCA40D" id="486" prompt="yes" link="no" classifier="no" type="no"/>
+				<Element name=":Object" guid="EAID_1A8D3387_4B0B_4796_B92D_C72FB513D290" id="479" prompt="yes" link="no" classifier="yes" type="no">
+					<Comment comment="Shared Business Entity State to Business Success">
+						<![CDATA[Shared Business Entity State to Business Success]]>
+					</Comment>
+				</Element>
+				<Element name="Control Failure:StateNode" guid="EAID_A44B25F1_F855_42ae_BC52_AB0306A0A505" id="489" prompt="yes" link="no" classifier="no" type="no"/>
+				<Element name=":Action" guid="EAID_7C863408_5B2A_447e_8912_74C7D2D08A19" id="483" prompt="yes" link="no" classifier="no" type="no">
+					<Comment comment="Responding Business Action">
+						<![CDATA[Responding Business Action]]>
+					</Comment>
+				</Element>
+				<Element name=":StateNode" guid="EAID_F6879A30_D636_4ae1_8C2D_CCE0BF3F9915" id="485" prompt="yes" link="no" classifier="no" type="no"/>
+				<Element name=":Action" guid="EAID_AACA22AA_8AA5_46e9_A837_43DA86504164" id="484" prompt="yes" link="no" classifier="no" type="no">
+					<Comment comment="Requesting Business Action">
+						<![CDATA[Requesting Business Action]]>
+					</Comment>
+				</Element>
+				<Element name=":ActivityPartition" guid="EAID_AB492BAD_A1B3_4ede_A439_C7DC5157A275" id="487" prompt="no" link="no" classifier="yes" type="no">
+					<Comment comment="Requesting Partition">
+						<![CDATA[Requesting Partition]]>
+					</Comment>
+				</Element>
+				<Element name=":ActivityPartition" guid="EAID_1783B4F7_B4B5_47a9_B3CE_CB7B08E58E4E" id="488" prompt="no" link="no" classifier="yes" type="no">
+					<Comment comment="Responding Partition">
+						<![CDATA[Responding Partition]]>
+					</Comment>
+				</Element>
+			</UMLPattern.PromptList>
+			<UMLPattern.PreviewImage xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64" cx="20163" cy="16250">AQAAAGwAAAADAAAA9v///zgCAAC9AQAAAAAAAAAAAADDTgAAej8AACBFTUYAAAEAEGEAALIB
+AAAHAAAAAAAAAAAAAAAAAAAAAAUAACADAADEAQAAGgEAAAAAAAAAAAAAAAAAAOPjBgBuTgQA
+EQAAAAwAAAAIAAAACQAAABAAAAABAAAA/////woAAAAQAAAAEAAAAPX///9SAAAAcAEAAAEA
+AAD2////AAAAAAAAAAAAAAAAAAAAAAAAAAEEAAYAQQBSAEkAQQBMAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAenM5CICFOUiAuiF
+AgH/////fsDZAIit2ACtrNgARLLYAKzvrQO2udkAEzAKlKzvrQPSudkAAAAAAGBBQBQBo0AJ
+vOUiAodbYHd2/DZ6AAB6AwAAAACMAXoDYEFAFONDdgDKACYA4QYAADTqIgL2////AAAAAAAA
+AABIA6MDAAAAAMsAKADhBgAAAAAAAEgAowN4gTUUTAGjA2BBQBTIA6MDKOUiAgAAAACo5iIC
+NJhadyZVdA/+////h1tgdwAAYHcIAAAAAAAAAKZYYHcAAAAAAAAAABhAQBQBAAAAWEFAFNTl
+IgKDWGB3YEFAFGluOnawxQ4B6OUiAm/FLnZkdgAIAAAAACUAAAAMAAAAAQAAACcAAAAYAAAA
+AgAAAAAAAAD/+/AAAAAAACUAAAAMAAAAAgAAACYAAAAcAAAAAwAAAAAAAAABAAAAAAAAAAAA
+AAAlAAAADAAAAAMAAAASAAAADAAAAAEAAABSAAAAcAEAAAQAAAD2////AAAAAAAAAAAAAAAA
+vAIAAAAAAAEEAAYAQQBSAEkAQQBMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgFewNkAfsDZAHLta3Zpbjp2YEFAFLDFDgHI5SIC
+EOYiAuiFAgH/////fsDZAIit2ACtrNgARLLYAKzvrQO2udkAEzAKlYdbYHeS/zZ6AAB6AwAA
+AACMAXoDtOYiAuTm1wDJACQA4QYAAHBfQAATMAqVYEFAFDiEagBIA6MDAAAAAMoAJgDhBgAA
+AAAAAEgAowN4gTUUTAGjA1BBQBTIA6MDDOYiAmiSPRSo6CICNJhadyZVdA/+////h1tgdwAA
+YHcIAAAAAAAAAKZYYHfclD0U9JM9FAyTPRRQlT0UWGlSAZ+CagCo6CICPnXyAAAAAAD2////
+AAAAAAAAAABkdgAIAAAAACUAAAAMAAAABAAAACYAAAAcAAAABQAAAAAAAAACAAAAAAAAALS0
+tAAlAAAADAAAAAUAAAAbAAAAEAAAACsBAADt////NgAAABAAAAArAQAAOv7//xsAAAAQAAAA
+RgIAADr+//82AAAAEAAAAEYCAADt////NgAAABAAAAArAQAA7f///xsAAAAQAAAAKwEAANn/
+//82AAAAEAAAAEYCAADZ////JQAAAAwAAAADAAAAGwAAABAAAAArAQAA7f///zYAAAAQAAAA
+KwEAADr+//8bAAAAEAAAAEYCAAA6/v//NgAAABAAAABGAgAA7f///zYAAAAQAAAAKwEAAO3/
+//8bAAAAEAAAACsBAADZ////NgAAABAAAABGAgAA2f///1QAAACcAAAAiAEAAPn////IAQAA
+BAAAAAEAAAAAQA1CAAANwpgBAAD8////DQAAAEwAAAAAAAAAAAAAAAAAAAD//////////2gA
+AACrAGIAVABQAGEAcgB0AGkAdABpAG8AbgC7AAAABgAAAAYAAAAFAAAABwAAAAYAAAAEAAAA
+AwAAAAMAAAADAAAAAwAAAAYAAAAGAAAABgAAACUAAAAMAAAAAQAAACgAAAAMAAAABQAAACUA
+AAAMAAAABAAAACYAAAAcAAAABQAAAAAAAAACAAAAAAAAALS0tAAlAAAADAAAAAUAAAAbAAAA
+EAAAABUAAADw////NgAAABAAAAAVAAAAOv7//xsAAAAQAAAAGgEAADr+//82AAAAEAAAABoB
+AADw////NgAAABAAAAAVAAAA8P///xsAAAAQAAAAFQAAANz///82AAAAEAAAABoBAADc////
+JQAAAAwAAAADAAAAGwAAABAAAAAVAAAA8P///zYAAAAQAAAAFQAAADr+//8bAAAAEAAAABoB
+AAA6/v//NgAAABAAAAAaAQAA8P///zYAAAAQAAAAFQAAAPD///8bAAAAEAAAABUAAADc////
+NgAAABAAAAAaAQAA3P///1QAAACcAAAAZwAAAPb///+nAAAAAQAAAAEAAAAAQA1CAAANwncA
+AAD/////DQAAAEwAAAAAAAAAAAAAAAAAAAD//////////2gAAACrAGIAVABQAGEAcgB0AGkA
+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
+EAAAABQAAAA=</UMLPattern.PreviewImage>
+		</UMLPattern>
+	</XMI.extensions>
+</XMI>
