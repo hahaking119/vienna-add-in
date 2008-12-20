@@ -70,7 +70,11 @@ namespace VIENNAAddIn
         /// <returns></returns>
         string[] EA_GetMenuItems(EA.Repository repository, string menulocation, string menuname);
 
-        /// <summary>
+
+        object EA_OnInitializeTechnologies(EA.Repository repository);
+
+        
+       /// <summary>
         /// Menu Click
         /// </summary>
         /// <param name="repository"></param>
@@ -133,6 +137,8 @@ namespace VIENNAAddIn
 
         #region Non-Menu method
 
+
+             
         /// <summary>
         /// Get menu state
         /// </summary>
@@ -267,7 +273,8 @@ namespace VIENNAAddIn
 
         public object EA_OnInitializeTechnologies(EA.Repository repository)
         {
-            return loadMDGFile();
+
+           return loadMDGFile();
         }
 
         /// <summary>
@@ -391,12 +398,12 @@ namespace VIENNAAddIn
                         InitialPackageStructureCreator creator = new InitialPackageStructureCreator(repository);
                         creator.Show();
                     }
-                //    else if (menuitem == "&Options")
-                //    {
-                //        OptionsForm optionsForm = new OptionsForm(repository);
-                //        optionsForm.ShowDialog();
-                //    }
-                //    //menu item validate has been chosen
+                    else if (menuitem == "&Options")
+                    {
+                        OptionsForm optionsForm = new OptionsForm(repository);
+                        optionsForm.ShowDialog();
+                    }
+                    //menu item validate has been chosen
 
 
 
@@ -1440,7 +1447,7 @@ namespace VIENNAAddIn
                 sr.Close();
                 /* finally, after reading the file from the filesystem, load it into the model */
                 repository.ImportTechnology(fileContent);
-
+                  
                 MessageBox.Show(succMsg, "AddIn");
 
 
