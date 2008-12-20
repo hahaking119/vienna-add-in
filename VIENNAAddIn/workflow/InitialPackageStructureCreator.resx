@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>This wizard helps you to create the initial struucture of your UMM 2 model. 
-First chose a name for the model and then define, which views your model 
+    <value>This wizard helps you to create the initial structure of your UMM 2 model. 
+First chose a name for the model and then define which views your model 
 should contain.
 
-WARNING: This will earase all content of your current model!</value>
+WARNING: This will erase the entire content of your current model!</value>
   </data>
 </root>
