@@ -1076,16 +1076,16 @@ namespace VIENNAAddIn
 
                 /* if the package is a BusinessRequirementsView or BusinessTransactionView, than enable the menu
                 to add a subpackage */
-                if (stereotype != null && ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessRequirementsView.ToString())) || //UMM.bRequirementsV.ToString())) ||
-                    (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString())))) // UMM.bTransactionV.ToString()))))
+                if (stereotype != null && ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessRequirementsView.ToString()) || stereotype.Equals(UMM.bRequirementsV.ToString()) || 
+                    stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) || stereotype.Equals(UMM.bTransactionV.ToString())))) 
                 {
-                    if (stereotype != null && stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()))//UMM.bTransactionV.ToString()))
+                    if (stereotype != null && (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) || stereotype.Equals(UMM.bTransactionV.ToString())))
                     {
                         VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
                         VIENNAAddInTreeViewMenu.Add("Generate Transaction Module Artefacts");
                     }
                 }
-                else if (stereotype != null && stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()))//UMM.bChoreographyV.ToString()))
+                else if (stereotype != null && (stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) || stereotype.Equals(UMM.bChoreographyV.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
                     VIENNAAddInTreeViewMenu.Add("Generate ALL Transaction Module Artefacts");
