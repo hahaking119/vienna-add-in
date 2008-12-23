@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="32929252-F" name="UPCC3 - CCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CCLibrary Abstract Syntax"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="ACC" notes="" cx="202" cy="112" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="VersionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="DictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="Definition" type="String" description="" unit="" values="" default=""/>
+					<Tag name="BusinessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="LanguageCode" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="ASCC" notes="" cx="202" cy="124" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Composition">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="SequencingKey" type="String" description="" unit="" values="" default=""/>
+					<Tag name="UniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="VersionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="DictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="Definition" type="String" description="" unit="" values="" default=""/>
+					<Tag name="BusinessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="LanguageCode" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BCC" notes="" cx="202" cy="123" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Attribute"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="SequencingKey" type="String" description="" unit="" values="" default=""/>
+					<Tag name="UniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="VersionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="DictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="Definition" type="String" description="" unit="" values="" default=""/>
+					<Tag name="BusinessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="LanguageCode" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="isEquivalentTo" notes="" cx="101" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

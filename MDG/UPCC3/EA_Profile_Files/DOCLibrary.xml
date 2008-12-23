@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="8A3D7940-A" name="UPCC3 - DOCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - DOCLibrary Abstract Syntax"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="ABIE" notes="" cx="159" cy="127" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UniqueIdentifier" type="Classifier:UniqueIdentifier" description="" unit="String" values="" default=""/>
+					<Tag name="VersionIdentifier" type="Classifier:VersionIdentifier" description="" unit="String" values="" default=""/>
+					<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
+					<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
+					<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
+					<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="ASBIE" notes="" cx="159" cy="140" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Association">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UniqueIdentifier" type="Classifier:UniqueIdentifier" description="" unit="String" values="" default=""/>
+					<Tag name="VersionIdentifier" type="Classifier:VersionIdentifier" description="" unit="String" values="" default=""/>
+					<Tag name="SequencingKey" type="Classifier:SequencingKey" description="" unit="String" values="" default=""/>
+					<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
+					<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
+					<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
+					<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BBIE" notes="" cx="159" cy="140" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Attribute"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="SequencingKey" type="Classifier:SequencingKey" description="" unit="String" values="" default=""/>
+					<Tag name="UniqueIdentifier" type="Classifier:UniqueIdentifier" description="" unit="String" values="" default=""/>
+					<Tag name="VersionIdentifier" type="Classifier:VersionIdentifier" description="" unit="String" values="" default=""/>
+					<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
+					<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
+					<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
+					<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="basedOn" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="isEquivalentTo" notes="" cx="101" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

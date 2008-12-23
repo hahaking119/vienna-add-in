@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="4E318D8B-F" name="UPCC3 - PRIMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - PRIMLibrary Abstract Syntax"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="PRIM" notes="" cx="149" cy="163" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="Length" type="String" description="" unit="" values="" default=""/>
+					<Tag name="MinimumLength" type="String" description="" unit="" values="" default=""/>
+					<Tag name="MaximumLength" type="String" description="" unit="" values="" default=""/>
+					<Tag name="Expression" type="String" description="" unit="" values="" default=""/>
+					<Tag name="MinimumInclusive" type="String" description="" unit="" values="" default=""/>
+					<Tag name="MaximumInclusive" type="String" description="" unit="" values="" default=""/>
+					<Tag name="MaximumExclusive" type="String" description="" unit="" values="" default=""/>
+					<Tag name="MinimumExclusive" type="String" description="" unit="" values="" default=""/>
+					<Tag name="TotalDigits" type="String" description="" unit="" values="" default=""/>
+					<Tag name="FractionalDigits" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>
