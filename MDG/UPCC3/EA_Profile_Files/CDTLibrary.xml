@@ -3,44 +3,48 @@
 	<Documentation id="465E6C1D-1" name="UPCC3 - CDTLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CDTLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="CDT" notes="" cx="159" cy="113" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="CDT" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="VersionIdentifier" type="Classifier:VersionIdentifier" description="" unit="String" values="" default=""/>
-					<Tag name="UniqueIdentifier" type="Classifier:UniqueIdentifier" description="" unit="String" values="" default=""/>
-					<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
-					<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
-					<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
-					<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
+					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
+					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="CON" notes="" cx="159" cy="85" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="CON" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Attribute"/>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
-					<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
-					<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
-					<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
+					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
+					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="SUP" notes="" cx="176" cy="85" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="SUP" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Attribute"/>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
-					<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
-					<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
-					<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
+					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
+					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="isEquivalentTo" notes="" cx="101" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Dependency">
 						<Property name="direction" value="Source -&gt; Destination"/>

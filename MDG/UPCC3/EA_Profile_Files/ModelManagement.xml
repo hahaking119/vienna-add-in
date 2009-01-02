@@ -3,27 +3,27 @@
 	<Documentation id="B4E9032E-0" name="UPCC3 - Model Management Abstract Syntax" version="1.0" notes="UPCC3 - Model Management Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="bLibrary" notes="" cx="775" cy="124" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="bLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Package"/>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="businessTerm" type="Classifier:businessTerm" description="" unit="String" values="" default=""/>
-					<Tag name="copyright" type="Classifier:copyright" description="" unit="String" values="" default=""/>
-					<Tag name="owner" type="Classifier:owner" description="" unit="String" values="" default=""/>
-					<Tag name="reference" type="Classifier:reference" description="" unit="String" values="" default=""/>
-					<Tag name="status" type="Classifier:status" description="" unit="String" values="" default=""/>
-					<Tag name="URI" type="Classifier:URI" description="" unit="String" values="" default=""/>
-					<Tag name="version" type="Classifier:version" description="" unit="String" values="" default=""/>
+					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="copyright" type="String" description="" unit="" values="" default=""/>
+					<Tag name="owner" type="String" description="" unit="" values="" default=""/>
+					<Tag name="reference" type="String" description="" unit="" values="" default=""/>
+					<Tag name="status" type="String" description="" unit="" values="" default=""/>
+					<Tag name="URI" type="String" description="" unit="" values="" default=""/>
+					<Tag name="version" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BIELibrary" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="CDTLibrary" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="BDTLibrary" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="DOCLibrary" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="PRIMLibrary" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="ENUMLibrary" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="CCLibrary" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="BIELibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="CDTLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="BDTLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="DOCLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="PRIMLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="ENUMLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="CCLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
 		</Stereotypes>
 		<TaggedValueTypes/>
 	</Content>
