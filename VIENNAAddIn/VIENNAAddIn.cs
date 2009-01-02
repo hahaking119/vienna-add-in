@@ -36,7 +36,7 @@ namespace VIENNAAddIn
     public interface VIENNAAddInEvents
     {
 
-        //object EA_OnInitializeTechnologies(EA.Repository repository);
+       
     }
 
     [Guid("AC600C85-5BFE-45d5-9D5C-EEE1B5BE852B")]
@@ -71,7 +71,7 @@ namespace VIENNAAddIn
         string[] EA_GetMenuItems(EA.Repository repository, string menulocation, string menuname);
 
 
-        object EA_OnInitializeTechnologies(EA.Repository repository);
+        public object OnInitializeTechnologies(EA.Repository repository);
 
         
        /// <summary>
@@ -271,8 +271,12 @@ namespace VIENNAAddIn
             return (String[])menu.ToArray(typeof(System.String));
         }
 
-        public object EA_OnInitializeTechnologies(EA.Repository repository)
+        public object OnInitializeTechnologies(EA.Repository repository)
         {
+
+            
+
+            
 
            return loadMDGFile();
         }
