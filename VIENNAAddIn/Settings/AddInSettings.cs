@@ -13,7 +13,7 @@ namespace VIENNAAddIn.Settings
         //of VIENNAAddIn
 
 
-        static bool buildGIEM = true;
+        static bool buildGIEM = false;
 
 
         /// <summary>

@@ -242,6 +242,7 @@ namespace VIENNAAddIn.constants
         BCSS,
         BIE,
         BIELibrary,
+        bLibrary,
         BusinessLibrary,
         CC,
         CCLibrary,
