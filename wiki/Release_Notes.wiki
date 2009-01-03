@@ -1,4 +1,11 @@
 #summary Release Notes.
 
+= VIENNAAddIn_0.1-beta =
 
-There are no releases yet.
+The first version of the VIENNA AddIn contains the merged feature from the coding efforts in Austria and Australia. Among the merged features are:
+
+ * UMM2 validation
+ * UMM2 model creation wizard
+ * Schema generation from CCTS models
+ * WSDL generation from business transactions
+ * BPEL generation from business transactions
