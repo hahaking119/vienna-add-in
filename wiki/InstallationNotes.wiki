@@ -3,7 +3,7 @@
 = Requirements =
 
  # Windows 2000/XP/Vista
- # .NET Framework 3.5 ([http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en free download])
+ # .NET Framework 3.5 ([http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en Download from Microsoft.com])
  # Enterprise Architect 7.1 or higher (a 30 day trial version can be downloaded from [http://www.sparxsystems.com.au Sparx Systems's website]
 
 
