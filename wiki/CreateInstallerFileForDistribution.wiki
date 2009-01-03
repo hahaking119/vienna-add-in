@@ -4,7 +4,7 @@
 * VIENNAAddIn project
 
 1. Edit the following entry in AssemblyInfo.cs (subfolder Properties)
-   {{{assembly: AssemblyVersion ("0.0.1.*")}}}
+   {{{assembly: AssemblyVersion ("0.0.1.`*`")}}}
    
    Increment the version number.
    
