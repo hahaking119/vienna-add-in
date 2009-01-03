@@ -6,7 +6,7 @@
   * [Release_Notes Release Notes]  
 
  * [ForDevelopers Useful information for developers]
-  * [CheckoutfromSVN How to check out from SVN]
+  * [CheckoutfromSVN Check out from SVN]
   * [CreateInstallerFileForDistribution Create installer]   
 
 * [EnterpriseArchitect The Enterprise Architect]
