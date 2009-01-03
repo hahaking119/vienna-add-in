@@ -1,9 +1,11 @@
 * [VIENNAAddInOverview About the VIENNA AddIn]
+
 * [ForUsers User infos]
  * [InstallationNotes Installation Notes]
  * [Troubleshooting Troubleshooting]
  * [Release_Notes Release Notes]
  * [EnterpriseArchitect The Enterprise Architect]  
+
 * [ForDevelopers Developer infos]
  * [CheckoutfromSVN Check out from SVN]
  * [CreateInstallerFileForDistribution Create installer]   
