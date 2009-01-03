@@ -71,7 +71,7 @@ namespace VIENNAAddIn
         string[] EA_GetMenuItems(EA.Repository repository, string menulocation, string menuname);
 
 
-        public object OnInitializeTechnologies(EA.Repository repository);
+        object OnInitializeTechnologies(EA.Repository repository);
 
         
        /// <summary>
@@ -238,8 +238,8 @@ namespace VIENNAAddIn
                     menu.Add("&Set Model as UMM2 Model");
                     menu.Add("&Create initial UMM 2 model structure");
                     menu.Add("-");
-                    menu.Add("Validate All - &CCTS");
-                    menu.Add("Validate All - &UMM2");
+                    menu.Add("&Validate All - CCTS");
+                    menu.Add("&Validate All - UMM2");
                     menu.Add("-");
                     menu.Add("-Maintenance");
                     menu.Add("&Import CCTS Library");
@@ -412,7 +412,7 @@ namespace VIENNAAddIn
 
 
                     //Invoke a validation of the whole UMM model
-                    else if (menuitem == "Validate All - &UMM2")
+                    else if (menuitem == "&Validate All - UMM2")
                     {
 
                         String scope = "ROOT";
@@ -470,7 +470,7 @@ namespace VIENNAAddIn
 
 
                     }
-                    else if (menuitem == "Validate All - &CCTS")
+                    else if (menuitem == "&Validate All - CCTS")
                     {
                         MessageBox.Show("Sorry this feature has not been activated.", "Info");
                     }
@@ -543,7 +543,7 @@ namespace VIENNAAddIn
                     }
 
                         //Generate BPEL from package with stereotype BusinessTransactionView 
-                    else if (menuitem == "Generate Transaction Module Artefacts")
+                    else if (menuitem == "&Generate Transaction Module Artefacts")
                     {
                         String scope = determineScope(repository, menulocation, true);
 
@@ -566,7 +566,7 @@ namespace VIENNAAddIn
                     }
 
                     //Generate BPEL from package with stereotype BusinessTransactionView 
-                    else if (menuitem == "Generate ALL Transaction Module Artefacts")
+                    else if (menuitem == "&Generate ALL Transaction Module Artefacts")
                     {
                         String scope = determineScope(repository, menulocation, true);
 
@@ -590,7 +590,7 @@ namespace VIENNAAddIn
 
 
                     //Generate &XBRL
-                    else if (menuitem == "Generate XBRL Linkbase file")
+                    else if (menuitem == "&Generate XBRL Linkbase file")
                     {
                         EA.Diagram d = null;
                         Object obj = null;
@@ -615,7 +615,7 @@ namespace VIENNAAddIn
                     }
 
                         //Generate Linkbase XBRL
-                    else if (menuitem == "Generate &XBRL")
+                    else if (menuitem == "&Generate XBRL")
                     {
                         String scope = determineScope(repository, menulocation, true);
 
@@ -828,7 +828,7 @@ namespace VIENNAAddIn
 
                     }
 
-                    else if (menuitem == "Export Package to CSV file")
+                    else if (menuitem == "&Export Package to CSV file")
                     {
                         string scope = determineScope(repository, menulocation, false);
                         if (this.exportFeature == null || this.exportFeature.IsDisposed)
@@ -844,7 +844,7 @@ namespace VIENNAAddIn
                             this.exportFeature.Show();
                         }
                     }
-                    else if (menuitem == "Import Package to CSV file")
+                    else if (menuitem == "&Import Package to CSV file")
                     {
                         string scope = determineScope(repository, menulocation, false);
                         if (this.importFeature == null || this.importFeature.IsDisposed)
@@ -1086,13 +1086,13 @@ namespace VIENNAAddIn
                     if (stereotype != null && (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) || stereotype.Equals(UMM.bTransactionV.ToString())))
                     {
                         VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
-                        VIENNAAddInTreeViewMenu.Add("Generate Transaction Module Artefacts");
+                        VIENNAAddInTreeViewMenu.Add("&Generate Transaction Module Artefacts");
                     }
                 }
                 else if (stereotype != null && (stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) || stereotype.Equals(UMM.bChoreographyV.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
-                    VIENNAAddInTreeViewMenu.Add("Generate ALL Transaction Module Artefacts");
+                    VIENNAAddInTreeViewMenu.Add("&Generate ALL Transaction Module Artefacts");
                 }
 
                 //If the package has stereotype "DOCLibrary" add a link for generating XSD Schema
@@ -1139,12 +1139,16 @@ namespace VIENNAAddIn
                     isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CC");
                 }
-
-                if (isSpecificMenu == false)
+                //We can export XSD and XBRL from bLibraries
+                else if (stereotype != null && (stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) || stereotype.Equals(CCTS_Types.bLibrary.ToString())))
+                {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD");
-                VIENNAAddInTreeViewMenu.Add("Generate &XBRL");
-                VIENNAAddInTreeViewMenu.Add("Export Package to CSV file");
-                VIENNAAddInTreeViewMenu.Add("Import Package to CSV file");
+                    VIENNAAddInTreeViewMenu.Add("&Generate XBRL");
+                }
+                
+
+                VIENNAAddInTreeViewMenu.Add("&Export Package to CSV file");
+                VIENNAAddInTreeViewMenu.Add("&Import Package to CSV file");
 
                 #endregion
             }
@@ -1163,7 +1167,7 @@ namespace VIENNAAddIn
                 {
                     isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
-                    VIENNAAddInTreeViewMenu.Add("Generate XBRL Linkbase file");
+                    VIENNAAddInTreeViewMenu.Add("&Generate XBRL Linkbase file");
                 }
 
 
