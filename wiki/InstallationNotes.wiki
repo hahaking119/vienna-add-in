@@ -9,7 +9,7 @@
 
 = How to install the Add-In using the Installation Package =
 
- # Go to [http://code.google.com/p/umm2-addin/downloads/list Downloads] and download the latest version of the VIENNA Add-In Installer.
+ # Go to [http://code.google.com/p/vienna-add-in/downloads/list Downloads] and download the latest version of the VIENNA Add-In Installer.
  # Follow the instructions given by the Installer
  # *Important!* When installing the VIENNA Add-In select install "just for me" and not "for everyone". If you choose "for everyone" the menu entry of the VIENNA Add-In will not appear in the menu bar of Enterprise Architect. Please see the [http://code.google.com/p/vienna-add-in/wiki/Troubleshooting troubleshooting wiki entry] for a solution to this problem.
 
