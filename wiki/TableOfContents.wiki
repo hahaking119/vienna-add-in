@@ -1,9 +1,13 @@
 * [VIENNAAddInOverview The VIENNA AddIn]
- * [CheckoutfromSVN How to check out from SVN]
- * [InstallationNotes Installation Notes]
- * [CreateInstallerFileForDistribution Create a redistributable installer]
- * [Troubleshooting Troubleshooting]
- * [Release_Notes Release Notes]    
 
+ * [ForUsers Useful information for users]
+  * [InstallationNotes Installation Notes]
+  * [Troubleshooting Troubleshooting]
+  * [Release_Notes Release Notes]    
+
+ * [ForDevelopers Useful information for developers]
+  * [CheckoutfromSVN How to check out from SVN]
+  * [CreateInstallerFileForDistribution Create a redistributable installer] 
+  
 * [EnterpriseArchitect The Enterprise Architect]
  * [QuickLinker EA quicklinker feature]
