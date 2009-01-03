@@ -4,5 +4,6 @@
  * [CreateInstallerFileForDistribution Create a redistributable installer]
  * [Troubleshooting Troubleshooting]
  * [Release_Notes Release Notes]    
+
 * [EnterpriseArchitect The Enterprise Architect]
- * [QuickLinker EA's quicklinker feature]
+ * [QuickLinker EA quicklinker feature]
