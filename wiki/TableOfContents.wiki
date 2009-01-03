@@ -3,11 +3,12 @@
  * [ForUsers Useful information for users]
   * [InstallationNotes Installation Notes]
   * [Troubleshooting Troubleshooting]
-  * [Release_Notes Release Notes]  
+  * [Release_Notes Release Notes]
+  * [EnterpriseArchitect The Enterprise Architect]  
 
  * [ForDevelopers Useful information for developers]
   * [CheckoutfromSVN Check out from SVN]
   * [CreateInstallerFileForDistribution Create installer]   
-
-* [EnterpriseArchitect The Enterprise Architect]
   * [QuickLinker EA quicklinker feature]
+
+  
