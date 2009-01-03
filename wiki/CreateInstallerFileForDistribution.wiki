@@ -1,4 +1,6 @@
+#summary How to create an installer for the VIENNA-AddIn
 #labels Phase-Implementation
+
 *VIENNAAddIn project*
 
 1. Edit the following entry in AssemblyInfo`.`cs (subfolder Properties)
