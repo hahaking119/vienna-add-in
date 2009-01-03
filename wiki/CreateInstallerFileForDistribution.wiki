@@ -1,7 +1,7 @@
 #labels Phase-Implementation
 VIENNAAddIn project
 
-1. Edit the entry in(subfolder Properties)
+1. Edit the entry in AssemblyInfo.cs (subfolder Properties)
    assembly: AssemblyVersion ("0.0.1.`*`")
    Increment the version number.
    
