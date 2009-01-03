@@ -1,0 +1,15 @@
+#labels Phase-Implementation
+VIENNAAddIn project
+
+1. Edit the entry in AssemblyInfo.cs (subfolder Properties)
+   [assembly: AssemblyVersion("0.0.1.*")]
+   Increment the version number.
+   
+2. Build the VIENNAAddIn solution
+
+
+VIENNAAddInInstaller
+
+1. Click on VIENNAAddInInstaller project and edit the version property. Use the same version number as for the VIENNAAddIn project. This will also change the product code of the installer.
+
+2. Build the Installer project.
