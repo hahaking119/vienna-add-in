@@ -1,6 +1,6 @@
 #summary Installation notes for the UMM 2 Add-In
 
-= Requiements =
+= Requirements =
 
  # Windows 2000/XP/Vista
  # .NET Framework 3.5 ([http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6&displaylang=en free download])
