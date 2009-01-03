@@ -1,14 +1,14 @@
-* [VIENNAAddInOverview The VIENNA AddIn]
+* [VIENNAAddInOverview About the VIENNA AddIn]
 
- * [ForUsers User infos]
-  * [InstallationNotes Installation Notes]
-  * [Troubleshooting Troubleshooting]
-  * [Release_Notes Release Notes]
-  * [EnterpriseArchitect The Enterprise Architect]  
+* [ForUsers User infos]
+ * [InstallationNotes Installation Notes]
+ * [Troubleshooting Troubleshooting]
+ * [Release_Notes Release Notes]
+ * [EnterpriseArchitect The Enterprise Architect]  
 
- * [ForDevelopers Developer infos]
-  * [CheckoutfromSVN Check out from SVN]
-  * [CreateInstallerFileForDistribution Create installer]   
-  * [QuickLinker EA quicklinker feature]
+* [ForDevelopers Developer infos]
+ * [CheckoutfromSVN Check out from SVN]
+ * [CreateInstallerFileForDistribution Create installer]   
+ * [QuickLinker EA quicklinker feature]
 
   
