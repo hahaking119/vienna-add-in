@@ -3,7 +3,7 @@
 	<Documentation id="186E3B6E-E" name="UMM2 - Business Collaboration View - Abstract Syntax" version="1.0" notes="UMM2 - Business Collaboration View - Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="bCollaborationAction" metatype="Business Collaboration Action" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+			<Stereotype name="bCollaborationAction" metatype="Business Collaboration Action" notes="" cx="178" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Action">
 						<Property name="context" value=""/>
@@ -12,7 +12,7 @@
 					</Apply>
 				</AppliesTo>
 			</Stereotype>
-			<Stereotype name="bCollaborationProtocol" metatype="Business Collaboration Protocol" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+			<Stereotype name="bCollaborationProtocol" metatype="Business Collaboration Protocol" notes="" cx="178" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Activity">
 						<Property name="isReadOnly" value="false"/>
@@ -23,8 +23,8 @@
 					</Apply>
 				</AppliesTo>
 			</Stereotype>
-			<Stereotype name="bCollaborationUC" metatype="Business Collaboration Use Case" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0" generalizes="bProcessUC"/>
-			<Stereotype name="bTransactionAction" metatype="Business Transaction Action" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+			<Stereotype name="bCollaborationUC" metatype="Business Collaboration Use Case" notes="" cx="178" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0" generalizes="bProcessUC"/>
+			<Stereotype name="bTransactionAction" metatype="Business Transaction Action" notes="" cx="178" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Action">
 						<Property name="context" value=""/>
@@ -37,7 +37,7 @@
 					<Tag name="timeToPerform" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="bCPartition" metatype="Business Collaboration Partition" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="bCPartition" metatype="Business Collaboration Partition" notes="" cx="178" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ActivityPartition">
 						<Property name="isDimension" value="false"/>
@@ -45,12 +45,12 @@
 					</Apply>
 				</AppliesTo>
 			</Stereotype>
-			<Stereotype name="AuthorizedRole" metatype="Authorized Role" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="AuthorizedRole" metatype="Authorized Role" notes="" cx="178" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Actor"/>
 				</AppliesTo>
 			</Stereotype>
-			<Stereotype name="bProcessUC" metatype="Business Process Use Case" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+			<Stereotype name="bProcessUC" metatype="Business Process Use Case" notes="" cx="178" cy="124" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
 				<AppliesTo>
 					<Apply type="UseCase"/>
 				</AppliesTo>
@@ -64,7 +64,7 @@
 					<Tag name="preCondition" type="string" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="participates" metatype="Participates" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="participates" metatype="Participates" notes="" cx="104" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Association">
 						<Property name="direction" value="Source -&gt; Destination"/>
@@ -74,22 +74,22 @@
 					<Tag name="interest" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="Synch(H)" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Synch(H)" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<Redefinitions>
 					<Redefine type="Synch(H)"/>
 				</Redefinitions>
 			</Stereotype>
-			<Stereotype name="Synch(V)" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Synch(V)" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<Redefinitions>
 					<Redefine type="Synch(V)"/>
 				</Redefinitions>
 			</Stereotype>
-			<Stereotype name="MergeNode" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="MergeNode" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<Redefinitions>
 					<Redefine type="MergeNode"/>
 				</Redefinitions>
 			</Stereotype>
-			<Stereotype name="Decision" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Decision" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<Redefinitions>
 					<Redefine type="Decision">
 						<Property name="isAssured" value="false"/>
@@ -97,34 +97,34 @@
 					</Redefine>
 				</Redefinitions>
 			</Stereotype>
-			<Stereotype name="ControlFlow" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="ControlFlow" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<Redefinitions>
 					<Redefine type="ControlFlow">
 						<Property name="direction" value="Source -&gt; Destination"/>
 					</Redefine>
 				</Redefinitions>
 			</Stereotype>
-			<Stereotype name="initFlow" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="initFlow" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="InformationFlow"/>
 				</AppliesTo>
 			</Stereotype>
-			<Stereotype name="reFlow" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="reFlow" notes="" cx="70" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="InformationFlow"/>
 				</AppliesTo>
 			</Stereotype>
-			<Stereotype name="ActivityInitial" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="ActivityInitial" notes="" cx="99" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<Redefinitions>
 					<Redefine type="ActivityInitial"/>
 				</Redefinitions>
 			</Stereotype>
-			<Stereotype name="Final" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="Final" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<Redefinitions>
 					<Redefine type="ActivityFinal"/>
 				</Redefinitions>
 			</Stereotype>
-			<Stereotype name="bNestedCollaboration" metatype="Nested Business Collaboration" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="bNestedCollaboration" metatype="Nested Business Collaboration" notes="" cx="209" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Action">
 						<Property name="context" value=""/>
@@ -132,6 +132,13 @@
 						<Property name="kind" value="CallBehavior"/>
 					</Apply>
 				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="Include" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<Redefinitions>
+					<Redefine type="Include">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Redefine>
+				</Redefinitions>
 			</Stereotype>
 		</Stereotypes>
 		<TaggedValueTypes/>
