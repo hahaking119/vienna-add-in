@@ -105,6 +105,12 @@
     <Compile Include="CCTS\CCGenerator.Designer.cs">
       <DependentUpon>CCGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="CCTS\CCImporter\BIEParser.cs" />
+    <Compile Include="CCTS\CCImporter\CCParser.cs" />
+    <Compile Include="CCTS\CCImporter\CDTParser.cs" />
+    <Compile Include="CCTS\CCImporter\EAModelWriter.cs" />
+    <Compile Include="CCTS\CCImporter\Program.cs" />
+    <Compile Include="CCTS\CCImporter\QDTParser.cs" />
     <Compile Include="CCTS\CCTSBIE_MetaModel\AggregateBusinessInformationEntity.cs" />
     <Compile Include="CCTS\CCTSBIE_MetaModel\AggregateCoreComponent.cs" />
     <Compile Include="CCTS\CCTSBIE_MetaModel\ASBIE.cs" />
