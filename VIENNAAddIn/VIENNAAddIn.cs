@@ -1449,7 +1449,18 @@ namespace VIENNAAddIn
                          * and profiles */
             try
             {
-                String mdgFile = WindowsRegistryLoader.getMDGFileGIEM();
+                //Distinguish between GIEM and UMM2 mode here
+                String mdgFile = "";
+                if (AddInSettings.buildGIEM)
+                {
+                    mdgFile = WindowsRegistryLoader.getMDGFileGIEM();
+                }
+                else
+                {
+                    mdgFile = WindowsRegistryLoader.getMDGFile();
+                }
+
+                
                 StreamReader sr = new StreamReader(mdgFile);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();
