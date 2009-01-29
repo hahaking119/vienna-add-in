@@ -1,4 +1,4 @@
-<MDG.Technology version="1.0"><Documentation id="UPCC3" name="UPCC 3.0" version="0.1" notes="Draft version Vienna - 20081223"/><UMLProfiles><UMLProfile profiletype="uml2">
+<MDG.Technology version="1.0"><Documentation id="UPCC3" name="UPCC 3.0" version="0.1" notes="ODP4 version - 20090209"/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="6C22877F-F" name="UPCC3 - BDTLibrary Abstract Syntax" version="1.0" notes="UPCC3 - BDTLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
@@ -15,6 +15,7 @@
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="CON" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -28,6 +29,8 @@
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
+							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="SUP" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -41,6 +44,8 @@
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
+							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -68,6 +73,7 @@
 							<Tag name="minLength" type="String" description="" unit="" values="" default=""/>
 							<Tag name="totalDigits" type="String" description="" unit="" values="" default=""/>
 							<Tag name="whiteSpace" type="String" description="" unit="" values="" default=""/>
+							<Tag name="applyTo" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 				</Stereotypes>
@@ -91,6 +97,7 @@
 							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="ASBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -107,6 +114,7 @@
 							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="BBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -121,6 +129,7 @@
 							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="basedOn" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -163,7 +172,7 @@
 					</Stereotype>
 					<Stereotype name="ASCC" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
-							<Apply type="Composition">
+							<Apply type="Association">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
@@ -221,6 +230,7 @@
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="CON" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -234,6 +244,8 @@
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
+							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="SUP" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -247,6 +259,8 @@
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
+							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -264,59 +278,62 @@
 			<Documentation id="8A3D7940-A" name="UPCC3 - DOCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - DOCLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="ABIE" notes="" cx="159" cy="127" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ABIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="UniqueIdentifier" type="Classifier:UniqueIdentifier" description="" unit="String" values="" default=""/>
-							<Tag name="VersionIdentifier" type="Classifier:VersionIdentifier" description="" unit="String" values="" default=""/>
-							<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
-							<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
-							<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
-							<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
+							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
+							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="ASBIE" notes="" cx="159" cy="140" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ASBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="UniqueIdentifier" type="Classifier:UniqueIdentifier" description="" unit="String" values="" default=""/>
-							<Tag name="VersionIdentifier" type="Classifier:VersionIdentifier" description="" unit="String" values="" default=""/>
-							<Tag name="SequencingKey" type="Classifier:SequencingKey" description="" unit="String" values="" default=""/>
-							<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
-							<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
-							<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
-							<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
+							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="sequencingKey" type="String" description="" unit="" values="" default=""/>
+							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
+							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BBIE" notes="" cx="159" cy="140" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Attribute"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="SequencingKey" type="Classifier:SequencingKey" description="" unit="String" values="" default=""/>
-							<Tag name="UniqueIdentifier" type="Classifier:UniqueIdentifier" description="" unit="String" values="" default=""/>
-							<Tag name="VersionIdentifier" type="Classifier:VersionIdentifier" description="" unit="String" values="" default=""/>
-							<Tag name="LanguageCode" type="Classifier:LanguageCode" description="" unit="String" values="" default=""/>
-							<Tag name="DictionaryEntryName" type="Classifier:DictionaryEntryName" description="" unit="String" values="" default=""/>
-							<Tag name="Definition" type="Classifier:Definition" description="" unit="String" values="" default=""/>
-							<Tag name="BusinessTerm" type="Classifier:BusinessTerm" description="" unit="String" values="" default=""/>
+							<Tag name="sequencingKey" type="String" description="" unit="" values="" default=""/>
+							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
+							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="basedOn" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="basedOn" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Dependency">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="isEquivalentTo" notes="" cx="101" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Dependency">
 								<Property name="direction" value="Source -&gt; Destination"/>
@@ -331,7 +348,7 @@
 			<Documentation id="47A919F5-7" name="UPCC3 - ENUMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - ENUMLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="ENUM" notes="" cx="205" cy="164" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ENUM" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
@@ -342,13 +359,13 @@
 							<Tag name="agencyName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="enumerationURI" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="isEquivalentTo" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Dependency">
 								<Property name="direction" value="Source -&gt; Destination"/>
@@ -373,8 +390,8 @@
 							<Tag name="owner" type="String" description="" unit="" values="" default=""/>
 							<Tag name="reference" type="String" description="" unit="" values="" default=""/>
 							<Tag name="status" type="String" description="" unit="" values="" default=""/>
-							<Tag name="URI" type="String" description="" unit="" values="" default=""/>
-							<Tag name="version" type="String" description="" unit="" values="" default=""/>
+							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="BIELibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
@@ -392,7 +409,7 @@
 			<Documentation id="4E318D8B-F" name="UPCC3 - PRIMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - PRIMLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="PRIM" notes="" cx="169" cy="258" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="PRIM" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
@@ -412,12 +429,13 @@
 							<Tag name="minInclusive" type="String" description="" unit="" values="" default=""/>
 							<Tag name="minLength" type="String" description="" unit="" values="" default=""/>
 							<Tag name="totalDigits" type="String" description="" unit="" values="" default=""/>
+							<Tag name="whiteSpace" type="String" description="" unit="" values="" default=""/>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="isEquivalentTo" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Dependency">
 								<Property name="direction" value="Source -&gt; Destination"/>

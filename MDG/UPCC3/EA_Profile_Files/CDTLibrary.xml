@@ -16,6 +16,7 @@
 					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="CON" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -29,6 +30,8 @@
 					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
+					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="SUP" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -42,6 +45,8 @@
 					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
+					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">

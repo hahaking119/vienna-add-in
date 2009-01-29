@@ -13,8 +13,8 @@
 					<Tag name="owner" type="String" description="" unit="" values="" default=""/>
 					<Tag name="reference" type="String" description="" unit="" values="" default=""/>
 					<Tag name="status" type="String" description="" unit="" values="" default=""/>
-					<Tag name="URI" type="String" description="" unit="" values="" default=""/>
-					<Tag name="version" type="String" description="" unit="" values="" default=""/>
+					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="BIELibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>

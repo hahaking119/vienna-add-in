@@ -16,6 +16,7 @@
 					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="ASBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -32,6 +33,7 @@
 					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="BBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -46,6 +48,7 @@
 					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="basedOn" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">

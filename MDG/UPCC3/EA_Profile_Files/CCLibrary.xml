@@ -21,7 +21,7 @@
 			</Stereotype>
 			<Stereotype name="ASCC" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="Composition">
+					<Apply type="Association">
 						<Property name="direction" value="Source -&gt; Destination"/>
 					</Apply>
 				</AppliesTo>
