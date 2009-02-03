@@ -8,27 +8,11 @@ http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
 
 namespace VIENNAAddIn.validator
 {
     abstract internal class AbstractValidator
     {
-        public event EventHandler<ExceptionEventArgs> Changed;
-
-        protected virtual void OnChange(ExceptionEventArgs args)
-        {
-            if (Changed != null)
-                Changed(this, args); 
-        }
-
-        //EA repository the validator is operating upon
-        internal EA.Repository repository;
-        //The current scope of the validator
-        internal String scope;
-
-        abstract internal List<ValidationMessage> validate();
+        abstract internal void validate(IValidationContext context, string scope);
     }
 }

@@ -8,10 +8,6 @@ http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-
 using VIENNAAddIn.constants;
 using VIENNAAddIn.common;
 
@@ -19,86 +15,33 @@ namespace VIENNAAddIn.validator.umm.bcv
 {
     class bRealizationVValidator : AbstractValidator
     {
-
-         
-        public bRealizationVValidator(EA.Repository repository, String scope)
-        {
-            this.repository = repository;
-            this.scope = scope;
-            
-        }
-
-
-
-
         /// <summary>
         /// Validate the BusinessRealizationView
         /// </summary>
-        /// <param name="repository"></param>
-        /// <param name="scope"></param>
-        /// <param name="worker"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        internal override List<ValidationMessage> validate()
+        internal override void validate(IValidationContext parentContext, string scope)
         {
-
-
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-            EA.Package brv = repository.GetPackageByID(Int32.Parse(scope));
-
-            //Check the Tagged Values of the Business Realization View
-            messages.AddRange(checkTV_BusinessRealizationView(brv));
-
-
-            //Check constraint C92
-            List<ValidationMessage> vm92 = checkC92(brv);
-            if (vm92 != null && vm92.Count != 0) messages.AddRange(vm92);
-
-            if (!Utility.canProceedWithValidation(messages))
-                return messages;
-
-            //Check constraint C93
-            List<ValidationMessage> vm93 = checkC93(brv);
-            if (vm93 != null && vm93.Count != 0) messages.AddRange(vm93);
-
-            //Check constraint C94
-            List<ValidationMessage> vm94 = checkC94(brv);
-            if (vm94 != null && vm94.Count != 0) messages.AddRange(vm94);
-
-            //Check constraint C95
-            List<ValidationMessage> vm95 = checkC95(brv);
-            if (vm95 != null && vm95.Count != 0) messages.AddRange(vm95);
-
-            //Check constraint C96
-            List<ValidationMessage> vm96 = checkC96(brv);
-            if (vm96 != null && vm96.Count != 0) messages.AddRange(vm96);
-
-            //Check constraint C97
-            List<ValidationMessage> vm97 = checkC97(brv);
-            if (vm97 != null && vm97.Count != 0) messages.AddRange(vm97);
-
-            //Check constraint C98
-            List<ValidationMessage> vm98 = checkC98(brv);
-            if (vm98 != null && vm98.Count != 0) messages.AddRange(vm98);
-
-            //Check constraint C99
-            List<ValidationMessage> vm99 = checkC99(brv);
-            if (vm99 != null && vm99.Count != 0) messages.AddRange(vm99);
-
-            return messages;
+            ErrorCheckingValidationContext context = new ErrorCheckingValidationContext(parentContext);
+            var brv = context.Repository.GetPackageByID(Int32.Parse(scope));
+            checkTV_BusinessRealizationView(context, brv);
+            checkC92(context, brv);
+            if (context.HasError) return;
+            checkC93(context, brv);
+            checkC94(context, brv);
+            checkC95(context, brv);
+            checkC96(context, brv);
+            checkC97(context, brv);
+            checkC98(context, brv);
+            checkC99(context, brv);
         }
 
 
         /// <summary>
         /// Check constraint C92
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
-        /// <returns></returns>
-        private List<ValidationMessage> checkC92(EA.Package brv)
+        private void checkC92(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
-
             int count_BR = 0;
             int count_AR = 0;
 
@@ -119,20 +62,15 @@ namespace VIENNAAddIn.validator.umm.bcv
 
             if (count_BR != 1)
             {
-                messages.Add(new ValidationMessage("Violation of constraint C92.", "A BusinessRealizationView MUST contain exactly one BusinessRealization, two to many AuthorizedRoles, and two to many participates associations. \n\nFound " + count_BR + " BusinessRealizations.", "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                context.AddValidationMessage(new ValidationMessage("Violation of constraint C92.", "A BusinessRealizationView MUST contain exactly one BusinessRealization, two to many AuthorizedRoles, and two to many participates associations. \n\nFound " + count_BR + " BusinessRealizations.", "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
             }
 
             if (count_AR < 2)
             {
-                messages.Add(new ValidationMessage("Violation of constraint C92.", "A BusinessRealizationView MUST contain exactly one BusinessRealization, two to many AuthorizedRoles, and two to many participates associations. \n\nFound " + count_AR + " AuthorizedRoles.", "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                context.AddValidationMessage(new ValidationMessage("Violation of constraint C92.", "A BusinessRealizationView MUST contain exactly one BusinessRealization, two to many AuthorizedRoles, and two to many participates associations. \n\nFound " + count_AR + " AuthorizedRoles.", "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
             }
 
-
-
             //We do not check the participates associations here but in the next constraint
-
-
-            return messages;
         }
 
 
@@ -141,13 +79,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// 
         /// A BusinessRealization MUST be associated with two to many AuthorizedRoles via stereotyped binary participates associations.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
         /// <returns></returns>
-        private List<ValidationMessage> checkC93(EA.Package brv)
+        private void checkC93(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
-
             //Get the BusinessRealization
             EA.Element br = Utility.getElementFromPackage(brv, UMM.bRealization.ToString());
 
@@ -163,7 +99,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                         //The realization must be the supplier
                         if (con.SupplierID == br.ElementID)
                         {
-                            EA.Element client = repository.GetElementByID(con.ClientID);
+                            EA.Element client = context.Repository.GetElementByID(con.ClientID);
                             if (client.Stereotype == UMM.AuthorizedRole.ToString())
                             {
                                 countConnections++;
@@ -175,14 +111,9 @@ namespace VIENNAAddIn.validator.umm.bcv
 
                 if (countConnections < 2)
                 {
-                    messages.Add(new ValidationMessage("Violation of constraint C93.", "A BusinessRealization MUST be associated with two to many AuthorizedRoles via stereotyped binary participates associations.\n\nInvalid number of assocations found: " + countConnections, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                    context.AddValidationMessage(new ValidationMessage("Violation of constraint C93.", "A BusinessRealization MUST be associated with two to many AuthorizedRoles via stereotyped binary participates associations.\n\nInvalid number of assocations found: " + countConnections, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
                 }
-
-
-
             }
-
-            return messages;
         }
 
 
@@ -192,14 +123,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// A BusinessRealization MUST be the source of exactly one realization 
         /// dependency to a BusinessCollaborationUseCase.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
         /// <returns></returns>
-        private List<ValidationMessage> checkC94(EA.Package brv)
+        private void checkC94(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
-
-
             //Get the BusinessRealization
             EA.Element br = Utility.getElementFromPackage(brv, UMM.bRealization.ToString());
 
@@ -210,14 +138,12 @@ namespace VIENNAAddIn.validator.umm.bcv
                 //Get the dependencies
                 foreach (EA.Connector con in br.Connectors)
                 {
-                    String d = con.Type;
-
                     if (con.Type == "Realisation" && con.Stereotype == "realizes")
                     {
 
                         if (con.ClientID == br.ElementID)
                         {
-                            EA.Element supplier = repository.GetElementByID(con.SupplierID);
+                            EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
                             if (supplier.Stereotype == UMM.bCollaborationUC.ToString())
                             {
                                 count++;
@@ -228,12 +154,9 @@ namespace VIENNAAddIn.validator.umm.bcv
 
                 if (count != 1)
                 {
-                    messages.Add(new ValidationMessage("Violation of constraint C94.", "A BusinessRealization MUST be the source of exactly one realization dependency to a BusinessCollaborationUseCase. \n\nFound invalid number of realize dependencies: " + count, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                    context.AddValidationMessage(new ValidationMessage("Violation of constraint C94.", "A BusinessRealization MUST be the source of exactly one realization dependency to a BusinessCollaborationUseCase. \n\nFound invalid number of realize dependencies: " + count, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
                 }
-
             }
-
-            return messages;
         }
 
 
@@ -242,13 +165,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// A BusinessRealization MUST NOT be the 
         /// source or target of an include or extends association.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
         /// <returns></returns>
-        private List<ValidationMessage> checkC95(EA.Package brv)
+        private void checkC95(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
-
             //Get the BusinessRealization
             EA.Element br = Utility.getElementFromPackage(brv, UMM.bRealization.ToString());
 
@@ -259,16 +180,12 @@ namespace VIENNAAddIn.validator.umm.bcv
 
                     if (con.Stereotype == "extend" || con.Stereotype == "include")
                     {
-                        messages.Add(new ValidationMessage("Violation of constraint C95.", "A BusinessRealization MUST NOT be the source or target of an include or extends association. \n\nBusinessRealization " + br.Name + " has invalid connectors.", "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                        context.AddValidationMessage(new ValidationMessage("Violation of constraint C95.", "A BusinessRealization MUST NOT be the source or target of an include or extends association. \n\nBusinessRealization " + br.Name + " has invalid connectors.", "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
                     }
                 }
 
 
             }
-
-
-
-            return messages;
         }
 
 
@@ -276,12 +193,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// Check constraint C96
         /// All dependencies from/to an AuthorizedRole must be stereotyped as mapsTo.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
         /// <returns></returns>
-        private List<ValidationMessage> checkC96(EA.Package brv)
+        private void checkC96(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
             //Get the Authorized Roles
             IList<EA.Element> aroles = Utility.getAllElements(brv, new List<EA.Element>(), UMM.AuthorizedRole.ToString());
 
@@ -295,18 +211,11 @@ namespace VIENNAAddIn.validator.umm.bcv
                     {
                         if (con.Stereotype != UMM.mapsTo.ToString())
                         {
-                            messages.Add(new ValidationMessage("Violation of constraint C96.", "All dependencies from/to an AuthorizedRole must be stereotyped as mapsTo.\n\nBusiness Realization " + brv.Name + " has invalid connectors.", "BDV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                            context.AddValidationMessage(new ValidationMessage("Violation of constraint C96.", "All dependencies from/to an AuthorizedRole must be stereotyped as mapsTo.\n\nBusiness Realization " + brv.Name + " has invalid connectors.", "BDV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
                         }
                     }
                 }
-
-
-
             }
-
-
-
-            return messages;
         }
 
 
@@ -319,12 +228,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// must be the source of exactly one mapsTo dependency targeting an AuthorizedRole 
         /// participating in a BusinessCollaborationUseCase.
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
         /// <returns></returns>
-        private List<ValidationMessage> checkC97(EA.Package brv)
+        private void checkC97(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
             //Get the Authorized Roles
             IList<EA.Element> aroles = Utility.getAllElements(brv, new List<EA.Element>(), UMM.AuthorizedRole.ToString());
 
@@ -332,7 +240,7 @@ namespace VIENNAAddIn.validator.umm.bcv
             {
                 int countTo = 0;
                 int countFrom = 0;
-                bool doesParticipate = doesParticipateInBR(ar);
+                bool doesParticipate = doesParticipateInBR(context, ar);
 
 
                 foreach (EA.Connector con in ar.Connectors)
@@ -347,7 +255,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                             if (con.SupplierID == ar.ElementID)
                             {
 
-                                EA.Element client = repository.GetElementByID(con.ClientID);
+                                EA.Element client = context.Repository.GetElementByID(con.ClientID);
                                 if (client.Stereotype == UMM.bPartner.ToString())
                                 {
                                     countTo++;
@@ -356,10 +264,10 @@ namespace VIENNAAddIn.validator.umm.bcv
                             //Count the mapsTo emanating from this authorized role
                             if (con.ClientID == ar.ElementID)
                             {
-                                EA.Element supplier = repository.GetElementByID(con.SupplierID);
+                                EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
                                 if (supplier.Stereotype == UMM.AuthorizedRole.ToString())
                                 {
-                                    if (doesParticipateinBC(supplier))
+                                    if (doesParticipateinBC(context, supplier))
                                     {
                                         countFrom++;
                                     }
@@ -377,18 +285,14 @@ namespace VIENNAAddIn.validator.umm.bcv
 
                 if (doesParticipate && countTo != 1)
                 {
-                    messages.Add(new ValidationMessage("Violation of constraint C97.", "An AuthorizedRole, which participates in a BusinessRealization, must be the target of exactly one mapsTo dependency starting from a BusinessPartner. Furthermore the AuthorizedRole, which participates in the BusinessRealization must be the source of exactly one mapsTo dependency targeting an AuthorizedRole participating in a BusinessCollaborationUseCase. \n\nAuthorized Role " + ar.Name + " has an invalid number of incoming mapsTo dependencies: " + countTo, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
-
+                    context.AddValidationMessage(new ValidationMessage("Violation of constraint C97.", "An AuthorizedRole, which participates in a BusinessRealization, must be the target of exactly one mapsTo dependency starting from a BusinessPartner. Furthermore the AuthorizedRole, which participates in the BusinessRealization must be the source of exactly one mapsTo dependency targeting an AuthorizedRole participating in a BusinessCollaborationUseCase. \n\nAuthorized Role " + ar.Name + " has an invalid number of incoming mapsTo dependencies: " + countTo, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
                 }
 
                 if (doesParticipate && countFrom != 1)
                 {
-                    messages.Add(new ValidationMessage("Violation of constraint C97.", "An AuthorizedRole, which participates in a BusinessRealization, must be the target of exactly one mapsTo dependency starting from a BusinessPartner. Furthermore the AuthorizedRole, which participates in the BusinessRealization must be the source of exactly one mapsTo dependency targeting an AuthorizedRole participating in a BusinessCollaborationUseCase. \n\nAuthorized Role " + ar.Name + " has an invalid number of outgoing mapsTo dependencies: " + countFrom, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
-
+                    context.AddValidationMessage(new ValidationMessage("Violation of constraint C97.", "An AuthorizedRole, which participates in a BusinessRealization, must be the target of exactly one mapsTo dependency starting from a BusinessPartner. Furthermore the AuthorizedRole, which participates in the BusinessRealization must be the source of exactly one mapsTo dependency targeting an AuthorizedRole participating in a BusinessCollaborationUseCase. \n\nAuthorized Role " + ar.Name + " has an invalid number of outgoing mapsTo dependencies: " + countFrom, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
                 }
-
             }
-            return messages;
         }
 
 
@@ -398,12 +302,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// AuthorizedRoles in a BusinessRealizationView must have a unique 
         /// name within the scope of the package, they are located in
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
         /// <returns></returns>
-        private List<ValidationMessage> checkC98(EA.Package brv)
+        private void checkC98(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
             //Get the Authorized Roles
             IList<EA.Element> aroles = Utility.getAllElements(brv, new List<EA.Element>(), UMM.AuthorizedRole.ToString());
 
@@ -417,17 +320,12 @@ namespace VIENNAAddIn.validator.umm.bcv
                     {
                         if (ar1.Name == name)
                         {
-                            messages.Add(new ValidationMessage("Violation of constraint C98.", "AuthorizedRoles in a BusinessRealizationView must have a unique name within the scope of the package, they are located in. \n\nThe following name is used multiple times: " + ar.Name, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
-                            return messages;
+                            context.AddValidationMessage(new ValidationMessage("Violation of constraint C98.", "AuthorizedRoles in a BusinessRealizationView must have a unique name within the scope of the package, they are located in. \n\nThe following name is used multiple times: " + ar.Name, "BCV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                            return;
                         }
                     }
                 }
-
-
             }
-
-
-            return messages;
         }
 
 
@@ -439,13 +337,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// MUST match the number of AuthorizedRoles participating in the BusinessRealization 
         /// realizing this BusinessCollaborationUseCase
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="brv"></param>
         /// <returns></returns>
-        private List<ValidationMessage> checkC99(EA.Package brv)
+        private void checkC99(IValidationContext context, EA.Package brv)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
-
             //Get the Authorized Roles
             IList<EA.Element> aroles = Utility.getAllElements(brv, new List<EA.Element>(), UMM.AuthorizedRole.ToString());
 
@@ -456,7 +352,7 @@ namespace VIENNAAddIn.validator.umm.bcv
             foreach (EA.Element ar in aroles)
             {
 
-                if (doesParticipateInBR(ar))
+                if (doesParticipateInBR(context, ar))
                 {
                     countBR++;
                 }
@@ -474,7 +370,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                     {
                         if (con.ClientID == br.ElementID)
                         {
-                            EA.Element supplier = repository.GetElementByID(con.SupplierID);
+                            EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
                             if (supplier.Stereotype == UMM.bCollaborationUC.ToString())
                             {
                                 bcuc = supplier;
@@ -491,7 +387,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                     {
                         if (con.SupplierID == bcuc.ElementID && con.Stereotype == UMM.participates.ToString())
                         {
-                            EA.Element client = repository.GetElementByID(con.ClientID);
+                            EA.Element client = context.Repository.GetElementByID(con.ClientID);
                             if (client.Stereotype == UMM.AuthorizedRole.ToString())
                             {
                                 countBC++;
@@ -508,13 +404,8 @@ namespace VIENNAAddIn.validator.umm.bcv
 
             if (countBC != countBR)
             {
-                messages.Add(new ValidationMessage("Violation of constraint C99.", "The number of AuthorizedRoles participating in a BusinessCollaborationUseCase MUST match the number of AuthorizedRoles participating in the BusinessRealization realizing this BusinessCollaborationUseCase. \n\n" + countBR + " AuthorizedRoles participate in the BusinessRealization and " + countBC + " AuthorizedRoles participate in the BusinessCollaborationUseCase.", "BRV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
+                context.AddValidationMessage(new ValidationMessage("Violation of constraint C99.", "The number of AuthorizedRoles participating in a BusinessCollaborationUseCase MUST match the number of AuthorizedRoles participating in the BusinessRealization realizing this BusinessCollaborationUseCase. \n\n" + countBR + " AuthorizedRoles participate in the BusinessRealization and " + countBC + " AuthorizedRoles participate in the BusinessCollaborationUseCase.", "BRV", ValidationMessage.errorLevelTypes.ERROR, brv.PackageID));
             }
-
-
-
-
-            return messages;
         }
 
 
@@ -523,9 +414,10 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// Returns true if the given Element e has a participates assocation to a
         /// BusinessCollaborationUseCase
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="e"></param>
         /// <returns></returns>
-        private bool doesParticipateinBC(EA.Element e)
+        private bool doesParticipateinBC(IValidationContext context, EA.Element e)
         {
 
 
@@ -534,7 +426,7 @@ namespace VIENNAAddIn.validator.umm.bcv
 
                 if (con.ClientID == e.ElementID && con.Stereotype == UMM.participates.ToString())
                 {
-                    EA.Element supplier = repository.GetElementByID(con.SupplierID);
+                    EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
                     if (supplier.Stereotype == UMM.bCollaborationUC.ToString())
                         return true;
 
@@ -553,9 +445,10 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// Returns true if the given Element e has a participates assocation to
         /// a BusinessREalization
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="e"></param>
         /// <returns></returns>
-        private bool doesParticipateInBR(EA.Element e)
+        private bool doesParticipateInBR(IValidationContext context, EA.Element e)
         {
 
             foreach (EA.Connector con in e.Connectors)
@@ -563,7 +456,7 @@ namespace VIENNAAddIn.validator.umm.bcv
 
                 if (con.ClientID == e.ElementID && con.Stereotype == UMM.participates.ToString())
                 {
-                    EA.Element supplier = repository.GetElementByID(con.SupplierID);
+                    EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
                     if (supplier.Stereotype == UMM.bRealization.ToString())
                         return true;
 
@@ -574,33 +467,16 @@ namespace VIENNAAddIn.validator.umm.bcv
             return false;
         }
 
-
-
-
-
-
         /// <summary>
         /// Check the tagged values of the BusinessRealizationView
         /// </summary>
+        /// <param name="context"></param>
         /// <param name="p"></param>
-        /// <param name="worker"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        private List<ValidationMessage> checkTV_BusinessRealizationView(EA.Package p)
+        private void checkTV_BusinessRealizationView(IValidationContext context, EA.Package p)
         {
-            List<ValidationMessage> messages = new List<ValidationMessage>();
-
             //Check the TaggedValues of the BusinessRealizationView package
-            messages.AddRange(new TaggedValueValidator(repository).validatePackage(p));
-
-
-            return messages;
+            new TaggedValueValidator().validatePackage(context, p);
         }
 
-
-
     }
-    
-
-
 }
