@@ -540,6 +540,7 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
-    <Folder Include="validator\upcc\" />
+    <Folder Include="upcc3\" />
+    <Folder Include="validator\upcc3\" />
   </ItemGroup>
 </Project>

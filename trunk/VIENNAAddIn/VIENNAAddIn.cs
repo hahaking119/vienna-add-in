@@ -209,9 +209,13 @@ namespace VIENNAAddIn
         /// <param name="repository"></param>
         public void EA_FileOpen(EA.Repository repository)
         {
+            
             // check if the opened model has been marked as an UMM2 model before
             isUMM2Model = this.CheckIfModelIsUMM2Model(repository);
             repo = repository;
+
+            repo.EnableCache = true;
+
         }
 
         /// <summary>
