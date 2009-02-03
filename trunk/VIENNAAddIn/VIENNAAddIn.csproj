@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -236,6 +236,9 @@
     <Compile Include="validator\ErrorMessage.cs" />
     <Compile Include="validator\ExceptionEventArgs.cs" />
     <Compile Include="validator\IValidator.cs" />
+    <Compile Include="validator\ErrorCheckingValidationContext.cs" />
+    <Compile Include="validator\ValidationMessageAddedEventArgs.cs" />
+    <Compile Include="validator\ProgressEventArgs.cs" />
     <Compile Include="validator\umm\bCollModelValidator.cs" />
     <Compile Include="validator\umm\bcv\bChoreographyVValidator.cs" />
     <Compile Include="validator\umm\bcv\bCollaborationVValidator.cs" />
@@ -248,6 +251,7 @@
     <Compile Include="validator\umm\brv\bRequirementsVValidator.cs" />
     <Compile Include="validator\umm\TaggedValueValidator.cs" />
     <Compile Include="validator\ValidationMessage.cs" />
+    <Compile Include="validator\ValidationContext.cs" />
     <Compile Include="validator\Validator.cs" />
     <Compile Include="validator\ValidatorForm.cs">
       <SubType>Form</SubType>
@@ -438,15 +442,19 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\UMMAddInLoggerWindow.resx">
       <DependentUpon>UMMAddInLoggerWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="validator\ValidatorForm.resx">
       <DependentUpon>ValidatorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="workflow\InitialPackageStructureCreator.resx">
       <DependentUpon>InitialPackageStructureCreator.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WSDLGenerator\Setting\TemplateSetting.resx">
       <DependentUpon>TemplateSetting.cs</DependentUpon>

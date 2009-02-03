@@ -16,8 +16,6 @@ using System.Text;
 using System.Windows.Forms;
 
 using System.Threading;
-
-using EA;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.common.logging;
 
@@ -33,7 +31,7 @@ namespace VIENNAAddIn.validator
         private EA.Repository repository;
 
         //The Validationmessages
-        private List<ValidationMessage> validationMessages;
+        private List<ValidationMessage> validationMessages = new List<ValidationMessage>();
         
         public ValidatorForm(EA.Repository repository, String scope)
         {
@@ -86,17 +84,11 @@ namespace VIENNAAddIn.validator
             }
             else
             {
-                //List<ValidationMessage> messages = (List<ValidationMessage>)e.Result;
-
-                this.validationMessages = (List<ValidationMessage>)e.Result; 
-
-                //Fill the ListView with the Validationmessages
-                fillListView();
-                DateTime endTime = DateTime.Now;
                 this.progressTimer.Stop();
                 this.progressBar.Value = this.progressBar.Maximum; 
 
                 //Calculate the elapsed time
+                //                DateTime endTime = DateTime.Now;
                 //double elapsedTime = (endTime.ToFileTime() - startTime.ToFileTime()) / (double)TimeSpan.TicksPerSecond;
 
                 //Set the status message
@@ -109,37 +101,35 @@ namespace VIENNAAddIn.validator
 
         void bworker_DoWork(object sender, DoWorkEventArgs e)
         {
-            DateTime startTime = DateTime.Now;
-
-            Validator validator = new Validator(repository, scope);
-            validator.Changed += new EventHandler<ExceptionEventArgs>(ValidatorChanged);
-            
             //Deactiveate Start Button
             setStatusText("Validation started. Please wait...");
 
-            // save list of messages ...
-            List<ValidationMessage> messages = validator.validate();
+            validationMessages.Clear();
 
-            if (messages != null || messages.Count > 0)
-                e.Result = messages;
-            else
-                e.Result = new List<ValidationMessage>(); 
-            //this.validationMessages = validator.validate();
+            var validationContext = new ValidationContext(repository);
+            validationContext.ValidationMessageAdded += HandleValidationMessageAdded;
+            try
+            {
+                var validator = new Validator();
+                validator.validate(validationContext, scope);
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex.Message, LogType.ERROR);
+                // stop worker ...
+                this.bworker.CancelAsync();
+                //e.WorkerEventArgs.Cancel = true;
+                this.progressTimer.Stop();
+                //this.progressBar.Value = this.progressBar.Minimum;
+                this.statusLabel.Text = "Unexpected exception occurred ...";
+            }
         }
 
-        void ValidatorChanged(object sender, ExceptionEventArgs e)
-        { 
-            // stop worker ...
-            this.bworker.CancelAsync();
-            //e.WorkerEventArgs.Cancel = true;
-            this.progressTimer.Stop();
-            //this.progressBar.Value = this.progressBar.Minimum;
-
-            this.statusLabel.Text = "Unexpected exception occurred ...";
-
-
+        private void HandleValidationMessageAdded(object sender, ValidationMessageAddedEventArgs e)
+        {
+            validationMessages.AddRange(e.Messages);
+            fillListView();
         }
-
 
         /// <summary>
         /// Reset the validatorForm
@@ -481,36 +471,7 @@ namespace VIENNAAddIn.validator
                 this.setStatusText("There is no erroneous element associated with this message.");
             }
 
-            
-
-
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }
