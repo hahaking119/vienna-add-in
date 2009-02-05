@@ -152,7 +152,7 @@ namespace VIENNAAddIn
         {
 
             repo = repository;
-            if (itemname == "&Set Model as UMM2 Model")
+            if (itemname == "&Set Model as UMM2/UPCC3 Model")
             {
                 isChecked = isUMM2Model;
             }
@@ -239,7 +239,7 @@ namespace VIENNAAddIn
 
                 if (menuname == "-" + AddInSettings.getAddInCaption())
                 {
-                    menu.Add("&Set Model as UMM2 Model");
+                    menu.Add("&Set Model as UMM2/UPCC3 Model");
                     menu.Add("&Create initial UMM 2 model structure");
                     menu.Add("-");
                     menu.Add("&Validate All - CCTS");
@@ -377,7 +377,7 @@ namespace VIENNAAddIn
                     }
 
                     /* defines an EA model as an UMM2 Model */
-                    else if (menuitem == "&Set Model as UMM2 Model")
+                    else if (menuitem == "&Set Model as UMM2/UPCC3 Model")
                     {
                         try
                         {
@@ -1447,7 +1447,7 @@ namespace VIENNAAddIn
             pIssues.Update();
             repository.Issues.Refresh();
             // display a message box after the setting
-            String succMsg = "This Model is now defined as an UMM2 Model";
+            String succMsg = "This Model is now defined as an UMM2/UPCC3 Model";
 
             /* load the MDG UMM2 technology file, which contains the patterns 
                          * and profiles */
@@ -1505,7 +1505,7 @@ namespace VIENNAAddIn
                 if (pIssue.Name.Equals("UMM2Model"))
                 {
                     pIssues.DeleteAt(i, true);
-                    String unSetMsg = "Model is not defined as an UMM2 Model any longer";
+                    String unSetMsg = "Model is not defined as an UMM2/UPCC3 Model any longer";
                     MessageBox.Show(unSetMsg, "AddIn");
                     
                     break;
