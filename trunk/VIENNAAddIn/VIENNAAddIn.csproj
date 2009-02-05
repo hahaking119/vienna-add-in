@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -215,7 +215,6 @@
     <Compile Include="ExportImport\ImportPackage.Designer.cs">
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
-    <Compile Include="registry\WindowsRegistryLoader.cs" />
     <Compile Include="Settings\AddInSettings.cs" />
     <Compile Include="Utils\EAElementWrapper.cs" />
     <Compile Include="Utils\FormStyles.cs" />
@@ -377,6 +376,7 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     <Content Include="EA\MDG\UMMfG.xml" />
     <Content Include="images\GIEM_Icon.bmp" />
     <Content Include="images\GIEM_Logo.bmp" />
+    <Content Include="images\VA_logo.jpg" />
     <Content Include="WSDLGenerator\XSLTTemplate\MappingGeneralException.xslt" />
     <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptAcknowledgement.xslt" />
     <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptException.xslt" />
