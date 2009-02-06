@@ -449,11 +449,6 @@
             "AssemblyAsmDisplayName" = "8:Interop.EA, Version=2.10.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F4EC814584E362276E7D4AF4568014E4"
-                    {
-                    "Name" = "8:Interop.EA.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:Interop.EA.dll"
             "TargetName" = "8:"
@@ -534,7 +529,7 @@
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_147428BA707542548F5978CA5771AB15"
                     {
                     "Name" = "8:registry"
-                    "AlwaysCreate" = "11:FALSE"
+                    "AlwaysCreate" = "11:TRUE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_365828492BBC44C28A465B15F3C04BE3"
@@ -556,7 +551,7 @@
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_FB2A14DDDFC64340805794A95DBE59AE"
                     {
                     "Name" = "8:mdg"
-                    "AlwaysCreate" = "11:FALSE"
+                    "AlwaysCreate" = "11:TRUE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_788A22D1E8A647D39E310F4588F09F1B"
@@ -598,7 +593,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:VIENNAAddIn"
         "ProductCode" = "8:{3680839E-C9BE-4E7B-8436-F028D869F0E4}"
-        "PackageCode" = "8:{9CD58D3F-4DFA-445D-95C2-17531FA92A69}"
+        "PackageCode" = "8:{FED16A07-7D91-4DE5-94E7-A2D22BC1B3D2}"
         "UpgradeCode" = "8:{577D477F-D456-43AE-ACDF-5C40A4810579}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -610,7 +605,7 @@
         "ARPHELPLINK" = "8:http://vienna-add-in.googlecode.com"
         "Title" = "8:VIENNA Add-In Installer"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:VIENNA Add-IN"
+        "ARPCONTACT" = "8:VIENNA Add-In"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:VIENNA Add-In Installer"
         "ARPURLINFOABOUT" = "8:http://vienna-add-in.googlecode.com"
@@ -891,6 +886,53 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:1"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                        }
+                    }
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_561135A9D8BA409DA7CD5F6FA9CF2A05"
+                    {
+                    "Sequence" = "3:110"
+                    "DisplayName" = "8:License Agreement"
+                    "UseDynamicProperties" = "11:TRUE"
+                    "IsDependency" = "11:FALSE"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdAdminLicenseDlg.wid"
+                        "Properties"
+                        {
+                            "BannerBitmap"
+                            {
+                            "Name" = "8:BannerBitmap"
+                            "DisplayName" = "8:#1001"
+                            "Description" = "8:#1101"
+                            "Type" = "3:8"
+                            "ContextData" = "8:Bitmap"
+                            "Attributes" = "3:4"
+                            "Setting" = "3:1"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "EulaText"
+                            {
+                            "Name" = "8:EulaText"
+                            "DisplayName" = "8:#1008"
+                            "Description" = "8:#1108"
+                            "Type" = "3:6"
+                            "ContextData" = "8:"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:2"
+                            "Value" = "8:_9417970650AF4783B22D8CCF56EC77FB"
+                            "UsePlugInResources" = "11:TRUE"
+                            }
+                            "Sunken"
+                            {
+                            "Name" = "8:Sunken"
+                            "DisplayName" = "8:#1007"
+                            "Description" = "8:#1107"
+                            "Type" = "3:5"
+                            "ContextData" = "8:4;True=4;False=0"
+                            "Attributes" = "3:0"
+                            "Setting" = "3:0"
+                            "Value" = "3:4"
+                            "DefaultValue" = "3:4"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
