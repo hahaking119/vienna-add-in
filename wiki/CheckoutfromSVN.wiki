@@ -16,8 +16,8 @@
     * A key to register the Add-In with EnterpriseArchitect
     * Some keys that the Add-In needs itself
 
-For your convenience, we included a registry file *viennaaddin.reg* within the source located in the \ext folder. The registry file assumes that you have checked out the whole solution under `C:\VIENNAAddIn`. This means that the VIENNAAddIn project is located a folder beneath at `C:\VIENNAAddIn\VIENNAAddIn`. If this is not the case, you have to edit the *viennaaddin.reg* file accordingly, in order to point to your installation directory. 
-  * Double-click the *viennaaddin.reg* file and confirm that you want to add the information to your Windows registry. This will add the necessary keys for the VIENNA Add-In itself.
+For your convenience, we included a registry file *createEAKeys.reg* within the source located in the \ext folder. The registry file assumes that you have checked out the whole solution under `C:\VIENNAAddIn`. This means that the VIENNAAddIn project is located a folder beneath at `C:\VIENNAAddIn\VIENNAAddIn`. If this is not the case, you have to edit the *createEAKeys.reg* file accordingly, in order to point to your installation directory. 
+  * Double-click the *createEAKeys.reg* file and confirm that you want to add the information to your Windows registry. This will add the necessary keys for the VIENNA Add-In itself.
 
 
 = Register the compiled UMM 2 Add-In with your system = 
