@@ -86,6 +86,7 @@ namespace VIENNAAddIn.CCTS.CCLImporter
                     //Set upper and lower bounds for the multiplicity
                     ascc.LowerBoundMultiplicity = values[19].Trim();
                     ascc.UpperBoundMultiplicity = values[20].Trim();
+                    ascc.PropertyTerm = values[10].Trim();
 
                     acc.addASCC(ascc);
 

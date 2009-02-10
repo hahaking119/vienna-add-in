@@ -1,0 +1,11 @@
+C:\VIENNAAddIn\VIENNAAddInTest\bin\Debug\VIENNAAddInTest.exe
+C:\VIENNAAddIn\VIENNAAddInTest\bin\Debug\VIENNAAddInTest.pdb
+C:\VIENNAAddIn\VIENNAAddInTest\bin\Debug\VIENNAAddIn.dll
+C:\VIENNAAddIn\VIENNAAddInTest\bin\Debug\Interop.EA.dll
+C:\VIENNAAddIn\VIENNAAddInTest\bin\Debug\VIENNAAddIn.pdb
+C:\VIENNAAddIn\VIENNAAddInTest\obj\Debug\ResolveAssemblyReference.cache
+C:\VIENNAAddIn\VIENNAAddInTest\obj\Debug\VIENNAAddInTest.Form1.resources
+C:\VIENNAAddIn\VIENNAAddInTest\obj\Debug\VIENNAAddInTest.Properties.Resources.resources
+C:\VIENNAAddIn\VIENNAAddInTest\obj\Debug\VIENNAAddInTest.csproj.GenerateResource.Cache
+C:\VIENNAAddIn\VIENNAAddInTest\obj\Debug\VIENNAAddInTest.exe
+C:\VIENNAAddIn\VIENNAAddInTest\obj\Debug\VIENNAAddInTest.pdb
