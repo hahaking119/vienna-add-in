@@ -11,22 +11,22 @@ namespace VIENNAAddIn.CCTS.CCLImporter
     {
 
 
-        static String CCFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTS\\CCLImporter\\input\\CCL08A_CC.csv";
-        static String CDTFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTSCCLImporter\\input\\CCL08A_CDT.csv";
+        static String CCFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTS\\CCImporter\\input\\CCL08A_CC.csv";
+        static String CDTFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTS\\CCImporter\\input\\CCL08A_CDT.csv";
 
-        static String QDTFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTSCCLImporter\\input\\CCL08A_QDT.csv";
-        static String BIEFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTSCCLImporter\\input\\CCL08A_BIE.csv";
+        static String QDTFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTS\\CCImporter\\input\\CCL08A_QDT.csv";
+        static String BIEFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTS\\CCImporter\\input\\CCL08A_BIE.csv";
 
-        static String TARGETFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTSCCLImporter\\input\\CCL08A.eap";
+        static String TARGETFILE = "C:\\VIENNAAddIn\\VIENNAAddIn\\CCTS\\CCImporter\\input\\CCL08A.eap";
 
         static String LIBRARYVERSIOPN = "CCL08A";
 
 
+
         /// <summary>
-        /// The main entry point for the application.
+        /// Start the parsing
         /// </summary>
-        static void Main()
-        {
+        public Program () {
 
             DateTime start = DateTime.Now;
             try
@@ -83,9 +83,14 @@ namespace VIENNAAddIn.CCTS.CCLImporter
                 Console.WriteLine("Exit -1.");
                 printElapsedTime(start);
             }
+
+
         }
 
 
+
+
+    
 
         private static void printElapsedTime(DateTime start)
         {
