@@ -410,14 +410,14 @@ namespace VIENNAAddIn.CCTS.CCLImporter
                         //Now add a connector
                         EA.Connector con = (EA.Connector)acc_element.Connectors.AddNew("", "Aggregation");
 
-                        con.ClientID = acc_element.ElementID;
-                        con.SupplierID = ascc_element.ElementID;
+                        con.ClientID = ascc_element.ElementID;
+                        con.SupplierID = acc_element.ElementID;
 
-                        con.SupplierEnd.Role = ascc.PropertyTerm;
-                        con.SupplierEnd.Cardinality = getASCCMultiplicity(ascc);
+                        con.ClientEnd.Role = ascc.PropertyTerm;
+                        con.ClientEnd.Cardinality = getASCCMultiplicity(ascc);
 
                         //Set to composition
-                        con.ClientEnd.Aggregation = 2;
+                        con.SupplierEnd.Aggregation = 2;
                         con.Stereotype = "ASCC";
                         //Save the definition into the notes field
                         con.Notes = ascc.Definition;
@@ -557,15 +557,14 @@ namespace VIENNAAddIn.CCTS.CCLImporter
                         //Now add a connector
                         EA.Connector con = (EA.Connector)abie_element.Connectors.AddNew("", "Aggregation");
 
-                        con.ClientID = abie_element.ElementID;
-                        con.SupplierID = asbie_element.ElementID;
+                        con.ClientID = asbie_element.ElementID;
+                        con.SupplierID = abie_element.ElementID;
 
-                        con.SupplierEnd.Role = asbie.PropertyTerm;
-
-                        con.SupplierEnd.Cardinality = getASBIEMultiplicity(asbie);
+                        con.ClientEnd.Role = asbie.PropertyTerm;
+                        con.ClientEnd.Cardinality = getASBIEMultiplicity(asbie);
 
                         //Set to composition
-                        con.ClientEnd.Aggregation = 2;
+                        con.SupplierEnd.Aggregation = 2;
                         con.Stereotype = "ASBIE";
                         //Save the definition into the notes field
                         con.Notes = asbie.Definition;
