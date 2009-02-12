@@ -1,4 +1,4 @@
-<MDG.Technology version="1.0"><Documentation id="UMM2FoundV2" name="UMM 2.0 Profile" version="Draft-20081112" notes="Based on the UMM 2 public draft's latest version (UN/CEFACT forum meeting Saly, Dakar, November 2008)"/><UMLProfiles><UMLProfile profiletype="uml2">
+<MDG.Technology version="1.0"><Documentation id="UMM2FoundV2" name="UMM 2.0 Profile" version="Draft-20081112" notes="Based on the UMM 2 latest version, 20090212"/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="D8435D48-1" name="UMM2" version="1.0" alias="UMM2" notes="UMM2"/>
 			<Content>
 				<Stereotypes>
@@ -10467,4 +10467,4 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 				<TaggedValueTypes/>
 			</Content>
 		</UMLProfile>
-	</UIToolboxes><ModelTemplates><Model name="BRV Model Structure" description="Creates a basic business requirements model structure." location="BRVModelTemplate.xml" default="yes" icon="34" filter=""/><Model name="BCV Model Structure" description="Creates a basic business collaboration model structure." location="BCVModelTemplate.xml" default="yes" icon="34" filter=""/><Model name="BIV Model Structure" description="Creates a basic business information model structure." location="BIVModelTemplate.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>
+	</UIToolboxes><ModelTemplates><Model name="BRV Model Structure" description="Creates a basic business requirements model structure." location="brvmodeltemplate.xml" default="yes" icon="34" filter=""/><Model name="BCV Model Structure" description="Creates a basic business collaboration model structure." location="bcvmodeltemplate.xml" default="yes" icon="34" filter=""/><Model name="BIV Model Structure" description="Creates a basic business information model structure." location="bivmodeltemplate.xml" default="yes" icon="34" filter=""/></ModelTemplates></MDG.Technology>
