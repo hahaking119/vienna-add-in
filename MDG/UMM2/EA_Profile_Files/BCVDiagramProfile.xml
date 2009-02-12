@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="27F29D81-2" name="BCVDiagramProfile" version="1.0" alias="UMM2 BCV" notes="BCVDiagramProfile"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BCVModelStructureDiagram" alias="BCV Model Structure Diagram" notes="Creates a Business Choreography structure diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Package">
+						<Property name="alias" value="Business Choreography View Model Structure"/>
+						<Property name="diagramID" value="BCVModelStructureDiagram"/>
+						<Property name="toolbox" value="BCVModelManagementlToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessCollaborationProtocolDiagram" alias="Business Collaboration Protocol" notes="Creates a Business Collaboration Protocol." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Activity">
+						<Property name="alias" value="Business Collaboration Protocol"/>
+						<Property name="diagramID" value="BusinessCollaborationProtocolDiagram"/>
+						<Property name="toolbox" value="BCVBusinessCollaborationProtocolToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessCollaborationUseCaseDiagram" alias="Business Collaboration Use Case" notes="Creates a Business Collaboration Use Case diagram. " cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Use Case">
+						<Property name="alias" value="Business Collaboration Use Case"/>
+						<Property name="diagramID" value="BusinessCollaborationUseCaseDiagram"/>
+						<Property name="toolbox" value="BCVBusinessCollaborationUseCaseToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessRealizationViewDiagram" alias="Business Realization View" notes="Creaets a Business Realization View." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Use Case">
+						<Property name="alias" value="Business Realization"/>
+						<Property name="diagramID" value="Business Realization View"/>
+						<Property name="toolbox" value="BCVBusinessRealizationViewToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessTransactionDiagram" alias="Business Transaction Diagram" notes="Creates a Business Transaction Diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Activity">
+						<Property name="alias" value="Business Transaction Diagram"/>
+						<Property name="diagramID" value="BusinessTransactionDiagram"/>
+						<Property name="toolbox" value="BCVBusinessTransactionToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessTransactionUseCaseDiagram" alias="Business Transaction Use Case Diagram" notes="Creates a Business Transaction Use Case diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Use Case">
+						<Property name="alias" value="Business Transaction Use Case"/>
+						<Property name="diagramID" value="BusinessTransactionUseCaseDiagram"/>
+						<Property name="toolbox" value="BCVBusinessTransactionUseCaseToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

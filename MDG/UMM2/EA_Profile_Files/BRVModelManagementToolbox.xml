@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="45C01C55-A" name="BRVModelManagementToolbox" version="1.0" notes="BRVModelManagementToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BRVModelElements" alias="BRV Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::bEntity(UML::Class)" type="" description="" unit="" values="" default="Business Entity"/>
+					<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
+					<Tag name="UMM2::bProcess(UML::Activity)" type="" description="" unit="" values="" default="Business Process"/>
+					<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BRVModelStructureElements" alias="BRV Model Structure Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::bArea(UML::Package)" type="" description="" unit="" values="" default="Business Area"/>
+					<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
+					<Tag name="UMM2::bDomainV(UML::Package)" type="int" description="" unit="" values="" default="Business Domain View"/>
+					<Tag name="UMM2::bEntityV(UML::Package)" type="" description="" unit="" values="" default="Business Entity View"/>
+					<Tag name="UMM2::bPartnerV(UML::Package)" type="" description="" unit="" values="" default="Business Partner View"/>
+					<Tag name="UMM2::bProcessArea(UML::Package)" type="" description="" unit="" values="" default="Business Process Area"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

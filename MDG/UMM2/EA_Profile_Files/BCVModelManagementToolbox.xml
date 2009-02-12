@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="8796E632-8" name="BCVModelManagementToolbox" version="1.0" notes="BCVModelManagementToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BCVModelElements" alias="BCV Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::AuthorizedRole(UML::Actor)" type="" description="" unit="" values="" default="Authorized Role"/>
+					<Tag name="UMM2::bCollaborationUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Collaboration Use Case"/>
+					<Tag name="UMM2::bTransactionUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Transaction Use Case"/>
+					<Tag name="UMM2::bRealization(UML::UseCase)" type="" description="" unit="" values="" default="Business Realization"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BCVModelStructureElements" alias="BCV Model Structure Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::bCollaborationV(UML::Package)" type="" description="" unit="" values="" default="Business Collaboration View"/>
+					<Tag name="UMM2::bTransactionV(UML::Package)" type="" description="" unit="" values="" default="Business Transaction View"/>
+					<Tag name="UMM2::bRealizationV(UML::Package)" type="" description="" unit="" values="" default="Business Realization View"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

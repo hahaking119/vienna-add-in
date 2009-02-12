@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="7F14FCDF-4" name="BCVBusinessCollaborationProtocolToolbox" version="1.0" notes="BCVBusinessCollaborationProtocolToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BCPModelElements" alias="Business Collaboration Protocol Modeling Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UML::ActivityInitial" type="" description="" unit="" values="" default="Initial Activity"/>
+					<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default="Activity Final"/>
+					<Tag name="UMM2::bCPartition(UML::ActivityPartition)" type="" description="" unit="" values="" default="Business Collaboration Partition"/>
+					<Tag name="UMM2::bTransactionAction(UML::Action)" type="" description="" unit="" values="" default="Business Transaction Action"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BCPModelRelationships" alias="Business Collaboration Protocol Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UML::ControlFlow" type="" description="" unit="" values="" default="Control Flow"/>
+					<Tag name="UMM2::initFlow(UML::InformationFlow)" type="" description="" unit="" values="" default="Initialization Flow"/>
+					<Tag name="UMM2::reFlow(UML::InformationFlow)" type="" description="" unit="" values="" default="Responding Flow"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

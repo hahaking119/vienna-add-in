@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="706F11CB-5" name="BIVModelManagementToolbox" version="1.0" notes="BIVModelManagementToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BIVModelElements" alias="BIV Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::InfEnvelope(UML::Class)" type="" description="" unit="" values="" default="Business Information Envelope"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

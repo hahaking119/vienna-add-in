@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="8F01FDD9-E" name="UMM2ModelManagementToolbox" version="1.0" notes="UMM2ModelManagementToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="UMM2Elements" alias="UMM2 XXXyyyZZZ" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::bChoreographyV(UML::Package)" type="" description="" unit="" values="" default="Business Choreography View"/>
+					<Tag name="UMM2::bInformationV(UML::Package)" type="" description="" unit="" values="" default="Business Information View"/>
+					<Tag name="UMM2::bRequirementsV(UML::Package)" type="" description="" unit="" values="" default="Business Requirements View"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

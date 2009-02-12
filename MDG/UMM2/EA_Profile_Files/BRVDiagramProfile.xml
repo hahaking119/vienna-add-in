@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="D8401CF7-9" name="BRVDiagramProfile" version="1.0" alias="UMM2 BRV" notes="BRVDiagramProfile"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BRVBusinessEntityLifecycleDiagram" alias="Business Entity Lifecycle" notes="Creates a Business Entity Lifecycle diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Statechart">
+						<Property name="alias" value="Business Entity Lifecycle Diagram"/>
+						<Property name="diagramID" value="BRVBusinessEntityLifecycleDiagram"/>
+						<Property name="toolbox" value="BRVBusinessEntityLifecycleToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BRVBusinessProcessActivityDefinitionDiagram" alias="Business Process Activity Definition" notes="Creates a Business Process Activity Definition diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Activity">
+						<Property name="alias" value="Business Proces Activity Definition Diagram"/>
+						<Property name="diagramID" value="BRVBusinessProcessActivityDefinitionDiagram"/>
+						<Property name="toolbox" value="BRVBusinessProcessActivityDefinitionToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BRVBusinessProcessDefinitionDiagram" alias="Business Process Definition" notes="Creates a Business Process Definition diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Use Case">
+						<Property name="alias" value="Business Process Definition Diagram"/>
+						<Property name="diagramID" value="BRVBusinessProcessDefinitionDiagram"/>
+						<Property name="toolbox" value="BRVBusinessProcessDefinitionToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BRVStructureDiagram" alias="Business Requirements Structure" notes="Creates a Business Requirements View structure diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Package">
+						<Property name="alias" value="Business Requirements View Structure Diagram"/>
+						<Property name="diagramID" value="BRVStructureDiagram"/>
+						<Property name="toolbox" value="BRVModelManagementToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>
