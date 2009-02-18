@@ -10,5 +10,7 @@
  * [CheckoutfromSVN Check out from SVN]
  * [CreateInstallerFileForDistribution Create installer]   
  * [QuickLinker EA quicklinker feature]
+ * [Meetings Meeting Notes]
+
 
   
