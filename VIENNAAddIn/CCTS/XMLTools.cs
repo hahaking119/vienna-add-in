@@ -585,20 +585,12 @@ namespace VIENNAAddIn.CCTS {
         /// <param name="attribute"></param>
         /// <returns></returns>
         internal static String getElementTVValue(CCTS_TV c, EA.Element element) {
-            String name = c.ToString().ToLower();
-            if (element.TaggedValues != null && element.TaggedValues.Count != 0) {
-                foreach (EA.TaggedValue tag in element.TaggedValues) {
-                    if (tag.Name.ToLower() == name) {
-                        return tag.Value;
-                    }
-                }
-            }
-            return "";
+            return getElementTVValue(c.ToString(), element);
         }
 
         internal static String getElementTVValue(string tv, EA.Element element)
         {
-            String name = tv.ToString().ToLower();
+            var name = tv.ToLower();
             if (element.TaggedValues != null && element.TaggedValues.Count != 0)
             {
                 foreach (EA.TaggedValue tag in element.TaggedValues)

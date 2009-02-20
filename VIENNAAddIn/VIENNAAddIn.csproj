@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -216,6 +216,37 @@
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\AddInSettings.cs" />
+    <Compile Include="upcc3\ccts\AttributeExtensions.cs" />
+    <Compile Include="upcc3\ccts\BusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\CDT.cs" />
+    <Compile Include="upcc3\ccts\dra\CollectionExtensions.cs" />
+    <Compile Include="upcc3\ccts\dra\DRABusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\DRACCRepository.cs" />
+    <Compile Include="upcc3\ccts\dra\DRACDT.cs" />
+    <Compile Include="upcc3\ccts\dra\DRADTComponent.cs" />
+    <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
+    <Compile Include="upcc3\ccts\DT.cs" />
+    <Compile Include="upcc3\ccts\DTComponent.cs" />
+    <Compile Include="upcc3\ccts\EACCRepository.cs" />
+    <Compile Include="upcc3\ccts\ElementExtensions.cs" />
+    <Compile Include="upcc3\ccts\IBusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\ICCRepository.cs" />
+    <Compile Include="upcc3\ccts\IDT.cs" />
+    <Compile Include="upcc3\ccts\IDTComponent.cs" />
+    <Compile Include="upcc3\ccts\PackageExtensions.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\AbstractLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\AnnotationBuilder.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\BDTLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\BIELibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\CCLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\CDTLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\StringExtensions.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\DOCLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\ENUMLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\ILibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\PRIMLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\Selector.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\XSDGenerator.cs" />
     <Compile Include="Utils\EAElementWrapper.cs" />
     <Compile Include="Utils\FormStyles.cs" />
     <Compile Include="Utils\IssueUtil.cs" />
@@ -376,7 +407,6 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     <Content Include="EA\MDG\UMMfG.xml" />
     <Content Include="images\GIEM_Icon.bmp" />
     <Content Include="images\GIEM_Logo.bmp" />
-    <Content Include="images\VA_logo.jpg" />
     <Content Include="WSDLGenerator\XSLTTemplate\MappingGeneralException.xslt" />
     <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptAcknowledgement.xslt" />
     <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptException.xslt" />
@@ -540,7 +570,7 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
-    <Folder Include="upcc3\" />
+    <Folder Include="upcc3\XSDGenerator\UI\" />
     <Folder Include="validator\upcc3\" />
   </ItemGroup>
 </Project>

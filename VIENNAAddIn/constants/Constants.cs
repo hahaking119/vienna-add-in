@@ -1,4 +1,4 @@
-﻿/*******************************************************************************
+/*******************************************************************************
 This file is part of the VIENNAAddIn project
 
 Licensed under GNU General Public License V3 http://gplv3.fsf.org/
@@ -230,7 +230,7 @@ namespace VIENNAAddIn.constants
         PostActualization
     }
 
-    internal enum CCTS_Types
+    public enum CCTS_Types
     {
 
         ABIE,
@@ -259,6 +259,7 @@ namespace VIENNAAddIn.constants
         QDTLibrary,
         SUP,
         basedOn,
+        BDT
     }
 
     internal enum CCTS_PackageType
@@ -284,7 +285,7 @@ namespace VIENNAAddIn.constants
     /// <sUMM2ary>
     /// Tagged values of CC and BIE
     /// </sUMM2ary>
-    internal enum CCTS_TV
+    public enum CCTS_TV
     {
         Acronym,
         AssociatedObjectClassQualifierTerm,
