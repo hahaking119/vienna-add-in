@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.constants;
+using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 using TaggedValues=VIENNAAddIn.upcc3.ccts.util.TaggedValues;
 

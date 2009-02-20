@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using EA;
 
-namespace VIENNAAddIn.upcc3.ccts.dra
+namespace VIENNAAddIn.upcc3.ccts.util
 {
     public static class CollectionExtensions
     {
