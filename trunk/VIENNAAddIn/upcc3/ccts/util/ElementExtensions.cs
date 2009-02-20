@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
 
-namespace VIENNAAddIn.upcc3.ccts
+namespace VIENNAAddIn.upcc3.ccts.util
 {
     internal static class ElementExtensions
     {
