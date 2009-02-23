@@ -2,19 +2,18 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IDT
+    public interface IBIE
     {
-        int Id { get; }
+        long Id { get; }
         string Name { get; }
-        IBusinessLibrary Library { get; }
-        string Definition { get; }
-        string DictionaryEntryName { get; }
-        string LanguageCode { get; }
+        IBIELibrary Library { get; }
+
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }
+        string LanguageCode { get; }
+        string DictionaryEntryName { get; }
+        string Definition { get; }
         IList<string> BusinessTerms { get; }
         IList<string> UsageRules { get; }
-        IList<IDTComponent> SUPs { get; }
-        IDTComponent CON { get; }
     }
 }

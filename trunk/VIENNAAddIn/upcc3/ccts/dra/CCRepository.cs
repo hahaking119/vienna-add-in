@@ -5,14 +5,14 @@ using Attribute=EA.Attribute;
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
     /// <summary>
-    /// An CCRepository that directly accesses (DRA = direct repository access) the underlying EA.Repository
+    /// A CCRepository that directly accesses (DRA = direct repository access) the underlying EA.Repository
     /// (i.e. it is simply an interface layer on top of the EA.Repository)
     /// </summary>
-    public class DRACCRepository : ICCRepository
+    public class CCRepository : ICCRepository
     {
         private readonly Repository eaRepository;
 
-        public DRACCRepository(Repository eaRepository)
+        public CCRepository(Repository eaRepository)
         {
             this.eaRepository = eaRepository;
         }
@@ -23,7 +23,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             var model = (Package) eaRepository.Models.GetAt(0);
             // TODO assert that the model has the <<bLibrary>> stereotype
-            IBusinessLibrary library = new DRABusinessLibrary(this, model, BusinessLibraryType.bLibrary);
+            IBusinessLibrary library = new BusinessLibrary(this, model, BusinessLibraryType.bLibrary);
             return library;
         }
 
@@ -63,21 +63,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             switch (stereotype)
             {
                 case "bLibrary":
-                    return new DRABusinessLibrary(this, package, BusinessLibraryType.bLibrary);
+                    return new BusinessLibrary(this, package, BusinessLibraryType.bLibrary);
                 case "BDTLibrary":
-                    return new DRABusinessLibrary(this, package, BusinessLibraryType.BDTLibrary);
+                    return new BusinessLibrary(this, package, BusinessLibraryType.BDTLibrary);
                 case "BIELibrary":
-                    return new DRABusinessLibrary(this, package, BusinessLibraryType.BIELibrary);
+                    return new BusinessLibrary(this, package, BusinessLibraryType.BIELibrary);
                 case "CCLibrary":
-                    return new DRABusinessLibrary(this, package, BusinessLibraryType.CCLibrary);
+                    return new BusinessLibrary(this, package, BusinessLibraryType.CCLibrary);
                 case "CDTLibrary":
-                    return new DRACDTLibrary(this, package, BusinessLibraryType.CDTLibrary);
+                    return new CDTLibrary(this, package, BusinessLibraryType.CDTLibrary);
                 case "DOCLibrary":
-                    return new DRABusinessLibrary(this, package, BusinessLibraryType.DOCLibrary);
+                    return new BusinessLibrary(this, package, BusinessLibraryType.DOCLibrary);
                 case "ENUMLibrary":
-                    return new DRABusinessLibrary(this, package, BusinessLibraryType.ENUMLibrary);
+                    return new BusinessLibrary(this, package, BusinessLibraryType.ENUMLibrary);
                 case "PRIMLibrary":
-                    return new DRABusinessLibrary(this, package, BusinessLibraryType.PRIMLibrary);
+                    return new BusinessLibrary(this, package, BusinessLibraryType.PRIMLibrary);
                 default:
                     throw new ArgumentException("Element for provided ID is not a CDT or BDT.");
             }
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public ICDT GetCDT(Element element)
         {
-            return new DRACDT(this, element);
+            return new CDT(this, element);
         }
 
         private void traverseRecursively(Package package, Action<IBusinessLibrary> visit)
@@ -125,12 +125,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IDTComponent GetSUP(Attribute attribute)
         {
-            return new DRADTComponent(this, attribute, DTComponentType.SUP);
+            return new DTComponent(this, attribute, DTComponentType.SUP);
         }
 
         public IDTComponent GetCON(Attribute attribute)
         {
-            return new DRADTComponent(this, attribute, DTComponentType.CON);
+            return new DTComponent(this, attribute, DTComponentType.CON);
         }
     }
 

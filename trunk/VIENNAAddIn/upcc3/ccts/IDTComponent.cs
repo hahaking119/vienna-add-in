@@ -20,10 +20,7 @@ namespace VIENNAAddIn.upcc3.ccts
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }
 
-        /// <summary>
-        /// TODO this should be a boolean
-        /// </summary>
-        string ModificationAllowedIndicator { get; }
+        bool ModificationAllowedIndicator { get; }
 
         IList<string> BusinessTerms { get; }
         IList<string> UsageRules { get; }

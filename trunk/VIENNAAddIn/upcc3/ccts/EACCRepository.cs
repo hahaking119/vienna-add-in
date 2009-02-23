@@ -5,6 +5,7 @@ using VIENNAAddIn.constants;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 using TaggedValues=VIENNAAddIn.upcc3.ccts.util.TaggedValues;
+using VIENNAAddIn.upcc3.XSDGenerator.Generator;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
@@ -121,7 +122,7 @@ namespace VIENNAAddIn.upcc3.ccts
                            UniqueIdentifier = attribute.GetTaggedValue(TaggedValues.UniqueIdentifier),
                            UsageRules = attribute.CollectTaggedValues(TaggedValues.UsageRule),
                            VersionIdentifier = attribute.GetTaggedValue(TaggedValues.VersionIdentifier),
-                           ModificationAllowedIndicator = attribute.GetTaggedValue(TaggedValues.ModificationAllowedIndicator),
+                           ModificationAllowedIndicator = ("true" == attribute.GetTaggedValue(TaggedValues.ModificationAllowedIndicator).DefaultTo("true")),
                            UpperBound = attribute.UpperBound,
                            LowerBound = attribute.LowerBound,
                        };

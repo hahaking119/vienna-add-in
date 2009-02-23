@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
+using VIENNAAddIn.upcc3.XSDGenerator.Generator;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class DRADTComponent : IDTComponent
+    internal class DTComponent : IDTComponent
     {
-        private readonly DRACCRepository repository;
+        private readonly CCRepository repository;
         private readonly Attribute attribute;
         private readonly DTComponentType componentType;
 
-        public DRADTComponent(DRACCRepository repository, Attribute attribute, DTComponentType componentType)
+        public DTComponent(CCRepository repository, Attribute attribute, DTComponentType componentType)
         {
             this.repository = repository;
             this.attribute = attribute;
@@ -63,9 +64,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.GetTaggedValue(TaggedValues.VersionIdentifier); }
         }
 
-        public string ModificationAllowedIndicator
+        public bool ModificationAllowedIndicator
         {
-            get { return attribute.GetTaggedValue(TaggedValues.ModificationAllowedIndicator); }
+            get
+            {
+                string value = attribute.GetTaggedValue(TaggedValues.ModificationAllowedIndicator).DefaultTo("true");
+                return "true" == value.ToLower();
+            }
         }
 
         public IList<string> BusinessTerms

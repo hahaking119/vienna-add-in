@@ -6,18 +6,16 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class DRACDT : ICDT
+    public class AbstractDT: IDT
     {
         private readonly Element element;
-        private readonly DRACCRepository repository;
+        private readonly CCRepository repository;
 
-        public DRACDT(DRACCRepository repository, Element element)
+        public AbstractDT(CCRepository repository, Element element)
         {
             this.repository = repository;
             this.element = element;
         }
-
-        #region ICDT Members
 
         public int Id
         {
@@ -88,7 +86,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 throw new Exception("data type contains no content component");
             }
         }
-
-        #endregion
     }
 }
