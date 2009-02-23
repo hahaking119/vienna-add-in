@@ -30,10 +30,7 @@ namespace VIENNAAddIn.upcc3.ccts
         public string UniqueIdentifier { get; set; }
         public string VersionIdentifier { get; set; }
 
-        /// <summary>
-        /// TODO this should be a boolean
-        /// </summary>
-        public string ModificationAllowedIndicator { get; set; }
+        public bool ModificationAllowedIndicator { get; set; }
 
         public IList<string> BusinessTerms
         {

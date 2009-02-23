@@ -45,7 +45,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
             string repositoryFile = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest.eap";
             Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
             repo.OpenFile(repositoryFile);
-            var ccRepository = new DRACCRepository(repo);
+            var ccRepository = new CCRepository(repo);
 
             var generator = new VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator(ccRepository, true);
             foreach (XmlSchema schema in generator.GenerateSchemas())

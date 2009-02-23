@@ -5,13 +5,13 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class DRABusinessLibrary : IBusinessLibrary
+    internal class BusinessLibrary : IBusinessLibrary
     {
         private readonly BusinessLibraryType libraryType;
         protected readonly Package package;
-        protected readonly DRACCRepository repository;
+        protected readonly CCRepository repository;
 
-        public DRABusinessLibrary(DRACCRepository repository, Package package, BusinessLibraryType libraryType)
+        public BusinessLibrary(CCRepository repository, Package package, BusinessLibraryType libraryType)
         {
             this.repository = repository;
             this.package = package;
@@ -119,33 +119,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
-    }
-
-    class DRACDTLibrary : DRABusinessLibrary, ICDTLibrary
-    {
-        public DRACDTLibrary(DRACCRepository repository, Package package, BusinessLibraryType libraryType) : base(repository, package, libraryType)
-        {
-        }
-
-        public IList<ICDT> CDTs
-        {
-            get
-            {
-                var elements = new List<ICDT>();
-                foreach (Element element in package.Elements)
-                {
-                    elements.Add(repository.GetCDT(element));
-                }
-                return elements;
-            }
-        }
-
-        public void EachCDT(Action<ICDT> action)
-        {
-            foreach (var cdt in CDTs)
-            {
-                action(cdt);
-            }
-        }
     }
 }
