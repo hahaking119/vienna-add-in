@@ -1,18 +1,15 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public abstract class AbstractDT : IDT
+    public class ACC : IACC
     {
         private readonly CCRepository repository;
-        protected readonly Element element;
+        private readonly Element element;
 
-        protected AbstractDT(CCRepository repository, Element element)
+        public ACC(CCRepository repository, Element element)
         {
             this.repository = repository;
             this.element = element;
@@ -22,8 +19,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get { return element.Attributes.AsEnumerable<Attribute>(); }
         }
-
-        #region IDT Members
 
         public int Id
         {
@@ -75,30 +70,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValues(TaggedValues.UsageRule); }
         }
 
-        public IEnumerable<IDTComponent> SUPs
+        public IEnumerable<IBCC> BCCs
         {
             get
             {
                 return
-                    Attributes.Where(AttributeExtensions.IsSUP).Convert(a => (IDTComponent) new DTComponent(a, DTComponentType.SUP, this));
+                    Attributes.Convert(a => (IBCC)new BCC(repository, a));
             }
         }
 
-        public IDTComponent CON
+        public IEnumerable<IASCC> ASCCs
         {
-            get
-            {
-                Attribute conAttribute =
-                    Attributes.FirstOrDefault(AttributeExtensions.IsCON);
-                if (conAttribute == null)
-                {
-                    throw new Exception("data type contains no attribute with stereotype <<CON>>");
-                }
-                return new DTComponent(conAttribute, DTComponentType.CON, this);
-            }
+            get { throw new System.NotImplementedException(); }
         }
 
-        #endregion
+        public IACC IsEquivalentTo
+        {
+            get { throw new System.NotImplementedException(); }
+        }
     }
-
 }

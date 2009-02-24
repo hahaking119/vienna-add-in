@@ -5,7 +5,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class BDT : AbstractDT, IBDT
     {
-        public BDT(IBusinessLibrary library, Element element) : base(library, element)
+        public BDT(CCRepository repository, Element element) : base(repository, element)
         {
         }
 

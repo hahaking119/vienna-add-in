@@ -18,7 +18,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (Element element in package.Elements)
                 {
-                    yield return new CDT(this, element);
+                    yield return new CDT(repository, element);
                 }
             }
         }

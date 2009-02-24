@@ -4,9 +4,8 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface ICC
     {
-        long Id { get; }
+        int Id { get; }
         string Name { get; }
-        IBusinessLibrary Library { get; }
         string Definition { get; }
         string DictionaryEntryName { get; }
         string LanguageCode { get; }

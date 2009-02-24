@@ -219,10 +219,13 @@
     <Compile Include="upcc3\ccts\BusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\CDT.cs" />
     <Compile Include="upcc3\ccts\dra\AbstractDT.cs" />
+    <Compile Include="upcc3\ccts\dra\ACC.cs" />
     <Compile Include="upcc3\ccts\dra\BasedOnDependency.cs" />
+    <Compile Include="upcc3\ccts\dra\BCC.cs" />
     <Compile Include="upcc3\ccts\dra\BDT.cs" />
     <Compile Include="upcc3\ccts\dra\BDTLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\BusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\CCLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\CCRepository.cs" />
     <Compile Include="upcc3\ccts\dra\CDT.cs" />
     <Compile Include="upcc3\ccts\dra\CDTLibrary.cs" />
