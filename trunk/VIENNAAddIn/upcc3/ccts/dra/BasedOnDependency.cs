@@ -5,12 +5,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     internal class BasedOnDependency: IBasedOnDependency
     {
-        private readonly CCRepository repository;
         private readonly Connector con;
 
-        public BasedOnDependency(CCRepository repository, Connector con)
+        public BasedOnDependency(Connector con)
         {
-            this.repository = repository;
             this.con = con;
         }
 

@@ -40,10 +40,15 @@ namespace VIENNAAddIn.upcc3.ccts
             set { throw new System.NotImplementedException(); }
         }
 
-        public IList<IBusinessLibrary> Children
+        public IEnumerable<IBusinessLibrary> Children
         {
             get { throw new System.NotImplementedException(); }
             set { throw new System.NotImplementedException(); }
+        }
+
+        public IEnumerable<IBusinessLibrary> AllChildren
+        {
+            get { throw new System.NotImplementedException(); }
         }
 
         public string Status { get; set; }
@@ -56,25 +61,25 @@ namespace VIENNAAddIn.upcc3.ccts
             set { throw new System.NotImplementedException(); }
         }
 
-        public IList<string> BusinessTerms
+        public IEnumerable<string> BusinessTerms
         {
             get { return businessTerms; }
             set { businessTerms = new List<string>(value).AsReadOnly(); }
         }
 
-        public IList<string> Copyrights
+        public IEnumerable<string> Copyrights
         {
             get { return copyrights; }
             set { copyrights = new List<string>(value).AsReadOnly(); }
         }
 
-        public IList<string> Owners
+        public IEnumerable<string> Owners
         {
             get { return owners; }
             set { owners = new List<string>(value).AsReadOnly(); }
         }
 
-        public IList<string> References
+        public IEnumerable<string> References
         {
             get { return references; }
             set { references = new List<string>(value).AsReadOnly(); }

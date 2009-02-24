@@ -4,8 +4,8 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IABIE : IBIE
     {
-        IList<IBBIE> BBIEs { get; }
-        IList<IASBIE> ASBIEs { get; }
+        IEnumerable<IBBIE> BBIEs { get; }
+        IEnumerable<IASBIE> ASBIEs { get; }
         IACC BasedOn { get; }
         IABIE IsEquivalentTo { get; }
     }

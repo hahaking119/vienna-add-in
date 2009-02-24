@@ -5,6 +5,6 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IDOCLibrary : IBusinessLibrary
     {
-        IList<IBIE> BIEs { get; }
+        IEnumerable<IBIE> BIEs { get; }
     }
 }

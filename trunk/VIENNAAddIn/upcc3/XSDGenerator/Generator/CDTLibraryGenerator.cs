@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
@@ -10,11 +11,9 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
     {
         private const string NS_PREFIX = "cdt";
 
-        public CDTLibraryGenerator(GenerationContext context):base(BusinessLibraryType.CDTLibrary, context)
+        public CDTLibraryGenerator(GenerationContext context) : base(BusinessLibraryType.CDTLibrary, context)
         {
         }
-
-        #region ILibraryGenerator Members
 
         public XmlSchema GenerateXSD(ICDTLibrary library)
         {
@@ -25,11 +24,9 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                                  Version = library.VersionIdentifier.DefaultTo("notSpecified")
                              };
             AddNameSpaces(schema, library);
-            library.CDTs.Each(cdt => schema.Items.Add(GetSchemaElement(cdt)));
+            library.CDTs.ForEach(cdt => schema.Items.Add(GetSchemaElement(cdt)));
             return schema;
         }
-
-        #endregion
 
         private XmlSchemaObject GetSchemaElement(ICDT cdt)
         {
@@ -71,7 +68,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             if (type == null)
             {
                 Context.appendWarnMessage(
-                    "No built-in datatype found for the attribute " + dtComponent.Name + " in element " + dtComponent.DT.Name +
+                    "No built-in datatype found for the attribute " + dtComponent.Name + " in element " +
+                    dtComponent.DT.Name +
                     ". Using xsd:string instead.", dtComponent.DT.Library.Name);
                 type = "string";
             }
@@ -88,16 +86,18 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                                                     cdt.DictionaryEntryName);
             annotationBuilder.addOptionalAnnotation("Version", cdt.VersionIdentifier);
             annotationBuilder.addOptionalAnnotation("Definition", cdt.Definition);
-            if (cdt.UsageRules.Count > 0)
+            var usageRules = new List<string>(cdt.UsageRules);
+            if (usageRules.Count > 0)
             {
                 // TODO how to annotate multiple usage rules
-                annotationBuilder.addOptionalAnnotation("UsageRule", cdt.UsageRules[0]);
+                annotationBuilder.addOptionalAnnotation("UsageRule", usageRules[0]);
             }
-            if (cdt.BusinessTerms.Count > 0)
+            var businessTerms = new List<string>(cdt.BusinessTerms);
+            if (businessTerms.Count > 0)
             {
                 // TODO how to annotate multiple business terms
                 annotationBuilder.addOptionalAnnotation("BusinessTerm",
-                                                        cdt.BusinessTerms[0]);
+                                                        businessTerms[0]);
             }
             return annotationBuilder.Annotation;
         }
@@ -134,6 +134,5 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             schema.Namespaces.Add(Context.GetNextNamespacePrefix(NS_PREFIX), schemaNamespace);
             schema.TargetNamespace = schemaNamespace;
         }
-
     }
 }

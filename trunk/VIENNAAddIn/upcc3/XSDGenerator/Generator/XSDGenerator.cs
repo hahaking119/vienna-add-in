@@ -16,21 +16,26 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             cdtLibraryGenerator = new CDTLibraryGenerator(context);
         }
 
-        public XmlSchema[] GenerateSchemas()
+        public IEnumerable<XmlSchema> GenerateSchemas()
         {
-            context.Repository.TraverseLibrariesDepthFirst(GenerateLibrarySchema);
-            return context.Schemas.ToArray();
+            foreach (IBusinessLibrary library in context.Repository.Libraries)
+            {
+                XmlSchema schema = GenerateLibrarySchema(library);
+                if (schema != null)
+                {
+                    yield return schema;
+                }
+            }
         }
 
-        private void GenerateLibrarySchema(IBusinessLibrary library)
+        private XmlSchema GenerateLibrarySchema(IBusinessLibrary library)
         {
             Console.WriteLine("Processing <<{0}>> {1}.", library.Type,
                               library.Name);
             switch (library.Type)
             {
                 case BusinessLibraryType.CDTLibrary:
-                    context.AddSchema(cdtLibraryGenerator.GenerateXSD((ICDTLibrary) library));
-                    break;
+                    return cdtLibraryGenerator.GenerateXSD((ICDTLibrary) library);
                 case BusinessLibraryType.bLibrary:
                 case BusinessLibraryType.BDTLibrary:
                 case BusinessLibraryType.BIELibrary:
@@ -38,7 +43,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 case BusinessLibraryType.DOCLibrary:
                 case BusinessLibraryType.ENUMLibrary:
                 case BusinessLibraryType.PRIMLibrary:
-                    break;
+                    return null;
                 default:
                     throw new ArgumentOutOfRangeException("unknown library type " + library.Type);
             }

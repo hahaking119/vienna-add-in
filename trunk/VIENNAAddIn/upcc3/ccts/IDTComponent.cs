@@ -22,8 +22,8 @@ namespace VIENNAAddIn.upcc3.ccts
 
         bool ModificationAllowedIndicator { get; }
 
-        IList<string> BusinessTerms { get; }
-        IList<string> UsageRules { get; }
+        IEnumerable<string> BusinessTerms { get; }
+        IEnumerable<string> UsageRules { get; }
         string UpperBound { get; }
         string LowerBound { get; }
         IDT DT { get; }

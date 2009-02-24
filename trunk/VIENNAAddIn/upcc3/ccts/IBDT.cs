@@ -4,7 +4,7 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IBDT : IDT
     {
-        IList<IBasedOnDependency> BasedOn { get; }
+        IEnumerable<IBasedOnDependency> BasedOn { get; }
     }
 
     public interface IBasedOnDependency

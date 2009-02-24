@@ -4,11 +4,11 @@ using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
-    internal static class ElementExtensions
+    internal static class ConnectorExtensions
     {
-        internal static IEnumerable<string> GetTaggedValues(this Element element, TaggedValues taggedValue)
+        internal static IEnumerable<string> GetTaggedValues(this Connector con, TaggedValues taggedValue)
         {
-            foreach (TaggedValue tv in element.TaggedValues)
+            foreach (TaggedValue tv in con.TaggedValues)
             {
                 if (tv.Name.Equals(taggedValue.AsString()))
                 {
@@ -17,9 +17,9 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
         }
 
-        internal static string GetTaggedValue(this Element element, TaggedValues taggedValue)
+        internal static string GetTaggedValue(this Connector con, TaggedValues taggedValue)
         {
-            foreach (TaggedValue tv in element.TaggedValues)
+            foreach (TaggedValue tv in con.TaggedValues)
             {
                 if (tv.Name.Equals(taggedValue.AsString()))
                 {

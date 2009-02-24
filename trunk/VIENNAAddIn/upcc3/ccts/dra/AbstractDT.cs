@@ -1,21 +1,29 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class AbstractDT: IDT
+    public class AbstractDT : IDT
     {
         protected readonly Element element;
-        protected readonly CCRepository repository;
+        protected readonly IBusinessLibrary library;
 
-        public AbstractDT(CCRepository repository, Element element)
+        public AbstractDT(IBusinessLibrary library, Element element)
         {
-            this.repository = repository;
+            this.library = library;
             this.element = element;
         }
+
+        private IEnumerable<Attribute> Attributes
+        {
+            get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        #region IDT Members
 
         public int Id
         {
@@ -29,7 +37,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IBusinessLibrary Library
         {
-            get { return repository.GetLibrary(element.PackageID); }
+            get { return library; }
         }
 
         public string Definition
@@ -57,34 +65,39 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValue(TaggedValues.VersionIdentifier); }
         }
 
-        public IList<string> BusinessTerms
+        public IEnumerable<string> BusinessTerms
         {
-            get { return element.CollectTaggedValues(TaggedValues.BusinessTerm); }
+            get { return element.GetTaggedValues(TaggedValues.BusinessTerm); }
         }
 
-        public IList<string> UsageRules
+        public IEnumerable<string> UsageRules
         {
-            get { return element.CollectTaggedValues(TaggedValues.UsageRule); }
+            get { return element.GetTaggedValues(TaggedValues.UsageRule); }
         }
 
-        public IList<IDTComponent> SUPs
+        public IEnumerable<IDTComponent> SUPs
         {
-            get { return element.Attributes.Convert((Attribute a) => repository.GetSUP(a)); }
+            get
+            {
+                return
+                    Attributes.Where(AttributeExtensions.IsSUP).Convert(a => (IDTComponent) new DTComponent(a, DTComponentType.SUP, this));
+            }
         }
 
         public IDTComponent CON
         {
             get
             {
-                foreach (Attribute attribute in element.Attributes)
+                Attribute conAttribute =
+                    Attributes.FirstOrDefault(AttributeExtensions.IsCON);
+                if (conAttribute == null)
                 {
-                    if (attribute.Stereotype == "CON")
-                    {
-                        return repository.GetCON(attribute);
-                    }
+                    throw new Exception("data type contains no attribute with stereotype <<CON>>");
                 }
-                throw new Exception("data type contains no content component");
+                return new DTComponent(conAttribute, DTComponentType.CON, this);
             }
         }
+
+        #endregion
     }
 }

@@ -248,8 +248,9 @@
     <Compile Include="upcc3\ccts\IPRIMLibrary.cs" />
     <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\ConnectorExtensions.cs" />
     <Compile Include="upcc3\ccts\util\ElementExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\ListExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
     <Compile Include="upcc3\ccts\util\PackageExtensions.cs" />
     <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
     <Compile Include="upcc3\ccts\DT.cs" />

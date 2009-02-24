@@ -32,13 +32,13 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public bool ModificationAllowedIndicator { get; set; }
 
-        public IList<string> BusinessTerms
+        public IEnumerable<string> BusinessTerms
         {
             get { return businessTerms; }
             set { businessTerms = new List<string>(value).AsReadOnly(); }
         }
 
-        public IList<string> UsageRules
+        public IEnumerable<string> UsageRules
         {
             get { return usageRules; }
             set { usageRules = new List<string>(value).AsReadOnly(); }

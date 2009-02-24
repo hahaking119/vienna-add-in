@@ -1,23 +1,25 @@
 using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
-using Attribute=EA.Attribute;
 using VIENNAAddIn.upcc3.XSDGenerator.Generator;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
     internal class DTComponent : IDTComponent
     {
-        private readonly CCRepository repository;
         private readonly Attribute attribute;
         private readonly DTComponentType componentType;
+        private readonly IDT dt;
 
-        public DTComponent(CCRepository repository, Attribute attribute, DTComponentType componentType)
+        public DTComponent(Attribute attribute, DTComponentType componentType, IDT dt)
         {
-            this.repository = repository;
             this.attribute = attribute;
             this.componentType = componentType;
+            this.dt = dt;
         }
+
+        #region IDTComponent Members
 
         public DTComponentType ComponentType
         {
@@ -73,14 +75,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IList<string> BusinessTerms
+        public IEnumerable<string> BusinessTerms
         {
-            get { return attribute.CollectTaggedValues(TaggedValues.BusinessTerm); }
+            get { return attribute.GetTaggedValues(TaggedValues.BusinessTerm); }
         }
 
-        public IList<string> UsageRules
+        public IEnumerable<string> UsageRules
         {
-            get { return attribute.CollectTaggedValues(TaggedValues.UsageRule); }
+            get { return attribute.GetTaggedValues(TaggedValues.UsageRule); }
         }
 
         public string UpperBound
@@ -95,7 +97,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IDT DT
         {
-            get { return repository.GetDT(attribute.ParentID); }
+            get { return dt; }
         }
 
         public bool IsOptional()
@@ -103,5 +105,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             int i;
             return Int32.TryParse(LowerBound, out i) && i == 0;
         }
+
+        #endregion
     }
 }

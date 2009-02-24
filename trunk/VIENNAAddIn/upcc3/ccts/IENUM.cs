@@ -10,7 +10,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
         string AgencyIdentifier { get; }
         string AgencyName { get; }
-        IList<string> BusinessTerms { get; }
+        IEnumerable<string> BusinessTerms { get; }
         string LanguageCode { get; }
         string DictionaryEntryName { get; }
         string UniqueIdentifier { get; }
