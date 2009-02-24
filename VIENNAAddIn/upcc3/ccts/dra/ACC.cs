@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using System.Linq;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -18,6 +21,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         private IEnumerable<Attribute> Attributes
         {
             get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        private IEnumerable<Connector> Connectors
+        {
+            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         public int Id
@@ -81,12 +89,32 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<IASCC> ASCCs
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                return
+                    Connectors.Where(IsASCC).Convert(c => (IASCC)new ASCC(repository, c));
+            }
+        }
+
+        private static bool IsASCC(Connector con)
+        {
+            return con.Stereotype == "ASCC";
+        }
+
+        private static bool IsEquivalentToDependency(Connector con)
+        {
+            return con.Stereotype == "isEquivalentTo";
         }
 
         public IACC IsEquivalentTo
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                Connector connector =
+                    Connectors.FirstOrDefault(IsEquivalentToDependency);
+                return connector != null ? repository.GetACC(connector.SupplierID) : null;
+            }
         }
+
     }
 }
