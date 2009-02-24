@@ -31,4 +31,31 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return String.Empty;
         }
     }
+    internal static class ConnectorExtensions
+    {
+        internal static List<string> CollectTaggedValues(this Connector con, TaggedValues taggedValue)
+        {
+            var values = new List<string>();
+            foreach (TaggedValue tv in con.TaggedValues)
+            {
+                if (tv.Name.Equals(taggedValue.AsString()))
+                {
+                    values.Add(tv.Value);
+                }
+            }
+            return values;
+        }
+
+        internal static string GetTaggedValue(this Connector con, TaggedValues taggedValue)
+        {
+            foreach (TaggedValue tv in con.TaggedValues)
+            {
+                if (tv.Name.Equals(taggedValue.AsString()))
+                {
+                    return tv.Value;
+                }
+            }
+            return String.Empty;
+        }
+    }
 }

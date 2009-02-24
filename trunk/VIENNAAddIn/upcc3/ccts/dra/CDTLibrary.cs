@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -20,14 +21,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     elements.Add(repository.GetCDT(element));
                 }
                 return elements;
-            }
-        }
-
-        public void EachCDT(Action<ICDT> action)
-        {
-            foreach (var cdt in CDTs)
-            {
-                action(cdt);
             }
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -98,24 +97,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return package.CollectTaggedValues(TaggedValues.Reference); }
         }
 
-        public T CreateElement<T>(T spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual IList<T> Elements<T>()
-        {
-            throw new NotImplementedException("Trying to receive wrong type of elements from business library.");
-        }
-
         public bool IsA(BusinessLibraryType type)
         {
             return Type == type;
-        }
-
-        public void Each<T>(Action<T> action)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

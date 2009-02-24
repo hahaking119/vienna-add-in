@@ -30,8 +30,6 @@ namespace VIENNAAddIn.upcc3.ccts
         IList<string> Copyrights { get; }
         IList<string> Owners { get; }
         IList<string> References { get; }
-        T CreateElement<T>(T spec);
-        IList<T> Elements<T>();
         bool IsA(BusinessLibraryType type);
     }
 }

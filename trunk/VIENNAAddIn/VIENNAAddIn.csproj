@@ -219,7 +219,9 @@
     <Compile Include="upcc3\ccts\BusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\CDT.cs" />
     <Compile Include="upcc3\ccts\dra\AbstractDT.cs" />
+    <Compile Include="upcc3\ccts\dra\BasedOnDependency.cs" />
     <Compile Include="upcc3\ccts\dra\BDT.cs" />
+    <Compile Include="upcc3\ccts\dra\BDTLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\BusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\CCRepository.cs" />
     <Compile Include="upcc3\ccts\dra\CDT.cs" />
@@ -247,6 +249,7 @@
     <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
     <Compile Include="upcc3\ccts\util\ElementExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\ListExtensions.cs" />
     <Compile Include="upcc3\ccts\util\PackageExtensions.cs" />
     <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
     <Compile Include="upcc3\ccts\DT.cs" />

@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using EA;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -8,9 +11,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-        public ICDT BasedOn
+        public IList<IBasedOnDependency> BasedOn
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                var result = new List<IBasedOnDependency>();
+                foreach (Connector con in element.Connectors)
+                {
+                    if (con.Stereotype == "basedOn")
+                    {
+                        result.Add(repository.GetBasedOnDependency(con));
+                    }
+                }
+                return result;
+            }
         }
     }
+
 }

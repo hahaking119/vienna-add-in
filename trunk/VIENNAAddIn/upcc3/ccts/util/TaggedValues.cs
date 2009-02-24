@@ -17,7 +17,19 @@ namespace VIENNAAddIn.upcc3.ccts.util
         DictionaryEntryName,
         LanguageCode,
         UsageRule,
-        ModificationAllowedIndicator
+        ModificationAllowedIndicator,
+        Pattern,
+        FractionDigits,
+        Length,
+        MaxExclusive,
+        MaxInclusive,
+        MaxLength,
+        MinExclusive,
+        MinInclusive,
+        MinLength,
+        TotalDigits,
+        WhiteSpace,
+        ApplyTo
     }
 
     public static class TaggedValuesExtensions
@@ -54,6 +66,30 @@ namespace VIENNAAddIn.upcc3.ccts.util
                     return "usageRule";
                 case TaggedValues.ModificationAllowedIndicator:
                     return "modificationAllowedIndicator";
+                case TaggedValues.Pattern:
+                    return "pattern";
+                case TaggedValues.FractionDigits:
+                    return "fractionDigits";
+                case TaggedValues.Length:
+                    return "length";
+                case TaggedValues.MaxExclusive:
+                    return "maxExclusive";
+                case TaggedValues.MaxInclusive:
+                    return "maxInclusive";
+                case TaggedValues.MaxLength:
+                    return "maxLength";
+                case TaggedValues.MinExclusive:
+                    return "minExclusive";
+                case TaggedValues.MinInclusive:
+                    return "minInclusive";
+                case TaggedValues.MinLength:
+                    return "minLength";
+                case TaggedValues.TotalDigits:
+                    return "totalDigits";
+                case TaggedValues.WhiteSpace:
+                    return "whiteSpace";
+                case TaggedValues.ApplyTo:
+                    return "applyTo";
                 default:
                     throw new ArgumentOutOfRangeException("tv");
             }
