@@ -5,6 +5,6 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface ICCLibrary : IBusinessLibrary
     {
-        IEnumerable<ICC> CCs { get; }
+        IEnumerable<IACC> ACCs { get; }
     }
 }

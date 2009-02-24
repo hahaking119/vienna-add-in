@@ -29,7 +29,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
         MinLength,
         TotalDigits,
         WhiteSpace,
-        ApplyTo
+        ApplyTo,
+        SequencingKey
     }
 
     public static class TaggedValuesExtensions
@@ -90,6 +91,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
                     return "whiteSpace";
                 case TaggedValues.ApplyTo:
                     return "applyTo";
+                case TaggedValues.SequencingKey:
+                    return "sequencingKey";
                 default:
                     throw new ArgumentOutOfRangeException("tv");
             }
