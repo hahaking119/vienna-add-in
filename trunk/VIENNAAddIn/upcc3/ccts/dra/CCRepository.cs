@@ -56,6 +56,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return new CDT(this, eaRepository.GetElementByID(id));
         }
 
+        public IACC GetACC(int id)
+        {
+            return new ACC(this, eaRepository.GetElementByID(id));
+        }
+
         #endregion
 
         public IBusinessLibrary GetLibrary(Package package)
@@ -87,5 +92,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     throw new ArgumentException("Element for provided ID is not a CDT or BDT.");
             }
         }
+
     }
 }
