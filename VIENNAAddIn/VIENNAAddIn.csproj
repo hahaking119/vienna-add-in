@@ -216,8 +216,6 @@
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\AddInSettings.cs" />
-    <Compile Include="upcc3\ccts\BusinessLibrary.cs" />
-    <Compile Include="upcc3\ccts\CDT.cs" />
     <Compile Include="upcc3\ccts\dra\AbstractDT.cs" />
     <Compile Include="upcc3\ccts\dra\ACC.cs" />
     <Compile Include="upcc3\ccts\dra\ASCC.cs" />
@@ -257,9 +255,6 @@
     <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
     <Compile Include="upcc3\ccts\util\PackageExtensions.cs" />
     <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
-    <Compile Include="upcc3\ccts\DT.cs" />
-    <Compile Include="upcc3\ccts\DTComponent.cs" />
-    <Compile Include="upcc3\ccts\EACCRepository.cs" />
     <Compile Include="upcc3\ccts\IBusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\ICCRepository.cs" />
     <Compile Include="upcc3\ccts\IDT.cs" />
