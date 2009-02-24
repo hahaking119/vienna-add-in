@@ -25,14 +25,6 @@ namespace VIENNAAddIn.upcc3.ccts
             return Type == type;
         }
 
-        public void Each<T>(Action<T> action)
-        {
-            foreach (T element in Elements<T>())
-            {
-                action(element);
-            }
-        }
-
 
         public int Id { get; private set; }
         BusinessLibraryType IBusinessLibrary.Type
@@ -86,16 +78,6 @@ namespace VIENNAAddIn.upcc3.ccts
         {
             get { return references; }
             set { references = new List<string>(value).AsReadOnly(); }
-        }
-
-        public T CreateElement<T>(T spec)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IList<ICDT> Elements<ICDT>()
-        {
-            return null;
         }
 
         public BusinessLibraryType Type { get; private set; }

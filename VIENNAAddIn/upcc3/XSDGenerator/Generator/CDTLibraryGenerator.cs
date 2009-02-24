@@ -2,6 +2,7 @@ using System;
 using System.Xml;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
@@ -24,7 +25,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                                  Version = library.VersionIdentifier.DefaultTo("notSpecified")
                              };
             AddNameSpaces(schema, library);
-            library.EachCDT(cdt => schema.Items.Add(GetSchemaElement(cdt)));
+            library.CDTs.Each(cdt => schema.Items.Add(GetSchemaElement(cdt)));
             return schema;
         }
 

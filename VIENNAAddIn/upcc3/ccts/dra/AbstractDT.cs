@@ -8,8 +8,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class AbstractDT: IDT
     {
-        private readonly Element element;
-        private readonly CCRepository repository;
+        protected readonly Element element;
+        protected readonly CCRepository repository;
 
         public AbstractDT(CCRepository repository, Element element)
         {

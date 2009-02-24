@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using EA;
 using Attribute=EA.Attribute;
 
@@ -101,9 +102,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        private IBDT GetBDT(Element element)
+        public IBDT GetBDT(Element element)
         {
-            throw new NotImplementedException();
+            return new BDT(this, element);
         }
 
         public ICDT GetCDT(Element element)
@@ -132,6 +133,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             return new DTComponent(this, attribute, DTComponentType.CON);
         }
-    }
 
+        public IBasedOnDependency GetBasedOnDependency(Connector con)
+        {
+            return new BasedOnDependency(this, con);
+        }
+    }
 }
