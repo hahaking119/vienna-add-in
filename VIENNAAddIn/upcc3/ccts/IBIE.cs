@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.ccts
         string LanguageCode { get; }
         string DictionaryEntryName { get; }
         string Definition { get; }
-        IList<string> BusinessTerms { get; }
-        IList<string> UsageRules { get; }
+        IEnumerable<string> BusinessTerms { get; }
+        IEnumerable<string> UsageRules { get; }
     }
 }

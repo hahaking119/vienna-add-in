@@ -4,7 +4,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class BusinessLibrary : IBusinessLibrary
+    public class BusinessLibrary : IBusinessLibrary
     {
         private readonly BusinessLibraryType libraryType;
         protected readonly Package package;
@@ -39,16 +39,29 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return repository.GetLibrary(package.ParentID); }
         }
 
-        public IList<IBusinessLibrary> Children
+        public IEnumerable<IBusinessLibrary> Children
         {
             get
             {
-                var children = new List<IBusinessLibrary>();
                 foreach (Package childPackage in package.Packages)
                 {
-                    children.Add(repository.GetLibrary(childPackage));
+                    yield return repository.GetLibrary(childPackage);
                 }
-                return children;
+            }
+        }
+
+        public IEnumerable<IBusinessLibrary> AllChildren
+        {
+            get
+            {
+                foreach (var childLib in Children)
+                {
+                    yield return childLib;
+                    foreach (var grandChild in childLib.AllChildren)
+                    {
+                        yield return grandChild;
+                    }
+                }
             }
         }
 
@@ -77,24 +90,24 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return package.GetTaggedValue(TaggedValues.NamespacePrefix); }
         }
 
-        public IList<string> BusinessTerms
+        public IEnumerable<string> BusinessTerms
         {
-            get { return package.CollectTaggedValues(TaggedValues.BusinessTerm); }
+            get { return package.GetTaggedValues(TaggedValues.BusinessTerm); }
         }
 
-        public IList<string> Copyrights
+        public IEnumerable<string> Copyrights
         {
-            get { return package.CollectTaggedValues(TaggedValues.Copyright); }
+            get { return package.GetTaggedValues(TaggedValues.Copyright); }
         }
 
-        public IList<string> Owners
+        public IEnumerable<string> Owners
         {
-            get { return package.CollectTaggedValues(TaggedValues.Owner); }
+            get { return package.GetTaggedValues(TaggedValues.Owner); }
         }
 
-        public IList<string> References
+        public IEnumerable<string> References
         {
-            get { return package.CollectTaggedValues(TaggedValues.Reference); }
+            get { return package.GetTaggedValues(TaggedValues.Reference); }
         }
 
         public bool IsA(BusinessLibraryType type)

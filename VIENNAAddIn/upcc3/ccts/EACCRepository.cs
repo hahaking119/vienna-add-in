@@ -39,6 +39,11 @@ namespace VIENNAAddIn.upcc3.ccts
             throw new System.NotImplementedException();
         }
 
+        public IEnumerable<IBusinessLibrary> Libraries
+        {
+            get { throw new System.NotImplementedException(); }
+        }
+
         public ICDT GetCDT(int id)
         {
             throw new System.NotImplementedException();
@@ -78,12 +83,12 @@ namespace VIENNAAddIn.upcc3.ccts
                 {
                     var cdt = new CDT(e.ElementID, e.Name)
                                   {
-                                      BusinessTerms = e.CollectTaggedValues(TaggedValues.BusinessTerm),
+                                      BusinessTerms = e.GetTaggedValues(TaggedValues.BusinessTerm),
                                       Definition = e.GetTaggedValue(TaggedValues.Definition),
                                       DictionaryEntryName = e.GetTaggedValue(TaggedValues.DictionaryEntryName),
                                       LanguageCode = e.GetTaggedValue(TaggedValues.LanguageCode),
                                       UniqueIdentifier = e.GetTaggedValue(TaggedValues.UniqueIdentifier),
-                                      UsageRules = e.CollectTaggedValues(TaggedValues.UsageRule),
+                                      UsageRules = e.GetTaggedValues(TaggedValues.UsageRule),
                                       VersionIdentifier = e.GetTaggedValue(TaggedValues.VersionIdentifier)
                                   };
                     foreach (Attribute attribute in e.Attributes)
@@ -115,12 +120,12 @@ namespace VIENNAAddIn.upcc3.ccts
             return new DTComponent(componentType, attribute.AttributeID, attribute.Name,
                                          attribute.Type)
                        {
-                           BusinessTerms = attribute.CollectTaggedValues(TaggedValues.BusinessTerm),
+                           BusinessTerms = attribute.GetTaggedValues(TaggedValues.BusinessTerm),
                            Definition = attribute.GetTaggedValue(TaggedValues.Definition),
                            DictionaryEntryName = attribute.GetTaggedValue(TaggedValues.DictionaryEntryName),
                            LanguageCode = attribute.GetTaggedValue(TaggedValues.LanguageCode),
                            UniqueIdentifier = attribute.GetTaggedValue(TaggedValues.UniqueIdentifier),
-                           UsageRules = attribute.CollectTaggedValues(TaggedValues.UsageRule),
+                           UsageRules = attribute.GetTaggedValues(TaggedValues.UsageRule),
                            VersionIdentifier = attribute.GetTaggedValue(TaggedValues.VersionIdentifier),
                            ModificationAllowedIndicator = ("true" == attribute.GetTaggedValue(TaggedValues.ModificationAllowedIndicator).DefaultTo("true")),
                            UpperBound = attribute.UpperBound,
@@ -200,10 +205,10 @@ namespace VIENNAAddIn.upcc3.ccts
             }
             var lib = new BusinessLibrary(libraryType, package.PackageID, package.Name)
                           {
-                              BusinessTerms = package.CollectTaggedValues(TaggedValues.BusinessTerm),
-                              Copyrights = package.CollectTaggedValues(TaggedValues.Copyright),
-                              Owners = package.CollectTaggedValues(TaggedValues.Owner),
-                              References = package.CollectTaggedValues(TaggedValues.Reference),
+                              BusinessTerms = package.GetTaggedValues(TaggedValues.BusinessTerm),
+                              Copyrights = package.GetTaggedValues(TaggedValues.Copyright),
+                              Owners = package.GetTaggedValues(TaggedValues.Owner),
+                              References = package.GetTaggedValues(TaggedValues.Reference),
                               Status = package.GetTaggedValue(TaggedValues.Status),
                               UniqueIdentifier = package.GetTaggedValue(TaggedValues.UniqueIdentifier),
                               VersionIdentifier = package.GetTaggedValue(TaggedValues.VersionIdentifier),

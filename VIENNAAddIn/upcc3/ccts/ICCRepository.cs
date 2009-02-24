@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
@@ -6,8 +8,6 @@ namespace VIENNAAddIn.upcc3.ccts
     {
         IBusinessLibrary GetRootLibrary();
         IBusinessLibrary GetLibrary(int id);
-        ICDT GetCDT(int id);
-        void EachCDT(int cdtLibraryId, Action<ICDT> visit);
-        void TraverseLibrariesDepthFirst(Action<IBusinessLibrary> visit);
+        IEnumerable<IBusinessLibrary> Libraries { get; }
     }
 }

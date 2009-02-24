@@ -12,9 +12,9 @@ namespace VIENNAAddIn.upcc3.ccts
         string LanguageCode { get; }
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }
-        IList<string> BusinessTerms { get; }
-        IList<string> UsageRules { get; }
-        IList<IDTComponent> SUPs { get; }
+        IEnumerable<string> BusinessTerms { get; }
+        IEnumerable<string> UsageRules { get; }
+        IEnumerable<IDTComponent> SUPs { get; }
         IDTComponent CON { get; }
     }
 }

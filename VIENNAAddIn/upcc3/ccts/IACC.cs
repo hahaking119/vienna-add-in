@@ -4,8 +4,8 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IACC : ICC
     {
-        IList<IBCC> BCCs { get; }
-        IList<IASCC> ASCCs { get; }
+        IEnumerable<IBCC> BCCs { get; }
+        IEnumerable<IASCC> ASCCs { get; }
         IACC IsEquivalentTo { get; }
     }
 }

@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IENUMLibrary : IBusinessLibrary
     {
-        IList<IENUM> ENUMs { get; }
+        IEnumerable<IENUM> ENUMs { get; }
     }
 }

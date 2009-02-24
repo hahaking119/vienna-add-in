@@ -5,9 +5,9 @@ namespace VIENNAAddIn.upcc3.ccts.util
 {
     internal static class PackageExtensions
     {
-        internal static List<string> CollectTaggedValues(this Package package, TaggedValues taggedValue)
+        internal static IEnumerable<string> GetTaggedValues(this Package package, TaggedValues taggedValue)
         {
-            return package.Element.CollectTaggedValues(taggedValue);
+            return package.Element.GetTaggedValues(taggedValue);
         }
 
         internal static string GetTaggedValue(this Package package, TaggedValues taggedValue)

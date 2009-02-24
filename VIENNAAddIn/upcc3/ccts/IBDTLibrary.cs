@@ -5,6 +5,6 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IBDTLibrary : IBusinessLibrary
     {
-        IList<IBDT> BDTs { get; }
+        IEnumerable<IBDT> BDTs { get; }
     }
 }

@@ -46,7 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\CDTLibraryGeneratorTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\SelectorTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\StringExtensionsTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\XSDGeneratorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />

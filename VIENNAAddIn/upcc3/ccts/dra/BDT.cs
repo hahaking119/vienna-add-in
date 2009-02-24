@@ -1,31 +1,30 @@
-using System;
 using System.Collections.Generic;
 using EA;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class BDT : AbstractDT, IBDT
     {
-        public BDT(CCRepository repository, Element element) : base(repository, element)
+        public BDT(IBusinessLibrary library, Element element) : base(library, element)
         {
         }
 
-        public IList<IBasedOnDependency> BasedOn
+        #region IBDT Members
+
+        public IEnumerable<IBasedOnDependency> BasedOn
         {
             get
             {
-                var result = new List<IBasedOnDependency>();
                 foreach (Connector con in element.Connectors)
                 {
                     if (con.Stereotype == "basedOn")
                     {
-                        result.Add(repository.GetBasedOnDependency(con));
+                        yield return new BasedOnDependency(con);
                     }
                 }
-                return result;
             }
         }
-    }
 
+        #endregion
+    }
 }

@@ -39,25 +39,25 @@ namespace VIENNAAddIn.upcc3.ccts
             get { return CON.Type; }
         }
 
-        public IList<string> BusinessTerms
+        public IEnumerable<string> BusinessTerms
         {
             get { return businessTerms; }
             set { businessTerms = new List<string>(value).AsReadOnly(); }
         }
 
-        IList<string> IDT.UsageRules
+        IEnumerable<string> IDT.UsageRules
         {
             get { return UsageRules; }
 //            set { UsageRules = value; }
         }
 
-        public IList<string> UsageRules
+        public IEnumerable<string> UsageRules
         {
             get { return usageRules; }
             internal set { usageRules = new List<string>(value).AsReadOnly(); }
         }
 
-        public IList<IDTComponent> SUPs
+        public IEnumerable<IDTComponent> SUPs
         {
             get { return supplementaryComponents.AsReadOnly(); }
         }

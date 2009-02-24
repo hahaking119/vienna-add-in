@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EA;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -33,22 +32,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return id == 0 ? null : GetLibrary(eaRepository.GetPackageByID(id));
         }
 
-        public ICDT GetCDT(int id)
+        public IEnumerable<IBusinessLibrary> Libraries
         {
-            return GetCDT(eaRepository.GetElementByID(id));
-        }
-
-        public void EachCDT(int cdtLibraryId, Action<ICDT> visit)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TraverseLibrariesDepthFirst(Action<IBusinessLibrary> visit)
-        {
-            var model = (Package) eaRepository.Models.GetAt(0);
-            foreach (Package package in model.Packages)
+            get
             {
-                traverseRecursively(package, visit);
+                foreach (Package model in eaRepository.Models)
+                {
+                    foreach (Package rootPackage in model.Packages)
+                    {
+                        IBusinessLibrary rootLibrary = GetLibrary(rootPackage);
+                        yield return rootLibrary;
+                        foreach (IBusinessLibrary child in rootLibrary.AllChildren)
+                        {
+                            yield return child;
+                        }
+                    }
+                }
             }
         }
 
@@ -82,61 +81,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 default:
                     throw new ArgumentException("Element for provided ID is not a CDT or BDT.");
             }
-        }
-
-        public IDT GetDT(int id)
-        {
-            Element element = eaRepository.GetElementByID(id);
-            if (element == null)
-            {
-                return null;
-            }
-            switch (element.Stereotype)
-            {
-                case "CDT":
-                    return GetCDT(element);
-                case "BDT":
-                    return GetBDT(element);
-                default:
-                    throw new ArgumentException("Element for provided ID is not a CDT or BDT.");
-            }
-        }
-
-        public IBDT GetBDT(Element element)
-        {
-            return new BDT(this, element);
-        }
-
-        public ICDT GetCDT(Element element)
-        {
-            return new CDT(this, element);
-        }
-
-        private void traverseRecursively(Package package, Action<IBusinessLibrary> visit)
-        {
-            visit(GetLibrary(package));
-            if (package.Element.Stereotype == "bLibrary")
-            {
-                foreach (Package child in package.Packages)
-                {
-                    traverseRecursively(child, visit);
-                }
-            }
-        }
-
-        public IDTComponent GetSUP(Attribute attribute)
-        {
-            return new DTComponent(this, attribute, DTComponentType.SUP);
-        }
-
-        public IDTComponent GetCON(Attribute attribute)
-        {
-            return new DTComponent(this, attribute, DTComponentType.CON);
-        }
-
-        public IBasedOnDependency GetBasedOnDependency(Connector con)
-        {
-            return new BasedOnDependency(this, con);
         }
     }
 }

@@ -7,17 +7,15 @@ namespace VIENNAAddIn.upcc3.ccts.util
 {
     internal static class AttributeExtensions
     {
-        internal static List<string> CollectTaggedValues(this Attribute attribute, TaggedValues taggedValue)
+        internal static IEnumerable<string> GetTaggedValues(this Attribute attribute, TaggedValues taggedValue)
         {
-            var values = new List<string>();
             foreach (AttributeTag tv in attribute.TaggedValues)
             {
                 if (tv.Name.Equals(taggedValue))
                 {
-                    values.Add(tv.Value);
+                    yield return tv.Value;
                 }
             }
-            return values;
         }
 
         internal static string GetTaggedValue(this Attribute attribute, TaggedValues taggedValue)
@@ -30,6 +28,16 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 }
             }
             return String.Empty;
+        }
+
+        public static bool IsCON(this Attribute attribute)
+        {
+            return attribute.Stereotype == "CON";
+        }
+
+        public static bool IsSUP(this Attribute attribute)
+        {
+            return attribute.Stereotype == "SUP";
         }
     }
 }
