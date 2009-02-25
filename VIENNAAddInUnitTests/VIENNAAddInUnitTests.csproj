@@ -48,6 +48,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\SelectorTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\StringExtensionsTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\ContentAttribute.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\Path.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\SupplementaryAttribute.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestBLibrary.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestCDT.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestCDTLibrary.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestEAAttribute.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestEACollection.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestEAElement.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestEARepository.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestEARepository1.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestEARepositoryTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestLibrary.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestModel.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestPackage.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestPRIM.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestPRIMLibrary.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestRepositoryElement.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\TestTaggedValue.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\XSDGeneratorTest.cs" />
   </ItemGroup>
   <ItemGroup>
