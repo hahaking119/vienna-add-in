@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-
 namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IBDT : IDT
     {
-        IEnumerable<IBasedOnDependency> BasedOn { get; }
+//        IEnumerable<IBasedOnDependency> BasedOn { get; }
+        ICDT BasedOn { get; }
     }
 
     public interface IBasedOnDependency

@@ -9,7 +9,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public abstract class AbstractDT : IDT
     {
-        private readonly CCRepository repository;
+        protected readonly CCRepository repository;
         protected readonly Element element;
 
         protected AbstractDT(CCRepository repository, Element element)
@@ -21,6 +21,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         private IEnumerable<Attribute> Attributes
         {
             get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        protected IEnumerable<Connector> Connectors
+        {
+            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region IDT Members

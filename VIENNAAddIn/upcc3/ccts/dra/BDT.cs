@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Linq;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
@@ -9,22 +9,37 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
+//        public IEnumerable<IBasedOnDependency> BasedOn
+//        {
+//            get
+//            {
+//                foreach (Connector con in element.Connectors)
+//                {
+//                    if (con.Stereotype == "basedOn")
+//                    {
+//                        yield return new BasedOnDependency(con);
+//                    }
+//                }
+//            }
+//        }
+
         #region IBDT Members
 
-        public IEnumerable<IBasedOnDependency> BasedOn
+        public ICDT BasedOn
         {
             get
             {
-                foreach (Connector con in element.Connectors)
-                {
-                    if (con.Stereotype == "basedOn")
-                    {
-                        yield return new BasedOnDependency(con);
-                    }
-                }
+                Connector connector =
+                    Connectors.FirstOrDefault(IsBasedOnDependency);
+                return connector != null ? repository.GetCDT(connector.SupplierID) : null;
             }
         }
 
         #endregion
+
+        private static bool IsBasedOnDependency(Connector connector)
+        {
+            return connector.Stereotype == "basedOn";
+        }
     }
 }

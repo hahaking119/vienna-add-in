@@ -4,10 +4,8 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IBIE
     {
-        long Id { get; }
+        int Id { get; }
         string Name { get; }
-        IBIELibrary Library { get; }
-
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }
         string LanguageCode { get; }
