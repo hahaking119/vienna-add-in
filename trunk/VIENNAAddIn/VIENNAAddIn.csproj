@@ -216,13 +216,17 @@
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\AddInSettings.cs" />
+    <Compile Include="upcc3\ccts\dra\ABIE.cs" />
     <Compile Include="upcc3\ccts\dra\AbstractDT.cs" />
     <Compile Include="upcc3\ccts\dra\ACC.cs" />
+    <Compile Include="upcc3\ccts\dra\ASBIE.cs" />
     <Compile Include="upcc3\ccts\dra\ASCC.cs" />
     <Compile Include="upcc3\ccts\dra\BasedOnDependency.cs" />
+    <Compile Include="upcc3\ccts\dra\BBIE.cs" />
     <Compile Include="upcc3\ccts\dra\BCC.cs" />
     <Compile Include="upcc3\ccts\dra\BDT.cs" />
     <Compile Include="upcc3\ccts\dra\BDTLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\BIELibrary.cs" />
     <Compile Include="upcc3\ccts\dra\BusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\CCLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\CCRepository.cs" />

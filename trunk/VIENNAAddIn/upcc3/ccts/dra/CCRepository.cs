@@ -61,6 +61,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return new ACC(this, eaRepository.GetElementByID(id));
         }
 
+        public IBDT GetBDT(int id)
+        {
+            return new BDT(this, eaRepository.GetElementByID(id));
+        }
+
+        public IABIE GetABIE(int id)
+        {
+            return new ABIE(this, eaRepository.GetElementByID(id));
+        }
+
         #endregion
 
         public IBusinessLibrary GetLibrary(Package package)
