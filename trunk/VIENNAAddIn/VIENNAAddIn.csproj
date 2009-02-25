@@ -232,7 +232,12 @@
     <Compile Include="upcc3\ccts\dra\CCRepository.cs" />
     <Compile Include="upcc3\ccts\dra\CDT.cs" />
     <Compile Include="upcc3\ccts\dra\CDTLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\DOCLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\DTComponent.cs" />
+    <Compile Include="upcc3\ccts\dra\ENUM.cs" />
+    <Compile Include="upcc3\ccts\dra\ENUMLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\PRIM.cs" />
+    <Compile Include="upcc3\ccts\dra\PRIMLibrary.cs" />
     <Compile Include="upcc3\ccts\IABIE.cs" />
     <Compile Include="upcc3\ccts\IACC.cs" />
     <Compile Include="upcc3\ccts\IASBIE.cs" />

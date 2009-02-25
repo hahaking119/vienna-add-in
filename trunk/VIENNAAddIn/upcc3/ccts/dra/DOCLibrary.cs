@@ -3,14 +3,14 @@ using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class BIELibrary : BusinessLibrary, IBIELibrary
+    internal class DOCLibrary : BusinessLibrary, IDOCLibrary
     {
-        public BIELibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.BIELibrary)
+        public DOCLibrary(CCRepository repository, Package package)
+            : base(repository, package, BusinessLibraryType.DOCLibrary)
         {
         }
 
-        #region IBIELibrary Members
+        #region IDOCLibrary Members
 
         public IEnumerable<IBIE> BIEs
         {

@@ -30,7 +30,10 @@ namespace VIENNAAddIn.upcc3.ccts.util
         TotalDigits,
         WhiteSpace,
         ApplyTo,
-        SequencingKey
+        SequencingKey,
+        AgencyIdentifier,
+        AgencyName,
+        EnumerationURI
     }
 
     public static class TaggedValuesExtensions
@@ -93,6 +96,12 @@ namespace VIENNAAddIn.upcc3.ccts.util
                     return "applyTo";
                 case TaggedValues.SequencingKey:
                     return "sequencingKey";
+                case TaggedValues.AgencyIdentifier:
+                    return "agencyIdentifier";
+                case TaggedValues.AgencyName:
+                    return "agencyName";
+                case TaggedValues.EnumerationURI:
+                    return "enumerationURI";
                 default:
                     throw new ArgumentOutOfRangeException("tv");
             }
