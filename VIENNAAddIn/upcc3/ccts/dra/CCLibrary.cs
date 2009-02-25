@@ -5,9 +5,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class CCLibrary : BusinessLibrary, ICCLibrary
     {
-        public CCLibrary(CCRepository repository, Package package, BusinessLibraryType libraryType) : base(repository, package, libraryType)
+        public CCLibrary(CCRepository repository, Package package)
+            : base(repository, package, BusinessLibraryType.CCLibrary)
         {
         }
+
+        #region ICCLibrary Members
 
         public IEnumerable<IACC> ACCs
         {
@@ -19,5 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
             }
         }
+
+        #endregion
     }
 }

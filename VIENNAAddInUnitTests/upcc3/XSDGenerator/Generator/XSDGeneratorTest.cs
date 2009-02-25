@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using System.Xml.Schema;
-using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;

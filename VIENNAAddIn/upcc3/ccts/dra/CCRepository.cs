@@ -85,19 +85,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 case "bLibrary":
                     return new BusinessLibrary(this, package, BusinessLibraryType.bLibrary);
                 case "BDTLibrary":
-                    return new BusinessLibrary(this, package, BusinessLibraryType.BDTLibrary);
+                    return new BDTLibrary(this, package);
                 case "BIELibrary":
-                    return new BusinessLibrary(this, package, BusinessLibraryType.BIELibrary);
+                    return new BIELibrary(this, package);
                 case "CCLibrary":
-                    return new BusinessLibrary(this, package, BusinessLibraryType.CCLibrary);
+                    return new CCLibrary(this, package);
                 case "CDTLibrary":
-                    return new CDTLibrary(this, package, BusinessLibraryType.CDTLibrary);
+                    return new CDTLibrary(this, package);
                 case "DOCLibrary":
-                    return new BusinessLibrary(this, package, BusinessLibraryType.DOCLibrary);
+                    return new DOCLibrary(this, package);
                 case "ENUMLibrary":
-                    return new BusinessLibrary(this, package, BusinessLibraryType.ENUMLibrary);
+                    return new ENUMLibrary(this, package);
                 case "PRIMLibrary":
-                    return new BusinessLibrary(this, package, BusinessLibraryType.PRIMLibrary);
+                    return new PRIMLibrary(this, package);
                 default:
                     throw new ArgumentException("Element for provided ID is not a CDT or BDT.");
             }
