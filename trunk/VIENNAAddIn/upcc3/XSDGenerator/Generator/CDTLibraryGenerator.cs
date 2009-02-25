@@ -11,7 +11,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
     {
         private const string NS_PREFIX = "cdt";
 
-        public CDTLibraryGenerator(GenerationContext context) : base(BusinessLibraryType.CDTLibrary, context)
+        public CDTLibraryGenerator(GenerationContext context) : base(context)
         {
         }
 

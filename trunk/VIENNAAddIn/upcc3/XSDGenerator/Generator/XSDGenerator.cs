@@ -7,12 +7,24 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
     public class XSDGenerator
     {
+        private readonly BDTLibraryGenerator bdtLibraryGenerator;
+        private readonly BIELibraryGenerator bieLibraryGenerator;
+        private readonly CCLibraryGenerator ccLibraryGenerator;
+        private readonly DOCLibraryGenerator docLibraryGenerator;
+        private readonly ENUMLibraryGenerator enumLibraryGenerator;
+        private readonly PRIMLibraryGenerator primLibraryGenerator;
         private readonly CDTLibraryGenerator cdtLibraryGenerator;
         private readonly GenerationContext context;
 
         public XSDGenerator(ICCRepository repository, bool annotate)
         {
             context = new GenerationContext(repository, annotate);
+            bdtLibraryGenerator = new BDTLibraryGenerator(context);
+            bieLibraryGenerator = new BIELibraryGenerator(context);
+            ccLibraryGenerator = new CCLibraryGenerator(context);
+            docLibraryGenerator = new DOCLibraryGenerator(context);
+            enumLibraryGenerator = new ENUMLibraryGenerator(context);
+            primLibraryGenerator = new PRIMLibraryGenerator(context);
             cdtLibraryGenerator = new CDTLibraryGenerator(context);
         }
 
@@ -36,13 +48,19 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             {
                 case BusinessLibraryType.CDTLibrary:
                     return cdtLibraryGenerator.GenerateXSD((ICDTLibrary) library);
-                case BusinessLibraryType.bLibrary:
-                case BusinessLibraryType.BDTLibrary:
                 case BusinessLibraryType.BIELibrary:
+                    return bieLibraryGenerator.GenerateXSD((IBIELibrary)library);
                 case BusinessLibraryType.CCLibrary:
+                    return ccLibraryGenerator.GenerateXSD((ICCLibrary)library);
                 case BusinessLibraryType.DOCLibrary:
+                    return docLibraryGenerator.GenerateXSD((IDOCLibrary)library);
                 case BusinessLibraryType.ENUMLibrary:
+                    return enumLibraryGenerator.GenerateXSD((IENUMLibrary)library);
+                case BusinessLibraryType.BDTLibrary:
+                    return bdtLibraryGenerator.GenerateXSD((IBDTLibrary)library);
                 case BusinessLibraryType.PRIMLibrary:
+                    return primLibraryGenerator.GenerateXSD((IPRIMLibrary)library);
+                case BusinessLibraryType.bLibrary:
                     return null;
                 default:
                     throw new ArgumentOutOfRangeException("unknown library type " + library.Type);
