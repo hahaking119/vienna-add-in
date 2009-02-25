@@ -277,7 +277,6 @@
     <Compile Include="upcc3\XSDGenerator\Generator\StringExtensions.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\DOCLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\ENUMLibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\ILibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\PRIMLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\Selector.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\XSDGenerator.cs" />
