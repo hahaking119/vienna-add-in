@@ -43,12 +43,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             IBusinessLibrary bLib1 = libraries[0];
             Assert.AreEqual("blib1", bLib1.Name);
-            Assert.AreEqual(BusinessLibraryType.bLibrary, bLib1.Type);
             Assert.AreEqual("http://test/blib1", bLib1.BaseURN);
 
             var primLib1 = (IPRIMLibrary) libraries[1];
             Assert.AreEqual("primlib1", primLib1.Name);
-            Assert.AreEqual(BusinessLibraryType.PRIMLibrary, primLib1.Type);
             Assert.AreEqual("primlib1", primLib1.BaseURN);
             var prims = new List<IPRIM>(primLib1.PRIMs);
             Assert.AreEqual(2, prims.Count);
@@ -59,7 +57,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             var cdtLib1 = (ICDTLibrary) libraries[2];
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
-            Assert.AreEqual(BusinessLibraryType.CDTLibrary, cdtLib1.Type);
             Assert.AreEqual("cdtlib1", cdtLib1.BaseURN);
             var cdts = new List<ICDT>(cdtLib1.CDTs);
             Assert.AreEqual(2, cdts.Count);

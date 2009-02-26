@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     public class CCLibrary : BusinessLibrary, ICCLibrary
     {
         public CCLibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.CCLibrary)
+            : base(repository, package)
         {
         }
 

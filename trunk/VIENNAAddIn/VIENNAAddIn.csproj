@@ -279,6 +279,8 @@
     <Compile Include="upcc3\XSDGenerator\Generator\ENUMLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\PRIMLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\Selector.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedSelector.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\XSDGenerator.cs" />
     <Compile Include="Utils\EAElementWrapper.cs" />
     <Compile Include="Utils\FormStyles.cs" />

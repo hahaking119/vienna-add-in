@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     public class CDTLibrary : BusinessLibrary, ICDTLibrary
     {
         public CDTLibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.CDTLibrary)
+            : base(repository, package)
         {
         }
 

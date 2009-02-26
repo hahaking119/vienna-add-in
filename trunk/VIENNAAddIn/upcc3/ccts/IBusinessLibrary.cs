@@ -2,22 +2,9 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public enum BusinessLibraryType
-    {
-        bLibrary,
-        BDTLibrary,
-        BIELibrary,
-        CCLibrary,
-        CDTLibrary,
-        DOCLibrary,
-        ENUMLibrary,
-        PRIMLibrary
-    }
-
     public interface IBusinessLibrary
     {
         int Id { get; }
-        BusinessLibraryType Type { get; }
         string Name { get; }
         IBusinessLibrary Parent { get; }
         /// <summary>
@@ -37,6 +24,5 @@ namespace VIENNAAddIn.upcc3.ccts
         IEnumerable<string> Copyrights { get; }
         IEnumerable<string> Owners { get; }
         IEnumerable<string> References { get; }
-        bool IsA(BusinessLibraryType type);
     }
 }
