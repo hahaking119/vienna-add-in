@@ -5,10 +5,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class Path
     {
-        private readonly TestEARepository repository;
+        private readonly EARepository repository;
         private readonly List<string> parts = new List<string>();
 
-        public Path(TestEARepository repository)
+        public Path(EARepository repository)
         {
             this.repository = repository;
         }

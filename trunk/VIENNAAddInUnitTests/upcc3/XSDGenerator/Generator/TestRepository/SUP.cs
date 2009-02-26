@@ -1,10 +1,14 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class TestPRIM : TestEAElement
+    internal class SUP : EAAttribute
     {
+        public SUP(string name) : base(name)
+        {
+        }
+
         public override string Stereotype
         {
-            get { return "PRIM"; }
+            get { return "SUP"; }
         }
     }
 }

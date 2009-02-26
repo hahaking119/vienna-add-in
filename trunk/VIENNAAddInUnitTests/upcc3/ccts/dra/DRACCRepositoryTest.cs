@@ -19,7 +19,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestFindCDTs()
         {
-            ICCRepository repository = new CCRepository(new TestEARepository1());
+            ICCRepository repository = new CCRepository(new EARepository1());
             foreach (ICDTLibrary library in repository.Libraries<ICDTLibrary>())
             {
                 IEnumerable<IGrouping<string, ICDT>> cdtByType = from cdt in library.CDTs group cdt by cdt.CON.Type;
@@ -37,9 +37,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestReadAccess()
         {
-            ICCRepository repository = new CCRepository(new TestEARepository1());
+            ICCRepository repository = new CCRepository(new EARepository1());
             var libraries = new List<IBusinessLibrary>(repository.AllLibraries());
-            Assert.AreEqual(3, libraries.Count);
+            Assert.AreEqual(4, libraries.Count);
 
             IBusinessLibrary bLib1 = libraries[0];
             Assert.AreEqual("blib1", bLib1.Name);

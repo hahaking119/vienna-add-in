@@ -1,60 +1,44 @@
 using System;
 using System.Collections.Generic;
-using EA;
 using System.Linq;
+using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class TestLibrary : TestRepositoryElement, Package
+    internal abstract class Library : RepositoryElement, Package
     {
-        private readonly List<TestEAElement> elements = new List<TestEAElement>();
-
-        private readonly List<TestLibrary> libraries = new List<TestLibrary>();
-
         private readonly Element element;
+        protected List<EAElement> elements = new List<EAElement>();
 
-        protected TestLibrary()
+        protected Library(string name) : base(name)
         {
+            Libs = new List<Library>();
             element = new TestEAPackageElement(this);
         }
 
-        protected TestRepositoryElement AddLibrary(TestLibrary library)
+        public string BaseURN
         {
-            libraries.Add(library);
-            return library;
+            set { taggedValues.Add(new EATaggedValue("baseURN", value)); }
         }
 
-        protected TestRepositoryElement AddElement(TestEAElement element)
-        {
-            elements.Add(element);
-            return element;
-        }
-
-        protected TestLibrary LibraryByName(string name)
-        {
-            return libraries.First(l => l.Name == name);
-        }
-
-        protected TestEAElement ElementByName(string name)
-        {
-            return elements.First(e => e.Name == name);
-        }
-
-        public override string BaseURN
-        {
-            set { AddTaggedValue("baseURN", value); }
-        }
+        public List<Library> Libs { get; set; }
 
         #region Package Members
 
+        string IDualPackage.Name
+        {
+            get { return Name; }
+            set { throw new NotImplementedException(); }
+        }
+
         public Collection Packages
         {
-            get { return new TestEACollection<TestLibrary>(libraries); }
+            get { return new EACollection<Library>(Libs); }
         }
 
         public Collection Elements
         {
-            get { return new TestEACollection<TestEAElement>(elements); }
+            get { return new EACollection<EAElement>(elements); }
         }
 
         public Collection Diagrams
@@ -320,6 +304,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
+        protected Library LibraryByName(string name)
+        {
+            return Libs.First(l => l.Name == name);
+        }
+
+        protected EAElement ElementByName(string name)
+        {
+            return elements.First(e => e.Name == name);
+        }
+
         public Element ResolvePath(List<string> parts)
         {
             if (parts.Count == 0)
@@ -334,11 +328,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         }
     }
 
-    internal class TestEAPackageElement : TestEAElement
+    internal class TestEAPackageElement : EAElement
     {
-        private readonly TestLibrary library;
+        private readonly Library library;
 
-        public TestEAPackageElement(TestLibrary library)
+        public TestEAPackageElement(Library library) : base(library.Name)
         {
             this.library = library;
         }

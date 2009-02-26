@@ -4,11 +4,11 @@ using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class TestEACollection<T> : Collection where T : TestRepositoryElement
+    internal class EACollection<T> : Collection where T : RepositoryElement
     {
         private readonly List<T> elements;
 
-        public TestEACollection(List<T> elements)
+        public EACollection(List<T> elements)
         {
             this.elements = elements;
         }
