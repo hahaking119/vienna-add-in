@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     internal class ENUMLibrary : BusinessLibrary, IENUMLibrary
     {
         public ENUMLibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.ENUMLibrary)
+            : base(repository, package)
         {
         }
 

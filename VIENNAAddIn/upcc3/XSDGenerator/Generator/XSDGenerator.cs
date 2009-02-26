@@ -7,63 +7,31 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
     public class XSDGenerator
     {
-        private readonly BDTLibraryGenerator bdtLibraryGenerator;
-        private readonly BIELibraryGenerator bieLibraryGenerator;
-        private readonly CCLibraryGenerator ccLibraryGenerator;
-        private readonly DOCLibraryGenerator docLibraryGenerator;
-        private readonly ENUMLibraryGenerator enumLibraryGenerator;
-        private readonly PRIMLibraryGenerator primLibraryGenerator;
-        private readonly CDTLibraryGenerator cdtLibraryGenerator;
         private readonly GenerationContext context;
+        private readonly TypeBasedGenerator generator = new TypeBasedGenerator();
 
         public XSDGenerator(ICCRepository repository, bool annotate)
         {
             context = new GenerationContext(repository, annotate);
-            bdtLibraryGenerator = new BDTLibraryGenerator(context);
-            bieLibraryGenerator = new BIELibraryGenerator(context);
-            ccLibraryGenerator = new CCLibraryGenerator(context);
-            docLibraryGenerator = new DOCLibraryGenerator(context);
-            enumLibraryGenerator = new ENUMLibraryGenerator(context);
-            primLibraryGenerator = new PRIMLibraryGenerator(context);
-            cdtLibraryGenerator = new CDTLibraryGenerator(context);
+            generator.AddGenerator(new BDTLibraryGenerator(context));
+            generator.AddGenerator(new BIELibraryGenerator(context));
+            generator.AddGenerator(new CCLibraryGenerator(context));
+            generator.AddGenerator(new DOCLibraryGenerator(context));
+            generator.AddGenerator(new ENUMLibraryGenerator(context));
+            generator.AddGenerator(new PRIMLibraryGenerator(context));
+            generator.AddGenerator(new CDTLibraryGenerator(context));
         }
 
         public IEnumerable<XmlSchema> GenerateSchemas()
         {
             foreach (IBusinessLibrary library in context.Repository.AllLibraries())
             {
-                XmlSchema schema = GenerateLibrarySchema(library);
+                Console.WriteLine("Processing {0}.", library.Name);
+                XmlSchema schema = generator.Execute(library);
                 if (schema != null)
                 {
                     yield return schema;
                 }
-            }
-        }
-
-        private XmlSchema GenerateLibrarySchema(IBusinessLibrary library)
-        {
-            Console.WriteLine("Processing <<{0}>> {1}.", library.Type,
-                              library.Name);
-            switch (library.Type)
-            {
-                case BusinessLibraryType.CDTLibrary:
-                    return cdtLibraryGenerator.GenerateXSD((ICDTLibrary) library);
-                case BusinessLibraryType.BIELibrary:
-                    return bieLibraryGenerator.GenerateXSD((IBIELibrary)library);
-                case BusinessLibraryType.CCLibrary:
-                    return ccLibraryGenerator.GenerateXSD((ICCLibrary)library);
-                case BusinessLibraryType.DOCLibrary:
-                    return docLibraryGenerator.GenerateXSD((IDOCLibrary)library);
-                case BusinessLibraryType.ENUMLibrary:
-                    return enumLibraryGenerator.GenerateXSD((IENUMLibrary)library);
-                case BusinessLibraryType.BDTLibrary:
-                    return bdtLibraryGenerator.GenerateXSD((IBDTLibrary)library);
-                case BusinessLibraryType.PRIMLibrary:
-                    return primLibraryGenerator.GenerateXSD((IPRIMLibrary)library);
-                case BusinessLibraryType.bLibrary:
-                    return null;
-                default:
-                    throw new ArgumentOutOfRangeException("unknown library type " + library.Type);
             }
         }
     }

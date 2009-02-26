@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     internal class BDTLibrary : BusinessLibrary, IBDTLibrary
     {
         public BDTLibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.BDTLibrary)
+            : base(repository, package)
         {
         }
 

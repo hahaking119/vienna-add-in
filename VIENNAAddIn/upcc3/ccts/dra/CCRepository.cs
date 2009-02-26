@@ -80,7 +80,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             switch (stereotype)
             {
                 case "bLibrary":
-                    return new BusinessLibrary(this, package, BusinessLibraryType.bLibrary);
+                    return new BusinessLibrary(this, package);
                 case "BDTLibrary":
                     return new BDTLibrary(this, package);
                 case "BIELibrary":

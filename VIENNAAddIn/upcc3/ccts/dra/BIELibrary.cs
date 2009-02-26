@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     internal class BIELibrary : BusinessLibrary, IBIELibrary
     {
         public BIELibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.BIELibrary)
+            : base(repository, package)
         {
         }
 

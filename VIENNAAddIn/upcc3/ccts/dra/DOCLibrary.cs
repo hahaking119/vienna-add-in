@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     internal class DOCLibrary : BusinessLibrary, IDOCLibrary
     {
         public DOCLibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.DOCLibrary)
+            : base(repository, package)
         {
         }
 

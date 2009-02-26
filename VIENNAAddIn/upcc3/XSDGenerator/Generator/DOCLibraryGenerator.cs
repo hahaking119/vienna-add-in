@@ -3,14 +3,14 @@ using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
-    public class DOCLibraryGenerator : AbstractLibraryGenerator
+    public class DOCLibraryGenerator : AbstractLibraryGenerator<IDOCLibrary>
     {
         public DOCLibraryGenerator(GenerationContext context)
             : base(context)
         {
         }
 
-        public XmlSchema GenerateXSD(IDOCLibrary library)
+        public override XmlSchema GenerateXSD(IDOCLibrary library)
         {
             var schema = new XmlSchema();
             return schema;

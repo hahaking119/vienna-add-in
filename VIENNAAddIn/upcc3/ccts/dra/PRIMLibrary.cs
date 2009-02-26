@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     internal class PRIMLibrary : BusinessLibrary, IPRIMLibrary
     {
         public PRIMLibrary(CCRepository repository, Package package)
-            : base(repository, package, BusinessLibraryType.PRIMLibrary)
+            : base(repository, package)
         {
         }
 

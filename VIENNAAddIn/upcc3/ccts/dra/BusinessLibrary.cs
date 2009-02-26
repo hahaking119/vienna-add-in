@@ -6,15 +6,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class BusinessLibrary : IBusinessLibrary
     {
-        private readonly BusinessLibraryType libraryType;
         protected readonly Package package;
         protected readonly CCRepository repository;
 
-        public BusinessLibrary(CCRepository repository, Package package, BusinessLibraryType libraryType)
+        public BusinessLibrary(CCRepository repository, Package package)
         {
             this.repository = repository;
             this.package = package;
-            this.libraryType = libraryType;
         }
 
         #region IBusinessLibrary Members
@@ -22,11 +20,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public int Id
         {
             get { return package.PackageID; }
-        }
-
-        public BusinessLibraryType Type
-        {
-            get { return libraryType; }
         }
 
         public string Name
@@ -108,11 +101,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IEnumerable<string> References
         {
             get { return package.GetTaggedValues(TaggedValues.Reference); }
-        }
-
-        public bool IsA(BusinessLibraryType type)
-        {
-            return Type == type;
         }
 
         #endregion
