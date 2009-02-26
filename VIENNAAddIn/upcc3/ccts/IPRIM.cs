@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts
     {
         int Id { get; }
         string Name { get; }
-        IPRIMLibrary Library { get; }
+        IBusinessLibrary Library { get; }
 
         IEnumerable<string> BusinessTerms { get; }
         string Definition { get; }
