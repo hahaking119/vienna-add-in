@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts
     {
         int Id { get; }
         string Name { get; }
-        IENUMLibrary Library { get; }
+        IBusinessLibrary Library { get; }
 
         string AgencyIdentifier { get; }
         string AgencyName { get; }
