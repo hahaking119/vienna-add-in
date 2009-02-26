@@ -4,29 +4,36 @@ using NUnit.Framework;
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     [TestFixture]
-    public class TestEARepositoryTest
+    public class EARepositoryTest
     {
         [Test]
-        public void TestTestEARepository()
+        public void TestEARepository()
         {
-            Repository repository = new TestEARepository1();
+            Repository repository = new EARepository1();
             Assert.AreEqual(1, repository.Models.Count);
 
             var model = (Package) repository.Models.GetAt(0);
             Assert.AreEqual(1, model.Packages.Count);
 
-            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "http://test/blib1", 2, 0);
+            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "http://test/blib1", 3, 0);
 
             var primLib1 = AssertLibrary(bLib1, 0, "PRIMLibrary", "primlib1", "primlib1", 0, 2);
             var stringType = AssertPRIM(primLib1, 0, "String");
             var decimalType = AssertPRIM(primLib1, 1, "Decimal");
 
             var cdtLib1 = AssertLibrary(bLib1, 1, "CDTLibrary", "cdtlib1", "cdtlib1", 0, 2);
-            var date = AssertCDT(cdtLib1, 0, "Date", stringType, 1);
-            AssertSUP(date, 1, "Format", stringType, "1", "1");
-            var measure = AssertCDT(cdtLib1, 1, "Measure", decimalType, 2);
-            AssertSUP(measure, 1, "MeasureUnit", stringType, "1", "1");
-            AssertSUP(measure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
+            var cdtDate = AssertCDT(cdtLib1, 0, "Date", stringType, 1);
+            AssertSUP(cdtDate, 1, "Format", stringType, "1", "1");
+            var cdtMeasure = AssertCDT(cdtLib1, 1, "Measure", decimalType, 2);
+            AssertSUP(cdtMeasure, 1, "MeasureUnit", stringType, "1", "1");
+            AssertSUP(cdtMeasure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
+
+            var bdtLib1 = AssertLibrary(bLib1, 2, "BDTLibrary", "bdtlib1", "bdtlib1", 0, 2);
+            var bdtDate = AssertBDT(bdtLib1, 0, "Date", stringType, 1, cdtDate);
+            AssertSUP(bdtDate, 1, "Format", stringType, "1", "1");
+            var bdtMeasure = AssertBDT(bdtLib1, 1, "Measure", decimalType, 2, cdtMeasure);
+            AssertSUP(bdtMeasure, 1, "MeasureUnit", stringType, "1", "1");
+            AssertSUP(bdtMeasure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
         }
 
         private static Element AssertPRIM(Package library, short index, string name)
@@ -45,6 +52,30 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             Assert.AreEqual(numberOfSUPs + 1, cdt.Attributes.Count);
             AssertCON(cdt, contentType);
             return cdt;
+        }
+
+        private static Element AssertBDT(Package library, short index, string name, Element contentType, int numberOfSUPs, Element basedOnType)
+        {
+            var bdt = (Element)library.Elements.GetAt(index);
+            Assert.AreEqual("BDT", bdt.Stereotype);
+            Assert.AreEqual(name, bdt.Name);
+            Assert.AreEqual(numberOfSUPs + 1, bdt.Attributes.Count);
+            AssertCON(bdt, contentType);
+            AssertBasedOn(basedOnType, bdt);
+            return bdt;
+        }
+
+        private static void AssertBasedOn(Element basedOnType, Element element)
+        {
+            foreach (Connector connector in element.Connectors)
+            {
+                if (connector.Stereotype == "basedOn")
+                {
+                    Assert.AreEqual(basedOnType.ElementID, connector.SupplierID);
+                    return;
+                }
+            }
+            Assert.Fail("no <<basedOn>> dependency found");
         }
 
         private static void AssertSUP(Element dataType, short index, string name, Element type, string lowerBound, string upperBound)

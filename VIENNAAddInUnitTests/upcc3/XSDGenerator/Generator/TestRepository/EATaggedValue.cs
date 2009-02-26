@@ -2,13 +2,12 @@ using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class TestTaggedValue : TestRepositoryElement, TaggedValue
+    internal class EATaggedValue : RepositoryElement, TaggedValue
     {
         private readonly string value;
 
-        public TestTaggedValue(string name, string value)
+        public EATaggedValue(string name, string value) : base(name)
         {
-            Name = name;
             this.value = value;
         }
 
