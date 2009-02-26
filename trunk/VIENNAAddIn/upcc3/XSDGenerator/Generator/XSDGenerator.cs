@@ -30,7 +30,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
         public IEnumerable<XmlSchema> GenerateSchemas()
         {
-            foreach (IBusinessLibrary library in context.Repository.Libraries)
+            foreach (IBusinessLibrary library in context.Repository.AllLibraries())
             {
                 XmlSchema schema = GenerateLibrarySchema(library);
                 if (schema != null)

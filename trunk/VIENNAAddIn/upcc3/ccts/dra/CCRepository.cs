@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
@@ -19,37 +20,35 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region ICCRepository Members
 
-        public IBusinessLibrary GetRootLibrary()
-        {
-            var model = (Package) eaRepository.Models.GetAt(0);
-            // TODO assert that the model has the <<bLibrary>> stereotype
-            IBusinessLibrary library = new BusinessLibrary(this, model, BusinessLibraryType.bLibrary);
-            return library;
-        }
-
         public IBusinessLibrary GetLibrary(int id)
         {
             return id == 0 ? null : GetLibrary(eaRepository.GetPackageByID(id));
         }
 
-        public IEnumerable<IBusinessLibrary> Libraries
+        public IEnumerable<T> Libraries<T>() where T : IBusinessLibrary
         {
-            get
+            return from library in AllLibraries()
+                   where library is T
+                   select (T) library;
+        }
+
+        public IEnumerable<IBusinessLibrary> AllLibraries()
+        {
+            foreach (Package model in eaRepository.Models)
             {
-                foreach (Package model in eaRepository.Models)
+                foreach (Package rootPackage in model.Packages)
                 {
-                    foreach (Package rootPackage in model.Packages)
+                    IBusinessLibrary rootLibrary = GetLibrary(rootPackage);
+                    yield return rootLibrary;
+                    foreach (IBusinessLibrary child in rootLibrary.AllChildren)
                     {
-                        IBusinessLibrary rootLibrary = GetLibrary(rootPackage);
-                        yield return rootLibrary;
-                        foreach (IBusinessLibrary child in rootLibrary.AllChildren)
-                        {
-                            yield return child;
-                        }
+                        yield return child;
                     }
                 }
             }
         }
+
+        #endregion
 
         public ICDT GetCDT(int id)
         {
@@ -70,8 +69,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             return new ABIE(this, eaRepository.GetElementByID(id));
         }
-
-        #endregion
 
         public IBusinessLibrary GetLibrary(Package package)
         {
@@ -102,6 +99,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     throw new ArgumentException("Element for provided ID is not a CDT or BDT.");
             }
         }
-
     }
 }
