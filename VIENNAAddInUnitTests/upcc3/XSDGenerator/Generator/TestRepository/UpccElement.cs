@@ -5,23 +5,31 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     internal abstract class UpccElement
     {
         private static int nextId;
+        private readonly int id;
+        private readonly string name;
         private readonly List<UpccTaggedValue> taggedValues = new List<UpccTaggedValue>();
 
         protected UpccElement(string name)
         {
-            Name = name;
-            Id = nextId++;
+            this.name = name;
+            id = nextId++;
         }
 
-        public int Id { get; private set; }
-
-        public string Name { get; private set; }
-
-        public abstract string Stereotype { get; }
-
-        public List<UpccTaggedValue> TaggedValues
+        public int GetId()
         {
-            get { return taggedValues; }
+            return id;
+        }
+
+        public abstract string GetStereotype();
+
+        public string GetName()
+        {
+            return name;
+        }
+
+        public List<UpccTaggedValue> GetTaggedValues()
+        {
+            return taggedValues;
         }
     }
 }

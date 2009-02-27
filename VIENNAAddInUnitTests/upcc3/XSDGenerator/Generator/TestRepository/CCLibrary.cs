@@ -2,15 +2,15 @@ using System.Collections.Generic;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class CCLibrary : UpccPackage
+    internal class CCLibrary : UpccClassLibrary
     {
         public CCLibrary(string name) : base(name)
         {
         }
 
-        public override string Stereotype
+        public override string GetStereotype()
         {
-            get { return "CCLibrary"; }
+            return "CCLibrary";
         }
 
         public List<ACC> ACCs

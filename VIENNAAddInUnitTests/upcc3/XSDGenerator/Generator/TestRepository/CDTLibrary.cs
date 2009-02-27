@@ -2,15 +2,15 @@ using System.Collections.Generic;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class CDTLibrary : UpccPackage
+    internal class CDTLibrary : UpccClassLibrary
     {
         public CDTLibrary(string name) : base(name)
         {
         }
 
-        public override string Stereotype
+        public override string GetStereotype()
         {
-            get { return "CDTLibrary"; }
+            return "CDTLibrary";
         }
 
         public List<CDT> CDTs

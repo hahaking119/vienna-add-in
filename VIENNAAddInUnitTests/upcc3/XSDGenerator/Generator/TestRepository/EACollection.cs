@@ -18,7 +18,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             return new EACollection<EAPackage>(models.ConvertAll(m => new EAPackage(m)));
         }
 
-        public static EACollection<EAPackage> Wrap(List<UpccPackage> packages)
+        public static EACollection<EAPackage> Wrap(List<UpccLibrary> packages)
         {
             return new EACollection<EAPackage>(packages.ConvertAll(p => new EAPackage(p)));
         }

@@ -10,13 +10,13 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             set
             {
-                Connectors.Add(new BasedOnConnector(value));
+                AddConnector(new BasedOnDependency(value));
             }
         }
 
-        public override string Stereotype
+        public override string GetStereotype()
         {
-            get { return "BDT"; }
+            return "BDT";
         }
     }
 }

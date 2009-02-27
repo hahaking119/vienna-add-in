@@ -67,7 +67,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int SupplierID
         {
-            get { return connector.PathToSupplier.Resolve().ElementID; }
+            get { return connector.GetPathToSupplier().Resolve().ElementID; }
             set { throw new NotImplementedException(); }
         }
 
@@ -79,7 +79,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         string IDualConnector.Stereotype
         {
-            get { return connector.Stereotype; }
+            get { return connector.GetStereotype(); }
             set { throw new NotImplementedException(); }
         }
 
@@ -260,7 +260,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public string Name
         {
-            get { return connector.Name; }
+            get { return connector.GetName(); }
         }
 
         #endregion

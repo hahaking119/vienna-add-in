@@ -16,7 +16,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public string Name
         {
-            get { return tv.Name; }
+            get { return tv.GetName(); }
         }
 
         #endregion
@@ -52,7 +52,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public string Value
         {
-            get { return tv.Value; }
+            get { return tv.GetValue(); }
             set { throw new NotImplementedException(); }
         }
 
