@@ -8,12 +8,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     internal class DTComponent : IDTComponent
     {
+        private readonly CCRepository repository;
         private readonly Attribute attribute;
         private readonly DTComponentType componentType;
         private readonly IDT dt;
 
-        public DTComponent(Attribute attribute, DTComponentType componentType, IDT dt)
+        public DTComponent(CCRepository repository, Attribute attribute, DTComponentType componentType, IDT dt)
         {
+            this.repository = repository;
             this.attribute = attribute;
             this.componentType = componentType;
             this.dt = dt;
@@ -36,9 +38,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.Name; }
         }
 
-        public string Type
+        public IType Type
         {
-            get { return attribute.Type; }
+            get { return repository.GetIType(attribute.ClassifierID); }
         }
 
         public string Definition

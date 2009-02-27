@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using EA;
+using System.Linq;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -23,6 +25,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public void CreateBDT(BDTSpec spec)
+        {
+            Console.WriteLine("Creating BDT: " + spec.Name);
+            Console.WriteLine("  CON: " + spec.CON.Type.Name);
+            Console.WriteLine("  SUPs:");
+            foreach (var sup in spec.SUPs)
+            {
+                Console.WriteLine("    " + sup.Name + ": " + sup.Type.Name);
+            }
+        }
+
         #endregion
+
+        public IElement ElementByName(string name)
+        {
+            return BDTs.First(e => e.Name == name);
+        }
     }
 }

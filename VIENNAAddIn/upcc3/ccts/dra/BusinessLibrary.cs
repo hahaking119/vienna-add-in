@@ -4,12 +4,12 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class BusinessLibrary : IBusinessLibrary
+    public abstract class BusinessLibrary : IBusinessLibrary
     {
         protected readonly Package package;
         protected readonly CCRepository repository;
 
-        public BusinessLibrary(CCRepository repository, Package package)
+        protected BusinessLibrary(CCRepository repository, Package package)
         {
             this.repository = repository;
             this.package = package;
@@ -30,32 +30,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IBusinessLibrary Parent
         {
             get { return repository.GetLibrary(package.ParentID); }
-        }
-
-        public IEnumerable<IBusinessLibrary> Children
-        {
-            get
-            {
-                foreach (Package childPackage in package.Packages)
-                {
-                    yield return repository.GetLibrary(childPackage);
-                }
-            }
-        }
-
-        public IEnumerable<IBusinessLibrary> AllChildren
-        {
-            get
-            {
-                foreach (var childLib in Children)
-                {
-                    yield return childLib;
-                    foreach (var grandChild in childLib.AllChildren)
-                    {
-                        yield return grandChild;
-                    }
-                }
-            }
         }
 
         public string Status

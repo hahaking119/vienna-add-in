@@ -2,10 +2,8 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface ICC
+    public interface ICC : IElement
     {
-        int Id { get; }
-        string Name { get; }
         string Definition { get; }
         string DictionaryEntryName { get; }
         string LanguageCode { get; }

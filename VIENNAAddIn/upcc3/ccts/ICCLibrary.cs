@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface ICCLibrary : IBusinessLibrary
+    public interface ICCLibrary : IElementLibrary
     {
         IEnumerable<IACC> ACCs { get; }
     }

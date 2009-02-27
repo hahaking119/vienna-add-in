@@ -7,5 +7,7 @@ namespace VIENNAAddIn.upcc3.ccts
         IBusinessLibrary GetLibrary(int id);
         IEnumerable<IBusinessLibrary> AllLibraries();
         IEnumerable<T> Libraries<T>() where T : IBusinessLibrary;
+        T LibraryByName<T>(string name) where T : IBusinessLibrary;
+        T FindByPath<T>(Path path) where T : class;
     }
 }

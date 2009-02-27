@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
@@ -22,6 +22,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     yield return new PRIM(repository, element);
                 }
             }
+        }
+
+        public IElement ElementByName(string name)
+        {
+            return PRIMs.First(e => e.Name == name);
         }
 
         #endregion

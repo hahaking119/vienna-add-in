@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
@@ -23,6 +24,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public ICDT CdtByName(string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
+
+        public IElement ElementByName(string name)
+        {
+            return CDTs.First(e => e.Name == name);
+        }
     }
 }

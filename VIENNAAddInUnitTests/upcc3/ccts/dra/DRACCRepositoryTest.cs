@@ -5,24 +5,59 @@ using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 {
     [TestFixture]
     public class DRACCRepositoryTest
     {
+        #region Setup/Teardown
+
+        [SetUp]
+        public void Init()
+        {
+            repository = new CCRepository(new EARepository1());
+        }
+
+        #endregion
+
+        private ICCRepository repository;
+
         [Test]
         public void TestCreateBDT()
         {
+            var cdtDate = repository.FindByPath<ICDT>((Path) "blib1"/"cdtlib1"/"Date");
+            Assert.IsNotNull(cdtDate);
+            IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().ElementAt(0);
+            var sups = new List<SUPSpec>();
+            foreach (IDTComponent sup in cdtDate.SUPs)
+            {
+                sups.Add(new SUPSpec
+                         {
+                             Name = sup.Name,
+                             Type = sup.Type
+                         });
+            }
+            var bdtSpec = new BDTSpec
+                          {
+                              Name = "My_Date",
+                              BasedOn = cdtDate,
+                              CON = new CONSpec
+                                    {
+                                        Type = cdtDate.CON.Type,
+                                    },
+                              SUPs = sups,
+                          };
+            bdtLibrary.CreateBDT(bdtSpec);
         }
 
         [Test]
         public void TestFindCDTs()
         {
-            ICCRepository repository = new CCRepository(new EARepository1());
             foreach (ICDTLibrary library in repository.Libraries<ICDTLibrary>())
             {
-                IEnumerable<IGrouping<string, ICDT>> cdtByType = from cdt in library.CDTs group cdt by cdt.CON.Type;
+                IEnumerable<IGrouping<IType, ICDT>> cdtByType = from cdt in library.CDTs group cdt by cdt.CON.Type;
                 foreach (var cdtGroup in cdtByType)
                 {
                     Console.WriteLine(cdtGroup.Key);
@@ -37,7 +72,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestReadAccess()
         {
-            ICCRepository repository = new CCRepository(new EARepository1());
             var libraries = new List<IBusinessLibrary>(repository.AllLibraries());
             Assert.AreEqual(5, libraries.Count);
 
@@ -61,12 +95,12 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdts = new List<ICDT>(cdtLib1.CDTs);
             Assert.AreEqual(2, cdts.Count);
             ICDT date = cdts[0];
-            Assert.AreEqual(stringType.Name, date.CON.Type);
+            Assert.AreEqual(stringType.Id, date.CON.Type.Id);
             var dateSups = new List<IDTComponent>(date.SUPs);
             Assert.AreEqual(1, dateSups.Count);
             IDTComponent dateFormat = dateSups[0];
             Assert.AreEqual("Format", dateFormat.Name);
-            Assert.AreEqual(stringType.Name, dateFormat.Type);
+            Assert.AreEqual(stringType.Id, dateFormat.Type.Id);
 
             // TODO check CDT Measure
         }

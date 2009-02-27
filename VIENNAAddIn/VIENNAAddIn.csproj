@@ -216,6 +216,9 @@
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\AddInSettings.cs" />
+    <Compile Include="upcc3\ccts\BDTSpec.cs" />
+    <Compile Include="upcc3\ccts\CDTSpec.cs" />
+    <Compile Include="upcc3\ccts\CONSpec.cs" />
     <Compile Include="upcc3\ccts\dra\ABIE.cs" />
     <Compile Include="upcc3\ccts\dra\AbstractDT.cs" />
     <Compile Include="upcc3\ccts\dra\ACC.cs" />
@@ -227,6 +230,7 @@
     <Compile Include="upcc3\ccts\dra\BDT.cs" />
     <Compile Include="upcc3\ccts\dra\BDTLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\BIELibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\BLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\BusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\CCLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\CCRepository.cs" />
@@ -238,6 +242,8 @@
     <Compile Include="upcc3\ccts\dra\ENUMLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\PRIM.cs" />
     <Compile Include="upcc3\ccts\dra\PRIMLibrary.cs" />
+    <Compile Include="upcc3\ccts\DTComponentSpec.cs" />
+    <Compile Include="upcc3\ccts\DTSpec.cs" />
     <Compile Include="upcc3\ccts\IABIE.cs" />
     <Compile Include="upcc3\ccts\IACC.cs" />
     <Compile Include="upcc3\ccts\IASBIE.cs" />
@@ -253,10 +259,14 @@
     <Compile Include="upcc3\ccts\ICDT.cs" />
     <Compile Include="upcc3\ccts\ICDTLibrary.cs" />
     <Compile Include="upcc3\ccts\IDOCLibrary.cs" />
+    <Compile Include="upcc3\ccts\IElement.cs" />
     <Compile Include="upcc3\ccts\IENUM.cs" />
     <Compile Include="upcc3\ccts\IENUMLibrary.cs" />
     <Compile Include="upcc3\ccts\IPRIM.cs" />
     <Compile Include="upcc3\ccts\IPRIMLibrary.cs" />
+    <Compile Include="upcc3\ccts\IType.cs" />
+    <Compile Include="upcc3\ccts\Path.cs" />
+    <Compile Include="upcc3\ccts\SUPSpec.cs" />
     <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
     <Compile Include="upcc3\ccts\util\ConnectorExtensions.cs" />
