@@ -1,16 +1,14 @@
-using System;
-
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class Model : UpccPackage
+    internal class UpccBLibrary : UpccPackage
     {
-        public Model(string name) : base(name)
+        public UpccBLibrary(string name) : base(name)
         {
         }
 
         public override string Stereotype
         {
-            get { throw new NotImplementedException(); }
+            get { return "bLibrary"; }
         }
     }
 }

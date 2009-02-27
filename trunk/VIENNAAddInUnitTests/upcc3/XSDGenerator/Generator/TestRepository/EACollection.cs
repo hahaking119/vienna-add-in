@@ -4,13 +4,43 @@ using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class EACollection<T> : Collection where T : RepositoryElement
+    internal class EACollection<T> : Collection where T : IEACollectionElement
     {
         private readonly List<T> elements;
 
         public EACollection(List<T> elements)
         {
             this.elements = elements;
+        }
+
+        public static EACollection<EAPackage> Wrap(List<Model> models)
+        {
+            return new EACollection<EAPackage>(models.ConvertAll(m => new EAPackage(m)));
+        }
+
+        public static EACollection<EAPackage> Wrap(List<UpccPackage> packages)
+        {
+            return new EACollection<EAPackage>(packages.ConvertAll(p => new EAPackage(p)));
+        }
+
+        public static EACollection<EAElement> Wrap(List<UpccClass> classes)
+        {
+            return new EACollection<EAElement>(classes.ConvertAll(c => new EAElement(c)));
+        }
+
+        public static EACollection<EAAttribute> Wrap(List<UpccAttribute> attributes)
+        {
+            return new EACollection<EAAttribute>(attributes.ConvertAll(a => new EAAttribute(a)));
+        }
+
+        public static EACollection<EAConnector> Wrap(List<UpccConnector> connectors)
+        {
+            return new EACollection<EAConnector>(connectors.ConvertAll(c => new EAConnector(c)));
+        }
+
+        public static EACollection<EATaggedValue> Wrap(List<UpccTaggedValue> taggedValues)
+        {
+            return new EACollection<EATaggedValue>(taggedValues.ConvertAll(tv => new EATaggedValue(tv)));
         }
 
         public object GetAt(short index)
@@ -67,5 +97,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             return elements.GetEnumerator();
         }
+    }
+
+    internal interface IEACollectionElement
+    {
+        string Name { get; }
     }
 }

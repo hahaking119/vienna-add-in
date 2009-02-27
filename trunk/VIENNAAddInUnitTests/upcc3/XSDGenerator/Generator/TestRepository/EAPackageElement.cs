@@ -1,26 +1,15 @@
 using System;
-using System.Collections.Generic;
 using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class EAElement : RepositoryElement, Element
+    internal class EAPackageElement : Element
     {
-        private readonly List<EAAttribute> attributes = new List<EAAttribute>();
-        protected readonly List<EAConnector> connectors = new List<EAConnector>();
+        private readonly UpccPackage upccPackage;
 
-        protected EAElement(string name) : base(name)
+        public EAPackageElement(UpccPackage upccPackage)
         {
-        }
-
-        public CON CON
-        {
-            set { attributes.Add(value); }
-        }
-
-        public List<SUP> SUPs
-        {
-            set { attributes.AddRange(value.ConvertAll(e => (EAAttribute) e)); }
+            this.upccPackage = upccPackage;
         }
 
         #region Element Members
@@ -85,9 +74,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             throw new NotImplementedException();
         }
 
-        string IDualElement.Name
+        public string Name
         {
-            get { return Name; }
+            get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
@@ -136,9 +125,14 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             get { throw new NotImplementedException(); }
         }
 
+        public Collection TaggedValues
+        {
+            get { return EACollection<EATaggedValue>.Wrap(upccPackage.TaggedValues); }
+        }
+
         public Collection Connectors
         {
-            get { return new EACollection<EAConnector>(connectors); }
+            get { throw new NotImplementedException(); }
         }
 
         public string Notes
@@ -188,9 +182,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualElement.Stereotype
+        public string Stereotype
         {
-            get { return Stereotype; }
+            get { return upccPackage.Stereotype; }
             set { throw new NotImplementedException(); }
         }
 
@@ -278,7 +272,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualElement.Type
+        public string Type
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
@@ -345,7 +339,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int ElementID
         {
-            get { return Id; }
+            get { throw new NotImplementedException(); }
         }
 
         public int PackageID
@@ -361,7 +355,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Attributes
         {
-            get { return new EACollection<EAAttribute>(attributes); }
+            get { throw new NotImplementedException(); }
         }
 
         public Collection Resources

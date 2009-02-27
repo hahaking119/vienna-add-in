@@ -2,10 +2,13 @@ using System;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class Model : UpccPackage
+    internal class UpccTaggedValue : UpccElement
     {
-        public Model(string name) : base(name)
+        public string Value { get; private set; }
+
+        public UpccTaggedValue(string name, string value) : base(name)
         {
+            Value = value;
         }
 
         public override string Stereotype

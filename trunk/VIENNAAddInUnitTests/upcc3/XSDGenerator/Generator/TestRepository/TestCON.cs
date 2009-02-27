@@ -1,6 +1,6 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class CON : EAAttribute
+    internal class CON : UpccAttribute
     {
         public CON(Path type) : base("Content")
         {

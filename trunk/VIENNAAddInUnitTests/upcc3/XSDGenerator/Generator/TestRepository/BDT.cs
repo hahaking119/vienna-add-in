@@ -1,6 +1,6 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class BDT : EAElement
+    internal class BDT : DT
     {
         public BDT(string name) : base(name)
         {
@@ -10,7 +10,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             set
             {
-                connectors.Add(new BasedOnConnector(value));
+                Connectors.Add(new BasedOnConnector(value));
             }
         }
 

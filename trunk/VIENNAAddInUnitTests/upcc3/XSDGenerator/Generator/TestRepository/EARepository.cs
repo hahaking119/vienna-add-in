@@ -11,7 +11,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Element ResolvePath(List<string> parts)
         {
-            return models[0].ResolvePath(parts);
+            return new EAElement(models[0].ResolvePath(parts));
         }
 
         #region Repository Members
@@ -453,7 +453,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Models
         {
-            get { return new EACollection<Model>(models); }
+            get { return EACollection<EAPackage>.Wrap(models); }
         }
 
         public Collection Terms

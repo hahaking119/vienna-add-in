@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class PRIMLibrary : Library
+    internal class PRIMLibrary : UpccPackage
     {
         public PRIMLibrary(string name) : base(name)
         {
@@ -15,7 +15,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public List<PRIM> PRIMs
         {
-            set { elements.AddRange(value.ConvertAll(e => (EAElement)e)); }
+            set { AddClasses(value); }
         }
     }
 }

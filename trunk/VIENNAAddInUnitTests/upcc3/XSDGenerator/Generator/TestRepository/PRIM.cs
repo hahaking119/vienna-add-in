@@ -1,6 +1,6 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class PRIM : EAElement
+    internal class PRIM : UpccClass
     {
         public PRIM(string name) : base(name)
         {

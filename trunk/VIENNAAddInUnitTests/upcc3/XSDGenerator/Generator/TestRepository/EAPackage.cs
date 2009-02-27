@@ -1,27 +1,25 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class Library : RepositoryElement, Package
+    internal class EAPackage : Package, IEACollectionElement
     {
-        private readonly Element element;
-        protected List<EAElement> elements = new List<EAElement>();
-
-        protected Library(string name) : base(name)
+        public EAPackage(UpccPackage upccPackage)
         {
-            Libs = new List<Library>();
-            element = new TestEAPackageElement(this);
+            UpccPackage = upccPackage;
         }
 
-        public string BaseURN
+        public UpccPackage UpccPackage { get; private set; }
+
+        #region IEACollectionElement Members
+
+        public string Name
         {
-            set { taggedValues.Add(new EATaggedValue("baseURN", value)); }
+            get { return UpccPackage.Name; }
         }
 
-        public List<Library> Libs { get; set; }
+        #endregion
 
         #region Package Members
 
@@ -33,12 +31,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Packages
         {
-            get { return new EACollection<Library>(Libs); }
+            get { return EACollection<EAPackage>.Wrap(UpccPackage.Libraries); }
         }
 
         public Collection Elements
         {
-            get { return new EACollection<EAElement>(elements); }
+            get { return EACollection<EAElement>.Wrap(UpccPackage.Classes); }
         }
 
         public Collection Diagrams
@@ -170,7 +168,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Element Element
         {
-            get { return element; }
+            get { return new EAPackageElement(UpccPackage); }
         }
 
         public int BatchLoad
@@ -303,48 +301,5 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         }
 
         #endregion
-
-        protected Library LibraryByName(string name)
-        {
-            return Libs.First(l => l.Name == name);
-        }
-
-        protected EAElement ElementByName(string name)
-        {
-            return elements.First(e => e.Name == name);
-        }
-
-        public Element ResolvePath(List<string> parts)
-        {
-            if (parts.Count == 0)
-            {
-                throw new Exception("cannot resolve path");
-            }
-            if (parts.Count == 1)
-            {
-                return ElementByName(parts[0]);
-            }
-            return LibraryByName(parts[0]).ResolvePath(parts.GetRange(1, parts.Count - 1));
-        }
-    }
-
-    internal class TestEAPackageElement : EAElement
-    {
-        private readonly Library library;
-
-        public TestEAPackageElement(Library library) : base(library.Name)
-        {
-            this.library = library;
-        }
-
-        public override string Stereotype
-        {
-            get { return library.Stereotype; }
-        }
-
-        public override Collection TaggedValues
-        {
-            get { return library.TaggedValues; }
-        }
     }
 }
