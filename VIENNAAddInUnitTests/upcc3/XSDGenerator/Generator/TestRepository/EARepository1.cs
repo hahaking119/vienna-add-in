@@ -111,8 +111,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                                                                       {
                                                                           BCCs = new List<BCC>
                                                                                  {
-                                                                                     
-                                                                                 }
+                                                                                     new BCC("foo")
+                                                                                     {
+                                                                                         
+                                                                                     },
+                                                                                 },
                                                                       }
                                                                   }
                                                        }

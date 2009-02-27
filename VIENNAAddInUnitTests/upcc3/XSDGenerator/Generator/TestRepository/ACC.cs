@@ -8,14 +8,36 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
         }
 
+        public List<BCC> BCCs
+        {
+            set { AddAttributes(value); }
+        }
+
+        public List<ASCC> ASCCs
+        {
+            set { AddConnectors(value); }
+        }
+
+        public Path IsEquivalentTo
+        {
+            set { AddConnector(new IsEquivalentToDependency(value)); }
+        }
+
         public override string GetStereotype()
         {
             return "ACC";
         }
+    }
 
-        public List<BCC> BCCs
+    internal class IsEquivalentToDependency : UpccConnector
+    {
+        public IsEquivalentToDependency(Path acc) : base(acc)
         {
-            set { AddAttributes(value); }
+        }
+
+        public override string GetStereotype()
+        {
+            return "isEquivalentTo";
         }
     }
 }
