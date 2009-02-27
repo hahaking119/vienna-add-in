@@ -131,7 +131,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection TaggedValues
         {
-            get { throw new NotImplementedException(); }
+            get { return EACollection<EATaggedValue>.Wrap(upccClass.TaggedValues); }
         }
 
         public Collection Connectors

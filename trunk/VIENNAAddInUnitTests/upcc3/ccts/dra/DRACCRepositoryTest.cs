@@ -39,7 +39,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             ICCRepository repository = new CCRepository(new EARepository1());
             var libraries = new List<IBusinessLibrary>(repository.AllLibraries());
-            Assert.AreEqual(4, libraries.Count);
+            Assert.AreEqual(5, libraries.Count);
 
             IBusinessLibrary bLib1 = libraries[0];
             Assert.AreEqual("blib1", bLib1.Name);
