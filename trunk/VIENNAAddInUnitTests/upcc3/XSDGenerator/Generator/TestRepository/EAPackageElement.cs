@@ -5,11 +5,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EAPackageElement : Element
     {
-        private readonly UpccPackage upccPackage;
+        private readonly UpccLibrary upccLibrary;
 
-        public EAPackageElement(UpccPackage upccPackage)
+        public EAPackageElement(UpccLibrary upccLibrary)
         {
-            this.upccPackage = upccPackage;
+            this.upccLibrary = upccLibrary;
         }
 
         #region Element Members
@@ -127,7 +127,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection TaggedValues
         {
-            get { return EACollection<EATaggedValue>.Wrap(upccPackage.TaggedValues); }
+            get { return EACollection<EATaggedValue>.Wrap(upccLibrary.GetTaggedValues()); }
         }
 
         public Collection Connectors
@@ -184,7 +184,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public string Stereotype
         {
-            get { return upccPackage.Stereotype; }
+            get { return upccLibrary.GetStereotype(); }
             set { throw new NotImplementedException(); }
         }
 

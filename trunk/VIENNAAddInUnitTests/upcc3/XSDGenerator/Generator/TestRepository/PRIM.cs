@@ -6,9 +6,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
         }
 
-        public override string Stereotype
+        public override string GetStereotype()
         {
-            get { return "PRIM"; }
+            return "PRIM";
         }
     }
 }

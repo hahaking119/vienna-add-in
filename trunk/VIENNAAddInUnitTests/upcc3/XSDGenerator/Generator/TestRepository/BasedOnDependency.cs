@@ -1,16 +1,14 @@
-using System;
-
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class Model : BLibrary
+    internal class BasedOnDependency : UpccConnector
     {
-        public Model(string name) : base(name)
+        public BasedOnDependency(Path basedOnType) : base(basedOnType)
         {
         }
 
         public override string GetStereotype()
         {
-            throw new NotImplementedException();
+            return "basedOn";
         }
     }
 }

@@ -4,16 +4,21 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class UpccTaggedValue : UpccElement
     {
-        public string Value { get; private set; }
+        private readonly string value;
 
         public UpccTaggedValue(string name, string value) : base(name)
         {
-            Value = value;
+            this.value = value;
         }
 
-        public override string Stereotype
+        public string GetValue()
         {
-            get { throw new NotImplementedException(); }
+            return value;
+        }
+
+        public override string GetStereotype()
+        {
+            throw new NotImplementedException();
         }
     }
 }

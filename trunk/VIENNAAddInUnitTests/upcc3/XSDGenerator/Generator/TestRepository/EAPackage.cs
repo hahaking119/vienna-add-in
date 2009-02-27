@@ -5,18 +5,18 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EAPackage : Package, IEACollectionElement
     {
-        public EAPackage(UpccPackage upccPackage)
+        public EAPackage(UpccLibrary upccLibrary)
         {
-            UpccPackage = upccPackage;
+            UpccLibrary = upccLibrary;
         }
 
-        public UpccPackage UpccPackage { get; private set; }
+        public UpccLibrary UpccLibrary { get; private set; }
 
         #region IEACollectionElement Members
 
         public string Name
         {
-            get { return UpccPackage.Name; }
+            get { return UpccLibrary.GetName(); }
         }
 
         #endregion
@@ -31,12 +31,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Packages
         {
-            get { return EACollection<EAPackage>.Wrap(UpccPackage.Libraries); }
+            get { return EACollection<EAPackage>.Wrap(UpccLibrary.GetLibraries()); }
         }
 
         public Collection Elements
         {
-            get { return EACollection<EAElement>.Wrap(UpccPackage.Classes); }
+            get { return EACollection<EAElement>.Wrap(UpccLibrary.GetClasses()); }
         }
 
         public Collection Diagrams
@@ -168,7 +168,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Element Element
         {
-            get { return new EAPackageElement(UpccPackage); }
+            get { return new EAPackageElement(UpccLibrary); }
         }
 
         public int BatchLoad

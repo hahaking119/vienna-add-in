@@ -2,15 +2,15 @@ using System.Collections.Generic;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class PRIMLibrary : UpccPackage
+    internal class PRIMLibrary : UpccClassLibrary
     {
         public PRIMLibrary(string name) : base(name)
         {
         }
 
-        public override string Stereotype
+        public override string GetStereotype()
         {
-            get { return "PRIMLibrary"; }
+            return "PRIMLibrary";
         }
 
         public List<PRIM> PRIMs

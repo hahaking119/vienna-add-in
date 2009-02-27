@@ -10,7 +10,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public CON CON
         {
-            set { Attributes.Add(value); }
+            set { AddAttribute(value); }
         }
 
         public List<SUP> SUPs

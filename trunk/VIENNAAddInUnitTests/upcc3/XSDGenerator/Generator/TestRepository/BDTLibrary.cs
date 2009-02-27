@@ -2,20 +2,20 @@ using System.Collections.Generic;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class BDTLibrary : UpccPackage
+    internal class BDTLibrary : UpccClassLibrary
     {
         public BDTLibrary(string name) : base(name)
         {
         }
 
-        public override string Stereotype
-        {
-            get { return "BDTLibrary"; }
-        }
-
         public List<BDT> BDTs
         {
             set { AddClasses(value); }
+        }
+
+        public override string GetStereotype()
+        {
+            return "BDTLibrary";
         }
     }
 }

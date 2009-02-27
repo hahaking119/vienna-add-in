@@ -14,7 +14,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public string Name
         {
-            get { return upccClass.Name; }
+            get { return upccClass.GetName(); }
         }
         #region Element Members
 
@@ -131,12 +131,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection TaggedValues
         {
-            get { return EACollection<EATaggedValue>.Wrap(upccClass.TaggedValues); }
+            get { return EACollection<EATaggedValue>.Wrap(upccClass.GetTaggedValues()); }
         }
 
         public Collection Connectors
         {
-            get { return EACollection<EAConnector>.Wrap(upccClass.Connectors); }
+            get { return EACollection<EAConnector>.Wrap(upccClass.GetConnectors()); }
         }
 
         public string Notes
@@ -188,7 +188,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         string IDualElement.Stereotype
         {
-            get { return upccClass.Stereotype; }
+            get { return upccClass.GetStereotype(); }
             set { throw new NotImplementedException(); }
         }
 
@@ -343,7 +343,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int ElementID
         {
-            get { return upccClass.Id; }
+            get { return upccClass.GetId(); }
         }
 
         public int PackageID
@@ -359,7 +359,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Attributes
         {
-            get { return EACollection<EAAttribute>.Wrap(upccClass.Attributes); }
+            get { return EACollection<EAAttribute>.Wrap(upccClass.GetAttributes()); }
         }
 
         public Collection Resources

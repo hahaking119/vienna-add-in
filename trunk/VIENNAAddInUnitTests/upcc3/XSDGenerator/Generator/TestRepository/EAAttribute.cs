@@ -39,7 +39,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         string IDualAttribute.Stereotype
         {
-            get { return attribute.Stereotype; }
+            get { return attribute.GetStereotype(); }
             set { throw new NotImplementedException(); }
         }
 
@@ -169,7 +169,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         Collection IDualAttribute.TaggedValues
         {
-            get { return EACollection<EATaggedValue>.Wrap(attribute.TaggedValues); }
+            get { return EACollection<EATaggedValue>.Wrap(attribute.GetTaggedValues()); }
         }
 
         public string AttributeGUID
@@ -211,7 +211,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public string Name
         {
-            get { return attribute.Name; }
+            get { return attribute.GetName(); }
         }
 
         #endregion

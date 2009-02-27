@@ -2,11 +2,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal abstract class UpccConnector : UpccElement
     {
-        public Path PathToSupplier { get; private set; }
+        private readonly Path pathToSupplier;
 
         protected UpccConnector(Path pathToSupplier) : base(null)
         {
-            PathToSupplier = pathToSupplier;
+            this.pathToSupplier = pathToSupplier;
+        }
+
+        public Path GetPathToSupplier()
+        {
+            return pathToSupplier;
         }
     }
 }

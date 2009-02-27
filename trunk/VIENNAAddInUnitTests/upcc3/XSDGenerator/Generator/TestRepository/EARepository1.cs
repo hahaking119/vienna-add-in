@@ -14,12 +14,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                      {
                          new Model("test model")
                          {
-                             Libraries = new List<UpccPackage>
+                             Libraries = new List<UpccLibrary>
                                     {
-                                        new UpccBLibrary("blib1")
+                                        new BLibrary("blib1")
                                         {
                                             BaseURN = "http://test/blib1",
-                                            Libraries = new List<UpccPackage>
+                                            Libraries = new List<UpccLibrary>
                                                    {
                                                        new PRIMLibrary("primlib1")
                                                        {
