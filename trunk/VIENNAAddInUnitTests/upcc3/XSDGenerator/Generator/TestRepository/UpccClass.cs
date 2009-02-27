@@ -22,6 +22,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             connectors.Add(connector);
         }
 
+        protected void AddConnectors<T>(List<T> connectors) where T : UpccConnector
+        {
+            this.connectors.AddRange(connectors.ConvertAll(a => (UpccConnector) a));
+        }
+
         public List<UpccAttribute> GetAttributes()
         {
             return attributes;

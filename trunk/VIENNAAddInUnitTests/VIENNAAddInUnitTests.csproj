@@ -50,6 +50,7 @@
     <Compile Include="upcc3\XSDGenerator\Generator\SelectorTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\StringExtensionsTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\ACC.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\ASCC.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\BasedOnDependency.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\BCC.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\CCLibrary.cs" />
