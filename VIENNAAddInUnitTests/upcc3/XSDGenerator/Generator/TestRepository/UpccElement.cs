@@ -1,14 +1,13 @@
 using System.Collections.Generic;
-using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class RepositoryElement
+    internal abstract class UpccElement
     {
         private static int nextId;
-        protected readonly List<EATaggedValue> taggedValues = new List<EATaggedValue>();
+        private readonly List<UpccTaggedValue> taggedValues = new List<UpccTaggedValue>();
 
-        protected RepositoryElement(string name)
+        protected UpccElement(string name)
         {
             Name = name;
             Id = nextId++;
@@ -20,9 +19,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public abstract string Stereotype { get; }
 
-        public virtual Collection TaggedValues
+        public List<UpccTaggedValue> TaggedValues
         {
-            get { return new EACollection<EATaggedValue>(taggedValues); }
+            get { return taggedValues; }
         }
     }
 }

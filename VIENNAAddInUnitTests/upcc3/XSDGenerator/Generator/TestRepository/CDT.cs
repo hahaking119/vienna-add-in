@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class CDT : EAElement
+    internal class CDT : DT
     {
         public CDT(string name) : base(name)
         {

@@ -15,7 +15,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             var model = (Package) repository.Models.GetAt(0);
             Assert.AreEqual(1, model.Packages.Count);
 
-            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "http://test/blib1", 3, 0);
+            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "http://test/blib1", 4, 0);
 
             var primLib1 = AssertLibrary(bLib1, 0, "PRIMLibrary", "primlib1", "primlib1", 0, 2);
             var stringType = AssertPRIM(primLib1, 0, "String");

@@ -1,6 +1,6 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class BasedOnConnector : EAConnector
+    internal class BasedOnConnector : UpccConnector
     {
         public BasedOnConnector(Path basedOnType) : base(basedOnType)
         {

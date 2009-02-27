@@ -1,14 +1,14 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class BLibrary : Library
+    internal class BCC:UpccAttribute
     {
-        public BLibrary(string name) : base(name)
+        public BCC(string name) : base(name)
         {
         }
 
         public override string Stereotype
         {
-            get { return "bLibrary"; }
+            get { return "BCC"; }
         }
     }
 }

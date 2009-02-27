@@ -14,12 +14,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                      {
                          new Model("test model")
                          {
-                             Libs = new List<Library>
+                             Libraries = new List<UpccPackage>
                                     {
-                                        new BLibrary("blib1")
+                                        new UpccBLibrary("blib1")
                                         {
                                             BaseURN = "http://test/blib1",
-                                            Libs = new List<Library>
+                                            Libraries = new List<UpccPackage>
                                                    {
                                                        new PRIMLibrary("primlib1")
                                                        {
@@ -100,6 +100,20 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                                                                                      },
                                                                                  },
                                                                       },
+                                                                  }
+                                                       },
+                                                       new CCLibrary("cclib1")
+                                                       {
+                                                           BaseURN = "cclib1",
+                                                           ACCs = new List<ACC>
+                                                                  {
+                                                                      new ACC("Address")
+                                                                      {
+                                                                          BCCs = new List<BCC>
+                                                                                 {
+                                                                                     
+                                                                                 }
+                                                                      }
                                                                   }
                                                        }
                                                    },
