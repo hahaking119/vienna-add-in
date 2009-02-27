@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
@@ -25,5 +26,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        public IElement ElementByName(string name)
+        {
+            return ENUMs.First(e => e.Name == name);
+        }
     }
 }

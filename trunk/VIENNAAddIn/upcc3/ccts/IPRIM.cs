@@ -2,12 +2,9 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IPRIM
+    public interface IPRIM : IType
     {
-        int Id { get; }
-        string Name { get; }
         IBusinessLibrary Library { get; }
-
         IEnumerable<string> BusinessTerms { get; }
         string Definition { get; }
         string DictionaryEntryName { get; }

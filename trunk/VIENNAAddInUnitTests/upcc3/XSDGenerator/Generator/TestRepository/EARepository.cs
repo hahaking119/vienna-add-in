@@ -8,6 +8,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     internal abstract class EARepository : Repository
     {
         protected List<Model> models;
+        private Dictionary<int, UpccClass> elementsById = new Dictionary<int, UpccClass>();
 
         public Element ResolvePath(List<string> parts)
         {
@@ -26,9 +27,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             throw new NotImplementedException();
         }
 
-        public Element GetElementByID(int ElementID)
+        public Element GetElementByID(int id)
         {
-            throw new NotImplementedException();
+            return new EAElement(elementsById[id]);
         }
 
         public Package GetPackageByID(int PackageID)
@@ -590,5 +591,30 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
+        protected void IndexElements()
+        {
+            foreach (var model in models)
+            {
+//                elementsById[model.GetId()] = model;
+                foreach (var library in model.GetLibraries())
+                {
+//                    elementsById[library.GetId()] = library;
+                    IndexLibrary(library);
+                }
+            }
+        }
+
+        private void IndexLibrary(UpccLibrary library)
+        {
+            foreach (var subLibrary in library.GetLibraries())
+            {
+//                elementsById[subLibrary.GetId()] = subLibrary;
+                IndexLibrary(subLibrary);
+            }
+            foreach (var c in library.GetClasses())
+            {
+                elementsById[c.GetId()] = c;
+            }
+        }
     }
 }

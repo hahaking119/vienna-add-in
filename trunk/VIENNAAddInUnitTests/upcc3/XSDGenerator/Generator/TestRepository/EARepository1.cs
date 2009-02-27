@@ -124,6 +124,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                                     },
                          },
                      };
+            IndexElements();
         }
     }
 }

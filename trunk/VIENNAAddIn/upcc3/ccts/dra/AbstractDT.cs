@@ -85,7 +85,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 return
-                    Attributes.Where(AttributeExtensions.IsSUP).Convert(a => (IDTComponent) new DTComponent(a, DTComponentType.SUP, this));
+                    Attributes.Where(AttributeExtensions.IsSUP).Convert(a => (IDTComponent) new DTComponent(repository, a, DTComponentType.SUP, this));
             }
         }
 
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 {
                     throw new Exception("data type contains no attribute with stereotype <<CON>>");
                 }
-                return new DTComponent(conAttribute, DTComponentType.CON, this);
+                return new DTComponent(repository, conAttribute, DTComponentType.CON, this);
             }
         }
 

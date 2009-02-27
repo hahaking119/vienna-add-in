@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.ccts
         DTComponentType ComponentType { get; }
         int Id { get; }
         string Name { get; }
-        string Type { get; }
+        IType Type { get; }
         string Definition { get; }
         string DictionaryEntryName { get; }
         string LanguageCode { get; }

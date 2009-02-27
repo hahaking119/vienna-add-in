@@ -41,7 +41,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             var simpleContent_extension = new XmlSchemaSimpleContentExtension
                                               {
                                                   BaseTypeName =
-                                                      new XmlQualifiedName(cdt.CON.Type,
+                                                      new XmlQualifiedName(cdt.CON.Type.Name,
                                                                            "http://www.w3.org/2001/XMLSchema")
                                               };
 
@@ -64,7 +64,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
         private XmlQualifiedName getXSDType(IDTComponent dtComponent)
         {
-            string type = dtComponent.Type.ToXSDType();
+            string type = dtComponent.Type.Name.ToXSDType();
             if (type == null)
             {
                 Context.appendWarnMessage(
