@@ -331,11 +331,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int ElementID { get; set; }
 
-        public int PackageID
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int PackageID { get; set; }
 
         public Collection Methods
         {

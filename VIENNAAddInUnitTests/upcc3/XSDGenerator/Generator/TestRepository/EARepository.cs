@@ -626,12 +626,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 }
                 else
                 {
-                    AddClasses(child, childPackage.Elements);
+                    AddClasses(child, childPackage.PackageID, childPackage.Elements);
                 }
             }
         }
 
-        private void AddClasses(UpccLibrary library, Collection elements)
+        private void AddClasses(UpccLibrary library, int packageId, Collection elements)
         {
 //            Console.WriteLine("Adding classes for library " + library.Name);
             foreach (UpccClass c in library.GetClasses())
@@ -639,6 +639,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 //                Console.WriteLine("  Adding class " + c.Name);
                 var element = (EAElement) elements.AddNew(c.Name, "Class");
                 element.ElementID = nextId++;
+                element.PackageID = packageId;
                 IndexElement(element);
                 element.Stereotype = c.GetStereotype();
                 Collection attributes = element.Attributes;
