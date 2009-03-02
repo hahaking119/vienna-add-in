@@ -4,7 +4,6 @@ using System.Linq;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
@@ -26,50 +25,91 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         private ICCRepository repository;
         private EARepository1 eaRepository;
 
+        private static void AssertSUPs(IDT expectedDT, IDT actualDT)
+        {
+            Assert.AreEqual(expectedDT.SUPs.Count(), actualDT.SUPs.Count());
+            IEnumerator<IDTComponent> bdtSups = actualDT.SUPs.GetEnumerator();
+            foreach (IDTComponent cdtSup in expectedDT.SUPs)
+            {
+                bdtSups.MoveNext();
+                IDTComponent bdtSup = bdtSups.Current;
+                AssertSUP(cdtSup, actualDT, bdtSup);
+            }
+        }
+
+        private static void AssertSUP(IDTComponent expectedSUP, IDT expectedDT, IDTComponent actualSUP)
+        {
+            AssertDTComponent(expectedSUP, expectedDT, expectedSUP.Name, DTComponentType.SUP, actualSUP);
+        }
+
+        private static void AssertCON(IDT expectedDT, IDT actualDT)
+        {
+            AssertDTComponent(expectedDT.CON, actualDT, "Content", DTComponentType.CON, actualDT.CON);
+        }
+
+        private static void AssertDTComponent(IDTComponent expected, IDT expectedDT, string expectedName,
+                                              DTComponentType expectedComponentType, IDTComponent actual)
+        {
+            Assert.AreEqual(expectedName, actual.Name);
+            Assert.AreEqual(expectedComponentType, actual.ComponentType);
+            Assert.AreSame(expectedDT, actual.DT);
+            Assert.AreEqual(expected.Type.Id, actual.Type.Id);
+            Assert.AreEqual(expected.Definition, actual.Definition);
+            Assert.AreEqual(expected.DictionaryEntryName, actual.DictionaryEntryName);
+            Assert.AreEqual(expected.LanguageCode, actual.LanguageCode);
+            Assert.AreEqual(expected.UniqueIdentifier, actual.UniqueIdentifier);
+            Assert.AreEqual(expected.VersionIdentifier, actual.VersionIdentifier);
+            Assert.AreEqual(expected.LowerBound, actual.LowerBound);
+            Assert.AreEqual(expected.ModificationAllowedIndicator, actual.ModificationAllowedIndicator);
+            Assert.AreEqual(expected.UpperBound, actual.UpperBound);
+            AssertCollectionsEqual(expected.UsageRules, actual.UsageRules);
+            AssertCollectionsEqual(expected.BusinessTerms, actual.BusinessTerms);
+        }
+
+        private static void AssertCollectionsEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+            Assert.AreEqual(expected.Count(), actual.Count(), "number of elements not equal");
+            IEnumerator<T> actualEnumerator = actual.GetEnumerator();
+            foreach (T e in expected)
+            {
+                actualEnumerator.MoveNext();
+                Assert.AreEqual(e, actualEnumerator.Current);
+            }
+        }
+
         [Test]
         public void TestCreateBDT()
         {
             var stringType = (IPRIM) repository.FindByPath((Path) "blib1"/"primlib1"/"String");
             Assert.IsNotNull(stringType, "stringType is null");
+
             var cdtDate = (ICDT) repository.FindByPath((Path) "blib1"/"cdtlib1"/"Date");
             Assert.IsNotNull(cdtDate, "cdtDate is null");
+
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().ElementAt(0);
-            var bdtSpec = CloneCDT(cdtDate, "My");
+
+            BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My");
             IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
+
             Assert.IsNotNull(bdtDate, "BDT is null");
-            Assert.AreEqual("My_Date", bdtDate.Name);
+            Assert.AreEqual(bdtLibrary.Id, bdtDate.Library.Id);
+
+            Assert.AreEqual("My_" + cdtDate.Name, bdtDate.Name);
+
+            Assert.AreEqual(cdtDate.Definition, bdtDate.Definition);
+            Assert.AreEqual(cdtDate.DictionaryEntryName, bdtDate.DictionaryEntryName);
+            Assert.AreEqual(cdtDate.LanguageCode, bdtDate.LanguageCode);
+            Assert.AreEqual(cdtDate.UniqueIdentifier, bdtDate.UniqueIdentifier);
+            Assert.AreEqual(cdtDate.VersionIdentifier, bdtDate.VersionIdentifier);
+            AssertCollectionsEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
+            AssertCollectionsEqual(cdtDate.UsageRules, bdtDate.UsageRules);
+
             Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
             Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
-            Assert.AreEqual(stringType.Id, bdtDate.CON.Type.Id);
-            Assert.AreEqual(cdtDate.SUPs.Count(), bdtDate.SUPs.Count());
-            IEnumerator<IDTComponent> bdtSups = bdtDate.SUPs.GetEnumerator();
-            foreach (IDTComponent cdtSup in cdtDate.SUPs)
-            {
-                bdtSups.MoveNext();
-                IDTComponent bdtSup = bdtSups.Current;
-                Assert.AreEqual(cdtSup.Name, bdtSup.Name);
-                Assert.AreEqual(cdtSup.Type.Id, bdtSup.Type.Id);
-//                Assert.AreEqual(cdtSup.LowerBound, bdtSup.LowerBound);
-//                Assert.AreEqual(cdtSup.UpperBound, bdtSup.UpperBound);
-            }
-        }
 
-        private static BDTSpec CloneCDT(ICDT cdtDate, string qualifier)
-        {
-            return new BDTSpec
-                   {
-                       Name = (qualifier != null ? qualifier + "_" + cdtDate.Name : cdtDate.Name),
-                       BasedOn = cdtDate,
-                       CON = new CONSpec
-                             {
-                                 Type = cdtDate.CON.Type,
-                             },
-                       SUPs = cdtDate.SUPs.Convert(sup => new SUPSpec
-                                                          {
-                                                              Name = sup.Name,
-                                                              Type = sup.Type
-                                                          }),
-                   };
+            AssertCON(cdtDate, bdtDate);
+
+            AssertSUPs(cdtDate, bdtDate);
         }
 
         [Test]

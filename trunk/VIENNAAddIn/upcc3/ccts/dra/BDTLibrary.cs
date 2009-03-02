@@ -29,12 +29,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IBDT CreateBDT(BDTSpec spec)
         {
             var bdt = (Element) package.Elements.AddNew(spec.Name, "Class");
+            bdt.PackageID = Id;
             bdt.Stereotype = "BDT";
             bdt.AddConnector("basedOn", "basedOn", spec.BasedOn.Id);
-            bdt.AddAttribute("CON", "Content", spec.CON.Type.Name, spec.CON.Type.Id);
+            bdt.AddAttribute("CON", "Content", spec.CON.Type.Name, spec.CON.Type.Id, spec.CON.LowerBound, spec.CON.UpperBound);
             foreach (var sup in spec.SUPs)
             {
-                bdt.AddAttribute("SUP", sup.Name, sup.Type.Name, sup.Type.Id);
+                bdt.AddAttribute("SUP", sup.Name, sup.Type.Name, sup.Type.Id, sup.LowerBound, sup.UpperBound);
             }
             bdt.Update();
             package.Elements.Refresh();

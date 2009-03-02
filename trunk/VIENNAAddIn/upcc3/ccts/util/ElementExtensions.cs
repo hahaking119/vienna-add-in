@@ -38,11 +38,13 @@ namespace VIENNAAddIn.upcc3.ccts.util
         }
 
         public static void AddAttribute(this Element element, string stereotype, string name, string typeName,
-                                        int classifierId)
+                                        int classifierId, string lowerBound, string upperBound)
         {
             var attribute = (Attribute) element.Attributes.AddNew(name, typeName);
             attribute.Stereotype = stereotype;
             attribute.ClassifierID = classifierId;
+            attribute.LowerBound = lowerBound;
+            attribute.UpperBound = upperBound;
         }
     }
 }
