@@ -1,47 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class EACollection<T> : Collection where T : IEACollectionElement
+    public class EACollection<TCollectionElement> : Collection
+        where TCollectionElement : IEACollectionElement, new()
     {
-        private readonly List<T> elements;
+        private readonly List<TCollectionElement> elements = new List<TCollectionElement>();
 
-        public EACollection(List<T> elements)
-        {
-            this.elements = elements;
-        }
-
-        public static EACollection<EAPackage> Wrap(List<Model> models)
-        {
-            return new EACollection<EAPackage>(models.ConvertAll(m => new EAPackage(m)));
-        }
-
-        public static EACollection<EAPackage> Wrap(List<UpccLibrary> packages)
-        {
-            return new EACollection<EAPackage>(packages.ConvertAll(p => new EAPackage(p)));
-        }
-
-        public static EACollection<EAElement> Wrap(List<UpccClass> classes)
-        {
-            return new EACollection<EAElement>(classes.ConvertAll(c => new EAElement(c)));
-        }
-
-        public static EACollection<EAAttribute> Wrap(List<UpccAttribute> attributes)
-        {
-            return new EACollection<EAAttribute>(attributes.ConvertAll(a => new EAAttribute(a)));
-        }
-
-        public static EACollection<EAConnector> Wrap(List<UpccConnector> connectors)
-        {
-            return new EACollection<EAConnector>(connectors.ConvertAll(c => new EAConnector(c)));
-        }
-
-        public static EACollection<EATaggedValue> Wrap(List<UpccTaggedValue> taggedValues)
-        {
-            return new EACollection<EATaggedValue>(taggedValues.ConvertAll(tv => new EATaggedValue(tv)));
-        }
+        #region Collection Members
 
         public object GetAt(short index)
         {
@@ -50,12 +19,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public void DeleteAt(short index, bool Refresh)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public string GetLastError()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public object GetByName(string name)
@@ -65,22 +34,24 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public void Refresh()
         {
-            throw new System.NotImplementedException();
+            // do nothing
         }
 
         public object AddNew(string Name, string Type)
         {
-            throw new System.NotImplementedException();
+            var element = new TCollectionElement {Name = Name};
+            elements.Add(element);
+            return element;
         }
 
         public void Delete(short index)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         IEnumerator IDualCollection.GetEnumerator()
         {
-            return elements.GetEnumerator();
+            return GetEnumerator();
         }
 
         public short Count
@@ -90,17 +61,19 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public ObjectType ObjectType
         {
-            get { throw new System.NotImplementedException(); }
+            get { throw new NotImplementedException(); }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
             return elements.GetEnumerator();
         }
+
+        #endregion
     }
 
-    internal interface IEACollectionElement
+    public interface IEACollectionElement
     {
-        string Name { get; }
+        string Name { get; set; }
     }
 }

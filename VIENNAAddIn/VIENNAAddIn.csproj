@@ -242,6 +242,7 @@
     <Compile Include="upcc3\ccts\dra\ENUMLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\PRIM.cs" />
     <Compile Include="upcc3\ccts\dra\PRIMLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccElement.cs" />
     <Compile Include="upcc3\ccts\DTComponentSpec.cs" />
     <Compile Include="upcc3\ccts\DTSpec.cs" />
     <Compile Include="upcc3\ccts\IABIE.cs" />

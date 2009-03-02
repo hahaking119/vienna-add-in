@@ -4,16 +4,13 @@ using System.Linq;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class BLibrary : UpccLibrary
+    public class BLibrary : UpccLibrary
     {
         private List<UpccLibrary> libraries = new List<UpccLibrary>();
 
-        public BLibrary(string name) : base(name)
-        {
-        }
-
         public List<UpccLibrary> Libraries
         {
+            get { return libraries; }
             set { libraries = value; }
         }
 
@@ -24,7 +21,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public override List<UpccLibrary> GetLibraries()
         {
-            return libraries;
+            return Libraries;
         }
 
         public override List<UpccClass> GetClasses()
@@ -34,7 +31,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         private UpccLibrary LibraryByName(string name)
         {
-            return libraries.First(l => l.GetName() == name);
+            return libraries.First(l => l.Name == name);
         }
 
         public override UpccClass ResolvePath(List<string> parts)

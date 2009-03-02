@@ -1,17 +1,12 @@
+using VIENNAAddIn.upcc3.ccts;
+
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class BDT : DT
     {
-        public BDT(string name) : base(name)
-        {
-        }
-
         public Path BasedOn
         {
-            set
-            {
-                AddConnector(new BasedOnDependency(value));
-            }
+            set { AddConnector(new BasedOnDependency {PathToSupplier = value}); }
         }
 
         public override string GetStereotype()

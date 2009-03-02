@@ -1,13 +1,22 @@
+using VIENNAAddIn.upcc3.ccts;
+
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class UpccAttribute : UpccElement
+    public abstract class UpccAttribute : UpccElement
     {
-        protected UpccAttribute(string name) : base(name)
+        public Path Type { get; set; }
+        private string lowerBound = "1";
+        public string LowerBound
         {
+            get { return lowerBound; }
+            set { lowerBound = value; }
         }
 
-        public Path Type { get; set; }
-        public string LowerBound { get; set; }
-        public string UpperBound { get; set; }
+        private string upperBound = "1";
+        public string UpperBound
+        {
+            get { return upperBound; }
+            set { upperBound = value; }
+        }
     }
 }

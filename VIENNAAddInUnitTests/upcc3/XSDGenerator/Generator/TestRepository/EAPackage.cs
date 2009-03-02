@@ -3,40 +3,34 @@ using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class EAPackage : Package, IEACollectionElement
+    public class EAPackage : Package, IEACollectionElement
     {
-        public EAPackage(UpccLibrary upccLibrary)
-        {
-            UpccLibrary = upccLibrary;
-        }
-
-        public UpccLibrary UpccLibrary { get; private set; }
+        private readonly Collection packages = new EACollection<EAPackage>();
+        private readonly Collection elements = new EACollection<EAElement>();
+        private readonly Element element = new EAElement();
 
         #region IEACollectionElement Members
 
-        public string Name
+        string IEACollectionElement.Name
         {
-            get { return UpccLibrary.GetName(); }
+            get { return Name; }
+            set { Name = value; }
         }
 
         #endregion
 
         #region Package Members
 
-        string IDualPackage.Name
-        {
-            get { return Name; }
-            set { throw new NotImplementedException(); }
-        }
+        public string Name { get; set; }
 
         public Collection Packages
         {
-            get { return EACollection<EAPackage>.Wrap(UpccLibrary.GetLibraries()); }
+            get { return packages; }
         }
 
         public Collection Elements
         {
-            get { return EACollection<EAElement>.Wrap(UpccLibrary.GetClasses()); }
+            get { return elements; }
         }
 
         public Collection Diagrams
@@ -56,10 +50,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int PackageID
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int PackageID { get; set; }
 
         public string PackageGUID
         {
@@ -168,7 +159,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Element Element
         {
-            get { return new EAPackageElement(UpccLibrary); }
+            get { return element; }
         }
 
         public int BatchLoad

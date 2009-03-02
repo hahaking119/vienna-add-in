@@ -1,21 +1,17 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
-using System.Linq;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class ACC : IACC
+    public class ACC : UpccElement, IACC
     {
         private readonly CCRepository repository;
-        private readonly Element element;
 
-        public ACC(CCRepository repository, Element element)
+        public ACC(CCRepository repository, Element element) : base(element, "ACC")
         {
             this.repository = repository;
-            this.element = element;
         }
 
         private IEnumerable<Attribute> Attributes
@@ -27,6 +23,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
+
+        #region IACC Members
 
         public int Id
         {
@@ -83,7 +81,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 return
-                    Attributes.Convert(a => (IBCC)new BCC(repository, a));
+                    Attributes.Convert(a => (IBCC) new BCC(repository, a));
             }
         }
 
@@ -92,18 +90,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 return
-                    Connectors.Where(IsASCC).Convert(c => (IASCC)new ASCC(repository, c));
+                    Connectors.Where(IsASCC).Convert(c => (IASCC) new ASCC(repository, c));
             }
-        }
-
-        private static bool IsASCC(Connector con)
-        {
-            return con.Stereotype == "ASCC";
-        }
-
-        private static bool IsEquivalentToDependency(Connector con)
-        {
-            return con.Stereotype == "isEquivalentTo";
         }
 
         public IACC IsEquivalentTo
@@ -116,5 +104,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        #endregion
+
+        private static bool IsASCC(Connector con)
+        {
+            return con.Stereotype == "ASCC";
+        }
+
+        private static bool IsEquivalentToDependency(Connector con)
+        {
+            return con.Stereotype == "isEquivalentTo";
+        }
     }
 }

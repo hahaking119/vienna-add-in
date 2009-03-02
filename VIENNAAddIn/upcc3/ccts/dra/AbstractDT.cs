@@ -7,15 +7,13 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public abstract class AbstractDT : IDT
+    public abstract class AbstractDT : UpccElement, IDT
     {
         protected readonly CCRepository repository;
-        protected readonly Element element;
 
-        protected AbstractDT(CCRepository repository, Element element)
+        protected AbstractDT(CCRepository repository, Element element, string stereotype):base(element, stereotype)
         {
             this.repository = repository;
-            this.element = element;
         }
 
         private IEnumerable<Attribute> Attributes
@@ -105,5 +103,4 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
     }
-
 }

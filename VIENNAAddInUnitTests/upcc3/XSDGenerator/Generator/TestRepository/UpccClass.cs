@@ -2,15 +2,11 @@ using System.Collections.Generic;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class UpccClass : UpccElement
+    public abstract class UpccClass : UpccElement
     {
         private readonly List<UpccAttribute> attributes = new List<UpccAttribute>();
 
         private readonly List<UpccConnector> connectors = new List<UpccConnector>();
-
-        protected UpccClass(string name) : base(name)
-        {
-        }
 
         public List<UpccConnector> GetConnectors()
         {

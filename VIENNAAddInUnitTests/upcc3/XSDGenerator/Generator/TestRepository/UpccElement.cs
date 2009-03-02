@@ -1,35 +1,28 @@
 using System.Collections.Generic;
+using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class UpccElement
+    public abstract class UpccElement
     {
-        private static int nextId;
-        private readonly int id;
-        private readonly string name;
+        public string Name { get; set; }
         private readonly List<UpccTaggedValue> taggedValues = new List<UpccTaggedValue>();
 
-        protected UpccElement(string name)
-        {
-            this.name = name;
-            id = nextId++;
-        }
-
-        public int GetId()
-        {
-            return id;
-        }
-
         public abstract string GetStereotype();
-
-        public string GetName()
-        {
-            return name;
-        }
 
         public List<UpccTaggedValue> GetTaggedValues()
         {
             return taggedValues;
         }
+
+        protected void AddTaggedValue(string name, string value)
+        {
+            taggedValues.Add(new UpccTaggedValue { Name = name, Value = value });
+        }
+
+        public void ResolvePath(Path path, UpccElement parent)
+        {
+        }
+
     }
 }

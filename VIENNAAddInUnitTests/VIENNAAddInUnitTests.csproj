@@ -61,8 +61,8 @@
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAPackage.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAPackageElement.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EATaggedValue.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\IsEquivalentToDependency.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\UpccCON.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\Path.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\SUP.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\BDT.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\BDTLibrary.cs" />

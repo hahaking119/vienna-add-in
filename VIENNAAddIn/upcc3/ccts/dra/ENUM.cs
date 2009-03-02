@@ -4,15 +4,13 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ENUM : IENUM
+    internal class ENUM : UpccElement, IENUM
     {
-        private readonly Element element;
         private readonly CCRepository repository;
 
-        public ENUM(CCRepository repository, Element element)
+        public ENUM(CCRepository repository, Element element) : base(element, "ENUM")
         {
             this.repository = repository;
-            this.element = element;
         }
 
         #region IENUM Members

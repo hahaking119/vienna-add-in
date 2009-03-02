@@ -4,15 +4,13 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class PRIM : IPRIM
+    internal class PRIM : UpccElement, IPRIM
     {
-        private readonly Element element;
         private readonly CCRepository repository;
 
-        public PRIM(CCRepository repository, Element element)
+        public PRIM(CCRepository repository, Element element) : base(element, "PRIM")
         {
             this.repository = repository;
-            this.element = element;
         }
 
         #region IPRIM Members

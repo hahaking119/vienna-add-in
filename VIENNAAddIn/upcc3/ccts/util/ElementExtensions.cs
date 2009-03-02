@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -27,6 +28,21 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 }
             }
             return String.Empty;
+        }
+
+        public static void AddConnector(this Element element, string stereotype, string name, int supplierId)
+        {
+            var connector = (Connector) element.Connectors.AddNew(name, "Association");
+            connector.Stereotype = stereotype;
+            connector.SupplierID = supplierId;
+        }
+
+        public static void AddAttribute(this Element element, string stereotype, string name, string typeName,
+                                        int classifierId)
+        {
+            var attribute = (Attribute) element.Attributes.AddNew(name, typeName);
+            attribute.Stereotype = stereotype;
+            attribute.ClassifierID = classifierId;
         }
     }
 }
