@@ -1,10 +1,10 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class ASCC: UpccConnector
+    internal class IsEquivalentToDependency : UpccConnector
     {
         public override string GetStereotype()
         {
-            return "ASCC";
+            return "isEquivalentTo";
         }
     }
 }

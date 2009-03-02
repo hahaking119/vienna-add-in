@@ -8,10 +8,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     {
         private readonly List<UpccClass> classes = new List<UpccClass>();
 
-        protected UpccClassLibrary(string name) : base(name)
-        {
-        }
-
         public override List<UpccLibrary> GetLibraries()
         {
             return new List<UpccLibrary>();
@@ -24,7 +20,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         private UpccClass ClassByName(string name)
         {
-            return classes.First(e => e.GetName() == name);
+            return classes.First(e => e.Name == name);
         }
 
         public override UpccClass ResolvePath(List<string> parts)

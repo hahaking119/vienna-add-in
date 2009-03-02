@@ -5,18 +5,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EATaggedValue : IEACollectionElement, TaggedValue
     {
-        private readonly UpccTaggedValue tv;
-
-        public EATaggedValue(UpccTaggedValue tv)
-        {
-            this.tv = tv;
-        }
-
         #region IEACollectionElement Members
 
-        public string Name
+        string IEACollectionElement.Name
         {
-            get { return tv.GetName(); }
+            get { return Name; }
+            set { Name = value; }
         }
 
         #endregion
@@ -25,7 +19,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public bool Update()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public string GetLastError()
@@ -44,17 +38,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualTaggedValue.Name
-        {
-            get { return Name; }
-            set { throw new NotImplementedException(); }
-        }
+        public string Name{ get; set;}
 
-        public string Value
-        {
-            get { return tv.GetValue(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Value { get; set;}
 
         public string Notes
         {

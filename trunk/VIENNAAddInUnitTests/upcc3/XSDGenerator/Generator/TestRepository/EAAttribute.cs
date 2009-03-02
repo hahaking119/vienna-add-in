@@ -1,17 +1,16 @@
 using System;
 using EA;
+using VIENNAAddIn.upcc3.ccts;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EAAttribute : Attribute, IEACollectionElement
     {
-        private readonly UpccAttribute attribute;
-
-        public EAAttribute(UpccAttribute attribute)
-        {
-            this.attribute = attribute;
-        }
+        private readonly Collection taggedValues = new EACollection<EATaggedValue>();
+        private int classifierId;
+        public Repository Repository { get; set; }
+        public Path ClassifierPath { get; set; }
 
         #region Attribute Members
 
@@ -25,11 +24,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             throw new NotImplementedException();
         }
 
-        string IDualAttribute.Name
-        {
-            get { return Name; }
-            set { throw new NotImplementedException(); }
-        }
+        public string Name { get; set; }
 
         public string Visibility
         {
@@ -37,11 +32,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualAttribute.Stereotype
-        {
-            get { return attribute.GetStereotype(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Stereotype { get; set; }
 
         public string Containment
         {
@@ -73,17 +64,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualAttribute.LowerBound
-        {
-            get { return (attribute.LowerBound ?? "1"); }
-            set { throw new NotImplementedException(); }
-        }
+        public string LowerBound { get; set; }
 
-        string IDualAttribute.UpperBound
-        {
-            get { return (attribute.UpperBound ?? "1"); }
-            set { throw new NotImplementedException(); }
-        }
+        public string UpperBound { get; set; }
 
         public string Container
         {
@@ -146,8 +129,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int ClassifierID
         {
-            get { return attribute.Type.Resolve().ElementID; }
-            set { throw new NotImplementedException(); }
+            get { return (ClassifierPath != null ? ClassifierPath.Resolve<Element>(Repository).ElementID : classifierId); }
+            set { classifierId = value; }
         }
 
         public string Default
@@ -156,10 +139,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualAttribute.Type
+        public string Type
         {
-            get { return attribute.Type.Resolve().Name; }
-            set { throw new NotImplementedException(); }
+            get { return ClassifierPath.Resolve<Element>(Repository).Name; }
+            set { }
         }
 
         public Collection Constraints
@@ -167,9 +150,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        Collection IDualAttribute.TaggedValues
+        public Collection TaggedValues
         {
-            get { return EACollection<EATaggedValue>.Wrap(attribute.GetTaggedValues()); }
+            get { return taggedValues; }
         }
 
         public string AttributeGUID
@@ -209,9 +192,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #region IEACollectionElement Members
 
-        public string Name
+        string IEACollectionElement.Name
         {
-            get { return attribute.GetName(); }
+            get { return Name; }
+            set { Name = value; }
         }
 
         #endregion

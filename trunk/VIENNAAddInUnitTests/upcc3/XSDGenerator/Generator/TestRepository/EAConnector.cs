@@ -1,16 +1,15 @@
 using System;
 using EA;
+using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EAConnector : IEACollectionElement, Connector
     {
-        private readonly UpccConnector connector;
+        private int supplierID;
+        public EARepository Repository { get; set; }
 
-        public EAConnector(UpccConnector connector)
-        {
-            this.connector = connector;
-        }
+        public Path SupplierPath { get; set; }
 
         #region Connector Members
 
@@ -29,11 +28,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        string IDualConnector.Name
-        {
-            get { return Name; }
-            set { throw new NotImplementedException(); }
-        }
+        public string Name { get; set; }
 
         public string Direction
         {
@@ -67,8 +62,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int SupplierID
         {
-            get { return connector.GetPathToSupplier().Resolve().ElementID; }
-            set { throw new NotImplementedException(); }
+            get
+            {
+                return SupplierPath != null ? SupplierPath.Resolve<Element>(Repository).ElementID : supplierID;
+            }
+            set { supplierID = value; }
         }
 
         public int SequenceNo
@@ -77,11 +75,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualConnector.Stereotype
-        {
-            get { return connector.GetStereotype(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Stereotype { get; set; }
 
         public string VirtualInheritance
         {
@@ -258,9 +252,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #region IEACollectionElement Members
 
-        public string Name
+        string IEACollectionElement.Name
         {
-            get { return connector.GetName(); }
+            get { return Name; }
+            set { Name = value; }
         }
 
         #endregion

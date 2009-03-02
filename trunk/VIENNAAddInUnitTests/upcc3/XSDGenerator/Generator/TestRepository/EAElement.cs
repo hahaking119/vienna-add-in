@@ -3,24 +3,17 @@ using EA;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class EAElement: Element, IEACollectionElement
+    internal class EAElement : Element, IEACollectionElement
     {
-        private readonly UpccClass upccClass;
+        private readonly Collection taggedValues = new EACollection<EATaggedValue>();
+        private readonly Collection connectors = new EACollection<EAConnector>();
+        private readonly Collection attributes = new EACollection<EAAttribute>();
 
-        public EAElement(UpccClass upccClass)
-        {
-            this.upccClass = upccClass;
-        }
-
-        public string Name
-        {
-            get { return upccClass.GetName(); }
-        }
         #region Element Members
 
         public bool Update()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public string GetLastError()
@@ -78,11 +71,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             throw new NotImplementedException();
         }
 
-        string IDualElement.Name
-        {
-            get { return Name; }
-            set { throw new NotImplementedException(); }
-        }
+        public string Name { get; set; }
 
         public Collection Requirements
         {
@@ -131,12 +120,15 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection TaggedValues
         {
-            get { return EACollection<EATaggedValue>.Wrap(upccClass.GetTaggedValues()); }
+            get
+            {
+                return taggedValues;
+            }
         }
 
         public Collection Connectors
         {
-            get { return EACollection<EAConnector>.Wrap(upccClass.GetConnectors()); }
+            get { return connectors; }
         }
 
         public string Notes
@@ -186,11 +178,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualElement.Stereotype
-        {
-            get { return upccClass.GetStereotype(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Stereotype { get; set; }
 
         public string Genlinks
         {
@@ -341,10 +329,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int ElementID
-        {
-            get { return upccClass.GetId(); }
-        }
+        public int ElementID { get; set; }
 
         public int PackageID
         {
@@ -359,7 +344,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Attributes
         {
-            get { return EACollection<EAAttribute>.Wrap(upccClass.GetAttributes()); }
+            get { return attributes; }
         }
 
         public Collection Resources
@@ -520,5 +505,14 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
+        #region IEACollectionElement Members
+
+        string IEACollectionElement.Name
+        {
+            get { return Name; }
+            set { Name = value; }
+        }
+
+        #endregion
     }
 }

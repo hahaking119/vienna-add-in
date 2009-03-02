@@ -8,6 +8,6 @@ namespace VIENNAAddIn.upcc3.ccts
         IEnumerable<IBusinessLibrary> AllLibraries();
         IEnumerable<T> Libraries<T>() where T : IBusinessLibrary;
         T LibraryByName<T>(string name) where T : IBusinessLibrary;
-        T FindByPath<T>(Path path) where T : class;
+        object FindByPath(Path path);
     }
 }

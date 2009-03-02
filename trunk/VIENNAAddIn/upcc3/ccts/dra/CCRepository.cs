@@ -42,24 +42,18 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return libs.Count == 0 ? default(T) : libs[0];
         }
 
-        public T FindByPath<T>(Path path) where T : class
+        public object FindByPath(Path path)
         {
-            if (path.Length == 0)
+            var o = path.Resolve<object>(eaRepository);
+            if (o is Element)
             {
-                return default(T);
+                return GetElement((Element) o);
             }
-            string firstPart = path.FirstPart;
-            foreach (Package model in eaRepository.Models)
+            if (o is Package)
             {
-                foreach (Package package in model.Packages)
-                {
-                    if (package.Name == firstPart)
-                    {
-                        return ResolvePath<T>(GetLibrary(package), path.Rest);
-                    }
-                }
+                return GetLibrary((Package) o);
             }
-            return default(T);
+            throw new Exception("path resolved to an object that's neither an element nor a package");
         }
 
         public IEnumerable<IBusinessLibrary> AllLibraries()
@@ -82,24 +76,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
-
-        private static T ResolvePath<T>(IBusinessLibrary library, Path path) where T : class
-        {
-            if (library == null)
-            {
-                return default(T);
-            }
-            if (path.Length == 0)
-            {
-                return library as T;
-            }
-            string firstPart = path.FirstPart;
-            if (library is IBLibrary)
-            {
-                return ResolvePath<T>(((IBLibrary) library).FindChildByName(firstPart), path.Rest);
-            }
-            return ((IElementLibrary) library).ElementByName(firstPart) as T;
-        }
 
         public ICDT GetCDT(int id)
         {
@@ -127,8 +103,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 return null;
             }
-            string stereotype = package.Element.Stereotype;
-            switch (stereotype)
+            switch (package.Element.Stereotype)
             {
                 case "bLibrary":
                     return new BLibrary(this, package);
@@ -147,13 +122,38 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 case "PRIMLibrary":
                     return new PRIMLibrary(this, package);
                 default:
-                    throw new ArgumentException("Element for provided ID is not a CDT or BDT.");
+                    throw new ArgumentException("Invalid package stereotype: " + package.Element.Stereotype);
+            }
+        }
+
+        public object GetElement(Element element)
+        {
+            if (element == null)
+            {
+                return null;
+            }
+            switch (element.Stereotype)
+            {
+                case "BDT":
+                    return new BDT(this, element);
+                case "ABIE":
+                    return new ABIE(this, element);
+                case "ACC":
+                    return new ACC(this, element);
+                case "CDT":
+                    return new CDT(this, element);
+                case "ENUM":
+                    return new ENUM(this, element);
+                case "PRIM":
+                    return new PRIM(this, element);
+                default:
+                    throw new ArgumentException("Invalid element stereotype: " + element.Stereotype);
             }
         }
 
         public IType GetIType(int id)
         {
-            var element = eaRepository.GetElementByID(id);
+            Element element = eaRepository.GetElementByID(id);
             if (element == null)
             {
                 return null;

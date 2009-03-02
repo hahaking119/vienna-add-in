@@ -1,3 +1,5 @@
+using VIENNAAddIn.upcc3.ccts;
+
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     /// <summary>
@@ -5,9 +7,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     /// </summary>
     internal class CON : UpccAttribute
     {
-        public CON(Path type) : base("Content")
+        public CON()
         {
-            Type = type;
+            Name = "Content";
         }
 
         public override string GetStereotype()
@@ -17,7 +19,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public static implicit operator CON(Path typePath)
         {
-            return new CON(typePath);
+            return new CON {Type = typePath};
         }
     }
 }

@@ -5,15 +5,12 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal abstract class EARepository : Repository
+    public abstract class EARepository : Repository
     {
-        protected List<Model> models;
-        private Dictionary<int, UpccClass> elementsById = new Dictionary<int, UpccClass>();
-
-        public Element ResolvePath(List<string> parts)
-        {
-            return new EAElement(models[0].ResolvePath(parts));
-        }
+        private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
+        private readonly Collection models = new EACollection<EAPackage>();
+        private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
+        private int nextId;
 
         #region Repository Members
 
@@ -29,12 +26,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Element GetElementByID(int id)
         {
-            return new EAElement(elementsById[id]);
+            return elementsById[id];
         }
 
-        public Package GetPackageByID(int PackageID)
+        public Package GetPackageByID(int id)
         {
-            throw new NotImplementedException();
+            return packagesById[id];
         }
 
         public string GetLastError()
@@ -454,7 +451,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Models
         {
-            get { return EACollection<EAPackage>.Wrap(models); }
+            get { return models; }
         }
 
         public Collection Terms
@@ -591,30 +588,96 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
-        protected void IndexElements()
+        protected void SetContent(List<Model> content)
         {
-            foreach (var model in models)
+            foreach (Model model in content)
             {
-//                elementsById[model.GetId()] = model;
-                foreach (var library in model.GetLibraries())
+                var modelPackage = (EAPackage) models.AddNew(model.Name, "Package");
+                modelPackage.PackageID = nextId++;
+                IndexPackage(modelPackage);
+                foreach (UpccTaggedValue tv in model.GetTaggedValues())
                 {
-//                    elementsById[library.GetId()] = library;
-                    IndexLibrary(library);
+                    modelPackage.Element.AddTaggedValue(tv.Name, tv.Value);
+                }
+                AddPackages(model, modelPackage.Packages);
+            }
+        }
+
+        private void IndexPackage(EAPackage package)
+        {
+            packagesById[package.PackageID] = package;
+        }
+
+        private void AddPackages(UpccLibrary library, Collection packages)
+        {
+            foreach (UpccLibrary child in library.GetLibraries())
+            {
+                var childPackage = (EAPackage) packages.AddNew(child.Name, "Package");
+                childPackage.PackageID = nextId++;
+                IndexPackage(childPackage);
+                childPackage.Element.Stereotype = child.GetStereotype();
+                foreach (UpccTaggedValue tv in child.GetTaggedValues())
+                {
+                    childPackage.Element.AddTaggedValue(tv.Name, tv.Value);
+                }
+                if (child is BLibrary)
+                {
+                    AddPackages(child, childPackage.Packages);
+                }
+                else
+                {
+                    AddClasses(child, childPackage.Elements);
                 }
             }
         }
 
-        private void IndexLibrary(UpccLibrary library)
+        private void AddClasses(UpccLibrary library, Collection elements)
         {
-            foreach (var subLibrary in library.GetLibraries())
+//            Console.WriteLine("Adding classes for library " + library.Name);
+            foreach (UpccClass c in library.GetClasses())
             {
-//                elementsById[subLibrary.GetId()] = subLibrary;
-                IndexLibrary(subLibrary);
+//                Console.WriteLine("  Adding class " + c.Name);
+                var element = (EAElement) elements.AddNew(c.Name, "Class");
+                element.ElementID = nextId++;
+                IndexElement(element);
+                element.Stereotype = c.GetStereotype();
+                Collection attributes = element.Attributes;
+                foreach (var attribute in c.GetAttributes())
+                {
+                    var a = (EAAttribute) attributes.AddNew(attribute.Name, null);
+                    a.Repository = this;
+                    a.ClassifierPath = attribute.Type;
+                    a.Stereotype = attribute.GetStereotype();
+                    a.LowerBound = attribute.LowerBound;
+                    a.UpperBound = attribute.UpperBound;
+                }
+                Collection connectors = element.Connectors;
+                foreach (var connector in c.GetConnectors())
+                {
+                    var con = (EAConnector) connectors.AddNew(connector.Name, "Association");
+                    con.Repository = this;
+                    con.SupplierPath = connector.PathToSupplier;
+                    con.Stereotype = connector.GetStereotype();
+                }
             }
-            foreach (var c in library.GetClasses())
-            {
-                elementsById[c.GetId()] = c;
-            }
+        }
+
+        private void IndexElement(EAElement element)
+        {
+            elementsById[element.ElementID] = element;
+        }
+    }
+
+    public static class EaElementExtensions
+    {
+        public static TaggedValue AddTaggedValue(this Element element, string name, string value)
+        {
+            Collection taggedValues = element.TaggedValues;
+            var tv = (TaggedValue) taggedValues.AddNew(name, "");
+            tv.Value = value;
+            tv.Update();
+            taggedValues.Refresh();
+            return tv;
         }
     }
 }

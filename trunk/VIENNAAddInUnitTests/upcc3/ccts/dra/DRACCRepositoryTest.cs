@@ -4,8 +4,8 @@ using System.Linq;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
-using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 {
@@ -17,28 +17,23 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [SetUp]
         public void Init()
         {
-            repository = new CCRepository(new EARepository1());
+            eaRepository = new EARepository1();
+            repository = new CCRepository(eaRepository);
         }
 
         #endregion
 
         private ICCRepository repository;
+        private EARepository1 eaRepository;
 
         [Test]
         public void TestCreateBDT()
         {
-            var cdtDate = repository.FindByPath<ICDT>((Path) "blib1"/"cdtlib1"/"Date");
-            Assert.IsNotNull(cdtDate);
+            var stringType = (IPRIM) repository.FindByPath((Path) "blib1"/"primlib1"/"String");
+            Assert.IsNotNull(stringType, "stringType is null");
+            var cdtDate = (ICDT) repository.FindByPath((Path) "blib1"/"cdtlib1"/"Date");
+            Assert.IsNotNull(cdtDate, "cdtDate is null");
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().ElementAt(0);
-            var sups = new List<SUPSpec>();
-            foreach (IDTComponent sup in cdtDate.SUPs)
-            {
-                sups.Add(new SUPSpec
-                         {
-                             Name = sup.Name,
-                             Type = sup.Type
-                         });
-            }
             var bdtSpec = new BDTSpec
                           {
                               Name = "My_Date",
@@ -47,9 +42,29 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                     {
                                         Type = cdtDate.CON.Type,
                                     },
-                              SUPs = sups,
+                              SUPs = cdtDate.SUPs.Convert(sup => new SUPSpec
+                                                                 {
+                                                                     Name = sup.Name,
+                                                                     Type = sup.Type
+                                                                 }),
                           };
-            bdtLibrary.CreateBDT(bdtSpec);
+            IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
+            Assert.IsNotNull(bdtDate, "BDT is null");
+            Assert.AreEqual("My_Date", bdtDate.Name);
+            Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
+            Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
+            Assert.AreEqual(stringType.Id, bdtDate.CON.Type.Id);
+            Assert.AreEqual(cdtDate.SUPs.Count(), bdtDate.SUPs.Count());
+            IEnumerator<IDTComponent> bdtSups = bdtDate.SUPs.GetEnumerator();
+            foreach (IDTComponent cdtSup in cdtDate.SUPs)
+            {
+                bdtSups.MoveNext();
+                IDTComponent bdtSup = bdtSups.Current;
+                Assert.AreEqual(cdtSup.Name, bdtSup.Name);
+                Assert.AreEqual(cdtSup.Type.Id, bdtSup.Type.Id);
+//                Assert.AreEqual(cdtSup.LowerBound, bdtSup.LowerBound);
+//                Assert.AreEqual(cdtSup.UpperBound, bdtSup.UpperBound);
+            }
         }
 
         [Test]

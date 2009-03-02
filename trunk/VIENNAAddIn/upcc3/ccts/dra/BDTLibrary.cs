@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using EA;
 using System.Linq;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -25,15 +26,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public void CreateBDT(BDTSpec spec)
+        public IBDT CreateBDT(BDTSpec spec)
         {
-            Console.WriteLine("Creating BDT: " + spec.Name);
-            Console.WriteLine("  CON: " + spec.CON.Type.Name);
-            Console.WriteLine("  SUPs:");
+            var bdt = (Element) package.Elements.AddNew(spec.Name, "Class");
+            bdt.Stereotype = "BDT";
+            bdt.AddConnector("basedOn", "basedOn", spec.BasedOn.Id);
+            bdt.AddAttribute("CON", "Content", spec.CON.Type.Name, spec.CON.Type.Id);
             foreach (var sup in spec.SUPs)
             {
-                Console.WriteLine("    " + sup.Name + ": " + sup.Type.Name);
+                bdt.AddAttribute("SUP", sup.Name, sup.Type.Name, sup.Type.Id);
             }
+            bdt.Update();
+            package.Elements.Refresh();
+            return new BDT(repository, bdt);
         }
 
         #endregion

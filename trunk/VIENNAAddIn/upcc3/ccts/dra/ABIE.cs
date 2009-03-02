@@ -5,15 +5,13 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    class ABIE : IABIE
+    internal class ABIE : UpccElement, IABIE
     {
         protected CCRepository repository;
-        protected Element element;
 
-        public ABIE(CCRepository repository, Element element)
+        public ABIE(CCRepository repository, Element element) : base(element, "ABIE")
         {
             this.repository = repository;
-            this.element = element;
         }
 
         private IEnumerable<Attribute> Attributes
@@ -26,12 +24,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
+        public IBusinessLibrary Library
+        {
+            get { return repository.GetLibrary(element.PackageID); }
+        }
+
+        #region IABIE Members
+
         public IEnumerable<IBBIE> BBIEs
         {
             get
             {
                 return
-                    Attributes.Convert(a => (IBBIE)new BBIE(repository, a));
+                    Attributes.Convert(a => (IBBIE) new BBIE(repository, a));
             }
         }
 
@@ -40,13 +45,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 return
-                    Connectors.Where(IsASBIE).Convert(c => (IASBIE)new ASBIE(repository, c));
+                    Connectors.Where(IsASBIE).Convert(c => (IASBIE) new ASBIE(repository, c));
             }
-        }
-
-        private static bool IsASBIE(Connector con)
-        {
-            return con.Stereotype == "ASBIE";
         }
 
         public IACC BasedOn
@@ -59,11 +59,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        private static bool IsBasedOnDependency(Connector connector)
-        {
-            return connector.Stereotype == "basedOn";
-        }
-
         public IABIE IsEquivalentTo
         {
             get
@@ -74,11 +69,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        private static bool IsEquivalentToDependency(Connector con)
-        {
-            return con.Stereotype == "isEquivalentTo";
-        }
-
         public int Id
         {
             get { return element.ElementID; }
@@ -87,11 +77,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string Name
         {
             get { return element.Name; }
-        }
-
-        public IBusinessLibrary Library
-        {
-            get { return repository.GetLibrary(element.PackageID); }
         }
 
         public string UniqueIdentifier
@@ -127,6 +112,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IEnumerable<string> UsageRules
         {
             get { return element.GetTaggedValues(TaggedValues.UsageRule); }
+        }
+
+        #endregion
+
+        private static bool IsASBIE(Connector con)
+        {
+            return con.Stereotype == "ASBIE";
+        }
+
+        private static bool IsBasedOnDependency(Connector connector)
+        {
+            return connector.Stereotype == "basedOn";
+        }
+
+        private static bool IsEquivalentToDependency(Connector con)
+        {
+            return con.Stereotype == "isEquivalentTo";
         }
     }
 }

@@ -6,6 +6,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     internal class EAPackageElement : Element
     {
         private readonly UpccLibrary upccLibrary;
+        private readonly Collection taggedValues = new EACollection<EATaggedValue>();
 
         public EAPackageElement(UpccLibrary upccLibrary)
         {
@@ -127,7 +128,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection TaggedValues
         {
-            get { return EACollection<EATaggedValue>.Wrap(upccLibrary.GetTaggedValues()); }
+            get { return taggedValues; }
         }
 
         public Collection Connectors
