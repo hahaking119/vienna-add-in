@@ -34,20 +34,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtDate = (ICDT) repository.FindByPath((Path) "blib1"/"cdtlib1"/"Date");
             Assert.IsNotNull(cdtDate, "cdtDate is null");
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().ElementAt(0);
-            var bdtSpec = new BDTSpec
-                          {
-                              Name = "My_Date",
-                              BasedOn = cdtDate,
-                              CON = new CONSpec
-                                    {
-                                        Type = cdtDate.CON.Type,
-                                    },
-                              SUPs = cdtDate.SUPs.Convert(sup => new SUPSpec
-                                                                 {
-                                                                     Name = sup.Name,
-                                                                     Type = sup.Type
-                                                                 }),
-                          };
+            var bdtSpec = CloneCDT(cdtDate, "My");
             IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
             Assert.IsNotNull(bdtDate, "BDT is null");
             Assert.AreEqual("My_Date", bdtDate.Name);
@@ -65,6 +52,24 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 //                Assert.AreEqual(cdtSup.LowerBound, bdtSup.LowerBound);
 //                Assert.AreEqual(cdtSup.UpperBound, bdtSup.UpperBound);
             }
+        }
+
+        private static BDTSpec CloneCDT(ICDT cdtDate, string qualifier)
+        {
+            return new BDTSpec
+                   {
+                       Name = (qualifier != null ? qualifier + "_" + cdtDate.Name : cdtDate.Name),
+                       BasedOn = cdtDate,
+                       CON = new CONSpec
+                             {
+                                 Type = cdtDate.CON.Type,
+                             },
+                       SUPs = cdtDate.SUPs.Convert(sup => new SUPSpec
+                                                          {
+                                                              Name = sup.Name,
+                                                              Type = sup.Type
+                                                          }),
+                   };
         }
 
         [Test]
