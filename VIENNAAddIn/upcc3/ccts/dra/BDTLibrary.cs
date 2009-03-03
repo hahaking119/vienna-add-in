@@ -29,14 +29,27 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IBDT CreateBDT(BDTSpec spec)
         {
             var bdt = (Element) package.Elements.AddNew(spec.Name, "Class");
-            bdt.PackageID = Id;
             bdt.Stereotype = "BDT";
-            bdt.AddConnector("basedOn", "basedOn", spec.BasedOn.Id);
-            bdt.AddAttribute("CON", "Content", spec.CON.Type.Name, spec.CON.Type.Id, spec.CON.LowerBound, spec.CON.UpperBound);
+            bdt.PackageID = Id;
+            Collection taggedValues = bdt.TaggedValues;
+            taggedValues.AddTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
+            taggedValues.AddTaggedValues(TaggedValues.UsageRule, spec.UsageRules);
+            taggedValues.AddTaggedValue(TaggedValues.Definition, spec.Definition);
+            taggedValues.AddTaggedValue(TaggedValues.DictionaryEntryName, spec.DictionaryEntryName);
+            taggedValues.AddTaggedValue(TaggedValues.LanguageCode, spec.LanguageCode);
+            taggedValues.AddTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
+            taggedValues.AddTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
+            taggedValues.Refresh();
+            Collection connectors = bdt.Connectors;
+            connectors.AddConnector("basedOn", "basedOn", spec.BasedOn.Id);
+            connectors.Refresh();
+            Collection attributes = bdt.Attributes;
+            attributes.AddAttribute("CON", "Content", spec.CON.Type.Name, spec.CON.Type.Id, spec.CON.LowerBound, spec.CON.UpperBound);
             foreach (var sup in spec.SUPs)
             {
-                bdt.AddAttribute("SUP", sup.Name, sup.Type.Name, sup.Type.Id, sup.LowerBound, sup.UpperBound);
+                attributes.AddAttribute("SUP", sup.Name, sup.Type.Name, sup.Type.Id, sup.LowerBound, sup.UpperBound);
             }
+            attributes.Refresh();
             bdt.Update();
             package.Elements.Refresh();
             return new BDT(repository, bdt);

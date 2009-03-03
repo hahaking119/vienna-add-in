@@ -5,14 +5,24 @@ namespace VIENNAAddIn.upcc3.ccts.util
 {
     internal static class PackageExtensions
     {
-        internal static IEnumerable<string> GetTaggedValues(this Package package, TaggedValues taggedValue)
+        internal static IEnumerable<string> GetTaggedValues(this Package package, TaggedValues key)
         {
-            return package.Element.GetTaggedValues(taggedValue);
+            return package.Element.GetTaggedValues(key);
         }
 
-        internal static string GetTaggedValue(this Package package, TaggedValues taggedValue)
+        internal static string GetTaggedValue(this Package package, TaggedValues key)
         {
-            return package.Element.GetTaggedValue(taggedValue);
+            return package.Element.GetTaggedValue(key);
+        }
+
+        internal static void SetTaggedValues(this Package package, TaggedValues key, IEnumerable<string> values)
+        {
+            package.Element.SetTaggedValues(key, values);
+        }
+
+        internal static void SetTaggedValue(this Package package, TaggedValues key, string value)
+        {
+            package.Element.SetTaggedValue(key, value);
         }
 
         internal static Package PackageByName(this Package package, string name)

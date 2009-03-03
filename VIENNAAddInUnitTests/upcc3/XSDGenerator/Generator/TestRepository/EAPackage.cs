@@ -58,11 +58,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int ParentID
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int ParentID { get; set; }
 
         public DateTime Created
         {
@@ -208,7 +204,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public bool Update()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public CodeObject GetCodeObject(string CodeID)
