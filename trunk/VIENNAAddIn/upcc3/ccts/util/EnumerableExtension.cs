@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -22,5 +24,19 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
         }
 
+        public static string ConcatToString<T>(this IEnumerable<T> values)
+        {
+            return values == null ? String.Empty : String.Concat(ToStringArray(values));
+        }
+
+        public static string JoinToString<T>(this IEnumerable<T> values, string separator)
+        {
+            return values == null ? String.Empty : String.Join(separator, ToStringArray(values));
+        }
+
+        private static string[] ToStringArray<T>(IEnumerable<T> values)
+        {
+            return new List<string>(values.Convert(v => v.ToString())).ToArray();
+        }
     }
 }

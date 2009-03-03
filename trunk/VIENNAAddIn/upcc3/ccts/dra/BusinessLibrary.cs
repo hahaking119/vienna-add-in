@@ -15,6 +15,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             this.package = package;
         }
 
+        public string Stereotype
+        {
+            get { return package.Element.Stereotype; }
+            set { package.Element.Stereotype = value; }
+        }
+
         #region IBusinessLibrary Members
 
         public int Id
@@ -35,31 +41,37 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string Status
         {
             get { return package.GetTaggedValue(TaggedValues.Status); }
+            set { package.SetTaggedValue(TaggedValues.Status, value); }
         }
 
         public string UniqueIdentifier
         {
             get { return package.GetTaggedValue(TaggedValues.UniqueIdentifier); }
+            set { package.SetTaggedValue(TaggedValues.UniqueIdentifier, value); }
         }
 
         public string VersionIdentifier
         {
             get { return package.GetTaggedValue(TaggedValues.VersionIdentifier); }
+            set { package.SetTaggedValue(TaggedValues.VersionIdentifier, value); }
         }
 
         public string BaseURN
         {
             get { return package.GetTaggedValue(TaggedValues.BaseURN); }
+            set { package.SetTaggedValue(TaggedValues.BaseURN, value); }
         }
 
         public string NamespacePrefix
         {
             get { return package.GetTaggedValue(TaggedValues.NamespacePrefix); }
+            set { package.SetTaggedValue(TaggedValues.NamespacePrefix, value); }
         }
 
         public IEnumerable<string> BusinessTerms
         {
             get { return package.GetTaggedValues(TaggedValues.BusinessTerm); }
+            set { package.SetTaggedValues(TaggedValues.BusinessTerm, value); }
         }
 
         public IEnumerable<string> Copyrights

@@ -61,7 +61,30 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public ObjectType ObjectType
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (typeof(TCollectionElement) == typeof(EAAttribute))
+                {
+                    return ObjectType.otAttribute;
+                }
+                if (typeof(TCollectionElement) == typeof(EAConnector))
+                {
+                    return ObjectType.otConnector;
+                }
+                if (typeof(TCollectionElement) == typeof(EAElement))
+                {
+                    return ObjectType.otElement;
+                }
+                if (typeof(TCollectionElement) == typeof(EAPackage))
+                {
+                    return ObjectType.otPackage;
+                }
+                if (typeof(TCollectionElement) == typeof(EATaggedValue))
+                {
+                    return ObjectType.otTaggedValue;
+                }
+                return ObjectType.otNone;
+            }
         }
 
         public IEnumerator GetEnumerator()

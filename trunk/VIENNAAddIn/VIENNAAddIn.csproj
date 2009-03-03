@@ -216,6 +216,7 @@
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\AddInSettings.cs" />
+    <Compile Include="upcc3\ccts\LibrarySpec.cs" />
     <Compile Include="upcc3\ccts\BDTSpec.cs" />
     <Compile Include="upcc3\ccts\CDTSpec.cs" />
     <Compile Include="upcc3\ccts\CONSpec.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
     <Compile Include="upcc3\ccts\util\ConnectorExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EAException.cs" />
     <Compile Include="upcc3\ccts\util\ElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
     <Compile Include="upcc3\ccts\util\PackageExtensions.cs" />

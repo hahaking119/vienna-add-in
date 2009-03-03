@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 {
@@ -17,13 +21,22 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void Init()
         {
             eaRepository = new EARepository1();
+//            eaRepository = GetFileBasedEARepository();
             repository = new CCRepository(eaRepository);
+        }
+        private static Repository GetFileBasedEARepository()
+        {
+            var repo = new Repository();
+            string repositoryFile = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest.eap";
+            Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
+            repo.OpenFile(repositoryFile);
+            return repo;
         }
 
         #endregion
 
         private ICCRepository repository;
-        private EARepository1 eaRepository;
+        private Repository eaRepository;
 
         private static void AssertSUPs(IDT expectedDT, IDT actualDT)
         {
@@ -62,18 +75,17 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(expected.LowerBound, actual.LowerBound);
             Assert.AreEqual(expected.ModificationAllowedIndicator, actual.ModificationAllowedIndicator);
             Assert.AreEqual(expected.UpperBound, actual.UpperBound);
-            AssertCollectionsEqual(expected.UsageRules, actual.UsageRules);
-            AssertCollectionsEqual(expected.BusinessTerms, actual.BusinessTerms);
+            Console.WriteLine(expected.UsageRules.JoinToString("---"));
+            Console.WriteLine(actual.UsageRules.JoinToString("---"));
+            Assert.AreEqual(expected.UsageRules, actual.UsageRules);
+            Assert.AreEqual(expected.BusinessTerms, actual.BusinessTerms);
         }
 
-        private static void AssertCollectionsEqual<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        private static IEnumerable<int> GenerateNumbers(int limit)
         {
-            Assert.AreEqual(expected.Count(), actual.Count(), "number of elements not equal");
-            IEnumerator<T> actualEnumerator = actual.GetEnumerator();
-            foreach (T e in expected)
+            for (int i = 0; i < limit; ++i)
             {
-                actualEnumerator.MoveNext();
-                Assert.AreEqual(e, actualEnumerator.Current);
+                yield return i;
             }
         }
 
@@ -86,7 +98,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtDate = (ICDT) repository.FindByPath((Path) "blib1"/"cdtlib1"/"Date");
             Assert.IsNotNull(cdtDate, "cdtDate is null");
 
-            IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().ElementAt(0);
+            IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
 
             BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My");
             IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
@@ -101,8 +113,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(cdtDate.LanguageCode, bdtDate.LanguageCode);
             Assert.AreEqual(cdtDate.UniqueIdentifier, bdtDate.UniqueIdentifier);
             Assert.AreEqual(cdtDate.VersionIdentifier, bdtDate.VersionIdentifier);
-            AssertCollectionsEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
-            AssertCollectionsEqual(cdtDate.UsageRules, bdtDate.UsageRules);
+            Assert.AreEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
+            Assert.AreEqual(cdtDate.UsageRules, bdtDate.UsageRules);
 
             Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
             Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
@@ -110,6 +122,104 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertCON(cdtDate, bdtDate);
 
             AssertSUPs(cdtDate, bdtDate);
+        }
+
+        [Test]
+        public void TestCreateBDTFileBased()
+        {
+            repository = new CCRepository(GetFileBasedEARepository());
+            var cdtDate = (ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Date");
+            Assert.IsNotNull(cdtDate, "cdtDate is null");
+
+            IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
+
+            BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My");
+            IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
+
+            Assert.IsNotNull(bdtDate, "BDT is null");
+            Assert.AreEqual(bdtLibrary.Id, bdtDate.Library.Id);
+
+            Assert.AreEqual("My_" + cdtDate.Name, bdtDate.Name);
+
+            Assert.AreEqual(cdtDate.Definition, bdtDate.Definition);
+            Assert.AreEqual(cdtDate.DictionaryEntryName, bdtDate.DictionaryEntryName);
+            Assert.AreEqual(cdtDate.LanguageCode, bdtDate.LanguageCode);
+            Assert.AreEqual(cdtDate.UniqueIdentifier, bdtDate.UniqueIdentifier);
+            Assert.AreEqual(cdtDate.VersionIdentifier, bdtDate.VersionIdentifier);
+            Assert.AreEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
+            Assert.AreEqual(cdtDate.UsageRules, bdtDate.UsageRules);
+
+            Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
+            Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
+
+            AssertCON(cdtDate, bdtDate);
+
+            AssertSUPs(cdtDate, bdtDate);
+        }
+
+        [Test]
+        public void TestCreateLibrary()
+        {
+            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
+            Assert.IsNotNull(bLib, "bLib not found");
+            var spec = new LibrarySpec
+                       {
+                           Name = "MyBDTLibrary",
+                           BaseURN = "my/base/urn",
+                           BusinessTerms = new[] {"business term 1", "business term 2"},
+                           Copyrights = new[] {"copyright 1", "copyright 2"},
+                           NamespacePrefix = "my_namespace_prefix",
+                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
+                           References = new[] {"reference 1"},
+                           Status = "my status",
+                           UniqueIdentifier = "a unique ID",
+                           VersionIdentifier = "a specific version",
+                       };
+            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(spec);
+            Assert.AreEqual(bLib.Id, bdtLib.Parent.Id);
+            Assert.AreEqual(spec.Name, bdtLib.Name);
+            Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
+            Assert.AreEqual(spec.BusinessTerms, bdtLib.BusinessTerms);
+            Assert.AreEqual(spec.Copyrights, bdtLib.Copyrights);
+            Assert.AreEqual(spec.NamespacePrefix, bdtLib.NamespacePrefix);
+            Assert.AreEqual(spec.Owners, bdtLib.Owners);
+            Assert.AreEqual(spec.References, bdtLib.References);
+            Assert.AreEqual(spec.Status, bdtLib.Status);
+            Assert.AreEqual(spec.UniqueIdentifier, bdtLib.UniqueIdentifier);
+            Assert.AreEqual(spec.VersionIdentifier, bdtLib.VersionIdentifier);
+        }
+
+        [Test]
+        public void TestCreateLibraryFileBased()
+        {
+            repository = new CCRepository(GetFileBasedEARepository());
+            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
+            Assert.IsNotNull(bLib, "bLib not found");
+            var spec = new LibrarySpec
+                       {
+                           Name = "MyBDTLibrary",
+                           BaseURN = "my/base/urn",
+                           BusinessTerms = new[] {"business term 1", "business term 2"},
+                           Copyrights = new[] {"copyright 1", "copyright 2"},
+                           NamespacePrefix = "my_namespace_prefix",
+                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
+                           References = new[] {"reference 1"},
+                           Status = "my status",
+                           UniqueIdentifier = "a unique ID",
+                           VersionIdentifier = "a specific version",
+                       };
+            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(spec);
+            Assert.AreEqual(bLib.Id, bdtLib.Parent.Id);
+            Assert.AreEqual(spec.Name, bdtLib.Name);
+            Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
+            Assert.AreEqual(spec.BusinessTerms, bdtLib.BusinessTerms);
+            Assert.AreEqual(spec.Copyrights, bdtLib.Copyrights);
+            Assert.AreEqual(spec.NamespacePrefix, bdtLib.NamespacePrefix);
+            Assert.AreEqual(spec.Owners, bdtLib.Owners);
+            Assert.AreEqual(spec.References, bdtLib.References);
+            Assert.AreEqual(spec.Status, bdtLib.Status);
+            Assert.AreEqual(spec.UniqueIdentifier, bdtLib.UniqueIdentifier);
+            Assert.AreEqual(spec.VersionIdentifier, bdtLib.VersionIdentifier);
         }
 
         [Test]
@@ -163,6 +273,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(stringType.Id, dateFormat.Type.Id);
 
             // TODO check CDT Measure
+        }
+
+        [Test]
+        public void TestStringConcat()
+        {
+            Assert.AreEqual("0123456789", GenerateNumbers(10).ConcatToString());
+            Assert.AreSame(String.Empty, ((IEnumerable<int>) null).ConcatToString());
         }
     }
 }

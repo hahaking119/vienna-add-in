@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
@@ -23,7 +24,7 @@ namespace VIENNAAddIn.upcc3.ccts
         IElement ElementByName(string name);
     }
 
-    interface IBLibrary : IBusinessLibrary
+    public interface IBLibrary : IBusinessLibrary
     {
         /// <summary>
         /// Returns the direct sub-libraries of this library.
@@ -35,5 +36,7 @@ namespace VIENNAAddIn.upcc3.ccts
         IEnumerable<IBusinessLibrary> AllChildren { get; }
 
         IBusinessLibrary FindChildByName(string name);
+
+        IBDTLibrary CreateBDTLibrary(LibrarySpec spec);
     }
 }

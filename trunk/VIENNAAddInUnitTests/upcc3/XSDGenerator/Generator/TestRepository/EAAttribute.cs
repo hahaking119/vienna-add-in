@@ -16,7 +16,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public bool Update()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public string GetLastError()
