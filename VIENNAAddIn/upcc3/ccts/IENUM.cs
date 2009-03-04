@@ -2,16 +2,10 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IENUM : IType
+    public interface IENUM : IBasicType
     {
-        IBusinessLibrary Library { get; }
         string AgencyIdentifier { get; }
         string AgencyName { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        string LanguageCode { get; }
-        string DictionaryEntryName { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
         string EnumerationURI { get; }
     }
 }

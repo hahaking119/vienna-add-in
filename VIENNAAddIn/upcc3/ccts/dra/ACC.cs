@@ -2,74 +2,17 @@ using System.Collections.Generic;
 using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class ACC : UpccElement, IACC
+    public class ACC : UpccClass, IACC
     {
-        private readonly CCRepository repository;
-
-        public ACC(CCRepository repository, Element element) : base(element, "ACC")
+        public ACC(CCRepository repository, Element element) : base(repository, element, "ACC")
         {
-            this.repository = repository;
-        }
-
-        private IEnumerable<Attribute> Attributes
-        {
-            get { return element.Attributes.AsEnumerable<Attribute>(); }
-        }
-
-        private IEnumerable<Connector> Connectors
-        {
-            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region IACC Members
-
-        public int Id
-        {
-            get { return element.ElementID; }
-        }
-
-        public string Name
-        {
-            get { return element.Name; }
-        }
-
-        public IBusinessLibrary Library
-        {
-            get { return repository.GetLibrary(element.PackageID); }
-        }
-
-        public string Definition
-        {
-            get { return element.GetTaggedValue(TaggedValues.Definition); }
-        }
-
-        public string DictionaryEntryName
-        {
-            get { return element.GetTaggedValue(TaggedValues.DictionaryEntryName); }
-        }
-
-        public string LanguageCode
-        {
-            get { return element.GetTaggedValue(TaggedValues.LanguageCode); }
-        }
-
-        public string UniqueIdentifier
-        {
-            get { return element.GetTaggedValue(TaggedValues.UniqueIdentifier); }
-        }
-
-        public string VersionIdentifier
-        {
-            get { return element.GetTaggedValue(TaggedValues.VersionIdentifier); }
-        }
-
-        public IEnumerable<string> BusinessTerms
-        {
-            get { return element.GetTaggedValues(TaggedValues.BusinessTerm); }
-        }
 
         public IEnumerable<string> UsageRules
         {
@@ -78,42 +21,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<IBCC> BCCs
         {
-            get
-            {
-                return
-                    Attributes.Convert(a => (IBCC) new BCC(repository, a));
-            }
+            get { return Attributes.Convert(a => (IBCC) new BCC(repository, a, this)); }
         }
 
         public IEnumerable<IASCC> ASCCs
         {
-            get
-            {
-                return
-                    Connectors.Where(IsASCC).Convert(c => (IASCC) new ASCC(repository, c));
-            }
+            get { return Connectors.Where(Stereotype.IsASCC).Convert(c => (IASCC) new ASCC(repository, c, this)); }
         }
 
         public IACC IsEquivalentTo
         {
             get
             {
-                Connector connector =
-                    Connectors.FirstOrDefault(IsEquivalentToDependency);
+                Connector connector = Connectors.FirstOrDefault(Stereotype.IsIsEquivalentTo);
                 return connector != null ? repository.GetACC(connector.SupplierID) : null;
             }
         }
 
         #endregion
-
-        private static bool IsASCC(Connector con)
-        {
-            return con.Stereotype == "ASCC";
-        }
-
-        private static bool IsEquivalentToDependency(Connector con)
-        {
-            return con.Stereotype == "isEquivalentTo";
-        }
     }
 }

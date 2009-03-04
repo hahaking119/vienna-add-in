@@ -21,7 +21,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
     public interface IElementLibrary : IBusinessLibrary
     {
-        IElement ElementByName(string name);
+        ICCTSElement ElementByName(string name);
     }
 
     public interface IBLibrary : IBusinessLibrary

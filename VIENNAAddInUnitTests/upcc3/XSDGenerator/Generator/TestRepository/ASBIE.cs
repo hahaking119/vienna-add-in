@@ -1,10 +1,10 @@
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    internal class BCC : UpccAttribute
+    internal class ASBIE : UpccConnector
     {
         public override string GetStereotype()
         {
-            return "BCC";
+            return "ASBIE";
         }
     }
 }

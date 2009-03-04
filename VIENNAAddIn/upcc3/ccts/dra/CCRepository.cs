@@ -151,7 +151,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IType GetIType(int id)
+        public IBasicType GetIType(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             if (element == null)

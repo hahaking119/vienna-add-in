@@ -1,49 +1,15 @@
-using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class PRIM : UpccElement, IPRIM
+    internal class PRIM : UpccClass, IPRIM
     {
-        private readonly CCRepository repository;
-
-        public PRIM(CCRepository repository, Element element) : base(element, "PRIM")
+        public PRIM(CCRepository repository, Element element) : base(repository, element, "PRIM")
         {
-            this.repository = repository;
         }
 
         #region IPRIM Members
-
-        public int Id
-        {
-            get { return element.ElementID; }
-        }
-
-        public string Name
-        {
-            get { return element.Name; }
-        }
-
-        public IBusinessLibrary Library
-        {
-            get { return repository.GetLibrary(element.PackageID); }
-        }
-
-        public IEnumerable<string> BusinessTerms
-        {
-            get { return element.GetTaggedValues(TaggedValues.BusinessTerm); }
-        }
-
-        public string Definition
-        {
-            get { return element.GetTaggedValue(TaggedValues.Definition); }
-        }
-
-        public string DictionaryEntryName
-        {
-            get { return element.GetTaggedValue(TaggedValues.DictionaryEntryName); }
-        }
 
         public string Pattern
         {
@@ -98,21 +64,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string WhiteSpace
         {
             get { return element.GetTaggedValue(TaggedValues.WhiteSpace); }
-        }
-
-        public string UniqueIdentifier
-        {
-            get { return element.GetTaggedValue(TaggedValues.UniqueIdentifier); }
-        }
-
-        public string VersionIdentifier
-        {
-            get { return element.GetTaggedValue(TaggedValues.VersionIdentifier); }
-        }
-
-        public string LanguageCode
-        {
-            get { return element.GetTaggedValue(TaggedValues.LanguageCode); }
         }
 
         #endregion

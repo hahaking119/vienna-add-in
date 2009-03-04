@@ -14,15 +14,5 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             return attribute.TaggedValues.GetTaggedValue(key);
         }
-
-        public static bool IsCON(this Attribute attribute)
-        {
-            return attribute.Stereotype == "CON";
-        }
-
-        public static bool IsSUP(this Attribute attribute)
-        {
-            return attribute.Stereotype == "SUP";
-        }
     }
 }

@@ -1,8 +1,8 @@
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IBCC : ICC
+    public interface IBCC : ICC, ISequenced
     {
-        string SequencingKey { get; }
         ICDT Type { get; }
+        IACC Container { get; }
     }
 }

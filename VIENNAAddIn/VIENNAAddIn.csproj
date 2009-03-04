@@ -216,6 +216,18 @@
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings\AddInSettings.cs" />
+    <Compile Include="upcc3\ccts\ABIESpec.cs" />
+    <Compile Include="upcc3\ccts\BBIESpec.cs" />
+    <Compile Include="upcc3\ccts\BIESpec.cs" />
+    <Compile Include="upcc3\ccts\CCTSElementSpec.cs" />
+    <Compile Include="upcc3\ccts\dra\SUP.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccAssociation.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccAttribute.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccCON.cs" />
+    <Compile Include="upcc3\ccts\ICON.cs" />
+    <Compile Include="upcc3\ccts\IHasUsageRules.cs" />
+    <Compile Include="upcc3\ccts\ISequenced.cs" />
+    <Compile Include="upcc3\ccts\ISUP.cs" />
     <Compile Include="upcc3\ccts\LibrarySpec.cs" />
     <Compile Include="upcc3\ccts\BDTSpec.cs" />
     <Compile Include="upcc3\ccts\CDTSpec.cs" />
@@ -243,7 +255,7 @@
     <Compile Include="upcc3\ccts\dra\ENUMLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\PRIM.cs" />
     <Compile Include="upcc3\ccts\dra\PRIMLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\UpccElement.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccClass.cs" />
     <Compile Include="upcc3\ccts\DTComponentSpec.cs" />
     <Compile Include="upcc3\ccts\DTSpec.cs" />
     <Compile Include="upcc3\ccts\IABIE.cs" />
@@ -261,14 +273,15 @@
     <Compile Include="upcc3\ccts\ICDT.cs" />
     <Compile Include="upcc3\ccts\ICDTLibrary.cs" />
     <Compile Include="upcc3\ccts\IDOCLibrary.cs" />
-    <Compile Include="upcc3\ccts\IElement.cs" />
+    <Compile Include="upcc3\ccts\ICCTSElement.cs" />
     <Compile Include="upcc3\ccts\IENUM.cs" />
     <Compile Include="upcc3\ccts\IENUMLibrary.cs" />
     <Compile Include="upcc3\ccts\IPRIM.cs" />
     <Compile Include="upcc3\ccts\IPRIMLibrary.cs" />
-    <Compile Include="upcc3\ccts\IType.cs" />
+    <Compile Include="upcc3\ccts\IBasicType.cs" />
     <Compile Include="upcc3\ccts\Path.cs" />
     <Compile Include="upcc3\ccts\SUPSpec.cs" />
+    <Compile Include="upcc3\ccts\TaggedValueSpec.cs" />
     <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
     <Compile Include="upcc3\ccts\util\ConnectorExtensions.cs" />
@@ -276,6 +289,7 @@
     <Compile Include="upcc3\ccts\util\ElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
     <Compile Include="upcc3\ccts\util\PackageExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\Stereotype.cs" />
     <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
     <Compile Include="upcc3\ccts\IBusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\ICCRepository.cs" />

@@ -1,25 +1,20 @@
-using System;
 using System.Collections.Generic;
+using EA;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.XSDGenerator.Generator;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal abstract class DTComponent : IDTComponent
+    internal class UpccAttribute<TContainer> where TContainer : ICCTSElement
     {
-        private readonly Attribute attribute;
-        private readonly IDT dt;
-        private readonly CCRepository repository;
+        protected Attribute attribute;
+        protected CCRepository repository;
 
-        protected DTComponent(CCRepository repository, Attribute attribute, IDT dt)
+        public UpccAttribute(CCRepository repository, Attribute attribute, TContainer container)
         {
             this.repository = repository;
             this.attribute = attribute;
-            this.dt = dt;
+            this.Container = container;
         }
-
-        #region IDTComponent Members
 
         public int Id
         {
@@ -29,11 +24,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string Name
         {
             get { return attribute.Name; }
-        }
-
-        public IBasicType BasicType
-        {
-            get { return repository.GetIType(attribute.ClassifierID); }
         }
 
         public string Definition
@@ -61,15 +51,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.GetTaggedValue(TaggedValues.VersionIdentifier); }
         }
 
-        public bool ModificationAllowedIndicator
-        {
-            get
-            {
-                string value = attribute.GetTaggedValue(TaggedValues.ModificationAllowedIndicator).DefaultTo("true");
-                return "true" == value.ToLower();
-            }
-        }
-
         public IEnumerable<string> BusinessTerms
         {
             get { return attribute.GetTaggedValues(TaggedValues.BusinessTerm); }
@@ -77,7 +58,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IBusinessLibrary Library
         {
-            get { return DT.Library; }
+            get { return Container.Library; }
         }
 
         public IEnumerable<string> UsageRules
@@ -85,27 +66,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.GetTaggedValues(TaggedValues.UsageRule); }
         }
 
-        public string UpperBound
+        public string SequencingKey
         {
-            get { return attribute.UpperBound; }
+            get { return attribute.GetTaggedValue(TaggedValues.SequencingKey); }
         }
 
-        public string LowerBound
-        {
-            get { return attribute.LowerBound; }
-        }
-
-        public IDT DT
-        {
-            get { return dt; }
-        }
-
-        public bool IsOptional()
-        {
-            int i;
-            return Int32.TryParse(LowerBound, out i) && i == 0;
-        }
-
-        #endregion
+        public TContainer Container { get; private set; }
     }
 }

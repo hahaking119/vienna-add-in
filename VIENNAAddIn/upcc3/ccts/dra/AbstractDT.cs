@@ -4,100 +4,44 @@ using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public abstract class AbstractDT : UpccElement, IDT
+    public abstract class AbstractDT : UpccClass, IDT
     {
-        protected readonly CCRepository repository;
-
-        protected AbstractDT(CCRepository repository, Element element, string stereotype):base(element, stereotype)
+        protected AbstractDT(CCRepository repository, Element element, string stereotype)
+            : base(repository, element, stereotype)
         {
-            this.repository = repository;
-        }
-
-        private IEnumerable<Attribute> Attributes
-        {
-            get { return element.Attributes.AsEnumerable<Attribute>(); }
-        }
-
-        protected IEnumerable<Connector> Connectors
-        {
-            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region IDT Members
-
-        public int Id
-        {
-            get { return element.ElementID; }
-        }
-
-        public string Name
-        {
-            get { return element.Name; }
-        }
-
-        public IBusinessLibrary Library
-        {
-            get { return repository.GetLibrary(element.PackageID); }
-        }
-
-        public string Definition
-        {
-            get { return element.GetTaggedValue(TaggedValues.Definition); }
-        }
-
-        public string DictionaryEntryName
-        {
-            get { return element.GetTaggedValue(TaggedValues.DictionaryEntryName); }
-        }
-
-        public string LanguageCode
-        {
-            get { return element.GetTaggedValue(TaggedValues.LanguageCode); }
-        }
-
-        public string UniqueIdentifier
-        {
-            get { return element.GetTaggedValue(TaggedValues.UniqueIdentifier); }
-        }
-
-        public string VersionIdentifier
-        {
-            get { return element.GetTaggedValue(TaggedValues.VersionIdentifier); }
-        }
-
-        public IEnumerable<string> BusinessTerms
-        {
-            get { return element.GetTaggedValues(TaggedValues.BusinessTerm); }
-        }
 
         public IEnumerable<string> UsageRules
         {
             get { return element.GetTaggedValues(TaggedValues.UsageRule); }
         }
 
-        public IEnumerable<IDTComponent> SUPs
+        public IEnumerable<ISUP> SUPs
         {
             get
             {
                 return
-                    Attributes.Where(AttributeExtensions.IsSUP).Convert(a => (IDTComponent) new DTComponent(repository, a, DTComponentType.SUP, this));
+                    Attributes.Where(Stereotype.IsSUP).Convert(
+                        a => (ISUP) new SUP(repository, a, this));
             }
         }
 
-        public IDTComponent CON
+        public ICON CON
         {
             get
             {
-                Attribute conAttribute =
-                    Attributes.FirstOrDefault(AttributeExtensions.IsCON);
+                Attribute conAttribute = Attributes.FirstOrDefault(Stereotype.IsCON);
                 if (conAttribute == null)
                 {
                     throw new Exception("data type contains no attribute with stereotype <<CON>>");
                 }
-                return new DTComponent(repository, conAttribute, DTComponentType.CON, this);
+                return new CON(repository, conAttribute, this);
             }
         }
 

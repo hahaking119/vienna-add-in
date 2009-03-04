@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IElement ElementByName(string name)
+        public ICCTSElement ElementByName(string name)
         {
             return PRIMs.First(e => e.Name == name);
         }

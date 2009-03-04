@@ -23,10 +23,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
         /// <param name="value"></param>
         public static void AddTaggedValue(this Collection collection, TaggedValues key, string value)
         {
-            if (collection.ObjectType != ObjectType.otTaggedValue)
-            {
-//                throw new ArgumentException("collection is not a tagged value collection");
-            }
             var taggedValue = (TaggedValue) collection.AddNew(key.AsString(), "");
             taggedValue.Value = value;
             taggedValue.Update();
@@ -40,10 +36,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
 
         public static string GetTaggedValue(this Collection collection, TaggedValues key)
         {
-            if (collection.ObjectType != ObjectType.otTaggedValue)
-            {
-//                throw new ArgumentException("collection is not a tagged value collection");
-            }
             try
             {
                 return ((TaggedValue) collection.GetByName(key.AsString())).Value;
@@ -60,13 +52,9 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return value.Split('|');
         }
 
-        public static void AddConnector(this Collection collection, string stereotype, string name, int supplierId)
+        public static void AddConnector(this Collection collection, string stereotype, int supplierId)
         {
-            if (collection.ObjectType != ObjectType.otConnector)
-            {
-//                throw new ArgumentException("collection is not a connector collection");
-            }
-            var connector = (Connector) collection.AddNew(name, "Association");
+            var connector = (Connector) collection.AddNew(stereotype, "Association");
             connector.Stereotype = stereotype;
             connector.SupplierID = supplierId;
             connector.Update();
@@ -75,10 +63,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static void AddAttribute(this Collection collection, string stereotype, string name, string typeName,
                                         int classifierId, string lowerBound, string upperBound)
         {
-            if (collection.ObjectType != ObjectType.otAttribute)
-            {
-//                throw new ArgumentException("collection is not an attribute collection");
-            }
             var attribute = (Attribute) collection.AddNew(name, typeName);
             attribute.Stereotype = stereotype;
             attribute.ClassifierID = classifierId;
