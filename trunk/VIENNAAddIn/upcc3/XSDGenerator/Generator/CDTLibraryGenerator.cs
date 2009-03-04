@@ -41,11 +41,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             var simpleContent_extension = new XmlSchemaSimpleContentExtension
                                               {
                                                   BaseTypeName =
-                                                      new XmlQualifiedName(cdt.CON.Type.Name,
+                                                      new XmlQualifiedName(cdt.CON.BasicType.Name,
                                                                            "http://www.w3.org/2001/XMLSchema")
                                               };
 
-            foreach (IDTComponent sup in cdt.SUPs)
+            foreach (var sup in cdt.SUPs)
             {
                 var att = new XmlSchemaAttribute();
                 if (Context.Annotate)
@@ -62,9 +62,9 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             return complexType;
         }
 
-        private XmlQualifiedName getXSDType(IDTComponent dtComponent)
+        private XmlQualifiedName getXSDType(ISUP dtComponent)
         {
-            string type = dtComponent.Type.Name.ToXSDType();
+            string type = dtComponent.BasicType.Name.ToXSDType();
             if (type == null)
             {
                 Context.appendWarnMessage(
@@ -107,7 +107,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         /// </sUMM2ary>
         /// <param name="sup"></param>
         /// <returns></returns>
-        private static XmlSchemaAnnotation getAttributeAnnotation(IDTComponent sup)
+        private static XmlSchemaAnnotation getAttributeAnnotation(ISUP sup)
         {
             var annotationBuilder = new AnnotationBuilder();
             annotationBuilder.addOptionalAnnotation("Acronym", "SC");

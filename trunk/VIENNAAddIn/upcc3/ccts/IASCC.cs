@@ -1,8 +1,8 @@
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IASCC : ICC
+    public interface IASCC : ICC, ISequenced
     {
-        string SequencingKey { get; }
-        IACC AssociatedCC { get; }
+        IACC AssociatingElement { get; }
+        IACC AssociatedElement { get; }
     }
 }

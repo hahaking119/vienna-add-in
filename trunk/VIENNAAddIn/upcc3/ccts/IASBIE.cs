@@ -1,9 +1,8 @@
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IASBIE:IBIE
+    public interface IASBIE : IBIE, ISequenced
     {
-        string SequencingKey { get; }
-//        IASCC BasedOn { get; }
-        IABIE AssociatedBIE { get; }
+        IABIE AssociatingElement { get; }
+        IABIE AssociatedElement { get; }
     }
 }

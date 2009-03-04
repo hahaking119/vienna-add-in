@@ -7,6 +7,5 @@ namespace VIENNAAddIn.upcc3.ccts
         IEnumerable<IBCC> BCCs { get; }
         IEnumerable<IASCC> ASCCs { get; }
         IACC IsEquivalentTo { get; }
-        IBusinessLibrary Library { get; }
     }
 }

@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        public IElement ElementByName(string name)
+        public ICCTSElement ElementByName(string name)
         {
             return CDTs.First(e => e.Name == name);
         }

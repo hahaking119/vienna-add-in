@@ -29,7 +29,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IBDT CreateBDT(BDTSpec spec)
         {
             var bdt = (Element) package.Elements.AddNew(spec.Name, "Class");
-            bdt.Stereotype = "BDT";
+            bdt.Stereotype = util.Stereotype.BDT;
             bdt.PackageID = Id;
             Collection taggedValues = bdt.TaggedValues;
             taggedValues.AddTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
@@ -41,13 +41,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             taggedValues.AddTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
             taggedValues.Refresh();
             Collection connectors = bdt.Connectors;
-            connectors.AddConnector("basedOn", "basedOn", spec.BasedOn.Id);
+            connectors.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
             connectors.Refresh();
             Collection attributes = bdt.Attributes;
-            attributes.AddAttribute("CON", "Content", spec.CON.Type.Name, spec.CON.Type.Id, spec.CON.LowerBound, spec.CON.UpperBound);
+            attributes.AddAttribute(util.Stereotype.CON, "Content", spec.CON.BasicType.Name, spec.CON.BasicType.Id, spec.CON.LowerBound, spec.CON.UpperBound);
             foreach (var sup in spec.SUPs)
             {
-                attributes.AddAttribute("SUP", sup.Name, sup.Type.Name, sup.Type.Id, sup.LowerBound, sup.UpperBound);
+                attributes.AddAttribute(util.Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id, sup.LowerBound, sup.UpperBound);
             }
             attributes.Refresh();
             bdt.Update();
@@ -57,7 +57,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        public IElement ElementByName(string name)
+        public ICCTSElement ElementByName(string name)
         {
             return BDTs.First(e => e.Name == name);
         }

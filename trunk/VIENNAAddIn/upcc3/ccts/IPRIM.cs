@@ -1,13 +1,7 @@
-using System.Collections.Generic;
-
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IPRIM : IType
+    public interface IPRIM : IBasicType
     {
-        IBusinessLibrary Library { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        string Definition { get; }
-        string DictionaryEntryName { get; }
         string Pattern { get; }
         string FractionDigits { get; }
         string Length { get; }
@@ -19,8 +13,5 @@ namespace VIENNAAddIn.upcc3.ccts
         string MinLength { get; }
         string TotalDigits { get; }
         string WhiteSpace { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
-        string LanguageCode { get; }
     }
 }

@@ -4,7 +4,7 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public class DTComponentSpec
     {
-        public IType Type { get; set; }
+        public IBasicType BasicType { get; set; }
         public string Definition { get; set; }
         public string DictionaryEntryName { get; set; }
         public string LanguageCode { get; set; }

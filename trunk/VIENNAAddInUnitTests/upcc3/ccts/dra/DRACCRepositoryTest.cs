@@ -21,7 +21,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void Init()
         {
             eaRepository = new EARepository1();
-//            eaRepository = GetFileBasedEARepository();
             repository = new CCRepository(eaRepository);
         }
         private static Repository GetFileBasedEARepository()
@@ -41,32 +40,30 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         private static void AssertSUPs(IDT expectedDT, IDT actualDT)
         {
             Assert.AreEqual(expectedDT.SUPs.Count(), actualDT.SUPs.Count());
-            IEnumerator<IDTComponent> bdtSups = actualDT.SUPs.GetEnumerator();
-            foreach (IDTComponent cdtSup in expectedDT.SUPs)
+            IEnumerator<ISUP> bdtSups = actualDT.SUPs.GetEnumerator();
+            foreach (ISUP cdtSup in expectedDT.SUPs)
             {
                 bdtSups.MoveNext();
-                IDTComponent bdtSup = bdtSups.Current;
+                ISUP bdtSup = bdtSups.Current;
                 AssertSUP(cdtSup, actualDT, bdtSup);
             }
         }
 
-        private static void AssertSUP(IDTComponent expectedSUP, IDT expectedDT, IDTComponent actualSUP)
+        private static void AssertSUP(ISUP expectedSUP, IDT expectedDT, ISUP actualSUP)
         {
-            AssertDTComponent(expectedSUP, expectedDT, expectedSUP.Name, DTComponentType.SUP, actualSUP);
+            AssertDTComponent(expectedSUP, expectedDT, expectedSUP.Name, actualSUP);
         }
 
         private static void AssertCON(IDT expectedDT, IDT actualDT)
         {
-            AssertDTComponent(expectedDT.CON, actualDT, "Content", DTComponentType.CON, actualDT.CON);
+            AssertDTComponent(expectedDT.CON, actualDT, "Content", actualDT.CON);
         }
 
-        private static void AssertDTComponent(IDTComponent expected, IDT expectedDT, string expectedName,
-                                              DTComponentType expectedComponentType, IDTComponent actual)
+        private static void AssertDTComponent(IDTComponent expected, IDT expectedDT, string expectedName, IDTComponent actual)
         {
             Assert.AreEqual(expectedName, actual.Name);
-            Assert.AreEqual(expectedComponentType, actual.ComponentType);
             Assert.AreSame(expectedDT, actual.DT);
-            Assert.AreEqual(expected.Type.Id, actual.Type.Id);
+            Assert.AreEqual(expected.BasicType.Id, actual.BasicType.Id);
             Assert.AreEqual(expected.Definition, actual.Definition);
             Assert.AreEqual(expected.DictionaryEntryName, actual.DictionaryEntryName);
             Assert.AreEqual(expected.LanguageCode, actual.LanguageCode);
@@ -90,13 +87,60 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         }
 
         [Test]
+        public void TestCreateABIE()
+        {
+            var accAddress = (IACC) repository.FindByPath(EARepository1.PathToAddress());
+            Assert.IsNotNull(accAddress, "ACC Address not found");
+
+            var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
+            Assert.IsNotNull(bdtText, "BDT Text not found");
+
+            IBIELibrary bieLibrary = repository.Libraries<IBIELibrary>().First();
+
+            var bccs = new List<IBCC>(accAddress.BCCs);
+            var abieSpec = new ABIESpec
+                                {
+                                    Name = "My_" + accAddress,
+                                    DictionaryEntryName = "overriding default dictionary entry name",
+                                    Definition = "My specific version of an address",
+                                    UniqueIdentifier = "my unique identifier",
+                                    VersionIdentifier = "my version identifier",
+                                    LanguageCode = "my language code",
+                                    BusinessTerms = new []{"business term 1", "business term 2"},
+                                    UsageRules = new [] {"usage rule 1", "usage rule 2"},
+                                    BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
+                                    BasedOn = accAddress,
+                                };
+
+            IABIE abieAddress = bieLibrary.CreateABIE(abieSpec);
+//            IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
+//
+//            Assert.IsNotNull(bdtDate, "BDT is null");
+//            Assert.AreEqual(bdtLibrary.Id, bdtDate.Library.Id);
+//
+//            Assert.AreEqual("My_" + cdtDate.Name, bdtDate.Name);
+//
+//            Assert.AreEqual(cdtDate.Definition, bdtDate.Definition);
+//            Assert.AreEqual(cdtDate.DictionaryEntryName, bdtDate.DictionaryEntryName);
+//            Assert.AreEqual(cdtDate.LanguageCode, bdtDate.LanguageCode);
+//            Assert.AreEqual(cdtDate.UniqueIdentifier, bdtDate.UniqueIdentifier);
+//            Assert.AreEqual(cdtDate.VersionIdentifier, bdtDate.VersionIdentifier);
+//            Assert.AreEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
+//            Assert.AreEqual(cdtDate.UsageRules, bdtDate.UsageRules);
+//
+//            Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
+//            Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
+//
+//            AssertCON(cdtDate, bdtDate);
+//
+//            AssertSUPs(cdtDate, bdtDate);
+        }
+
+        [Test]
         public void TestCreateBDT()
         {
-            var stringType = (IPRIM) repository.FindByPath((Path) "blib1"/"primlib1"/"String");
-            Assert.IsNotNull(stringType, "stringType is null");
-
-            var cdtDate = (ICDT) repository.FindByPath((Path) "blib1"/"cdtlib1"/"Date");
-            Assert.IsNotNull(cdtDate, "cdtDate is null");
+            var cdtDate = (ICDT) repository.FindByPath(EARepository1.PathToDate());
+            Assert.IsNotNull(cdtDate, "CDT Date not found");
 
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
 
@@ -124,12 +168,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertSUPs(cdtDate, bdtDate);
         }
 
-        [Test]
         public void TestCreateBDTFileBased()
         {
             repository = new CCRepository(GetFileBasedEARepository());
             var cdtDate = (ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Date");
-            Assert.IsNotNull(cdtDate, "cdtDate is null");
+            Assert.IsNotNull(cdtDate, "CDT Date not found");
 
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
 
@@ -189,7 +232,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(spec.VersionIdentifier, bdtLib.VersionIdentifier);
         }
 
-        [Test]
         public void TestCreateLibraryFileBased()
         {
             repository = new CCRepository(GetFileBasedEARepository());
@@ -227,7 +269,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             foreach (ICDTLibrary library in repository.Libraries<ICDTLibrary>())
             {
-                IEnumerable<IGrouping<IType, ICDT>> cdtByType = from cdt in library.CDTs group cdt by cdt.CON.Type;
+                IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.CDTs group cdt by cdt.CON.BasicType;
                 foreach (var cdtGroup in cdtByType)
                 {
                     Console.WriteLine(cdtGroup.Key);
@@ -243,7 +285,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void TestReadAccess()
         {
             var libraries = new List<IBusinessLibrary>(repository.AllLibraries());
-            Assert.AreEqual(5, libraries.Count);
+            Assert.AreEqual(6, libraries.Count);
 
             IBusinessLibrary bLib1 = libraries[0];
             Assert.AreEqual("blib1", bLib1.Name);
@@ -263,16 +305,26 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("cdtlib1", cdtLib1.BaseURN);
             var cdts = new List<ICDT>(cdtLib1.CDTs);
-            Assert.AreEqual(2, cdts.Count);
-            ICDT date = cdts[0];
-            Assert.AreEqual(stringType.Id, date.CON.Type.Id);
-            var dateSups = new List<IDTComponent>(date.SUPs);
+            Assert.AreEqual(4, cdts.Count);
+            ICDT date = cdts[1];
+            Assert.AreEqual(stringType.Id, date.CON.BasicType.Id);
+            var dateSups = new List<ISUP>(date.SUPs);
             Assert.AreEqual(1, dateSups.Count);
-            IDTComponent dateFormat = dateSups[0];
+            ISUP dateFormat = dateSups[0];
             Assert.AreEqual("Format", dateFormat.Name);
-            Assert.AreEqual(stringType.Id, dateFormat.Type.Id);
+            Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
-            // TODO check CDT Measure
+            var bdtLib1 = repository.Libraries<IBDTLibrary>().First();
+
+            var ccLib1 = repository.Libraries<ICCLibrary>().First();
+            var cdtAddress = ccLib1.ACCs.First();
+            var cdtAddressBCCs = new List<IBCC>(cdtAddress.BCCs);
+            var bccCountryName = cdtAddressBCCs[0];
+            Assert.AreSame(cdtAddress, bccCountryName.Container);
+            Assert.AreEqual("CountryName", bccCountryName.Name);
+            var cdtText = (ICDT)repository.FindByPath(EARepository1.PathToText());
+            Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
+
         }
 
         [Test]

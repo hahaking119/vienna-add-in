@@ -9,28 +9,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-//        public IEnumerable<IBasedOnDependency> BasedOn
-//        {
-//            get
-//            {
-//                foreach (Connector con in element.Connectors)
-//                {
-//                    if (con.Stereotype == "basedOn")
-//                    {
-//                        yield return new BasedOnDependency(con);
-//                    }
-//                }
-//            }
-//        }
-
         #region IBDT Members
 
         public ICDT BasedOn
         {
             get
             {
-                Connector connector =
-                    Connectors.FirstOrDefault(IsBasedOnDependency);
+                Connector connector = Connectors.FirstOrDefault(IsBasedOnDependency);
                 return connector != null ? repository.GetCDT(connector.SupplierID) : null;
             }
         }
