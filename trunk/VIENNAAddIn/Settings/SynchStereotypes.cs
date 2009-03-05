@@ -5,23 +5,20 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 public class SynchStereotypes
 {
-    public SynchStereotypes()
-	{
-	}
-
     public List<String> Check(String stereotype, Package p)
     {
+        var missingValues = new List<String>();
         switch (stereotype)
         {
             case "ABIE":
                 foreach (Element e in p.Elements)
-                    if (e.Stereotype == "ABIE") CheckABIE(e);
+                    if (e.Stereotype == "ABIE") missingValues.AddRange(CheckABIE(e));
                 foreach (Package pp in p.Packages)
                     Check("ABIE", pp);
                 break;
             case "ACC":
                 foreach (Element e in p.Elements)
-                    if (e.Stereotype=="ACC") CheckACC(e);
+                    if (e.Stereotype=="ACC") missingValues.AddRange(CheckACC(e));
                 foreach (Package pp in p.Packages)
                     Check("ACC", pp);
                 break;
@@ -42,6 +39,7 @@ public class SynchStereotypes
                         Check("all", pp);
                 break;
         }
+        return missingValues;
     }
 
     public void Fix(String Stereotype)
@@ -73,7 +71,7 @@ public class SynchStereotypes
         return missingValues;
     }
 
-    private bool FixABIE(Element e, ArrayList<String> missingValues)
+    private bool FixABIE(Element e, List<String> missingValues)
     {
         foreach (string s in missingValues)
         {
@@ -82,7 +80,7 @@ public class SynchStereotypes
         return false;
     }
 
-    private bool FixACC(Element e, ArrayList<String> missingValues)
+    private bool FixACC(Element e, List<String> missingValues)
     {
         foreach (string s in missingValues)
         {
