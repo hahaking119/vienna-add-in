@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 
 public class SynchStereotypes
 {
@@ -7,19 +9,19 @@ public class SynchStereotypes
 	{
 	}
 
-    public ArrayList<String> Check(String stereotype, Package p)
+    public List<String> Check(String stereotype, Package p)
     {
         switch (stereotype)
         {
             case "ABIE":
                 foreach (Element e in p.Elements)
-                    if (e.Stereotype.equals("ABIE") CheckABIE(e);
+                    if (e.Stereotype == "ABIE") CheckABIE(e);
                 foreach (Package pp in p.Packages)
                     Check("ABIE", pp);
                 break;
             case "ACC":
                 foreach (Element e in p.Elements)
-                    if (e.Stereotype.equals("ACC") CheckACC(e);
+                    if (e.Stereotype=="ACC") CheckACC(e);
                 foreach (Package pp in p.Packages)
                     Check("ACC", pp);
                 break;
@@ -47,30 +49,28 @@ public class SynchStereotypes
         // copy Check method
     }
 
-    private ArrayList<String> CheckABIE(Element e)
+    private List<String> CheckABIE(Element e)
     {
-        var taggedValues = new ArrayList<String>();
-        var missingValues = new ArrayList<String>();
-        taggedValues.AddRange(new string[] { "definition", "dictionaryEntryName" });
-
-        foreach (string s in taggedValues)
-        {
-            if (e.GetTaggedValues(this, s) == "?")
-                missingValues.Add(s);
-        }
+        var missingValues = new List<String>();
+            if (e != null)
+                if (e.GetTaggedValue(TaggedValues.Definition) == null)
+                    missingValues.Add(TaggedValues.Definition.AsString());
+                if (e.GetTaggedValue(TaggedValues.DictionaryEntryName) == null)
+                    missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
+        return missingValues;
     }
 
-    private ArrayList<String> CheckACC(Element e)
-    {
-        var taggedValues = new ArrayList<String>();
-        var missingValues = new ArrayList<String>();
-        taggedValues.AddRange(new string[] { "definition", "dictionaryEntryName" });
 
-        foreach (string s in taggedValues)
-        {
-            if (e.GetTaggedValues(this, s) == "?")
-                missingValues.Add(s);
-        }
+    private List<String> CheckACC(Element e)
+    {
+        var missingValues = new List<String>();
+
+            if (e.GetTaggedValues(TaggedValues.Definition) == null)
+                missingValues.Add(TaggedValues.Definition.AsString());
+            if (e.GetTaggedValues(TaggedValues.DictionaryEntryName) == null)
+                missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
+
+        return missingValues;
     }
 
     private bool FixABIE(Element e, ArrayList<String> missingValues)
@@ -79,6 +79,7 @@ public class SynchStereotypes
         {
             // add to TaggedValues
         }
+        return false;
     }
 
     private bool FixACC(Element e, ArrayList<String> missingValues)
@@ -87,6 +88,7 @@ public class SynchStereotypes
         {
             // add to TaggedValues
         }
+        return false;
     }
 }
 
