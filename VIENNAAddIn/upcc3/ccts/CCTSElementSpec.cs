@@ -1,63 +1,72 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
     public class CCTSElementSpec
     {
-        private readonly Dictionary<TaggedValues, string> taggedValues = new Dictionary<TaggedValues, string>();
-
         public string Name { get; set; }
 
-        public string DictionaryEntryName
-        {
-            get { return GetTaggedValue(TaggedValues.DictionaryEntryName); }
-            set { SetTaggedValue(TaggedValues.DictionaryEntryName, value); }
-        }
+        [TaggedValue(TaggedValues.DictionaryEntryName)]
+        public string DictionaryEntryName{ get; set;}
 
-        public string Definition
-        {
-            get { return GetTaggedValue(TaggedValues.Definition); }
-            set { SetTaggedValue(TaggedValues.Definition, value); }
-        }
-        public string UniqueIdentifier
-        {
-            get { return GetTaggedValue(TaggedValues.UniqueIdentifier); }
-            set { SetTaggedValue(TaggedValues.UniqueIdentifier, value); }
-        }
+        [TaggedValue(TaggedValues.Definition)]
+        public string Definition { get; set; }
 
-        public string VersionIdentifier
-        {
-            get { return GetTaggedValue(TaggedValues.VersionIdentifier); }
-            set { SetTaggedValue(TaggedValues.VersionIdentifier, value); }
-        }
-        public string LanguageCode
-        {
-            get { return GetTaggedValue(TaggedValues.LanguageCode); }
-            set { SetTaggedValue(TaggedValues.LanguageCode, value); }
-        }
+        [TaggedValue(TaggedValues.UniqueIdentifier)]
+        public string UniqueIdentifier { get; set; }
 
-        public IEnumerable<string> BusinessTerms
-        {
-            get; set;
-        }
+        [TaggedValue(TaggedValues.VersionIdentifier)]
+        public string VersionIdentifier { get; set; }
+
+        [TaggedValue(TaggedValues.LanguageCode)]
+        public string LanguageCode { get; set; }
+
+        [TaggedValue(TaggedValues.BusinessTerm)]
+        public IEnumerable<string> BusinessTerms { get; set; }
 
         public IEnumerable<TaggedValueSpec> GetTaggedValues()
         {
-            foreach (var pair in taggedValues)
+            Type type = GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo property in properties)
             {
-                yield return new TaggedValueSpec(pair.Key.AsString(), pair.Value);
+                object[] attributes = property.GetCustomAttributes(typeof (TaggedValueAttribute), true);
+                if (attributes.Length > 0)
+                {
+                    var attribute = (TaggedValueAttribute) attributes[0];
+                    if (property.PropertyType == typeof (string))
+                    {
+                        yield return
+                            new TaggedValueSpec(attribute.Key, (string) property.GetValue(this, new object[] {}));
+                    }
+                    else if (property.PropertyType == typeof (IEnumerable<string>))
+                    {
+                        yield return
+                            new TaggedValueSpec(attribute.Key,
+                                                (IEnumerable<string>) property.GetValue(this, new object[] {}));
+                    }
+                    else if (property.PropertyType == typeof (bool))
+                    {
+                        yield return
+                            new TaggedValueSpec(attribute.Key,
+                                                (bool) property.GetValue(this, new object[] {}));
+                    }
+                }
             }
         }
+    }
 
-        protected void SetTaggedValue(TaggedValues key, string value)
+    internal class TaggedValueAttribute : Attribute
+    {
+        public TaggedValueAttribute(TaggedValues key)
         {
-            taggedValues[key] = value;
+            Key = key;
         }
 
-        protected string GetTaggedValue(TaggedValues key)
-        {
-            return taggedValues[key];
-        }
+        public TaggedValues Key { get; private set; }
     }
 }

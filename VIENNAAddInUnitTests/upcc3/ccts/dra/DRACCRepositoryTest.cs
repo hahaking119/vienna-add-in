@@ -23,6 +23,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             eaRepository = new EARepository1();
             repository = new CCRepository(eaRepository);
         }
+
+        #endregion
+
         private static Repository GetFileBasedEARepository()
         {
             var repo = new Repository();
@@ -31,8 +34,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             repo.OpenFile(repositoryFile);
             return repo;
         }
-
-        #endregion
 
         private ICCRepository repository;
         private Repository eaRepository;
@@ -59,7 +60,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertDTComponent(expectedDT.CON, actualDT, "Content", actualDT.CON);
         }
 
-        private static void AssertDTComponent(IDTComponent expected, IDT expectedDT, string expectedName, IDTComponent actual)
+        private static void AssertDTComponent(IDTComponent expected, IDT expectedDT, string expectedName,
+                                              IDTComponent actual)
         {
             Assert.AreEqual(expectedName, actual.Name);
             Assert.AreSame(expectedDT, actual.DT);
@@ -86,60 +88,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             }
         }
 
-        [Test]
-        public void TestCreateABIE()
+        public void TestCreateBDTFileBased()
         {
-            var accAddress = (IACC) repository.FindByPath(EARepository1.PathToAddress());
-            Assert.IsNotNull(accAddress, "ACC Address not found");
-
-            var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
-            Assert.IsNotNull(bdtText, "BDT Text not found");
-
-            IBIELibrary bieLibrary = repository.Libraries<IBIELibrary>().First();
-
-            var bccs = new List<IBCC>(accAddress.BCCs);
-            var abieSpec = new ABIESpec
-                                {
-                                    Name = "My_" + accAddress,
-                                    DictionaryEntryName = "overriding default dictionary entry name",
-                                    Definition = "My specific version of an address",
-                                    UniqueIdentifier = "my unique identifier",
-                                    VersionIdentifier = "my version identifier",
-                                    LanguageCode = "my language code",
-                                    BusinessTerms = new []{"business term 1", "business term 2"},
-                                    UsageRules = new [] {"usage rule 1", "usage rule 2"},
-                                    BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
-                                    BasedOn = accAddress,
-                                };
-
-            IABIE abieAddress = bieLibrary.CreateABIE(abieSpec);
-//            IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
-//
-//            Assert.IsNotNull(bdtDate, "BDT is null");
-//            Assert.AreEqual(bdtLibrary.Id, bdtDate.Library.Id);
-//
-//            Assert.AreEqual("My_" + cdtDate.Name, bdtDate.Name);
-//
-//            Assert.AreEqual(cdtDate.Definition, bdtDate.Definition);
-//            Assert.AreEqual(cdtDate.DictionaryEntryName, bdtDate.DictionaryEntryName);
-//            Assert.AreEqual(cdtDate.LanguageCode, bdtDate.LanguageCode);
-//            Assert.AreEqual(cdtDate.UniqueIdentifier, bdtDate.UniqueIdentifier);
-//            Assert.AreEqual(cdtDate.VersionIdentifier, bdtDate.VersionIdentifier);
-//            Assert.AreEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
-//            Assert.AreEqual(cdtDate.UsageRules, bdtDate.UsageRules);
-//
-//            Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
-//            Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
-//
-//            AssertCON(cdtDate, bdtDate);
-//
-//            AssertSUPs(cdtDate, bdtDate);
-        }
-
-        [Test]
-        public void TestCreateBDT()
-        {
-            var cdtDate = (ICDT) repository.FindByPath(EARepository1.PathToDate());
+            repository = new CCRepository(GetFileBasedEARepository());
+            var cdtDate = (ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Date");
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
@@ -168,10 +120,104 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertSUPs(cdtDate, bdtDate);
         }
 
-        public void TestCreateBDTFileBased()
+        public void TestCreateLibraryFileBased()
         {
             repository = new CCRepository(GetFileBasedEARepository());
-            var cdtDate = (ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Date");
+            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
+            Assert.IsNotNull(bLib, "bLib not found");
+            var spec = new LibrarySpec
+                       {
+                           Name = "MyBDTLibrary",
+                           BaseURN = "my/base/urn",
+                           BusinessTerms = new[] {"business term 1", "business term 2"},
+                           Copyrights = new[] {"copyright 1", "copyright 2"},
+                           NamespacePrefix = "my_namespace_prefix",
+                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
+                           References = new[] {"reference 1"},
+                           Status = "my status",
+                           UniqueIdentifier = "a unique ID",
+                           VersionIdentifier = "a specific version",
+                       };
+            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(spec);
+            Assert.AreEqual(bLib.Id, bdtLib.Parent.Id);
+            Assert.AreEqual(spec.Name, bdtLib.Name);
+            Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
+            Assert.AreEqual(spec.BusinessTerms, bdtLib.BusinessTerms);
+            Assert.AreEqual(spec.Copyrights, bdtLib.Copyrights);
+            Assert.AreEqual(spec.NamespacePrefix, bdtLib.NamespacePrefix);
+            Assert.AreEqual(spec.Owners, bdtLib.Owners);
+            Assert.AreEqual(spec.References, bdtLib.References);
+            Assert.AreEqual(spec.Status, bdtLib.Status);
+            Assert.AreEqual(spec.UniqueIdentifier, bdtLib.UniqueIdentifier);
+            Assert.AreEqual(spec.VersionIdentifier, bdtLib.VersionIdentifier);
+        }
+
+        [Test]
+        public void TestCreateABIE()
+        {
+            var accAddress = (IACC) repository.FindByPath(EARepository1.PathToAddress());
+            Assert.IsNotNull(accAddress, "ACC Address not found");
+
+            var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
+            Assert.IsNotNull(bdtText, "BDT Text not found");
+
+            IBIELibrary bieLibrary = repository.Libraries<IBIELibrary>().First();
+
+            var bccs = new List<IBCC>(accAddress.BCCs);
+            var abieSpec = new ABIESpec
+                           {
+                               Name = "My_" + accAddress.Name,
+                               DictionaryEntryName = "overriding default dictionary entry name",
+                               Definition = "My specific version of an address",
+                               UniqueIdentifier = "my unique identifier",
+                               VersionIdentifier = "my version identifier",
+                               LanguageCode = "my language code",
+                               BusinessTerms = new[] {"business term 1", "business term 2"},
+                               UsageRules = new[] {"usage rule 1", "usage rule 2"},
+                               BasedOn = accAddress,
+                               BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
+                           };
+
+            IABIE abieAddress = bieLibrary.CreateABIE(abieSpec);
+            Assert.IsNotNull(abieAddress, "ABIE is null");
+            Assert.AreEqual(bieLibrary.Id, abieAddress.Library.Id);
+
+            Assert.AreEqual(abieSpec.Name, abieAddress.Name);
+            Assert.AreEqual(abieSpec.DictionaryEntryName, abieAddress.DictionaryEntryName);
+            Assert.AreEqual(abieSpec.Definition, abieAddress.Definition);
+            Assert.AreEqual(abieSpec.UniqueIdentifier, abieAddress.UniqueIdentifier);
+            Assert.AreEqual(abieSpec.VersionIdentifier, abieAddress.VersionIdentifier);
+            Assert.AreEqual(abieSpec.LanguageCode, abieAddress.LanguageCode);
+            Assert.AreEqual(abieSpec.BusinessTerms, abieAddress.BusinessTerms);
+            Assert.AreEqual(abieSpec.UsageRules, abieAddress.UsageRules);
+
+            Assert.IsNotNull(abieAddress.BasedOn, "BasedOn is null");
+            Assert.AreEqual(accAddress.Id, abieAddress.BasedOn.Id);
+
+            Assert.AreEqual(accAddress.BCCs.Count(), abieAddress.BBIEs.Count());
+            IEnumerator<IBBIE> bbies = abieAddress.BBIEs.GetEnumerator();
+            foreach (IBCC bcc in accAddress.BCCs)
+            {
+                bbies.MoveNext();
+                IBBIE bbie = bbies.Current;
+                Assert.AreEqual(bcc.Name, bbie.Name);
+                Assert.AreEqual(bdtText.Id, bbie.Type.Id);
+                Assert.AreEqual(bcc.Definition, bbie.Definition);
+                Assert.AreEqual(bcc.DictionaryEntryName, bbie.DictionaryEntryName);
+                Assert.AreEqual(bcc.LanguageCode, bbie.LanguageCode);
+                Assert.AreEqual(bcc.UniqueIdentifier, bbie.UniqueIdentifier);
+                Assert.AreEqual(bcc.VersionIdentifier, bbie.VersionIdentifier);
+                Console.WriteLine(bcc.UsageRules.JoinToString("---"));
+                Console.WriteLine(bbie.UsageRules.JoinToString("---"));
+                Assert.AreEqual(bcc.UsageRules, bbie.UsageRules);
+                Assert.AreEqual(bcc.BusinessTerms, bbie.BusinessTerms);
+            }
+        }
+
+        [Test]
+        public void TestCreateBDT()
+        {
+            var cdtDate = (ICDT) repository.FindByPath(EARepository1.PathToDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
@@ -232,44 +278,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(spec.VersionIdentifier, bdtLib.VersionIdentifier);
         }
 
-        public void TestCreateLibraryFileBased()
-        {
-            repository = new CCRepository(GetFileBasedEARepository());
-            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
-            Assert.IsNotNull(bLib, "bLib not found");
-            var spec = new LibrarySpec
-                       {
-                           Name = "MyBDTLibrary",
-                           BaseURN = "my/base/urn",
-                           BusinessTerms = new[] {"business term 1", "business term 2"},
-                           Copyrights = new[] {"copyright 1", "copyright 2"},
-                           NamespacePrefix = "my_namespace_prefix",
-                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
-                           References = new[] {"reference 1"},
-                           Status = "my status",
-                           UniqueIdentifier = "a unique ID",
-                           VersionIdentifier = "a specific version",
-                       };
-            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(spec);
-            Assert.AreEqual(bLib.Id, bdtLib.Parent.Id);
-            Assert.AreEqual(spec.Name, bdtLib.Name);
-            Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
-            Assert.AreEqual(spec.BusinessTerms, bdtLib.BusinessTerms);
-            Assert.AreEqual(spec.Copyrights, bdtLib.Copyrights);
-            Assert.AreEqual(spec.NamespacePrefix, bdtLib.NamespacePrefix);
-            Assert.AreEqual(spec.Owners, bdtLib.Owners);
-            Assert.AreEqual(spec.References, bdtLib.References);
-            Assert.AreEqual(spec.Status, bdtLib.Status);
-            Assert.AreEqual(spec.UniqueIdentifier, bdtLib.UniqueIdentifier);
-            Assert.AreEqual(spec.VersionIdentifier, bdtLib.VersionIdentifier);
-        }
-
         [Test]
         public void TestFindCDTs()
         {
             foreach (ICDTLibrary library in repository.Libraries<ICDTLibrary>())
             {
-                IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.CDTs group cdt by cdt.CON.BasicType;
+                IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.CDTs
+                                                                     group cdt by cdt.CON.BasicType;
                 foreach (var cdtGroup in cdtByType)
                 {
                     Console.WriteLine(cdtGroup.Key);
@@ -314,17 +329,37 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Format", dateFormat.Name);
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
-            var bdtLib1 = repository.Libraries<IBDTLibrary>().First();
+            IBDTLibrary bdtLib1 = repository.Libraries<IBDTLibrary>().First();
 
-            var ccLib1 = repository.Libraries<ICCLibrary>().First();
-            var cdtAddress = ccLib1.ACCs.First();
+            ICCLibrary ccLib1 = repository.Libraries<ICCLibrary>().First();
+            IACC cdtAddress = ccLib1.ACCs.First();
             var cdtAddressBCCs = new List<IBCC>(cdtAddress.BCCs);
-            var bccCountryName = cdtAddressBCCs[0];
+            IBCC bccCountryName = cdtAddressBCCs[0];
             Assert.AreSame(cdtAddress, bccCountryName.Container);
             Assert.AreEqual("CountryName", bccCountryName.Name);
-            var cdtText = (ICDT)repository.FindByPath(EARepository1.PathToText());
+            var cdtText = (ICDT) repository.FindByPath(EARepository1.PathToText());
             Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
+        }
 
+        [Test]
+        public void TestSpecTaggedValues()
+        {
+            var spec = new BBIESpec
+                       {
+                           BusinessTerms = new[] {"bt1", "bt2"},
+                           Definition = "def",
+                           DictionaryEntryName = "den",
+                           LanguageCode = "lc",
+                           Name = "name",
+                           UniqueIdentifier = "ui",
+                           VersionIdentifier = "vi",
+                           SequencingKey = "sk",
+                           UsageRules = new[] {"ur1", "ur2"},
+                       };
+            foreach (TaggedValueSpec tv in spec.GetTaggedValues())
+            {
+                Console.WriteLine(tv);
+            }
         }
 
         [Test]

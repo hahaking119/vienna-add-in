@@ -3,9 +3,11 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public class DTSpec: CCTSElementSpec
+    public class DTSpec : CCTSElementSpec
     {
+        [TaggedValue(TaggedValues.UsageRule)]
         public IEnumerable<string> UsageRules { get; set; }
+
         public IEnumerable<SUPSpec> SUPs { get; set; }
         public CONSpec CON { get; set; }
 
