@@ -60,14 +60,19 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.Update();
         }
 
-        public static void AddAttribute(this Collection collection, string stereotype, string name, string typeName,
-                                        int classifierId, string lowerBound, string upperBound)
+        public static void AddAttribute(this Collection collection, string stereotype, string name, string typeName, int classifierId, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValueSpecs)
         {
             var attribute = (Attribute) collection.AddNew(name, typeName);
             attribute.Stereotype = stereotype;
             attribute.ClassifierID = classifierId;
             attribute.LowerBound = lowerBound;
             attribute.UpperBound = upperBound;
+            var taggedValues = attribute.TaggedValues;
+            foreach (var taggedValueSpec in taggedValueSpecs)
+            {
+                taggedValues.AddTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
+            taggedValues.Refresh();
             attribute.Update();
         }
     }

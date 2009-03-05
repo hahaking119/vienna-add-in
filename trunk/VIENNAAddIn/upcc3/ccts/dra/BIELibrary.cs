@@ -31,27 +31,25 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             abie.Stereotype = util.Stereotype.ABIE;
             abie.PackageID = Id;
             Collection taggedValues = abie.TaggedValues;
-            taggedValues.AddTaggedValue(TaggedValues.DictionaryEntryName, spec.DictionaryEntryName);
-            taggedValues.AddTaggedValue(TaggedValues.Definition, spec.Definition);
-            taggedValues.AddTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
-            taggedValues.AddTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
-            taggedValues.AddTaggedValue(TaggedValues.LanguageCode, spec.LanguageCode);
-            taggedValues.AddTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
-            taggedValues.AddTaggedValues(TaggedValues.UsageRule, spec.UsageRules);
+            foreach (var taggedValueSpec in spec.GetTaggedValues())
+            {
+                taggedValues.AddTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
             taggedValues.Refresh();
             Collection connectors = abie.Connectors;
-            connectors.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
-            connectors.AddConnector(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id);
+            if (spec.BasedOn != null)
+            {
+                connectors.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
+            }
+            if (spec.IsEquivalentTo != null)
+            {
+                connectors.AddConnector(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id);
+            }
             connectors.Refresh();
             Collection attributes = abie.Attributes;
             foreach (var bbie in spec.BBIEs)
             {
-//                var bbieTaggedValues = new List<List<string>>
-//                                                      {
-//                                                          
-//                                                      }
-//                attributes.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, bbie.LowerBound,
-//                                        bbie.UpperBound);
+                attributes.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, "1", "1", bbie.GetTaggedValues());
             }
             attributes.Refresh();
             abie.Update();
