@@ -175,7 +175,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(cdtDate.UsageRules, bdtDate.UsageRules);
 
             Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
-            Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
+            Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.CDT.Id);
 
             AssertCON(cdtDate, bdtDate);
 

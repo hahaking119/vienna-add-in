@@ -1,5 +1,7 @@
+using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -24,6 +26,15 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string EnumerationURI
         {
             get { return element.GetTaggedValue(TaggedValues.EnumerationURI); }
+        }
+
+        public IENUM IsEquivalentTo
+        {
+            get
+            {
+                Connector connector = Connectors.FirstOrDefault(Stereotype.IsIsEquivalentTo);
+                return connector != null ? repository.GetENUM(connector.SupplierID) : null;
+            }
         }
 
         #endregion

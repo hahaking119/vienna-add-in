@@ -11,12 +11,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IBDT Members
 
-        public ICDT BasedOn
+        public IBasedOnDependency BasedOn
         {
             get
             {
                 Connector connector = Connectors.FirstOrDefault(IsBasedOnDependency);
-                return connector != null ? repository.GetCDT(connector.SupplierID) : null;
+                return connector != null ? new BasedOnDependency(repository, connector) : null;
             }
         }
 

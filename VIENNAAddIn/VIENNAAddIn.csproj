@@ -228,10 +228,12 @@
     <Compile Include="upcc3\ccts\dra\UpccAttribute.cs" />
     <Compile Include="upcc3\ccts\dra\UpccClass.cs" />
     <Compile Include="upcc3\ccts\dra\UpccCON.cs" />
+    <Compile Include="upcc3\ccts\IBasedOnDependency.cs" />
     <Compile Include="upcc3\ccts\IBasicType.cs" />
     <Compile Include="upcc3\ccts\ICCTSElement.cs" />
     <Compile Include="upcc3\ccts\ICON.cs" />
     <Compile Include="upcc3\ccts\IHasUsageRules.cs" />
+    <Compile Include="upcc3\ccts\IPRIMRestrictions.cs" />
     <Compile Include="upcc3\ccts\ISequenced.cs" />
     <Compile Include="upcc3\ccts\ISUP.cs" />
     <Compile Include="upcc3\ccts\LibrarySpec.cs" />
