@@ -10,7 +10,7 @@ namespace VIENNAAddIn.upcc3.ccts
         {
             return new BDTSpec
                    {
-                       Name = (qualifier != null ? qualifier + "_" + cdt.Name : cdt.Name),
+                       Name = (string.IsNullOrEmpty(qualifier) ? cdt.Name : qualifier + "_" + cdt.Name),
                        BasedOn = cdt,
                        BusinessTerms = new List<string>(cdt.BusinessTerms),
                        Definition = cdt.Definition,

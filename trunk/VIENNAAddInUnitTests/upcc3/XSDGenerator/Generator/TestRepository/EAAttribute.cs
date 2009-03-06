@@ -7,7 +7,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EAAttribute : Attribute, IEACollectionElement
     {
-        private readonly Collection taggedValues = new EACollection<EATaggedValue>();
+        private readonly Collection taggedValues = new EACollection<EAAttributeTag>();
         private int classifierId;
         public Repository Repository { get; set; }
         public Path ClassifierPath { get; set; }

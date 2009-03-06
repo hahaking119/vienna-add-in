@@ -28,6 +28,13 @@ namespace VIENNAAddIn.upcc3.ccts.util
             taggedValue.Update();
         }
 
+        public static void AddAttributeTag(this Collection collection, TaggedValues key, string value)
+        {
+            var taggedValue = (AttributeTag) collection.AddNew(key.AsString(), "");
+            taggedValue.Value = value;
+            taggedValue.Update();
+        }
+
         public static void AddTaggedValues(this Collection collection, TaggedValues key, IEnumerable<string> values)
         {
             // TODO provide some means to actually manage multiple values (e.g. using a standard separator character) currently, the values are simply concatenated
@@ -70,7 +77,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             var taggedValues = attribute.TaggedValues;
             foreach (var taggedValueSpec in taggedValueSpecs)
             {
-                taggedValues.AddTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                taggedValues.AddAttributeTag(taggedValueSpec.Key, taggedValueSpec.Value);
             }
             taggedValues.Refresh();
             attribute.Update();

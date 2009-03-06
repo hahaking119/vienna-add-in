@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -54,14 +53,51 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return null;
         }
 
+        public IBLibrary CreateBLibrary(LibrarySpec spec)
+        {
+            return new BLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BLibrary));
+        }
+
+        public ICDTLibrary CreateCDTLibrary(LibrarySpec spec)
+        {
+            return new CDTLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.CDTLibrary));
+        }
+
+        public ICCLibrary CreateCCLibrary(LibrarySpec spec)
+        {
+            return new CCLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.CCLibrary));
+        }
+
         public IBDTLibrary CreateBDTLibrary(LibrarySpec spec)
         {
+            return new BDTLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BDTLibrary));
+        }
+
+        public IBIELibrary CreateBIELibrary(LibrarySpec spec)
+        {
+            return new BIELibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BIELibrary));
+        }
+
+        public IPRIMLibrary CreatePRIMLibrary(LibrarySpec spec)
+        {
+            return new PRIMLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.PRIMLibrary));
+        }
+
+        public IENUMLibrary CreateENUMLibrary(LibrarySpec spec)
+        {
+            return new ENUMLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.ENUMLibrary));
+        }
+
+        #endregion
+
+        private Package CreateLibraryPackage(LibrarySpec spec, string stereotype)
+        {
             var libraryPackage = (Package) package.Packages.AddNew(spec.Name, "");
-            Console.WriteLine("lib: " + libraryPackage.Name);
             libraryPackage.Update();
-            libraryPackage.Element.Stereotype = "BDTLibrary";
+            libraryPackage.Element.Stereotype = stereotype;
             libraryPackage.ParentID = Id;
             Collection taggedValues = libraryPackage.Element.TaggedValues;
+
             taggedValues.AddTaggedValue(TaggedValues.BaseURN, spec.BaseURN);
             taggedValues.AddTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
             taggedValues.AddTaggedValues(TaggedValues.Copyright, spec.Copyrights);
@@ -74,9 +110,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             taggedValues.Refresh();
             libraryPackage.Update();
             package.Packages.Refresh();
-            return new BDTLibrary(repository, libraryPackage);
-        }
 
-        #endregion
+            return libraryPackage;
+        }
     }
 }

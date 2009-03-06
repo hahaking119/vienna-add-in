@@ -88,70 +88,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             }
         }
 
-        public void TestCreateBDTFileBased()
-        {
-            repository = new CCRepository(GetFileBasedEARepository());
-            var cdtDate = (ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Date");
-            Assert.IsNotNull(cdtDate, "CDT Date not found");
-
-            IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
-
-            BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My");
-            IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
-
-            Assert.IsNotNull(bdtDate, "BDT is null");
-            Assert.AreEqual(bdtLibrary.Id, bdtDate.Library.Id);
-
-            Assert.AreEqual("My_" + cdtDate.Name, bdtDate.Name);
-
-            Assert.AreEqual(cdtDate.Definition, bdtDate.Definition);
-            Assert.AreEqual(cdtDate.DictionaryEntryName, bdtDate.DictionaryEntryName);
-            Assert.AreEqual(cdtDate.LanguageCode, bdtDate.LanguageCode);
-            Assert.AreEqual(cdtDate.UniqueIdentifier, bdtDate.UniqueIdentifier);
-            Assert.AreEqual(cdtDate.VersionIdentifier, bdtDate.VersionIdentifier);
-            Assert.AreEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
-            Assert.AreEqual(cdtDate.UsageRules, bdtDate.UsageRules);
-
-            Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
-            Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
-
-            AssertCON(cdtDate, bdtDate);
-
-            AssertSUPs(cdtDate, bdtDate);
-        }
-
-        public void TestCreateLibraryFileBased()
-        {
-            repository = new CCRepository(GetFileBasedEARepository());
-            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
-            Assert.IsNotNull(bLib, "bLib not found");
-            var spec = new LibrarySpec
-                       {
-                           Name = "MyBDTLibrary",
-                           BaseURN = "my/base/urn",
-                           BusinessTerms = new[] {"business term 1", "business term 2"},
-                           Copyrights = new[] {"copyright 1", "copyright 2"},
-                           NamespacePrefix = "my_namespace_prefix",
-                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
-                           References = new[] {"reference 1"},
-                           Status = "my status",
-                           UniqueIdentifier = "a unique ID",
-                           VersionIdentifier = "a specific version",
-                       };
-            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(spec);
-            Assert.AreEqual(bLib.Id, bdtLib.Parent.Id);
-            Assert.AreEqual(spec.Name, bdtLib.Name);
-            Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
-            Assert.AreEqual(spec.BusinessTerms, bdtLib.BusinessTerms);
-            Assert.AreEqual(spec.Copyrights, bdtLib.Copyrights);
-            Assert.AreEqual(spec.NamespacePrefix, bdtLib.NamespacePrefix);
-            Assert.AreEqual(spec.Owners, bdtLib.Owners);
-            Assert.AreEqual(spec.References, bdtLib.References);
-            Assert.AreEqual(spec.Status, bdtLib.Status);
-            Assert.AreEqual(spec.UniqueIdentifier, bdtLib.UniqueIdentifier);
-            Assert.AreEqual(spec.VersionIdentifier, bdtLib.VersionIdentifier);
-        }
-
         [Test]
         public void TestCreateABIE()
         {
@@ -244,6 +180,64 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertCON(cdtDate, bdtDate);
 
             AssertSUPs(cdtDate, bdtDate);
+        }
+
+        public void TestCreateElementsFileBased()
+        {
+            repository = new CCRepository(GetFileBasedEARepository());
+
+            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
+            Assert.IsNotNull(bLib, "bLib not found");
+            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(new LibrarySpec
+                                                       {
+                                                           Name = "My_BDTLibrary",
+                                                           BaseURN = "my/base/urn",
+                                                           BusinessTerms =
+                                                               new[] {"business term 1", "business term 2"},
+                                                           Copyrights = new[] {"copyright 1", "copyright 2"},
+                                                           NamespacePrefix = "my_namespace_prefix",
+                                                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
+                                                           References = new[] {"reference 1"},
+                                                           Status = "my status",
+                                                           UniqueIdentifier = "a unique ID",
+                                                           VersionIdentifier = "a specific version",
+                                                       });
+            IBIELibrary bieLib = bLib.CreateBIELibrary(new LibrarySpec
+                                                       {
+                                                           Name = "My_BIELibrary",
+                                                           BaseURN = "my/base/urn",
+                                                           BusinessTerms =
+                                                               new[] {"business term 1", "business term 2"},
+                                                           Copyrights = new[] {"copyright 1", "copyright 2"},
+                                                           NamespacePrefix = "my_namespace_prefix",
+                                                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
+                                                           References = new[] {"reference 1"},
+                                                           Status = "my status",
+                                                           UniqueIdentifier = "a unique ID",
+                                                           VersionIdentifier = "a specific version",
+                                                       });
+
+
+            IBDT bdtText = bdtLib.CreateBDT(
+                BDTSpec.CloneCDT((ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"), "My"));
+
+            var accAddress = (IACC) repository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
+            Assert.IsNotNull(accAddress, "ACC Address not found");
+
+            var bccs = new List<IBCC>(accAddress.BCCs);
+            bieLib.CreateABIE(new ABIESpec
+                              {
+                                  Name = "My_" + accAddress.Name,
+                                  DictionaryEntryName = "overriding default dictionary entry name",
+                                  Definition = "My specific version of an address",
+                                  UniqueIdentifier = "my unique identifier",
+                                  VersionIdentifier = "my version identifier",
+                                  LanguageCode = "my language code",
+                                  BusinessTerms = new[] {"business term 1", "business term 2"},
+                                  UsageRules = new[] {"usage rule 1", "usage rule 2"},
+                                  BasedOn = accAddress,
+                                  BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
+                              });
         }
 
         [Test]
