@@ -172,5 +172,15 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     return null;
             }
         }
+
+        public IENUM GetENUM(int id)
+        {
+            return new ENUM(this, eaRepository.GetElementByID(id));
+        }
+
+        public IPRIM GetPRIM(int id)
+        {
+            return new PRIM(this, eaRepository.GetElementByID(id));
+        }
     }
 }
