@@ -45,6 +45,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public object FindByPath(Path path)
         {
             var o = path.Resolve<object>(eaRepository);
+            if (o == null)
+            {
+                return null;
+            }
             if (o is Element)
             {
                 return GetElement((Element) o);

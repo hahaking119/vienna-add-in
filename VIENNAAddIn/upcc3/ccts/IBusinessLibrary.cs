@@ -37,6 +37,12 @@ namespace VIENNAAddIn.upcc3.ccts
 
         IBusinessLibrary FindChildByName(string name);
 
+        IBLibrary CreateBLibrary(LibrarySpec spec);
+        ICDTLibrary CreateCDTLibrary(LibrarySpec spec);
+        ICCLibrary CreateCCLibrary(LibrarySpec spec);
         IBDTLibrary CreateBDTLibrary(LibrarySpec spec);
+        IBIELibrary CreateBIELibrary(LibrarySpec spec);
+        IPRIMLibrary CreatePRIMLibrary(LibrarySpec spec);
+        IENUMLibrary CreateENUMLibrary(LibrarySpec spec);
     }
 }
