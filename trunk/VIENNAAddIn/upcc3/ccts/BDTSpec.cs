@@ -20,7 +20,7 @@ namespace VIENNAAddIn.upcc3.ccts
                        UsageRules = new List<string>(cdt.UsageRules),
                        VersionIdentifier = cdt.VersionIdentifier,
                        CON = CloneCON(cdt),
-                       SUPs = CloneSUPs(cdt),
+                       SUPs = new List<SUPSpec>(CloneSUPs(cdt)),
                    };
         }
     }

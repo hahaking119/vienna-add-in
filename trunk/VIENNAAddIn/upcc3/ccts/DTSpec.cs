@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
+using System.Linq;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
@@ -8,8 +9,13 @@ namespace VIENNAAddIn.upcc3.ccts
         [TaggedValue(TaggedValues.UsageRule)]
         public IEnumerable<string> UsageRules { get; set; }
 
-        public IEnumerable<SUPSpec> SUPs { get; set; }
+        public List<SUPSpec> SUPs { get; set; }
         public CONSpec CON { get; set; }
+
+        public void RemoveSUP(string name)
+        {
+            SUPs.RemoveAll(sup => sup.Name == name);
+        }
 
         protected static IEnumerable<SUPSpec> CloneSUPs(ICDT cdt)
         {
