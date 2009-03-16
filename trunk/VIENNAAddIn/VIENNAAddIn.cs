@@ -241,6 +241,7 @@ namespace VIENNAAddIn
                 else if (menuname == "-Maintenance")
                 {
                     menu.Add("Synch tagged value");
+                    menu.Add("Synchronize Tagged Values Neu");
                     menu.Add("&BPEL-XSLT Template Setting");
                 }
             }
@@ -317,6 +318,13 @@ namespace VIENNAAddIn
                     {
                         var setting = new TemplateSetting();
                         setting.Show();
+                    }
+                    else if (menuitem == "Synchronize Tagged Values Neu")
+                    {
+                        repository.WriteOutput("System","system", 22);
+                        var ss = new SynchStereotypes(repo);
+                        ss.FixRepository(repository);
+                       
                     }
                         //Synch tagged value, this function need EA version 7.0.818
                     else if (menuitem == "Synch tagged value")
