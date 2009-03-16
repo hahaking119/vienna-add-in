@@ -56,7 +56,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static IEnumerable<string> GetTaggedValues(this Collection collection, TaggedValues key)
         {
             string value = collection.GetTaggedValue(key);
-            return value.Split('|');
+            return string.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
         }
 
         public static void AddConnector(this Collection collection, string stereotype, int supplierId)

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -10,7 +9,7 @@ namespace VIENNAAddIn.upcc3.ccts
         public string Name { get; set; }
 
         [TaggedValue(TaggedValues.DictionaryEntryName)]
-        public string DictionaryEntryName{ get; set;}
+        public string DictionaryEntryName { get; set; }
 
         [TaggedValue(TaggedValues.Definition)]
         public string Definition { get; set; }
@@ -28,8 +27,12 @@ namespace VIENNAAddIn.upcc3.ccts
         public IEnumerable<string> BusinessTerms { get; set; }
     }
 
-    internal class TaggedValueAttribute : Attribute
+    public class TaggedValueAttribute : Attribute
     {
+        public TaggedValueAttribute() : this(TaggedValues.Undefined)
+        {
+        }
+
         public TaggedValueAttribute(TaggedValues key)
         {
             Key = key;

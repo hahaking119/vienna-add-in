@@ -217,7 +217,6 @@
     </Compile>
     <Compile Include="Settings\AddInSettings.cs" />
     <Compile Include="Settings\SynchStereotypes.cs" />
-    <Compile Include="Settings\SynchStereotypes2.cs" />
     <Compile Include="upcc3\ccts\ABIESpec.cs" />
     <Compile Include="upcc3\ccts\BBIESpec.cs" />
     <Compile Include="upcc3\ccts\BIESpec.cs" />

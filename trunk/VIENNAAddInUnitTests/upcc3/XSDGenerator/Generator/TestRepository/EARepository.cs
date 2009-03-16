@@ -642,6 +642,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 element.PackageID = packageId;
                 IndexElement(element);
                 element.Stereotype = c.GetStereotype();
+                foreach (UpccTaggedValue tv in c.GetTaggedValues())
+                {
+                    element.AddTaggedValue(tv.Name, tv.Value);
+                }
                 Collection attributes = element.Attributes;
                 foreach (var attribute in c.GetAttributes())
                 {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -86,6 +88,64 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             {
                 yield return i;
             }
+        }
+
+        public void TestCreateElementsFileBased()
+        {
+            repository = new CCRepository(GetFileBasedEARepository());
+
+            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
+            Assert.IsNotNull(bLib, "bLib not found");
+            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(new LibrarySpec
+                                                       {
+                                                           Name = "My_BDTLibrary",
+                                                           BaseURN = "my/base/urn",
+                                                           BusinessTerms =
+                                                               new[] {"business term 1", "business term 2"},
+                                                           Copyrights = new[] {"copyright 1", "copyright 2"},
+                                                           NamespacePrefix = "my_namespace_prefix",
+                                                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
+                                                           References = new[] {"reference 1"},
+                                                           Status = "my status",
+                                                           UniqueIdentifier = "a unique ID",
+                                                           VersionIdentifier = "a specific version",
+                                                       });
+            IBIELibrary bieLib = bLib.CreateBIELibrary(new LibrarySpec
+                                                       {
+                                                           Name = "My_BIELibrary",
+                                                           BaseURN = "my/base/urn",
+                                                           BusinessTerms =
+                                                               new[] {"business term 1", "business term 2"},
+                                                           Copyrights = new[] {"copyright 1", "copyright 2"},
+                                                           NamespacePrefix = "my_namespace_prefix",
+                                                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
+                                                           References = new[] {"reference 1"},
+                                                           Status = "my status",
+                                                           UniqueIdentifier = "a unique ID",
+                                                           VersionIdentifier = "a specific version",
+                                                       });
+
+
+            IBDT bdtText = bdtLib.CreateBDT(
+                BDTSpec.CloneCDT((ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"), "My"));
+
+            var accAddress = (IACC) repository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
+            Assert.IsNotNull(accAddress, "ACC Address not found");
+
+            var bccs = new List<IBCC>(accAddress.BCCs);
+            bieLib.CreateABIE(new ABIESpec
+                              {
+                                  Name = "My_" + accAddress.Name,
+                                  DictionaryEntryName = "overriding default dictionary entry name",
+                                  Definition = "My specific version of an address",
+                                  UniqueIdentifier = "my unique identifier",
+                                  VersionIdentifier = "my version identifier",
+                                  LanguageCode = "my language code",
+                                  BusinessTerms = new[] {"business term 1", "business term 2"},
+                                  UsageRules = new[] {"usage rule 1", "usage rule 2"},
+                                  BasedOn = accAddress,
+                                  BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
+                              });
         }
 
         [Test]
@@ -180,64 +240,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertCON(cdtDate, bdtDate);
 
             AssertSUPs(cdtDate, bdtDate);
-        }
-
-        public void TestCreateElementsFileBased()
-        {
-            repository = new CCRepository(GetFileBasedEARepository());
-
-            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
-            Assert.IsNotNull(bLib, "bLib not found");
-            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(new LibrarySpec
-                                                       {
-                                                           Name = "My_BDTLibrary",
-                                                           BaseURN = "my/base/urn",
-                                                           BusinessTerms =
-                                                               new[] {"business term 1", "business term 2"},
-                                                           Copyrights = new[] {"copyright 1", "copyright 2"},
-                                                           NamespacePrefix = "my_namespace_prefix",
-                                                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
-                                                           References = new[] {"reference 1"},
-                                                           Status = "my status",
-                                                           UniqueIdentifier = "a unique ID",
-                                                           VersionIdentifier = "a specific version",
-                                                       });
-            IBIELibrary bieLib = bLib.CreateBIELibrary(new LibrarySpec
-                                                       {
-                                                           Name = "My_BIELibrary",
-                                                           BaseURN = "my/base/urn",
-                                                           BusinessTerms =
-                                                               new[] {"business term 1", "business term 2"},
-                                                           Copyrights = new[] {"copyright 1", "copyright 2"},
-                                                           NamespacePrefix = "my_namespace_prefix",
-                                                           Owners = new[] {"owner 1", "owner 2", "owner 3"},
-                                                           References = new[] {"reference 1"},
-                                                           Status = "my status",
-                                                           UniqueIdentifier = "a unique ID",
-                                                           VersionIdentifier = "a specific version",
-                                                       });
-
-
-            IBDT bdtText = bdtLib.CreateBDT(
-                BDTSpec.CloneCDT((ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"), "My"));
-
-            var accAddress = (IACC) repository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
-            Assert.IsNotNull(accAddress, "ACC Address not found");
-
-            var bccs = new List<IBCC>(accAddress.BCCs);
-            bieLib.CreateABIE(new ABIESpec
-                              {
-                                  Name = "My_" + accAddress.Name,
-                                  DictionaryEntryName = "overriding default dictionary entry name",
-                                  Definition = "My specific version of an address",
-                                  UniqueIdentifier = "my unique identifier",
-                                  VersionIdentifier = "my version identifier",
-                                  LanguageCode = "my language code",
-                                  BusinessTerms = new[] {"business term 1", "business term 2"},
-                                  UsageRules = new[] {"usage rule 1", "usage rule 2"},
-                                  BasedOn = accAddress,
-                                  BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
-                              });
         }
 
         [Test]
