@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*******************************************************************************
+This file is part of the VIENNAAddIn project
+
+Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+
+For further information on the VIENNAAddIn project please visit 
+http://vienna-add-in.googlecode.com
+*******************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using EA;
@@ -6,12 +14,20 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.Settings
 {
+    /// <summary>
+    /// This class should be used to check for missing TaggedValues of Elements/Connectors/Packages according to UPCC 3.0 spefication.
+    /// Fix methods to add missing TaggedValues are also available.
+    /// </summary>
     public class SynchStereotypes
     {
         //R.I.P. good old list solution .. 
         //private readonly List<String> stereotypes = new List<String>(new String[] { "ABIE", "ACC", "ASBIE", "ASCC", "BBIE", "BCC", "BCSS", "BIE", "CC", "CCTS", "CDT", "CON", "PRIM", "QDT", "SUP", "BDT" });
         //private readonly List<String> libraries = new List<string>(new String[] { "BIELibrary", "bLibrary", "BusinessLibrary", "CCLibrary", "CDTLibrary", "DOCLibrary", "ENUMLibrary", "PRIMLibrary", "QDTLibrary" });
 
+        /// <summary>
+        /// Fix a whole Package by first fixing the TaggedValues of the package itself and then its suppackages recursivley.
+        /// </summary>
+        /// <param name="p">The package to fix</param>
         public void FixPackage(Package p)
         {
             Fix(p);
@@ -22,6 +38,11 @@ namespace VIENNAAddIn.Settings
             foreach (Package pp in p.Packages)
                 FixPackage(pp);
         }
+
+        /// <summary>
+        /// Fix a whole Repository by fixing all of its packages.
+        /// </summary>
+        /// <param name="r">The repository to fix</param>
         public void FixRepository(Repository r)
         {
             foreach (Package p in r.Models)
@@ -30,26 +51,27 @@ namespace VIENNAAddIn.Settings
             }
         }
 
-        /***********************************************************************************
-         * Check elements and connectors for missing TaggedValues and return a List of them
-         ***********************************************************************************/
-
+        /// <summary>
+        /// Check elements and connectors for missing TaggedValues and return a List of them
+        /// </summary>
+        /// <param name="e">The Element to be checked.</param>
+        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</String></returns>
         public List<String> Check(Element e)
         {
             var missingValues = new List<String>();
             switch (e.Stereotype)
             {
-                case "ABIE":        //finished!
+                case "ABIE": //finished!
                     goto default;
-                case "ACC":         //finished!
+                case "ACC": //finished!
                     goto default;
-                case "ASBIE":       //finisehd!
+                case "ASBIE": //finisehd!
                     goto case "BCC";
-                case "ASCC":        //finished!
+                case "ASCC": //finished!
                     goto case "BCC";
-                case "BBIE":        //finished!
+                case "BBIE": //finished!
                     goto case "BCC";
-                case "BCC":         //finished!
+                case "BCC": //finished!
                     if (Equals(e.GetTaggedValue(TaggedValues.SequencingKey), ""))
                         missingValues.Add(TaggedValues.SequencingKey.AsString());
                     goto default;
@@ -66,10 +88,10 @@ namespace VIENNAAddIn.Settings
                     //not found yet! does it really mean CCTS?
                     break;
                 case "CDT":
-                    goto default;       //finished
-                case "CON":             //finished
+                    goto default; //finished
+                case "CON": //finished
                     goto case "SUP";
-                case "ENUM":            //finished
+                case "ENUM": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.AgencyIdentifier), ""))
                         missingValues.Add(TaggedValues.AgencyIdentifier.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.AgencyName), ""))
@@ -87,7 +109,7 @@ namespace VIENNAAddIn.Settings
                     if (Equals(e.GetTaggedValue(TaggedValues.EnumerationURI), ""))
                         missingValues.Add(TaggedValues.EnumerationURI.AsString());
                     break;
-                case "PRIM":            //finished
+                case "PRIM": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         missingValues.Add(TaggedValues.BusinessTerm.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), ""))
@@ -126,11 +148,11 @@ namespace VIENNAAddIn.Settings
                 case "QDT":
                     //not found yet!
                     break;
-                case "SUP":             //finished
+                case "SUP": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), ""))
                         missingValues.Add(TaggedValues.ModificationAllowedIndicator.AsString());
                     goto default;
-                case "basedOn":         //finished
+                case "basedOn": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.ApplyTo), ""))
                         missingValues.Add(TaggedValues.ApplyTo.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.Pattern), ""))
@@ -156,9 +178,9 @@ namespace VIENNAAddIn.Settings
                     if (Equals(e.GetTaggedValue(TaggedValues.WhiteSpace), ""))
                         missingValues.Add(TaggedValues.WhiteSpace.AsString());
                     break;
-                case "BDT":             //finished
+                case "BDT": //finished
                     goto default;
-                default:                //finished
+                default: //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         missingValues.Add(TaggedValues.BusinessTerm.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.Definition), ""))
@@ -177,22 +199,28 @@ namespace VIENNAAddIn.Settings
             }
             return missingValues;
         }
+
+        /// <summary>
+        /// Check elements and connectors for missing TaggedValues and return a List of them
+        /// </summary>
+        /// <param name="c">The Connector to be checked.</param>
+        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</String></returns>
         public List<String> Check(Connector c)
         {
             var missingValues = new List<String>();
             switch (c.Stereotype)
             {
-                case "ABIE":        //finished!
+                case "ABIE": //finished!
                     goto default;
-                case "ACC":         //finished!
+                case "ACC": //finished!
                     goto default;
-                case "ASBIE":       //finisehd!
+                case "ASBIE": //finisehd!
                     goto case "BCC";
-                case "ASCC":        //finished!
+                case "ASCC": //finished!
                     goto case "BCC";
-                case "BBIE":        //finished!
+                case "BBIE": //finished!
                     goto case "BCC";
-                case "BCC":         //finished!
+                case "BCC": //finished!
                     if (Equals(c.GetTaggedValue(TaggedValues.SequencingKey), ""))
                         missingValues.Add(TaggedValues.SequencingKey.AsString());
                     goto default;
@@ -209,10 +237,10 @@ namespace VIENNAAddIn.Settings
                     //not found yet! does it really mean CCTS?
                     break;
                 case "CDT":
-                    goto default;       //finished
-                case "CON":             //finished
+                    goto default; //finished
+                case "CON": //finished
                     goto case "SUP";
-                case "ENUM":            //finished
+                case "ENUM": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.AgencyIdentifier), ""))
                         missingValues.Add(TaggedValues.AgencyIdentifier.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.AgencyName), ""))
@@ -230,7 +258,7 @@ namespace VIENNAAddIn.Settings
                     if (Equals(c.GetTaggedValue(TaggedValues.EnumerationURI), ""))
                         missingValues.Add(TaggedValues.EnumerationURI.AsString());
                     break;
-                case "PRIM":            //finished
+                case "PRIM": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         missingValues.Add(TaggedValues.BusinessTerm.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), ""))
@@ -269,11 +297,11 @@ namespace VIENNAAddIn.Settings
                 case "QDT":
                     //not found yet!
                     break;
-                case "SUP":             //finished
+                case "SUP": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), ""))
                         missingValues.Add(TaggedValues.ModificationAllowedIndicator.AsString());
                     goto default;
-                case "basedOn":         //finished
+                case "basedOn": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), ""))
                         missingValues.Add(TaggedValues.ApplyTo.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.Pattern), ""))
@@ -299,9 +327,9 @@ namespace VIENNAAddIn.Settings
                     if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), ""))
                         missingValues.Add(TaggedValues.WhiteSpace.AsString());
                     break;
-                case "BDT":             //finished
+                case "BDT": //finished
                     goto default;
-                default:                //finished
+                default: //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         missingValues.Add(TaggedValues.BusinessTerm.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.Definition), ""))
@@ -321,25 +349,25 @@ namespace VIENNAAddIn.Settings
             return missingValues;
         }
 
-        /******************************************************
-         * Add missing TaggedValues to elements and connectors
-         *****************************************************/
-
+        /// <summary>
+        /// Add missing TaggedValues to Elements
+        /// </summary>
+        /// <param name="e">The Element to fix</param>
         public void Fix(Element e)
         {
             switch (e.Stereotype)
             {
-                case "ABIE":        //finished!
+                case "ABIE": //finished!
                     goto default;
-                case "ACC":         //finished!
+                case "ACC": //finished!
                     goto default;
-                case "ASBIE":       //finisehd!
+                case "ASBIE": //finisehd!
                     goto case "BCC";
-                case "ASCC":        //finished!
+                case "ASCC": //finished!
                     goto case "BCC";
-                case "BBIE":        //finished!
+                case "BBIE": //finished!
                     goto case "BCC";
-                case "BCC":         //finished!
+                case "BCC": //finished!
                     if (Equals(e.GetTaggedValue(TaggedValues.SequencingKey), ""))
                         e.TaggedValues.AddNew("", TaggedValues.SequencingKey.AsString());
                     goto default;
@@ -356,10 +384,10 @@ namespace VIENNAAddIn.Settings
                     //not found yet! does it really mean CCTS?
                     break;
                 case "CDT":
-                    goto default;       //finished
-                case "CON":             //finished
+                    goto default; //finished
+                case "CON": //finished
                     goto case "SUP";
-                case "ENUM":            //finished
+                case "ENUM": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.AgencyIdentifier), ""))
                         e.TaggedValues.AddNew("", TaggedValues.AgencyIdentifier.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.AgencyName), ""))
@@ -377,7 +405,7 @@ namespace VIENNAAddIn.Settings
                     if (Equals(e.GetTaggedValue(TaggedValues.EnumerationURI), ""))
                         e.TaggedValues.AddNew("", TaggedValues.EnumerationURI.AsString());
                     break;
-                case "PRIM":            //finished
+                case "PRIM": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         e.TaggedValues.AddNew("", TaggedValues.BusinessTerm.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), ""))
@@ -416,11 +444,11 @@ namespace VIENNAAddIn.Settings
                 case "QDT":
                     //not found yet!
                     break;
-                case "SUP":             //finished
+                case "SUP": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), ""))
                         e.TaggedValues.AddNew("", TaggedValues.ModificationAllowedIndicator.AsString());
                     goto default;
-                case "basedOn":         //finished
+                case "basedOn": //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.ApplyTo), ""))
                         e.TaggedValues.AddNew("", TaggedValues.ApplyTo.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.Pattern), ""))
@@ -446,9 +474,9 @@ namespace VIENNAAddIn.Settings
                     if (Equals(e.GetTaggedValue(TaggedValues.WhiteSpace), ""))
                         e.TaggedValues.AddNew("", TaggedValues.WhiteSpace.AsString());
                     break;
-                case "BDT":             //finished
+                case "BDT": //finished
                     goto default;
-                default:                //finished
+                default: //finished
                     if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         e.TaggedValues.AddNew("", TaggedValues.BusinessTerm.AsString());
                     if (Equals(e.GetTaggedValue(TaggedValues.Definition), ""))
@@ -466,21 +494,26 @@ namespace VIENNAAddIn.Settings
                     break;
             }
         }
+
+        /// <summary>
+        /// Add missing TaggedValues to Connectors
+        /// </summary>
+        /// <param name="c">Connector to fix</param>
         public void Fix(Connector c)
         {
             switch (c.Stereotype)
             {
-                case "ABIE":        //finished!
+                case "ABIE": //finished!
                     goto default;
-                case "ACC":         //finished!
+                case "ACC": //finished!
                     goto default;
-                case "ASBIE":       //finisehd!
+                case "ASBIE": //finisehd!
                     goto case "BCC";
-                case "ASCC":        //finished!
+                case "ASCC": //finished!
                     goto case "BCC";
-                case "BBIE":        //finished!
+                case "BBIE": //finished!
                     goto case "BCC";
-                case "BCC":         //finished!
+                case "BCC": //finished!
                     if (Equals(c.GetTaggedValue(TaggedValues.SequencingKey), ""))
                         c.TaggedValues.AddNew("", TaggedValues.SequencingKey.AsString());
                     goto default;
@@ -497,10 +530,10 @@ namespace VIENNAAddIn.Settings
                     //not found yet! does it really mean CCTS?
                     break;
                 case "CDT":
-                    goto default;       //finished
-                case "CON":             //finished
+                    goto default; //finished
+                case "CON": //finished
                     goto case "SUP";
-                case "ENUM":            //finished
+                case "ENUM": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.AgencyIdentifier), ""))
                         c.TaggedValues.AddNew("", TaggedValues.AgencyIdentifier.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.AgencyName), ""))
@@ -518,7 +551,7 @@ namespace VIENNAAddIn.Settings
                     if (Equals(c.GetTaggedValue(TaggedValues.EnumerationURI), ""))
                         c.TaggedValues.AddNew("", TaggedValues.EnumerationURI.AsString());
                     break;
-                case "PRIM":            //finished
+                case "PRIM": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         c.TaggedValues.AddNew("", TaggedValues.BusinessTerm.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), ""))
@@ -557,11 +590,11 @@ namespace VIENNAAddIn.Settings
                 case "QDT":
                     //not found yet!
                     break;
-                case "SUP":             //finished
+                case "SUP": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), ""))
                         c.TaggedValues.AddNew("", TaggedValues.ModificationAllowedIndicator.AsString());
                     goto default;
-                case "basedOn":         //finished
+                case "basedOn": //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), ""))
                         c.TaggedValues.AddNew("", TaggedValues.ApplyTo.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.Pattern), ""))
@@ -587,9 +620,9 @@ namespace VIENNAAddIn.Settings
                     if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), ""))
                         c.TaggedValues.AddNew("", TaggedValues.WhiteSpace.AsString());
                     break;
-                case "BDT":             //finished
+                case "BDT": //finished
                     goto default;
-                default:                //finished
+                default: //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), ""))
                         c.TaggedValues.AddNew("", TaggedValues.BusinessTerm.AsString());
                     if (Equals(c.GetTaggedValue(TaggedValues.Definition), ""))
@@ -607,6 +640,11 @@ namespace VIENNAAddIn.Settings
                     break;
             }
         }
+
+        /// <summary>
+        /// Add missing TaggedValues to Packages
+        /// </summary>
+        /// <param name="p">The package to fix</param>
         public void Fix(Package p)
         {
             if (Equals(p.Element.TaggedValues.GetTaggedValue(TaggedValues.UniqueIdentifier), ""))
