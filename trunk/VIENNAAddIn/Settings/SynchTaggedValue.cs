@@ -7,14 +7,8 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using EA;
-using VIENNAAddIn.Utils;
 using VIENNAAddIn.constants;
 
 namespace VIENNAAddIn.Setting
@@ -22,25 +16,27 @@ namespace VIENNAAddIn.Setting
     public partial class SynchTaggedValue : Form
     {
         #region Variables
-        EA.Repository repository;
-        string scope;
+
+        private readonly Repository repository;
+        private string scope;
+
         #endregion
 
         #region Constructor
+
         public SynchTaggedValue()
         {
             InitializeComponent();
         }
 
-        public SynchTaggedValue(EA.Repository repository, string scope)
+        public SynchTaggedValue(Repository repository, string scope)
         {
             InitializeComponent();
             this.repository = repository;
             this.scope = scope;
         }
-        #endregion
 
-        
+        #endregion
 
         private void SynchTaggedValue_Load(object sender, EventArgs e)
         {
@@ -54,31 +50,32 @@ namespace VIENNAAddIn.Setting
             lsbStereotype.Items.Clear();
             if (cmbProfile.Items[cmbProfile.SelectedIndex].ToString().Equals("Business Requirement View"))
             {
-                foreach (string item in Enum.GetNames(typeof(UMM)))
+                foreach (string item in Enum.GetNames(typeof (UMM)))
                 {
-                    lsbStereotype.Items.Add(item.ToString());
+                    lsbStereotype.Items.Add(item);
                 }
             }
             else if (cmbProfile.Items[cmbProfile.SelectedIndex].ToString().Equals("Business Information View"))
             {
-                foreach (string item in Enum.GetNames(typeof(UMM)))
+                foreach (string item in Enum.GetNames(typeof (UMM)))
                 {
-                    lsbStereotype.Items.Add(item.ToString());
+                    lsbStereotype.Items.Add(item);
                 }
             }
             else if (cmbProfile.Items[cmbProfile.SelectedIndex].ToString().Equals("Business Choreography View"))
             {
-                foreach (string item in Enum.GetNames(typeof(UMM)))
+                foreach (string item in Enum.GetNames(typeof (UMM)))
                 {
-                    lsbStereotype.Items.Add(item.ToString());
+                    lsbStereotype.Items.Add(item);
                 }
             }
         }
 
         private void btnSynchronize_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("This process may need some time to finish.\nAre you sure want to continue?",
-                "Confirmation", MessageBoxButtons.OKCancel);
+            DialogResult result =
+                MessageBox.Show("This process may need some time to finish.\nAre you sure want to continue?",
+                                "Confirmation", MessageBoxButtons.OKCancel);
 
             if (result == DialogResult.OK)
             {
@@ -88,33 +85,41 @@ namespace VIENNAAddIn.Setting
                     switch (cmbProfile.Items[cmbProfile.SelectedIndex].ToString())
                     {
                         case "Business Requirement View":
-                            this.repository.CustomCommand("Repository", "SynchProfile", "Profile=BRV;Stereotype=" + lsbStereotype.Items[lsbStereotype.SelectedIndex].ToString() + ";");
+                            repository.CustomCommand("Repository", "SynchProfile",
+                                                     "Profile=BRV;Stereotype=" +
+                                                     lsbStereotype.Items[lsbStereotype.SelectedIndex] + ";");
                             break;
                         case "Business Information View":
-                            this.repository.CustomCommand("Repository", "SynchProfile", "Profile=BIV;Stereotype=" + lsbStereotype.Items[lsbStereotype.SelectedIndex].ToString() + ";");
+                            repository.CustomCommand("Repository", "SynchProfile",
+                                                     "Profile=BIV;Stereotype=" +
+                                                     lsbStereotype.Items[lsbStereotype.SelectedIndex] + ";");
                             break;
                         case "Business Choreography View":
-                            this.repository.CustomCommand("Repository", "SynchProfile", "Profile=BCV;Stereotype=" + lsbStereotype.Items[lsbStereotype.SelectedIndex].ToString() + ";");
+                            repository.CustomCommand("Repository", "SynchProfile",
+                                                     "Profile=BCV;Stereotype=" +
+                                                     lsbStereotype.Items[lsbStereotype.SelectedIndex] + ";");
                             break;
                     }
-
                 }
                 else if (rbtAll.Checked)
                 {
-                    foreach (string enumStereotype in Enum.GetNames(typeof(UMM)))
+                    foreach (string enumStereotype in Enum.GetNames(typeof (UMM)))
                     {
-                        string tempStereotype = enumStereotype.ToString();
-                        repository.CustomCommand("Repository", "SynchProfile", "Profile=BIV;Stereotype=" + tempStereotype + ";");
+                        string tempStereotype = enumStereotype;
+                        repository.CustomCommand("Repository", "SynchProfile",
+                                                 "Profile=BIV;Stereotype=" + tempStereotype + ";");
                     }
-                    foreach (string enumStereotype in Enum.GetNames(typeof(UMM)))
+                    foreach (string enumStereotype in Enum.GetNames(typeof (UMM)))
                     {
-                        string tempStereotype = enumStereotype.ToString();
-                        repository.CustomCommand("Repository", "SynchProfile", "Profile=BRV;Stereotype=" + tempStereotype + ";");
+                        string tempStereotype = enumStereotype;
+                        repository.CustomCommand("Repository", "SynchProfile",
+                                                 "Profile=BRV;Stereotype=" + tempStereotype + ";");
                     }
-                    foreach (string enumStereotype in Enum.GetNames(typeof(UMM)))
+                    foreach (string enumStereotype in Enum.GetNames(typeof (UMM)))
                     {
-                        string tempStereotype = enumStereotype.ToString();
-                        repository.CustomCommand("Repository", "SynchProfile", "Profile=BCV;Stereotype=" + tempStereotype + ";");
+                        string tempStereotype = enumStereotype;
+                        repository.CustomCommand("Repository", "SynchProfile",
+                                                 "Profile=BCV;Stereotype=" + tempStereotype + ";");
                     }
                 }
             }
@@ -132,7 +137,7 @@ namespace VIENNAAddIn.Setting
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
-} 
+}
