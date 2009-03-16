@@ -162,6 +162,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             return new CDT
                    {
                        Name = "Date",
+                       Definition = "A Date.",
                        CON = PathToString(),
                        SUPs = new List<SUP>
                               {
