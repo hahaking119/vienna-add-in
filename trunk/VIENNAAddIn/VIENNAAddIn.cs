@@ -8,58 +8,57 @@ http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
-
-using VIENNAAddIn.Exceptions;
+using VIENNAAddIn.CCTS;
 using VIENNAAddIn.common;
 using VIENNAAddIn.constants;
 using VIENNAAddIn.ErrorReporter;
-using VIENNAAddIn.validator;
-
-using Microsoft.Win32;
-using System.Threading;
-using System.Runtime.InteropServices;
-using VIENNAAddIn.Utils;
+using VIENNAAddIn.ExportImport;
+using VIENNAAddIn.Setting;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.Utils;
+using VIENNAAddIn.validator;
 using VIENNAAddIn.workflow;
+using VIENNAAddIn.WSDLGenerator;
+using VIENNAAddIn.WSDLGenerator.Setting;
+using VIENNAAddIn.XBRLGenerator;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn
 {
+
     #region Interface
 
     [Guid("CF25D0B4-8D4E-419e-A4B1-AB4C9D90D62E"),
-    InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
+     InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
     public interface VIENNAAddInEvents
     {
-
-       
     }
 
     [Guid("AC600C85-5BFE-45d5-9D5C-EEE1B5BE852B")]
     public interface VIENNAAddInInterface
     {
-
         /// <summary>
         /// Connect
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        string EA_Connect(EA.Repository repository);
+        string EA_Connect(Repository repository);
 
         /// <summary>
         /// Disconnect
         /// </summary>
-        void EA_Disconnect(EA.Repository repository);
+        void EA_Disconnect(Repository repository);
 
         /// <summary>
         /// Open File
         /// </summary>
         /// <param name="repository"></param>
-        void EA_FileOpen(EA.Repository repository);
+        void EA_FileOpen(Repository repository);
 
         /// <summary>
         /// Get Menu-Items
@@ -68,19 +67,20 @@ namespace VIENNAAddIn
         /// <param name="menulocation"></param>
         /// <param name="menuname"></param>
         /// <returns></returns>
-        string[] EA_GetMenuItems(EA.Repository repository, string menulocation, string menuname);
+        string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname);
 
 
-        object OnInitializeTechnologies(EA.Repository repository);
+        object OnInitializeTechnologies(Repository repository);
 
-        
-       /// <summary>
+
+        /// <summary>
         /// Menu Click
         /// </summary>
         /// <param name="repository"></param>
+        /// <param name="menulocation"></param>
         /// <param name="menuname"></param>
         /// <param name="menuitem"></param>
-        void EA_MenuClick(EA.Repository repository, string menulocation, string menuname, string menuitem);
+        void EA_MenuClick(Repository repository, string menulocation, string menuname, string menuitem);
 
         /// <summary>
         /// Menu State
@@ -91,54 +91,49 @@ namespace VIENNAAddIn
         /// <param name="menuitem"></param>
         /// <param name="IsEnabled"></param>
         /// <param name="IsChecked"></param>
-        void EA_GetMenuState(EA.Repository repository, string menulocation, string menuname, string menuitem, ref bool IsEnabled, ref bool IsChecked);
-
+        void EA_GetMenuState(Repository repository, string menulocation, string menuname, string menuitem,
+                             ref bool IsEnabled, ref bool IsChecked);
     }
+
     #endregion
 
-
     [Guid("ADFF62A3-BEB5-4f39-9F79-560989B6E48B"),
-    ClassInterface(ClassInterfaceType.None),
-    ComSourceInterfaces(typeof(VIENNAAddInEvents))]
+     ClassInterface(ClassInterfaceType.None),
+     ComSourceInterfaces(typeof (VIENNAAddInEvents))]
     public class VIENNAAddIn : VIENNAAddInInterface
     {
         #region Variables
-        public static EA.Repository repo;
-        private bool isUMM2Model = false;
 
-        //The XSD from CCTS Transformer (there must be at max one instance of the window)
-        private WSDLGenerator.WSDLGenerator wsdlGenerator = null;
-        private WSDLGenerator.TransactionModuleArtefact tmArtefact = null; //WSDL Generator
-        private XBRLGenerator.XBRLLinkbase xbrlLinkbaseGenerator = null;
-        private XBRLGenerator.XBRLGenerator xbrlGenerator = null;
+        public static Repository repo;
+        private BIEGenerator bieGenerator;
+        private BusinessLibraryGenerator BLGenerator;
+        private CCGenerator ccGenerator;
+        private CCWindow ccWindow;
+        private CDTGenerator cdtGenerator;
+        private ENUMGenerator enumGenerator;
 
-        private CCTS.BusinessLibraryGenerator BLGenerator = null;
-        private CCTS.BIEGenerator bieGenerator = null;
-        private CCTS.QDTGenerator qdtGenerator = null;
-        private CCTS.CDTGenerator cdtGenerator = null;
-        private CCTS.CCGenerator ccGenerator = null;
-        private CCTS.DOCGenerator xsdGenerator = null;
-        private CCTS.ENUMGenerator enumGenerator = null;
-        private CCTS.QDTWindow qdtWindow = null;
-        private CCTS.CCWindow ccWindow = null;
+        private ExportPackage exportFeature;
+        private ImportPackage importFeature;
+        private bool isUMM2Model;
+        private QDTGenerator qdtGenerator;
+        private QDTWindow qdtWindow;
 
-        private ExportImport.ExportPackage exportFeature = null;
-        private ExportImport.ImportPackage importFeature = null;
-
-        private Setting.SynchTaggedValue synchTaggedValue = null;
+        private SynchTaggedValue synchTaggedValue;
+        private TransactionModuleArtefact tmArtefact; //WSDL Generator
 
         //UMM Validator window        
-        private ValidatorForm validatorForm = null;
+        private ValidatorForm validatorForm;
+        private WSDLGenerator.WSDLGenerator wsdlGenerator;
+        private XBRLGenerator.XBRLGenerator xbrlGenerator;
+        private XBRLLinkbase xbrlLinkbaseGenerator;
+        private DOCGenerator xsdGenerator;
 
         #endregion
-
 
         #region implement VIENNAAddInInterface
 
         #region Non-Menu method
 
-
-             
         /// <summary>
         /// Get menu state
         /// </summary>
@@ -148,9 +143,9 @@ namespace VIENNAAddIn
         /// <param name="itemname"></param>
         /// <param name="isEnabled"></param>
         /// <param name="isChecked"></param>
-        public void EA_GetMenuState(EA.Repository repository, string menulocation, string menuname, string itemname, ref bool isEnabled, ref bool isChecked)
+        public void EA_GetMenuState(Repository repository, string menulocation, string menuname, string itemname,
+                                    ref bool isEnabled, ref bool isChecked)
         {
-
             repo = repository;
             if (itemname == "&Set Model as UMM2/UPCC3 Model")
             {
@@ -160,7 +155,6 @@ namespace VIENNAAddIn
             {
                 isEnabled = false;
             }
-
         }
 
         /// <summary>
@@ -168,9 +162,8 @@ namespace VIENNAAddIn
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        public string EA_Connect(EA.Repository repository)
+        public string EA_Connect(Repository repository)
         {
-            
             try
             {
                 /* this method checks if all needed registry entries are present 
@@ -179,23 +172,22 @@ namespace VIENNAAddIn
                 WindowsRegistryLoader.checkRegistryEntries();
 
                 repo = repository;
-
             }
             catch (Exception e)
             {
-                String err = "An Error occured while checking if all needed registry values for the AddIn are present:\n " + e.Message + ".\n Please reinstall the AddIn";
+                String err =
+                    "An Error occured while checking if all needed registry values for the AddIn are present:\n " +
+                    e.Message + ".\n Please reinstall the AddIn";
                 MessageBox.Show(err, "AddIn Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //logger.Error(err);
-
             }
             return null;
-
         }
 
         /// <summary>
         /// Disconnect
         /// </summary>
-        public void EA_Disconnect(EA.Repository repository)
+        public void EA_Disconnect(Repository repository)
         {
             repository.CloseAddins();
             GC.Collect();
@@ -207,15 +199,13 @@ namespace VIENNAAddIn
         /// EA File Open
         /// </summary>
         /// <param name="repository"></param>
-        public void EA_FileOpen(EA.Repository repository)
+        public void EA_FileOpen(Repository repository)
         {
-            
             // check if the opened model has been marked as an UMM2 model before
-            isUMM2Model = this.CheckIfModelIsUMM2Model(repository);
+            isUMM2Model = CheckIfModelIsUMM2Model(repository);
             repo = repository;
 
             repo.EnableCache = true;
-
         }
 
         /// <summary>
@@ -225,18 +215,16 @@ namespace VIENNAAddIn
         /// <param name="menulocation"></param>
         /// <param name="menuname"></param>
         /// <returns></returns>
-        public string[] EA_GetMenuItems(EA.Repository repository, string menulocation, string menuname)
+        public string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname)
         {
             repo = repository;
-            ArrayList menu = new ArrayList();
+            var menu = new ArrayList();
             if (menuname == String.Empty)
-            { 
+            {
                 menu.Add("-" + AddInSettings.getAddInCaption());
-
             }
             else if (menulocation == "MainMenu")
             {
-
                 if (menuname == "-" + AddInSettings.getAddInCaption())
                 {
                     menu.Add("&Set Model as UMM2/UPCC3 Model");
@@ -260,9 +248,8 @@ namespace VIENNAAddIn
             {
                 if (menuname == "-UMM2")
                 {
-                    return getDiagramMenu(repository);
+                    return getDiagramMenu();
                 }
-
             }
             else if (menulocation == "TreeView")
             {
@@ -271,37 +258,29 @@ namespace VIENNAAddIn
                     return getTreeViewMenu(repository);
                 }
             }
-            
-            return (String[])menu.ToArray(typeof(System.String));
+
+            return (String[]) menu.ToArray(typeof (String));
         }
 
-        public object OnInitializeTechnologies(EA.Repository repository)
+        public object OnInitializeTechnologies(Repository repository)
         {
-
-            
-
-            
-
-           return loadMDGFile();
+            return loadMDGFile();
         }
 
         /// <summary>
         /// Get MDG file path from registry and read it
         /// </summary>
         /// <returns>MDG in string</returns>
-        private string loadMDGFile()
+        private static string loadMDGFile()
         {
-            TextReader reader = null;
-            string mdgText  = "";
-            
             //get location of MDG profile from registry
             string mdgPath = WindowsRegistryLoader.getMDGFile();
 
             //read MDG profile file
-            reader = new StreamReader(mdgPath);
-            mdgText = reader.ReadToEnd();
+            TextReader reader = new StreamReader(mdgPath);
+            string mdgText = reader.ReadToEnd();
             reader.Close();
-            
+
             return mdgText;
         }
 
@@ -311,43 +290,40 @@ namespace VIENNAAddIn
         /// EA menu click
         /// </summary>
         /// <param name="repository"></param>
+        /// <param name="menulocation"></param>
         /// <param name="menuname"></param>
         /// <param name="menuitem"></param>
-        public void EA_MenuClick(EA.Repository repository, string menulocation, string menuname, string menuitem)
+        public void EA_MenuClick(Repository repository, string menulocation, string menuname, string menuitem)
         {
-            EA.Diagram diagram = repository.GetCurrentDiagram();
             repo = repository;
 
             //This try/catch catches all Exceptions, which might possibly occur
             //during the execution of the plugin and shows the ErrorWindow to the user
             try
             {
-
                 if (menuitem == "&Import CCTS Library")
                 {
-                    
                     Utility.importCCTSLibrary(repository, true);
-
                 }
                 else
                 {
                     //showing the About-Window
                     if (menuitem == "&About " + AddInSettings.getAddInCaption() + " Add-In")
                     {
-                        AboutWindow aboutWindow = new AboutWindow();
-                        aboutWindow.Show(); 
+                        var aboutWindow = new AboutWindow();
+                        aboutWindow.Show();
                     }
                     else if (menuitem == "&BPEL-XSLT Template Setting")
                     {
-                        WSDLGenerator.Setting.TemplateSetting setting = new WSDLGenerator.Setting.TemplateSetting();
+                        var setting = new TemplateSetting();
                         setting.Show();
                     }
-                    //Synch tagged value, this function need EA version 7.0.818
+                        //Synch tagged value, this function need EA version 7.0.818
                     else if (menuitem == "Synch tagged value")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
-                        synchTaggedValue = new Setting.SynchTaggedValue(repository, scope);
+                        synchTaggedValue = new SynchTaggedValue(repository, scope);
                         synchTaggedValue.Show();
 
                         //foreach (object enumStereotype in VIENNAAddIn_BIV)
@@ -367,16 +343,15 @@ namespace VIENNAAddIn
                         //}
                         //try
                         //{
-                            
+
                         //}
                         //catch (Exception e)
                         //{
                         //    Console.WriteLine(e.Message);
                         //}
-
                     }
 
-                    /* defines an EA model as an UMM2 Model */
+                        /* defines an EA model as an UMM2 Model */
                     else if (menuitem == "&Set Model as UMM2/UPCC3 Model")
                     {
                         try
@@ -386,81 +361,73 @@ namespace VIENNAAddIn
                                 /* if the UnSet.. Method returns true, all UMM2 relevant things have been
                                              * successfuly removed from the model and thus it is not a UMM2 model any
                                              * longer (therefore the negation is set) */
-                                isUMM2Model = !this.UnSetAsUMM2Model(repository);
+                                isUMM2Model = !UnSetAsUMM2Model(repository);
                             }
                             else
                             {
                                 /* if everything succeeds in the Set... Method, the model has been marked
                                              * as an UMM2 model */
-                                isUMM2Model = this.SetAsUMM2Model(repository);
+                                isUMM2Model = SetAsUMM2Model(repository);
                             }
                         }
-                        catch (System.Runtime.InteropServices.COMException comEx)
+                        catch (COMException)
                         {
                             MessageBox.Show("Please open a model first", "AddIn Error");
-                           
                         }
                     }
                     else if (menuitem == "&Create initial UMM 2 model structure")
                     {
-                        InitialPackageStructureCreator creator = new InitialPackageStructureCreator(repository);
+                        var creator = new InitialPackageStructureCreator(repository);
                         creator.Show();
                     }
                     else if (menuitem == "&Options")
                     {
-                        OptionsForm optionsForm = new OptionsForm(repository);
+                        var optionsForm = new OptionsForm(repository);
                         optionsForm.ShowDialog();
                     }
-                    //menu item validate has been chosen
+                        //menu item validate has been chosen
 
 
 
-                    //Invoke a validation of the whole UMM model
+                        //Invoke a validation of the whole UMM model
                     else if (menuitem == "&Validate All - UMM2")
                     {
-
                         String scope = "ROOT";
 
-                        if (this.validatorForm == null || this.validatorForm.IsDisposed)
+                        if (validatorForm == null || validatorForm.IsDisposed)
                         {
-                            this.validatorForm = new ValidatorForm(repository, scope);
-                            this.validatorForm.Show();
+                            validatorForm = new ValidatorForm(repository, scope);
+                            validatorForm.Show();
                         }
                         else
                         {
-                            this.validatorForm.resetValidatorForm(scope);
-                            this.validatorForm.Select();
-                            this.validatorForm.Focus();
-                            this.validatorForm.Show();
-
+                            validatorForm.resetValidatorForm(scope);
+                            validatorForm.Select();
+                            validatorForm.Focus();
+                            validatorForm.Show();
                         }
                     }
 
-                    //A validation has been invoked from the menu entry in the treeview
+                        //A validation has been invoked from the menu entry in the treeview
                     else if (menuitem == "&Validate")
                     {
-                                                
                         //First determine try to determine a UMM scope
-                        String scope = "";
-                        scope = this.determineValidationScope(repository, menulocation);
+                        string scope = determineValidationScope(repository, menulocation);
 
                         if (scope != "")
                         {
-
-                            if (this.validatorForm == null || this.validatorForm.IsDisposed)
+                            if (validatorForm == null || validatorForm.IsDisposed)
                             {
-                                this.validatorForm = new ValidatorForm(repository, scope);
-                                this.validatorForm.Show();
+                                validatorForm = new ValidatorForm(repository, scope);
+                                validatorForm.Show();
                             }
                             else
                             {
-                                this.validatorForm.resetValidatorForm(scope);
-                                this.validatorForm.Select();
-                                this.validatorForm.Focus();
-                                this.validatorForm.Show();
-
+                                validatorForm.resetValidatorForm(scope);
+                                validatorForm.Select();
+                                validatorForm.Focus();
+                                validatorForm.Show();
                             }
-
                         }
 
                         //TO DO - add additional routines here which i.e. try to determine
@@ -468,335 +435,322 @@ namespace VIENNAAddIn
 
                         if (scope == "")
                         {
-                            MessageBox.Show("Unable to determine a validator for the chosen stereotype. Currently only UMM validation is supported. Make sure that the different top level packages are stereotyped correclty.");
+                            MessageBox.Show(
+                                "Unable to determine a validator for the chosen stereotype. Currently only UMM validation is supported. Make sure that the different top level packages are stereotyped correclty.");
                         }
-
-
-
                     }
                     else if (menuitem == "&Validate All - CCTS")
                     {
                         MessageBox.Show("Sorry this feature has not been activated.", "Info");
                     }
 
-                    //        String scope = "";
-                    //        if (menuitem == "Validate All - &CCTS")
-                    //            scope = "ALL_CCTS";
-                    //        else if (menuitem == "Validate All - &UMM2")
-                    //            scope = "ALL_UMM2";
-                    //        else
-                    //            scope = determineScope(repository, menulocation, true);
-                    //        if (this.CCTSvalidatorForm == null || this.CCTSvalidatorForm.IsDisposed)
-                    //        {
-                    //            this.CCTSvalidatorForm = new CCTS.Validator.CCTSValidator(repository, scope);
-                    //            //this.CCTSvalidatorForm = new ValidatorForm(repository, scope);
-                    //            this.CCTSvalidatorForm.Show();
-                    //        }
-                    //        else
-                    //        {
-                    //            this.CCTSvalidatorForm.resetValidatorForm(scope);
-                    //            this.CCTSvalidatorForm.Select();
-                    //            this.CCTSvalidatorForm.Focus();
-                    //            this.CCTSvalidatorForm.Show();
-                    //        }
-                    //    }
+                        //        String scope = "";
+                        //        if (menuitem == "Validate All - &CCTS")
+                        //            scope = "ALL_CCTS";
+                        //        else if (menuitem == "Validate All - &UMM2")
+                        //            scope = "ALL_UMM2";
+                        //        else
+                        //            scope = determineScope(repository, menulocation, true);
+                        //        if (this.CCTSvalidatorForm == null || this.CCTSvalidatorForm.IsDisposed)
+                        //        {
+                        //            this.CCTSvalidatorForm = new CCTS.Validator.CCTSValidator(repository, scope);
+                        //            //this.CCTSvalidatorForm = new ValidatorForm(repository, scope);
+                        //            this.CCTSvalidatorForm.Show();
+                        //        }
+                        //        else
+                        //        {
+                        //            this.CCTSvalidatorForm.resetValidatorForm(scope);
+                        //            this.CCTSvalidatorForm.Select();
+                        //            this.CCTSvalidatorForm.Focus();
+                        //            this.CCTSvalidatorForm.Show();
+                        //        }
+                        //    }
 
-                    //Generate &WSDL
+                        //Generate &WSDL
                     else if (menuitem == "&Generate WSDL from Business Transaction")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
                         //We already have a running instance
-                        if (this.wsdlGenerator == null || this.wsdlGenerator.IsDisposed)
+                        if (wsdlGenerator == null || wsdlGenerator.IsDisposed)
                         {
-                            this.wsdlGenerator = new WSDLGenerator.WSDLGenerator(repository, scope, false);
-                            this.wsdlGenerator.Show();
+                            wsdlGenerator = new WSDLGenerator.WSDLGenerator(repository, scope, false);
+                            wsdlGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.wsdlGenerator.resetGenerator(scope);
-                            this.wsdlGenerator.resetBlnAnyLevel(false);
-                            this.wsdlGenerator.Select();
-                            this.wsdlGenerator.Focus();
-                            this.wsdlGenerator.Show();
+                            wsdlGenerator.resetGenerator(scope);
+                            wsdlGenerator.resetBlnAnyLevel(false);
+                            wsdlGenerator.Select();
+                            wsdlGenerator.Focus();
+                            wsdlGenerator.Show();
                         }
-
                     }
-                    //Generate &WSDL from BusinessChoreographyView
+                        //Generate &WSDL from BusinessChoreographyView
                     else if (menuitem == "&Generate all WSDL in BusinessChoreographyView")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
                         //We already have a running instance
-                        if (this.wsdlGenerator == null || this.wsdlGenerator.IsDisposed)
+                        if (wsdlGenerator == null || wsdlGenerator.IsDisposed)
                         {
-                            this.wsdlGenerator = new WSDLGenerator.WSDLGenerator(repository, scope, true);
-                            this.wsdlGenerator.Show();
+                            wsdlGenerator = new WSDLGenerator.WSDLGenerator(repository, scope, true);
+                            wsdlGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.wsdlGenerator.resetGenerator(scope);
-                            this.wsdlGenerator.resetBlnAnyLevel(true);
-                            this.wsdlGenerator.Select();
-                            this.wsdlGenerator.Focus();
-                            this.wsdlGenerator.Show();
+                            wsdlGenerator.resetGenerator(scope);
+                            wsdlGenerator.resetBlnAnyLevel(true);
+                            wsdlGenerator.Select();
+                            wsdlGenerator.Focus();
+                            wsdlGenerator.Show();
                         }
-
                     }
 
                         //Generate BPEL from package with stereotype BusinessTransactionView 
                     else if (menuitem == "&Generate Transaction Module Artefacts")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
                         //No instance yet
-                        if (this.tmArtefact == null || this.tmArtefact.IsDisposed)
+                        if (tmArtefact == null || tmArtefact.IsDisposed)
                         {
-                            this.tmArtefact = new WSDLGenerator.TransactionModuleArtefact(repository, scope, false); //CCTS.WSDLGenerator.TransactionModuleGen(repository, scope, false);
-                            this.tmArtefact.Show();
+                            tmArtefact = new TransactionModuleArtefact(repository, scope, false);
+                                //CCTS.WSDLGenerator.TransactionModuleGen(repository, scope, false);
+                            tmArtefact.Show();
                         }
-                        //We already have a running instance
+                            //We already have a running instance
                         else
                         {
-                            this.tmArtefact.resetGenerator(scope);
-                            this.tmArtefact.resetBlnAnyLevel(false);
-                            this.tmArtefact.Select();
-                            this.tmArtefact.Focus();
-                            this.tmArtefact.Show();
+                            tmArtefact.resetGenerator(scope);
+                            tmArtefact.resetBlnAnyLevel(false);
+                            tmArtefact.Select();
+                            tmArtefact.Focus();
+                            tmArtefact.Show();
                         }
-
                     }
 
-                    //Generate BPEL from package with stereotype BusinessTransactionView 
+                        //Generate BPEL from package with stereotype BusinessTransactionView 
                     else if (menuitem == "&Generate ALL Transaction Module Artefacts")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
                         //No instance yet
-                        if (this.tmArtefact == null || this.tmArtefact.IsDisposed)
+                        if (tmArtefact == null || tmArtefact.IsDisposed)
                         {
-                            this.tmArtefact = new WSDLGenerator.TransactionModuleArtefact(repository, scope, true);
-                            this.tmArtefact.Show();
+                            tmArtefact = new TransactionModuleArtefact(repository, scope, true);
+                            tmArtefact.Show();
                         }
-                        //We already have a running instance
+                            //We already have a running instance
                         else
                         {
-                            this.tmArtefact.resetGenerator(scope);
-                            this.tmArtefact.resetBlnAnyLevel(true);
-                            this.tmArtefact.Select();
-                            this.tmArtefact.Focus();
-                            this.tmArtefact.Show();
+                            tmArtefact.resetGenerator(scope);
+                            tmArtefact.resetBlnAnyLevel(true);
+                            tmArtefact.Select();
+                            tmArtefact.Focus();
+                            tmArtefact.Show();
                         }
-
                     }
 
 
-                    //Generate &XBRL
+                        //Generate &XBRL
                     else if (menuitem == "&Generate XBRL Linkbase file")
                     {
-                        EA.Diagram d = null;
-                        Object obj = null;
+                        Diagram d;
+                        Object obj;
                         ObjectType o = repository.GetTreeSelectedItem(out obj);
 
-                        d = (EA.Diagram)obj;
+                        d = (Diagram) obj;
                         int diagramID = d.DiagramID;
 
-                        if (this.xbrlLinkbaseGenerator == null || this.xbrlLinkbaseGenerator.IsDisposed)
+                        if (xbrlLinkbaseGenerator == null || xbrlLinkbaseGenerator.IsDisposed)
                         {
-                            this.xbrlLinkbaseGenerator = new XBRLGenerator.XBRLLinkbase(repository, diagramID);
-                            this.xbrlLinkbaseGenerator.Show();
+                            xbrlLinkbaseGenerator = new XBRLLinkbase(repository, diagramID);
+                            xbrlLinkbaseGenerator.Show();
                         }
                         else
                         {
-                            this.xbrlLinkbaseGenerator.resetGenerator(diagramID);
-                            this.xbrlLinkbaseGenerator.Select();
-                            this.xbrlLinkbaseGenerator.Focus();
-                            this.xbrlLinkbaseGenerator.Show();
+                            xbrlLinkbaseGenerator.resetGenerator(diagramID);
+                            xbrlLinkbaseGenerator.Select();
+                            xbrlLinkbaseGenerator.Focus();
+                            xbrlLinkbaseGenerator.Show();
                         }
-
                     }
 
                         //Generate Linkbase XBRL
                     else if (menuitem == "&Generate XBRL")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
                         //We already have a running instance
-                        if (this.xbrlGenerator == null || this.xbrlGenerator.IsDisposed)
+                        if (xbrlGenerator == null || xbrlGenerator.IsDisposed)
                         {
-                            this.xbrlGenerator = new XBRLGenerator.XBRLGenerator(repository, scope, true);
-                            this.xbrlGenerator.Show();
+                            xbrlGenerator = new XBRLGenerator.XBRLGenerator(repository, scope, true);
+                            xbrlGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.xbrlGenerator.resetGenerator(scope);
-                            this.xbrlGenerator.Select();
-                            this.xbrlGenerator.Focus();
-                            this.xbrlGenerator.Show();
+                            xbrlGenerator.resetGenerator(scope);
+                            xbrlGenerator.Select();
+                            xbrlGenerator.Focus();
+                            xbrlGenerator.Show();
                         }
-
-
                     }
 
-                    //Generate XSD from CCTS has been chosen
+                        //Generate XSD from CCTS has been chosen
                     else if (menuitem == "&Generate XSD")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
                         //We already have a running instance
-                        if (this.BLGenerator == null || this.BLGenerator.IsDisposed)
+                        if (BLGenerator == null || BLGenerator.IsDisposed)
                         {
-                            this.BLGenerator = new CCTS.BusinessLibraryGenerator(repository, scope, true);
-                            this.BLGenerator.Show();
+                            BLGenerator = new BusinessLibraryGenerator(repository, scope, true);
+                            BLGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.BLGenerator.resetGenerator(scope);
-                            this.BLGenerator.Select();
-                            this.BLGenerator.Focus();
-                            this.BLGenerator.Show();
+                            BLGenerator.resetGenerator(scope);
+                            BLGenerator.Select();
+                            BLGenerator.Focus();
+                            BLGenerator.Show();
                         }
-
-
                     }
 
-                    //Generate XSD from DOC has been chosen
+                        //Generate XSD from DOC has been chosen
                     else if (menuitem == "&Generate XSD from DOC")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
 
                         //We already have a running instance
-                        if (this.xsdGenerator == null || this.xsdGenerator.IsDisposed)
+                        if (xsdGenerator == null || xsdGenerator.IsDisposed)
                         {
-                            this.xsdGenerator = new CCTS.DOCGenerator(repository, scope, true);
-                            this.xsdGenerator.Show();
+                            xsdGenerator = new DOCGenerator(repository, scope, true);
+                            xsdGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.xsdGenerator.resetGenerator(scope);
-                            this.xsdGenerator.fillChoiceBox();
-                            this.xsdGenerator.Select();
-                            this.xsdGenerator.Focus();
-                            this.xsdGenerator.Show();
+                            xsdGenerator.resetGenerator(scope);
+                            xsdGenerator.fillChoiceBox();
+                            xsdGenerator.Select();
+                            xsdGenerator.Focus();
+                            xsdGenerator.Show();
                         }
-
-
                     }
 
 
-                    //Enum Generator Form is Choosen
+                        //Enum Generator Form is Choosen
 
                     else if (menuitem == "&Generate XSD from ENUM")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
                         //We already have a running instance
-                        if (this.enumGenerator == null || this.enumGenerator.IsDisposed)
+                        if (enumGenerator == null || enumGenerator.IsDisposed)
                         {
-                            this.enumGenerator = new CCTS.ENUMGenerator(repository, scope, false);
-                            this.enumGenerator.Show();
+                            enumGenerator = new ENUMGenerator(repository, scope, false);
+                            enumGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.enumGenerator.resetGenerator(scope);
-                            this.enumGenerator.Select();
-                            this.enumGenerator.Focus();
-                            this.enumGenerator.Show();
+                            enumGenerator.resetGenerator(scope);
+                            enumGenerator.Select();
+                            enumGenerator.Focus();
+                            enumGenerator.Show();
                         }
                     }
 
 
-                    //Generate XSD Schema from BIE
+                        //Generate XSD Schema from BIE
                     else if (menuitem == "&Generate XSD from BIE")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
                         //We already have a running instance
-                        if (this.bieGenerator == null || this.bieGenerator.IsDisposed)
+                        if (bieGenerator == null || bieGenerator.IsDisposed)
                         {
-                            this.bieGenerator = new CCTS.BIEGenerator(repository, scope, true);
-                            this.bieGenerator.Show();
+                            bieGenerator = new BIEGenerator(repository, scope, true);
+                            bieGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.bieGenerator.resetGenerator(scope);
-                            this.bieGenerator.Select();
-                            this.bieGenerator.Focus();
-                            this.bieGenerator.Show();
+                            bieGenerator.resetGenerator(scope);
+                            bieGenerator.Select();
+                            bieGenerator.Focus();
+                            bieGenerator.Show();
                         }
                     }
-                    //Generate XSD Schema from QDT
+                        //Generate XSD Schema from QDT
                     else if (menuitem == "&Generate XSD from QDT")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
                         //We already have a running instance
-                        if (this.qdtGenerator == null || this.qdtGenerator.IsDisposed)
+                        if (qdtGenerator == null || qdtGenerator.IsDisposed)
                         {
-                            this.qdtGenerator = new CCTS.QDTGenerator(repository, scope, true);
-                            this.qdtGenerator.Show();
+                            qdtGenerator = new QDTGenerator(repository, scope, true);
+                            qdtGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.qdtGenerator.resetGenerator(scope);
-                            this.qdtGenerator.Select();
-                            this.qdtGenerator.Focus();
-                            this.qdtGenerator.Show();
+                            qdtGenerator.resetGenerator(scope);
+                            qdtGenerator.Select();
+                            qdtGenerator.Focus();
+                            qdtGenerator.Show();
                         }
                     }
-                    //Generate XSD Schema from CDT
+                        //Generate XSD Schema from CDT
                     else if (menuitem == "&Generate XSD from CDT")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
                         //We already have a running instance
-                        if (this.cdtGenerator == null || this.cdtGenerator.IsDisposed)
+                        if (cdtGenerator == null || cdtGenerator.IsDisposed)
                         {
-                            this.cdtGenerator = new CCTS.CDTGenerator(repository, scope, false);
-                            this.cdtGenerator.Show();
+                            cdtGenerator = new CDTGenerator(repository, scope, false);
+                            cdtGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.cdtGenerator.resetGenerator(scope);
-                            this.cdtGenerator.Select();
-                            this.cdtGenerator.Focus();
-                            this.cdtGenerator.Show();
+                            cdtGenerator.resetGenerator(scope);
+                            cdtGenerator.Select();
+                            cdtGenerator.Focus();
+                            cdtGenerator.Show();
                         }
                     }
 
                     else if (menuitem == "&Generate XSD from CC")
                     {
-                        String scope = determineScope(repository, menulocation, true);
+                        String scope = determineScope(repository, true);
                         //We already have a running instance
-                        if (this.ccGenerator == null || this.ccGenerator.IsDisposed)
+                        if (ccGenerator == null || ccGenerator.IsDisposed)
                         {
-                            this.ccGenerator = new CCTS.CCGenerator(repository, scope, false);
-                            this.ccGenerator.Show();
+                            ccGenerator = new CCGenerator(repository, scope, false);
+                            ccGenerator.Show();
                         }
-                        //No instance yet
+                            //No instance yet
                         else
                         {
-                            this.ccGenerator.resetGenerator(scope);
-                            this.ccGenerator.Select();
-                            this.ccGenerator.Focus();
-                            this.ccGenerator.Show();
+                            ccGenerator.resetGenerator(scope);
+                            ccGenerator.Select();
+                            ccGenerator.Focus();
+                            ccGenerator.Show();
                         }
                     }
-                    //Insert new Qualified Data Type
+                        //Insert new Qualified Data Type
                     else if (menuitem == "&Create new Qualified Data Type")
                     {
-
-                        String scope = determineScope(repository, menulocation, true);
-                        if (CCTS.CC_Utils.checkPackageConsistencyForQDT(repository, scope))
+                        String scope = determineScope(repository, true);
+                        if (CC_Utils.checkPackageConsistencyForQDT(repository, scope))
                         {
-                            if (this.qdtWindow == null || this.qdtWindow.IsDisposed)
+                            if (qdtWindow == null || qdtWindow.IsDisposed)
                             {
-                                qdtWindow = new CCTS.QDTWindow(repository, scope);
+                                qdtWindow = new QDTWindow(repository, scope);
                                 qdtWindow.Show();
                             }
                             else
@@ -808,16 +762,15 @@ namespace VIENNAAddIn
                             }
                         }
                     }
-                    //Insert Business Information Entity
+                        //Insert Business Information Entity
                     else if (menuitem == "&Create new Business Information Entity")
                     {
-
-                        String scope = determineScope(repository, menulocation, true);
-                        if (CCTS.CC_Utils.checkPackageConsistencyForCC(repository, scope))
+                        String scope = determineScope(repository, true);
+                        if (CC_Utils.checkPackageConsistencyForCC(repository, scope))
                         {
-                            if (this.ccWindow == null || this.ccWindow.IsDisposed)
+                            if (ccWindow == null || ccWindow.IsDisposed)
                             {
-                                ccWindow = new CCTS.CCWindow(repository, scope);
+                                ccWindow = new CCWindow(repository, scope);
                                 ccWindow.Show();
                             }
                             else
@@ -828,40 +781,38 @@ namespace VIENNAAddIn
                                 ccWindow.Show();
                             }
                         }
-
-
                     }
 
                     else if (menuitem == "&Export Package to CSV file")
                     {
-                        string scope = determineScope(repository, menulocation, false);
-                        if (this.exportFeature == null || this.exportFeature.IsDisposed)
+                        string scope = determineScope(repository, false);
+                        if (exportFeature == null || exportFeature.IsDisposed)
                         {
-                            this.exportFeature = new ExportImport.ExportPackage(repository, scope);
-                            this.exportFeature.Show();
+                            exportFeature = new ExportPackage(repository, scope);
+                            exportFeature.Show();
                         }
                         else
                         {
-                            this.exportFeature.resetGenerator(scope);
-                            this.exportFeature.Select();
-                            this.exportFeature.Focus();
-                            this.exportFeature.Show();
+                            exportFeature.resetGenerator(scope);
+                            exportFeature.Select();
+                            exportFeature.Focus();
+                            exportFeature.Show();
                         }
                     }
                     else if (menuitem == "&Import Package to CSV file")
                     {
-                        string scope = determineScope(repository, menulocation, false);
-                        if (this.importFeature == null || this.importFeature.IsDisposed)
+                        string scope = determineScope(repository, false);
+                        if (importFeature == null || importFeature.IsDisposed)
                         {
-                            this.importFeature = new ExportImport.ImportPackage(repository, scope);
-                            this.importFeature.Show();
+                            importFeature = new ImportPackage(repository, scope);
+                            importFeature.Show();
                         }
                         else
                         {
-                            this.importFeature.resetGenerator(scope);
-                            this.importFeature.Select();
-                            this.importFeature.Focus();
-                            this.importFeature.Show();
+                            importFeature.resetGenerator(scope);
+                            importFeature.Select();
+                            importFeature.Focus();
+                            importFeature.Show();
                         }
                     }
                 }
@@ -869,24 +820,22 @@ namespace VIENNAAddIn
             catch (Exception e)
             {
                 //Show the ErrorWindow
-                new ErrorReporter.ErrorReport(e.Message + "\n" + e.StackTrace);
+                new ErrorReport(e.Message + "\n" + e.StackTrace);
             }
         }
-        
+
         #endregion
 
         #region Private Method
 
-
-
-        private string determineScope(EA.Repository repository, String menulocation, bool showErrors)
+        private static string determineScope(Repository repository, bool showErrors)
         {
             Object obj = null;
-            EA.ObjectType otype = repository.GetTreeSelectedItem(out obj);
+            ObjectType otype = repository.GetTreeSelectedItem(out obj);
             string s = "";
 
             //Now otype could be determined - show an error
-            if (!Enum.IsDefined(typeof(EA.ObjectType), otype))
+            if (!Enum.IsDefined(typeof (ObjectType), otype))
             {
                 if (showErrors)
                 {
@@ -895,20 +844,20 @@ namespace VIENNAAddIn
                     //this.logger.Error(error);
                 }
             }
-            //The user clicked on a package - try to determine the stereotype
-            else if (otype == EA.ObjectType.otPackage)
+                //The user clicked on a package - try to determine the stereotype
+            else if (otype == ObjectType.otPackage)
             {
-                EA.Package p = (EA.Package)obj;
+                var p = (Package) obj;
                 s = "" + p.PackageID;
             }
-            else if (otype == EA.ObjectType.otDiagram)
+            else if (otype == ObjectType.otDiagram)
             {
-                EA.Diagram dgr = (EA.Diagram)obj;
+                var dgr = (Diagram) obj;
                 s = dgr.PackageID.ToString();
             }
-            else if (otype == EA.ObjectType.otElement)
+            else if (otype == ObjectType.otElement)
             {
-                EA.Element elm = (EA.Element)obj;
+                var elm = (Element) obj;
                 s = elm.PackageID.ToString();
             }
 
@@ -918,14 +867,14 @@ namespace VIENNAAddIn
         /// <summary>
         /// Get the AddIn Menu for the diagram context
         /// </summary>
-        /// <param name="repository"></param>
         /// <returns></returns>
-        private String[] getDiagramMenu(EA.Repository repository)
+        private static string[] getDiagramMenu()
         {
-            ArrayList UMM2DiagramMenu = new ArrayList();
+            var UMM2DiagramMenu = new ArrayList();
             try
             {
                 #region old code
+
                 //Object obj = null;
                 //EA.ObjectType oType = repository.GetContextItem(out obj);
                 //if (oType == EA.ObjectType.otConnector)
@@ -1042,6 +991,7 @@ namespace VIENNAAddIn
                 //    }
                 //}
                 //UMM2DiagramMenu.Add("-");
+
                 #endregion
 
                 UMM2DiagramMenu.Add("&Validate");
@@ -1050,7 +1000,7 @@ namespace VIENNAAddIn
             {
                 MessageBox.Show("An Error occured while creating the Diagram context Menu: " + ex.Message, "Error");
             }
-            return (String[])UMM2DiagramMenu.ToArray(typeof(String));
+            return (String[]) UMM2DiagramMenu.ToArray(typeof (String));
         }
 
         /// <summary>
@@ -1058,214 +1008,207 @@ namespace VIENNAAddIn
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        private String[] getTreeViewMenu(EA.Repository repository)
+        private static String[] getTreeViewMenu(Repository repository)
         {
-            ArrayList VIENNAAddInTreeViewMenu = new ArrayList();
+            var VIENNAAddInTreeViewMenu = new ArrayList();
             //When an element in the treeview is right clicked (in order to access the
             //AddIn menu), we must evaluate, if the clicked element is of type EA.Diagram
             // or of type EA.Element
-            
+
             Object obj = null;
-            EA.ObjectType otype = repository.GetTreeSelectedItem(out obj);
-            bool isSpecificMenu = false;
+            ObjectType otype = repository.GetTreeSelectedItem(out obj);
 
             /* check if the selected model element is a Package */
-            if (otype.Equals(EA.ObjectType.otPackage))
+            if (otype.Equals(ObjectType.otPackage))
             {
                 #region Object Type : Package
-                EA.Package package = (EA.Package)obj;
+
+                var package = (Package) obj;
                 String stereotype = null;
 
                 try
                 {
                     stereotype = package.Element.Stereotype;
                 }
-                catch (Exception e) { }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Error while checking Package ("+e.Message+")");
+                }
 
                 /* if the package is a BusinessRequirementsView or BusinessTransactionView, than enable the menu
                 to add a subpackage */
-                if (stereotype != null && ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessRequirementsView.ToString()) || stereotype.Equals(UMM.bRequirementsV.ToString()) || 
-                    stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) || stereotype.Equals(UMM.bTransactionV.ToString())))) 
+                if (stereotype != null &&
+                    ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessRequirementsView.ToString()) ||
+                      stereotype.Equals(UMM.bRequirementsV.ToString()) ||
+                      stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) ||
+                      stereotype.Equals(UMM.bTransactionV.ToString()))))
                 {
-                    if (stereotype != null && (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) || stereotype.Equals(UMM.bTransactionV.ToString())))
+                    if ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) ||
+                         stereotype.Equals(UMM.bTransactionV.ToString())))
                     {
                         VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
                         VIENNAAddInTreeViewMenu.Add("&Generate Transaction Module Artefacts");
                     }
                 }
-                else if (stereotype != null && (stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) || stereotype.Equals(UMM.bChoreographyV.ToString())))
+                else if (stereotype != null &&
+                         (stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) ||
+                          stereotype.Equals(UMM.bChoreographyV.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
                     VIENNAAddInTreeViewMenu.Add("&Generate ALL Transaction Module Artefacts");
                 }
 
-                //If the package has stereotype "DOCLibrary" add a link for generating XSD Schema
-                //from CCTS
+                    //If the package has stereotype "DOCLibrary" add a link for generating XSD Schema
+                    //from CCTS
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.DOCLibrary.ToString())))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
                 }
-                //If the package has stereotype "BIELibrary" add a link for generating XSD Schema
-                //from BIE
+                    //If the package has stereotype "BIELibrary" add a link for generating XSD Schema
+                    //from BIE
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.BIELibrary.ToString())))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
                 }
-                //If the package has stereotype "ENUMLibrary" add a link for generating XSD Schema
-                //from ENUM
+                    //If the package has stereotype "ENUMLibrary" add a link for generating XSD Schema
+                    //from ENUM
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.ENUMLibrary.ToString())))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
                 }
-                //If the package has stereotype "QDTLibrary" add a link for generating XSD Schema
-                //from QDT
+                    //If the package has stereotype "QDTLibrary" add a link for generating XSD Schema
+                    //from QDT
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.QDTLibrary.ToString())))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
                     VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
                 }
-                //If the package has stereotype "CDTLibrary" add a link for generating XSD Schema
-                //from CDT
+                    //If the package has stereotype "CDTLibrary" add a link for generating XSD Schema
+                    //from CDT
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.CDTLibrary.ToString())))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
                 }
-                //If the package has stereotype "CCLibrary" add a link for generating XSD Schema
-                //from CC
+                    //If the package has stereotype "CCLibrary" add a link for generating XSD Schema
+                    //from CC
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.CCLibrary.ToString())))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CC");
                 }
-                //We can export XSD and XBRL from bLibraries
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) || stereotype.Equals(CCTS_Types.bLibrary.ToString())))
+                    //We can export XSD and XBRL from bLibraries
+                else if (stereotype != null &&
+                         (stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) ||
+                          stereotype.Equals(CCTS_Types.bLibrary.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD");
                     VIENNAAddInTreeViewMenu.Add("&Generate XBRL");
                 }
-                
+
 
                 VIENNAAddInTreeViewMenu.Add("&Export Package to CSV file");
                 VIENNAAddInTreeViewMenu.Add("&Import Package to CSV file");
 
                 #endregion
             }
-            else if (otype == EA.ObjectType.otDiagram)
+            else if (otype == ObjectType.otDiagram)
             {
                 #region Object Type : Diagram
-                EA.Diagram selectedDiagram = (EA.Diagram)obj;
-                
+
+                var selectedDiagram = (Diagram) obj;
+
                 //Get the diagram id in order to get the package, in which the diagram is located			
-                EA.Element parentPackage = repository.GetPackageByID(selectedDiagram.PackageID).Element;
-                
-                
+                Element parentPackage = repository.GetPackageByID(selectedDiagram.PackageID).Element;
+
+
                 //if the stereotype of the package is "DOCLibrary" add a link to generate xsd from
                 //CCTS definition
-                if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.DOCLibrary.ToString()))
+                if (parentPackage.Stereotype.Equals(CCTS_Types.DOCLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
                     VIENNAAddInTreeViewMenu.Add("&Generate XBRL Linkbase file");
                 }
 
 
-                //if the stereotype of the package is "ENUMLibrary" add a link 
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.ENUMLibrary.ToString()))
+                    //if the stereotype of the package is "ENUMLibrary" add a link 
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.ENUMLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
                 }
 
-                //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
-                //BIE definition
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.BIELibrary.ToString()))
+                    //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
+                    //BIE definition
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
                 }
-                //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
-                //QDT definition
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.QDTLibrary.ToString()))
+                    //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
+                    //QDT definition
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
                     VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
-
                 }
-                //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
-                //CDT definition
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.CDTLibrary.ToString()))
+                    //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
+                    //CDT definition
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
                 }
 
                 #endregion
             }
-            else if (otype == EA.ObjectType.otElement)
+            else if (otype == ObjectType.otElement)
             {
                 #region Object Type : Element
-                EA.Element element = (EA.Element)obj;
-                String stereotype = element.Stereotype.ToString();
-                EA.Element parentPackage = repository.GetPackageByID(element.PackageID).Element;
-                
+
+                var element = (Element) obj;
+                Element parentPackage = repository.GetPackageByID(element.PackageID).Element;
+
                 //if the stereotype of the package is "DOCLibrary" add a link to generate xsd from
                 //CCTS definition
-                if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.DOCLibrary.ToString()))
+                if (parentPackage.Stereotype.Equals(CCTS_Types.DOCLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
                 }
-                //if the steroetype of the package is "ENUMLibrary" add a link to generate xsd from 
-                //ENUM definition
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.ENUMLibrary.ToString()))
+                    //if the steroetype of the package is "ENUMLibrary" add a link to generate xsd from 
+                    //ENUM definition
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.ENUMLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
                 }
-                //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
-                //BIE definition
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.BIELibrary.ToString()))
+                    //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
+                    //BIE definition
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
                 }
-                //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
-                //QDT definition
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.QDTLibrary.ToString()))
+                    //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
+                    //QDT definition
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
                     VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
                 }
-                //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
-                //CDT definition
-                else if (parentPackage.Stereotype.ToString().Equals(CCTS_Types.CDTLibrary.ToString()))
+                    //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
+                    //CDT definition
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
                 {
-                    isSpecificMenu = true;
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
                 }
 
                 #endregion
             }
 
-            
 
             VIENNAAddInTreeViewMenu.Add("-");
             VIENNAAddInTreeViewMenu.Add("&Validate");
 
             //if (Utility.DEBUG)
             //    VIENNAAddInTreeViewMenu.Add("&Show PackageID");
-            return (String[])VIENNAAddInTreeViewMenu.ToArray(typeof(System.String));
-
+            return (String[]) VIENNAAddInTreeViewMenu.ToArray(typeof (String));
         }
 
         /// <summary>
@@ -1280,9 +1223,8 @@ namespace VIENNAAddIn
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="menulocation"></param>
-        /// <param name="menuname"></param>
         /// <returns></returns>
-        private String determineValidationScope(EA.Repository repository, String menulocation)
+        private String determineValidationScope(Repository repository, String menulocation)
         {
             String s = "";
 
@@ -1291,32 +1233,29 @@ namespace VIENNAAddIn
             {
                 s = "ROOT";
             }
-            //If, in the TreeView, the User clicks on a package, the stereotype
-            //of the package determines the scope
-            //If the user clicks on a package without a stereotype no validation
-            //is possible, because no scope can be determined								
+                //If, in the TreeView, the User clicks on a package, the stereotype
+                //of the package determines the scope
+                //If the user clicks on a package without a stereotype no validation
+                //is possible, because no scope can be determined								
             else if (menulocation == "TreeView")
             {
-
-
                 //Get the element in the tree view which was clicked
-                Object obj = null;
-                EA.ObjectType otype = repository.GetTreeSelectedItem(out obj);
+                Object obj;
+                ObjectType otype = repository.GetTreeSelectedItem(out obj);
 
                 //Now otype could be determined - show an error
-                if (!Enum.IsDefined(typeof(EA.ObjectType), otype))
+                if (!Enum.IsDefined(typeof (ObjectType), otype))
                 {
                     //Should not occur
-                    String error = "Unable to determine object type of element.";
+                    const string error = "Unable to determine object type of element.";
                     MessageBox.Show(error, "Error");
                 }
-                //The user clicked on a package - try to determine the stereotype
-                else if (otype == EA.ObjectType.otPackage)
+                    //The user clicked on a package - try to determine the stereotype
+                else if (otype == ObjectType.otPackage)
                 {
-                    EA.Package p = (EA.Package)obj;
+                    var p = (Package) obj;
                     //If the package has no superpackage, it must be the very top package
                     //-> if the very top package is clicked, ALL will be validated
-                    int pID = p.PackageID;
                     bool hasParent = false;
                     try
                     {
@@ -1324,7 +1263,10 @@ namespace VIENNAAddIn
                         if (dummy != 0)
                             hasParent = true;
                     }
-                    catch (Exception e) { }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("Error checking for superpackage ("+e.Message+")");
+                    }
 
                     if (!hasParent)
                     {
@@ -1332,79 +1274,72 @@ namespace VIENNAAddIn
                     }
                     else
                     {
-                        String stereotype = p.Element.Stereotype;
                         s = "" + p.PackageID;
                     }
                 }
-                //In the treeview apart from a package the user can click on 
-                // an element, a diagram, an attribute or a method
-                //All of these cases are handled here
+                    //In the treeview apart from a package the user can click on 
+                    // an element, a diagram, an attribute or a method
+                    //All of these cases are handled here
                 else
                 {
                     int packageID = 0;
 
-                    if (otype == EA.ObjectType.otElement)
-                        packageID = ((EA.Element)obj).PackageID;
-                    else if (otype == EA.ObjectType.otDiagram)
-                        packageID = ((EA.Diagram)obj).PackageID;
-                    else if (otype == EA.ObjectType.otAttribute)
+                    if (otype == ObjectType.otElement)
+                        packageID = ((Element) obj).PackageID;
+                    else if (otype == ObjectType.otDiagram)
+                        packageID = ((Diagram) obj).PackageID;
+                    else if (otype == ObjectType.otAttribute)
                     {
-                        EA.Attribute att = (EA.Attribute)obj;
+                        var att = (Attribute) obj;
                         //Get the element that this attribute is part of
-                        EA.Element el = repository.GetElementByID(att.ParentID);
+                        Element el = repository.GetElementByID(att.ParentID);
                         //Get the package, where this element is located in
                         packageID = el.PackageID;
                     }
-                    else if (otype == EA.ObjectType.otMethod)
+                    else if (otype == ObjectType.otMethod)
                     {
-                        EA.Method meth = (EA.Method)obj;
+                        var meth = (Method) obj;
                         //Get the the element, that this attribute is part of
-                        EA.Element el = repository.GetElementByID(meth.ParentID);
+                        Element el = repository.GetElementByID(meth.ParentID);
                         //Get the package, where this element is located in
                         packageID = el.PackageID;
                     }
                     //Get the package					 
-                    EA.Package p = repository.GetPackageByID(packageID);
-                    String stereotype = Utility.getStereoTypeFromPackage(p);
+                    Package p = repository.GetPackageByID(packageID);
 
                     s = "" + p.PackageID;
-
                 }
-
             }
-            //If the users clicks into a diagram we must determine to which package
-            //the diagram belongs
+                //If the users clicks into a diagram we must determine to which package
+                //the diagram belongs
             else if (menulocation == "Diagram")
             {
                 int packageID = 0;
                 try
                 {
-                    Object obj = null;
-                    EA.ObjectType o = repository.GetContextItem(out obj);
-                    if (o == EA.ObjectType.otDiagram)
-                        packageID = ((EA.Diagram)obj).PackageID;
-                    else if (o == EA.ObjectType.otElement)
-                        packageID = ((EA.Element)obj).PackageID;
+                    Object obj;
+                    ObjectType o = repository.GetContextItem(out obj);
+                    if (o == ObjectType.otDiagram)
+                        packageID = ((Diagram) obj).PackageID;
+                    else if (o == ObjectType.otElement)
+                        packageID = ((Element) obj).PackageID;
                 }
-                catch (Exception ex) { }
+                catch (Exception e)
+                {
+                    Debug.Write("Exception while determining Menulocation ("+e.Message+")");
+                }
 
                 if (packageID != 0)
                 {
                     //To which package does this diagram belong?
-                    EA.Package p = repository.GetPackageByID(packageID);
-                    String stereotype = Utility.getStereoTypeFromPackage(p);
+                    Package p = repository.GetPackageByID(packageID);
 
                     s = "" + p.PackageID;
-
                 }
             }
 
             return s;
         }
-
-
-
-
 
 
         /// <sUMM2ary>
@@ -1416,18 +1351,18 @@ namespace VIENNAAddIn
         /// <returns>true if the model has been marked as an UMM2 model, 
         /// false if not
         /// </returns>
-        private bool CheckIfModelIsUMM2Model(EA.Repository repository)
+        private bool CheckIfModelIsUMM2Model(Repository repository)
         {
-            foreach (EA.ProjectIssues issue in repository.Issues)
+            foreach (ProjectIssues issue in repository.Issues)
             {
                 if (issue.Name.Equals("UMM2Model"))
                 {
                     MessageBox.Show("Model is defined as an UMM2 Model", "AddIn");
-                    
+
                     return true;
                 }
             }
-            
+
             return false;
         }
 
@@ -1440,10 +1375,10 @@ namespace VIENNAAddIn
         /// <param name="repository">the model, which should be marked as UMM2 model</param>
         /// <returns>true if the model can be successfully marked and the relevant 
         /// MDG file (Profiles, Patterns) can be loaded successfully</returns>
-        private bool SetAsUMM2Model(EA.Repository repository)
+        private bool SetAsUMM2Model(Repository repository)
         {
             // set the issue to mark the model as UMM2Model
-            EA.ProjectIssues pIssues = (EA.ProjectIssues)repository.Issues.AddNew("UMM2Model", "Issue");
+            var pIssues = (ProjectIssues) repository.Issues.AddNew("UMM2Model", "Issue");
             pIssues.Update();
             repository.Issues.Refresh();
             // display a message box after the setting
@@ -1464,27 +1399,24 @@ namespace VIENNAAddIn
                     mdgFile = WindowsRegistryLoader.getMDGFile();
                 }
 
-                
-                StreamReader sr = new StreamReader(mdgFile);
+
+                var sr = new StreamReader(mdgFile);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();
                 /* finally, after reading the file from the filesystem, load it into the model */
                 repository.ImportTechnology(fileContent);
-                  
+
                 MessageBox.Show(succMsg, "AddIn");
-
-
             }
             catch (Exception e)
             {
                 String err = "The following exception occured while loading the MDG File: " + e.Message;
                 MessageBox.Show(err, "AddIn Error");
 
-                this.UnSetAsUMM2Model(repository);
+                UnSetAsUMM2Model(repository);
                 return false;
             }
             return true;
-
         }
 
         /// <sUMM2ary>
@@ -1494,20 +1426,20 @@ namespace VIENNAAddIn
         /// </sUMM2ary>
         /// <param name="repository">the model which shouldnt be marked as UMM2 Model any longer</param>
         /// <returns>true, if the model can be successfully unmarked</returns>
-        private bool UnSetAsUMM2Model(EA.Repository repository)
+        private bool UnSetAsUMM2Model(Repository repository)
         {
             /* iterate over all issues to find the one, which defines the model 
              * as an UMM2 model */
-            EA.Collection pIssues = repository.Issues;
+            Collection pIssues = repository.Issues;
             for (short i = 0; i < pIssues.Count; i++)
             {
-                EA.ProjectIssues pIssue = (EA.ProjectIssues)pIssues.GetAt(i);
+                var pIssue = (ProjectIssues) pIssues.GetAt(i);
                 if (pIssue.Name.Equals("UMM2Model"))
                 {
                     pIssues.DeleteAt(i, true);
                     String unSetMsg = "Model is not defined as an UMM2/UPCC3 Model any longer";
                     MessageBox.Show(unSetMsg, "AddIn");
-                    
+
                     break;
                 }
             }
@@ -1516,16 +1448,13 @@ namespace VIENNAAddIn
             // leave a msg if there is a problem with unloading the MDG file
             if (!mdg_unloaded)
             {
-                String err = "The MDG Technology File, which contains the UMM2 Profile and some Patterns could not be unloaded";
+                String err =
+                    "The MDG Technology File, which contains the UMM2 Profile and some Patterns could not be unloaded";
                 MessageBox.Show(err, "AddIn Error");
-            }
-            else
-            {
-                
             }
             return true;
         }
-        #endregion
 
+        #endregion
     }
 }
