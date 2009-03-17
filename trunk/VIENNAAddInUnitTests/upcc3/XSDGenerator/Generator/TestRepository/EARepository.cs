@@ -10,7 +10,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
         private readonly Collection models = new EACollection<EAPackage>();
         private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
-        private int nextId;
+        private int nextId = 1;
 
         #region Repository Members
 
@@ -599,7 +599,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 {
                     modelPackage.Element.AddTaggedValue(tv.Name, tv.Value);
                 }
-                AddPackages(model, modelPackage.Packages);
+                AddPackages(model, modelPackage.Packages, modelPackage.PackageID);
             }
         }
 
@@ -608,12 +608,13 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             packagesById[package.PackageID] = package;
         }
 
-        private void AddPackages(UpccLibrary library, Collection packages)
+        private void AddPackages(UpccLibrary library, Collection packages, int parentId)
         {
             foreach (UpccLibrary child in library.GetLibraries())
             {
                 var childPackage = (EAPackage) packages.AddNew(child.Name, "Package");
                 childPackage.PackageID = nextId++;
+                childPackage.ParentID = parentId;
                 IndexPackage(childPackage);
                 childPackage.Element.Stereotype = child.GetStereotype();
                 foreach (UpccTaggedValue tv in child.GetTaggedValues())
@@ -622,7 +623,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 }
                 if (child is BLibrary)
                 {
-                    AddPackages(child, childPackage.Packages);
+                    AddPackages(child, childPackage.Packages, childPackage.PackageID);
                 }
                 else
                 {

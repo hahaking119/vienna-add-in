@@ -14,6 +14,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
             var model = (Package) repository.Models.GetAt(0);
             Assert.AreEqual(1, model.Packages.Count);
+            Assert.IsNull(model.Element);
+            Assert.AreEqual(0, model.ParentID);
 
             var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "http://test/blib1", 5, 0);
 
@@ -106,6 +108,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private static Package AssertLibrary(Package parentLibrary, short index, string stereotype, string name, string baseURN, int numberOfSubpackages, int numberOfElements)
         {
             var library = (Package)parentLibrary.Packages.GetAt(index);
+            Assert.AreEqual(parentLibrary.PackageID, library.ParentID);
             Assert.AreEqual(stereotype, library.Element.Stereotype);
             Assert.AreEqual(name, library.Name);
             Assert.AreEqual(numberOfSubpackages, library.Packages.Count);
