@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using NUnit.Framework;
 using VIENNAAddIn.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using Assert=Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using TestContext=Microsoft.VisualStudio.TestTools.UnitTesting.TestContext;
 
 namespace VIENNAAddInUnitTests
 {
@@ -16,7 +19,7 @@ namespace VIENNAAddInUnitTests
     ///This is a test class for SynchStereotypesTest and is intended
     ///to contain all SynchStereotypesTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class SynchStereotypesTest
     {
 
@@ -73,15 +76,16 @@ namespace VIENNAAddInUnitTests
         /// <summary>
         ///A test for FixRepository
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void FixRepositoryTest()
         {
-            Repository repo = new EARepository1();
+//            Repository repo = new EARepository1();
+            Repository repo = new Repository();
             //to test with hand drawn model use this code:
-            //var path = "C:\\Temp\\UPCC3-SampleModel.eap";
-            //Debug.WriteLine(path);
-            //var success = repo.OpenFile(path);
-            //Assert.AreEqual(success,true);
+            var path = @"C:\DATA\work\cc-for-ebInterface-0.2.eap";
+            Debug.WriteLine(path);
+            var success = repo.OpenFile(path);
+            Assert.AreEqual(success,true);
             //initialise test model which should only have one taggedvalue set
             var count = 0;
             var countnew = 0;

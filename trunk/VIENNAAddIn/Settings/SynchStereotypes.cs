@@ -20,13 +20,6 @@ namespace VIENNAAddIn.Settings
     /// </summary>
     public class SynchStereotypes
     {
-        private readonly EA.Repository repository;
-
-        public SynchStereotypes(Repository repository)
-        {
-            this.repository = repository;
-        }
-
         //R.I.P. good old list solution .. 
         //private readonly List<String> stereotypes = new List<String>(new String[] { "ABIE", "ACC", "ASBIE", "ASCC", "BBIE", "BCC", "BCSS", "BIE", "CC", "CCTS", "CDT", "CON", "PRIM", "QDT", "SUP", "BDT" });
         //private readonly List<String> libraries = new List<string>(new String[] { "BIELibrary", "bLibrary", "BusinessLibrary", "CCLibrary", "CDTLibrary", "DOCLibrary", "ENUMLibrary", "PRIMLibrary", "QDTLibrary" });
@@ -54,7 +47,8 @@ namespace VIENNAAddIn.Settings
         {
             foreach (Package p in r.Models)
             {
-                FixPackage(p);
+                foreach (Package pp in p.Packages)
+                    FixPackage(pp);
             }
         }
 
@@ -654,11 +648,6 @@ namespace VIENNAAddIn.Settings
         /// <param name="p">The package to fix</param>
         public void Fix(Package p)
         {
-            this.repository.ClearOutput("System");
-            
-            if(p.Element == null)
-                this.repository.WriteOutput("System", "test", 24);
-
             if (Equals(p.GetTaggedValues(TaggedValues.UniqueIdentifier), ""))
                 Debug.WriteLine("Added TaggedValue: " + TaggedValues.UniqueIdentifier.AsString());
             p.Element.TaggedValues.AddNew("", TaggedValues.UniqueIdentifier.AsString());
