@@ -17,13 +17,13 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             Assert.IsNull(model.Element);
             Assert.AreEqual(0, model.ParentID);
 
-            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "http://test/blib1", 5, 0);
+            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "urn:test:blib1", 5, 0);
 
-            var primLib1 = AssertLibrary(bLib1, 0, "PRIMLibrary", "primlib1", "primlib1", 0, 2);
+            var primLib1 = AssertLibrary(bLib1, 0, "PRIMLibrary", "primlib1", "urn:test:blib1:primlib1", 0, 2);
             var stringType = AssertPRIM(primLib1, 0, "String");
             var decimalType = AssertPRIM(primLib1, 1, "Decimal");
 
-            var cdtLib1 = AssertLibrary(bLib1, 1, "CDTLibrary", "cdtlib1", "cdtlib1", 0, 4);
+            var cdtLib1 = AssertLibrary(bLib1, 1, "CDTLibrary", "cdtlib1", "urn:test:blib1:cdtlib1", 0, 4);
             AssertCDT(cdtLib1, 0, "Text", stringType, 2);
             var cdtDate = AssertCDT(cdtLib1, 1, "Date", stringType, 1);
             AssertSUP(cdtDate, 1, "Format", stringType, "1", "1");
@@ -32,15 +32,15 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             AssertSUP(cdtMeasure, 1, "MeasureUnit", stringType, "1", "1");
             AssertSUP(cdtMeasure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
 
-            var bdtLib1 = AssertLibrary(bLib1, 2, "BDTLibrary", "bdtlib1", "bdtlib1", 0, 4);
+            var bdtLib1 = AssertLibrary(bLib1, 2, "BDTLibrary", "bdtlib1", "urn:test:blib1:bdtlib1", 0, 4);
             var bdtDate = AssertBDT(bdtLib1, 1, "Date", stringType, 1, cdtDate);
             AssertSUP(bdtDate, 1, "Format", stringType, "1", "1");
             var bdtMeasure = AssertBDT(bdtLib1, 3, "Measure", decimalType, 2, cdtMeasure);
             AssertSUP(bdtMeasure, 1, "MeasureUnit", stringType, "1", "1");
             AssertSUP(bdtMeasure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
 
-            AssertLibrary(bLib1, 3, "CCLibrary", "cclib1", "cclib1", 0, 1);
-            AssertLibrary(bLib1, 4, "BIELibrary", "bielib1", "bielib1", 0, 0);
+            AssertLibrary(bLib1, 3, "CCLibrary", "cclib1", "urn:test:blib1:cclib1", 0, 1);
+            AssertLibrary(bLib1, 4, "BIELibrary", "bielib1", "urn:test:blib1:bielib1", 0, 0);
         }
 
         private static Element AssertPRIM(Package library, short index, string name)

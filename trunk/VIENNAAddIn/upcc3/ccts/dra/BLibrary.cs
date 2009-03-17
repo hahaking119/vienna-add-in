@@ -94,8 +94,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             var libraryPackage = (Package) package.Packages.AddNew(spec.Name, "");
             libraryPackage.Update();
-            libraryPackage.Element.Stereotype = stereotype;
             libraryPackage.ParentID = Id;
+            libraryPackage.Element.Stereotype = stereotype;
             Collection taggedValues = libraryPackage.Element.TaggedValues;
 
             taggedValues.AddTaggedValue(TaggedValues.BaseURN, spec.BaseURN);
