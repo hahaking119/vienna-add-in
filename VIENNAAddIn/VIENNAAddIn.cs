@@ -322,7 +322,7 @@ namespace VIENNAAddIn
                     else if (menuitem == "Synchronize Tagged Values Neu")
                     {
                         repository.WriteOutput("System","system", 22);
-                        var ss = new SynchStereotypes(repo);
+                        var ss = new SynchStereotypes();
                         ss.FixRepository(repository);
                        
                     }
