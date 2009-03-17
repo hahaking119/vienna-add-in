@@ -155,7 +155,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Element Element
         {
-            get { return element; }
+            // a model has a null element
+            get { return ParentID == 0 ? null : element; }
         }
 
         public int BatchLoad
