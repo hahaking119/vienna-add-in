@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
@@ -7,419 +7,225 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     {
         public EARepository1()
         {
-            SetContent(new List<Model>
-                       {
-                           new Model
-                           {
-                               Name = "test model",
-                               Libraries = new List<UpccLibrary>
-                                           {
-                                               new BLibrary
-                                               {
-                                                   Name = "blib1",
-                                                   BaseURN = "http://test/blib1",
-                                                   Libraries = new List<UpccLibrary>
-                                                               {
-                                                                   PRIMLib1(),
-                                                                   CDTLib1(),
-                                                                   BDTLib1(),
-                                                                   CCLib1(),
-                                                                   BIELib1(),
-                                                               },
-                                               },
-                                           },
-                           },
-                       });
+            SetContent(
+                Package("test model", "")
+                    .Packages(
+                    Package("blib1", Stereotype.BLibrary)
+                        .TaggedValues(
+                        TaggedValue(TaggedValues.BaseURN, "urn:test:blib1")
+                        )
+                        .Packages(
+                        PRIMLib1(),
+                        CDTLib1(),
+                        BDTLib1(),
+                        CCLib1(),
+                        BIELib1()
+                        )
+                    )
+                );
         }
 
-        #region PRIMLib1
-
-        private static UpccLibrary PRIMLib1()
+        private static PackageBuilder BIELib1()
         {
-            return new PRIMLibrary
-                   {
-                       Name = "primlib1",
-                       BaseURN = "primlib1",
-                       PRIMs = new List<PRIM>
-                               {
-                                   new PRIM {Name = "String"},
-                                   new PRIM {Name = "Decimal"},
-                               },
-                   };
+            return Package("bielib1", Stereotype.BIELibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                );
         }
 
-        #endregion
-
-        #region CDTLib1
-
-        private static UpccLibrary CDTLib1()
+        private static PackageBuilder CCLib1()
         {
-            return new CDTLibrary
-                   {
-                       Name = "cdtlib1",
-                       BaseURN = "cdtlib1",
-                       CDTs = new List<CDT>
-                              {
-                                  Text(),
-                                  Date(),
-                                  Code(),
-                                  Measure(),
-                              },
-                   };
+            return Package("cclib1", Stereotype.CCLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cclib1")
+                )
+                .Elements(
+                ACCAddress()
+                );
         }
 
-        private static CDT Measure()
+        private static ElementBuilder ACCAddress()
         {
-            return new CDT
-                   {
-                       Name = "Measure",
-                       CON = PathToDecimal(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name =
-                                          "MeasureUnit",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "MeasureUnit.CodeListVersion",
-                                      Type = PathToString(),
-                                      LowerBound = "1",
-                                      UpperBound = "*",
-                                  },
-                              },
-                   };
-        }
-
-        private static CDT Code()
-        {
-            return new CDT
-                   {
-                       Name = "Code",
-                       CON = PathToString(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name = "Name",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.Agency",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.AgencyName",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name = "CodeList",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.Name",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.UniformResourceIdentifier",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.Version",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeListScheme.UniformResourceIdentifier",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name = "Language",
-                                      Type = PathToString(),
-                                  },
-                              },
-                   };
-        }
-
-        private static CDT Date()
-        {
-            return new CDT
-                   {
-                       Name = "Date",
-                       Definition = "A Date.",
-                       CON = PathToString(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name = "Format",
-                                      Type = PathToString(),
-                                  },
-                              },
-                   };
-        }
-
-        private static CDT Text()
-        {
-            return new CDT
-                   {
-                       Name = "Text",
-                       CON = PathToString(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name = "Language",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "Language.Locale",
-                                      Type = PathToString(),
-                                  },
-                              },
-                   };
-        }
-
-        #endregion
-
-        #region BDTLib1
-
-        private static UpccLibrary BDTLib1()
-        {
-            return new BDTLibrary
-                   {
-                       Name = "bdtlib1",
-                       BaseURN = "bdtlib1",
-                       BDTs = new List<BDT>
-                              {
-                                  BDTText(),
-                                  BDTDate(),
-                                  BDTCode(),
-                                  BDTMeasure(),
-                              }
-                   }
+            return Element("Address", Stereotype.ACC)
+                .Attributes(
+                Attribute("CountryName", Stereotype.BCC, PathToText()),
+                Attribute("CityName", Stereotype.BCC, PathToText()),
+                Attribute("StreetName", Stereotype.BCC, PathToText()),
+                Attribute("StreetNumber", Stereotype.BCC, PathToText()),
+                Attribute("Postcode", Stereotype.BCC, PathToText())
+                )
                 ;
         }
 
-        private static BDT BDTCode()
+        private static PackageBuilder BDTLib1()
         {
-            return new BDT
-                   {
-                       BasedOn = PathToCode(),
-                       Name = "Code",
-                       CON = PathToString(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name = "Name",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.Agency",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.AgencyName",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name = "CodeList",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.Name",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.UniformResourceIdentifier",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeList.Version",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "CodeListScheme.UniformResourceIdentifier",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name = "Language",
-                                      Type = PathToString(),
-                                  },
-                              },
-                   };
+            return Package("bdtlib1", Stereotype.BDTLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bdtlib1")
+                )
+                .Elements(
+                BDTText(),
+                BDTDate(),
+                BDTCode(),
+                BDTMeasure()
+                );
         }
 
-        private static BDT BDTText()
+        private static ElementBuilder BDTMeasure()
         {
-            return new BDT
-                   {
-                       BasedOn = PathToText(),
-                       Name = "Text",
-                       CON = PathToString(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name = "Language",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "Language.Locale",
-                                      Type = PathToString(),
-                                  },
-                              },
-                   };
+            return Element("Measure", Stereotype.BDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToDecimal()),
+                Attribute("MeasureUnit", Stereotype.SUP, PathToString()),
+                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, PathToString()).LowerBound("1").UpperBound("*")
+                )
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, PathToMeasure())
+                );
         }
 
-        private static BDT BDTMeasure()
+        private static ElementBuilder BDTCode()
         {
-            return new BDT
-                   {
-                       Name = "Measure",
-                       BasedOn = PathToMeasure(),
-                       CON = PathToDecimal(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name =
-                                          "MeasureUnit",
-                                      Type = PathToString(),
-                                  },
-                                  new SUP
-                                  {
-                                      Name =
-                                          "MeasureUnit.CodeListVersion",
-                                      Type = PathToString(),
-                                      LowerBound = "1",
-                                      UpperBound = "*",
-                                  },
-                              },
-                   };
+            return Element("Code", Stereotype.BDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Name", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Agency", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.AgencyName", Stereotype.SUP, PathToString()),
+                Attribute("CodeList", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Name", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
+                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
+                Attribute("Language", Stereotype.SUP, PathToString()))
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, PathToCode())
+                );
         }
 
-        private static BDT BDTDate()
+        private static ElementBuilder BDTDate()
         {
-            return new BDT
-                   {
-                       Name = "Date",
-                       BasedOn = PathToDate(),
-                       CON = PathToString(),
-                       SUPs = new List<SUP>
-                              {
-                                  new SUP
-                                  {
-                                      Name = "Format",
-                                      Type = PathToString(),
-                                  },
-                              },
-                   };
+            return Element("Date", Stereotype.BDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Format", Stereotype.SUP, PathToString())
+                )
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, PathToDate())
+                );
         }
 
-        #endregion
-
-        #region CCLib1
-
-        private static UpccLibrary CCLib1()
+        private static ElementBuilder BDTText()
         {
-            return new CCLibrary
-                   {
-                       Name = "cclib1",
-                       BaseURN = "cclib1",
-                       ACCs = new List<ACC>
-                              {
-                                  Address(),
-                              }
-                   };
+            return Element("Text", Stereotype.BDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Language", Stereotype.SUP, PathToString()),
+                Attribute("Language.Locale", Stereotype.SUP, PathToString())
+                )
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, PathToText())
+                );
         }
 
-        private static ACC Address()
+        private static ConnectorBuilder Connector(string name, string stereotype, Path pathToSupplier)
         {
-            return new ACC
-                   {
-                       Name = "Address",
-                       BCCs = new List<BCC>
-                              {
-                                  new BCC
-                                  {
-                                      Name = "CountryName",
-                                      Type = PathToText(),
-                                  },
-                                  new BCC
-                                  {
-                                      Name = "CityName",
-                                      Type = PathToText(),
-                                  },
-                                  new BCC
-                                  {
-                                      Name = "StreetName",
-                                      Type = PathToText(),
-                                  },
-                                  new BCC
-                                  {
-                                      Name = "StreetNumber",
-                                      Type = PathToText(),
-                                  },
-                                  new BCC
-                                  {
-                                      Name = "Postcode",
-                                      Type = PathToText(),
-                                  },
-                              },
-                   };
+            return new ConnectorBuilder(name, stereotype, pathToSupplier);
         }
 
-        #endregion
-
-        #region BIELib1
-
-        private static UpccLibrary BIELib1()
+        private static PackageBuilder PRIMLib1()
         {
-            return new BIELibrary
-                   {
-                       Name = "bielib1",
-                       BaseURN = "bielib1",
-                       ABIEs = new List<ABIE>(),
-                   };
+            return Package("primlib1", Stereotype.PRIMLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:primlib1")
+                )
+                .Elements(
+                Element("String", Stereotype.PRIM),
+                Element("Decimal", Stereotype.PRIM)
+                );
         }
 
-        #endregion
+        private static PackageBuilder CDTLib1()
+        {
+            return Package("cdtlib1", Stereotype.CDTLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cdtlib1")
+                )
+                .Elements(
+                CDTText(),
+                CDTDate(),
+                CDTCode(),
+                CDTMeasure()
+                );
+        }
+
+        private static ElementBuilder CDTMeasure()
+        {
+            return Element("Measure", Stereotype.CDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToDecimal()),
+                Attribute("MeasureUnit", Stereotype.SUP, PathToString()),
+                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, PathToString()).LowerBound("1").UpperBound("*")
+                );
+        }
+
+        private static ElementBuilder CDTCode()
+        {
+            return Element("Code", Stereotype.CDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Name", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Agency", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.AgencyName", Stereotype.SUP, PathToString()),
+                Attribute("CodeList", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Name", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
+                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
+                Attribute("Language", Stereotype.SUP, PathToString())
+                );
+        }
+
+        private static ElementBuilder CDTDate()
+        {
+            return Element("Date", Stereotype.CDT)
+                .TaggedValues(
+                TaggedValue(TaggedValues.Definition, "A Date."))
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Format", Stereotype.SUP, PathToString())
+                );
+        }
+
+        private static ElementBuilder CDTText()
+        {
+            return Element("Text", Stereotype.CDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Language", Stereotype.SUP, PathToString()),
+                Attribute("Language.Locale", Stereotype.SUP, PathToString())
+                );
+        }
+
+        private static AttributeBuilder Attribute(string name, string stereotype, Path pathToType)
+        {
+            return new AttributeBuilder(name, stereotype, pathToType);
+        }
+
+        private static TaggedValueBuilder TaggedValue(TaggedValues key, string value)
+        {
+            return new TaggedValueBuilder(key.AsString(), value);
+        }
+
+        private static ElementBuilder Element(string name, string stereotype)
+        {
+            return new ElementBuilder(name, stereotype);
+        }
+
+        private static PackageBuilder Package(string name, string stereotype)
+        {
+            return new PackageBuilder(name, stereotype);
+        }
 
         #region Paths
 

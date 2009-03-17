@@ -8,7 +8,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     public abstract class EARepository : Repository
     {
         private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
-        private readonly Collection models = new EACollection<EAPackage>();
+        private readonly EACollection<EAPackage> models = new EACollection<EAPackage>();
         private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
         private int nextId = 1;
 
@@ -588,14 +588,14 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
-        protected void SetContent(List<Model> content)
+        protected void SetContent(params PackageBuilder[] models)
         {
-            foreach (Model model in content)
+            foreach (PackageBuilder model in models)
             {
-                var modelPackage = (EAPackage) models.AddNew(model.Name, "Package");
+                var modelPackage = (EAPackage) this.models.AddNew(model.GetName(), "Package");
                 modelPackage.PackageID = nextId++;
                 IndexPackage(modelPackage);
-                foreach (UpccTaggedValue tv in model.GetTaggedValues())
+                foreach (TaggedValueBuilder tv in model.GetTaggedValues())
                 {
                     modelPackage.Element.AddTaggedValue(tv.Name, tv.Value);
                 }
@@ -603,69 +603,61 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             }
         }
 
-        private void IndexPackage(EAPackage package)
+        private void AddPackages(PackageBuilder parentPackage, Collection packages, int parentId)
         {
-            packagesById[package.PackageID] = package;
-        }
-
-        private void AddPackages(UpccLibrary library, Collection packages, int parentId)
-        {
-            foreach (UpccLibrary child in library.GetLibraries())
+            foreach (PackageBuilder child in parentPackage.GetPackages())
             {
-                var childPackage = (EAPackage) packages.AddNew(child.Name, "Package");
+                var childPackage = (EAPackage) packages.AddNew(child.GetName(), "Package");
                 childPackage.PackageID = nextId++;
                 childPackage.ParentID = parentId;
                 IndexPackage(childPackage);
                 childPackage.Element.Stereotype = child.GetStereotype();
-                foreach (UpccTaggedValue tv in child.GetTaggedValues())
+                foreach (TaggedValueBuilder tv in child.GetTaggedValues())
                 {
                     childPackage.Element.AddTaggedValue(tv.Name, tv.Value);
                 }
-                if (child is BLibrary)
+                AddPackages(child, childPackage.Packages, childPackage.PackageID);
+                AddElements(child, childPackage.PackageID, childPackage.Elements);
+            }
+        }
+
+        private void AddElements(PackageBuilder package, int packageId, Collection elements)
+        {
+            foreach (ElementBuilder element in package.GetElements())
+            {
+                var eaElement = (EAElement) elements.AddNew(element.GetName(), "Class");
+                eaElement.ElementID = nextId++;
+                eaElement.PackageID = packageId;
+                IndexElement(eaElement);
+                eaElement.Stereotype = element.GetStereotype();
+                foreach (TaggedValueBuilder tv in element.GetTaggedValues())
                 {
-                    AddPackages(child, childPackage.Packages, childPackage.PackageID);
+                    eaElement.AddTaggedValue(tv.Name, tv.Value);
                 }
-                else
+                Collection attributes = eaElement.Attributes;
+                foreach (AttributeBuilder attribute in element.GetAttributes())
                 {
-                    AddClasses(child, childPackage.PackageID, childPackage.Elements);
+                    var eaAttribute = (EAAttribute) attributes.AddNew(attribute.GetName(), null);
+                    eaAttribute.Repository = this;
+                    eaAttribute.ClassifierPath = attribute.GetPathToType();
+                    eaAttribute.Stereotype = attribute.GetStereotype();
+                    eaAttribute.LowerBound = attribute.GetLowerBound();
+                    eaAttribute.UpperBound = attribute.GetUpperBound();
+                }
+                Collection connectors = eaElement.Connectors;
+                foreach (ConnectorBuilder connector in element.GetConnectors())
+                {
+                    var eaConnector = (EAConnector) connectors.AddNew(connector.GetName(), "Association");
+                    eaConnector.Repository = this;
+                    eaConnector.SupplierPath = connector.GetPathToSupplier();
+                    eaConnector.Stereotype = connector.GetStereotype();
                 }
             }
         }
 
-        private void AddClasses(UpccLibrary library, int packageId, Collection elements)
+        private void IndexPackage(EAPackage package)
         {
-//            Console.WriteLine("Adding classes for library " + library.Name);
-            foreach (UpccClass c in library.GetClasses())
-            {
-//                Console.WriteLine("  Adding class " + c.Name);
-                var element = (EAElement) elements.AddNew(c.Name, "Class");
-                element.ElementID = nextId++;
-                element.PackageID = packageId;
-                IndexElement(element);
-                element.Stereotype = c.GetStereotype();
-                foreach (UpccTaggedValue tv in c.GetTaggedValues())
-                {
-                    element.AddTaggedValue(tv.Name, tv.Value);
-                }
-                Collection attributes = element.Attributes;
-                foreach (var attribute in c.GetAttributes())
-                {
-                    var a = (EAAttribute) attributes.AddNew(attribute.Name, null);
-                    a.Repository = this;
-                    a.ClassifierPath = attribute.Type;
-                    a.Stereotype = attribute.GetStereotype();
-                    a.LowerBound = attribute.LowerBound;
-                    a.UpperBound = attribute.UpperBound;
-                }
-                Collection connectors = element.Connectors;
-                foreach (var connector in c.GetConnectors())
-                {
-                    var con = (EAConnector) connectors.AddNew(connector.Name, "Association");
-                    con.Repository = this;
-                    con.SupplierPath = connector.PathToSupplier;
-                    con.Stereotype = connector.GetStereotype();
-                }
-            }
+            packagesById[package.PackageID] = package;
         }
 
         private void IndexElement(EAElement element)

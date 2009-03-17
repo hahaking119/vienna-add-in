@@ -10,6 +10,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     {
         private readonly List<TCollectionElement> elements = new List<TCollectionElement>();
 
+        public List<TCollectionElement> Elements
+        {
+            get { return elements; }
+        }
+
         #region Collection Members
 
         public object GetAt(short index)
@@ -63,23 +68,23 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             get
             {
-                if (typeof(TCollectionElement) == typeof(EAAttribute))
+                if (typeof (TCollectionElement) == typeof (EAAttribute))
                 {
                     return ObjectType.otAttribute;
                 }
-                if (typeof(TCollectionElement) == typeof(EAConnector))
+                if (typeof (TCollectionElement) == typeof (EAConnector))
                 {
                     return ObjectType.otConnector;
                 }
-                if (typeof(TCollectionElement) == typeof(EAElement))
+                if (typeof (TCollectionElement) == typeof (EAElement))
                 {
                     return ObjectType.otElement;
                 }
-                if (typeof(TCollectionElement) == typeof(EAPackage))
+                if (typeof (TCollectionElement) == typeof (EAPackage))
                 {
                     return ObjectType.otPackage;
                 }
-                if (typeof(TCollectionElement) == typeof(EATaggedValue))
+                if (typeof (TCollectionElement) == typeof (EATaggedValue))
                 {
                     return ObjectType.otTaggedValue;
                 }
