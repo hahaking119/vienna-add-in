@@ -7,14 +7,23 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
+    ///<summary>
+    ///</summary>
     public class CDTLibraryGenerator : AbstractLibraryGenerator<ICDTLibrary>
     {
         private const string NS_PREFIX = "cdt";
 
+        ///<summary>
+        ///</summary>
+        ///<param name="context"></param>
         public CDTLibraryGenerator(GenerationContext context) : base(context)
         {
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="library"></param>
+        ///<returns></returns>
         public override XmlSchema GenerateXSD(ICDTLibrary library)
         {
             var schema = new XmlSchema

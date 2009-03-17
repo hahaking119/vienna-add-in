@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
@@ -30,6 +29,7 @@ namespace VIENNAAddIn.upcc3.ccts
         /// Returns the direct sub-libraries of this library.
         /// </summary>
         IEnumerable<IBusinessLibrary> Children { get; }
+
         /// <summary>
         /// Returns all of this library's sub-libraries and their sub-libraries (depth-first).
         /// </summary>
