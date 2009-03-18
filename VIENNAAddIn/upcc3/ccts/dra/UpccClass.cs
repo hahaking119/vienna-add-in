@@ -51,27 +51,42 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public virtual string Definition
         {
-            get { return element.GetTaggedValue(TaggedValues.Definition); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.Definition);
+                return tv ?? string.Empty;
+            }
         }
 
         public virtual string DictionaryEntryName
         {
-            get { return element.GetTaggedValue(TaggedValues.DictionaryEntryName); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.DictionaryEntryName);
+                return tv ?? string.Empty;
+            }
         }
 
         public virtual string UniqueIdentifier
         {
-            get { return element.GetTaggedValue(TaggedValues.UniqueIdentifier); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.UniqueIdentifier);
+                return tv ?? string.Empty;
+            }
         }
 
         public virtual string VersionIdentifier
         {
-            get { return element.GetTaggedValue(TaggedValues.VersionIdentifier); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.VersionIdentifier);
+                return tv ?? string.Empty;
+            }
         }
 
         public virtual string LanguageCode
         {
-            get { return element.GetTaggedValue(TaggedValues.LanguageCode); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.LanguageCode);
+                return tv ?? string.Empty;
+            }
         }
 
         protected IEnumerable<Attribute> Attributes

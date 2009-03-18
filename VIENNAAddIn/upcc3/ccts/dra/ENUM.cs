@@ -23,17 +23,26 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string AgencyIdentifier
         {
-            get { return element.GetTaggedValue(TaggedValues.AgencyIdentifier); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.AgencyIdentifier);
+                return tv ?? string.Empty;
+            }
         }
 
         public string AgencyName
         {
-            get { return element.GetTaggedValue(TaggedValues.AgencyName); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.AgencyName);
+                return tv ?? string.Empty;
+            }
         }
 
         public string EnumerationURI
         {
-            get { return element.GetTaggedValue(TaggedValues.EnumerationURI); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.EnumerationURI);
+                return tv ?? string.Empty;
+            }
         }
 
         public IENUM IsEquivalentTo

@@ -57,7 +57,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
             catch (Exception)
             {
-                return String.Empty;
+                return null;
             }
         }
 
