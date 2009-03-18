@@ -1,0 +1,643 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VIENNAAddIn</RootNamespace>
+    <AssemblyName>VIENNAAddIn</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\Debug\VIENNAAddIn.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
+    <Reference Include="nunit.framework, Version=2.2.2.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ext\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CCTS\AuxilliarySchema.cs" />
+    <Compile Include="CCTS\BCSSValidator.cs" />
+    <Compile Include="CCTS\BIEConnector.cs" />
+    <Compile Include="CCTS\BIEGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\BIEGenerator.Designer.cs">
+      <DependentUpon>BIEGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\BusinessLibraryGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\BusinessLibraryGenerator.Designer.cs">
+      <DependentUpon>BusinessLibraryGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\CCGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\CCGenerator.Designer.cs">
+      <DependentUpon>CCGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\CCImporter\BIEParser.cs" />
+    <Compile Include="CCTS\CCImporter\CCParser.cs" />
+    <Compile Include="CCTS\CCImporter\CDTParser.cs" />
+    <Compile Include="CCTS\CCImporter\EAModelWriter.cs" />
+    <Compile Include="CCTS\CCImporter\Program.cs" />
+    <Compile Include="CCTS\CCImporter\QDTParser.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\AggregateBusinessInformationEntity.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\AggregateCoreComponent.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\ASBIE.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\ASCC.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\AssociationBIEProperty.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\AssociationCCProperty.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\Attribute.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\BasicBIEProperty.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\BasicCCProperty.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\BBIE.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\BCC.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\BIEProperty.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\BusinessContext.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\BusinessInformationEntity.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\CCProperty.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\CoreComponent.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\DataType.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\ENUM.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\EnumAttribute.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\EnumLibrary.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\RegistryClass.cs" />
+    <Compile Include="CCTS\CCTSBIE_MetaModel\TaggedValue.cs" />
+    <Compile Include="CCTS\CCWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\CCWindow.Designer.cs">
+      <DependentUpon>CCWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\CC_Utils.cs" />
+    <Compile Include="CCTS\CDTGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\CDTGenerator.Designer.cs">
+      <DependentUpon>CDTGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\DOCGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\DOCGenerator.Designer.cs">
+      <DependentUpon>DOCGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\ENUMGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\ENUMGenerator.Designer.cs">
+      <DependentUpon>ENUMGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\GeneratorCallBackInterface.cs" />
+    <Compile Include="CCTS\OCLMapper.cs" />
+    <Compile Include="CCTS\QDTGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\QDTGenerator.Designer.cs">
+      <DependentUpon>QDTGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\QDTWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CCTS\QDTWindow.Designer.cs">
+      <DependentUpon>QDTWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CCTS\XMLTools.cs" />
+    <Compile Include="common\corecomponents\ABIE.cs" />
+    <Compile Include="common\corecomponents\ACC.cs" />
+    <Compile Include="common\corecomponents\ASBIE.cs" />
+    <Compile Include="common\corecomponents\ASCC.cs" />
+    <Compile Include="common\corecomponents\BBIE.cs" />
+    <Compile Include="common\corecomponents\BCC.cs" />
+    <Compile Include="common\corecomponents\BIE.cs" />
+    <Compile Include="common\corecomponents\CC.cs" />
+    <Compile Include="common\corecomponents\CDT.cs" />
+    <Compile Include="common\corecomponents\ContentComponent.cs" />
+    <Compile Include="common\corecomponents\DT.cs" />
+    <Compile Include="common\corecomponents\QDT.cs" />
+    <Compile Include="common\corecomponents\SupplementaryComponent.cs" />
+    <Compile Include="common\logging\ILogger.cs" />
+    <Compile Include="common\logging\Logger.cs" />
+    <Compile Include="common\logging\LogMessage.cs" />
+    <Compile Include="common\logging\LogMessageWriter.cs" />
+    <Compile Include="common\logging\LogType.cs" />
+    <Compile Include="common\MDGSetter.cs" />
+    <Compile Include="common\Utility.cs" />
+    <Compile Include="common\WindowsRegistryLoader.cs" />
+    <Compile Include="constants\Constants.cs" />
+    <Compile Include="ErrorReporter\ErrorReporterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Exceptions\OCLConstraintNotApplicableException.cs" />
+    <Compile Include="Exceptions\RegistryAccessException.cs" />
+    <Compile Include="Exceptions\AddInException.cs" />
+    <Compile Include="Exceptions\UnexpectedElementException.cs" />
+    <Compile Include="Exceptions\XMLException.cs" />
+    <Compile Include="ExportImport\ExportPackage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExportImport\ExportPackage.Designer.cs">
+      <DependentUpon>ExportPackage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExportImport\ImportPackage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExportImport\ImportPackage.Designer.cs">
+      <DependentUpon>ImportPackage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\AddInSettings.cs" />
+    <Compile Include="Settings\SynchStereotypes.cs" />
+    <Compile Include="upcc3\ccts\ABIESpec.cs" />
+    <Compile Include="upcc3\ccts\BBIESpec.cs" />
+    <Compile Include="upcc3\ccts\BIESpec.cs" />
+    <Compile Include="upcc3\ccts\CCTSElementSpec.cs" />
+    <Compile Include="upcc3\ccts\CCTSSpec.cs" />
+    <Compile Include="upcc3\ccts\dra\SUP.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccAssociation.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccAttribute.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccClass.cs" />
+    <Compile Include="upcc3\ccts\dra\UpccCON.cs" />
+    <Compile Include="upcc3\ccts\IBasedOnDependency.cs" />
+    <Compile Include="upcc3\ccts\IBasicType.cs" />
+    <Compile Include="upcc3\ccts\ICCTSElement.cs" />
+    <Compile Include="upcc3\ccts\ICON.cs" />
+    <Compile Include="upcc3\ccts\IHasUsageRules.cs" />
+    <Compile Include="upcc3\ccts\IPRIMRestrictions.cs" />
+    <Compile Include="upcc3\ccts\ISequenced.cs" />
+    <Compile Include="upcc3\ccts\ISUP.cs" />
+    <Compile Include="upcc3\ccts\LibrarySpec.cs" />
+    <Compile Include="upcc3\ccts\BDTSpec.cs" />
+    <Compile Include="upcc3\ccts\CDTSpec.cs" />
+    <Compile Include="upcc3\ccts\CONSpec.cs" />
+    <Compile Include="upcc3\ccts\dra\ABIE.cs" />
+    <Compile Include="upcc3\ccts\dra\AbstractDT.cs" />
+    <Compile Include="upcc3\ccts\dra\ACC.cs" />
+    <Compile Include="upcc3\ccts\dra\ASBIE.cs" />
+    <Compile Include="upcc3\ccts\dra\ASCC.cs" />
+    <Compile Include="upcc3\ccts\dra\BasedOnDependency.cs" />
+    <Compile Include="upcc3\ccts\dra\BBIE.cs" />
+    <Compile Include="upcc3\ccts\dra\BCC.cs" />
+    <Compile Include="upcc3\ccts\dra\BDT.cs" />
+    <Compile Include="upcc3\ccts\dra\BDTLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\BIELibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\BLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\BusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\CCLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\CCRepository.cs" />
+    <Compile Include="upcc3\ccts\dra\CDT.cs" />
+    <Compile Include="upcc3\ccts\dra\CDTLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\DOCLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\DTComponent.cs" />
+    <Compile Include="upcc3\ccts\dra\ENUM.cs" />
+    <Compile Include="upcc3\ccts\dra\ENUMLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\PRIM.cs" />
+    <Compile Include="upcc3\ccts\dra\PRIMLibrary.cs" />
+    <Compile Include="upcc3\ccts\DTComponentSpec.cs" />
+    <Compile Include="upcc3\ccts\DTSpec.cs" />
+    <Compile Include="upcc3\ccts\IABIE.cs" />
+    <Compile Include="upcc3\ccts\IACC.cs" />
+    <Compile Include="upcc3\ccts\IASBIE.cs" />
+    <Compile Include="upcc3\ccts\IASCC.cs" />
+    <Compile Include="upcc3\ccts\IBBIE.cs" />
+    <Compile Include="upcc3\ccts\IBCC.cs" />
+    <Compile Include="upcc3\ccts\IBDT.cs" />
+    <Compile Include="upcc3\ccts\IBDTLibrary.cs" />
+    <Compile Include="upcc3\ccts\IBIE.cs" />
+    <Compile Include="upcc3\ccts\IBIELibrary.cs" />
+    <Compile Include="upcc3\ccts\ICC.cs" />
+    <Compile Include="upcc3\ccts\ICCLibrary.cs" />
+    <Compile Include="upcc3\ccts\ICDT.cs" />
+    <Compile Include="upcc3\ccts\ICDTLibrary.cs" />
+    <Compile Include="upcc3\ccts\IDOCLibrary.cs" />
+    <Compile Include="upcc3\ccts\IENUM.cs" />
+    <Compile Include="upcc3\ccts\IENUMLibrary.cs" />
+    <Compile Include="upcc3\ccts\IPRIM.cs" />
+    <Compile Include="upcc3\ccts\IPRIMLibrary.cs" />
+    <Compile Include="upcc3\ccts\Path.cs" />
+    <Compile Include="upcc3\ccts\SUPSpec.cs" />
+    <Compile Include="upcc3\ccts\TaggedValueSpec.cs" />
+    <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\ConnectorExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EAException.cs" />
+    <Compile Include="upcc3\ccts\util\ElementExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
+    <Compile Include="upcc3\ccts\util\PackageExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\Stereotype.cs" />
+    <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
+    <Compile Include="upcc3\ccts\IBusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\ICCRepository.cs" />
+    <Compile Include="upcc3\ccts\IDT.cs" />
+    <Compile Include="upcc3\ccts\IDTComponent.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\AbstractLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\AnnotationBuilder.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\BDTLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\BIELibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\CCLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\CDTLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\StringExtensions.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\DOCLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\ENUMLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\PRIMLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\Selector.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedSelector.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\XSDGenerator.cs" />
+    <Compile Include="Utils\EAElementWrapper.cs" />
+    <Compile Include="Utils\FormStyles.cs" />
+    <Compile Include="Utils\IssueUtil.cs" />
+    <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\LoggerCCTS.cs" />
+    <Compile Include="Utils\LogMessage.cs" />
+    <Compile Include="Utils\LogMessageCCTS.cs" />
+    <Compile Include="Utils\OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\SortConnector.cs" />
+    <Compile Include="Utils\UMMAddInLoggerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\Writer.cs" />
+    <Compile Include="validator\AbstractValidator.cs" />
+    <Compile Include="validator\ErrorMessage.cs" />
+    <Compile Include="validator\ExceptionEventArgs.cs" />
+    <Compile Include="validator\IValidator.cs" />
+    <Compile Include="validator\ErrorCheckingValidationContext.cs" />
+    <Compile Include="validator\ValidationMessageAddedEventArgs.cs" />
+    <Compile Include="validator\ProgressEventArgs.cs" />
+    <Compile Include="validator\umm\bCollModelValidator.cs" />
+    <Compile Include="validator\umm\bcv\bChoreographyVValidator.cs" />
+    <Compile Include="validator\umm\bcv\bCollaborationVValidator.cs" />
+    <Compile Include="validator\umm\bcv\bRealizationVValidator.cs" />
+    <Compile Include="validator\umm\bcv\bTransactionVValidator.cs" />
+    <Compile Include="validator\umm\biv\bInformationVValidator.cs" />
+    <Compile Include="validator\umm\brv\bDomainVValidator.cs" />
+    <Compile Include="validator\umm\brv\bEntityVValidator.cs" />
+    <Compile Include="validator\umm\brv\bPartnerVValidator.cs" />
+    <Compile Include="validator\umm\brv\bRequirementsVValidator.cs" />
+    <Compile Include="validator\umm\TaggedValueValidator.cs" />
+    <Compile Include="validator\ValidationMessage.cs" />
+    <Compile Include="validator\ValidationContext.cs" />
+    <Compile Include="validator\Validator.cs" />
+    <Compile Include="validator\ValidatorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="validator\ValidatorForm.designer.cs">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIENNAAddIn.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\SynchTaggedValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings\SynchTaggedValue.Designer.cs">
+      <DependentUpon>SynchTaggedValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\SortAttribute.cs" />
+    <Compile Include="workflow\InitialPackageStructureCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="workflow\InitialPackageStructureCreator.Designer.cs">
+      <DependentUpon>InitialPackageStructureCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="workflow\ModelStructureCreator.cs" />
+    <Compile Include="WSDLGenerator\Setting\TemplateSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WSDLGenerator\Setting\TemplateSetting.Designer.cs">
+      <DependentUpon>TemplateSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WSDLGenerator\TransactionModuleArtefact.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WSDLGenerator\TransactionModuleArtefact.Designer.cs">
+      <DependentUpon>TransactionModuleArtefact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WSDLGenerator\WSDLGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WSDLGenerator\WSDLGenerator.Designer.cs">
+      <DependentUpon>WSDLGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XBRLGenerator\BIEGeneratorXBRL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\CCGeneratorXBRL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\CCGeneratorXBRL.Designer.cs">
+      <DependentUpon>CCGeneratorXBRL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XBRLGenerator\CDTGeneratorXBRL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\CDTGeneratorXBRL.Designer.cs">
+      <DependentUpon>CDTGeneratorXBRL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XBRLGenerator\DOCGeneratorXBRL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\DOCGeneratorXBRL.Designer.cs">
+      <DependentUpon>DOCGeneratorXBRL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XBRLGenerator\ENUMGeneratorXBRL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\ENUMGeneratorXBRL.Designer.cs">
+      <DependentUpon>ENUMGeneratorXBRL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XBRLGenerator\QDTGeneratorXBRL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\QDTGeneratorXBRL.Designer.cs">
+      <DependentUpon>QDTGeneratorXBRL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XBRLGenerator\XBRLGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\XBRLGenerator.Designer.cs">
+      <DependentUpon>XBRLGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XBRLGenerator\XBRLLinkbase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XBRLGenerator\XBRLLinkbase.Designer.cs">
+      <DependentUpon>XBRLLinkbase.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(TargetDir)\res"
+mkdir "$(TargetDir)\EA"
+mkdir "$(TargetDir)\EA\MDG"
+mkdir "$(TargetDir)\EA\CCTS"
+mkdir "$(TargetDir)\BPEL"
+
+xcopy /Y /E /I "$(ProjectDir)WSDLGenerator\BPELTemplate" "$(TargetDir)\BPEL"
+xcopy /Y /E /I "$(ProjectDir)WSDLGenerator\XSLTTemplate" "$(TargetDir)\BPEL\Mappings"
+xcopy /Y /E /I "$(ProjectDir)images" "$(TargetDir)\images"
+xcopy /Y /E /I "$(ProjectDir)EA\MDG" "$(TargetDir)EA\MDG"
+
+xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
+    <PreBuildEvent>del /Q "$(TargetDir)\EA"</PreBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="WSDLGenerator\BPELTemplate\TemplateInitiator.bpel" />
+    <None Include="WSDLGenerator\BPELTemplate\TemplateInitiatorOneWay.bpel" />
+    <None Include="WSDLGenerator\BPELTemplate\TemplateInitiatorSpecialCase.bpel" />
+    <None Include="WSDLGenerator\BPELTemplate\TemplateResponder.bpel" />
+    <None Include="WSDLGenerator\BPELTemplate\TemplateResponderOneWay.bpel" />
+    <None Include="WSDLGenerator\BPELTemplate\TemplateResponderSpecialCase.bpel" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EA\CCTS\cclibrary.xml" />
+    <Content Include="EA\MDG\BCVModelPattern.xml" />
+    <Content Include="EA\MDG\BIVModelPattern.xml" />
+    <Content Include="EA\MDG\BRVModelPattern.xml" />
+    <Content Include="EA\MDG\GIEM.xml" />
+    <Content Include="EA\MDG\GIEM_Icon.bmp" />
+    <Content Include="EA\MDG\GIEM_Logo.bmp" />
+    <Content Include="EA\MDG\UMM2.xml" />
+    <Content Include="EA\MDG\UMMfG.xml" />
+    <Content Include="images\GIEM_Icon.bmp" />
+    <Content Include="images\GIEM_Logo.bmp" />
+    <Content Include="WSDLGenerator\XSLTTemplate\MappingGeneralException.xslt" />
+    <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptAcknowledgement.xslt" />
+    <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptException.xslt" />
+    <Content Include="WSDLGenerator\XSLTTemplate\MappingTransactionProtocolFailure.xslt" />
+    <Content Include="WSDLGenerator\XSLTTemplate\MappingTransactionProtocolSuccess.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CCTS\BIEGenerator.resx">
+      <DependentUpon>BIEGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\BusinessLibraryGenerator.resx">
+      <DependentUpon>BusinessLibraryGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\CCGenerator.resx">
+      <DependentUpon>CCGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\CCWindow.resx">
+      <DependentUpon>CCWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\CDTGenerator.resx">
+      <DependentUpon>CDTGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\DOCGenerator.resx">
+      <DependentUpon>DOCGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\ENUMGenerator.resx">
+      <DependentUpon>ENUMGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\QDTGenerator.resx">
+      <DependentUpon>QDTGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CCTS\QDTWindow.resx">
+      <DependentUpon>QDTWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorReporter\ErrorReporterForm.resx">
+      <DependentUpon>ErrorReporterForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExportImport\ExportPackage.resx">
+      <DependentUpon>ExportPackage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExportImport\ImportPackage.resx">
+      <DependentUpon>ImportPackage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings\SynchTaggedValue.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SynchTaggedValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\AboutWindow.resx">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\UMMAddInLoggerWindow.resx">
+      <DependentUpon>UMMAddInLoggerWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="validator\ValidatorForm.resx">
+      <DependentUpon>ValidatorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="workflow\InitialPackageStructureCreator.resx">
+      <DependentUpon>InitialPackageStructureCreator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WSDLGenerator\Setting\TemplateSetting.resx">
+      <DependentUpon>TemplateSetting.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WSDLGenerator\TransactionModuleArtefact.resx">
+      <DependentUpon>TransactionModuleArtefact.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WSDLGenerator\WSDLGenerator.resx">
+      <DependentUpon>WSDLGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\BIEGeneratorXBRL.resx">
+      <DependentUpon>BIEGeneratorXBRL.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\CCGeneratorXBRL.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CCGeneratorXBRL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\CDTGeneratorXBRL.resx">
+      <DependentUpon>CDTGeneratorXBRL.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\DOCGeneratorXBRL.resx">
+      <DependentUpon>DOCGeneratorXBRL.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\ENUMGeneratorXBRL.resx">
+      <DependentUpon>ENUMGeneratorXBRL.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\QDTGeneratorXBRL.resx">
+      <DependentUpon>QDTGeneratorXBRL.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\XBRLGenerator.resx">
+      <DependentUpon>XBRLGenerator.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XBRLGenerator\XBRLLinkbase.resx">
+      <DependentUpon>XBRLLinkbase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="EA">
+      <Guid>{64FB2BF4-9EFA-11D2-8307-C45586000000}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>10</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="doc\" />
+    <Folder Include="upcc3\XSDGenerator\UI\" />
+    <Folder Include="validator\upcc3\" />
+  </ItemGroup>
+</Project>
