@@ -14,11 +14,16 @@ namespace VIENNAAddIn.upcc3.ccts
     {
         public ICDT BasedOn { get; set; }
 
-        public static BDTSpec CloneCDT(ICDT cdt, string qualifier)
+        public static BDTSpec CloneCDT(ICDT cdt)
+        {
+            return CloneCDT(cdt, null);
+        }
+
+        public static BDTSpec CloneCDT(ICDT cdt, string name)
         {
             return new BDTSpec
                    {
-                       Name = (string.IsNullOrEmpty(qualifier) ? cdt.Name : qualifier + "_" + cdt.Name),
+                       Name = (string.IsNullOrEmpty(name) ? cdt.Name : name),
                        BasedOn = cdt,
                        BusinessTerms = new List<string>(cdt.BusinessTerms),
                        Definition = cdt.Definition,
