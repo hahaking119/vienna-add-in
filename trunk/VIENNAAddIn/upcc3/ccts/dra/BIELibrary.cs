@@ -43,7 +43,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 taggedValues.AddTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
             }
-            taggedValues.Refresh();
             Collection connectors = abie.Connectors;
             if (spec.BasedOn != null)
             {
@@ -53,14 +52,15 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 connectors.AddConnector(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id);
             }
-            connectors.Refresh();
             Collection attributes = abie.Attributes;
             foreach (var bbie in spec.BBIEs)
             {
                 attributes.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, "1", "1", bbie.GetTaggedValues());
             }
-            attributes.Refresh();
             abie.Update();
+            attributes.Refresh();
+            connectors.Refresh();
+            taggedValues.Refresh();
             package.Elements.Refresh();
             return new ABIE(repository, abie);
         }

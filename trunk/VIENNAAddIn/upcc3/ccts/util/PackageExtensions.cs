@@ -20,7 +20,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
 
         internal static string GetTaggedValue(this Package package, TaggedValues key)
         {
-            return package.Element.GetTaggedValue(key);
+            var tv = ElementExtensions.GetTaggedValue(package.Element, key);
+            return tv ?? string.Empty;
         }
 
         internal static void SetTaggedValues(this Package package, TaggedValues key, IEnumerable<string> values)

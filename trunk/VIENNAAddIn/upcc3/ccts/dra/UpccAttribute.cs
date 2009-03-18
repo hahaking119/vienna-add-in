@@ -36,27 +36,42 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Definition
         {
-            get { return attribute.GetTaggedValue(TaggedValues.Definition); }
+            get {
+                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.Definition);
+                return tv ?? string.Empty;
+            }
         }
 
         public string DictionaryEntryName
         {
-            get { return attribute.GetTaggedValue(TaggedValues.DictionaryEntryName); }
+            get {
+                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.DictionaryEntryName);
+                return tv ?? string.Empty;
+            }
         }
 
         public string LanguageCode
         {
-            get { return attribute.GetTaggedValue(TaggedValues.LanguageCode); }
+            get {
+                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.LanguageCode);
+                return tv ?? string.Empty;
+            }
         }
 
         public string UniqueIdentifier
         {
-            get { return attribute.GetTaggedValue(TaggedValues.UniqueIdentifier); }
+            get {
+                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.UniqueIdentifier);
+                return tv ?? string.Empty;
+            }
         }
 
         public string VersionIdentifier
         {
-            get { return attribute.GetTaggedValue(TaggedValues.VersionIdentifier); }
+            get {
+                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.VersionIdentifier);
+                return tv ?? string.Empty;
+            }
         }
 
         public IEnumerable<string> BusinessTerms
@@ -76,7 +91,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string SequencingKey
         {
-            get { return attribute.GetTaggedValue(TaggedValues.SequencingKey); }
+            get {
+                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.SequencingKey);
+                return tv ?? string.Empty;
+            }
         }
 
         public TContainer Container { get; private set; }

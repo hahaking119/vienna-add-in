@@ -23,57 +23,90 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Pattern
         {
-            get { return element.GetTaggedValue(TaggedValues.Pattern); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.Pattern);
+                return tv ?? string.Empty;
+            }
         }
 
         public string FractionDigits
         {
-            get { return element.GetTaggedValue(TaggedValues.FractionDigits); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.FractionDigits);
+                return tv ?? string.Empty;
+            }
         }
 
         public string Length
         {
-            get { return element.GetTaggedValue(TaggedValues.Length); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.Length);
+                return tv ?? string.Empty;
+            }
         }
 
         public string MaxExclusive
         {
-            get { return element.GetTaggedValue(TaggedValues.MaxExclusive); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.MaxExclusive);
+                return tv ?? string.Empty;
+            }
         }
 
         public string MaxInclusive
         {
-            get { return element.GetTaggedValue(TaggedValues.MaxInclusive); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.MaxInclusive);
+                return tv ?? string.Empty;
+            }
         }
 
         public string MaxLength
         {
-            get { return element.GetTaggedValue(TaggedValues.MaxLength); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.MaxLength);
+                return tv ?? string.Empty;
+            }
         }
 
         public string MinExclusive
         {
-            get { return element.GetTaggedValue(TaggedValues.MinExclusive); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.MinExclusive);
+                return tv ?? string.Empty;
+            }
         }
 
         public string MinInclusive
         {
-            get { return element.GetTaggedValue(TaggedValues.MinInclusive); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.MinInclusive);
+                return tv ?? string.Empty;
+            }
         }
 
         public string MinLength
         {
-            get { return element.GetTaggedValue(TaggedValues.MinLength); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.MinLength);
+                return tv ?? string.Empty;
+            }
         }
 
         public string TotalDigits
         {
-            get { return element.GetTaggedValue(TaggedValues.TotalDigits); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.TotalDigits);
+                return tv ?? string.Empty;
+            }
         }
 
         public string WhiteSpace
         {
-            get { return element.GetTaggedValue(TaggedValues.WhiteSpace); }
+            get {
+                var tv = ElementExtensions.GetTaggedValue(element, (TaggedValues) TaggedValues.WhiteSpace);
+                return tv ?? string.Empty;
+            }
         }
 
         public IPRIM IsEquivalentTo

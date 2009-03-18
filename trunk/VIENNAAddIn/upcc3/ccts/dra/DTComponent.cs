@@ -46,34 +46,55 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Definition
         {
-            get { return attribute.GetTaggedValue(TaggedValues.Definition); }
+            get
+            {
+                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.Definition);
+                return tv ?? string.Empty;
+            }
         }
 
         public string DictionaryEntryName
         {
-            get { return attribute.GetTaggedValue(TaggedValues.DictionaryEntryName); }
+            get
+            {
+                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.DictionaryEntryName);
+                return tv ?? string.Empty;
+            }
         }
 
         public string LanguageCode
         {
-            get { return attribute.GetTaggedValue(TaggedValues.LanguageCode); }
+            get
+            {
+                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.LanguageCode);
+                return tv ?? string.Empty;
+            }
         }
 
         public string UniqueIdentifier
         {
-            get { return attribute.GetTaggedValue(TaggedValues.UniqueIdentifier); }
+            get
+            {
+                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.UniqueIdentifier);
+                return tv ?? string.Empty;
+            }
         }
 
         public string VersionIdentifier
         {
-            get { return attribute.GetTaggedValue(TaggedValues.VersionIdentifier); }
+            get
+            {
+                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.VersionIdentifier);
+                return tv ?? string.Empty;
+            }
         }
 
         public bool ModificationAllowedIndicator
         {
             get
             {
-                string value = attribute.GetTaggedValue(TaggedValues.ModificationAllowedIndicator).DefaultTo("true");
+                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.ModificationAllowedIndicator);
+                string value = (tv ?? string.Empty).DefaultTo("true");
                 return "true" == value.ToLower();
             }
         }
