@@ -1,10 +1,25 @@
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
 using System;
 using System.Collections.Generic;
 using EA;
+using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
+    /// <summary>
+    /// An implementation of the EA.Repository API for unit testing.
+    /// 
+    /// Even though it is possible to implement unit tests by loading an EA.Repository from a file, this process is too slow for efficient unit testing. Therefore, this class offers an efficient alternative for testing algorithms operating an an EA.Repository.
+    /// </summary>
     public abstract class EARepository : Repository
     {
         private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
@@ -664,18 +679,42 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             elementsById[element.ElementID] = element;
         }
+
+        protected static ConnectorBuilder Connector(string name, string stereotype, Path pathToSupplier)
+        {
+            return new ConnectorBuilder(name, stereotype, pathToSupplier);
+        }
+
+        protected static AttributeBuilder Attribute(string name, string stereotype, Path pathToType)
+        {
+            return new AttributeBuilder(name, stereotype, pathToType);
+        }
+
+        protected static TaggedValueBuilder TaggedValue(TaggedValues key, string value)
+        {
+            return new TaggedValueBuilder(key.AsString(), value);
+        }
+
+        protected static ElementBuilder Element(string name, string stereotype)
+        {
+            return new ElementBuilder(name, stereotype);
+        }
+
+        protected static PackageBuilder Package(string name, string stereotype)
+        {
+            return new PackageBuilder(name, stereotype);
+        }
     }
 
     public static class EaElementExtensions
     {
-        public static TaggedValue AddTaggedValue(this Element element, string name, string value)
+        public static void AddTaggedValue(this Element element, string name, string value)
         {
             Collection taggedValues = element.TaggedValues;
             var tv = (TaggedValue) taggedValues.AddNew(name, "");
             tv.Value = value;
             tv.Update();
             taggedValues.Refresh();
-            return tv;
         }
     }
 }

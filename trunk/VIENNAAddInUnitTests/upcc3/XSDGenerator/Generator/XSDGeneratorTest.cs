@@ -1,5 +1,14 @@
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
 using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Schema;
 using EA;
 using NUnit.Framework;
@@ -13,6 +22,28 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
     [TestFixture]
     public class XSDGeneratorTest
     {
+        [Test]
+        public void TestAddingComments()
+        {
+            var schema = new XmlSchema();
+            schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
+            schema.Namespaces.Add("ccts",
+                                  "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3");
+            var annotation = new XmlSchemaAnnotation();
+            var documentation = new XmlSchemaDocumentation();
+            var helperDocument = new XmlDocument();
+            documentation.Markup = new XmlNode[]
+                                   {
+                                       helperDocument.CreateComment("Schema comment line 1"),
+                                       helperDocument.CreateComment("Schema comment line 2"),
+                                       helperDocument.CreateComment("Schema comment line 3"),
+                                       helperDocument.CreateComment("Schema comment line 4"),
+                                   };
+            annotation.Items.Add(documentation);
+            schema.Items.Add(annotation);
+            schema.Write(Console.Out);
+        }
+
         private static Repository GetFileBasedEARepository()
         {
             var repo = new Repository();

@@ -1,3 +1,11 @@
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
 using System;
 using System.Collections.Generic;
 
@@ -34,6 +42,18 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             throw new ArgumentException("no match found and no default action specified");
         }
 
+        #region Nested type: ISelectorCase
+
+        internal interface ISelectorCase<SResult>
+        {
+            bool Matches(Object o);
+            SResult Execute(Object o);
+        }
+
+        #endregion
+
+        #region Nested type: SelectorCase
+
         internal class SelectorCase<S, SResult> : ISelectorCase<SResult>
         {
             private readonly Func<S, SResult> action;
@@ -43,6 +63,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 this.action = action;
             }
 
+            #region ISelectorCase<SResult> Members
+
             public bool Matches(Object o)
             {
                 return o is S;
@@ -50,15 +72,12 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
             public SResult Execute(Object o)
             {
-                return action((S)o);
+                return action((S) o);
             }
+
+            #endregion
         }
 
-        internal interface ISelectorCase<SResult>
-        {
-            bool Matches(Object o);
-            SResult Execute(Object o);
-        }
-
+        #endregion
     }
 }
