@@ -10,13 +10,17 @@ using System.Collections.Generic;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    public class EAObjectBuilder<T> where T : class
+    /// <summary>
+    /// Base class for builders of test repository items.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class RepositoryItemBuilder<T> where T : class
     {
         private readonly string name;
         private readonly string stereotype;
         private readonly List<TaggedValueBuilder> taggedValues = new List<TaggedValueBuilder>();
 
-        public EAObjectBuilder(string name, string stereotype)
+        protected RepositoryItemBuilder(string name, string stereotype)
         {
             this.name = name;
             this.stereotype = stereotype;

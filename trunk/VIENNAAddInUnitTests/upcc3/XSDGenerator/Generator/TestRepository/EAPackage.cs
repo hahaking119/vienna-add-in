@@ -158,13 +158,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public bool IsModel
         {
-            get { throw new NotImplementedException(); }
+            get { return ParentID == 0; }
         }
 
         public Element Element
         {
-            // a model has a null element
-            get { return ParentID == 0 ? null : element; }
+            get { return IsModel ? null : element; }
         }
 
         public int BatchLoad

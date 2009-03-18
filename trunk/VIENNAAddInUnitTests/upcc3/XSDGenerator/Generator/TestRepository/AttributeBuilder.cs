@@ -10,7 +10,7 @@ using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    public class AttributeBuilder : EAObjectBuilder<AttributeBuilder>
+    public class AttributeBuilder : RepositoryItemBuilder<AttributeBuilder>
     {
         private readonly Path pathToType;
         private string lowerBound = "1";

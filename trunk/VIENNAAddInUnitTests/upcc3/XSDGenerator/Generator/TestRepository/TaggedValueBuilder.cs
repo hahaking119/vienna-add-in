@@ -6,13 +6,15 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using VIENNAAddIn.upcc3.ccts.util;
+
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     public class TaggedValueBuilder
     {
-        public TaggedValueBuilder(string name, string value)
+        public TaggedValueBuilder(TaggedValues key, string value)
         {
-            Name = name;
+            Name = key.AsString();
             Value = value;
         }
 
