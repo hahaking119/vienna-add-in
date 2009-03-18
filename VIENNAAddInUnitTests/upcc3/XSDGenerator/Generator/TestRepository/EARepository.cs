@@ -16,15 +16,31 @@ using Attribute=EA.Attribute;
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     /// <summary>
-    /// An implementation of the EA.Repository API for unit testing.
+    /// An implementation of the <c>EA.Repository</c> API for unit testing.
     /// 
-    /// Even though it is possible to implement unit tests by loading an EA.Repository from a file, this process is too slow for efficient unit testing. Therefore, this class offers an efficient alternative for testing algorithms operating an an EA.Repository.
+    /// <para>Even though it is possible to implement unit tests by loading an <c>EA.Repository</c> from a file, 
+    /// this process is to slow for efficient unit testing. Therefore, this class offers an efficient 
+    /// alternative for testing algorithms operating an <c>EA.Repository</c>.</para>
+    /// 
+    /// <para>In order to create your own test repository, implement a subclass of <c>EARepository</c> 
+    /// and call <see cref="SetContent"/> in the constructor. The content is created using the factory methods defined 
+    /// in this class (<see cref="Package"/>, <see cref="Element"/>, <see cref="Attribute"/>, <see cref="Connector"/>, 
+    /// <see cref="TaggedValue"/>). See <see cref="EARepository1"/> for an example test repository.</para>
+    /// 
+    /// <remarks>
+    /// Note that this implementation is by no means complete. Instead, it reflects the demands of our unit tests 
+    /// up to date and should be extended as required by future tests and in compliance with the <c>EA.Repository</c> API.
+    /// </remarks>
     /// </summary>
     public abstract class EARepository : Repository
     {
         private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
         private readonly EACollection<EAPackage> models = new EACollection<EAPackage>();
         private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
+
+        /// <summary>
+        /// Counter for unique repository element IDs.
+        /// </summary>
         private int nextId = 1;
 
         #region Repository Members
@@ -603,70 +619,75 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
+        /// <summary>
+        /// Set the content of this repository.
+        /// </summary>
+        /// <param name="models">The models contained in the repository.</param>
         protected void SetContent(params PackageBuilder[] models)
         {
             foreach (PackageBuilder model in models)
             {
-                var modelPackage = (EAPackage) this.models.AddNew(model.GetName(), "Package");
-                modelPackage.PackageID = nextId++;
-                IndexPackage(modelPackage);
+                var eaPackage = (EAPackage) this.models.AddNew(model.GetName(), "Package");
+                eaPackage.PackageID = nextId++;
+                IndexPackage(eaPackage);
                 foreach (TaggedValueBuilder tv in model.GetTaggedValues())
                 {
-                    modelPackage.Element.AddTaggedValue(tv.Name, tv.Value);
+                    eaPackage.Element.AddTaggedValue(tv.Name, tv.Value);
                 }
-                AddPackages(model, modelPackage.Packages, modelPackage.PackageID);
+                AddPackages(eaPackage.Packages, eaPackage.PackageID, model.GetPackages());
             }
         }
 
-        private void AddPackages(PackageBuilder parentPackage, Collection packages, int parentId)
+        /// <summary>
+        /// Recursively adds the given <paramref name="packages"/> and all their elements to the repository's contents.
+        /// </summary>
+        /// <param name="packageCollection">An EA.Collection of EA.Package.</param>
+        /// <param name="parentId">The ID of the parent package.</param>
+        /// <param name="packages">The packages to be added to the collection.</param>
+        private void AddPackages(Collection packageCollection, int parentId, IEnumerable<PackageBuilder> packages)
         {
-            foreach (PackageBuilder child in parentPackage.GetPackages())
+            foreach (PackageBuilder package in packages)
             {
-                var childPackage = (EAPackage) packages.AddNew(child.GetName(), "Package");
-                childPackage.PackageID = nextId++;
-                childPackage.ParentID = parentId;
-                IndexPackage(childPackage);
-                childPackage.Element.Stereotype = child.GetStereotype();
-                foreach (TaggedValueBuilder tv in child.GetTaggedValues())
+                var eaPackage = (EAPackage) packageCollection.AddNew(package.GetName(), "Package");
+                eaPackage.PackageID = nextId++;
+                IndexPackage(eaPackage);
+                eaPackage.ParentID = parentId;
+                eaPackage.Element.Stereotype = package.GetStereotype();
+                foreach (TaggedValueBuilder tv in package.GetTaggedValues())
                 {
-                    childPackage.Element.AddTaggedValue(tv.Name, tv.Value);
+                    eaPackage.Element.AddTaggedValue(tv.Name, tv.Value);
                 }
-                AddPackages(child, childPackage.Packages, childPackage.PackageID);
-                AddElements(child, childPackage.PackageID, childPackage.Elements);
-            }
-        }
-
-        private void AddElements(PackageBuilder package, int packageId, Collection elements)
-        {
-            foreach (ElementBuilder element in package.GetElements())
-            {
-                var eaElement = (EAElement) elements.AddNew(element.GetName(), "Class");
-                eaElement.ElementID = nextId++;
-                eaElement.PackageID = packageId;
-                IndexElement(eaElement);
-                eaElement.Stereotype = element.GetStereotype();
-                foreach (TaggedValueBuilder tv in element.GetTaggedValues())
+                foreach (ElementBuilder element in package.GetElements())
                 {
-                    eaElement.AddTaggedValue(tv.Name, tv.Value);
+                    var eaElement = (EAElement) eaPackage.Elements.AddNew(element.GetName(), "Class");
+                    eaElement.ElementID = nextId++;
+                    eaElement.PackageID = eaPackage.PackageID;
+                    IndexElement(eaElement);
+                    eaElement.Stereotype = element.GetStereotype();
+                    foreach (TaggedValueBuilder tv in element.GetTaggedValues())
+                    {
+                        eaElement.AddTaggedValue(tv.Name, tv.Value);
+                    }
+                    Collection attributes = eaElement.Attributes;
+                    foreach (AttributeBuilder attribute in element.GetAttributes())
+                    {
+                        var eaAttribute = (EAAttribute) attributes.AddNew(attribute.GetName(), null);
+                        eaAttribute.Repository = this;
+                        eaAttribute.ClassifierPath = attribute.GetPathToType();
+                        eaAttribute.Stereotype = attribute.GetStereotype();
+                        eaAttribute.LowerBound = attribute.GetLowerBound();
+                        eaAttribute.UpperBound = attribute.GetUpperBound();
+                    }
+                    Collection connectors = eaElement.Connectors;
+                    foreach (ConnectorBuilder connector in element.GetConnectors())
+                    {
+                        var eaConnector = (EAConnector) connectors.AddNew(connector.GetName(), "Association");
+                        eaConnector.Repository = this;
+                        eaConnector.SupplierPath = connector.GetPathToSupplier();
+                        eaConnector.Stereotype = connector.GetStereotype();
+                    }
                 }
-                Collection attributes = eaElement.Attributes;
-                foreach (AttributeBuilder attribute in element.GetAttributes())
-                {
-                    var eaAttribute = (EAAttribute) attributes.AddNew(attribute.GetName(), null);
-                    eaAttribute.Repository = this;
-                    eaAttribute.ClassifierPath = attribute.GetPathToType();
-                    eaAttribute.Stereotype = attribute.GetStereotype();
-                    eaAttribute.LowerBound = attribute.GetLowerBound();
-                    eaAttribute.UpperBound = attribute.GetUpperBound();
-                }
-                Collection connectors = eaElement.Connectors;
-                foreach (ConnectorBuilder connector in element.GetConnectors())
-                {
-                    var eaConnector = (EAConnector) connectors.AddNew(connector.GetName(), "Association");
-                    eaConnector.Repository = this;
-                    eaConnector.SupplierPath = connector.GetPathToSupplier();
-                    eaConnector.Stereotype = connector.GetStereotype();
-                }
+                AddPackages(eaPackage.Packages, eaPackage.PackageID, package.GetPackages());
             }
         }
 
@@ -680,26 +701,58 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             elementsById[element.ElementID] = element;
         }
 
+        /// <summary>
+        /// Creates a new <see cref="ConnectorBuilder"/>.
+        /// </summary>
+        /// <param name="name"><see cref="ConnectorBuilder(string, string, Path)"/></param>
+        /// <param name="stereotype"><see cref="ConnectorBuilder(string, string, Path)"/></param>
+        /// <param name="pathToSupplier"><see cref="ConnectorBuilder(string, string, Path)"/></param>
+        /// <returns>A new <see cref="ConnectorBuilder"/>.</returns>
         protected static ConnectorBuilder Connector(string name, string stereotype, Path pathToSupplier)
         {
             return new ConnectorBuilder(name, stereotype, pathToSupplier);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="AttributeBuilder"/>.
+        /// </summary>
+        /// <param name="name"><see cref="AttributeBuilder(string, string, Path)"/></param>
+        /// <param name="stereotype"><see cref="AttributeBuilder(string, string, Path)"/></param>
+        /// <param name="pathToType"><see cref="AttributeBuilder(string, string, Path)"/></param>
+        /// <returns>A new <see cref="AttributeBuilder"/>.</returns>
         protected static AttributeBuilder Attribute(string name, string stereotype, Path pathToType)
         {
             return new AttributeBuilder(name, stereotype, pathToType);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="TaggedValueBuilder"/>.
+        /// </summary>
+        /// <param name="key"><see cref="TaggedValueBuilder(TaggedValues, string)"/></param>
+        /// <param name="value"><see cref="TaggedValueBuilder(TaggedValues, string)"/></param>
+        /// <returns>A new <see cref="TaggedValueBuilder"/>.</returns>
         protected static TaggedValueBuilder TaggedValue(TaggedValues key, string value)
         {
-            return new TaggedValueBuilder(key.AsString(), value);
+            return new TaggedValueBuilder(key, value);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="ElementBuilder"/>.
+        /// </summary>
+        /// <param name="name"><see cref="ElementBuilder(string, string)"/></param>
+        /// <param name="stereotype"><see cref="PackageBuilder(string, string)"/></param>
+        /// <returns>A new <see cref="ElementBuilder"/>.</returns>
         protected static ElementBuilder Element(string name, string stereotype)
         {
             return new ElementBuilder(name, stereotype);
         }
 
+        /// <summary>
+        /// Creates a new <see cref="PackageBuilder"/>.
+        /// </summary>
+        /// <param name="name"><see cref="PackageBuilder(string, string)"/></param>
+        /// <param name="stereotype"><see cref="PackageBuilder(string, string)"/></param>
+        /// <returns>A new <see cref="PackageBuilder"/>.</returns>
         protected static PackageBuilder Package(string name, string stereotype)
         {
             return new PackageBuilder(name, stereotype);
@@ -713,8 +766,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             Collection taggedValues = element.TaggedValues;
             var tv = (TaggedValue) taggedValues.AddNew(name, "");
             tv.Value = value;
-            tv.Update();
-            taggedValues.Refresh();
         }
     }
 }

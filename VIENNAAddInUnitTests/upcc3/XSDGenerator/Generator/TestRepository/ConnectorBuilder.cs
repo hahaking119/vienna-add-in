@@ -10,7 +10,7 @@ using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
-    public class ConnectorBuilder:EAObjectBuilder<ConnectorBuilder>
+    public class ConnectorBuilder:RepositoryItemBuilder<ConnectorBuilder>
     {
         private readonly Path pathToSupplier;
 
