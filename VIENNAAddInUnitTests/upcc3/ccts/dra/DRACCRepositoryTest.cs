@@ -7,8 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
-using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -133,9 +131,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                                            VersionIdentifier = "a specific version",
                                                        });
 
-
             IBDT bdtText = bdtLib.CreateBDT(
-                BDTSpec.CloneCDT((ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"), "My"));
+                BDTSpec.CloneCDT((ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"),
+                                 "My_Text"));
 
             var accAddress = (IACC) repository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
             Assert.IsNotNull(accAddress, "ACC Address not found");
@@ -226,7 +224,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
 
-            BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My");
+            BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My_" + cdtDate.Name);
             IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
 
             Assert.IsNotNull(bdtDate, "BDT is null");
@@ -333,7 +331,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Format", dateFormat.Name);
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
-            IBDTLibrary bdtLib1 = repository.Libraries<IBDTLibrary>().First();
+            repository.Libraries<IBDTLibrary>().First();
 
             ICCLibrary ccLib1 = repository.Libraries<ICCLibrary>().First();
             IACC cdtAddress = ccLib1.ACCs.First();
