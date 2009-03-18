@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using NUnit.Framework;
 using VIENNAAddIn.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -80,13 +81,14 @@ namespace VIENNAAddInUnitTests
         public void FixRepositoryTest()
         {
 //            Repository repo = new EARepository1();
-            Repository repo = new Repository();
-            //to test with hand drawn model use this code:
-            var path = @"C:\DATA\work\cc-for-ebInterface-0.2.eap";
-            Debug.WriteLine(path);
-            var success = repo.OpenFile(path);
+            // to test with hand drawn model use this code:
+            var repo = new Repository();
+            var pathold = Directory.GetCurrentDirectory() + "test.eap";
+            var pathnew = Directory.GetCurrentDirectory() + "test_temp.eap";
+            var success = repo.OpenFile(pathold);
             Assert.AreEqual(success,true);
-            //initialise test model which should only have one taggedvalue set
+
+/*            //initialise test model which should only have one taggedvalue set
             var count = 0;
             var countnew = 0;
             Package temp = (Package) repo.Models.GetAt(0);
@@ -100,7 +102,7 @@ namespace VIENNAAddInUnitTests
             Package tempnew2 = (Package)temp.Packages.GetAt(0);
             countnew = tempnew2.Element.TaggedValues.Count; //now count should be 10 (every package must have 9 taggedvalues, and it has Name already set)
             
-            Assert.AreEqual(countnew, 10);
+            Assert.AreEqual(countnew, 10);*/
         }
     }
 }
