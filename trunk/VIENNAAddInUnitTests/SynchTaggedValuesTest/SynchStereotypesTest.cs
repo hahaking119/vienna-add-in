@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
-using VIENNAAddIn.Settings;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using VIENNAAddIn.Settings;
 using Assert=Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using TestContext=Microsoft.VisualStudio.TestTools.UnitTesting.TestContext;
 
-namespace VIENNAAddInUnitTests
+namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 {
-    
-    
     /// <summary>
     ///This is a test class for SynchStereotypesTest and is intended
     ///to contain all SynchStereotypesTest Unit Tests
@@ -23,86 +15,112 @@ namespace VIENNAAddInUnitTests
     [TestFixture]
     public class SynchStereotypesTest
     {
+        public Repository repo;
+        #region Setup/Teardown
 
-
-        private TestContext testContextInstance;
-
+        [SetUp]
+        public void Init()
+        {
+            repo = new Repository();
+            System.IO.File.Copy(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) + "\\SynchTaggedValuesTest\\test.eap"
+            , Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) + "\\SynchTaggedValuesTest\\test_temp.eap", true);
+            repo.OpenFile("C:\\VIENNAAddIn\\VIENNAAddInUnitTests\\SynchTaggedValuesTest\\test_temp.eap");
+        }
+        [TearDown]
+        public void Clean()
+        {
+            repo.CloseFile();
+            System.IO.File.Delete(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) + "\\SynchTaggedValuesTest\\test_temp.eap");
+        }
+        #endregion
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
+        /// <summary>
+        /// A test for the CheckPackage Method
+        /// test.eap contains a Package bLibrary missing 9 TaggedValues. Check should detect this correctly.
+        ///</summary>
+        [Test]
+        public void CheckPackageTest()
+        {         
+            var testpackage = (Package) repo.Models.GetAt(0);
+            testpackage = (Package) testpackage.Packages.GetAt(0);
+            var count1 = new SynchStereotypes().Check(testpackage).Count;
+            Debug.WriteLine("Checking package '" +testpackage.Element.Name+ "': it is missing " + count1+" TaggedValues.");
+            Assert.AreEqual(9,count1);
+        }
+        /// <summary>
+        /// A test for the CheckElement Method
+        /// test.eap contains a Element element1a missing 7 TaggedValues. Check should detect this correctly.
+        ///</summary>
+        [Test]
+        public void CheckElementTest()
+        {
+            var testpackage = (Package)repo.Models.GetAt(0);
+            testpackage = (Package)testpackage.Packages.GetAt(0);
+            testpackage = (Package) testpackage.Packages.GetAt(0);
+            var element = (Element) testpackage.Elements.GetAt(0);
+            var count1 = new SynchStereotypes().Check(element).Count;
+            Debug.WriteLine("Checking element '" + element.Name + "': it is missing " + count1 + " TaggedValues.");
+            Assert.AreEqual(7, count1);
+        }
+        /// <summary>
+        /// A test for the CheckConnector Method
+        /// test.eap contains a Connector connector1 missing 8 TaggedValues. Check should detect this correctly.
+        ///</summary>
+        [Test]
+        public void CheckConnectorTest()
+        {
+            var testpackage = (Package)repo.Models.GetAt(0);
+            testpackage = (Package)testpackage.Packages.GetAt(0);
+            testpackage = (Package)testpackage.Packages.GetAt(0);
+            var element = (Element)testpackage.Elements.GetAt(0);
+            var connector = (Connector) element.Connectors.GetAt(0);
+            var count1 = new SynchStereotypes().Check(connector).Count;
+            Debug.WriteLine("Checking connector '" + connector.Name + "': it is missing " + count1 + " TaggedValues.");
+            Assert.AreEqual(8, count1);
+        }
 
 
         /// <summary>
-        ///A test for FixRepository
+        /// A test for the FixConnector Method
+        /// test.eap contains a Connector connector1 missing 8 TaggedValues. Fix should detect this correctly and fix it.
         ///</summary>
         [Test]
-        public void FixRepositoryTest()
+        public void FixConnectorTest()
         {
-//            Repository repo = new EARepository1();
-            // to test with hand drawn model use this code:
-            var repo = new Repository();
-            var pathold = Directory.GetCurrentDirectory() + "test.eap";
-            var pathnew = Directory.GetCurrentDirectory() + "test_temp.eap";
-            var success = repo.OpenFile(pathold);
-            Assert.AreEqual(success,true);
-
-/*            //initialise test model which should only have one taggedvalue set
-            var count = 0;
-            var countnew = 0;
-            Package temp = (Package) repo.Models.GetAt(0);
-            Package temp2 = (Package) temp.Packages.GetAt(0);
-            Debug.WriteLine("Testing package: "+temp2.Element.TaggedValues.GetTaggedValue(TaggedValues.BaseURN));
-            count = temp2.Element.TaggedValues.Count;   //count taggedvalues
-            
-            new SynchStereotypes().FixRepository(repo); //call fix function
-            Debug.WriteLine("TaggedValue altered? " + temp2.Element.TaggedValues.GetTaggedValue(TaggedValues.BaseURN));
-            Package tempnew = (Package)repo.Models.GetAt(0);
-            Package tempnew2 = (Package)temp.Packages.GetAt(0);
-            countnew = tempnew2.Element.TaggedValues.Count; //now count should be 10 (every package must have 9 taggedvalues, and it has Name already set)
-            
-            Assert.AreEqual(countnew, 10);*/
+            var testpackage = (Package)repo.Models.GetAt(0);
+            testpackage = (Package)testpackage.Packages.GetAt(0);
+            testpackage = (Package)testpackage.Packages.GetAt(0);
+            var element = (Element)testpackage.Elements.GetAt(0);
+            var connector = (Connector)element.Connectors.GetAt(0);
+            var count1 = new SynchStereotypes().Check(connector).Count;
+            Debug.WriteLine("Checking connector '" + connector.Name + "': it is missing " + count1 + " TaggedValues.");
+            new SynchStereotypes().Fix(connector);
+            repo.RefreshOpenDiagrams(true);
+            var count2 = new SynchStereotypes().Check(connector).Count;
+            Debug.WriteLine("After the fix connector '" + connector.Name + "' is missing " + count2 + " TaggedValues.");
+            Assert.AreNotEqual(count1,count2);
+        }
+        /// <summary>
+        /// A test for FixPackage
+        /// test.eap contains a Package bLibrary missing 9 TaggedValues. Fix should detect this correctly and add the missing TaggedValues.
+        ///</summary>
+        [Test]
+        public void FixPackageTest()
+        {
+            var testpackage = (Package)repo.Models.GetAt(0);
+            testpackage = (Package)testpackage.Packages.GetAt(0);
+            var count1 = new SynchStereotypes().Check(testpackage).Count;
+            Debug.WriteLine("Checking package '" + testpackage.Element.Name + "': it is missing " + count1 + " TaggedValues.");
+            new SynchStereotypes().Fix(testpackage);
+            repo.RefreshOpenDiagrams(true);
+            var count2 = new SynchStereotypes().Check(testpackage).Count;
+            Debug.WriteLine("After the fix package '" + testpackage.Element.Name + "' is missing " + count2 + " TaggedValues.");
+            Assert.AreNotEqual(count2, count1);
         }
     }
 }
