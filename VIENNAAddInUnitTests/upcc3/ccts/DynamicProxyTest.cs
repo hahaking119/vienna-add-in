@@ -7,8 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
@@ -17,8 +15,6 @@ using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
-using Attribute=System.Attribute;
-using System.Linq;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts
 {
@@ -85,11 +81,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts
                     return new IInterceptor[] {new ElementPropertyInterceptor(element, propertyName)};
                 }
                 bool multiValued = true;
-                if (typeof(string) == propertyInfo.PropertyType)
+                if (typeof (string) == propertyInfo.PropertyType)
                 {
                     multiValued = false;
                 }
-                var taggedValueAttribute = ((TaggedValueAttribute)attributes[0]);
+                var taggedValueAttribute = ((TaggedValueAttribute) attributes[0]);
                 TaggedValues key = taggedValueAttribute.Key;
                 if (key == TaggedValues.Undefined)
                 {
@@ -108,7 +104,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts
         }
 
         #endregion
-
     }
 
     internal class DefaultInterceptor : IInterceptor
@@ -172,7 +167,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts
             }
             else
             {
-                invocation.ReturnValue = element.GetTaggedValue(key);
+                invocation.ReturnValue = element.GetTaggedValue(key) ?? string.Empty;
             }
         }
 

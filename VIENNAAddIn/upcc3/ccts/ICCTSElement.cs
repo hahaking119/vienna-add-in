@@ -10,16 +10,44 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
+    ///<summary>
+    ///</summary>
     public interface ICCTSElement
     {
+        ///<summary>
+        ///</summary>
         int Id { get; }
+
+        ///<summary>
+        ///</summary>
         string Name { get; }
+
+        ///<summary>
+        ///</summary>
         string DictionaryEntryName { get; }
+
+        ///<summary>
+        ///</summary>
         string Definition { get; }
+
+        ///<summary>
+        ///</summary>
         string UniqueIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
         string VersionIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
         string LanguageCode { get; }
+
+        ///<summary>
+        ///</summary>
         IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        ///</summary>
         IBusinessLibrary Library { get; }
     }
 }

@@ -12,16 +12,16 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class UpccAttribute<TContainer> where TContainer : ICCTSElement
+    internal abstract class UpccAttribute<TContainer> where TContainer : ICCTSElement
     {
-        protected Attribute attribute;
-        protected CCRepository repository;
+        protected readonly Attribute attribute;
+        protected readonly CCRepository repository;
 
-        public UpccAttribute(CCRepository repository, Attribute attribute, TContainer container)
+        protected UpccAttribute(CCRepository repository, Attribute attribute, TContainer container)
         {
             this.repository = repository;
             this.attribute = attribute;
-            this.Container = container;
+            Container = container;
         }
 
         public int Id
@@ -36,42 +36,27 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Definition
         {
-            get {
-                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.Definition);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.Definition); }
         }
 
         public string DictionaryEntryName
         {
-            get {
-                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.DictionaryEntryName);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.DictionaryEntryName); }
         }
 
         public string LanguageCode
         {
-            get {
-                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.LanguageCode);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.LanguageCode); }
         }
 
         public string UniqueIdentifier
         {
-            get {
-                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.UniqueIdentifier);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.UniqueIdentifier); }
         }
 
         public string VersionIdentifier
         {
-            get {
-                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.VersionIdentifier);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.VersionIdentifier); }
         }
 
         public IEnumerable<string> BusinessTerms
@@ -91,12 +76,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string SequencingKey
         {
-            get {
-                var tv = AttributeExtensions.GetTaggedValue(attribute, (TaggedValues) TaggedValues.SequencingKey);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.SequencingKey); }
         }
 
         public TContainer Container { get; private set; }
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return attribute.GetTaggedValue(key) ?? string.Empty;
+        }
     }
 }

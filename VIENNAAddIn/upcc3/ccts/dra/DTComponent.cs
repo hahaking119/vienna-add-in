@@ -46,57 +46,32 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Definition
         {
-            get
-            {
-                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.Definition);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.Definition); }
         }
 
         public string DictionaryEntryName
         {
-            get
-            {
-                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.DictionaryEntryName);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.DictionaryEntryName); }
         }
 
         public string LanguageCode
         {
-            get
-            {
-                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.LanguageCode);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.LanguageCode); }
         }
 
         public string UniqueIdentifier
         {
-            get
-            {
-                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.UniqueIdentifier);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.UniqueIdentifier); }
         }
 
         public string VersionIdentifier
         {
-            get
-            {
-                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.VersionIdentifier);
-                return tv ?? string.Empty;
-            }
+            get { return GetTaggedValue(TaggedValues.VersionIdentifier); }
         }
 
         public bool ModificationAllowedIndicator
         {
-            get
-            {
-                string tv = AttributeExtensions.GetTaggedValue(attribute, TaggedValues.ModificationAllowedIndicator);
-                string value = (tv ?? string.Empty).DefaultTo("true");
-                return "true" == value.ToLower();
-            }
+            get { return "true" == GetTaggedValue(TaggedValues.ModificationAllowedIndicator).DefaultTo("true").ToLower(); }
         }
 
         public IEnumerable<string> BusinessTerms
@@ -136,5 +111,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return attribute.GetTaggedValue(key) ?? string.Empty;
+        }
     }
 }
