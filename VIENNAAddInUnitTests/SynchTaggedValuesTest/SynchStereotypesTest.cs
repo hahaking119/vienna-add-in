@@ -81,7 +81,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
             var connector = (Connector) element.Connectors.GetAt(0);
             var count1 = new SynchStereotypes().Check(connector).Count;
             Debug.WriteLine("Checking connector '" + connector.Name + "': it is missing " + count1 + " TaggedValues.");
-            Assert.AreEqual(8, count1);
+            Assert.AreEqual(7, count1);
         }
 
 
