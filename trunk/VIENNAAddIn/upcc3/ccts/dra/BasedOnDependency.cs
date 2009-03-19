@@ -26,62 +26,62 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Pattern
         {
-            get { return connector.GetTaggedValue(TaggedValues.Pattern); }
+            get { return GetTaggedValue(TaggedValues.Pattern); }
         }
 
         public string FractionDigits
         {
-            get { return connector.GetTaggedValue(TaggedValues.FractionDigits); }
+            get { return GetTaggedValue(TaggedValues.FractionDigits); }
         }
 
         public string Length
         {
-            get { return connector.GetTaggedValue(TaggedValues.Length); }
+            get { return GetTaggedValue(TaggedValues.Length); }
         }
 
         public string MaxExclusive
         {
-            get { return connector.GetTaggedValue(TaggedValues.MaxExclusive); }
+            get { return GetTaggedValue(TaggedValues.MaxExclusive); }
         }
 
         public string MaxInclusive
         {
-            get { return connector.GetTaggedValue(TaggedValues.MaxInclusive); }
+            get { return GetTaggedValue(TaggedValues.MaxInclusive); }
         }
 
         public string MaxLength
         {
-            get { return connector.GetTaggedValue(TaggedValues.MaxLength); }
+            get { return GetTaggedValue(TaggedValues.MaxLength); }
         }
 
         public string MinExclusive
         {
-            get { return connector.GetTaggedValue(TaggedValues.MinExclusive); }
+            get { return GetTaggedValue(TaggedValues.MinExclusive); }
         }
 
         public string MinInclusive
         {
-            get { return connector.GetTaggedValue(TaggedValues.MinInclusive); }
+            get { return GetTaggedValue(TaggedValues.MinInclusive); }
         }
 
         public string MinLength
         {
-            get { return connector.GetTaggedValue(TaggedValues.MinLength); }
+            get { return GetTaggedValue(TaggedValues.MinLength); }
         }
 
         public string TotalDigits
         {
-            get { return connector.GetTaggedValue(TaggedValues.TotalDigits); }
+            get { return GetTaggedValue(TaggedValues.TotalDigits); }
         }
 
         public string WhiteSpace
         {
-            get { return connector.GetTaggedValue(TaggedValues.WhiteSpace); }
+            get { return GetTaggedValue(TaggedValues.WhiteSpace); }
         }
 
         public string ApplyTo
         {
-            get { return connector.GetTaggedValue(TaggedValues.ApplyTo); }
+            get { return GetTaggedValue(TaggedValues.ApplyTo); }
         }
 
         public ICDT CDT
@@ -90,5 +90,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return connector.GetTaggedValue(key) ?? string.Empty;
+        }
     }
 }
