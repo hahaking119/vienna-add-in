@@ -13,8 +13,15 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
+    ///<summary>
+    ///</summary>
     public static class CollectionExtensions
     {
+        ///<summary>
+        ///</summary>
+        ///<param name="collection"></param>
+        ///<typeparam name="T"></typeparam>
+        ///<returns></returns>
         public static IEnumerable<T> AsEnumerable<T>(this Collection collection)
         {
             foreach (T item in collection)
@@ -36,19 +43,29 @@ namespace VIENNAAddIn.upcc3.ccts.util
             taggedValue.Update();
         }
 
-        public static void AddAttributeTag(this Collection collection, TaggedValues key, string value)
+        private static void AddAttributeTag(this Collection collection, TaggedValues key, string value)
         {
             var taggedValue = (AttributeTag) collection.AddNew(key.AsString(), "");
             taggedValue.Value = value;
             taggedValue.Update();
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="collection"></param>
+        ///<param name="key"></param>
+        ///<param name="values"></param>
         public static void AddTaggedValues(this Collection collection, TaggedValues key, IEnumerable<string> values)
         {
             // TODO provide some means to actually manage multiple values (e.g. using a standard separator character) currently, the values are simply concatenated
             collection.AddTaggedValue(key, values.JoinToString("|"));
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="collection"></param>
+        ///<param name="key"></param>
+        ///<returns></returns>
         public static string GetTaggedValue(this Collection collection, TaggedValues key)
         {
             try
@@ -61,12 +78,22 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="collection"></param>
+        ///<param name="key"></param>
+        ///<returns></returns>
         public static IEnumerable<string> GetTaggedValues(this Collection collection, TaggedValues key)
         {
             string value = collection.GetTaggedValue(key);
             return string.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="collection"></param>
+        ///<param name="stereotype"></param>
+        ///<param name="supplierId"></param>
         public static void AddConnector(this Collection collection, string stereotype, int supplierId)
         {
             var connector = (Connector) collection.AddNew(stereotype, "Association");
@@ -75,6 +102,16 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.Update();
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="collection"></param>
+        ///<param name="stereotype"></param>
+        ///<param name="name"></param>
+        ///<param name="typeName"></param>
+        ///<param name="classifierId"></param>
+        ///<param name="lowerBound"></param>
+        ///<param name="upperBound"></param>
+        ///<param name="taggedValueSpecs"></param>
         public static void AddAttribute(this Collection collection, string stereotype, string name, string typeName, int classifierId, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValueSpecs)
         {
             var attribute = (Attribute) collection.AddNew(name, typeName);
