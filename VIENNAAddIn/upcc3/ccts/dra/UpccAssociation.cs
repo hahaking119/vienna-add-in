@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     internal abstract class UpccAssociation<TAssociatingClass> : ICCTSElement, IHasUsageRules, ISequenced
         where TAssociatingClass : ICCTSElement
     {
-        protected readonly TAssociatingClass associatingClass;
+        private readonly TAssociatingClass associatingClass;
         protected readonly Connector connector;
         protected readonly CCRepository repository;
 
@@ -45,27 +45,27 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Definition
         {
-            get { return connector.GetTaggedValue(TaggedValues.Definition); }
+            get { return GetTaggedValue(TaggedValues.Definition); }
         }
 
         public string DictionaryEntryName
         {
-            get { return connector.GetTaggedValue(TaggedValues.DictionaryEntryName); }
+            get { return GetTaggedValue(TaggedValues.DictionaryEntryName); }
         }
 
         public string LanguageCode
         {
-            get { return connector.GetTaggedValue(TaggedValues.LanguageCode); }
+            get { return GetTaggedValue(TaggedValues.LanguageCode); }
         }
 
         public string UniqueIdentifier
         {
-            get { return connector.GetTaggedValue(TaggedValues.UniqueIdentifier); }
+            get { return GetTaggedValue(TaggedValues.UniqueIdentifier); }
         }
 
         public string VersionIdentifier
         {
-            get { return connector.GetTaggedValue(TaggedValues.VersionIdentifier); }
+            get { return GetTaggedValue(TaggedValues.VersionIdentifier); }
         }
 
         public IEnumerable<string> BusinessTerms
@@ -93,9 +93,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string SequencingKey
         {
-            get { return connector.GetTaggedValue(TaggedValues.SequencingKey); }
+            get { return GetTaggedValue(TaggedValues.SequencingKey); }
         }
 
         #endregion
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return connector.GetTaggedValue(key);
+        }
     }
 }

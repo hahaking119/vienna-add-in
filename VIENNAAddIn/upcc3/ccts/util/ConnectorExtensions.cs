@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 using EA;
 
@@ -14,27 +13,14 @@ namespace VIENNAAddIn.upcc3.ccts.util
 {
     internal static class ConnectorExtensions
     {
-        internal static IEnumerable<string> GetTaggedValues(this Connector con, TaggedValues taggedValue)
+        internal static IEnumerable<string> GetTaggedValues(this Connector connector, TaggedValues key)
         {
-            foreach (TaggedValue tv in con.TaggedValues)
-            {
-                if (tv.Name.Equals(taggedValue.AsString()))
-                {
-                    yield return tv.Value;
-                }
-            }
+            return connector.TaggedValues.GetTaggedValues(key);
         }
 
-        internal static string GetTaggedValue(this Connector con, TaggedValues taggedValue)
+        internal static string GetTaggedValue(this Connector connector, TaggedValues key)
         {
-            foreach (TaggedValue tv in con.TaggedValues)
-            {
-                if (tv.Name.Equals(taggedValue.AsString()))
-                {
-                    return tv.Value;
-                }
-            }
-            return String.Empty;
+            return connector.TaggedValues.GetTaggedValue(key);
         }
     }
 }
