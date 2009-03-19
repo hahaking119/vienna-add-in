@@ -8,8 +8,9 @@
 // *******************************************************************************
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using EA;
-using Attribute=EA.Attribute;
+using Attribute = EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -38,14 +39,14 @@ namespace VIENNAAddIn.upcc3.ccts.util
         /// <param name="value"></param>
         public static void AddTaggedValue(this Collection collection, TaggedValues key, string value)
         {
-            var taggedValue = (TaggedValue) collection.AddNew(key.AsString(), "");
+            var taggedValue = (TaggedValue)collection.AddNew(key.AsString(), "");
             taggedValue.Value = value;
             taggedValue.Update();
         }
 
         private static void AddAttributeTag(this Collection collection, TaggedValues key, string value)
         {
-            var taggedValue = (AttributeTag) collection.AddNew(key.AsString(), "");
+            var taggedValue = (AttributeTag)collection.AddNew(key.AsString(), "");
             taggedValue.Value = value;
             taggedValue.Update();
         }
@@ -71,31 +72,45 @@ namespace VIENNAAddIn.upcc3.ccts.util
             object tv;
             try
             {
-                tv = collection.GetByName(key.AsString());
+                tv = collection.GetAt(0);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
-            }
-            if (tv == null)
-            {
+                Debug.WriteLine("caught exception "+e.Message);
                 return null;
             }
             if (tv is TaggedValue)
             {
-                return ((TaggedValue) tv).Value;
+                    foreach (TaggedValue tvtemp in collection)
+                    {
+                        if(tvtemp.Name.Equals(key.AsString()))
+                            return tvtemp.Value;
+                    }
+                    return null;
             }
             if (tv is AttributeTag)
             {
-                return ((AttributeTag) tv).Value;
+                foreach (AttributeTag attag in collection)
+                {
+                    if (attag.Name.Equals(key.AsString()))
+                        return attag.Value;
+                }
+                return null;
             }
-            if (tv is ConnectorTag)
-            {
-                return ((ConnectorTag) tv).Value;
-            }
-            throw new ArgumentException("collection contains an unknown tagged value type: " + tv.GetType());
+            if (tv is ConnectorTag){
+                foreach (ConnectorTag contag in collection)
+                {
+                    if (contag.Name.Equals(key.AsString()))
+                    {
+                        Debug.WriteLine("returning connectortag");
+                        return contag.Value;
+                    }
+                }
+                return null;
+             }
+            throw new ArgumentException("collection contains an unknown tagged value type: " + collection.GetType());
         }
-
+        
         ///<summary>
         ///</summary>
         ///<param name="collection"></param>
@@ -114,7 +129,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="supplierId"></param>
         public static void AddConnector(this Collection collection, string stereotype, int supplierId)
         {
-            var connector = (Connector) collection.AddNew(stereotype, "Association");
+            var connector = (Connector)collection.AddNew(stereotype, "Association");
             connector.Stereotype = stereotype;
             connector.SupplierID = supplierId;
             connector.Update();
@@ -134,7 +149,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
                                         int classifierId, string lowerBound, string upperBound,
                                         IEnumerable<TaggedValueSpec> taggedValueSpecs)
         {
-            var attribute = (Attribute) collection.AddNew(name, typeName);
+            var attribute = (Attribute)collection.AddNew(name, typeName);
             attribute.Stereotype = stereotype;
             attribute.ClassifierID = classifierId;
             attribute.LowerBound = lowerBound;
