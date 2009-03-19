@@ -341,6 +341,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("CountryName", bccCountryName.Name);
             var cdtText = (ICDT) repository.FindByPath(EARepository1.PathToText());
             Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
+
+            var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
+            Assert.AreEqual("This is the definition of BDT Text.", bdtText.CON.Definition);
         }
 
         [Test]

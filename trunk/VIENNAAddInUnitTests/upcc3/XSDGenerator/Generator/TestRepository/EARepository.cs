@@ -677,6 +677,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         eaAttribute.Stereotype = attribute.GetStereotype();
                         eaAttribute.LowerBound = attribute.GetLowerBound();
                         eaAttribute.UpperBound = attribute.GetUpperBound();
+                        foreach (TaggedValueBuilder tv in attribute.GetTaggedValues())
+                        {
+                            eaAttribute.AddTaggedValue(tv.Name, tv.Value);
+                        }
                     }
                     Collection connectors = eaElement.Connectors;
                     foreach (ConnectorBuilder connector in element.GetConnectors())
@@ -685,6 +689,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         eaConnector.Repository = this;
                         eaConnector.SupplierPath = connector.GetPathToSupplier();
                         eaConnector.Stereotype = connector.GetStereotype();
+                        foreach (TaggedValueBuilder tv in connector.GetTaggedValues())
+                        {
+                            eaConnector.AddTaggedValue(tv.Name, tv.Value);
+                        }
                     }
                 }
                 AddPackages(eaPackage.Packages, eaPackage.PackageID, package.GetPackages());
@@ -765,6 +773,24 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             Collection taggedValues = element.TaggedValues;
             var tv = (TaggedValue) taggedValues.AddNew(name, "");
+            tv.Value = value;
+        }
+    }
+
+    public static class EaAttributeExtensions
+    {
+        public static void AddTaggedValue(this Attribute attribute, string name, string value)
+        {
+            var tv = (AttributeTag) attribute.TaggedValues.AddNew(name, "");
+            tv.Value = value;
+        }
+    }
+
+    public static class EaConnectorExtensions
+    {
+        public static void AddTaggedValue(this Connector connector, string name, string value)
+        {
+            var tv = (TaggedValue) connector.TaggedValues.AddNew(name, "");
             tv.Value = value;
         }
     }

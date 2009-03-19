@@ -14,6 +14,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EAConnector : IEACollectionElement, Connector
     {
+        private readonly Collection taggedValues = new EACollection<EAConnectorTag>();
         private int supplierID;
         public EARepository Repository { get; set; }
 
@@ -121,7 +122,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection TaggedValues
         {
-            get { throw new NotImplementedException(); }
+            get { return taggedValues; }
         }
 
         public ConnectorEnd ClientEnd

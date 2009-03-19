@@ -14,7 +14,7 @@ using EA;
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     public class EACollection<TCollectionElement> : Collection
-        where TCollectionElement : IEACollectionElement, new()
+        where TCollectionElement : class, IEACollectionElement, new()
     {
         private readonly List<TCollectionElement> elements = new List<TCollectionElement>();
 
@@ -42,7 +42,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public object GetByName(string name)
         {
-            return elements.Find(e => e.Name == name);
+            if (elements.Count == 0)
+            {
+                return null;
+            }
+            var element = elements.Find(e => e.Name == name);
+            if (element == null)
+            {
+               throw new IndexOutOfRangeException(name); 
+            }
+            return element;
         }
 
         public void Refresh()
@@ -95,6 +104,14 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 if (typeof (TCollectionElement) == typeof (EATaggedValue))
                 {
                     return ObjectType.otTaggedValue;
+                }
+                if (typeof (TCollectionElement) == typeof (EAAttributeTag))
+                {
+                    return ObjectType.otAttributeTag;
+                }
+                if (typeof (TCollectionElement) == typeof (EAConnectorTag))
+                {
+                    return ObjectType.otConnectorTag;
                 }
                 return ObjectType.otNone;
             }
