@@ -68,14 +68,32 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<returns></returns>
         public static string GetTaggedValue(this Collection collection, TaggedValues key)
         {
+            object tv;
             try
             {
-                return ((TaggedValue) collection.GetByName(key.AsString())).Value;
+                tv = collection.GetByName(key.AsString());
             }
             catch (Exception)
             {
                 return null;
             }
+            if (tv == null)
+            {
+                return null;
+            }
+            if (tv is TaggedValue)
+            {
+                return ((TaggedValue) tv).Value;
+            }
+            if (tv is AttributeTag)
+            {
+                return ((AttributeTag) tv).Value;
+            }
+            if (tv is ConnectorTag)
+            {
+                return ((ConnectorTag) tv).Value;
+            }
+            throw new ArgumentException("collection contains an unknown tagged value type: " + tv.GetType());
         }
 
         ///<summary>
@@ -112,15 +130,17 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="lowerBound"></param>
         ///<param name="upperBound"></param>
         ///<param name="taggedValueSpecs"></param>
-        public static void AddAttribute(this Collection collection, string stereotype, string name, string typeName, int classifierId, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValueSpecs)
+        public static void AddAttribute(this Collection collection, string stereotype, string name, string typeName,
+                                        int classifierId, string lowerBound, string upperBound,
+                                        IEnumerable<TaggedValueSpec> taggedValueSpecs)
         {
             var attribute = (Attribute) collection.AddNew(name, typeName);
             attribute.Stereotype = stereotype;
             attribute.ClassifierID = classifierId;
             attribute.LowerBound = lowerBound;
             attribute.UpperBound = upperBound;
-            var taggedValues = attribute.TaggedValues;
-            foreach (var taggedValueSpec in taggedValueSpecs)
+            Collection taggedValues = attribute.TaggedValues;
+            foreach (TaggedValueSpec taggedValueSpec in taggedValueSpecs)
             {
                 taggedValues.AddAttributeTag(taggedValueSpec.Key, taggedValueSpec.Value);
             }

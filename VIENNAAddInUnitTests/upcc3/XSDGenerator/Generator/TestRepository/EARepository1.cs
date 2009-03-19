@@ -179,7 +179,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             return Element("Text", Stereotype.BDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Content", Stereotype.CON, PathToString())
+                    .TaggedValues(TaggedValue(TaggedValues.Definition, "This is the definition of BDT Text.")),
                 Attribute("Language", Stereotype.SUP, PathToString()),
                 Attribute("Language.Locale", Stereotype.SUP, PathToString())
                 )
