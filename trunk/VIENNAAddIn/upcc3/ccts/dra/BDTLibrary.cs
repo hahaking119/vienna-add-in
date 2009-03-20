@@ -58,8 +58,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 attributes.AddAttribute(util.Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id,
                                         sup.LowerBound, sup.UpperBound, sup.GetTaggedValues());
             }
-            attributes.Refresh();
             bdt.Update();
+            bdt.Refresh();
             package.Elements.Refresh();
             return new BDT(repository, bdt);
         }

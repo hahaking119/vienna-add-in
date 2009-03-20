@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -30,6 +31,10 @@ namespace VIENNAAddIn.upcc3.ccts
         public Path(IEnumerable<string> parts) : this()
         {
             this.parts.AddRange(parts);
+        }
+
+        public Path(Path path): this(path.parts)
+        {
         }
 
         public string FirstPart
@@ -58,7 +63,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public static Path operator /(Path lhs, string rhs)
         {
-            return lhs.Append(rhs);
+            return new Path(lhs).Append(rhs);
         }
 
         public static explicit operator Path(string firstPart)
