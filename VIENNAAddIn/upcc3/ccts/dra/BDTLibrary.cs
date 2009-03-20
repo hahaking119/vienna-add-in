@@ -38,25 +38,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             var bdt = (Element) package.Elements.AddNew(spec.Name, "Class");
             bdt.Stereotype = util.Stereotype.BDT;
             bdt.PackageID = Id;
-            Collection taggedValues = bdt.TaggedValues;
-            taggedValues.AddTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
-            taggedValues.AddTaggedValues(TaggedValues.UsageRule, spec.UsageRules);
-            taggedValues.AddTaggedValue(TaggedValues.Definition, spec.Definition);
-            taggedValues.AddTaggedValue(TaggedValues.DictionaryEntryName, spec.DictionaryEntryName);
-            taggedValues.AddTaggedValue(TaggedValues.LanguageCode, spec.LanguageCode);
-            taggedValues.AddTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
-            taggedValues.AddTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
-            taggedValues.Refresh();
-            Collection connectors = bdt.Connectors;
-            connectors.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
-            connectors.Refresh();
-            Collection attributes = bdt.Attributes;
-            attributes.AddAttribute(util.Stereotype.CON, "Content", spec.CON.BasicType.Name, spec.CON.BasicType.Id,
-                                    spec.CON.LowerBound, spec.CON.UpperBound, spec.CON.GetTaggedValues());
+
+            bdt.SetTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
+            bdt.SetTaggedValues(TaggedValues.UsageRule, spec.UsageRules);
+            bdt.SetTaggedValue(TaggedValues.Definition, spec.Definition);
+            bdt.SetTaggedValue(TaggedValues.DictionaryEntryName, spec.DictionaryEntryName);
+            bdt.SetTaggedValue(TaggedValues.LanguageCode, spec.LanguageCode);
+            bdt.SetTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
+            bdt.SetTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
+
+            bdt.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
+
+            bdt.AddAttribute(util.Stereotype.CON, "Content", spec.CON.BasicType.Name, spec.CON.BasicType.Id,
+                             spec.CON.LowerBound, spec.CON.UpperBound, spec.CON.GetTaggedValues());
             foreach (SUPSpec sup in spec.SUPs)
             {
-                attributes.AddAttribute(util.Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id,
-                                        sup.LowerBound, sup.UpperBound, sup.GetTaggedValues());
+                bdt.AddAttribute(util.Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id,
+                                 sup.LowerBound, sup.UpperBound, sup.GetTaggedValues());
             }
             bdt.Update();
             bdt.Refresh();

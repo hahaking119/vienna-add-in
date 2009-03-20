@@ -31,7 +31,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public void Refresh()
         {
-            throw new NotImplementedException();
         }
 
         public void SetAppearance(int Scope, int Item, int Value)

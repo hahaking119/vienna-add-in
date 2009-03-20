@@ -104,18 +104,17 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Update();
             libraryPackage.ParentID = Id;
             libraryPackage.Element.Stereotype = stereotype;
-            Collection taggedValues = libraryPackage.Element.TaggedValues;
 
-            taggedValues.AddTaggedValue(TaggedValues.BaseURN, spec.BaseURN);
-            taggedValues.AddTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
-            taggedValues.AddTaggedValues(TaggedValues.Copyright, spec.Copyrights);
-            taggedValues.AddTaggedValue(TaggedValues.NamespacePrefix, spec.NamespacePrefix);
-            taggedValues.AddTaggedValues(TaggedValues.Owner, spec.Owners);
-            taggedValues.AddTaggedValues(TaggedValues.Reference, spec.References);
-            taggedValues.AddTaggedValue(TaggedValues.Status, spec.Status);
-            taggedValues.AddTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
-            taggedValues.AddTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
-            taggedValues.Refresh();
+            libraryPackage.Element.SetTaggedValue(TaggedValues.BaseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.Copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.NamespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.Owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.Reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.Status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
+
             libraryPackage.Update();
             package.Packages.Refresh();
 

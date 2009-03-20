@@ -8,6 +8,7 @@ http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -20,6 +21,9 @@ using VIENNAAddIn.ErrorReporter;
 using VIENNAAddIn.ExportImport;
 using VIENNAAddIn.Setting;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.workflow;
@@ -28,6 +32,7 @@ using VIENNAAddIn.WSDLGenerator.Setting;
 using VIENNAAddIn.XBRLGenerator;
 using VIENNAAddIn.upcc3.Wizards;
 using Attribute=EA.Attribute;
+using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddIn
 {
@@ -70,9 +75,7 @@ namespace VIENNAAddIn
         /// <returns></returns>
         string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname);
 
-
         object OnInitializeTechnologies(Repository repository);
-
 
         /// <summary>
         /// Menu Click
@@ -194,7 +197,6 @@ namespace VIENNAAddIn
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
-
 
         /// <summary>
         /// EA File Open
@@ -329,10 +331,9 @@ namespace VIENNAAddIn
                     }
                     else if (menuitem == "Synchronize Tagged Values Neu")
                     {
-                        repository.WriteOutput("System","system", 22);
+                        repository.WriteOutput("System", "system", 22);
                         var ss = new SynchStereotypes();
                         ss.FixRepository(repository);
-                       
                     }
                         //Synch tagged value, this function need EA version 7.0.818
                     else if (menuitem == "Synch tagged value")
@@ -534,7 +535,7 @@ namespace VIENNAAddIn
                         if (tmArtefact == null || tmArtefact.IsDisposed)
                         {
                             tmArtefact = new TransactionModuleArtefact(repository, scope, false);
-                                //CCTS.WSDLGenerator.TransactionModuleGen(repository, scope, false);
+                            //CCTS.WSDLGenerator.TransactionModuleGen(repository, scope, false);
                             tmArtefact.Show();
                         }
                             //We already have a running instance
@@ -1048,7 +1049,7 @@ namespace VIENNAAddIn
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine("Error while checking Package ("+e.Message+")");
+                    Debug.WriteLine("Error while checking Package (" + e.Message + ")");
                 }
 
                 /* if the package is a BusinessRequirementsView or BusinessTransactionView, than enable the menu
@@ -1121,7 +1122,6 @@ namespace VIENNAAddIn
                     VIENNAAddInTreeViewMenu.Add("&Generate XBRL");
                 }
 
-
                 VIENNAAddInTreeViewMenu.Add("&Export Package to CSV file");
                 VIENNAAddInTreeViewMenu.Add("&Import Package to CSV file");
 
@@ -1135,7 +1135,6 @@ namespace VIENNAAddIn
 
                 //Get the diagram id in order to get the package, in which the diagram is located			
                 Element parentPackage = repository.GetPackageByID(selectedDiagram.PackageID).Element;
-
 
                 //if the stereotype of the package is "DOCLibrary" add a link to generate xsd from
                 //CCTS definition
@@ -1218,7 +1217,6 @@ namespace VIENNAAddIn
                 #endregion
             }
 
-
             VIENNAAddInTreeViewMenu.Add("-");
             VIENNAAddInTreeViewMenu.Add("&Validate");
 
@@ -1243,7 +1241,6 @@ namespace VIENNAAddIn
         private String determineValidationScope(Repository repository, String menulocation)
         {
             String s = "";
-
 
             if (menulocation == "MainMenu")
             {
@@ -1281,7 +1278,7 @@ namespace VIENNAAddIn
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine("Error checking for superpackage ("+e.Message+")");
+                        Debug.WriteLine("Error checking for superpackage (" + e.Message + ")");
                     }
 
                     if (!hasParent)
@@ -1342,7 +1339,7 @@ namespace VIENNAAddIn
                 }
                 catch (Exception e)
                 {
-                    Debug.Write("Exception while determining Menulocation ("+e.Message+")");
+                    Debug.Write("Exception while determining Menulocation (" + e.Message + ")");
                 }
 
                 if (packageID != 0)
@@ -1356,7 +1353,6 @@ namespace VIENNAAddIn
 
             return s;
         }
-
 
         /// <sUMM2ary>
         /// Checks if an opened model has been previously defined as an UMM2 
@@ -1414,7 +1410,6 @@ namespace VIENNAAddIn
                 {
                     mdgFile = WindowsRegistryLoader.getMDGFile();
                 }
-
 
                 var sr = new StreamReader(mdgFile);
                 String fileContent = sr.ReadToEnd();
