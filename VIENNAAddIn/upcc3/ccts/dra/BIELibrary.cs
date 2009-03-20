@@ -58,9 +58,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 attributes.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, "1", "1", bbie.GetTaggedValues());
             }
             abie.Update();
-            attributes.Refresh();
-            connectors.Refresh();
-            taggedValues.Refresh();
+            abie.Refresh();
             package.Elements.Refresh();
             return new ABIE(repository, abie);
         }
