@@ -15,12 +15,20 @@ namespace VIENNAAddIn.upcc3.ccts.util
     {
         internal static IEnumerable<string> GetTaggedValues(this Attribute attribute, TaggedValues key)
         {
-            return attribute.TaggedValues.GetTaggedValues(key);
+            string value = attribute.GetTaggedValue(key);
+            return string.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
         }
 
         internal static string GetTaggedValue(this Attribute attribute, TaggedValues key)
         {
-            return attribute.TaggedValues.GetTaggedValue(key);
+            foreach (AttributeTag tv in attribute.TaggedValues)
+            {
+                if (tv.Name.Equals(key.AsString()))
+                {
+                    return tv.Value;
+                }
+            }
+            return null;
         }
     }
 }

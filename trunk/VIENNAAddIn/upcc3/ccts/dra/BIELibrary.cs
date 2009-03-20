@@ -38,25 +38,27 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             var abie = (Element) package.Elements.AddNew(spec.Name, "Class");
             abie.Stereotype = util.Stereotype.ABIE;
             abie.PackageID = Id;
-            Collection taggedValues = abie.TaggedValues;
-            foreach (var taggedValueSpec in spec.GetTaggedValues())
+
+            foreach (TaggedValueSpec taggedValueSpec in spec.GetTaggedValues())
             {
-                taggedValues.AddTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                abie.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
             }
-            Collection connectors = abie.Connectors;
+
             if (spec.BasedOn != null)
             {
-                connectors.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
+                abie.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
             }
             if (spec.IsEquivalentTo != null)
             {
-                connectors.AddConnector(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id);
+                abie.AddConnector(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id);
             }
-            Collection attributes = abie.Attributes;
-            foreach (var bbie in spec.BBIEs)
+
+            foreach (BBIESpec bbie in spec.BBIEs)
             {
-                attributes.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, "1", "1", bbie.GetTaggedValues());
+                abie.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, "1", "1",
+                                  bbie.GetTaggedValues());
             }
+
             abie.Update();
             abie.Refresh();
             package.Elements.Refresh();

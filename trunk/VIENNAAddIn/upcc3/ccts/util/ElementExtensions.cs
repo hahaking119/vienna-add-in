@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using System.Text;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.util
@@ -23,7 +22,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<returns></returns>
         public static IEnumerable<string> GetTaggedValues(this Element element, TaggedValues key)
         {
-            return element.TaggedValues.GetTaggedValues(key);
+            string value = element.GetTaggedValue(key);
+            return string.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
         }
 
         ///<summary>
@@ -33,7 +33,14 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<returns></returns>
         public static string GetTaggedValue(this Element element, TaggedValues key)
         {
-            return element.TaggedValues.GetTaggedValue(key);
+            foreach (TaggedValue tv in element.TaggedValues)
+            {
+                if (tv.Name.Equals(key.AsString()))
+                {
+                    return tv.Value;
+                }
+            }
+            return null;
         }
 
         ///<summary>
@@ -43,14 +50,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="values"></param>
         public static void SetTaggedValues(this Element element, TaggedValues key, IEnumerable<string> values)
         {
-            // TODO provide some means to actually manage multiple values (e.g. using a standard separator character)
-            // currently, the values are simply concatenated
-            var concatenatedValues = new StringBuilder();
-            foreach (string value in values)
-            {
-                concatenatedValues.Append(value);
-            }
-            element.SetTaggedValue(key, concatenatedValues.ToString());
+            element.SetTaggedValue(key, values.JoinToString("|"));
         }
 
         ///<summary>
@@ -80,6 +80,49 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 throw new EAException(taggedValue.GetLastError());
             }
             element.TaggedValues.Refresh();
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="element"></param>
+        ///<param name="stereotype"></param>
+        ///<param name="supplierId"></param>
+        public static void AddConnector(this Element element, string stereotype, int supplierId)
+        {
+            var connector = (Connector) element.Connectors.AddNew(stereotype, "Association");
+            connector.Stereotype = stereotype;
+            connector.SupplierID = supplierId;
+            connector.Update();
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="element"></param>
+        ///<param name="stereotype"></param>
+        ///<param name="name"></param>
+        ///<param name="typeName"></param>
+        ///<param name="classifierId"></param>
+        ///<param name="lowerBound"></param>
+        ///<param name="upperBound"></param>
+        ///<param name="taggedValueSpecs"></param>
+        public static void AddAttribute(this Element element, string stereotype, string name, string typeName,
+                                        int classifierId, string lowerBound, string upperBound,
+                                        IEnumerable<TaggedValueSpec> taggedValueSpecs)
+        {
+            var attribute = (Attribute) element.Attributes.AddNew(name, typeName);
+            attribute.Stereotype = stereotype;
+            attribute.ClassifierID = classifierId;
+            attribute.LowerBound = lowerBound;
+            attribute.UpperBound = upperBound;
+            Collection taggedValues = attribute.TaggedValues;
+            foreach (TaggedValueSpec taggedValueSpec in taggedValueSpecs)
+            {
+                var taggedValue = (AttributeTag) taggedValues.AddNew(taggedValueSpec.Key.AsString(), "");
+                taggedValue.Value = taggedValueSpec.Value;
+                taggedValue.Update();
+            }
+            taggedValues.Refresh();
+            attribute.Update();
         }
     }
 }
