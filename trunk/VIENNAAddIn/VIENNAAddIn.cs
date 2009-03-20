@@ -26,6 +26,7 @@ using VIENNAAddIn.workflow;
 using VIENNAAddIn.WSDLGenerator;
 using VIENNAAddIn.WSDLGenerator.Setting;
 using VIENNAAddIn.XBRLGenerator;
+using VIENNAAddIn.upcc3.Wizards;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn
@@ -237,6 +238,8 @@ namespace VIENNAAddIn
                     menu.Add("&Import CCTS Library");
                     menu.Add("&Options");
                     menu.Add("&About " + AddInSettings.getAddInCaption() + " Add-In");
+                    menu.Add("-");
+                    menu.Add("&ABIE Wizard");
                 }
                 else if (menuname == "-Maintenance")
                 {
@@ -313,6 +316,11 @@ namespace VIENNAAddIn
                     {
                         var aboutWindow = new AboutWindow();
                         aboutWindow.Show();
+                    }
+                    else if (menuitem =="&ABIE Wizard")
+                    {
+                        ABIEWizardForm ABIEWizard = new ABIEWizardForm(repository);
+                        ABIEWizard.Show();                        
                     }
                     else if (menuitem == "&BPEL-XSLT Template Setting")
                     {
@@ -1365,7 +1373,7 @@ namespace VIENNAAddIn
             {
                 if (issue.Name.Equals("UMM2Model"))
                 {
-                    MessageBox.Show("Model is defined as an UMM2 Model", "AddIn");
+                    //MessageBox.Show("Model is defined as an UMM2 Model", "AddIn");
 
                     return true;
                 }
