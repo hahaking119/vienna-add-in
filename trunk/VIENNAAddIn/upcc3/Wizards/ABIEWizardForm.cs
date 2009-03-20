@@ -177,7 +177,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     IDictionary<string, CBBIE> newbbies = new Dictionary<string, CBBIE>();
                     newbbies.Add(bcc.Name, new CBBIE(bcc.Name, bcc.Id, CheckState.Unchecked, appropriateBDTs));
 
-                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Add(bcc.Name, new CBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked, newbbies));
+                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Add(bcc.Name, new CBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked, newbbies));                    
                 }
             }
 
@@ -326,6 +326,48 @@ namespace VIENNAAddIn.upcc3.Wizards
                 (!selectedBCCName.Equals("")))
             {
                 cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].State = e.NewValue;
+
+                // set default values
+
+                // loop through BBIEs
+                int countSelectedBBIEs = 0;
+                foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
+                {
+                    if (bbie.State == CheckState.Checked)
+                    {
+                        countSelectedBBIEs++;
+                    }
+
+                    int countSelectedBDTs = 0;
+                    foreach (CBDT bdt in bbie.BDTs)
+                    {
+                        if (bdt.State == CheckState.Checked)
+                        {
+                            countSelectedBDTs++;
+                        }
+                    }
+
+                    if (countSelectedBDTs == 0)
+                    {
+                        foreach (CBDT bdt in bbie.BDTs)
+                        {
+                            bdt.State = CheckState.Checked;
+                            break;
+                        }
+                    }
+                }
+
+                // any checked BBIEs?
+                if (countSelectedBBIEs == 0)
+                {
+                    // set the first element as checked
+                    foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
+                    {
+                        bbie.State = CheckState.Checked;
+                        break;
+                    }
+                }
+
 
                 //int countSelectedBBIEs = 0;
                 //foreach (KeyValuePair<string, CBBIE> bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs)

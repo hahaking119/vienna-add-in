@@ -53,12 +53,16 @@
             this.comboBIELs = new System.Windows.Forms.ComboBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
+            this.groupboxASBIEs = new System.Windows.Forms.GroupBox();
+            this.checkedlistboxABIEs = new System.Windows.Forms.CheckedListBox();
             this.groupboxSettings.SuspendLayout();
             this.tabcontrolACC.SuspendLayout();
             this.TabControlPageAttributes.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupboxBDTs.SuspendLayout();
+            this.TabControlPageAssociations.SuspendLayout();
+            this.groupboxASBIEs.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupboxSettings
@@ -89,8 +93,8 @@
             this.tabcontrolACC.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabcontrolACC.Controls.Add(this.TabControlPageAttributes);
             this.tabcontrolACC.Controls.Add(this.TabControlPageAssociations);
+            this.tabcontrolACC.Controls.Add(this.TabControlPageAttributes);
             this.tabcontrolACC.Location = new System.Drawing.Point(10, 76);
             this.tabcontrolACC.Name = "tabcontrolACC";
             this.tabcontrolACC.SelectedIndex = 0;
@@ -222,6 +226,7 @@
             // 
             // TabControlPageAssociations
             // 
+            this.TabControlPageAssociations.Controls.Add(this.groupboxASBIEs);
             this.TabControlPageAssociations.Location = new System.Drawing.Point(4, 22);
             this.TabControlPageAssociations.Name = "TabControlPageAssociations";
             this.TabControlPageAssociations.Size = new System.Drawing.Size(651, 331);
@@ -361,6 +366,24 @@
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
+            // groupboxASBIEs
+            // 
+            this.groupboxASBIEs.Controls.Add(this.checkedlistboxABIEs);
+            this.groupboxASBIEs.Location = new System.Drawing.Point(9, 3);
+            this.groupboxASBIEs.Name = "groupboxASBIEs";
+            this.groupboxASBIEs.Size = new System.Drawing.Size(631, 318);
+            this.groupboxASBIEs.TabIndex = 0;
+            this.groupboxASBIEs.TabStop = false;
+            this.groupboxASBIEs.Text = "ABIEs available to associate the new ABIE with";
+            // 
+            // checkedlistboxABIEs
+            // 
+            this.checkedlistboxABIEs.FormattingEnabled = true;
+            this.checkedlistboxABIEs.Location = new System.Drawing.Point(13, 19);
+            this.checkedlistboxABIEs.Name = "checkedlistboxABIEs";
+            this.checkedlistboxABIEs.Size = new System.Drawing.Size(604, 289);
+            this.checkedlistboxABIEs.TabIndex = 0;
+            // 
             // ABIEWizardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -384,6 +407,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupboxBDTs.ResumeLayout(false);
+            this.TabControlPageAssociations.ResumeLayout(false);
+            this.groupboxASBIEs.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -415,6 +440,8 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckedListBox checkedlistboxBCCs;
         private System.Windows.Forms.CheckBox checkboxAttributes;
+        private System.Windows.Forms.GroupBox groupboxASBIEs;
+        private System.Windows.Forms.CheckedListBox checkedlistboxABIEs;
 
     }
 }
