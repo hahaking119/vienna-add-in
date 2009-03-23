@@ -256,7 +256,8 @@ namespace VIENNAAddIn.constants
         PRIM,
         PRIMLibrary,
         QDT,
-        QDTLibrary,
+        QDTLibrary,                
+        BDTLibrary,
         SUP,
         basedOn,
         BDT
