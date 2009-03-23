@@ -11,11 +11,13 @@ namespace VIENNAAddIn.upcc3.Wizards
             CBDTLs = new Dictionary<string, CBDTL>();
             CBIELs = new Dictionary<string, CBIEL>();
             CCLs = new Dictionary<string, CCCL>();
+            CCDTLs = new Dictionary<string, CCDTL>();
         }
 
         public IDictionary<string, CCCL> CCLs { get; set; }
         public IDictionary<string, CBDTL> CBDTLs { get; set; }
-        public IDictionary<string, CBIEL> CBIELs { get; set; }        
+        public IDictionary<string, CBIEL> CBIELs { get; set; }
+        public IDictionary<string, CCDTL> CCDTLs { get; set; }
     }
 
     public class BasicCacheItem
@@ -61,6 +63,61 @@ namespace VIENNAAddIn.upcc3.Wizards
         public int BasedOn { get; set; }
         public int InLibrary { get; set; }
     }
+
+    public class CCDTL : BasicCacheItem
+    {
+        public CCDTL()
+        {
+            CDTs = new Dictionary<string, CCDT>();
+        }
+
+        public CCDTL(string initName, int initId, IDictionary<string, CCDT> initCDTDictionary)
+            : base(initName, initId)
+        {
+            CDTs = initCDTDictionary;
+        }
+
+        public IDictionary<string, CCDT> CDTs { get; set; }
+    }
+
+    public class CCON : BasicCacheItem
+    {
+        public CCON(string initName, int initId, CheckState initState) : base(initName, initId)
+        {
+            State = initState;
+        }
+
+        public CheckState State { get; set; }
+    }
+
+    public class CSUP : BasicCacheItem
+    {
+        public CSUP(string initName, int initId, CheckState initState) : base(initName, initId)
+        {
+            State = initState;
+        }
+
+        public CheckState State { get; set; }
+    }
+
+    public class CCDT : BasicCacheItem
+    {
+        public CCDT(string initName, int initId) : base(initName, initId)
+        {
+            CON = null;
+            SUPs = new Dictionary<string, CSUP>();
+        }
+
+        public CCDT(string initName, int initId, CCON initCON, IDictionary<string, CSUP> initSUPs) : base(initName, initId)
+        {
+            CON = initCON;
+            SUPs = initSUPs;
+        }
+
+        public CCON CON { get; set; }
+        public IDictionary<string, CSUP> SUPs { get; set; }
+    }
+
 
     public class CBDTL : BasicCacheItem
     {
@@ -138,29 +195,56 @@ namespace VIENNAAddIn.upcc3.Wizards
         public IDictionary<string, CBBIE> BBIEs { get; set; }
     }
 
+    public class CASCC : BasicCacheItem
+    { 
+        public CASCC()
+        {
+            State = CheckState.Unchecked;
+        }
+
+        public CASCC(string initName, int initId, CheckState initState) : base(initName, initId)
+        {
+            State = initState;
+        }
+
+        public CheckState State { get; set;}
+    }
+
     public class CACC : BasicCacheItem
     {
         public CACC()
         {
             AllAttributesChecked = CheckState.Unchecked;
-            BCCs = new Dictionary<string, CBCC>();            
+            BCCs = new Dictionary<string, CBCC>();      
+            ASCCs = new Dictionary<string, CASCC>();
         }
 
         public CACC(string initName, int initId) : base(initName, initId)
         {
             AllAttributesChecked = CheckState.Unchecked;
-            BCCs = new Dictionary<string, CBCC>();            
+            BCCs = new Dictionary<string, CBCC>();
+            ASCCs = new Dictionary<string, CASCC>();
         }
 
         public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs) : base(initName, initId)
         {
             AllAttributesChecked = CheckState.Unchecked;
-            BCCs = initBCCs;            
+            BCCs = initBCCs;
+            ASCCs = new Dictionary<string, CASCC>();
         }
+
+        public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs, IDictionary<string, CASCC> initASCCs) : base(initName, initId)
+        {
+            AllAttributesChecked = CheckState.Unchecked;
+            BCCs = initBCCs;
+            ASCCs = initASCCs;
+        }
+
 
         public CheckState AllAttributesChecked { get; set; }
 
         public IDictionary<string, CBCC> BCCs { get; set; }
+        public IDictionary<string, CASCC> ASCCs { get; set; }
     }
 
     public class CCCL : BasicCacheItem

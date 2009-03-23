@@ -181,9 +181,35 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
 
+            if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Count == 0)
+            {
+                IDictionary<string, CASCC> validASCCs = new Dictionary<string, CASCC>();
+
+                foreach (IASCC ascc in acc.ASCCs)
+                {                    
+                    bool abieExists = false;
+                    foreach (CBIEL biel in cache.CBIELs.Values)
+                    {
+                        if (biel.ABIEs.ContainsKey(ascc.AssociatedElement.Name))
+                        {
+                            abieExists = true;
+                        }
+                    }
+
+                    if (abieExists)
+                    {
+                        validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));
+                    }
+                }
+
+                cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs = validASCCs;
+            }
+
+
             textABIEName.Text = selectedACCName;
 
             MirrorBCCsToUI();
+            MirrorASCCsToUI();
 
             ResetForm(3);            
         }
@@ -302,8 +328,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                 BusinessTerms = selectedACC.BusinessTerms,
                 UsageRules = selectedACC.UsageRules,
                 BasedOn = selectedACC,
-                BBIEs = newBBIEs,
-            };
+                BBIEs = newBBIEs,                
+            };            
 
             IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
             cache.CBIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new CABIE(newABIE.Name, newABIE.Id));
@@ -735,6 +761,18 @@ namespace VIENNAAddIn.upcc3.Wizards
             checkboxAttributes.CheckState = cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked;
             
             checkedlistboxBCCs.SelectedIndex = 0;
+        }
+
+        private void MirrorASCCsToUI()
+        {
+            checkedlistboxASCCs.Items.Clear();
+
+            foreach (CASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+            {
+                checkedlistboxASCCs.Items.Add(ascc.Name, ascc.State);
+            }
+
+            //checkedlistboxASCCs.SelectedIndex = 0;
         }
         
         private void MirrorBBIEsToUI()
