@@ -6,8 +6,9 @@ using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards
-
 {
+    ///<summary>
+    ///</summary>
     public partial class ABIEWizardForm : Form
     {
         #region Variable Declarations
@@ -19,6 +20,11 @@ namespace VIENNAAddIn.upcc3.Wizards
         private TextBox editboxBBIEName;
         private TextBox editboxBDTName;
 
+        /*
+         * Internal variables used to store the currently selected items in the
+         * various combo boxes and checked listboxes of the wizard UI. The variables
+         * are not modified directly but through the method GatherUserInput(). 
+         **/
         private string selectedCCLName;
         private string selectedACCName;
         private string selectedBCCName;
@@ -31,18 +37,48 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #region Constructor
 
+        ///<summary>
+        /// The constructor of the ABIE has one input parameter which is the EA
+        /// Repository that the wizard operates on. Furthermore, the constructor
+        /// pre-poluates the internal cache of the wizard with all CC libraries, 
+        /// all BDT libraries and their corresponding BDTs, all BIE libraries and
+        /// their corresponding ABIEs contained in the EA repository passed through
+        /// the parameter. The constructor (as well as all other methods used in 
+        /// the wizard) do not directory operate on the EA repository but operate on
+        /// the CC repository instead. 
+        ///</summary>
+        ///<param name="eaRepository"></param>
         public ABIEWizardForm(EA.Repository eaRepository)
         {
             InitializeComponent();
 
-            repository = new CCRepository(eaRepository);
+            /* 
+             * Create CCTS repository based on the EA repository that is currently 
+             * selected in the tree view of Enterprise Architect. To create the CCTS
+             * repository the constructor of the CCTS repository is used. 
+             **/
+            repository = new CCRepository(eaRepository);            
+
+            /*
+             * The internal cache for the wizards is used to keep all information in 
+             * memory that is currently displayed or going to be displayed on the UI.
+             **/
             cache = new Cache();
 
+            /*
+             * Populate the internal cache with all the CC libraries currently
+             * available the repository.
+             **/
             foreach (ICCLibrary ccLibrary in repository.Libraries<CCLibrary>())
             {
                 cache.CCLs.Add(ccLibrary.Name, new CCCL(ccLibrary.Name, ccLibrary.Id));
             }
-            
+
+            /*
+             * Populate the internal cache with all the BIE libraries currently
+             * available the repository. In addition all currently available ABIEs
+             * within each BIE library are cached as well. 
+             **/
             foreach (IBIELibrary bieLibrary in repository.Libraries<IBIELibrary>())
             {
                 IDictionary<string, CABIE> abies = new Dictionary<string, CABIE>();
@@ -55,6 +91,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                 cache.CBIELs.Add(bieLibrary.Name, new CBIEL(bieLibrary.Name, bieLibrary.Id, abies));
             }
 
+            /*
+             * Populate the internal cache with all the BDT libraries currently
+             * available the repository. In addition all currently available BDTs
+             * within each BDT library are cached as well. 
+             **/
             foreach (IBDTLibrary bdtLibrary in repository.Libraries<IBDTLibrary>())
             {
                 IDictionary<string, CBDT> bdts = new Dictionary<string, CBDT>();
@@ -67,6 +108,24 @@ namespace VIENNAAddIn.upcc3.Wizards
                 cache.CBDTLs.Add(bdtLibrary.Name, new CBDTL(bdtLibrary.Name, bdtLibrary.Id, bdts));
             }
 
+
+            /*
+             * In the following two labels and two edit boxes are defined. The labels are used
+             * to display error messages to the user for validation performed on the fly. An
+             * example for validation performed on the fly is to check if an ABIE already exists
+             * in the currently selected BIE library that the user is about to generate. The
+             * edit boxes are used to enable to user to edit BBIE and BDT names in checked list 
+             * boxes. The reason for using edit boxes is that checked list boxes currently do not
+             * support to edit items in the checked listbox. Therefore a workaround based on edit
+             * boxes is used in the following way: in case the user double-clicks on an entry
+             * in the checked listbox an edit box is displayed overlaying the double-clicked item. 
+             * This allows the user to enter a new name for the item in the checked listbox. 
+             **/
+
+            /*
+             * Label to display error messages in case an ABIE with name of the ABIE to be 
+             * generated already exists in the currently selected BIE library. 
+             **/
             errorMessageABIE = new Label
                                    {
                                        Size = new Size(200, 17),
@@ -78,6 +137,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             groupboxSettings.Controls.Add(errorMessageABIE);
             errorMessageABIE.Hide();
 
+            /*
+             * Label to display error messages in case a BDT with name of the BDT to be 
+             * generated already exists in any of the availalbe BDT libraries. 
+             **/
             errorMessageBDT = new Label
                                   {
                                       Size = new Size(199, 17),
@@ -89,6 +152,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             groupboxSettings.Controls.Add(errorMessageBDT);
             errorMessageBDT.Hide();
 
+            /*
+             * Edit box to edit the name of a BBIE listed in the checked listbox 
+             * displaying all BBIEs. 
+             **/
             editboxBBIEName = new TextBox
                                   {
                                       Size = new Size(0, 0),
@@ -104,6 +171,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             checkedlistboxBBIEs.Controls.Add(editboxBBIEName);
             editboxBBIEName.Hide();
 
+            /*
+             * Edit box to edit the name of a BDT listed in the checked listbox 
+             * displaying all BDTs for a currently selected BBIE. 
+             **/
             editboxBDTName = new TextBox
             {
                 Size = new Size(0, 0),
@@ -115,10 +186,16 @@ namespace VIENNAAddIn.upcc3.Wizards
                 Text = ""
             };
             editboxBDTName.KeyPress += EditBDTNameOver;
-//            editboxBDTName.LostFocus += FocusLeftEditBDTName;
+            //editboxBDTName.LostFocus += FocusLeftEditBDTName;
             checkedlistboxBDTs.Controls.Add(editboxBDTName);
             editboxBDTName.Hide();
 
+            /*
+             * Disable the combo cox controls for editing which means that the user can still
+             * choose from the combo box but can't type text in the combo box. That's exactly
+             * what we want since the user should only be able to choose from a provided list
+             * of values (e.g. existing CC Libraries). 
+             **/
             comboCCLs.DropDownStyle = ComboBoxStyle.DropDownList;
             comboACCs.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBDTLs.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -127,118 +204,787 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
+        #region Convenience Methods
+
+        /*
+         * The method safely set's an index of a combo box control therefore having
+         * two input parameters which are the combo box that the index of the selected
+         * item is to be set for and the actual index to be set. The method first checks 
+         * if the combo box contains any items and if it does if the index is a valid 
+         * index. In case both conditions evaluate to true the index of the selected
+         * item is set in the control. 
+         **/
+        private void SetSafeIndex(ComboBox box, int indexToBeSet)
+        {
+            if ((box.Items.Count > 0) && (indexToBeSet < box.Items.Count))
+            {
+                box.SelectedIndex = indexToBeSet;
+            }
+        }
+
+        /*
+         * The method is used to disable and enable different fields in the wizard UI.          
+         **/
+        private void ResetForm(int level)
+        {
+            switch (level)
+            {
+                case 1:
+                    comboACCs.Enabled = false;
+                    tabcontrolACC.Enabled = false;
+                    textABIEName.Enabled = false;
+                    comboBDTLs.Enabled = false;
+                    comboBIELs.Enabled = false;
+                    buttonGenerate.Enabled = false;
+                    break;
+
+                case 2:
+                    comboACCs.Enabled = true;
+                    break;
+
+                case 3:
+                    tabcontrolACC.Enabled = true;
+                    textABIEName.Enabled = true;
+                    comboBDTLs.Enabled = true;
+                    comboBIELs.Enabled = true;
+                    buttonGenerate.Enabled = true;
+                    break;
+            }
+        }
+
+        /*
+         * The method retrieves all user input from the wizard UI which includes the 
+         * currently selected item in the combo boxes and the currently selected items 
+         * the checked list boxes. In case no item is selected then the variables are
+         * filled with an empty string. 
+         **/
+        private void GatherUserInput()
+        {
+            selectedCCLName = comboCCLs.SelectedIndex >= 0 ? comboCCLs.SelectedItem.ToString() : "";
+            selectedACCName = comboACCs.SelectedIndex >= 0 ? comboACCs.SelectedItem.ToString() : "";
+            selectedBCCName = checkedlistboxBCCs.SelectedIndex >= 0 ? checkedlistboxBCCs.SelectedItem.ToString() : "";
+            selectedBBIEName = checkedlistboxBBIEs.SelectedIndex >= 0 ? checkedlistboxBBIEs.SelectedItem.ToString() : "";
+            selectedBDTName = checkedlistboxBDTs.SelectedIndex >= 0 ? checkedlistboxBDTs.SelectedItem.ToString() : "";
+            selectedBDTLName = comboBDTLs.SelectedIndex >= 0 ? comboBDTLs.SelectedItem.ToString() : "";
+            selectedBIELName = comboBIELs.SelectedIndex >= 0 ? comboBIELs.SelectedItem.ToString() : "";
+        }
+
+        /*
+         * The method clears all entries from the combo box containing a set of ACCs and 
+         * adds all ACCs for the currently selected CC library to the combo box. The ACCs
+         * to be added are retrieved from the internal wizard cache. 
+         **/
+        private void MirrorACCsToUI()
+        {
+            comboACCs.Items.Clear();
+
+            foreach (CACC acc in cache.CCLs[selectedCCLName].ACCs.Values)
+            {
+                comboACCs.Items.Add(acc.Name);
+            }
+        }
+
+        // TODO: document
+        private void MirrorCCLibrariesToUI()
+        {
+            comboCCLs.Items.Clear();
+
+            foreach (CCCL ccl in cache.CCLs.Values)
+            {
+                comboCCLs.Items.Add(ccl.Name);
+            }
+        }
+
+        // TODO: document
+        private void MirrorBDTLibrariesToUI()
+        {
+            comboBDTLs.Items.Clear();
+
+            foreach (CBDTL bdtl in cache.CBDTLs.Values)
+            {
+                comboBDTLs.Items.Add(bdtl.Name);
+            }
+        }
+
+        // TODO: document
+        private void MirrorBIELibrariesToUI()
+        {
+            comboBIELs.Items.Clear();
+
+            foreach (CBIEL biel in cache.CBIELs.Values)
+            {
+                comboBIELs.Items.Add(biel.Name);
+            }
+        }
+
+        // TODO: document
+        private void MirrorBCCsToUI()
+        {
+            checkedlistboxBCCs.Items.Clear();
+
+            foreach (CBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
+            {
+                checkedlistboxBCCs.Items.Add(bcc.Name, bcc.State);
+            }
+
+            checkboxAttributes.CheckState = cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked;
+
+            checkedlistboxBCCs.SelectedIndex = 0;
+        }
+
+        // TODO: document
+        private void MirrorASCCsToUI()
+        {
+            checkedlistboxASCCs.Items.Clear();
+
+            foreach (CASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+            {
+                checkedlistboxASCCs.Items.Add(ascc.Name, ascc.State);
+            }
+
+            //checkedlistboxASCCs.SelectedIndex = 0;
+        }
+
+        // TODO: document
+        private void MirrorBBIEsToUI()
+        {
+            checkedlistboxBBIEs.Items.Clear();
+
+            foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
+            {
+                checkedlistboxBBIEs.Items.Add(bbie.Name, bbie.State);
+            }
+
+            // select first entry in the list per default
+            checkedlistboxBBIEs.SelectedIndex = 0;
+        }
+
+        // TODO: document
+        private void MirrorBDTsToUI()
+        {
+            int checkedItemIndex = 0;
+
+            GatherUserInput();
+
+            checkedlistboxBDTs.Items.Clear();
+
+            foreach (CBDT bdt in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].BDTs)
+            {
+                checkedlistboxBDTs.Items.Add(bdt.Name, bdt.State);
+
+                if (bdt.State == CheckState.Checked)
+                {
+                    checkedlistboxBDTs.SelectedIndex = checkedItemIndex;
+                }
+                checkedItemIndex++;
+            }
+        }
+
+        // TODO: document
+        private IList<CBDT> GetRelevantBDTs(int cdtid)
+        {
+            IList<CBDT> relevantBdts = new List<CBDT>();
+
+            foreach (CBDTL bdtl in cache.CBDTLs.Values)
+            {
+                foreach (CBDT bdt in bdtl.BDTs.Values)
+                {
+                    if (bdt.BasedOn == cdtid)
+                    {
+                        relevantBdts.Add(new CBDT(bdt.Name, bdt.Id, CheckState.Unchecked, bdt.BasedOn, bdt.InLibrary));
+                    }
+                }
+            }
+
+            relevantBdts.Add(new CBDT("Create new BDT", -1, CheckState.Unchecked, cdtid, -1));
+
+            return relevantBdts;
+        }
+
+        #endregion 
+
         #region Event Handlers
 
         private void ABIEWizardForm_Load(object sender, EventArgs e)
-        {
+        {            
+            /*
+             * As part of the wizard being launched the items already stored in 
+             * the cache are displayed to the user. These items include the cached 
+             * CC libraries, BDT libraries and BIE libraries. 
+             **/
             MirrorCCLibrariesToUI();
             MirrorBDTLibrariesToUI();
             MirrorBIELibrariesToUI();
 
-            comboBDTLs.SelectedIndex = 0;
-            comboBIELs.SelectedIndex = 0;
+            /*
+             * Also default entries are selected in the combo boxes for the
+             * BDT and BIE libraries. 
+             **/
+            SetSafeIndex(comboBDTLs, 0);
+            SetSafeIndex(comboBIELs, 0);
 
+            /*
+             * Per default all of the user input controls are disabled except the
+             * combo box containing all the CC libraries. 
+             **/
             ResetForm(1);
         }
 
         private void comboCCLs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            selectedCCLName = comboCCLs.SelectedItem.ToString();
+            /*
+             * This event is triggered in case the user selected an entry in the combo
+             * box containing all CC libraries. As a result the relevant ACCs contained
+             * in the CC library selected need to be cached as well as displayed to the
+             * user. 
+             **/
+            
+            /*
+             * To retrieve the currently selected user input the method GatherUserInput()
+             * is used. 
+             */
+            GatherUserInput();            
 
-            int cclID = cache.CCLs[selectedCCLName].Id;
-            ICCLibrary ccl = (ICCLibrary)repository.GetLibrary(cclID);
 
+            /*
+             * First check, if the CC library has not been selectd the first time because
+             * if so then the ACCs contained in the CC library have already been cashed. 
+             * And if the ACCs are already cashed they can be directlay displayed to the
+             * user. 
+             **/
             if (cache.CCLs[selectedCCLName].ACCs.Count == 0)
             {
+                /*
+                 * Retrieve the currently selected CC library from the CC repository since we
+                 * need to iterate through the CC library to retrieve all ACCs contained in the 
+                 * CC library. 
+                 **/
+                int cclID = cache.CCLs[selectedCCLName].Id;
+                ICCLibrary ccl = (ICCLibrary)repository.GetLibrary(cclID);
+
                 foreach (IACC acc in ccl.ACCs)
                 {
                     cache.CCLs[selectedCCLName].ACCs.Add(acc.Name, new CACC(acc.Name, acc.Id));
                 }
             }
 
+            /*
+             * Display the relevant ACCs contained in the currently selected CC library
+             * to the user by using the method MirrorACCsToUI().
+             */
             MirrorACCsToUI();
 
+            /*
+             * Accordingly, enable the combo box containing all ACCs to allow the 
+             * user to choose an ACC.
+             **/
             ResetForm(2);
         }
 
         private void comboACCs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            selectedACCName = comboACCs.SelectedItem.ToString();
+            /*
+             * This event is triggered in case the user chose an ACC from the 
+             * combo box containing all ACCs. In case an ACC is selected it is 
+             * necessary to display the BCCs of the ACC to the user. Along with 
+             * displaying the BCCs to the user it is necessary to create a default
+             * BBIE for each BCC and a list of relevant datatypes for each BBIE. 
+             **/
 
+            /*
+             * To operate on the correct ACC the currently selected user input 
+             * is retrieved from the UI. 
+             **/
+            GatherUserInput();
+
+            /*
+             * Retrieve the currently selected ACC from the CC repository since we need 
+             * to iterate through the ACC to retrieve all BCCs contained in the ACC.
+             **/
             int accID = cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id;
             IACC acc = repository.GetACC(accID);
 
+            /*
+             * First check, if the ACC has not been selected the first time because if so 
+             * then the BCCs contained in the ACC have already been cashed. And if the BCCs 
+             * are already cashed they can be directlay displayed to the user. 
+             **/
             if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Count == 0)
             {
+                /*
+                 * Process each BCC which means that for each BCC a default BBIE is 
+                 * created as well as the BDT libraries are scanned for suitable data
+                 * types that may be used to typify the BBIEs. The decision whether a 
+                 * datatype is suitable for the BBIE is made based on the data type
+                 * of the BCC. Therefore, suitable data types are a list of BDTs that 
+                 * are based on the CDT used in the BCC. 
+                 **/
                 foreach (IBCC bcc in acc.BCCs)
                 {
+                    /* As a first step retrieve all the relevant BDTs from the various
+                     * BDT libraries and temporarily store them in a list. 
+                     */
                     IList<CBDT> appropriateBDTs = GetRelevantBDTs(bcc.Type.Id);
 
+                    /*
+                     * As a second step create a default set of BBIEs which means that
+                     * for each BCC a BBIE is created having the same name as the BCC. 
+                     **/
                     IDictionary<string, CBBIE> newbbies = new Dictionary<string, CBBIE>();
+
+                    /* 
+                     * Realize that the BDTs gathered in previous step are attached to 
+                     * the current BBIE that was generated. 
+                     **/
                     newbbies.Add(bcc.Name, new CBBIE(bcc.Name, bcc.Id, CheckState.Unchecked, appropriateBDTs));
 
+                    /*
+                     * As a third step a BCC is created that has the default BBIE created
+                     * in previous step attached. 
+                     **/
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Add(bcc.Name, new CBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked, newbbies));                    
                 }
+
+                /*
+                 * After iterating through all BCCs the internal cache is populated with 
+                 * all BCCs, a default BBIE for each BBIE and a list of appropriate BDTs
+                 * that may be used to typifiy the BBIE. 
+                 **/
             }
 
+            /*
+             * In addition to caching all BCCs it is necessary to enable the user to 
+             * create associations between different ABIEs. Considering that the ABIE
+             * to be generated is based on an ACC also the associations of the ABIE need
+             * to be based on the associations that the ACC has. To create associations
+             * between ABIEs the wizard assumes that all ABIEs to be associated with the 
+             * ABIE to be generated must exist. If the ABIE to be associated with the 
+             * ABIE to be generated doesn't exist the wizard won't allow the user to 
+             * create that associaton. 
+             */
             if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Count == 0)
-            {
+            {                
                 IDictionary<string, CASCC> validASCCs = new Dictionary<string, CASCC>();
 
+                /*
+                 * Loop through all ASCCs that the current ACC contains in order
+                 * to process each of the ASCCs.
+                 **/
                 foreach (IASCC ascc in acc.ASCCs)
                 {                    
-                    bool abieExists = false;
+                    /*
+                     * For each ACC associated through the ASCC we scan the BIE 
+                     * libraries if an ABIE with the same name as the associated 
+                     * ACC exists. 
+                     **/
                     foreach (CBIEL biel in cache.CBIELs.Values)
                     {
+                        /*
+                         * An ABIE with the same name as the associated ACC was found. 
+                         **/
                         if (biel.ABIEs.ContainsKey(ascc.AssociatedElement.Name))
                         {
-                            abieExists = true;
+                            validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));
+                            break;
                         }
-                    }
-
-                    if (abieExists)
-                    {
-                        validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));
                     }
                 }
 
+                /* 
+                 * We add the for associations relevant ASCCs to the internal wizard cache. 
+                 **/
                 cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs = validASCCs;
             }
 
-
+            /*
+             * Assign the name of the ABIE to be generated the name of the currently 
+             * selected ACC per default.
+             **/
             textABIEName.Text = selectedACCName;
 
+            /* 
+             * After caching the BCCs, corresponding BBIEs, their corresponding BDTs,
+             * and associations to the cache we can mirror the information gathered and 
+             * stored in the cache to the user. 
+             */
             MirrorBCCsToUI();
             MirrorASCCsToUI();
 
-            ResetForm(3);            
+            /*
+             * Enable the checked listboxes in the UI to enable the user to choose 
+             * and modify BCCs, BBIEs and BDTs. 
+             **/
+            ResetForm(3);           
         }
 
         private void checkedlistboxBCCs_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
+             * This method is triggerd in case the user clicks (not checks) an item
+             * in the checked listbox containing all the BCCs. 
+             **/
+
+            /*
+             * At first the latest user input is retrieved from the UI. 
+             **/
             GatherUserInput();
 
+            /*
+             * In case a valid item was clicked in the checked listbox we can safely
+             * update the corresponding user controls which is the checked listbox
+             * containing all the BBIEs. 
+             **/
             if (!(selectedBCCName.Equals("")))
             {
-                selectedBCCName = checkedlistboxBCCs.SelectedItem.ToString();
+                // TODO: remove 
+                // selectedBCCName = checkedlistboxBCCs.SelectedItem.ToString();
 
                 MirrorBBIEsToUI();
             }
         }
 
-        private void checkedlistboxBBIEs_SelectedIndexChanged(object sender, EventArgs e)
+        // TODO: document
+        private void checkedlistboxBCCs_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             GatherUserInput();
 
+            if ((!selectedCCLName.Equals("")) &&
+                (!selectedACCName.Equals("")) &&
+                (!selectedBCCName.Equals("")))
+            {
+                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].State = e.NewValue;
+
+                // set default values
+
+                // loop through BBIEs
+                int countSelectedBBIEs = 0;
+                foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
+                {
+                    if (bbie.State == CheckState.Checked)
+                    {
+                        countSelectedBBIEs++;
+                    }
+
+                    int countSelectedBDTs = 0;
+                    foreach (CBDT bdt in bbie.BDTs)
+                    {
+                        if (bdt.State == CheckState.Checked)
+                        {
+                            countSelectedBDTs++;
+                        }
+                    }
+
+                    if (countSelectedBDTs == 0)
+                    {
+                        foreach (CBDT bdt in bbie.BDTs)
+                        {
+                            bdt.State = CheckState.Checked;
+                            break;
+                        }
+                    }
+                }
+
+                // any checked BBIEs?
+                if (countSelectedBBIEs == 0)
+                {
+                    // set the first element as checked
+                    foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
+                    {
+                        bbie.State = CheckState.Checked;
+                        break;
+                    }
+                }
+            }
+        }
+
+        // TODO: document
+        private void checkboxAttributes_CheckedChanged(object sender, EventArgs e)
+        {
+            GatherUserInput();
+            CheckState newState = CheckState.Unchecked;
+
+            if (checkboxAttributes.Checked)
+            {
+                newState = CheckState.Checked;
+            }
+
+            foreach (KeyValuePair<string, CBCC> bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs)
+            {
+                bcc.Value.State = newState;
+            }
+
+            cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked = newState;
+
+            MirrorBCCsToUI();
+        }
+
+        private void checkedlistboxBBIEs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            /*
+             * This method is triggerd in case the user clicks (not checks) an item
+             * in the checked listbox containing all the BBIEs. 
+             **/
+
+            /*
+             * At first the latest user input is retrieved from the UI. 
+             **/
+            GatherUserInput();
+
+            /*
+             * In case a valid item was clicked in the checked listbox we can safely
+             * update the corresponding user controls which is the checked listbox
+             * containing all the BDTs. 
+             **/
             if (!(selectedBCCName.Equals("")) &&
                 !(selectedBBIEName.Equals("")))
             {
-                selectedBBIEName = checkedlistboxBBIEs.SelectedItem.ToString();
+                // TODO: remove                 
+                // selectedBBIEName = checkedlistboxBBIEs.SelectedItem.ToString();
 
                 MirrorBDTsToUI();
             }
         }
 
+        // TODO: document
+        private void checkedlistboxBBIEs_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            GatherUserInput();
+
+            if ((!selectedCCLName.Equals("")) &&
+                (!selectedACCName.Equals("")) &&
+                (!selectedBCCName.Equals("")) &&
+                (!selectedBBIEName.Equals("")))
+            {
+                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].State = e.NewValue;
+            }
+        }
+
+        // TODO: document
+        private void checkedlistboxBBIEs_DoubleClick(object sender, EventArgs e)
+        {
+            Rectangle r = checkedlistboxBBIEs.GetItemRectangle(checkedlistboxBBIEs.SelectedIndex);
+
+            editboxBBIEName.Text = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].Name;
+            editboxBBIEName.Location = new Point(r.X + 15, r.Y);
+            editboxBBIEName.Size = new Size(r.Width - 15, r.Height + 100);
+
+            editboxBBIEName.Show();
+        }
+
+        // TODO: document
+        private void UpdateBBIEName()
+        {
+            string newBBIEName = editboxBBIEName.Text;
+
+            if (!(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.ContainsKey(newBBIEName)))
+            {
+                CBBIE updatedBBIE = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName];
+
+                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Remove(updatedBBIE.Name);
+
+                updatedBBIE.Name = newBBIEName;
+
+                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Add(newBBIEName, updatedBBIE);
+            }
+        }
+
+        // TODO: document
+        private void EditBBIENameOver(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                UpdateBBIEName();
+                editboxBBIEName.Hide();
+                MirrorBBIEsToUI();
+            }
+            else if (e.KeyChar == 27)
+            {
+                editboxBBIEName.Hide();
+            }
+        }
+
+        // TODO: document
+        private void FocusLeftEditBBIEName(object sender, EventArgs e)
+        {
+            UpdateBBIEName();
+            editboxBBIEName.Hide();
+            MirrorBBIEsToUI();
+        }
+
+        // TODO: document
+        private void buttonAddBBIE_Click(object sender, EventArgs e)
+        {
+            CBCC baseBCC = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName];
+
+            IList<CBDT> relevantBdts = GetRelevantBDTs(baseBCC.Type);
+
+            /* generate new name */
+
+            string newBBIEName = "";
+
+            for (int i = 1; i != -1; i++)
+            {
+                newBBIEName = baseBCC.Name + i;
+
+                if (!(baseBCC.BBIEs.ContainsKey(newBBIEName)))
+                {
+                    break;
+                }
+            }
+
+            baseBCC.BBIEs.Add(newBBIEName, new CBBIE(newBBIEName, 0, CheckState.Unchecked, relevantBdts));
+
+            MirrorBBIEsToUI();
+        }
+
+        // TODO: document 
+        private void checkedlistboxBDTs_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            GatherUserInput();
+
+            if ((!selectedCCLName.Equals("")) &&
+                (!selectedACCName.Equals("")) &&
+                (!selectedBCCName.Equals("")) &&
+                (!selectedBBIEName.Equals("")) &&
+                (!selectedBDTName.Equals("")))
+            {
+
+                foreach (CBDT bdt in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].BDTs)
+                {
+                    if (bdt.Name == selectedBDTName)
+                    {
+                        bdt.State = e.NewValue;
+                    }
+                    else
+                    {
+                        bdt.State = CheckState.Unchecked;
+                    }
+                }
+
+                MirrorBDTsToUI();
+            }
+        }
+
+        // TODO: document
+        private void checkedlistboxBDTs_DoubleClick(object sender, EventArgs e)
+        {
+            if (checkedlistboxBDTs.SelectedItem.ToString() == "Create new BDT")
+            {
+                Rectangle r = checkedlistboxBDTs.GetItemRectangle(checkedlistboxBDTs.SelectedIndex);
+
+                editboxBDTName.Text = checkedlistboxBDTs.SelectedItem.ToString();
+
+                editboxBDTName.Location = new Point(r.X + 15, r.Y);
+                editboxBDTName.Size = new Size(r.Width - 15, r.Height + 100);
+
+                editboxBDTName.Show();
+            }
+        }
+
+        // TODO: document
+        private void UpdateBDTName()
+        {
+            //IDictionary<string, CBDT> bdts = cache.CBDTLs[selectedBDTLName].BDTs;
+            string newBDTName = editboxBDTName.Text;
+            errorMessageBDT.Text = "";
+
+            foreach (CBDTL bdtl in cache.CBDTLs.Values)
+            {
+                if (bdtl.BDTs.ContainsKey(newBDTName))
+                {
+                    errorMessageBDT.Text = "BDT named \"" + newBDTName + "\" alreay exists!";
+                }
+            }
+
+            if (errorMessageBDT.Text.Contains("exists"))
+            {
+                errorMessageBDT.Location = new Point(tabcontrolACC.Location.X + tabcontrolACC.Width - 217, tabcontrolACC.Location.Y + 42);
+                errorMessageBDT.BringToFront();
+                errorMessageBDT.Show();
+                Update();
+            }
+            else
+            {
+                errorMessageBDT.Hide();
+
+                int cdtType = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type;
+                int motherBDTLID = cache.CBDTLs[selectedBDTLName].Id;
+
+                cache.CBDTLs[selectedBDTLName].BDTs.Add(newBDTName, new CBDT(newBDTName, -1, CheckState.Unchecked, cdtType, motherBDTLID));
+
+                foreach (CACC acc in cache.CCLs[selectedCCLName].ACCs.Values)
+                {
+                    foreach (CBCC bcc in acc.BCCs.Values)
+                    {
+                        foreach (CBBIE bbie in bcc.BBIEs.Values)
+                        {
+                            foreach (CBDT bdt in bbie.BDTs)
+                            {
+                                if (bdt.BasedOn == cdtType)
+                                {
+                                    bbie.BDTs.Add(new CBDT(newBDTName, -1, CheckState.Unchecked, bcc.Type, motherBDTLID));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // TODO: document
+        private void EditBDTNameOver(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                UpdateBDTName();
+                editboxBDTName.Hide();
+                MirrorBDTsToUI();
+            }
+            else if (e.KeyChar == 27)
+            {
+                editboxBDTName.Hide();
+            }
+        }
+
+        // TODO: document
+        //private void FocusLeftEditBDTName(object sender, EventArgs e)
+        //{
+        //    UpdateBDTName();
+        //    editboxBDTName.Hide();
+        //    MirrorBDTsToUI();
+        //}
+
+        // TODO: document
+
+        private void textABIEName_TextChanged(object sender, EventArgs e)
+        {
+            if (cache.CBIELs[selectedBIELName].ABIEs.ContainsKey(textABIEName.Text))
+            {
+                errorMessageABIE.Location = new Point(textABIEName.Location.X + textABIEName.Width - 210, textABIEName.Location.Y);
+                errorMessageABIE.Text = "ABIE named \"" + textABIEName.Text + "\" alreay exists!";
+                errorMessageABIE.BringToFront();
+                errorMessageABIE.Show();
+            }
+            else
+            {
+                errorMessageABIE.Hide();
+            }
+        }
+
+        // TODO: document
+        private void comboBDTLs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedBDTLName = comboBDTLs.SelectedItem.ToString();
+        }
+
+        // TODO: document
+        private void comboBIELs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedBIELName = comboBIELs.SelectedItem.ToString();
+        }
+
+        // TODO: document
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
             GatherUserInput();
@@ -314,9 +1060,17 @@ namespace VIENNAAddIn.upcc3.Wizards
                         }
                     }
                 }
-            }
+            }         
+   
+            ///* iterate through the ASBIEs */
+            //IList<ASBIESpec> asbies = new List<ASBIESpec>();
+            
 
-
+            //foreach (CASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+            //{                
+            //    asbies.Add(ASBIESpec.CloneASCC(, "MyASCC", ascc.Id));
+            //}
+           
             ABIESpec abieSpec = new ABIESpec
             {
                 Name = textABIEName.Text,
@@ -333,499 +1087,14 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
             cache.CBIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new CABIE(newABIE.Name, newABIE.Id));
+
             MessageBox.Show("ABIE generated! Kiddo, check your libraries!");
         }
-
+        
+        // TODO: document
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        #endregion
-
-        private void checkedlistboxBCCs_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            GatherUserInput();
-
-            if ((!selectedCCLName.Equals("")) &&
-                (!selectedACCName.Equals("")) &&
-                (!selectedBCCName.Equals("")))
-            {
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].State = e.NewValue;
-
-                // set default values
-
-                // loop through BBIEs
-                int countSelectedBBIEs = 0;
-                foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
-                {
-                    if (bbie.State == CheckState.Checked)
-                    {
-                        countSelectedBBIEs++;
-                    }
-
-                    int countSelectedBDTs = 0;
-                    foreach (CBDT bdt in bbie.BDTs)
-                    {
-                        if (bdt.State == CheckState.Checked)
-                        {
-                            countSelectedBDTs++;
-                        }
-                    }
-
-                    if (countSelectedBDTs == 0)
-                    {
-                        foreach (CBDT bdt in bbie.BDTs)
-                        {
-                            bdt.State = CheckState.Checked;
-                            break;
-                        }
-                    }
-                }
-
-                // any checked BBIEs?
-                if (countSelectedBBIEs == 0)
-                {
-                    // set the first element as checked
-                    foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
-                    {
-                        bbie.State = CheckState.Checked;
-                        break;
-                    }
-                }
-
-
-                //int countSelectedBBIEs = 0;
-                //foreach (KeyValuePair<string, CBBIE> bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs)
-                //{
-                //    int countSelectedBDTs = 0;
-
-                //    foreach (CBDT bdt in bbie.Value.BDTs)
-                //    {
-                //        if (bdt.State == CheckState.Checked)
-                //        {
-                //            countSelectedBDTs++;
-                //        }
-                //    }
-
-                //    if (countSelectedBDTs == 0)
-                //    {
-                //        checkedlistboxBDTs.SelectedIndex = 0;
-                //        bbie.Value.State = CheckState.Checked;
-                //    }
-                //}
-            }                              
-        }
-
-        private void checkedlistboxBBIEs_DoubleClick(object sender, EventArgs e)
-        {
-            Rectangle r = checkedlistboxBBIEs.GetItemRectangle(checkedlistboxBBIEs.SelectedIndex);
-
-            editboxBBIEName.Text = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].Name;
-            editboxBBIEName.Location = new Point(r.X + 15, r.Y);
-            editboxBBIEName.Size = new Size(r.Width - 15, r.Height + 100);
-
-            editboxBBIEName.Show();
-        }
-
-        private void UpdateBBIEName()
-        {
-            string newBBIEName = editboxBBIEName.Text;
-
-            if (!(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.ContainsKey(newBBIEName)))
-            {
-                CBBIE updatedBBIE = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName];
-
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Remove(updatedBBIE.Name);
-
-                updatedBBIE.Name = newBBIEName;
-
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Add(newBBIEName, updatedBBIE);                
-            }
-        }
-
-        private void EditBBIENameOver(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 13) 
-            {
-                UpdateBBIEName();
-                editboxBBIEName.Hide();
-                MirrorBBIEsToUI(); 
-            }
-            else if(e.KeyChar == 27)
-            {
-                editboxBBIEName.Hide();
-            }
-        }
-
-        private void FocusLeftEditBBIEName(object sender, EventArgs e)
-        {
-            UpdateBBIEName();
-            editboxBBIEName.Hide();
-            MirrorBBIEsToUI();             
-        }
-
-        private void checkedlistboxBDTs_DoubleClick(object sender, EventArgs e)
-        {
-            if (checkedlistboxBDTs.SelectedItem.ToString() == "Create new BDT")
-            {
-                Rectangle r = checkedlistboxBDTs.GetItemRectangle(checkedlistboxBDTs.SelectedIndex);
-
-                editboxBDTName.Text = checkedlistboxBDTs.SelectedItem.ToString();
-
-                editboxBDTName.Location = new Point(r.X + 15, r.Y);
-                editboxBDTName.Size = new Size(r.Width - 15, r.Height + 100);
-
-                editboxBDTName.Show();
-            }
-        }
-
-        private void UpdateBDTName()
-        {
-            //IDictionary<string, CBDT> bdts = cache.CBDTLs[selectedBDTLName].BDTs;
-            string newBDTName = editboxBDTName.Text;
-            errorMessageBDT.Text = "";
-
-            foreach (CBDTL bdtl in cache.CBDTLs.Values)
-            {
-                if (bdtl.BDTs.ContainsKey(newBDTName))
-                {
-                    errorMessageBDT.Text = "BDT named \"" + newBDTName + "\" alreay exists!";
-                }
-            }
-
-            if (errorMessageBDT.Text.Contains("exists"))
-            {
-                errorMessageBDT.Location = new Point(tabcontrolACC.Location.X + tabcontrolACC.Width - 217, tabcontrolACC.Location.Y + 42);
-                errorMessageBDT.BringToFront();
-                errorMessageBDT.Show();
-                Update();                                 
-            }
-            else
-            {
-                errorMessageBDT.Hide();
-
-                int cdtType = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type;
-                int motherBDTLID = cache.CBDTLs[selectedBDTLName].Id;
-
-                cache.CBDTLs[selectedBDTLName].BDTs.Add(newBDTName, new CBDT(newBDTName, -1, CheckState.Unchecked, cdtType, motherBDTLID));
-
-                foreach (CACC acc in cache.CCLs[selectedCCLName].ACCs.Values)
-                {
-                    foreach (CBCC bcc in acc.BCCs.Values)
-                    {
-                        foreach (CBBIE bbie in bcc.BBIEs.Values)
-                        {
-                            foreach (CBDT bdt in bbie.BDTs)
-                            {
-                                if (bdt.BasedOn == cdtType)
-                                {
-                                    bbie.BDTs.Add(new CBDT(newBDTName, -1, CheckState.Unchecked, bcc.Type, motherBDTLID));
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }                        
-        }
-
-        private void EditBDTNameOver(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == 13)
-            {
-                UpdateBDTName();
-                editboxBDTName.Hide();
-                MirrorBDTsToUI();
-            }
-            else if (e.KeyChar == 27)
-            {
-                editboxBDTName.Hide();
-            }
-        }
-
-        //private void FocusLeftEditBDTName(object sender, EventArgs e)
-        //{
-        //    UpdateBDTName();
-        //    editboxBDTName.Hide();
-        //    MirrorBDTsToUI();
-        //}
-
-
-        private void textABIEName_TextChanged(object sender, EventArgs e)
-        {
-            if (cache.CBIELs[selectedBIELName].ABIEs.ContainsKey(textABIEName.Text))
-            {
-                errorMessageABIE.Location = new Point(textABIEName.Location.X + textABIEName.Width - 210, textABIEName.Location.Y);
-                errorMessageABIE.Text = "ABIE named \"" + textABIEName.Text + "\" alreay exists!";
-                errorMessageABIE.BringToFront();
-                errorMessageABIE.Show();
-            }
-            else
-            {
-                errorMessageABIE.Hide();
-            }
-        }
-
-        private void comboBDTLs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selectedBDTLName = comboBDTLs.SelectedItem.ToString();
-        }
-
-        private void comboBIELs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selectedBIELName = comboBIELs.SelectedItem.ToString();
-        }
-
-        private void buttonAddBBIE_Click(object sender, EventArgs e)
-        {
-            CBCC baseBCC = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName];
-
-            IList<CBDT> relevantBdts = GetRelevantBDTs(baseBCC.Type);
-
-            /* generate new name */
-
-            string newBBIEName = "";
-
-            for (int i = 1; i != -1; i++)
-            {
-                newBBIEName = baseBCC.Name + i;
-
-                if (!(baseBCC.BBIEs.ContainsKey(newBBIEName)))
-                {
-                    break;
-                }
-            }
-
-            baseBCC.BBIEs.Add(newBBIEName, new CBBIE(newBBIEName, 0, CheckState.Unchecked, relevantBdts));
-
-            MirrorBBIEsToUI();
-        }
-
-        private void checkedlistboxBBIEs_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            GatherUserInput();
-
-            if ((!selectedCCLName.Equals("")) &&
-                (!selectedACCName.Equals("")) &&
-                (!selectedBCCName.Equals("")) &&
-                (!selectedBBIEName.Equals("")))
-            {
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].State = e.NewValue;
-            }                         
-        }
-
-        private void checkedlistboxBDTs_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            GatherUserInput();
-
-            if ((!selectedCCLName.Equals("")) &&
-                (!selectedACCName.Equals("")) &&
-                (!selectedBCCName.Equals("")) &&
-                (!selectedBBIEName.Equals("")) &&
-                (!selectedBDTName.Equals("")))
-            {
-
-                foreach (CBDT bdt in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].BDTs)
-                {
-                    if (bdt.Name == selectedBDTName)
-                    {
-                        bdt.State = e.NewValue;
-                    }
-                    else
-                    {
-                        bdt.State = CheckState.Unchecked;
-                    }
-                }   
-
-                MirrorBDTsToUI();
-            } 
-        }
-
-        private void checkboxAttributes_CheckedChanged(object sender, EventArgs e)
-        {
-            // TODO: document
-            GatherUserInput();
-            CheckState newState = CheckState.Unchecked;
-
-            if (checkboxAttributes.Checked)
-            {
-                newState = CheckState.Checked;
-            }
-
-            foreach (KeyValuePair<string, CBCC> bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs)
-            {
-                bcc.Value.State = newState;
-            }
-
-            cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked = newState;
-
-            MirrorBCCsToUI();
-        }
-
-        #region Convenience Methods
-
-        private void GatherUserInput()
-        {
-            selectedCCLName = comboCCLs.SelectedIndex >= 0 ? comboCCLs.SelectedItem.ToString() : "";
-
-            selectedACCName = comboACCs.SelectedIndex >= 0 ? comboACCs.SelectedItem.ToString() : "";
-
-            selectedBCCName = checkedlistboxBCCs.SelectedIndex >= 0 ? checkedlistboxBCCs.SelectedItem.ToString() : "";
-
-            selectedBBIEName = checkedlistboxBBIEs.SelectedIndex >= 0 ? checkedlistboxBBIEs.SelectedItem.ToString() : "";
-
-            selectedBDTName = checkedlistboxBDTs.SelectedIndex >= 0 ? checkedlistboxBDTs.SelectedItem.ToString() : "";
-
-            selectedBDTLName = comboBDTLs.SelectedIndex >= 0 ? comboBDTLs.SelectedItem.ToString() : "";
-
-            selectedBIELName = comboBIELs.SelectedIndex >= 0 ? comboBIELs.SelectedItem.ToString() : "";    
-        }
-
-        private void ResetForm(int level)
-        {
-            switch (level)
-            {
-                case 1:
-                    comboACCs.Enabled = false;
-                    tabcontrolACC.Enabled = false;
-                    textABIEName.Enabled = false;
-                    comboBDTLs.Enabled = false;
-                    comboBIELs.Enabled = false;
-                    buttonGenerate.Enabled = false;
-                    break;
-
-                case 2:
-                    comboACCs.Enabled = true;
-                    break;
-
-                case 3:
-                    tabcontrolACC.Enabled = true;
-                    textABIEName.Enabled = true;
-                    comboBDTLs.Enabled = true;
-                    comboBIELs.Enabled = true;
-                    buttonGenerate.Enabled = true;
-                    break;
-            }
-        }
-
-        private void MirrorCCLibrariesToUI()
-        {
-            comboCCLs.Items.Clear();
-
-            foreach (CCCL ccl in cache.CCLs.Values)
-            {
-                comboCCLs.Items.Add(ccl.Name);
-            }
-        }
-
-        private void MirrorBDTLibrariesToUI()
-        {
-            comboBDTLs.Items.Clear();
-
-            foreach (CBDTL bdtl in cache.CBDTLs.Values)
-            {
-                comboBDTLs.Items.Add(bdtl.Name);
-            }
-        }
-
-        private void MirrorBIELibrariesToUI()
-        {
-            comboBIELs.Items.Clear();
-
-            foreach (CBIEL biel in cache.CBIELs.Values)
-            {
-                comboBIELs.Items.Add(biel.Name);
-            }
-        }
-
-        private void MirrorACCsToUI()
-        {
-            comboACCs.Items.Clear();
-            
-            foreach (CACC acc in cache.CCLs[selectedCCLName].ACCs.Values)
-            {
-                comboACCs.Items.Add(acc.Name);
-            }
-        }
-
-        private void MirrorBCCsToUI()
-        {
-            checkedlistboxBCCs.Items.Clear();
-
-            foreach (CBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
-            {
-                checkedlistboxBCCs.Items.Add(bcc.Name, bcc.State);
-            }
-
-            checkboxAttributes.CheckState = cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked;
-            
-            checkedlistboxBCCs.SelectedIndex = 0;
-        }
-
-        private void MirrorASCCsToUI()
-        {
-            checkedlistboxASCCs.Items.Clear();
-
-            foreach (CASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
-            {
-                checkedlistboxASCCs.Items.Add(ascc.Name, ascc.State);
-            }
-
-            //checkedlistboxASCCs.SelectedIndex = 0;
-        }
-        
-        private void MirrorBBIEsToUI()
-        {
-            checkedlistboxBBIEs.Items.Clear();
-            
-            foreach (CBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
-            {
-                checkedlistboxBBIEs.Items.Add(bbie.Name, bbie.State);
-            }
-
-            // select first entry in the list per default
-            checkedlistboxBBIEs.SelectedIndex = 0;
-        }
-
-        private void MirrorBDTsToUI()
-        {
-            int checkedItemIndex = 0;
-
-            GatherUserInput();
-            
-            checkedlistboxBDTs.Items.Clear();            
-
-            foreach (CBDT bdt in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].BDTs)
-            {
-                checkedlistboxBDTs.Items.Add(bdt.Name, bdt.State);
-
-                if (bdt.State == CheckState.Checked)
-                {
-                    checkedlistboxBDTs.SelectedIndex = checkedItemIndex;
-                }
-                checkedItemIndex++;
-            }
-        }
-
-        private IList<CBDT> GetRelevantBDTs(int cdtid)
-        {
-            IList<CBDT> relevantBdts = new List<CBDT>();
-
-            foreach (CBDTL bdtl in cache.CBDTLs.Values)
-            {
-                foreach (CBDT bdt in bdtl.BDTs.Values)
-                {
-                    if (bdt.BasedOn == cdtid)
-                    {
-                        relevantBdts.Add(new CBDT(bdt.Name, bdt.Id, CheckState.Unchecked, bdt.BasedOn, bdt.InLibrary));
-                    }
-                }
-            }
-
-            relevantBdts.Add(new CBDT("Create new BDT", -1, CheckState.Unchecked, cdtid, -1));                      
-
-            return relevantBdts;
         }
 
         #endregion
