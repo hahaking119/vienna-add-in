@@ -157,18 +157,26 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestCreateABIE()
         {
-            var accAddress = (IACC) repository.FindByPath(EARepository1.PathToAddress());
-            Assert.IsNotNull(accAddress, "ACC Address not found");
+            var accPerson = (IACC) repository.FindByPath(EARepository1.PathToACCPerson());
+            Assert.IsNotNull(accPerson, "ACC Person not found");
+
+            var bieAddress = (IABIE) repository.FindByPath(EARepository1.PathToBIEAddress());
+            Assert.IsNotNull(bieAddress, "BIE Address not found");
 
             var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
             Assert.IsNotNull(bdtText, "BDT Text not found");
 
             IBIELibrary bieLibrary = repository.Libraries<IBIELibrary>().First();
 
-            var bccs = new List<IBCC>(accAddress.BCCs);
+            var bccs = new List<IBCC>(accPerson.BCCs);
+            var asccs = new List<IASCC>(accPerson.ASCCs);
+            var asbies = new List<ASBIESpec>
+                         {
+                             ASBIESpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress.Id)
+                         };
             var abieSpec = new ABIESpec
                            {
-                               Name = "My_" + accAddress.Name,
+                               Name = "My_" + accPerson.Name,
                                DictionaryEntryName = "overriding default dictionary entry name",
                                Definition = "My specific version of an address",
                                UniqueIdentifier = "my unique identifier",
@@ -176,29 +184,30 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                LanguageCode = "my language code",
                                BusinessTerms = new[] {"business term 1", "business term 2"},
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
-                               BasedOn = accAddress,
+                               BasedOn = accPerson,
                                BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
+                               ASBIEs = asbies,
                            };
 
-            IABIE abieAddress = bieLibrary.CreateABIE(abieSpec);
-            Assert.IsNotNull(abieAddress, "ABIE is null");
-            Assert.AreEqual(bieLibrary.Id, abieAddress.Library.Id);
+            IABIE abiePerson = bieLibrary.CreateABIE(abieSpec);
+            Assert.IsNotNull(abiePerson, "ABIE is null");
+            Assert.AreEqual(bieLibrary.Id, abiePerson.Library.Id);
 
-            Assert.AreEqual(abieSpec.Name, abieAddress.Name);
-            Assert.AreEqual(abieSpec.DictionaryEntryName, abieAddress.DictionaryEntryName);
-            Assert.AreEqual(abieSpec.Definition, abieAddress.Definition);
-            Assert.AreEqual(abieSpec.UniqueIdentifier, abieAddress.UniqueIdentifier);
-            Assert.AreEqual(abieSpec.VersionIdentifier, abieAddress.VersionIdentifier);
-            Assert.AreEqual(abieSpec.LanguageCode, abieAddress.LanguageCode);
-            Assert.AreEqual(abieSpec.BusinessTerms, abieAddress.BusinessTerms);
-            Assert.AreEqual(abieSpec.UsageRules, abieAddress.UsageRules);
+            Assert.AreEqual(abieSpec.Name, abiePerson.Name);
+            Assert.AreEqual(abieSpec.DictionaryEntryName, abiePerson.DictionaryEntryName);
+            Assert.AreEqual(abieSpec.Definition, abiePerson.Definition);
+            Assert.AreEqual(abieSpec.UniqueIdentifier, abiePerson.UniqueIdentifier);
+            Assert.AreEqual(abieSpec.VersionIdentifier, abiePerson.VersionIdentifier);
+            Assert.AreEqual(abieSpec.LanguageCode, abiePerson.LanguageCode);
+            Assert.AreEqual(abieSpec.BusinessTerms, abiePerson.BusinessTerms);
+            Assert.AreEqual(abieSpec.UsageRules, abiePerson.UsageRules);
 
-            Assert.IsNotNull(abieAddress.BasedOn, "BasedOn is null");
-            Assert.AreEqual(accAddress.Id, abieAddress.BasedOn.Id);
+            Assert.IsNotNull(abiePerson.BasedOn, "BasedOn is null");
+            Assert.AreEqual(accPerson.Id, abiePerson.BasedOn.Id);
 
-            Assert.AreEqual(accAddress.BCCs.Count(), abieAddress.BBIEs.Count());
-            IEnumerator<IBBIE> bbies = abieAddress.BBIEs.GetEnumerator();
-            foreach (IBCC bcc in accAddress.BCCs)
+            Assert.AreEqual(accPerson.BCCs.Count(), abiePerson.BBIEs.Count());
+            IEnumerator<IBBIE> bbies = abiePerson.BBIEs.GetEnumerator();
+            foreach (IBCC bcc in accPerson.BCCs)
             {
                 bbies.MoveNext();
                 IBBIE bbie = bbies.Current;
@@ -214,6 +223,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 Assert.AreEqual(bcc.UsageRules, bbie.UsageRules);
                 Assert.AreEqual(bcc.BusinessTerms, bbie.BusinessTerms);
             }
+
+            Assert.AreEqual(1, abiePerson.ASBIEs.Count());
+            Assert.AreEqual("My_homeAddress", abiePerson.ASBIEs.First().Name);
         }
 
         [Test]

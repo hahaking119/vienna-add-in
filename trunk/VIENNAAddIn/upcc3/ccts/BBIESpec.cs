@@ -30,7 +30,7 @@ namespace VIENNAAddIn.upcc3.ccts
                        SequencingKey = bcc.SequencingKey,
                        Type = type,
                        UniqueIdentifier = bcc.UniqueIdentifier,
-                       UsageRules = bcc.UsageRules,
+                       UsageRules = new List<string>(bcc.UsageRules),
                        VersionIdentifier = bcc.VersionIdentifier,
                    };
         }

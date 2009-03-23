@@ -46,17 +46,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
             if (spec.BasedOn != null)
             {
-                abie.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
+                abie.AddConnector(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id);
             }
             if (spec.IsEquivalentTo != null)
             {
-                abie.AddConnector(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id);
+                abie.AddConnector(util.Stereotype.IsEquivalentTo, "isEquivalentTo", spec.IsEquivalentTo.Id);
             }
 
             foreach (BBIESpec bbie in spec.BBIEs)
             {
                 abie.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, "1", "1",
                                   bbie.GetTaggedValues());
+            }
+
+            foreach (var asbie in spec.ASBIEs)
+            {
+                abie.AddConnector(util.Stereotype.ASBIE, asbie.Name, asbie.AssociatedABIEId);
             }
 
             abie.Update();
