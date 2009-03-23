@@ -237,6 +237,7 @@ namespace VIENNAAddIn
                     menu.Add("&Validate All - UMM2");
                     menu.Add("-");
                     menu.Add("-Maintenance");
+                    menu.Add("-Wizards");
                     menu.Add("&Import CCTS Library");
                     menu.Add("&Options");
                     menu.Add("&About " + AddInSettings.getAddInCaption() + " Add-In");
@@ -246,6 +247,11 @@ namespace VIENNAAddIn
                     menu.Add("Synch tagged value");
                     menu.Add("Synchronize Tagged Values Neu");
                     menu.Add("&BPEL-XSLT Template Setting");
+                }
+                else if (menuname == "-Wizards")
+                {
+                    menu.Add("Create new &ABIE using the Wizard");
+                    menu.Add("Create new BD&T using the Wizard");
                 }
             }
             else if (menulocation == "Diagram")
