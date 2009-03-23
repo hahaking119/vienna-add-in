@@ -20,35 +20,16 @@ namespace VIENNAAddIn.Settings
     /// </summary>
     public class SynchStereotypes
     {
-        //R.I.P. good old list solution .. 
-        //private readonly List<String> stereotypes = new List<String>(new String[] { "ABIE", "ACC", "ASBIE", "ASCC", "BBIE", "BCC", "BCSS", "BIE", "CC", "CCTS", "CDT", "CON", "PRIM", "QDT", "SUP", "BDT" });
-        //private readonly List<String> libraries = new List<string>(new String[] { "BIELibrary", "bLibrary", "BusinessLibrary", "CCLibrary", "CDTLibrary", "DOCLibrary", "ENUMLibrary", "PRIMLibrary", "QDTLibrary" });
-
-        /// <summary>
-        /// Fix a whole Package by first fixing the TaggedValues of the package itself and then its suppackages recursivley.
-        /// </summary>
-        /// <param name="p">The package to fix</param>
-        public void FixPackage(Package p)
-        {
-            Fix(p);
-            foreach (Element e in p.Elements)
-            {
-                Fix(e);
-            }
-            foreach (Package pp in p.Packages)
-                FixPackage(pp);
-        }
-
         /// <summary>
         /// Fix a whole Repository by fixing all of its packages.
         /// </summary>
         /// <param name="r">The repository to fix</param>
-        public void FixRepository(Repository r)
+        public void Fix(Repository r)
         {
             foreach (Package p in r.Models)
             {
                 foreach (Package pp in p.Packages)
-                    FixPackage(pp);
+                    Fix(pp);
             }
         }
 
@@ -82,6 +63,7 @@ namespace VIENNAAddIn.Settings
             }
             return missingValues;
         }
+
         /// <summary>
         /// Check elements and connectors for missing TaggedValues and return a List of them
         /// </summary>
@@ -98,12 +80,6 @@ namespace VIENNAAddIn.Settings
                 case "ACC": //finished!
                     Debug.WriteLine("Checking ACC.");
                     goto default;
-                case "ASBIE": //finisehd!
-                    Debug.WriteLine("Checking ABCIE.");
-                    goto case "BCC";
-                case "ASCC": //finished!
-                    Debug.WriteLine("Checking ASCC.");
-                    goto case "BCC";
                 case "BBIE": //finished!
                     Debug.WriteLine("Checking BBIE.");
                     goto case "BCC";
@@ -194,33 +170,6 @@ namespace VIENNAAddIn.Settings
                     if (Equals(e.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), null))
                         missingValues.Add(TaggedValues.ModificationAllowedIndicator.AsString());
                     goto default;
-                case "basedOn": //finished
-                    Debug.WriteLine("Checking basedOn.");
-                    if (Equals(e.GetTaggedValue(TaggedValues.ApplyTo), null))
-                        missingValues.Add(TaggedValues.ApplyTo.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.Pattern), null))
-                        missingValues.Add(TaggedValues.Pattern.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        missingValues.Add(TaggedValues.FractionDigits.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.Length), null))
-                        missingValues.Add(TaggedValues.Length.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        missingValues.Add(TaggedValues.MaxExclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        missingValues.Add(TaggedValues.MaxInclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxLength), null))
-                        missingValues.Add(TaggedValues.MaxLength.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        missingValues.Add(TaggedValues.MinExclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        missingValues.Add(TaggedValues.MinInclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinLength), null))
-                        missingValues.Add(TaggedValues.MinLength.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        missingValues.Add(TaggedValues.TotalDigits.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        missingValues.Add(TaggedValues.WhiteSpace.AsString());
-                    break;
                 case "BDT": //finished
                     Debug.WriteLine("Checking BDT.");
                     goto default;
@@ -254,129 +203,14 @@ namespace VIENNAAddIn.Settings
             var missingValues = new List<String>();
             switch (c.Stereotype)
             {
-                case "ABIE": //finished!
-                    goto default;
-                case "ACC": //finished!
-                    goto default;
                 case "ASBIE": //finished!
-                    goto case "BCC";
+                    goto case "ASCC";
                 case "ASCC": //finished!
-                    goto case "BCC";
-                case "BBIE": //finished!
-                    goto case "BCC";
-                case "BCC": //finished!
                     if (Equals(c.GetTaggedValue(TaggedValues.SequencingKey), null))
                     {
                         Debug.WriteLine("Found Missing SequencingKey");
                         missingValues.Add(TaggedValues.SequencingKey.AsString());
                     }
-                    goto default;
-                case "BCSS":
-                    //not found yet!
-                    break;
-                case "BIE":
-                    //not found yet!
-                    break;
-                case "CC":
-                    //not found yet! does it really mean CC?
-                    break;
-                case "CCTS":
-                    //not found yet! does it really mean CCTS?
-                    break;
-                case "CDT":
-                    goto default; //finished
-                case "CON": //finished
-                    goto case "SUP";
-                case "ENUM": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.AgencyIdentifier), null))
-                        missingValues.Add(TaggedValues.AgencyIdentifier.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.AgencyName), null))
-                        missingValues.Add(TaggedValues.AgencyName.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        missingValues.Add(TaggedValues.BusinessTerm.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        missingValues.Add(TaggedValues.LanguageCode.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        missingValues.Add(TaggedValues.VersionIdentifier.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.EnumerationURI), null))
-                        missingValues.Add(TaggedValues.EnumerationURI.AsString());
-                    break;
-                case "PRIM": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        missingValues.Add(TaggedValues.BusinessTerm.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        missingValues.Add(TaggedValues.LanguageCode.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        missingValues.Add(TaggedValues.VersionIdentifier.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.Definition), null))
-                        missingValues.Add(TaggedValues.Definition.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
-                        missingValues.Add(TaggedValues.Pattern.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        missingValues.Add(TaggedValues.FractionDigits.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
-                        missingValues.Add(TaggedValues.Length.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        missingValues.Add(TaggedValues.MaxExclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        missingValues.Add(TaggedValues.MaxInclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
-                        missingValues.Add(TaggedValues.MaxLength.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        missingValues.Add(TaggedValues.MinExclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        missingValues.Add(TaggedValues.MinInclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
-                        missingValues.Add(TaggedValues.MinLength.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        missingValues.Add(TaggedValues.TotalDigits.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        missingValues.Add(TaggedValues.WhiteSpace.AsString());
-                    break;
-                case "QDT":
-                    //not found yet!
-                    break;
-                case "SUP": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), null))
-                        missingValues.Add(TaggedValues.ModificationAllowedIndicator.AsString());
-                    goto default;
-                case "basedOn": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), null))
-                        missingValues.Add(TaggedValues.ApplyTo.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
-                        missingValues.Add(TaggedValues.Pattern.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        missingValues.Add(TaggedValues.FractionDigits.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
-                        missingValues.Add(TaggedValues.Length.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        missingValues.Add(TaggedValues.MaxExclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        missingValues.Add(TaggedValues.MaxInclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
-                        missingValues.Add(TaggedValues.MaxLength.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        missingValues.Add(TaggedValues.MinExclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        missingValues.Add(TaggedValues.MinInclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
-                        missingValues.Add(TaggedValues.MinLength.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        missingValues.Add(TaggedValues.TotalDigits.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        missingValues.Add(TaggedValues.WhiteSpace.AsString());
-                    break;
-                case "BDT": //finished
-                    goto default;
-                default: //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
                     {
                         missingValues.Add(TaggedValues.BusinessTerm.AsString());
@@ -413,7 +247,33 @@ namespace VIENNAAddIn.Settings
                         Debug.WriteLine("Found Missing UsageRule");
                     }
                     break;
-            }
+                case "basedOn": //finished
+                    if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), null))
+                        missingValues.Add(TaggedValues.ApplyTo.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
+                        missingValues.Add(TaggedValues.Pattern.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
+                        missingValues.Add(TaggedValues.FractionDigits.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
+                        missingValues.Add(TaggedValues.Length.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
+                        missingValues.Add(TaggedValues.MaxExclusive.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
+                        missingValues.Add(TaggedValues.MaxInclusive.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
+                        missingValues.Add(TaggedValues.MaxLength.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
+                        missingValues.Add(TaggedValues.MinExclusive.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
+                        missingValues.Add(TaggedValues.MinInclusive.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
+                        missingValues.Add(TaggedValues.MinLength.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
+                        missingValues.Add(TaggedValues.TotalDigits.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
+                        missingValues.Add(TaggedValues.WhiteSpace.AsString());
+                    break;
+                }
             return missingValues;
         }
 
@@ -430,10 +290,6 @@ namespace VIENNAAddIn.Settings
                     goto default;
                 case "ACC": //finished!
                     goto default;
-                case "ASBIE": //finisehd!
-                    goto case "BCC";
-                case "ASCC": //finished!
-                    goto case "BCC";
                 case "BBIE": //finished!
                     goto case "BCC";
                 case "BCC": //finished!
@@ -517,32 +373,6 @@ namespace VIENNAAddIn.Settings
                     if (Equals(e.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), null))
                         e.SetTaggedValue(TaggedValues.ModificationAllowedIndicator, "");
                     goto default;
-                case "basedOn": //finished
-                    if (Equals(e.GetTaggedValue(TaggedValues.ApplyTo), null))
-                        e.SetTaggedValue(TaggedValues.ApplyTo, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.Pattern), null))
-                        e.SetTaggedValue(TaggedValues.Pattern, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        e.SetTaggedValue(TaggedValues.FractionDigits, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.Length), null))
-                        e.SetTaggedValue(TaggedValues.Length, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        e.SetTaggedValue(TaggedValues.MaxExclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        e.SetTaggedValue(TaggedValues.MaxInclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxLength), null))
-                        e.SetTaggedValue(TaggedValues.MaxLength, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        e.SetTaggedValue(TaggedValues.MinExclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        e.SetTaggedValue(TaggedValues.MinInclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinLength), null))
-                        e.SetTaggedValue(TaggedValues.MinLength, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        e.SetTaggedValue(TaggedValues.TotalDigits, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        e.SetTaggedValue(TaggedValues.WhiteSpace, "");
-                    break;
                 case "BDT": //finished
                     goto default;
                 default: //finished
@@ -572,129 +402,14 @@ namespace VIENNAAddIn.Settings
         {
             switch (c.Stereotype)
             {
-                case "ABIE": //finished!
-                    goto default;
-                case "ACC": //finished!
-                    goto default;
                 case "ASBIE": //finisehd!
-                    goto case "BCC";
+                    goto case "ASCC";
                 case "ASCC": //finished!
-                    goto case "BCC";
-                case "BBIE": //finished!
-                    goto case "BCC";
-                case "BCC": //finished!
                     if (Equals(c.GetTaggedValue(TaggedValues.SequencingKey), null))
                     {
                         c.SetTaggedValue(TaggedValues.SequencingKey, "");
                         Debug.WriteLine("Added new TaggedValue: " + TaggedValues.SequencingKey);
                     }
-                    goto default;
-                case "BCSS":
-                    //not found yet!
-                    break;
-                case "BIE":
-                    //not found yet!
-                    break;
-                case "CC":
-                    //not found yet! does it really mean CC?
-                    break;
-                case "CCTS":
-                    //not found yet! does it really mean CCTS?
-                    break;
-                case "CDT":
-                    goto default; //finished
-                case "CON": //finished
-                    goto case "SUP";
-                case "ENUM": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.AgencyIdentifier), null))
-                        c.SetTaggedValue(TaggedValues.AgencyIdentifier, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.AgencyName), null))
-                        c.SetTaggedValue(TaggedValues.AgencyName, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        c.SetTaggedValue(TaggedValues.BusinessTerm, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        c.SetTaggedValue(TaggedValues.LanguageCode, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        c.SetTaggedValue(TaggedValues.UniqueIdentifier, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        c.SetTaggedValue(TaggedValues.VersionIdentifier, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        c.SetTaggedValue(TaggedValues.DictionaryEntryName, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.EnumerationURI), null))
-                        c.SetTaggedValue(TaggedValues.EnumerationURI, "");
-                    break;
-                case "PRIM": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        c.SetTaggedValue(TaggedValues.BusinessTerm, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        c.SetTaggedValue(TaggedValues.LanguageCode, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        c.SetTaggedValue(TaggedValues.UniqueIdentifier, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        c.SetTaggedValue(TaggedValues.VersionIdentifier, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        c.SetTaggedValue(TaggedValues.DictionaryEntryName, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.Definition), null))
-                        c.SetTaggedValue(TaggedValues.Definition, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
-                        c.SetTaggedValue(TaggedValues.Pattern, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        c.SetTaggedValue(TaggedValues.FractionDigits, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
-                        c.SetTaggedValue(TaggedValues.Length, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        c.SetTaggedValue(TaggedValues.MaxExclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        c.SetTaggedValue(TaggedValues.MaxInclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
-                        c.SetTaggedValue(TaggedValues.MaxLength, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        c.SetTaggedValue(TaggedValues.MinExclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        c.SetTaggedValue(TaggedValues.MinInclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
-                        c.SetTaggedValue(TaggedValues.MinLength, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        c.SetTaggedValue(TaggedValues.TotalDigits, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        c.SetTaggedValue(TaggedValues.WhiteSpace, "");
-                    break;
-                case "QDT":
-                    //not found yet!
-                    break;
-                case "SUP": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), null))
-                        c.SetTaggedValue(TaggedValues.ModificationAllowedIndicator, "");
-                    goto default;
-                case "basedOn": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), null))
-                        c.SetTaggedValue(TaggedValues.ApplyTo, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
-                        c.SetTaggedValue(TaggedValues.Pattern, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        c.SetTaggedValue(TaggedValues.FractionDigits, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
-                        c.SetTaggedValue(TaggedValues.Length, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        c.SetTaggedValue(TaggedValues.MaxExclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        c.SetTaggedValue(TaggedValues.MaxInclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
-                        c.SetTaggedValue(TaggedValues.MaxLength, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        c.SetTaggedValue(TaggedValues.MinExclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        c.SetTaggedValue(TaggedValues.MinInclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
-                        c.SetTaggedValue(TaggedValues.MinLength, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        c.SetTaggedValue(TaggedValues.TotalDigits, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        c.SetTaggedValue(TaggedValues.WhiteSpace, "");
-                    break;
-                case "BDT": //finished
-                    goto default;
-                default: //finished
                     if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
                     {
                         c.SetTaggedValue(TaggedValues.BusinessTerm, "");
@@ -731,11 +446,37 @@ namespace VIENNAAddIn.Settings
                         Debug.WriteLine("Added new TaggedValue: " + TaggedValues.UsageRule);
                     }
                     break;
+                case "basedOn": //finished
+                    if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), null))
+                        c.SetTaggedValue(TaggedValues.ApplyTo, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
+                        c.SetTaggedValue(TaggedValues.Pattern, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
+                        c.SetTaggedValue(TaggedValues.FractionDigits, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
+                        c.SetTaggedValue(TaggedValues.Length, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
+                        c.SetTaggedValue(TaggedValues.MaxExclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
+                        c.SetTaggedValue(TaggedValues.MaxInclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
+                        c.SetTaggedValue(TaggedValues.MaxLength, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
+                        c.SetTaggedValue(TaggedValues.MinExclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
+                        c.SetTaggedValue(TaggedValues.MinInclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
+                        c.SetTaggedValue(TaggedValues.MinLength, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
+                        c.SetTaggedValue(TaggedValues.TotalDigits, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
+                        c.SetTaggedValue(TaggedValues.WhiteSpace, "");
+                    break;
             }
         }
 
         /// <summary>
-        /// Add missing TaggedValues to Packages
+        /// Fix a whole Package by first fixing the TaggedValues of the package itself and then its suppackages recursivley.
         /// </summary>
         /// <param name="p">The package to fix</param>
         public void Fix(Package p)
@@ -784,6 +525,14 @@ namespace VIENNAAddIn.Settings
             {
                 Debug.WriteLine("Added TaggedValue: " + TaggedValues.NamespacePrefix.AsString());
                 p.SetTaggedValue(TaggedValues.NamespacePrefix, "");
+            }
+            foreach (Element e in p.Elements)
+            {
+                Fix(e);
+            }
+            foreach (Package pp in p.Packages)
+            {
+                Fix(pp);
             }
             p.Update();
         }
