@@ -47,8 +47,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             AssertSUP(bdtMeasure, 1, "MeasureUnit", stringType, "1", "1");
             AssertSUP(bdtMeasure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
 
-            AssertLibrary(bLib1, 3, "CCLibrary", "cclib1", "urn:test:blib1:cclib1", 0, 1);
-            AssertLibrary(bLib1, 4, "BIELibrary", "bielib1", "urn:test:blib1:bielib1", 0, 0);
+            AssertLibrary(bLib1, 3, "CCLibrary", "cclib1", "urn:test:blib1:cclib1", 0, 2);
+            AssertLibrary(bLib1, 4, "BIELibrary", "bielib1", "urn:test:blib1:bielib1", 0, 2);
         }
 
         private static Element AssertPRIM(Package library, short index, string name)

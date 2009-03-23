@@ -15,6 +15,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     internal class EAConnector : IEACollectionElement, Connector
     {
         private readonly Collection taggedValues = new EACollection<EAConnectorTag>();
+        private EAConnectorEnd supplierEnd = new EAConnectorEnd();
         private int supplierID;
         public EARepository Repository { get; set; }
 
@@ -71,10 +72,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int SupplierID
         {
-            get
-            {
-                return SupplierPath != null ? SupplierPath.Resolve<Element>(Repository).ElementID : supplierID;
-            }
+            get { return SupplierPath != null ? SupplierPath.Resolve<Element>(Repository).ElementID : supplierID; }
             set { supplierID = value; }
         }
 
@@ -132,7 +130,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public ConnectorEnd SupplierEnd
         {
-            get { throw new NotImplementedException(); }
+            get { return supplierEnd; }
         }
 
         public int RouteStyle
@@ -265,6 +263,154 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             get { return Name; }
             set { Name = value; }
+        }
+
+        #endregion
+    }
+
+    internal class EAConnectorEnd : ConnectorEnd
+    {
+        #region ConnectorEnd Members
+
+        public bool Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetLastError()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string End
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Cardinality
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Visibility
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Role { get; set; }
+
+        public string RoleType
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string RoleNote
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Containment
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public int Aggregation
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public int Ordering
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Qualifier
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Constraint
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool IsNavigable
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string IsChangeable
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public Collection TaggedValues
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Stereotype
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public ObjectType ObjectType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string StereotypeEx
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Navigable
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool OwnedByClassifier
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool Derived
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool DerivedUnion
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool AllowDuplicates
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Alias
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         #endregion

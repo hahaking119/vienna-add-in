@@ -331,8 +331,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Format", dateFormat.Name);
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
-            repository.Libraries<IBDTLibrary>().First();
-
             ICCLibrary ccLib1 = repository.Libraries<ICCLibrary>().First();
             IACC cdtAddress = ccLib1.ACCs.First();
             var cdtAddressBCCs = new List<IBCC>(cdtAddress.BCCs);
@@ -342,8 +340,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtText = (ICDT) repository.FindByPath(EARepository1.PathToText());
             Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
 
+            var accPerson = (IACC)repository.FindByPath(EARepository1.PathToACCPerson());
+            Assert.AreEqual("homeAddress", accPerson.ASCCs.First().Name);
+
             var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
             Assert.AreEqual("This is the definition of BDT Text.", bdtText.CON.Definition);
+
+            var biePerson = (IABIE) repository.FindByPath(EARepository1.PathToBIEPerson());
+            Assert.AreEqual("homeAddress", biePerson.ASBIEs.First().Name);
         }
 
         [Test]
