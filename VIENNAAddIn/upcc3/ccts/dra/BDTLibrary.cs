@@ -47,7 +47,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             bdt.SetTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
             bdt.SetTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
 
-            bdt.AddConnector(util.Stereotype.BasedOn, spec.BasedOn.Id);
+            bdt.AddConnector(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id);
 
             bdt.AddAttribute(util.Stereotype.CON, "Content", spec.CON.BasicType.Name, spec.CON.BasicType.Id,
                              spec.CON.LowerBound, spec.CON.UpperBound, spec.CON.GetTaggedValues());
