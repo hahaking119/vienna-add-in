@@ -41,6 +41,8 @@
             this.groupboxBDTs = new System.Windows.Forms.GroupBox();
             this.checkedlistboxBDTs = new System.Windows.Forms.CheckedListBox();
             this.TabControlPageAssociations = new System.Windows.Forms.TabPage();
+            this.groupboxASBIEs = new System.Windows.Forms.GroupBox();
+            this.checkedlistboxASCCs = new System.Windows.Forms.CheckedListBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBDTLs = new System.Windows.Forms.ComboBox();
@@ -53,8 +55,6 @@
             this.comboBIELs = new System.Windows.Forms.ComboBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
-            this.groupboxASBIEs = new System.Windows.Forms.GroupBox();
-            this.checkedlistboxASCCs = new System.Windows.Forms.CheckedListBox();
             this.groupboxSettings.SuspendLayout();
             this.tabcontrolACC.SuspendLayout();
             this.TabControlPageAttributes.SuspendLayout();
@@ -234,6 +234,24 @@
             this.TabControlPageAssociations.Text = "Associations";
             this.TabControlPageAssociations.UseVisualStyleBackColor = true;
             // 
+            // groupboxASBIEs
+            // 
+            this.groupboxASBIEs.Controls.Add(this.checkedlistboxASCCs);
+            this.groupboxASBIEs.Location = new System.Drawing.Point(9, 3);
+            this.groupboxASBIEs.Name = "groupboxASBIEs";
+            this.groupboxASBIEs.Size = new System.Drawing.Size(631, 318);
+            this.groupboxASBIEs.TabIndex = 0;
+            this.groupboxASBIEs.TabStop = false;
+            this.groupboxASBIEs.Text = "ABIEs available to associate the new ABIE with";
+            // 
+            // checkedlistboxASCCs
+            // 
+            this.checkedlistboxASCCs.FormattingEnabled = true;
+            this.checkedlistboxASCCs.Location = new System.Drawing.Point(13, 19);
+            this.checkedlistboxASCCs.Name = "checkedlistboxASCCs";
+            this.checkedlistboxASCCs.Size = new System.Drawing.Size(604, 289);
+            this.checkedlistboxASCCs.TabIndex = 0;
+            // 
             // label7
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
@@ -365,24 +383,6 @@
             this.buttonGenerate.Text = "&Generate ABIE ...";
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
-            // 
-            // groupboxASBIEs
-            // 
-            this.groupboxASBIEs.Controls.Add(this.checkedlistboxASCCs);
-            this.groupboxASBIEs.Location = new System.Drawing.Point(9, 3);
-            this.groupboxASBIEs.Name = "groupboxASBIEs";
-            this.groupboxASBIEs.Size = new System.Drawing.Size(631, 318);
-            this.groupboxASBIEs.TabIndex = 0;
-            this.groupboxASBIEs.TabStop = false;
-            this.groupboxASBIEs.Text = "ABIEs available to associate the new ABIE with";
-            // 
-            // checkedlistboxASCCs
-            // 
-            this.checkedlistboxASCCs.FormattingEnabled = true;
-            this.checkedlistboxASCCs.Location = new System.Drawing.Point(13, 19);
-            this.checkedlistboxASCCs.Name = "checkedlistboxASCCs";
-            this.checkedlistboxASCCs.Size = new System.Drawing.Size(604, 289);
-            this.checkedlistboxASCCs.TabIndex = 0;
             // 
             // ABIEWizardForm
             // 

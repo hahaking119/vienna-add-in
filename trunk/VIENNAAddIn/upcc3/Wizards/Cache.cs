@@ -1,6 +1,13 @@
-﻿using System.Collections.Generic;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+using System.Collections.Generic;
 using System.Windows.Forms;
-
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -252,22 +259,18 @@ namespace VIENNAAddIn.upcc3.Wizards
         public CCCL()
         {
             ACCs = new Dictionary<string, CACC>();
-            //BDTs = new List<CBDT>();
         }
 
         public CCCL(string initName, int initId) : base(initName, initId)
         {
             ACCs = new Dictionary<string, CACC>();
-            //BDTs = new List<CBDT>();
         }
 
         public CCCL(string initName, int initId, IDictionary<string, CACC> initACCs) : base(initName, initId)
         {
             ACCs = initACCs;
-          //  BDTs = new List<CBDT>();
         }
 
         public IDictionary<string, CACC> ACCs { get; set; }
-        //public IList<CBDT> BDTs { get; set; }
     }
 }

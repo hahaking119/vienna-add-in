@@ -462,10 +462,33 @@ namespace VIENNAAddIn.upcc3.Wizards
                 int cclID = cache.CCLs[selectedCCLName].Id;
                 ICCLibrary ccl = (ICCLibrary)repository.GetLibrary(cclID);
 
-                foreach (IACC acc in ccl.ACCs)
+                IACC previousACC;
+
+                foreach (var acc in ccl.ACCs)
                 {
-                    cache.CCLs[selectedCCLName].ACCs.Add(acc.Name, new CACC(acc.Name, acc.Id));
+                    //previousACC = acc;
+
+                    //MessageBox.Show("Hallo!");
+
+                    //if (acc is IACC)
+                    //{
+                        cache.CCLs[selectedCCLName].ACCs.Add(acc.Name, new CACC(acc.Name, acc.Id));
+                        //MessageBox.Show("name: " + acc.Name);
+                    //}
+                    //else
+                    //{
+                        //MessageBox.Show("Wahrscheinlich ein Kommentar!");
+                    //}
                 }
+
+                //foreach (IACC acc in ccl.ACCs)
+                //{
+                //    MessageBox.Show("[v]:" + acc.Name.ToString());                    
+
+                    
+
+                //    MessageBox.Show("[n]:" + acc.Name.ToString());
+                //}
             }
 
             /*
@@ -868,9 +891,32 @@ namespace VIENNAAddIn.upcc3.Wizards
         // TODO: document
         private void checkedlistboxBDTs_DoubleClick(object sender, EventArgs e)
         {
+            //MessageBox.Show("BDT Name: " + selectedBDTName);
+
+            if (!(selectedBDTName.Equals("")))
+            {
+                checkedlistboxBDTs.SelectedItem = selectedBDTName;                
+            }
+
+            int i = 0;
+            foreach (CBDT bdt in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].BDTs)
+            {
+                if (bdt.Name == selectedBDTName)
+                {
+                    break;
+                }
+
+                i++;
+            }
+
+            
+            ////GatherUserInput();
+            //if (selectedBDTName == "Create new BDT")
+            //{
             if (checkedlistboxBDTs.SelectedItem.ToString() == "Create new BDT")
             {
-                Rectangle r = checkedlistboxBDTs.GetItemRectangle(checkedlistboxBDTs.SelectedIndex);
+                //Rectangle r = checkedlistboxBDTs.GetItemRectangle(checkedlistboxBDTs.SelectedIndex);
+                Rectangle r = checkedlistboxBDTs.GetItemRectangle(i);
 
                 editboxBDTName.Text = checkedlistboxBDTs.SelectedItem.ToString();
 
