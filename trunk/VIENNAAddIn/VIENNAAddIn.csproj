@@ -307,6 +307,12 @@
     <Compile Include="upcc3\Wizards\ABIEWizardForm.Designer.cs">
       <DependentUpon>ABIEWizardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\BDTWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="upcc3\Wizards\BDTWizardForm.Designer.cs">
+      <DependentUpon>BDTWizardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\Cache.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\AbstractLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\AnnotationBuilder.cs" />
@@ -544,6 +550,9 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     <EmbeddedResource Include="upcc3\Wizards\ABIEWizardForm.resx">
       <DependentUpon>ABIEWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="upcc3\Wizards\BDTWizardForm.resx">
+      <DependentUpon>BDTWizardForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
