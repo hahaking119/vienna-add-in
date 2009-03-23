@@ -240,8 +240,6 @@ namespace VIENNAAddIn
                     menu.Add("&Import CCTS Library");
                     menu.Add("&Options");
                     menu.Add("&About " + AddInSettings.getAddInCaption() + " Add-In");
-                    menu.Add("-");
-                    menu.Add("&ABIE Wizard");
                 }
                 else if (menuname == "-Maintenance")
                 {
@@ -318,11 +316,6 @@ namespace VIENNAAddIn
                     {
                         var aboutWindow = new AboutWindow();
                         aboutWindow.Show();
-                    }
-                    else if (menuitem =="&ABIE Wizard")
-                    {
-                        ABIEWizardForm ABIEWizard = new ABIEWizardForm(repository);
-                        ABIEWizard.Show();                        
                     }
                     else if (menuitem == "&BPEL-XSLT Template Setting")
                     {
@@ -799,7 +792,16 @@ namespace VIENNAAddIn
                             }
                         }
                     }
-
+                    else if (menuitem == "Create new &ABIE using the Wizard")
+                    {
+                        ABIEWizardForm ABIEWizard = new ABIEWizardForm(repository);
+                        ABIEWizard.Show();                         
+                    }
+                    else if (menuitem == "Create new BD&T using the Wizard")
+                    {
+                        BDTWizardForm BDTWizard = new BDTWizardForm(repository);
+                        BDTWizard.Show();                        
+                    }
                     else if (menuitem == "&Export Package to CSV file")
                     {
                         string scope = determineScope(repository, false);
@@ -1087,6 +1089,7 @@ namespace VIENNAAddIn
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
+                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE using the Wizard");
                 }
                     //If the package has stereotype "ENUMLibrary" add a link for generating XSD Schema
                     //from ENUM
@@ -1094,7 +1097,11 @@ namespace VIENNAAddIn
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
                 }
-                    //If the package has stereotype "QDTLibrary" add a link for generating XSD Schema
+                else if (stereotype != null && (stereotype.Equals(CCTS_Types.BDTLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("Create new BD&T using the Wizard");
+                }
+                //If the package has stereotype "QDTLibrary" add a link for generating XSD Schema
                     //from QDT
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.QDTLibrary.ToString())))
                 {
@@ -1157,6 +1164,7 @@ namespace VIENNAAddIn
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
+                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE using the Wizard");
                 }
                     //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
                     //QDT definition
@@ -1164,6 +1172,10 @@ namespace VIENNAAddIn
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
                     VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
+                }
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
+                {
+                    VIENNAAddInTreeViewMenu.Add("Create new BD&T using the Wizard");
                 }
                     //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
                     //CDT definition
@@ -1199,6 +1211,7 @@ namespace VIENNAAddIn
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
+                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE using the Wizard");
                 }
                     //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
                     //QDT definition
@@ -1206,6 +1219,10 @@ namespace VIENNAAddIn
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
                     VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
+                }
+                else if (parentPackage.Stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
+                {
+                    VIENNAAddInTreeViewMenu.Add("Create new BD&T using the Wizard");
                 }
                     //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
                     //CDT definition
