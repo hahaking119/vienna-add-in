@@ -307,6 +307,12 @@
     <Compile Include="upcc3\Wizards\ABIEWizardForm.Designer.cs">
       <DependentUpon>ABIEWizardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\BDTWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="upcc3\Wizards\BDTWizardForm.Designer.cs">
+      <DependentUpon>BDTWizardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\Cache.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\AbstractLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\AnnotationBuilder.cs" />
@@ -322,21 +328,21 @@
     <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedSelector.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\XSDGenerator.cs" />
-    <Compile Include="Utils\EAElementWrapper.cs" />
-    <Compile Include="Utils\FormStyles.cs" />
-    <Compile Include="Utils\IssueUtil.cs" />
-    <Compile Include="Utils\Logger.cs" />
-    <Compile Include="Utils\LoggerCCTS.cs" />
-    <Compile Include="Utils\LogMessage.cs" />
-    <Compile Include="Utils\LogMessageCCTS.cs" />
-    <Compile Include="Utils\OptionsForm.cs">
+    <Compile Include="upcc3\Utils\EAElementWrapper.cs" />
+    <Compile Include="upcc3\Utils\FormStyles.cs" />
+    <Compile Include="upcc3\Utils\IssueUtil.cs" />
+    <Compile Include="upcc3\Utils\Logger.cs" />
+    <Compile Include="upcc3\Utils\LoggerCCTS.cs" />
+    <Compile Include="upcc3\Utils\LogMessage.cs" />
+    <Compile Include="upcc3\Utils\LogMessageCCTS.cs" />
+    <Compile Include="upcc3\Utils\OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utils\SortConnector.cs" />
-    <Compile Include="Utils\UMMAddInLoggerWindow.cs">
+    <Compile Include="upcc3\Utils\SortConnector.cs" />
+    <Compile Include="upcc3\Utils\UMMAddInLoggerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utils\Writer.cs" />
+    <Compile Include="upcc3\Utils\Writer.cs" />
     <Compile Include="validator\AbstractValidator.cs" />
     <Compile Include="validator\ErrorMessage.cs" />
     <Compile Include="validator\ExceptionEventArgs.cs" />
@@ -372,10 +378,10 @@
     <Compile Include="Settings\SynchTaggedValue.Designer.cs">
       <DependentUpon>SynchTaggedValue.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils\AboutWindow.cs">
+    <Compile Include="upcc3\Utils\AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Utils\SortAttribute.cs" />
+    <Compile Include="upcc3\Utils\SortAttribute.cs" />
     <Compile Include="workflow\InitialPackageStructureCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -545,17 +551,20 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
       <DependentUpon>ABIEWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utils\AboutWindow.resx">
+    <EmbeddedResource Include="upcc3\Utils\AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utils\OptionsForm.resx">
+    <EmbeddedResource Include="upcc3\Utils\OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utils\UMMAddInLoggerWindow.resx">
+    <EmbeddedResource Include="upcc3\Utils\UMMAddInLoggerWindow.resx">
       <DependentUpon>UMMAddInLoggerWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="upcc3\Wizards\BDTWizardForm.resx">
+      <DependentUpon>BDTWizardForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="validator\ValidatorForm.resx">
       <DependentUpon>ValidatorForm.cs</DependentUpon>
