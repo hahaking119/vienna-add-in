@@ -326,7 +326,7 @@ namespace VIENNAAddIn
                     {
                         repository.WriteOutput("System", "system", 22);
                         var ss = new SynchStereotypes();
-                        ss.FixRepository(repository);
+                        ss.Fix(repository);
                     }
                         //Synch tagged value, this function need EA version 7.0.818
                     else if (menuitem == "Synch tagged value")
