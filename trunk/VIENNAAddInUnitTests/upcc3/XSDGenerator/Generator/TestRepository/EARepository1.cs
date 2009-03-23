@@ -200,7 +200,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cclib1")
                 )
                 .Elements(
-                ACCAddress()
+                ACCAddress(),
+                ACCPerson()
                 );
         }
 
@@ -217,6 +218,19 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 ;
         }
 
+        private static ElementBuilder ACCPerson()
+        {
+            return Element("Person", Stereotype.ACC)
+                .Attributes(
+                Attribute("FirstName", Stereotype.BCC, PathToText()),
+                Attribute("LastName", Stereotype.BCC, PathToText())
+                )
+                .Connectors(
+                Connector("homeAddress", Stereotype.ASCC, PathToAddress())
+                )
+                ;
+        }
+
         #endregion
 
         #region BIELib1
@@ -226,7 +240,40 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             return Package("bielib1", Stereotype.BIELibrary)
                 .TaggedValues(
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                )
+                .Elements(
+                BIEAddress(),
+                BIEPerson()
                 );
+        }
+
+        private static ElementBuilder BIEAddress()
+        {
+            return Element("MyAddress", Stereotype.ABIE)
+                .Attributes(
+                Attribute("CountryName", Stereotype.BCC, PathToBDTText()),
+                Attribute("CityName", Stereotype.BCC, PathToBDTText()),
+                Attribute("StreetName", Stereotype.BCC, PathToBDTText()),
+                Attribute("StreetNumber", Stereotype.BCC, PathToBDTText()),
+                Attribute("Postcode", Stereotype.BCC, PathToBDTText())
+                )
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, PathToAddress()),
+                Connector("basedOn", Stereotype.ASBIE, PathToAddress())
+                );
+        }
+
+        private static ElementBuilder BIEPerson()
+        {
+            return Element("MyPerson", Stereotype.ABIE)
+                .Attributes(
+                Attribute("FirstName", Stereotype.BCC, PathToBDTText()),
+                Attribute("LastName", Stereotype.BCC, PathToBDTText())
+                )
+                .Connectors(
+                Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress())
+                )
+                ;
         }
 
         #endregion
@@ -276,6 +323,21 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         public static Path PathToAddress()
         {
             return (Path) "blib1"/"cclib1"/"Address";
+        }
+
+        public static Path PathToACCPerson()
+        {
+            return (Path) "blib1"/"cclib1"/"Person";
+        }
+
+        public static Path PathToBIEAddress()
+        {
+            return (Path) "blib1"/"bielib1"/"MyAddress";
+        }
+
+        public static Path PathToBIEPerson()
+        {
+            return (Path) "blib1"/"bielib1"/"MyPerson";
         }
 
         #endregion

@@ -40,7 +40,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Name
         {
-            get { return connector.Name; }
+            get { return connector.SupplierEnd.Role; }
         }
 
         public string Definition
