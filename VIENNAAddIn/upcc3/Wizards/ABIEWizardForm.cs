@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                     foreach (IABIE abie in bieLibrary.BIEs)
                     {
-                        abies.Add(abie.Name, new CABIE(abie.Name, abie.Id));
+                        abies.Add(abie.Name, new CABIE(abie.Name, abie.Id, abie.BasedOn.Id));
                     }
 
                     cache.CBIELs.Add(bieLibrary.Name, new CBIEL(bieLibrary.Name, bieLibrary.Id, abies));
@@ -748,21 +748,24 @@ namespace VIENNAAddIn.upcc3.Wizards
                      **/
                     foreach (IASCC ascc in acc.ASCCs)
                     {                    
-                        /*
-                         * For each ACC associated through the ASCC we scan the BIE 
-                         * libraries if an ABIE with the same name as the associated 
-                         * ACC exists. 
-                         **/
                         foreach (CBIEL biel in cache.CBIELs.Values)
                         {
-                            /*
-                             * An ABIE with the same name as the associated ACC was found. 
-                             **/
+                            foreach (CABIE abie in biel.ABIEs.Values)
+                            {
+                                // TODO: continue
+                                //if (abie.BasedOn == ascc.AssociatedElement.Id)
+                                //{
+                                //    validASCCs.Add(abie.Name, new CASCC());
+                                //    XXXXXXXXXXXXXXXXXX
+                                //    //validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));                                    
+                                //}
+                            }
+
                             if (biel.ABIEs.ContainsKey(ascc.AssociatedElement.Name))
                             {
-                                validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));
+                                
                                 break;
-                            }
+                            }                            
                         }
                     }
 
@@ -1262,12 +1265,24 @@ namespace VIENNAAddIn.upcc3.Wizards
    
             ///* iterate through the ASBIEs */
             //IList<ASBIESpec> asbies = new List<ASBIESpec>();
+
+            //// loop through the ASCCs of the ACC
+            //foreach (IASCC ascc in selectedACC.ASCCs)
+            //{
+            //    if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.ContainsKey(ascc.AssociatedElement.Name))
+            //    {
+            //        CASCC cascc = cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs[ascc.AssociatedElement.Name];
+                    
+            //        if(cascc.State == CheckState.Checked)
+            //        {
+            //            asbies.Add(ASBIESpec.CloneASCC(ascc));
+            //        }
+            //    }
+            //}
             
 
-            //foreach (CASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
-            //{                
-            //    asbies.Add(ASBIESpec.CloneASCC(, "MyASCC", ascc.Id));
-            //}
+
+
            
             ABIESpec abieSpec = new ABIESpec
             {
@@ -1280,15 +1295,13 @@ namespace VIENNAAddIn.upcc3.Wizards
                 BusinessTerms = selectedACC.BusinessTerms,
                 UsageRules = selectedACC.UsageRules,
                 BasedOn = selectedACC,
-                BBIEs = newBBIEs,                
+                BBIEs = newBBIEs,     
+                //ASBIEs = asbies,
             };            
 
             IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
-            cache.CBIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new CABIE(newABIE.Name, newABIE.Id));
+            cache.CBIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new CABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
 
-            //MessageBox.Show("ABIE generated! Kiddo, check your libraries!");
-            
-            // trigger the current ABIE name to be checked whether it exists or not!
             textABIEName.Text = "";
             textABIEName.Text = newABIE.Name;
         }
@@ -1299,8 +1312,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             Close();
         }
 
-        #endregion
-
         private void ABIEWizardForm_SizeChanged(object sender, EventArgs e)
         {
             errorMessageABIE.Location = new Point(textABIEName.Location.X + textABIEName.Width - 210, textABIEName.Location.Y);
@@ -1309,5 +1320,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             errorMessageBDT.Location = new Point(tabcontrolACC.Location.X + tabcontrolACC.Width - 217, tabcontrolACC.Location.Y + 42);
         }
 
+        #endregion
     }
 }

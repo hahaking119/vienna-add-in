@@ -143,7 +143,12 @@ namespace VIENNAAddIn.upcc3.Wizards
 
     public class CABIE : BasicCacheItem
     {
-        public CABIE(string initName, int initId) : base(initName, initId) { }
+        public CABIE(string initName, int initId, int initBasedOn) : base(initName, initId)
+        {
+            BasedOn = initBasedOn;
+        }
+
+        public int BasedOn { get; set; }
     }
 
     public class CBIEL : BasicCacheItem
