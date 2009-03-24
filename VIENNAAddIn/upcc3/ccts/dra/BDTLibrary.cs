@@ -48,6 +48,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             bdt.SetTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
 
             bdt.AddConnector(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id);
+            bdt.Connectors.Refresh();
 
             bdt.AddAttribute(util.Stereotype.CON, "Content", spec.CON.BasicType.Name, spec.CON.BasicType.Id,
                              spec.CON.LowerBound, spec.CON.UpperBound, spec.CON.GetTaggedValues());
@@ -56,6 +57,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 bdt.AddAttribute(util.Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id,
                                  sup.LowerBound, sup.UpperBound, sup.GetTaggedValues());
             }
+            bdt.Attributes.Refresh();
+
             bdt.Update();
             bdt.Refresh();
             package.Elements.Refresh();

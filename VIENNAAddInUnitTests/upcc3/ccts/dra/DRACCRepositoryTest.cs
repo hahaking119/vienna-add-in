@@ -16,6 +16,7 @@ using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using File=EA.File;
 using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
@@ -37,7 +38,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         private static Repository GetFileBasedEARepository()
         {
             var repo = new Repository();
-            string repositoryFile = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest.eap";
+            string repositoryFileStem = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest";
+            string repositoryFile = repositoryFileStem + "_tmp.eap";
+            System.IO.File.Copy(repositoryFileStem + ".eap", repositoryFile, true);
             Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
             repo.OpenFile(repositoryFile);
             return repo;
@@ -134,6 +137,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IBDT bdtText = bdtLib.CreateBDT(
                 BDTSpec.CloneCDT((ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"),
                                  "My_Text"));
+            Assert.IsNotNull(bdtText.BasedOn);
 
             var accAddress = (IACC) repository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
             Assert.IsNotNull(accAddress, "ACC Address not found");
