@@ -28,7 +28,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (Element element in package.Elements)
                 {
-                    yield return new BDT(repository, element);
+                    if (element.IsBDT())
+                    {
+                        yield return new BDT(repository, element);
+                    }
                 }
             }
         }

@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -27,7 +28,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (Element element in package.Elements)
                 {
-                    yield return new PRIM(repository, element);
+                    if (element.IsPRIM())
+                    {
+                        yield return new PRIM(repository, element);
+                    }
                 }
             }
         }
