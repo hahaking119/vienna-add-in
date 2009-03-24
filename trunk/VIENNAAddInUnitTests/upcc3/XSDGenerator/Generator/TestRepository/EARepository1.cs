@@ -33,6 +33,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 );
         }
 
+        private static ElementBuilder InvalidElement()
+        {
+            return Element("InvalidElement", "InvalidStereotype");
+        }
+
         #region PRIMLib1
 
         private static PackageBuilder PRIMLib1()
@@ -43,7 +48,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 )
                 .Elements(
                 Element("String", Stereotype.PRIM),
-                Element("Decimal", Stereotype.PRIM)
+                Element("Decimal", Stereotype.PRIM),
+                InvalidElement()
                 );
         }
 
@@ -61,7 +67,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 CDTText(),
                 CDTDate(),
                 CDTCode(),
-                CDTMeasure()
+                CDTMeasure(),
+                InvalidElement()
                 );
         }
 
@@ -127,7 +134,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 BDTText(),
                 BDTDate(),
                 BDTCode(),
-                BDTMeasure()
+                BDTMeasure(),
+                InvalidElement()
                 );
         }
 
@@ -201,7 +209,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 )
                 .Elements(
                 ACCAddress(),
-                ACCPerson()
+                ACCPerson(),
+                InvalidElement()
                 );
         }
 
@@ -243,7 +252,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 )
                 .Elements(
                 BIEAddress(),
-                BIEPerson()
+                BIEPerson(),
+                InvalidElement()
                 );
         }
 
