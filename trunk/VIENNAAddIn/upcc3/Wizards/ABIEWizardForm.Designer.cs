@@ -246,6 +246,7 @@
             // 
             // checkedlistboxASCCs
             // 
+            this.checkedlistboxASCCs.CheckOnClick = true;
             this.checkedlistboxASCCs.FormattingEnabled = true;
             this.checkedlistboxASCCs.Location = new System.Drawing.Point(13, 19);
             this.checkedlistboxASCCs.Name = "checkedlistboxASCCs";
