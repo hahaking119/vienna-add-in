@@ -40,7 +40,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts
 //            var cdtDate = ccRepository.FindByPath(EARepository1.PathToDate()) as ICDT;
 //            Console.WriteLine(cdtDate.Id);
 
-            Element cdtDateElement = eaRepository.GetElementByID(8);
+            Element cdtDateElement = eaRepository.GetElementByID(9);
             Assert.AreEqual("Date", cdtDateElement.Name);
             Assert.AreEqual("A Date.", cdtDateElement.GetTaggedValue(TaggedValues.Definition));
             var cdtDate = CreateElementProxy<ICDT>(cdtDateElement);
