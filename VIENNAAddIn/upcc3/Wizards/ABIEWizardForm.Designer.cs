@@ -152,12 +152,12 @@
             // 
             this.checkedlistboxBBIEs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkedlistboxBBIEs.CheckOnClick = true;
             this.checkedlistboxBBIEs.FormattingEnabled = true;
             this.checkedlistboxBBIEs.Location = new System.Drawing.Point(8, 40);
             this.checkedlistboxBBIEs.Name = "checkedlistboxBBIEs";
             this.checkedlistboxBBIEs.Size = new System.Drawing.Size(200, 274);
             this.checkedlistboxBBIEs.TabIndex = 28;
-            this.checkedlistboxBBIEs.SelectedIndexChanged += new System.EventHandler(this.checkedlistboxBBIEs_SelectedIndexChanged);
             this.checkedlistboxBBIEs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxBBIEs_ItemCheck);
             this.checkedlistboxBBIEs.DoubleClick += new System.EventHandler(this.checkedlistboxBBIEs_DoubleClick);
             // 
@@ -180,12 +180,12 @@
             this.checkedlistboxBCCs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkedlistboxBCCs.CheckOnClick = true;
             this.checkedlistboxBCCs.FormattingEnabled = true;
             this.checkedlistboxBCCs.Location = new System.Drawing.Point(8, 40);
             this.checkedlistboxBCCs.Name = "checkedlistboxBCCs";
             this.checkedlistboxBCCs.Size = new System.Drawing.Size(197, 274);
             this.checkedlistboxBCCs.TabIndex = 27;
-            this.checkedlistboxBCCs.SelectedIndexChanged += new System.EventHandler(this.checkedlistboxBCCs_SelectedIndexChanged);
             this.checkedlistboxBCCs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxBCCs_ItemCheck);
             // 
             // checkboxAttributes
@@ -398,6 +398,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Aggregated Business Information Entity (ABIE) Wizard";
             this.Load += new System.EventHandler(this.ABIEWizardForm_Load);
+            this.SizeChanged += new System.EventHandler(this.ABIEWizardForm_SizeChanged);
             this.groupboxSettings.ResumeLayout(false);
             this.groupboxSettings.PerformLayout();
             this.tabcontrolACC.ResumeLayout(false);
