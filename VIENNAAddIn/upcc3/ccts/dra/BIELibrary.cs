@@ -28,7 +28,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (Element element in package.Elements)
                 {
-                    yield return new ABIE(repository, element);
+                    if (element.IsABIE())
+                    {
+                        yield return new ABIE(repository, element);
+                    }
                 }
             }
         }

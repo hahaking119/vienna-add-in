@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -27,16 +28,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (Element element in package.Elements)
                 {
-                    yield return new ACC(repository, element);
+                    if (element.IsACC())
+                    {
+                        yield return new ACC(repository, element);
+                    }
                 }
             }
         }
-
-        #endregion
 
         public ICCTSElement ElementByName(string name)
         {
             return ACCs.First(e => e.Name == name);
         }
+
+        #endregion
     }
 }

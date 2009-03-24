@@ -51,6 +51,36 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return con.Stereotype == ASCC;
         }
 
+        public static bool IsACC(this Element element)
+        {
+            return element.Stereotype == ACC;
+        }
+
+        public static bool IsCDT(this Element element)
+        {
+            return element.Stereotype == CDT;
+        }
+
+        public static bool IsABIE(this Element element)
+        {
+            return element.Stereotype == ABIE;
+        }
+
+        public static bool IsBDT(this Element element)
+        {
+            return element.Stereotype == BDT;
+        }
+
+        public static bool IsPRIM(this Element element)
+        {
+            return element.Stereotype == PRIM;
+        }
+
+        public static bool IsENUM(this Element element)
+        {
+            return element.Stereotype == ENUM;
+        }
+
         public static bool IsASBIE(this Connector con)
         {
             return con.Stereotype == ASBIE;
