@@ -8,31 +8,35 @@
 // *******************************************************************************
 using System.Linq;
 using EA;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
+    ///<summary>
+    ///</summary>
     public class BDT : AbstractDT, IBDT
     {
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="element"></param>
         public BDT(CCRepository repository, Element element) : base(repository, element, "BDT")
         {
         }
 
         #region IBDT Members
 
+        ///<summary>
+        ///</summary>
         public IBasedOnDependency BasedOn
         {
             get
             {
-                Connector connector = Connectors.FirstOrDefault(IsBasedOnDependency);
+                Connector connector = Connectors.FirstOrDefault(Stereotype.IsBasedOn);
                 return connector != null ? new BasedOnDependency(repository, connector) : null;
             }
         }
 
         #endregion
-
-        private static bool IsBasedOnDependency(Connector connector)
-        {
-            return connector.Stereotype == "basedOn";
-        }
     }
 }
