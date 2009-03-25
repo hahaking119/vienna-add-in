@@ -21,7 +21,7 @@ namespace VIENNAAddIn.Settings
     public class SynchStereotypes
     {
         /// <summary>
-        /// Fix a whole Repository by fixing all of its packages.
+        /// Fix a whole Repository by fixing all of its packages
         /// </summary>
         /// <param name="r">The repository to fix</param>
         public void Fix(Repository r)
@@ -36,10 +36,13 @@ namespace VIENNAAddIn.Settings
         /// <summary>
         /// Check Packages for missing TaggedValues and return a List of them
         /// </summary>
-        /// <param name="p">The Package to be checked.</param>
-        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</String></returns>
-        public List<String> Check(Package p)
+        /// <param name="p">The Package to be checked</param>
+        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</returns>
+        public List<List<String>> Check(Package p)
         {
+            var missingValuesLists = new List<List<String>>();
+
+            // check TaggedValues of current package
             var missingValues = new List<String>();
             if (Equals(p.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
                 missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
@@ -58,17 +61,41 @@ namespace VIENNAAddIn.Settings
             if (Equals(p.GetTaggedValue(TaggedValues.Status), null))
                 missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.NamespacePrefix), null))
-            {
                 missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+            if (missingValues.Count > 0)
+            {
+                missingValues.Insert(0, p.Name);
+                missingValuesLists.Add(missingValues);
             }
-            return missingValues;
+
+            // check TaggedValues of current package's elements
+            foreach (Element e in p.Elements)
+            {
+                missingValues = Check(e);
+                if (missingValues.Count > 0)
+                {
+                    missingValues.Insert(0, e.Name);
+                    missingValuesLists.Add(missingValues);
+                }
+            }
+
+            // check TaggedValues of sub-packages recursively
+            var missingValuesL = new List<List<String>>();
+            foreach (Package pp in p.Packages)
+            {
+                missingValuesL = Check(pp);
+                if (missingValuesL.Count > 0)
+                    missingValuesLists.AddRange(missingValuesL);
+            }
+
+            return missingValuesLists;
         }
 
         /// <summary>
         /// Check elements and connectors for missing TaggedValues and return a List of them
         /// </summary>
-        /// <param name="e">The Element to be checked.</param>
-        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</String></returns>
+        /// <param name="e">The Element to be checked</param>
+        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</returns>
         public List<String> Check(Element e)
         {
             var missingValues = new List<String>();
@@ -196,8 +223,8 @@ namespace VIENNAAddIn.Settings
         /// <summary>
         /// Check elements and connectors for missing TaggedValues and return a List of them
         /// </summary>
-        /// <param name="c">The Connector to be checked.</param>
-        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</String></returns>
+        /// <param name="c">The Connector to be checked</param>
+        /// <returns>A List<String> with missing TaggedValues according to UPCC 3 specification</returns>
         public List<String> Check(Connector c)
         {
             var missingValues = new List<String>();
