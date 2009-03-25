@@ -230,7 +230,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         public CACC()
         {
             AllAttributesChecked = CheckState.Unchecked;
-            BCCs = new Dictionary<string, CBCC>();      
+            BCCs = new Dictionary<string, CBCC>();
             //ASCCs = new Dictionary<string, CASCC>();
         }
 
@@ -241,14 +241,15 @@ namespace VIENNAAddIn.upcc3.Wizards
             //ASCCs = new Dictionary<string, CASCC>();
         }
 
-        public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs) : base(initName, initId)
-        {
-            AllAttributesChecked = CheckState.Unchecked;
-            BCCs = initBCCs;
-            //ASCCs = new Dictionary<string, CASCC>();
-        }
+        //public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs) : base(initName, initId)
+        //{
+        //    AllAttributesChecked = CheckState.Unchecked;
+        //    BCCs = initBCCs;
+        //    ASCCs = new Dictionary<string, CASCC>();
+        //}
 
-        //public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs, IDictionary<string, CASCC> initASCCs) : base(initName, initId)
+        //public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs, IDictionary<string, CASCC> initASCCs)
+        //    : base(initName, initId)
         //{
         //    AllAttributesChecked = CheckState.Unchecked;
         //    BCCs = initBCCs;
