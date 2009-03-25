@@ -231,35 +231,35 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             AllAttributesChecked = CheckState.Unchecked;
             BCCs = new Dictionary<string, CBCC>();      
-            ASCCs = new Dictionary<string, CASCC>();
+            //ASCCs = new Dictionary<string, CASCC>();
         }
 
         public CACC(string initName, int initId) : base(initName, initId)
         {
             AllAttributesChecked = CheckState.Unchecked;
             BCCs = new Dictionary<string, CBCC>();
-            ASCCs = new Dictionary<string, CASCC>();
+            //ASCCs = new Dictionary<string, CASCC>();
         }
 
         public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs) : base(initName, initId)
         {
             AllAttributesChecked = CheckState.Unchecked;
             BCCs = initBCCs;
-            ASCCs = new Dictionary<string, CASCC>();
+            //ASCCs = new Dictionary<string, CASCC>();
         }
 
-        public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs, IDictionary<string, CASCC> initASCCs) : base(initName, initId)
-        {
-            AllAttributesChecked = CheckState.Unchecked;
-            BCCs = initBCCs;
-            ASCCs = initASCCs;
-        }
+        //public CACC(string initName, int initId, IDictionary<string, CBCC> initBCCs, IDictionary<string, CASCC> initASCCs) : base(initName, initId)
+        //{
+        //    AllAttributesChecked = CheckState.Unchecked;
+        //    BCCs = initBCCs;
+        //    ASCCs = initASCCs;
+        //}
 
 
         public CheckState AllAttributesChecked { get; set; }
 
         public IDictionary<string, CBCC> BCCs { get; set; }
-        public IDictionary<string, CASCC> ASCCs { get; set; }
+        //public IDictionary<string, CASCC> ASCCs { get; set; }
     }
 
     public class CCCL : BasicCacheItem
