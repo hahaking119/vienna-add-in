@@ -23,6 +23,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private bool inhibitEventToFire;
         private int mouseDownPosX;
         private const int MARGIN = 15;
+        private const string DEFAULT_PREFIX = "My";
 
         /*
          * Internal variables used to store the currently selected items in the
@@ -262,23 +263,6 @@ namespace VIENNAAddIn.upcc3.Wizards
                     countSelectedBBIEs++;
                 }
 
-                //int countSelectedBDTs = 0;
-                //foreach (CBDT bdt in bbie.BDTs)
-                //{
-                //    if (bdt.State == CheckState.Checked)
-                //    {
-                //        countSelectedBDTs++;
-                //    }
-                //}
-
-                //if (countSelectedBDTs == 0)
-                //{
-                //    foreach (CBDT bdt in bbie.BDTs)
-                //    {
-                //        bdt.State = CheckState.Checked;
-                //        break;
-                //    }
-                //}
                 preselectDefaultsForBBIE(cclName, accName, bccName, bbie.Name);
             }
 
@@ -327,6 +311,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     comboCCLs.Enabled = false;
                     comboACCs.Enabled = false;
                     tabcontrolACC.Enabled = false;
+                    textPrefix.Enabled = false;
                     textABIEName.Enabled = false;
                     comboBDTLs.Enabled = false;
                     comboBIELs.Enabled = false;
@@ -343,6 +328,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 case 3:
                     tabcontrolACC.Enabled = true;
+                    textPrefix.Enabled = true;
                     textABIEName.Enabled = true;
                     comboBDTLs.Enabled = true;
                     comboBIELs.Enabled = true;
@@ -451,7 +437,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             //    checkedlistboxASCCs.Items.Add(ascc.Name, ascc.State);
             //}
 
-            ////checkedlistboxASCCs.SelectedIndex = 0;
+            //checkedlistboxASCCs.SelectedIndex = 0;
         }
 
         // TODO: document
@@ -575,6 +561,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                  **/
                 SetSafeIndex(comboBDTLs, 0);
                 SetSafeIndex(comboBIELs, 0);
+
+                /*
+                 * Also set a default prefix for the generated Artifacts
+                 **/
+                textPrefix.Text = DEFAULT_PREFIX;
 
                 /*
                  * Per default all of the user input controls are disabled except the
@@ -753,18 +744,18 @@ namespace VIENNAAddIn.upcc3.Wizards
                      **/
                 }
 
-                ///*
-                // * In addition to caching all BCCs it is necessary to enable the user to 
-                // * create associations between different ABIEs. Considering that the ABIE
-                // * to be generated is based on an ACC also the associations of the ABIE need
-                // * to be based on the associations that the ACC has. To create associations
-                // * between ABIEs the wizard assumes that all ABIEs to be associated with the 
-                // * ABIE to be generated must exist. If the ABIE to be associated with the 
-                // * ABIE to be generated doesn't exist the wizard won't allow the user to 
-                // * create that associaton. 
-                // */
+                /*
+                 * In addition to caching all BCCs it is necessary to enable the user to 
+                 * create associations between different ABIEs. Considering that the ABIE
+                 * to be generated is based on an ACC also the associations of the ABIE need
+                 * to be based on the associations that the ACC has. To create associations
+                 * between ABIEs the wizard assumes that all ABIEs to be associated with the 
+                 * ABIE to be generated must exist. If the ABIE to be associated with the 
+                 * ABIE to be generated doesn't exist the wizard won't allow the user to 
+                 * create that associaton. 
+                 */
                 //if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Count == 0)
-                //{                
+                //{
                 //    IDictionary<string, CASCC> validASCCs = new Dictionary<string, CASCC>();
 
                 //    /*
@@ -772,11 +763,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                 //     * to process each of the ASCCs.
                 //     **/
                 //    foreach (IASCC ascc in acc.ASCCs)
-                //    {   
+                //    {
                 //        // fuer jedes associated element auf welches die ASCC verweist
                 //        // muss ich nun die BIE libraries durchsuchen, ob eine ABIE existiert
                 //        // welche auf dem associated element basiert. 
-   
+
 
                 //        foreach (CBIEL biel in cache.CBIELs.Values)
                 //        {
@@ -795,9 +786,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                 //            // TODO: what the F is this doing here??
                 //            if (biel.ABIEs.ContainsKey(ascc.AssociatedElement.Name))
                 //            {
-                                
+
                 //                break;
-                //            }                            
+                //            }
                 //        }
                 //    }
 
@@ -811,7 +802,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                  * Assign the name of the ABIE to be generated the name of the currently 
                  * selected ACC per default.
                  **/
-                textABIEName.Text = selectedACCName;
+                textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
 
                 /* 
                  * After caching the BCCs, corresponding BBIEs, their corresponding BDTs,
@@ -1340,7 +1331,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
 
             ///* iterate through the ASBIEs */
-            //IList<ASBIESpec> asbies = new List<ASBIESpec>();
+            //// TEMP IList<ASBIESpec> asbies = new List<ASBIESpec>();
 
 
             //foreach (CASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
@@ -1365,8 +1356,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                 BusinessTerms = selectedACC.BusinessTerms,
                 UsageRules = selectedACC.UsageRules,
                 BasedOn = selectedACC,
-                BBIEs = newBBIEs,     
-                //ASBIEs = asbies,
+                BBIEs = newBBIEs,
+                // TEMP ASBIEs = asbies,
             };            
 
             IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
@@ -1414,6 +1405,16 @@ namespace VIENNAAddIn.upcc3.Wizards
                 mouseDownPosX = e.X;
             else
                 mouseDownPosX = -1;
+        }
+
+        private void textPrefix_TextChanged(object sender, EventArgs e)
+        {
+            GatherUserInput();
+
+            if (!(selectedACCName.Equals("")))
+            {
+                textABIEName.Text = textPrefix.Text + "_" + comboACCs.SelectedItem;
+            }            
         }
     }
 }
