@@ -233,7 +233,7 @@ namespace VIENNAAddIn
                     menu.Add("&Set Model as UMM2/UPCC3 Model");
                     menu.Add("&Create initial UMM 2 model structure");
                     menu.Add("-");
-                    menu.Add("&Validate All - CCTS");
+                    menu.Add("&Validate All - UPCC3");
                     menu.Add("&Validate All - UMM2");
                     menu.Add("-");
                     menu.Add("-Maintenance");
@@ -408,7 +408,7 @@ namespace VIENNAAddIn
                         //Invoke a validation of the whole UMM model
                     else if (menuitem == "&Validate All - UMM2")
                     {
-                        String scope = "ROOT";
+                        String scope = "ROOT_UMM";
 
                         if (validatorForm == null || validatorForm.IsDisposed)
                         {
@@ -452,37 +452,26 @@ namespace VIENNAAddIn
                         if (scope == "")
                         {
                             MessageBox.Show(
-                                "Unable to determine a validator for the chosen stereotype. Currently only UMM validation is supported. Make sure that the different top level packages are stereotyped correclty.");
+                                "Unable to determine a validator for the selected diagram, element or package.");
                         }
                     }
-                    else if (menuitem == "&Validate All - CCTS")
+                    else if (menuitem == "&Validate All - UPCC3")
                     {
-                        MessageBox.Show("Sorry this feature has not been activated.", "Info");
+                        String scope = "ROOT_UPCC";
+
+                        if (validatorForm == null || validatorForm.IsDisposed)
+                        {
+                            validatorForm = new ValidatorForm(repository, scope);
+                            validatorForm.Show();
+                        }
+                        else
+                        {
+                            validatorForm.resetValidatorForm(scope);
+                            validatorForm.Select();
+                            validatorForm.Focus();
+                            validatorForm.Show();
+                        }
                     }
-
-                        //        String scope = "";
-                        //        if (menuitem == "Validate All - &CCTS")
-                        //            scope = "ALL_CCTS";
-                        //        else if (menuitem == "Validate All - &UMM2")
-                        //            scope = "ALL_UMM2";
-                        //        else
-                        //            scope = determineScope(repository, menulocation, true);
-                        //        if (this.CCTSvalidatorForm == null || this.CCTSvalidatorForm.IsDisposed)
-                        //        {
-                        //            this.CCTSvalidatorForm = new CCTS.Validator.CCTSValidator(repository, scope);
-                        //            //this.CCTSvalidatorForm = new ValidatorForm(repository, scope);
-                        //            this.CCTSvalidatorForm.Show();
-                        //        }
-                        //        else
-                        //        {
-                        //            this.CCTSvalidatorForm.resetValidatorForm(scope);
-                        //            this.CCTSvalidatorForm.Select();
-                        //            this.CCTSvalidatorForm.Focus();
-                        //            this.CCTSvalidatorForm.Show();
-                        //        }
-                        //    }
-
-                        //Generate &WSDL
                     else if (menuitem == "&Generate WSDL from Business Transaction")
                     {
                         String scope = determineScope(repository, true);
@@ -1264,16 +1253,8 @@ namespace VIENNAAddIn
         private String determineValidationScope(Repository repository, String menulocation)
         {
             String s = "";
-
-            if (menulocation == "MainMenu")
-            {
-                s = "ROOT";
-            }
-                //If, in the TreeView, the User clicks on a package, the stereotype
-                //of the package determines the scope
-                //If the user clicks on a package without a stereotype no validation
-                //is possible, because no scope can be determined								
-            else if (menulocation == "TreeView")
+							
+            if (menulocation == "TreeView")
             {
                 //Get the element in the tree view which was clicked
                 Object obj;
@@ -1306,7 +1287,9 @@ namespace VIENNAAddIn
 
                     if (!hasParent)
                     {
-                        s = "ROOT";
+                        EA.Collection rootPackages = ((EA.Package)(repository.Models.GetAt(0))).Packages;
+                        int rootModelPackageID = ((EA.Package)(repository.Models.GetAt(0))).PackageID;
+                        s = "" + rootModelPackageID;
                     }
                     else
                     {

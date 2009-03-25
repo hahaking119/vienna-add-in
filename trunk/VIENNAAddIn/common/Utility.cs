@@ -70,6 +70,28 @@ namespace VIENNAAddIn.common
         }
 
 
+
+        /// <summary>
+        /// Returns true if the given stereotype is a valid UPCC stereotype
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        internal static bool isValidUPCCStereotype(String s)
+        {
+
+            foreach (UPCC u in Enum.GetValues(typeof(UPCC)))
+            {
+                if (u.ToString() == s)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+
         
 
         /// <summary>

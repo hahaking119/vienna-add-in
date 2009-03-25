@@ -102,7 +102,7 @@ namespace VIENNAAddIn.common.logging
             location = location.Remove(location.LastIndexOf('\\'), location.Length - (location.LastIndexOf('\\')));
 
             builder.Append(location);
-            builder.Append("\\log\\");
+            builder.Append("\\");
 
             return builder.ToString(); 
         }

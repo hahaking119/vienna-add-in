@@ -123,7 +123,25 @@ namespace VIENNAAddIn.constants
         UMLDiagram,
         UseCase
 
+
     }
+
+
+
+    internal enum UPCC
+    {
+        bLibrary,
+        BDTLibrary,
+        BIELibrary,
+        CCLibrary,
+        CDTLibrary,
+        DOCLibrary,
+        ENUMLibrary,
+        PRIMLibrary
+
+    }
+
+
 
 
 

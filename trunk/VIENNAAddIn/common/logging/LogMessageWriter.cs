@@ -32,9 +32,11 @@ namespace VIENNAAddIn.common.logging
         {
             StringBuilder logBuilder = new StringBuilder();
 
-            logBuilder.AppendLine("[" + message.Time + "]" + message.Type.ToString() + ": " + message.Message); 
+            logBuilder.AppendLine("[" + message.Time + "]" + message.Type.ToString() + ": " + message.Message);
 
-            File.AppendAllText(location+filename, logBuilder.ToString()); 
+            File.AppendAllText(location + filename, logBuilder.ToString());
+
+
         }
 
         /// <summary>

@@ -23,12 +23,14 @@ namespace VIENNAAddIn.validator
 {
     public partial class ValidatorForm : Form
     {
-        BackgroundWorker bworker = new BackgroundWorker();
+        
 
         //The scope upon which the validator is activated (an EA package ID)
         private String scope;
         //The repository upon which the validator validates
         private EA.Repository repository;
+
+        private Boolean running = false;
 
         //The Validationmessages
         private List<ValidationMessage> validationMessages = new List<ValidationMessage>();
@@ -39,16 +41,8 @@ namespace VIENNAAddIn.validator
             
             this.scope = scope;
             this.repository = repository;
-
-
+           
             setStatusText("Selected validation scope: " + getScopeInStatusBar(repository, scope) + " Press Start to invoke a validation run.");
-
-            // initialize backgroundworker ...
-            this.bworker.WorkerReportsProgress = true;
-            this.bworker.WorkerSupportsCancellation = true;
-
-            bworker.DoWork += new DoWorkEventHandler(bworker_DoWork);
-            bworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bworker_RunWorkerCompleted);
 
             // initialize progress bar
             this.progressBar.Maximum = 100;
@@ -60,11 +54,22 @@ namespace VIENNAAddIn.validator
             this.progressTimer.Tick += new EventHandler(progressTimer_Tick);
         }
 
+        /// <summary>
+        /// Perform a Progress Bar step
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void progressTimer_Tick(object sender, EventArgs e)
         {
             this.progressBar.PerformStep(); 
         }
 
+        /// <summary>
+        /// Called as soon as the background worker responsible for the validation of the model
+        /// has finished
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void bworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // First, handle the case where an exception was thrown.
@@ -99,6 +104,12 @@ namespace VIENNAAddIn.validator
             this.startButton.Enabled = true;
         }
 
+        /// <summary>
+        /// DoWork method of the Background worker - responsible for carrying out the processing time intense
+        /// operation of validation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void bworker_DoWork(object sender, DoWorkEventArgs e)
         {
             //Deactiveate Start Button
@@ -106,7 +117,7 @@ namespace VIENNAAddIn.validator
 
             validationMessages.Clear();
 
-            var validationContext = new ValidationContext(repository);
+            var validationContext = new ValidationContext(repository);            
             validationContext.ValidationMessageAdded += HandleValidationMessageAdded;
             try
             {
@@ -125,10 +136,31 @@ namespace VIENNAAddIn.validator
             }
         }
 
+
+
+        /// <summary>
+        /// Handle Message Added Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HandleValidationMessageAdded(object sender, ValidationMessageAddedEventArgs e)
         {
-            validationMessages.AddRange(e.Messages);
-            fillListView();
+            bworker.ReportProgress(0,e);                     
+                      
+        }
+
+        /// <summary>
+        /// Handle the newly added Validationmessage
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bworker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            
+            ValidationMessageAddedEventArgs vma = (ValidationMessageAddedEventArgs)e.UserState;
+                
+            validationMessages.AddRange(vma.Messages);
+            fillListView();  
         }
 
         /// <summary>
@@ -152,36 +184,51 @@ namespace VIENNAAddIn.validator
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            //If a top-down validation of the whole model is initialized, the intervall must be higher
-            if (scope == "ROOT")
+            //Is the validation currently running?
+            if (!running)
             {
-                progressTimer.Interval = 800;
+                running = true;
+                startButton.Text = "Stop";
+
+                //If a top-down validation of the whole model is initialized, the intervall must be higher
+                if (scope == "ROOT")
+                {
+                    progressTimer.Interval = 800;
+                }
+                else
+                {
+                    progressTimer.Interval = 400;
+                }
+
+
+                //Set back the list view
+                //Delete the old validation messages
+                foreach (ListViewItem item in validationMessagesListView.Items)
+                {
+                    validationMessagesListView.Items.Remove(item);
+                }
+                //Reset the progress bar
+                progressBar.Value = progressBar.Minimum;
+                //Reset the message detail box
+                this.detailsBox.Clear();
+
+
+                this.startButton.Enabled = false;
+                this.progressTimer.Start();
+
+                if (bworker.IsBusy)
+                    bworker.CancelAsync();
+
+                bworker.RunWorkerAsync(validationMessages);
+
+
             }
             else
             {
-                progressTimer.Interval = 400;
+                bworker.CancelAsync();
+                running = false;
+                startButton.Text = "Start";
             }
-            
-            
-            //Set back the list view
-            //Delete the old validation messages
-            foreach (ListViewItem item in validationMessagesListView.Items)
-            {
-                validationMessagesListView.Items.Remove(item);
-            }
-            //Reset the progress bar
-            progressBar.Value = progressBar.Minimum;
-            //Reset the message detail box
-            this.detailsBox.Clear();
-            
-
-            this.startButton.Enabled = false;
-            this.progressTimer.Start();
-
-            if (bworker.IsBusy)
-                bworker.CancelAsync(); 
-
-            bworker.RunWorkerAsync();
         }
 
 
@@ -403,9 +450,13 @@ namespace VIENNAAddIn.validator
 			if (scope == null || scope == "") {
 				s = "No scope determined.";
 			}
-			else if (scope.Equals("ROOT")) {
+			else if (scope.Equals("ROOT_UMM")) {
 				s = "Entire UMM model.";
 			}
+            else if (scope.Equals("ROOT_UCC"))
+            {
+                s = "Entire UPCC model.";
+            }
 			else {
 				try {
 					int packageID = Int32.Parse(scope.Trim());
@@ -472,6 +523,10 @@ namespace VIENNAAddIn.validator
             }
 
         }
+
+
+
+
 
     }
 }
