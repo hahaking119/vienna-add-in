@@ -444,14 +444,14 @@ namespace VIENNAAddIn.upcc3.Wizards
         // TODO: document
         private void MirrorASCCsToUI()
         {
-            checkedlistboxASCCs.Items.Clear();
+            //checkedlistboxASCCs.Items.Clear();
 
-            foreach (CASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
-            {
-                checkedlistboxASCCs.Items.Add(ascc.Name, ascc.State);
-            }
+            //foreach (CASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+            //{
+            //    checkedlistboxASCCs.Items.Add(ascc.Name, ascc.State);
+            //}
 
-            //checkedlistboxASCCs.SelectedIndex = 0;
+            ////checkedlistboxASCCs.SelectedIndex = 0;
         }
 
         // TODO: document
@@ -753,59 +753,59 @@ namespace VIENNAAddIn.upcc3.Wizards
                      **/
                 }
 
-                /*
-                 * In addition to caching all BCCs it is necessary to enable the user to 
-                 * create associations between different ABIEs. Considering that the ABIE
-                 * to be generated is based on an ACC also the associations of the ABIE need
-                 * to be based on the associations that the ACC has. To create associations
-                 * between ABIEs the wizard assumes that all ABIEs to be associated with the 
-                 * ABIE to be generated must exist. If the ABIE to be associated with the 
-                 * ABIE to be generated doesn't exist the wizard won't allow the user to 
-                 * create that associaton. 
-                 */
-                if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Count == 0)
-                {                
-                    IDictionary<string, CASCC> validASCCs = new Dictionary<string, CASCC>();
+                ///*
+                // * In addition to caching all BCCs it is necessary to enable the user to 
+                // * create associations between different ABIEs. Considering that the ABIE
+                // * to be generated is based on an ACC also the associations of the ABIE need
+                // * to be based on the associations that the ACC has. To create associations
+                // * between ABIEs the wizard assumes that all ABIEs to be associated with the 
+                // * ABIE to be generated must exist. If the ABIE to be associated with the 
+                // * ABIE to be generated doesn't exist the wizard won't allow the user to 
+                // * create that associaton. 
+                // */
+                //if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Count == 0)
+                //{                
+                //    IDictionary<string, CASCC> validASCCs = new Dictionary<string, CASCC>();
 
-                    /*
-                     * Loop through all ASCCs that the current ACC contains in order
-                     * to process each of the ASCCs.
-                     **/
-                    foreach (IASCC ascc in acc.ASCCs)
-                    {   
-                        // fuer jedes associated element auf welches die ASCC verweist
-                        // muss ich nun die BIE libraries durchsuchen, ob eine ABIE existiert
-                        // welche auf dem associated element basiert. 
+                //    /*
+                //     * Loop through all ASCCs that the current ACC contains in order
+                //     * to process each of the ASCCs.
+                //     **/
+                //    foreach (IASCC ascc in acc.ASCCs)
+                //    {   
+                //        // fuer jedes associated element auf welches die ASCC verweist
+                //        // muss ich nun die BIE libraries durchsuchen, ob eine ABIE existiert
+                //        // welche auf dem associated element basiert. 
    
 
-                        foreach (CBIEL biel in cache.CBIELs.Values)
-                        {
-                            foreach (CABIE abie in biel.ABIEs.Values)
-                            {
-                                // TODO: continue
-                                if (abie.BasedOn == ascc.AssociatedElement.Id)
-                                {
-                                    validASCCs.Add(abie.Name, new CASCC(abie.Name, ascc.Id, abie.Id, CheckState.Unchecked));
-                                    //validASCCs.Add(abie.Name, new CASCC());                                    
-                                    //validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));                                    
-                                }
-                            }
+                //        foreach (CBIEL biel in cache.CBIELs.Values)
+                //        {
+                //            foreach (CABIE abie in biel.ABIEs.Values)
+                //            {
+                //                // TODO: continue
+                //                if (abie.BasedOn == ascc.AssociatedElement.Id)
+                //                {
+                //                    validASCCs.Add(abie.Name, new CASCC(abie.Name, ascc.Id, abie.Id, CheckState.Unchecked));
+                //                    //validASCCs.Add(abie.Name, new CASCC());                                    
+                //                    //validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));                                    
+                //                }
+                //            }
 
 
-                            // TODO: what the F is this doing here??
-                            if (biel.ABIEs.ContainsKey(ascc.AssociatedElement.Name))
-                            {
+                //            // TODO: what the F is this doing here??
+                //            if (biel.ABIEs.ContainsKey(ascc.AssociatedElement.Name))
+                //            {
                                 
-                                break;
-                            }                            
-                        }
-                    }
+                //                break;
+                //            }                            
+                //        }
+                //    }
 
-                    /* 
-                     * We add the for associations relevant ASCCs to the internal wizard cache. 
-                     **/
-                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs = validASCCs;
-                }
+                //    /* 
+                //     * We add the for associations relevant ASCCs to the internal wizard cache. 
+                //     **/
+                //    cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs = validASCCs;
+                //}
 
                 /*
                  * Assign the name of the ABIE to be generated the name of the currently 
@@ -838,7 +838,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                  * cached BCCs and ASCCs. 
                  **/
                 cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Clear();
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Clear();
+                //cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Clear();
 
                 /*
                  * Display error message.
@@ -1339,20 +1339,20 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
 
-            /* iterate through the ASBIEs */
-            IList<ASBIESpec> asbies = new List<ASBIESpec>();
+            ///* iterate through the ASBIEs */
+            //IList<ASBIESpec> asbies = new List<ASBIESpec>();
 
 
-            foreach (CASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
-            {
-                foreach (IASCC ascc in selectedACC.ASCCs)
-                {
-                    if (cascc.Id == ascc.Id)
-                    {
-                        asbies.Add(ASBIESpec.CloneASCC(ascc, ascc.Name, cascc.AssociatedABIE));
-                    }
-                }
-            }
+            //foreach (CASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+            //{
+            //    foreach (IASCC ascc in selectedACC.ASCCs)
+            //    {
+            //        if (cascc.Id == ascc.Id)
+            //        {
+            //            asbies.Add(ASBIESpec.CloneASCC(ascc, ascc.Name, cascc.AssociatedABIE));
+            //        }
+            //    }
+            //}
             
             ABIESpec abieSpec = new ABIESpec
             {
@@ -1366,7 +1366,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 UsageRules = selectedACC.UsageRules,
                 BasedOn = selectedACC,
                 BBIEs = newBBIEs,     
-                ASBIEs = asbies,
+                //ASBIEs = asbies,
             };            
 
             IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
