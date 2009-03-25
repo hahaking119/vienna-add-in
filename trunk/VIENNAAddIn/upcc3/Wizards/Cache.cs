@@ -214,12 +214,15 @@ namespace VIENNAAddIn.upcc3.Wizards
             State = CheckState.Unchecked;
         }
 
-        public CASCC(string initName, int initId, CheckState initState) : base(initName, initId)
+        public CASCC(string initName, int initId, int initAssociatedABIE, CheckState initState) : base(initName, initId)
         {
             State = initState;
+            AssociatedABIE = initAssociatedABIE;
         }
 
         public CheckState State { get; set;}
+
+        public int AssociatedABIE { get; set; }
     }
 
     public class CACC : BasicCacheItem

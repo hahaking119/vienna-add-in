@@ -160,6 +160,7 @@
             this.checkedlistboxBBIEs.TabIndex = 28;
             this.checkedlistboxBBIEs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxBBIEs_ItemCheck);
             this.checkedlistboxBBIEs.DoubleClick += new System.EventHandler(this.checkedlistboxBBIEs_DoubleClick);
+            this.checkedlistboxBBIEs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedlistboxBBIEs_MouseDown);
             // 
             // groupBox3
             // 
@@ -187,6 +188,7 @@
             this.checkedlistboxBCCs.Size = new System.Drawing.Size(197, 274);
             this.checkedlistboxBCCs.TabIndex = 27;
             this.checkedlistboxBCCs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxBCCs_ItemCheck);
+            this.checkedlistboxBCCs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedlistboxBCCs_MouseDown);
             // 
             // checkboxAttributes
             // 
@@ -223,6 +225,7 @@
             this.checkedlistboxBDTs.TabIndex = 29;
             this.checkedlistboxBDTs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxBDTs_ItemCheck);
             this.checkedlistboxBDTs.DoubleClick += new System.EventHandler(this.checkedlistboxBDTs_DoubleClick);
+            this.checkedlistboxBDTs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedlistboxBDTs_MouseDown);
             // 
             // TabControlPageAssociations
             // 

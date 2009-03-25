@@ -21,6 +21,8 @@ namespace VIENNAAddIn.upcc3.Wizards
         private TextBox editboxBDTName;
         // TODO: document the purpose of inhibitEventToFire
         private bool inhibitEventToFire;
+        private int mouseDownPosX;
+        private const int MARGIN = 15;
 
         /*
          * Internal variables used to store the currently selected items in the
@@ -227,6 +229,28 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #region Convenience Methods
 
+        private void preselectDefaultsForBBIE(string cclName, string accName, string bccName, string bbieName)
+        {
+            int countSelectedBDTs = 0;
+
+            foreach (CBDT bdt in cache.CCLs[cclName].ACCs[accName].BCCs[bccName].BBIEs[bbieName].BDTs)
+            {
+                if (bdt.State == CheckState.Checked)
+                {
+                    countSelectedBDTs++;
+                }
+            }
+
+            if (countSelectedBDTs == 0)
+            {
+                foreach (CBDT bdt in cache.CCLs[cclName].ACCs[accName].BCCs[bccName].BBIEs[bbieName].BDTs)
+                {
+                    bdt.State = CheckState.Checked;
+                    break;
+                }
+            }
+        }
+
         private void preselectDefaultsForBCC(string cclName, string accName, string bccName)
         {
             int countSelectedBBIEs = 0;
@@ -238,23 +262,24 @@ namespace VIENNAAddIn.upcc3.Wizards
                     countSelectedBBIEs++;
                 }
 
-                int countSelectedBDTs = 0;
-                foreach (CBDT bdt in bbie.BDTs)
-                {
-                    if (bdt.State == CheckState.Checked)
-                    {
-                        countSelectedBDTs++;
-                    }
-                }
+                //int countSelectedBDTs = 0;
+                //foreach (CBDT bdt in bbie.BDTs)
+                //{
+                //    if (bdt.State == CheckState.Checked)
+                //    {
+                //        countSelectedBDTs++;
+                //    }
+                //}
 
-                if (countSelectedBDTs == 0)
-                {
-                    foreach (CBDT bdt in bbie.BDTs)
-                    {
-                        bdt.State = CheckState.Checked;
-                        break;
-                    }
-                }
+                //if (countSelectedBDTs == 0)
+                //{
+                //    foreach (CBDT bdt in bbie.BDTs)
+                //    {
+                //        bdt.State = CheckState.Checked;
+                //        break;
+                //    }
+                //}
+                preselectDefaultsForBBIE(cclName, accName, bccName, bbie.Name);
             }
 
             if (countSelectedBBIEs == 0)
@@ -747,20 +772,27 @@ namespace VIENNAAddIn.upcc3.Wizards
                      * to process each of the ASCCs.
                      **/
                     foreach (IASCC ascc in acc.ASCCs)
-                    {                    
+                    {   
+                        // fuer jedes associated element auf welches die ASCC verweist
+                        // muss ich nun die BIE libraries durchsuchen, ob eine ABIE existiert
+                        // welche auf dem associated element basiert. 
+   
+
                         foreach (CBIEL biel in cache.CBIELs.Values)
                         {
                             foreach (CABIE abie in biel.ABIEs.Values)
                             {
                                 // TODO: continue
-                                //if (abie.BasedOn == ascc.AssociatedElement.Id)
-                                //{
-                                //    validASCCs.Add(abie.Name, new CASCC());
-                                //    XXXXXXXXXXXXXXXXXX
-                                //    //validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));                                    
-                                //}
+                                if (abie.BasedOn == ascc.AssociatedElement.Id)
+                                {
+                                    validASCCs.Add(abie.Name, new CASCC(abie.Name, ascc.Id, abie.Id, CheckState.Unchecked));
+                                    //validASCCs.Add(abie.Name, new CASCC());                                    
+                                    //validASCCs.Add(ascc.AssociatedElement.Name, new CASCC(ascc.AssociatedElement.Name, ascc.Id, CheckState.Unchecked));                                    
+                                }
                             }
 
+
+                            // TODO: what the F is this doing here??
                             if (biel.ABIEs.ContainsKey(ascc.AssociatedElement.Name))
                             {
                                 
@@ -839,29 +871,56 @@ namespace VIENNAAddIn.upcc3.Wizards
         //}
 
         // TODO: document
+        
         private void checkedlistboxBCCs_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            /*
-             * At first retrieve the latest user input is retrieved from the UI. 
-             **/
             GatherUserInput();
 
             if (!selectedBCCName.Equals(""))
             {
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].State = e.NewValue;
-
-                preselectDefaultsForBCC(selectedCCLName, selectedACCName, selectedBCCName);
-
-                if (e.NewValue == CheckState.Unchecked)
+                if (mouseDownPosX > MARGIN)
                 {
-                    inhibitEventToFire = true;
-                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked = CheckState.Unchecked;
-                    checkboxAttributes.CheckState = CheckState.Unchecked;
-                    inhibitEventToFire = false;
+                    e.NewValue = e.CurrentValue;
+                }
+                else
+                {
+                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].State = e.NewValue;
+
+                    preselectDefaultsForBCC(selectedCCLName, selectedACCName, selectedBCCName);
+
+                    if (e.NewValue == CheckState.Unchecked)
+                    {
+                        inhibitEventToFire = true;
+                        cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked = CheckState.Unchecked;
+                        checkboxAttributes.CheckState = CheckState.Unchecked;
+                        inhibitEventToFire = false;
+                    }                    
                 }
 
                 MirrorBBIEsToUI();
             }
+
+            /*
+             * At first retrieve the latest user input is retrieved from the UI. 
+             **/
+            //GatherUserInput();
+
+            //if (!selectedBCCName.Equals(""))
+            //{
+            //    cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].State = e.NewValue;
+
+            //    preselectDefaultsForBCC(selectedCCLName, selectedACCName, selectedBCCName);
+
+            //    if (e.NewValue == CheckState.Unchecked)
+            //    {
+            //        inhibitEventToFire = true;
+            //        cache.CCLs[selectedCCLName].ACCs[selectedACCName].AllAttributesChecked = CheckState.Unchecked;
+            //        checkboxAttributes.CheckState = CheckState.Unchecked;
+            //        inhibitEventToFire = false;
+            //    }
+
+            //    MirrorBBIEsToUI();
+            //}
         }
 
         // TODO: document
@@ -923,6 +982,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         //}
 
         // TODO: document
+
         private void checkedlistboxBBIEs_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             GatherUserInput();
@@ -932,7 +992,16 @@ namespace VIENNAAddIn.upcc3.Wizards
                 (!selectedBCCName.Equals("")) &&
                 (!selectedBBIEName.Equals("")))
             {
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].State = e.NewValue;
+
+                if (mouseDownPosX > MARGIN)
+                {
+                    e.NewValue = e.CurrentValue;
+                }
+                else
+                {
+                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].State = e.NewValue;
+                    preselectDefaultsForBBIE(selectedCCLName, selectedACCName, selectedBCCName, selectedBBIEName);
+                }
 
                 MirrorBDTsToUI();
             }
@@ -1034,15 +1103,22 @@ namespace VIENNAAddIn.upcc3.Wizards
                 (!selectedBDTName.Equals("")))
             {
 
-                foreach (CBDT bdt in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].BDTs)
+                if (mouseDownPosX > MARGIN)
                 {
-                    if (bdt.Name == selectedBDTName)
+                    e.NewValue = e.CurrentValue;
+                }
+                else
+                {
+                    foreach (CBDT bdt in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].BDTs)
                     {
-                        bdt.State = e.NewValue;
-                    }
-                    else
-                    {
-                        bdt.State = CheckState.Unchecked;
+                        if (bdt.Name == selectedBDTName)
+                        {
+                            bdt.State = e.NewValue;
+                        }
+                        else
+                        {
+                            bdt.State = CheckState.Unchecked;
+                        }
                     }
                 }
 
@@ -1261,29 +1337,23 @@ namespace VIENNAAddIn.upcc3.Wizards
                         }
                     }
                 }
-            }         
-   
-            ///* iterate through the ASBIEs */
-            //IList<ASBIESpec> asbies = new List<ASBIESpec>();
+            }
 
-            //// loop through the ASCCs of the ACC
-            //foreach (IASCC ascc in selectedACC.ASCCs)
-            //{
-            //    if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.ContainsKey(ascc.AssociatedElement.Name))
-            //    {
-            //        CASCC cascc = cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs[ascc.AssociatedElement.Name];
-                    
-            //        if(cascc.State == CheckState.Checked)
-            //        {
-            //            asbies.Add(ASBIESpec.CloneASCC(ascc));
-            //        }
-            //    }
-            //}
+            /* iterate through the ASBIEs */
+            IList<ASBIESpec> asbies = new List<ASBIESpec>();
+
+
+            foreach (CASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+            {
+                foreach (IASCC ascc in selectedACC.ASCCs)
+                {
+                    if (cascc.Id == ascc.Id)
+                    {
+                        asbies.Add(ASBIESpec.CloneASCC(ascc, ascc.Name, cascc.AssociatedABIE));
+                    }
+                }
+            }
             
-
-
-
-           
             ABIESpec abieSpec = new ABIESpec
             {
                 Name = textABIEName.Text,
@@ -1296,7 +1366,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 UsageRules = selectedACC.UsageRules,
                 BasedOn = selectedACC,
                 BBIEs = newBBIEs,     
-                //ASBIEs = asbies,
+                ASBIEs = asbies,
             };            
 
             IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
@@ -1321,5 +1391,29 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
 
         #endregion
+
+        private void checkedlistboxBCCs_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mouseDownPosX = e.X;    
+            else
+                mouseDownPosX = -1;
+        }
+
+        private void checkedlistboxBBIEs_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mouseDownPosX = e.X;
+            else
+                mouseDownPosX = -1;
+        }
+
+        private void checkedlistboxBDTs_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mouseDownPosX = e.X;
+            else
+                mouseDownPosX = -1;
+        }
     }
 }
