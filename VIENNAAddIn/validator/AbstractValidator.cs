@@ -13,6 +13,7 @@ namespace VIENNAAddIn.validator
 {
     abstract internal class AbstractValidator
     {
+                
         abstract internal void validate(IValidationContext context, string scope);
     }
 }

@@ -46,6 +46,7 @@
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressTimer = new System.Windows.Forms.Timer(this.components);
+            this.bworker = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -203,6 +204,14 @@
             // 
             this.progressTimer.Interval = 400;
             // 
+            // bworker
+            // 
+            this.bworker.WorkerReportsProgress = true;
+            this.bworker.WorkerSupportsCancellation = true;
+            this.bworker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bworker_DoWork);
+            this.bworker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bworker_RunWorkerCompleted);
+            this.bworker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bworker_ProgressChanged);
+            // 
             // ValidatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,7 +222,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "ValidatorForm";
-            this.Text = "UMM 2 Validator";
+            this.Text = "Validator";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -245,6 +254,7 @@
         private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.Timer progressTimer;
+        private System.ComponentModel.BackgroundWorker bworker;
 
 
     }

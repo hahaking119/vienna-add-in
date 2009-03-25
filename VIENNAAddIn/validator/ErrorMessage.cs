@@ -11,7 +11,7 @@ using System.Collections;
 using System.Diagnostics;
 using VIENNAAddIn.Utils;
 
-namespace VIENNAAddIn.Validator 
+namespace VIENNAAddIn.validator 
 {
 	/// <sUMM2ary>
 	/// A Constraint

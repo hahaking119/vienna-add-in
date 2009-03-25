@@ -23,7 +23,7 @@ namespace VIENNAAddIn.validator.umm
         internal override void validate(IValidationContext context, string scope) 
         {
                 //Validate all has been choosen
-                if (scope == "ROOT")
+                if (scope == "ROOT_UMM")
                 {
 
                     EA.Collection rootPackages = ((EA.Package)(context.Repository.Models.GetAt(0))).Packages;
@@ -76,12 +76,6 @@ namespace VIENNAAddIn.validator.umm
                     //Try to determine the stereotype of the selected scope
                     EA.Package p = context.Repository.GetPackageByID(Int32.Parse(scope));
                     String stereotype = Utility.getStereoTypeFromPackage(p);
-                    if (!Utility.isValidUMMStereotype(stereotype))
-                    {
-                        context.AddValidationMessage(new ValidationMessage("Unknown or missing stereotype detected.", "The package " + p.Name + " has an unknown or missing stereotype. Validation cannot be started.", "BCM", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
-                    }
-                    else
-                    {
                         //BusinessRequirementsView
                         if (stereotype == UMM.bRequirementsV.ToString())
                         {
@@ -158,7 +152,7 @@ namespace VIENNAAddIn.validator.umm
                             new bInformationVValidator().validate(context, scope);
                         }
 
-                    }
+                   
                 }
         }
 

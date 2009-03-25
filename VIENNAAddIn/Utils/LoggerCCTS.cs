@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Collections;
 using VIENNAAddIn.Utils;
-using VIENNAAddIn.Validator;
+using VIENNAAddIn.validator;
 
 
 namespace VIENNAAddIn.Utils

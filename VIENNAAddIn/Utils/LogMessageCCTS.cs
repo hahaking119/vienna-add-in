@@ -7,7 +7,7 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
-using VIENNAAddIn.Validator;
+using VIENNAAddIn.validator;
 
 namespace VIENNAAddIn.Utils
 {
