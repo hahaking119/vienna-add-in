@@ -132,6 +132,9 @@ namespace VIENNAAddIn
         private XBRLLinkbase xbrlLinkbaseGenerator;
         private DOCGenerator xsdGenerator;
 
+        //Check Tagged Values window
+        private SynchStereotypesForm synchStereotypesForm;
+
         #endregion
 
         #region implement VIENNAAddInInterface
@@ -246,6 +249,7 @@ namespace VIENNAAddIn
                 {
                     menu.Add("Synch tagged value");
                     menu.Add("Synchronize Tagged Values Neu");
+                    menu.Add("Synchronize &Tagged Values...");
                     menu.Add("&BPEL-XSLT Template Setting");
                 }
                 else if (menuname == "-Wizards")
@@ -334,7 +338,22 @@ namespace VIENNAAddIn
                         var ss = new SynchStereotypes();
                         ss.Fix(repository);
                     }
-                        //Synch tagged value, this function need EA version 7.0.818
+                    else if (menuitem == "Synchronize &Tagged Values...")
+                    {
+                        if (synchStereotypesForm == null || synchStereotypesForm.IsDisposed)
+                        {
+                            synchStereotypesForm = new SynchStereotypesForm(repository);
+                            synchStereotypesForm.Show();
+                        }
+                        else
+                        {
+                            synchStereotypesForm.resetSynchStereotypesForm();
+                            synchStereotypesForm.Select();
+                            synchStereotypesForm.Focus();
+                            synchStereotypesForm.Show();
+                        }
+                    }
+                    //Synch tagged value, this function need EA version 7.0.818
                     else if (menuitem == "Synch tagged value")
                     {
                         String scope = determineScope(repository, true);
