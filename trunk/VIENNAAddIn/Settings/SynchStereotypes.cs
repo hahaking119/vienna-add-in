@@ -62,21 +62,15 @@ namespace VIENNAAddIn.Settings
                 missingValues.Add(TaggedValues.Status.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.NamespacePrefix), null))
                 missingValues.Add(TaggedValues.NamespacePrefix.AsString());
-            if (missingValues.Count > 0)
-            {
-                missingValues.Insert(0, p.Name);
-                missingValuesLists.Add(missingValues);
-            }
+            missingValues.Insert(0, p.Name);
+            missingValuesLists.Add(missingValues);
 
             // check TaggedValues of current package's elements
             foreach (Element e in p.Elements)
             {
                 missingValues = Check(e);
-                if (missingValues.Count > 0)
-                {
-                    missingValues.Insert(0, e.Name);
-                    missingValuesLists.Add(missingValues);
-                }
+                missingValues.Insert(0, e.Name);
+                missingValuesLists.Add(missingValues);
             }
 
             // check TaggedValues of sub-packages recursively
@@ -84,8 +78,7 @@ namespace VIENNAAddIn.Settings
             foreach (Package pp in p.Packages)
             {
                 missingValuesL = Check(pp);
-                if (missingValuesL.Count > 0)
-                    missingValuesLists.AddRange(missingValuesL);
+                missingValuesLists.AddRange(missingValuesL);
             }
 
             return missingValuesLists;
