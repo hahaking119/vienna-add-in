@@ -89,7 +89,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="supplierId"></param>
         public static void AddConnector(this Element element, string stereotype, string name, int supplierId)
         {
-            var connector = (Connector) element.Connectors.AddNew(name, "Association");
+            var connector = (Connector) element.Connectors.AddNew("", "Association");
             connector.Stereotype = stereotype;
             connector.SupplierID = supplierId;
             connector.SupplierEnd.Role = name;
