@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using EA;
 using NUnit.Framework;
@@ -93,10 +95,10 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         {
             var testpackage = (Package) repo.Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
-            int count1 = new SynchStereotypes().Check(testpackage).Count;
+            int count1 = new SynchStereotypes().Check(testpackage)[0].Count;
             Debug.WriteLine("Checking package '" + testpackage.Element.Name + "': it is missing " + count1 +
                             " TaggedValues.");
-            Assert.AreEqual(9, count1);
+            Assert.AreEqual(10, count1); // 1 title and 9 missing values = 10 items
         }
 
         /// <summary>

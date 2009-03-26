@@ -47,21 +47,21 @@ namespace VIENNAAddIn.Settings
             if (Equals(p.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
                 missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.VersionIdentifier.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.BaseURN), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.BaseURN.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.BusinessTerm.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.Copyright), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.Copyright.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.Owner), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.Owner.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.Reference), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.Reference.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.Status), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.Status.AsString());
             if (Equals(p.GetTaggedValue(TaggedValues.NamespacePrefix), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                missingValues.Add(TaggedValues.NamespacePrefix.AsString());
             if (missingValues.Count > 0)
             {
                 missingValues.Insert(0, p.Name);
