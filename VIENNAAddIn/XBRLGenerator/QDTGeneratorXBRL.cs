@@ -345,7 +345,7 @@ namespace VIENNAAddIn.XBRLGenerator
                 }
                 catch (Exception eex) {
                     this.appendErrorMessage(eex.Message, this.repository.GetPackageByID(e.PackageID).Name);
-                    throw new UnexpectedElementException(eex.Message,"Error occurs when trying to get classifier ID fo element " 
+                    throw new UnexpectedElementException(eex.Message + ": Error occurs when trying to get classifier ID fo element " 
                         + el.Name + " in package " + this.repository.GetPackageByID(el.PackageID).Name);
                 }
 
