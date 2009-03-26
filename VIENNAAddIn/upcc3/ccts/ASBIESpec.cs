@@ -10,6 +10,9 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public int AssociatedABIEId { get; set; }
 
+        public string LowerBound { get; set; }
+        public string UpperBound { get; set; }
+
         public static ASBIESpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
         {
             return new ASBIESpec
@@ -24,6 +27,8 @@ namespace VIENNAAddIn.upcc3.ccts
                        VersionIdentifier = ascc.VersionIdentifier,
                        Name = name,
                        AssociatedABIEId = associatedABIEId,
+                       LowerBound = ascc.LowerBound,
+                       UpperBound = ascc.UpperBound,
                    };
         }
     }

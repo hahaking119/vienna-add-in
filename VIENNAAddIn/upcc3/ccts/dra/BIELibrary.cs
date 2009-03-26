@@ -49,17 +49,17 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
             if (spec.BasedOn != null)
             {
-                abie.AddDependency(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id);
+                abie.AddDependency(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id, "1", "1");
             }
             if (spec.IsEquivalentTo != null)
             {
-                abie.AddDependency(util.Stereotype.IsEquivalentTo, "isEquivalentTo", spec.IsEquivalentTo.Id);
+                abie.AddDependency(util.Stereotype.IsEquivalentTo, "isEquivalentTo", spec.IsEquivalentTo.Id, "1", "1");
             }
             if (spec.ASBIEs != null)
             {
                 foreach (var asbie in spec.ASBIEs)
                 {
-                    abie.AddAggregation(AggregationKind.Composite, util.Stereotype.ASBIE, asbie.Name, asbie.AssociatedABIEId);
+                    abie.AddAggregation(AggregationKind.Composite, util.Stereotype.ASBIE, asbie.Name, asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
                 }
             }
             abie.Connectors.Refresh();
@@ -68,7 +68,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (BBIESpec bbie in spec.BBIEs)
                 {
-                    abie.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, "1", "1",
+                    abie.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, bbie.LowerBound, bbie.UpperBound,
                                       bbie.GetTaggedValues());
                 }
             }

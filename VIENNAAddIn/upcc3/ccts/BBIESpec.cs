@@ -18,6 +18,9 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public IBDT Type { get; set; }
 
+        public string LowerBound { get; set; }
+        public string UpperBound { get; set; }
+
         public static BBIESpec CloneBCC(IBCC bcc, IBDT type)
         {
             return new BBIESpec
@@ -32,6 +35,8 @@ namespace VIENNAAddIn.upcc3.ccts
                        UniqueIdentifier = bcc.UniqueIdentifier,
                        UsageRules = new List<string>(bcc.UsageRules),
                        VersionIdentifier = bcc.VersionIdentifier,
+                       LowerBound = bcc.LowerBound,
+                       UpperBound = bcc.UpperBound,
                    };
         }
     }

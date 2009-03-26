@@ -88,25 +88,26 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="connectorType">Must be one of <see cref="ConnectorTypes"/>.</param>
         ///<param name="stereotype"></param>
         ///<param name="supplierId"></param>
-        private static void AddConnector(this Element element, string connectorType, string stereotype, string name, int supplierId, int aggregationKind)
+        private static void AddConnector(this Element element, string connectorType, string stereotype, string name, int supplierId, int aggregationKind, string lowerBound, string upperBound)
         {
             var connector = (Connector) element.Connectors.AddNew("", "Association");
             connector.Type = connectorType;
             connector.Stereotype = stereotype;
             connector.SupplierID = supplierId;
             connector.SupplierEnd.Role = name;
+            connector.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
             connector.ClientEnd.Aggregation = aggregationKind;
             connector.Update();
         }
 
-        public static void AddDependency(this Element element, string stereotype, string name, int supplierId)
+        public static void AddDependency(this Element element, string stereotype, string name, int supplierId, string lowerBound, string upperBound)
         {
-            element.AddConnector(ConnectorTypes.Dependency, stereotype, name, supplierId, AggregationKind.None);
+            element.AddConnector(ConnectorTypes.Dependency, stereotype, name, supplierId, AggregationKind.None, lowerBound, upperBound);
         }
 
-        public static void AddAggregation(this Element element, int aggregationKind, string stereotype, string name, int supplierId)
+        public static void AddAggregation(this Element element, int aggregationKind, string stereotype, string name, int supplierId, string lowerBound, string upperBound)
         {
-            element.AddConnector(ConnectorTypes.Aggregation, stereotype, name, supplierId, aggregationKind);
+            element.AddConnector(ConnectorTypes.Aggregation, stereotype, name, supplierId, aggregationKind, lowerBound, upperBound);
         }
 
         ///<summary>

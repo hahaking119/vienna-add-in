@@ -232,7 +232,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             return Element("Person", Stereotype.ACC)
                 .Attributes(
                 Attribute("FirstName", Stereotype.BCC, PathToText()),
-                Attribute("LastName", Stereotype.BCC, PathToText())
+                Attribute("LastName", Stereotype.BCC, PathToText()),
+                Attribute("NickName", Stereotype.BCC, PathToText()).LowerBound("0").UpperBound("*")
                 )
                 .Connectors(
                 Connector("homeAddress", Stereotype.ASCC, PathToAddress()),
