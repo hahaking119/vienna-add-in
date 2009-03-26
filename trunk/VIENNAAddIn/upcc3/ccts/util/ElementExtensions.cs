@@ -85,15 +85,28 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<summary>
         ///</summary>
         ///<param name="element"></param>
+        ///<param name="connectorType">Must be one of <see cref="ConnectorTypes"/>.</param>
         ///<param name="stereotype"></param>
         ///<param name="supplierId"></param>
-        public static void AddConnector(this Element element, string stereotype, string name, int supplierId)
+        private static void AddConnector(this Element element, string connectorType, string stereotype, string name, int supplierId, int aggregationKind)
         {
             var connector = (Connector) element.Connectors.AddNew("", "Association");
+            connector.Type = connectorType;
             connector.Stereotype = stereotype;
             connector.SupplierID = supplierId;
             connector.SupplierEnd.Role = name;
+            connector.ClientEnd.Aggregation = aggregationKind;
             connector.Update();
+        }
+
+        public static void AddDependency(this Element element, string stereotype, string name, int supplierId)
+        {
+            element.AddConnector(ConnectorTypes.Dependency, stereotype, name, supplierId, AggregationKind.None);
+        }
+
+        public static void AddAggregation(this Element element, int aggregationKind, string stereotype, string name, int supplierId)
+        {
+            element.AddConnector(ConnectorTypes.Aggregation, stereotype, name, supplierId, aggregationKind);
         }
 
         ///<summary>

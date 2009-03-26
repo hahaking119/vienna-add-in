@@ -49,17 +49,17 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
             if (spec.BasedOn != null)
             {
-                abie.AddConnector(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id);
+                abie.AddDependency(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id);
             }
             if (spec.IsEquivalentTo != null)
             {
-                abie.AddConnector(util.Stereotype.IsEquivalentTo, "isEquivalentTo", spec.IsEquivalentTo.Id);
+                abie.AddDependency(util.Stereotype.IsEquivalentTo, "isEquivalentTo", spec.IsEquivalentTo.Id);
             }
             if (spec.ASBIEs != null)
             {
                 foreach (var asbie in spec.ASBIEs)
                 {
-                    abie.AddConnector(util.Stereotype.ASBIE, asbie.Name, asbie.AssociatedABIEId);
+                    abie.AddAggregation(AggregationKind.Composite, util.Stereotype.ASBIE, asbie.Name, asbie.AssociatedABIEId);
                 }
             }
             abie.Connectors.Refresh();
