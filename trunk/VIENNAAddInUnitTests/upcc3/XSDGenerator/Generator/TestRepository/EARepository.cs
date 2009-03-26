@@ -689,6 +689,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         eaConnector.Repository = this;
                         eaConnector.SupplierPath = connector.GetPathToSupplier();
                         eaConnector.SupplierEnd.Role = connector.GetName();
+                        eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." + connector.GetUpperBound();
                         eaConnector.Stereotype = connector.GetStereotype();
                         foreach (TaggedValueBuilder tv in connector.GetTaggedValues())
                         {

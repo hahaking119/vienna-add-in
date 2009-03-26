@@ -6,13 +6,14 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal abstract class UpccAssociation<TAssociatingClass> : ICCTSElement, IHasUsageRules, ISequenced
+    internal abstract class UpccAssociation<TAssociatingClass> : ICCTSElement, IHasUsageRules, ISequenced, IHasMultiplicity
         where TAssociatingClass : ICCTSElement
     {
         private readonly TAssociatingClass associatingClass;
@@ -102,5 +103,41 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             return connector.GetTaggedValue(key);
         }
+        public string UpperBound
+        {
+            get
+            {
+                var cardinality = connector.SupplierEnd.Cardinality;
+                var parts = cardinality.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 1)
+                {
+                    return parts[0];
+                }
+                if (parts.Length == 2)
+                {
+                    return parts[1];
+                }
+                return "1";
+            }
+        }
+
+        public string LowerBound
+        {
+            get
+            {
+                var cardinality = connector.SupplierEnd.Cardinality;
+                var parts = cardinality.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 1)
+                {
+                    return (parts[0] == "*" ? "0" : parts[0]);
+                }
+                if (parts.Length == 2)
+                {
+                    return parts[0];
+                }
+                return "1";
+            }
+        }
+
     }
 }

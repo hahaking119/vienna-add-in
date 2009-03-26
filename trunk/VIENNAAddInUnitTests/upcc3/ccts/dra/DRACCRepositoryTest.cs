@@ -349,22 +349,78 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
             ICCLibrary ccLib1 = repository.Libraries<ICCLibrary>().First();
-            IACC cdtAddress = ccLib1.ACCs.First();
-            var cdtAddressBCCs = new List<IBCC>(cdtAddress.BCCs);
-            IBCC bccCountryName = cdtAddressBCCs[0];
-            Assert.AreSame(cdtAddress, bccCountryName.Container);
+            IACC accAddress = ccLib1.ACCs.First();
+            var accAddressBCCs = new List<IBCC>(accAddress.BCCs);
+
+            IBCC bccCountryName = accAddressBCCs[0];
+            Assert.AreSame(accAddress, bccCountryName.Container);
             Assert.AreEqual("CountryName", bccCountryName.Name);
+            Assert.AreEqual("1", bccCountryName.LowerBound);
+            Assert.AreEqual("1", bccCountryName.UpperBound);
+
+            IBCC bccPostcode = accAddressBCCs[4];
+            Assert.AreEqual("Postcode", bccPostcode.Name);
+            Assert.AreEqual("0", bccPostcode.LowerBound);
+            Assert.AreEqual("*", bccPostcode.UpperBound);
             var cdtText = (ICDT) repository.FindByPath(EARepository1.PathToText());
             Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
 
             var accPerson = (IACC)repository.FindByPath(EARepository1.PathToACCPerson());
-            Assert.AreEqual("homeAddress", accPerson.ASCCs.First().Name);
+            var accPersonASCCs = new List<IASCC>(accPerson.ASCCs);
+            Assert.AreEqual("homeAddress", accPersonASCCs[0].Name);
+            Assert.AreEqual("1", accPersonASCCs[0].LowerBound);
+            Assert.AreEqual("1", accPersonASCCs[0].UpperBound);
+            Assert.AreEqual("workAddress", accPersonASCCs[1].Name);
+            Assert.AreEqual("0", accPersonASCCs[1].LowerBound);
+            Assert.AreEqual("*", accPersonASCCs[1].UpperBound);
 
             var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
             Assert.AreEqual("This is the definition of BDT Text.", bdtText.CON.Definition);
 
-            var biePerson = (IABIE) repository.FindByPath(EARepository1.PathToBIEPerson());
+            var abieAddress = (IABIE)repository.FindByPath(EARepository1.PathToBIEAddress());
+            var abieAddressBBIEs = new List<IBBIE>(abieAddress.BBIEs);
+
+            IBBIE bbieCountryName = abieAddressBBIEs[0];
+            Assert.AreSame(abieAddress, bbieCountryName.Container);
+            Assert.AreEqual("CountryName", bbieCountryName.Name);
+            Assert.AreEqual("1", bbieCountryName.LowerBound);
+            Assert.AreEqual("1", bbieCountryName.UpperBound);
+            Assert.AreEqual(bdtText.Id, bbieCountryName.Type.Id);
+
+            IBCC bbiePostcode = accAddressBCCs[4];
+            Assert.AreEqual("Postcode", bbiePostcode.Name);
+            Assert.AreEqual("0", bbiePostcode.LowerBound);
+            Assert.AreEqual("*", bbiePostcode.UpperBound);
+
+            var abiePerson = (IABIE)repository.FindByPath(EARepository1.PathToBIEPerson());
+            var abiePersonASBIEs = new List<IASBIE>(abiePerson.ASBIEs);
+            Assert.AreEqual("homeAddress", abiePersonASBIEs[0].Name);
+            Assert.AreEqual("1", abiePersonASBIEs[0].LowerBound);
+            Assert.AreEqual("1", abiePersonASBIEs[0].UpperBound);
+            Assert.AreEqual("workAddress", abiePersonASBIEs[1].Name);
+            Assert.AreEqual("0", abiePersonASBIEs[1].LowerBound);
+            Assert.AreEqual("*", abiePersonASBIEs[1].UpperBound);
+            var biePerson = (IABIE)repository.FindByPath(EARepository1.PathToBIEPerson());
             Assert.AreEqual("homeAddress", biePerson.ASBIEs.First().Name);
+        }
+
+        [Test]
+        public void TestStringSplit()
+        {
+            foreach (var s in "".Split(new[]{'.'}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Console.WriteLine("-" + s);
+            }
+            Console.WriteLine("------");
+            foreach (var s in "*".Split(new[]{'.'}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Console.WriteLine("-" + s);
+            }
+            Console.WriteLine("------");
+            foreach (var s in "1..*".Split(new[]{'.'}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Console.WriteLine("-" + s);
+            }
         }
 
         [Test]

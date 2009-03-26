@@ -12,7 +12,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal abstract class UpccAttribute<TContainer> where TContainer : ICCTSElement
+    internal abstract class UpccAttribute<TContainer> : IHasMultiplicity where TContainer : ICCTSElement
     {
         protected readonly Attribute attribute;
         protected readonly CCRepository repository;
@@ -80,6 +80,20 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         public TContainer Container { get; private set; }
+
+        #region IHasMultiplicity Members
+
+        public string UpperBound
+        {
+            get { return attribute.UpperBound; }
+        }
+
+        public string LowerBound
+        {
+            get { return attribute.LowerBound; }
+        }
+
+        #endregion
 
         private string GetTaggedValue(TaggedValues key)
         {
