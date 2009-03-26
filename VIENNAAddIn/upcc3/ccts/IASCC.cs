@@ -8,7 +8,7 @@
 // *******************************************************************************
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IASCC : ICC, ISequenced
+    public interface IASCC : ICC, ISequenced, IHasMultiplicity
     {
         IACC AssociatingElement { get; }
         IACC AssociatedElement { get; }

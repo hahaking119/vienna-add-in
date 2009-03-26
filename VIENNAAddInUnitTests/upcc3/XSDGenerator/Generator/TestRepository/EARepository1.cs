@@ -222,7 +222,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("CityName", Stereotype.BCC, PathToText()),
                 Attribute("StreetName", Stereotype.BCC, PathToText()),
                 Attribute("StreetNumber", Stereotype.BCC, PathToText()),
-                Attribute("Postcode", Stereotype.BCC, PathToText())
+                Attribute("Postcode", Stereotype.BCC, PathToText()).LowerBound("0").UpperBound("*")
                 )
                 ;
         }
@@ -235,7 +235,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("LastName", Stereotype.BCC, PathToText())
                 )
                 .Connectors(
-                Connector("homeAddress", Stereotype.ASCC, PathToAddress())
+                Connector("homeAddress", Stereotype.ASCC, PathToAddress()),
+                Connector("workAddress", Stereotype.ASCC, PathToAddress()).LowerBound("0").UpperBound("*")
                 )
                 ;
         }
@@ -265,7 +266,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("CityName", Stereotype.BCC, PathToBDTText()),
                 Attribute("StreetName", Stereotype.BCC, PathToBDTText()),
                 Attribute("StreetNumber", Stereotype.BCC, PathToBDTText()),
-                Attribute("Postcode", Stereotype.BCC, PathToBDTText())
+                Attribute("Postcode", Stereotype.BCC, PathToBDTText()).LowerBound("0").UpperBound("*")
                 )
                 .Connectors(
                 Connector("basedOn", Stereotype.BasedOn, PathToAddress()),
@@ -281,7 +282,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("LastName", Stereotype.BCC, PathToBDTText())
                 )
                 .Connectors(
-                Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress())
+                Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress()),
+                Connector("workAddress", Stereotype.ASBIE, PathToBIEAddress()).LowerBound("0").UpperBound("*")
                 )
                 ;
         }

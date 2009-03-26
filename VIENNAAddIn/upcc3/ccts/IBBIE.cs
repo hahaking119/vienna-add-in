@@ -8,7 +8,7 @@
 // *******************************************************************************
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IBBIE : IBIE, ISequenced
+    public interface IBBIE : IBIE, ISequenced, IHasMultiplicity
     {
         IBDT Type { get; }
         IABIE Container { get; }

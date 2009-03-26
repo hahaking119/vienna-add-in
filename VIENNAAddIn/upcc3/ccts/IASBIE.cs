@@ -8,7 +8,7 @@
 // *******************************************************************************
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IASBIE : IBIE, ISequenced
+    public interface IASBIE : IBIE, ISequenced, IHasMultiplicity
     {
         IABIE AssociatingElement { get; }
         IABIE AssociatedElement { get; }

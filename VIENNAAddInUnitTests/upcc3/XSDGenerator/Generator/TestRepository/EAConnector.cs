@@ -14,8 +14,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EAConnector : IEACollectionElement, Connector
     {
+        private readonly EAConnectorEnd clientEnd = new EAConnectorEnd();
+        private readonly EAConnectorEnd supplierEnd = new EAConnectorEnd();
         private readonly Collection taggedValues = new EACollection<EAConnectorTag>();
-        private EAConnectorEnd supplierEnd = new EAConnectorEnd();
         private int supplierID;
         public EARepository Repository { get; set; }
 
@@ -52,11 +53,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public string Type
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Type { get; set; }
 
         public string Subtype
         {
@@ -125,7 +122,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public ConnectorEnd ClientEnd
         {
-            get { throw new NotImplementedException(); }
+            get { return clientEnd; }
         }
 
         public ConnectorEnd SupplierEnd
@@ -287,11 +284,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        public string Cardinality
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Cardinality { get; set; }
 
         public string Visibility
         {
@@ -319,11 +312,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int Aggregation
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int Aggregation { get; set; }
 
         public int Ordering
         {

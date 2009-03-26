@@ -8,7 +8,7 @@
 // *******************************************************************************
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IBCC : ICC, ISequenced
+    public interface IBCC : ICC, ISequenced, IHasMultiplicity
     {
         ICDT Type { get; }
         IACC Container { get; }

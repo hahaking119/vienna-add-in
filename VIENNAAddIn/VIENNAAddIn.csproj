@@ -239,6 +239,7 @@
     <Compile Include="upcc3\ccts\IBasicType.cs" />
     <Compile Include="upcc3\ccts\ICCTSElement.cs" />
     <Compile Include="upcc3\ccts\ICON.cs" />
+    <Compile Include="upcc3\ccts\IHasMultiplicity.cs" />
     <Compile Include="upcc3\ccts\IHasUsageRules.cs" />
     <Compile Include="upcc3\ccts\IPRIMRestrictions.cs" />
     <Compile Include="upcc3\ccts\ISequenced.cs" />
@@ -294,9 +295,11 @@
     <Compile Include="upcc3\ccts\Path.cs" />
     <Compile Include="upcc3\ccts\SUPSpec.cs" />
     <Compile Include="upcc3\ccts\TaggedValueSpec.cs" />
+    <Compile Include="upcc3\ccts\util\AggregationKind.cs" />
     <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
     <Compile Include="upcc3\ccts\util\ConnectorExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\ConnectorTypes.cs" />
     <Compile Include="upcc3\ccts\util\EAException.cs" />
     <Compile Include="upcc3\ccts\util\ElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
