@@ -143,6 +143,19 @@ namespace VIENNAAddIn.constants
 
 
 
+    internal enum UPCC_Packages
+    {
+        bLibrary,
+        BDTLibrary,
+        BIELibrary,
+        CCLibrary,
+        CDTLibrary,
+        DOCLibrary,
+        ENUMLibrary,
+        PRIMLibrary
+
+    }
+
 
 
 
