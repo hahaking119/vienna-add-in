@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using EA;
 using NUnit.Framework;
+using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -393,85 +394,5 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("0123456789", GenerateNumbers(10).ConcatToString());
             Assert.AreSame(String.Empty, ((IEnumerable<int>) null).ConcatToString());
         }
-
-        /// <summary>
-        /// A method creating an ABIE (including the required BDT and libs).
-        /// 
-        /// I'm keeping this method only for future reference.
-        /// </summary>
-        /// <param name="eaRepository"></param>
-        private static void CreateABIE(Repository eaRepository)
-        {
-            const string outputTabName = "VIENNAAddIn";
-
-            const string bdtLibName = "My BDT Library";
-            const string bdtTextName = "My_Text";
-            const string bieLibName = "My BIE Library";
-            const string bieAddressName = "My_Address";
-
-            var pBLib = (Path)"ebInterface Data Model";
-
-            Path pCDTLib = pBLib / "CDTLibrary";
-            Path pCDTText = pCDTLib / "Text";
-
-            Path pCCLib = pBLib / "CCLibrary";
-            Path pACCAddress = pCCLib / "Address";
-
-            Path pBIELib = pBLib / bieLibName;
-
-            Path pBDTLib = pBLib / bdtLibName;
-            Path pBDTText = pBDTLib / bdtTextName;
-
-            eaRepository.CreateOutputTab(outputTabName);
-            eaRepository.EnsureOutputVisible(outputTabName);
-
-            var repository = new CCRepository(eaRepository);
-
-            var bLib = (IBLibrary)repository.FindByPath(pBLib);
-            eaRepository.WriteOutput(outputTabName, "bLib.Name: " + bLib.Name, 37);
-
-            var cdtText = (ICDT)repository.FindByPath(pCDTText);
-            eaRepository.WriteOutput(outputTabName, "CDT Text: " + cdtText.Name, 37);
-
-            var bdtLibrary = (IBDTLibrary)repository.FindByPath(pBDTLib) ?? bLib.CreateBDTLibrary(new LibrarySpec
-            {
-                Name = bdtLibName,
-            });
-            eaRepository.WriteOutput(outputTabName, "bdtLibrary: " + bdtLibrary.Name, 38);
-
-            var bdtText = (IBDT)repository.FindByPath(pBDTText) ??
-                          bdtLibrary.CreateBDT(BDTSpec.CloneCDT(cdtText, bdtTextName));
-            eaRepository.ShowInProjectView(eaRepository.GetElementByID(bdtText.Id));
-            eaRepository.WriteOutput(outputTabName, "bdtText: " + bdtText.Name, 38);
-
-            var bieLibrary = (IBIELibrary)repository.FindByPath(pBIELib) ?? bLib.CreateBIELibrary(new LibrarySpec
-            {
-                Name = bieLibName,
-            });
-            eaRepository.WriteOutput(outputTabName, "bieLibrary: " + bieLibrary.Name, 38);
-
-            var accAddress = (IACC)repository.FindByPath(pACCAddress);
-            eaRepository.WriteOutput(outputTabName, "accAddress: " + accAddress.Name, 38);
-
-            var bccs = new List<IBCC>(accAddress.BCCs);
-            IABIE bieAddress = bieLibrary.CreateABIE(new ABIESpec
-            {
-                Name = bieAddressName,
-                DictionaryEntryName =
-                    "overriding default dictionary entry name",
-                Definition = "My specific version of an address",
-                UniqueIdentifier = "my unique identifier",
-                VersionIdentifier = "my version identifier",
-                LanguageCode = "my language code",
-                BusinessTerms = new[] { "business term 1", "business term 2" },
-                UsageRules = new[] { "usage rule 1", "usage rule 2" },
-                BasedOn = accAddress,
-                BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
-            });
-            eaRepository.ShowInProjectView(eaRepository.GetElementByID(bieAddress.Id));
-            eaRepository.WriteOutput(outputTabName, "bieAddress: " + bieAddress.Name, 38);
-        }
-
-
     }
 }
