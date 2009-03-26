@@ -12,12 +12,11 @@ using System.IO;
 using System.Linq;
 using EA;
 using NUnit.Framework;
-using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
-using File=EA.File;
+using File=System.IO.File;
 using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
@@ -41,7 +40,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var repo = new Repository();
             string repositoryFileStem = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest";
             string repositoryFile = repositoryFileStem + "_tmp.eap";
-            System.IO.File.Copy(repositoryFileStem + ".eap", repositoryFile, true);
+            File.Copy(repositoryFileStem + ".eap", repositoryFile, true);
             Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
             repo.OpenFile(repositoryFile);
             return repo;
@@ -159,6 +158,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                               });
         }
 
+        private static void AssertASBIE(string name, string lowerBound, string upperBound, IASBIE asbie)
+        {
+            Assert.AreEqual(name, asbie.Name);
+            Assert.AreEqual(lowerBound, asbie.LowerBound);
+            Assert.AreEqual(upperBound, asbie.UpperBound);
+        }
+
         [Test]
         public void TestCreateABIE()
         {
@@ -175,10 +181,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             var bccs = new List<IBCC>(accPerson.BCCs);
             var asccs = new List<IASCC>(accPerson.ASCCs);
-            var asbies = new List<ASBIESpec>
-                         {
-                             ASBIESpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress.Id)
-                         };
             var abieSpec = new ABIESpec
                            {
                                Name = "My_" + accPerson.Name,
@@ -191,7 +193,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                BasedOn = accPerson,
                                BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
-                               ASBIEs = asbies,
+                               ASBIEs = new List<ASBIESpec>
+                                        {
+                                            ASBIESpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress.Id),
+                                            ASBIESpec.CloneASCC(asccs[1], "My_workAddress", bieAddress.Id)
+                                        },
                            };
 
             IABIE abiePerson = bieLibrary.CreateABIE(abieSpec);
@@ -227,10 +233,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 Console.WriteLine(bbie.UsageRules.JoinToString("---"));
                 Assert.AreEqual(bcc.UsageRules, bbie.UsageRules);
                 Assert.AreEqual(bcc.BusinessTerms, bbie.BusinessTerms);
+                Assert.AreEqual(bcc.LowerBound, bbie.LowerBound);
+                Assert.AreEqual(bcc.UpperBound, bbie.UpperBound);
             }
 
-            Assert.AreEqual(1, abiePerson.ASBIEs.Count());
-            Assert.AreEqual("My_homeAddress", abiePerson.ASBIEs.First().Name);
+            var asbies = new List<IASBIE>(abiePerson.ASBIEs);
+            Assert.AreEqual(2, asbies.Count());
+            AssertASBIE("My_homeAddress", "1", "1", asbies[0]);
+            AssertASBIE("My_workAddress", "0", "*", asbies[1]);
         }
 
         [Test]
@@ -365,7 +375,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtText = (ICDT) repository.FindByPath(EARepository1.PathToText());
             Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
 
-            var accPerson = (IACC)repository.FindByPath(EARepository1.PathToACCPerson());
+            var accPerson = (IACC) repository.FindByPath(EARepository1.PathToACCPerson());
             var accPersonASCCs = new List<IASCC>(accPerson.ASCCs);
             Assert.AreEqual("homeAddress", accPersonASCCs[0].Name);
             Assert.AreEqual("1", accPersonASCCs[0].LowerBound);
@@ -377,7 +387,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
             Assert.AreEqual("This is the definition of BDT Text.", bdtText.CON.Definition);
 
-            var abieAddress = (IABIE)repository.FindByPath(EARepository1.PathToBIEAddress());
+            var abieAddress = (IABIE) repository.FindByPath(EARepository1.PathToBIEAddress());
             var abieAddressBBIEs = new List<IBBIE>(abieAddress.BBIEs);
 
             IBBIE bbieCountryName = abieAddressBBIEs[0];
@@ -392,7 +402,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("0", bbiePostcode.LowerBound);
             Assert.AreEqual("*", bbiePostcode.UpperBound);
 
-            var abiePerson = (IABIE)repository.FindByPath(EARepository1.PathToBIEPerson());
+            var abiePerson = (IABIE) repository.FindByPath(EARepository1.PathToBIEPerson());
             var abiePersonASBIEs = new List<IASBIE>(abiePerson.ASBIEs);
             Assert.AreEqual("homeAddress", abiePersonASBIEs[0].Name);
             Assert.AreEqual("1", abiePersonASBIEs[0].LowerBound);
@@ -400,27 +410,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("workAddress", abiePersonASBIEs[1].Name);
             Assert.AreEqual("0", abiePersonASBIEs[1].LowerBound);
             Assert.AreEqual("*", abiePersonASBIEs[1].UpperBound);
-            var biePerson = (IABIE)repository.FindByPath(EARepository1.PathToBIEPerson());
+            var biePerson = (IABIE) repository.FindByPath(EARepository1.PathToBIEPerson());
             Assert.AreEqual("homeAddress", biePerson.ASBIEs.First().Name);
-        }
-
-        [Test]
-        public void TestStringSplit()
-        {
-            foreach (var s in "".Split(new[]{'.'}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                Console.WriteLine("-" + s);
-            }
-            Console.WriteLine("------");
-            foreach (var s in "*".Split(new[]{'.'}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                Console.WriteLine("-" + s);
-            }
-            Console.WriteLine("------");
-            foreach (var s in "1..*".Split(new[]{'.'}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                Console.WriteLine("-" + s);
-            }
         }
 
         [Test]
@@ -449,6 +440,25 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             Assert.AreEqual("0123456789", GenerateNumbers(10).ConcatToString());
             Assert.AreSame(String.Empty, ((IEnumerable<int>) null).ConcatToString());
+        }
+
+        [Test]
+        public void TestStringSplit()
+        {
+            foreach (string s in "".Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Console.WriteLine("-" + s);
+            }
+            Console.WriteLine("------");
+            foreach (string s in "*".Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Console.WriteLine("-" + s);
+            }
+            Console.WriteLine("------");
+            foreach (string s in "1..*".Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Console.WriteLine("-" + s);
+            }
         }
     }
 }
