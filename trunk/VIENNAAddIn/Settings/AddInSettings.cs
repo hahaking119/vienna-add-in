@@ -1,38 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace VIENNAAddIn.Settings
 {
-    class AddInSettings
+    ///<summary>
+    /// Global Add-In settings.
+    ///</summary>
+    public static class AddInSettings
     {
-        //If this boolean field is set to true, the VIENNAAddIn is built
-        //in GIEM mode
-        //This means, that all menu entries are named as GIEM instead
-        //of VIENNAAddIn
-
-
-        internal static bool buildGIEM = false;
-
+        // If this boolean field is set to true, the VIENNAAddIn is built in GIEM mode.
+        // This means, that all menu entries are named as GIEM instead of VIENNAAddIn.
+        internal const bool buildGIEM = false;
 
         /// <summary>
-        /// Return the caption of the AddIn
+        /// Return the caption of the Add-In
         /// </summary>
         /// <returns></returns>
-        internal static String getAddInCaption()
+        public static String AddInCaption
         {
-            if (buildGIEM)
-            {
-                return "GIEM";
-            }
-            else
-            {
-                return "VIENNAAddIn";
-            }
+            get { return buildGIEM ? "GIEM" : "VIENNAAddIn"; }
         }
-
-
-
     }
 }

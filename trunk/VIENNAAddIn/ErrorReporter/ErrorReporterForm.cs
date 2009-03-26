@@ -32,7 +32,7 @@ namespace VIENNAAddIn.ErrorReporter
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		public ErrorReport(String message)
+		public ErrorReport(String message, int eaVersion)
 		{
 			
 			//
@@ -42,7 +42,7 @@ namespace VIENNAAddIn.ErrorReporter
 
             String s = "";
 
-            s += "EA-Version: " + VIENNAAddIn.repo.LibraryVersion + "\n";
+            s += "EA-Version: " + eaVersion + "\n";
             s += "UMM-AddIn-Version: " + typeof(VIENNAAddIn).Assembly.GetName().Name + " " + typeof(VIENNAAddIn).Assembly.GetName().Version + "\n";
             s += ".NET version: " + System.Environment.Version + "\n";
             s += "OS version: " + System.Environment.OSVersion + "\n";

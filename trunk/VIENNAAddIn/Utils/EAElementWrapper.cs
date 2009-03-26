@@ -7,6 +7,7 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
+using EA;
 
 namespace VIENNAAddIn.Utils
 {
@@ -50,9 +51,9 @@ namespace VIENNAAddIn.Utils
 			this.type = e.Type;
 		}
 
-		public EAElementWrapper(EA.Connector con) {
-            EA.Element client = VIENNAAddIn.repo.GetElementByID(con.ClientID);
-            EA.Element supplier = VIENNAAddIn.repo.GetElementByID(con.SupplierID);
+		public EAElementWrapper(EA.Connector con, Repository repository) {
+            EA.Element client = repository.GetElementByID(con.ClientID);
+            EA.Element supplier = repository.GetElementByID(con.SupplierID);
 			this.name = con.Name + "(from: " + client.Name + " to: " + supplier.Name + ")";
 			this.stereotype = con.Stereotype;
 			this.type = con.Type;

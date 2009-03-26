@@ -216,6 +216,7 @@
     <Compile Include="ExportImport\ImportPackage.Designer.cs">
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
+    <Compile Include="MenuManager.cs" />
     <Compile Include="Settings\AddInSettings.cs" />
     <Compile Include="Settings\SynchStereotypes.cs" />
     <Compile Include="Settings\SynchStereotypesForm.cs">

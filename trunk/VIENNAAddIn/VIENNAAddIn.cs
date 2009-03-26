@@ -227,11 +227,11 @@ namespace VIENNAAddIn
             var menu = new ArrayList();
             if (menuname == String.Empty)
             {
-                menu.Add("-" + AddInSettings.getAddInCaption());
+                menu.Add("-" + AddInSettings.AddInCaption);
             }
             else if (menulocation == "MainMenu")
             {
-                if (menuname == "-" + AddInSettings.getAddInCaption())
+                if (menuname == "-" + AddInSettings.AddInCaption)
                 {
                     menu.Add("&Set Model as UMM2/UPCC3 Model");
                     menu.Add("&Create initial UMM 2 model structure");
@@ -243,7 +243,7 @@ namespace VIENNAAddIn
                     menu.Add("-Wizards");
                     menu.Add("&Import CCTS Library");
                     menu.Add("&Options");
-                    menu.Add("&About " + AddInSettings.getAddInCaption() + " Add-In");
+                    menu.Add("&About " + AddInSettings.AddInCaption + " Add-In");
                 }
                 else if (menuname == "-Maintenance")
                 {
@@ -266,7 +266,7 @@ namespace VIENNAAddIn
             }
             else if (menulocation == "TreeView")
             {
-                if (menuname == "-" + AddInSettings.getAddInCaption())
+                if (menuname == "-" + AddInSettings.AddInCaption)
                 {
                     return getTreeViewMenu(repository);
                 }
@@ -321,7 +321,7 @@ namespace VIENNAAddIn
                 else
                 {
                     //showing the About-Window
-                    if (menuitem == "&About " + AddInSettings.getAddInCaption() + " Add-In")
+                    if (menuitem == "&About " + AddInSettings.AddInCaption + " Add-In")
                     {
                         var aboutWindow = new AboutWindow();
                         aboutWindow.Show();
@@ -846,7 +846,7 @@ namespace VIENNAAddIn
             catch (Exception e)
             {
                 //Show the ErrorWindow
-                new ErrorReport(e.Message + "\n" + e.StackTrace);
+                new ErrorReport(e.Message + "\n" + e.StackTrace, repository.LibraryVersion);
             }
         }
 
