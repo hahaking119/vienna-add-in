@@ -8,7 +8,6 @@ http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -21,9 +20,6 @@ using VIENNAAddIn.ErrorReporter;
 using VIENNAAddIn.ExportImport;
 using VIENNAAddIn.Setting;
 using VIENNAAddIn.Settings;
-using VIENNAAddIn.upcc3.ccts;
-using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.workflow;
@@ -32,7 +28,6 @@ using VIENNAAddIn.WSDLGenerator.Setting;
 using VIENNAAddIn.XBRLGenerator;
 using VIENNAAddIn.upcc3.Wizards;
 using Attribute=EA.Attribute;
-using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddIn
 {
@@ -108,7 +103,7 @@ namespace VIENNAAddIn
     {
         #region Variables
 
-        public static Repository repo;
+        private static Repository repo;
         private BIEGenerator bieGenerator;
         private BusinessLibraryGenerator BLGenerator;
         private CCGenerator ccGenerator;
@@ -152,8 +147,7 @@ namespace VIENNAAddIn
         public void EA_GetMenuState(Repository repository, string menulocation, string menuname, string itemname,
                                     ref bool isEnabled, ref bool isChecked)
         {
-            repo = repository;
-            var isUmm2Model = IsUmm2Model(repository);
+            var isUmm2Model = IsUmm2Model(repo);
             if (!isUmm2Model)
             {
                 isEnabled = false;
@@ -177,8 +171,6 @@ namespace VIENNAAddIn
                  * at startup. if not, an exception will occur and the AddIn functionality
                 // * will be disabled to avoid uncertain states of the AddIn or EA itself.*/
                 WindowsRegistryLoader.checkRegistryEntries();
-
-                repo = repository;
             }
             catch (Exception e)
             {
@@ -220,7 +212,6 @@ namespace VIENNAAddIn
         /// <returns></returns>
         public string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname)
         {
-            repo = repository;
             var menu = new ArrayList();
             if (menuname == String.Empty)
             {
@@ -265,7 +256,7 @@ namespace VIENNAAddIn
             {
                 if (menuname == "-" + AddInSettings.AddInCaption)
                 {
-                    return getTreeViewMenu(repository);
+                    return getTreeViewMenu(repo);
                 }
             }
 
@@ -305,15 +296,13 @@ namespace VIENNAAddIn
         /// <param name="menuitem"></param>
         public void EA_MenuClick(Repository repository, string menulocation, string menuname, string menuitem)
         {
-            repo = repository;
-
             //This try/catch catches all Exceptions, which might possibly occur
             //during the execution of the plugin and shows the ErrorWindow to the user
             try
             {
                 if (menuitem == "&Import CCTS Library")
                 {
-                    Utility.importCCTSLibrary(repository, true);
+                    Utility.importCCTSLibrary(repo, true);
                 }
                 else
                 {
@@ -332,7 +321,7 @@ namespace VIENNAAddIn
                     {
                         if (synchStereotypesForm == null || synchStereotypesForm.IsDisposed)
                         {
-                            synchStereotypesForm = new SynchStereotypesForm(repository);
+                            synchStereotypesForm = new SynchStereotypesForm(repo);
                             synchStereotypesForm.Show();
                         }
                         else
@@ -346,9 +335,9 @@ namespace VIENNAAddIn
                     //Synch tagged value, this function need EA version 7.0.818
                     else if (menuitem == "Synch tagged value")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
-                        synchTaggedValue = new SynchTaggedValue(repository, scope);
+                        synchTaggedValue = new SynchTaggedValue(repo, scope);
                         synchTaggedValue.Show();
 
                         //foreach (object enumStereotype in VIENNAAddIn_BIV)
@@ -381,13 +370,13 @@ namespace VIENNAAddIn
                     {
                         try
                         {
-                            if (IsUmm2Model(repository))
+                            if (IsUmm2Model(repo))
                             {
-                                UnSetAsUMM2Model(repository);
+                                UnSetAsUMM2Model(repo);
                             }
                             else
                             {
-                                SetAsUMM2Model(repository);
+                                SetAsUMM2Model(repo);
                             }
                         }
                         catch (COMException)
@@ -397,12 +386,12 @@ namespace VIENNAAddIn
                     }
                     else if (menuitem == "&Create initial UMM 2 model structure")
                     {
-                        var creator = new InitialPackageStructureCreator(repository);
+                        var creator = new InitialPackageStructureCreator(repo);
                         creator.Show();
                     }
                     else if (menuitem == "&Options")
                     {
-                        var optionsForm = new OptionsForm(repository);
+                        var optionsForm = new OptionsForm(repo);
                         optionsForm.ShowDialog();
                     }
                         //menu item validate has been chosen
@@ -416,7 +405,7 @@ namespace VIENNAAddIn
 
                         if (validatorForm == null || validatorForm.IsDisposed)
                         {
-                            validatorForm = new ValidatorForm(repository, scope);
+                            validatorForm = new ValidatorForm(repo, scope);
                             validatorForm.Show();
                         }
                         else
@@ -432,13 +421,13 @@ namespace VIENNAAddIn
                     else if (menuitem == "&Validate")
                     {
                         //First determine try to determine a UMM scope
-                        string scope = determineValidationScope(repository, menulocation);
+                        string scope = determineValidationScope(repo, menulocation);
 
                         if (scope != "")
                         {
                             if (validatorForm == null || validatorForm.IsDisposed)
                             {
-                                validatorForm = new ValidatorForm(repository, scope);
+                                validatorForm = new ValidatorForm(repo, scope);
                                 validatorForm.Show();
                             }
                             else
@@ -465,7 +454,7 @@ namespace VIENNAAddIn
 
                         if (validatorForm == null || validatorForm.IsDisposed)
                         {
-                            validatorForm = new ValidatorForm(repository, scope);
+                            validatorForm = new ValidatorForm(repo, scope);
                             validatorForm.Show();
                         }
                         else
@@ -478,12 +467,12 @@ namespace VIENNAAddIn
                     }
                     else if (menuitem == "&Generate WSDL from Business Transaction")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
                         //We already have a running instance
                         if (wsdlGenerator == null || wsdlGenerator.IsDisposed)
                         {
-                            wsdlGenerator = new WSDLGenerator.WSDLGenerator(repository, scope, false);
+                            wsdlGenerator = new WSDLGenerator.WSDLGenerator(repo, scope, false);
                             wsdlGenerator.Show();
                         }
                             //No instance yet
@@ -499,12 +488,12 @@ namespace VIENNAAddIn
                         //Generate &WSDL from BusinessChoreographyView
                     else if (menuitem == "&Generate all WSDL in BusinessChoreographyView")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
                         //We already have a running instance
                         if (wsdlGenerator == null || wsdlGenerator.IsDisposed)
                         {
-                            wsdlGenerator = new WSDLGenerator.WSDLGenerator(repository, scope, true);
+                            wsdlGenerator = new WSDLGenerator.WSDLGenerator(repo, scope, true);
                             wsdlGenerator.Show();
                         }
                             //No instance yet
@@ -521,12 +510,12 @@ namespace VIENNAAddIn
                         //Generate BPEL from package with stereotype BusinessTransactionView 
                     else if (menuitem == "&Generate Transaction Module Artefacts")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
                         //No instance yet
                         if (tmArtefact == null || tmArtefact.IsDisposed)
                         {
-                            tmArtefact = new TransactionModuleArtefact(repository, scope, false);
+                            tmArtefact = new TransactionModuleArtefact(repo, scope, false);
                             //CCTS.WSDLGenerator.TransactionModuleGen(repository, scope, false);
                             tmArtefact.Show();
                         }
@@ -544,12 +533,12 @@ namespace VIENNAAddIn
                         //Generate BPEL from package with stereotype BusinessTransactionView 
                     else if (menuitem == "&Generate ALL Transaction Module Artefacts")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
                         //No instance yet
                         if (tmArtefact == null || tmArtefact.IsDisposed)
                         {
-                            tmArtefact = new TransactionModuleArtefact(repository, scope, true);
+                            tmArtefact = new TransactionModuleArtefact(repo, scope, true);
                             tmArtefact.Show();
                         }
                             //We already have a running instance
@@ -569,14 +558,14 @@ namespace VIENNAAddIn
                     {
                         Diagram d;
                         Object obj;
-                        ObjectType o = repository.GetTreeSelectedItem(out obj);
+                        ObjectType o = repo.GetTreeSelectedItem(out obj);
 
                         d = (Diagram) obj;
                         int diagramID = d.DiagramID;
 
                         if (xbrlLinkbaseGenerator == null || xbrlLinkbaseGenerator.IsDisposed)
                         {
-                            xbrlLinkbaseGenerator = new XBRLLinkbase(repository, diagramID);
+                            xbrlLinkbaseGenerator = new XBRLLinkbase(repo, diagramID);
                             xbrlLinkbaseGenerator.Show();
                         }
                         else
@@ -591,12 +580,12 @@ namespace VIENNAAddIn
                         //Generate Linkbase XBRL
                     else if (menuitem == "&Generate XBRL")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
                         //We already have a running instance
                         if (xbrlGenerator == null || xbrlGenerator.IsDisposed)
                         {
-                            xbrlGenerator = new XBRLGenerator.XBRLGenerator(repository, scope, true);
+                            xbrlGenerator = new XBRLGenerator.XBRLGenerator(repo, scope, true);
                             xbrlGenerator.Show();
                         }
                             //No instance yet
@@ -612,12 +601,12 @@ namespace VIENNAAddIn
                         //Generate XSD from CCTS has been chosen
                     else if (menuitem == "&Generate XSD")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
                         //We already have a running instance
                         if (BLGenerator == null || BLGenerator.IsDisposed)
                         {
-                            BLGenerator = new BusinessLibraryGenerator(repository, scope, true);
+                            BLGenerator = new BusinessLibraryGenerator(repo, scope, true);
                             BLGenerator.Show();
                         }
                             //No instance yet
@@ -633,12 +622,12 @@ namespace VIENNAAddIn
                         //Generate XSD from DOC has been chosen
                     else if (menuitem == "&Generate XSD from DOC")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
 
                         //We already have a running instance
                         if (xsdGenerator == null || xsdGenerator.IsDisposed)
                         {
-                            xsdGenerator = new DOCGenerator(repository, scope, true);
+                            xsdGenerator = new DOCGenerator(repo, scope, true);
                             xsdGenerator.Show();
                         }
                             //No instance yet
@@ -657,11 +646,11 @@ namespace VIENNAAddIn
 
                     else if (menuitem == "&Generate XSD from ENUM")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
                         //We already have a running instance
                         if (enumGenerator == null || enumGenerator.IsDisposed)
                         {
-                            enumGenerator = new ENUMGenerator(repository, scope, false);
+                            enumGenerator = new ENUMGenerator(repo, scope, false);
                             enumGenerator.Show();
                         }
                             //No instance yet
@@ -678,11 +667,11 @@ namespace VIENNAAddIn
                         //Generate XSD Schema from BIE
                     else if (menuitem == "&Generate XSD from BIE")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
                         //We already have a running instance
                         if (bieGenerator == null || bieGenerator.IsDisposed)
                         {
-                            bieGenerator = new BIEGenerator(repository, scope, true);
+                            bieGenerator = new BIEGenerator(repo, scope, true);
                             bieGenerator.Show();
                         }
                             //No instance yet
@@ -697,11 +686,11 @@ namespace VIENNAAddIn
                         //Generate XSD Schema from QDT
                     else if (menuitem == "&Generate XSD from QDT")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
                         //We already have a running instance
                         if (qdtGenerator == null || qdtGenerator.IsDisposed)
                         {
-                            qdtGenerator = new QDTGenerator(repository, scope, true);
+                            qdtGenerator = new QDTGenerator(repo, scope, true);
                             qdtGenerator.Show();
                         }
                             //No instance yet
@@ -716,11 +705,11 @@ namespace VIENNAAddIn
                         //Generate XSD Schema from CDT
                     else if (menuitem == "&Generate XSD from CDT")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
                         //We already have a running instance
                         if (cdtGenerator == null || cdtGenerator.IsDisposed)
                         {
-                            cdtGenerator = new CDTGenerator(repository, scope, false);
+                            cdtGenerator = new CDTGenerator(repo, scope, false);
                             cdtGenerator.Show();
                         }
                             //No instance yet
@@ -735,11 +724,11 @@ namespace VIENNAAddIn
 
                     else if (menuitem == "&Generate XSD from CC")
                     {
-                        String scope = determineScope(repository, true);
+                        String scope = determineScope(repo, true);
                         //We already have a running instance
                         if (ccGenerator == null || ccGenerator.IsDisposed)
                         {
-                            ccGenerator = new CCGenerator(repository, scope, false);
+                            ccGenerator = new CCGenerator(repo, scope, false);
                             ccGenerator.Show();
                         }
                             //No instance yet
@@ -754,12 +743,12 @@ namespace VIENNAAddIn
                         //Insert new Qualified Data Type
                     else if (menuitem == "&Create new Qualified Data Type")
                     {
-                        String scope = determineScope(repository, true);
-                        if (CC_Utils.checkPackageConsistencyForQDT(repository, scope))
+                        String scope = determineScope(repo, true);
+                        if (CC_Utils.checkPackageConsistencyForQDT(repo, scope))
                         {
                             if (qdtWindow == null || qdtWindow.IsDisposed)
                             {
-                                qdtWindow = new QDTWindow(repository, scope);
+                                qdtWindow = new QDTWindow(repo, scope);
                                 qdtWindow.Show();
                             }
                             else
@@ -774,12 +763,12 @@ namespace VIENNAAddIn
                         //Insert Business Information Entity
                     else if (menuitem == "&Create new Business Information Entity")
                     {
-                        String scope = determineScope(repository, true);
-                        if (CC_Utils.checkPackageConsistencyForCC(repository, scope))
+                        String scope = determineScope(repo, true);
+                        if (CC_Utils.checkPackageConsistencyForCC(repo, scope))
                         {
                             if (ccWindow == null || ccWindow.IsDisposed)
                             {
-                                ccWindow = new CCWindow(repository, scope);
+                                ccWindow = new CCWindow(repo, scope);
                                 ccWindow.Show();
                             }
                             else
@@ -793,20 +782,20 @@ namespace VIENNAAddIn
                     }
                     else if (menuitem == "Create new &ABIE using the Wizard")
                     {
-                        ABIEWizardForm ABIEWizard = new ABIEWizardForm(repository);
+                        ABIEWizardForm ABIEWizard = new ABIEWizardForm(repo);
                         ABIEWizard.Show();                         
                     }
                     else if (menuitem == "Create new BD&T using the Wizard")
                     {
-                        BDTWizardForm BDTWizard = new BDTWizardForm(repository);
+                        BDTWizardForm BDTWizard = new BDTWizardForm(repo);
                         BDTWizard.Show();                        
                     }
                     else if (menuitem == "&Export Package to CSV file")
                     {
-                        string scope = determineScope(repository, false);
+                        string scope = determineScope(repo, false);
                         if (exportFeature == null || exportFeature.IsDisposed)
                         {
-                            exportFeature = new ExportPackage(repository, scope);
+                            exportFeature = new ExportPackage(repo, scope);
                             exportFeature.Show();
                         }
                         else
@@ -819,10 +808,10 @@ namespace VIENNAAddIn
                     }
                     else if (menuitem == "&Import Package to CSV file")
                     {
-                        string scope = determineScope(repository, false);
+                        string scope = determineScope(repo, false);
                         if (importFeature == null || importFeature.IsDisposed)
                         {
-                            importFeature = new ImportPackage(repository, scope);
+                            importFeature = new ImportPackage(repo, scope);
                             importFeature.Show();
                         }
                         else
@@ -838,7 +827,7 @@ namespace VIENNAAddIn
             catch (Exception e)
             {
                 //Show the ErrorWindow
-                new ErrorReport(e.Message + "\n" + e.StackTrace, repository.LibraryVersion);
+                new ErrorReport(e.Message + "\n" + e.StackTrace, repo.LibraryVersion);
             }
         }
 
