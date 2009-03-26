@@ -118,7 +118,6 @@ namespace VIENNAAddIn
 
         private ExportPackage exportFeature;
         private ImportPackage importFeature;
-        private bool isUMM2Model;
         private QDTGenerator qdtGenerator;
         private QDTWindow qdtWindow;
 
@@ -154,13 +153,14 @@ namespace VIENNAAddIn
                                     ref bool isEnabled, ref bool isChecked)
         {
             repo = repository;
-            if (itemname == "&Set Model as UMM2/UPCC3 Model")
-            {
-                isChecked = isUMM2Model;
-            }
-            else if (!isUMM2Model)
+            var isUmm2Model = IsUmm2Model(repository);
+            if (!isUmm2Model)
             {
                 isEnabled = false;
+            }
+            if (itemname == "&Set Model as UMM2/UPCC3 Model")
+            {
+                isChecked = isUmm2Model;
             }
         }
 
@@ -207,10 +207,7 @@ namespace VIENNAAddIn
         /// <param name="repository"></param>
         public void EA_FileOpen(Repository repository)
         {
-            // check if the opened model has been marked as an UMM2 model before
-            isUMM2Model = CheckIfModelIsUMM2Model(repository);
             repo = repository;
-
             repo.EnableCache = true;
         }
 
@@ -384,18 +381,13 @@ namespace VIENNAAddIn
                     {
                         try
                         {
-                            if (isUMM2Model)
+                            if (IsUmm2Model(repository))
                             {
-                                /* if the UnSet.. Method returns true, all UMM2 relevant things have been
-                                             * successfuly removed from the model and thus it is not a UMM2 model any
-                                             * longer (therefore the negation is set) */
-                                isUMM2Model = !UnSetAsUMM2Model(repository);
+                                UnSetAsUMM2Model(repository);
                             }
                             else
                             {
-                                /* if everything succeeds in the Set... Method, the model has been marked
-                                             * as an UMM2 model */
-                                isUMM2Model = SetAsUMM2Model(repository);
+                                SetAsUMM2Model(repository);
                             }
                         }
                         catch (COMException)
@@ -1372,93 +1364,58 @@ namespace VIENNAAddIn
             return s;
         }
 
-        /// <sUMM2ary>
-        /// Checks if an opened model has been previously defined as an UMM2 
-        /// model
-        /// </sUMM2ary>
-        /// <param name="repository">the model, which has been openend and will
-        /// be checked now</param>
-        /// <returns>true if the model has been marked as an UMM2 model, 
-        /// false if not
-        /// </returns>
-        private bool CheckIfModelIsUMM2Model(Repository repository)
+        private static bool IsUmm2Model(Repository repository)
         {
             foreach (ProjectIssues issue in repository.Issues)
             {
                 if (issue.Name.Equals("UMM2Model"))
                 {
-                    //MessageBox.Show("Model is defined as an UMM2 Model", "AddIn");
-
                     return true;
                 }
             }
-
             return false;
         }
 
-        /// <sUMM2ary>
+        /// <summary>
         /// defines a normal EA model as an UMM2 model. An "Issue" is added to the repository object,
         /// which marks the model permanently until the user chooses to revert the setting. Also
         /// an MDG file is loaded, which contains the UMM2 Profile and the UMM2 Standard Transaction
         /// Patterns
-        /// </sUMM2ary>
+        /// </summary>
         /// <param name="repository">the model, which should be marked as UMM2 model</param>
         /// <returns>true if the model can be successfully marked and the relevant 
         /// MDG file (Profiles, Patterns) can be loaded successfully</returns>
-        private bool SetAsUMM2Model(Repository repository)
+        private static void SetAsUMM2Model(Repository repository)
         {
-            // set the issue to mark the model as UMM2Model
             var pIssues = (ProjectIssues) repository.Issues.AddNew("UMM2Model", "Issue");
             pIssues.Update();
             repository.Issues.Refresh();
-            // display a message box after the setting
-            String succMsg = "This Model is now defined as an UMM2/UPCC3 Model";
 
-            /* load the MDG UMM2 technology file, which contains the patterns 
-                         * and profiles */
             try
             {
-                //Distinguish between GIEM and UMM2 mode here
-                String mdgFile = "";
-                if (AddInSettings.buildGIEM)
-                {
-                    mdgFile = WindowsRegistryLoader.getMDGFileGIEM();
-                }
-                else
-                {
-                    mdgFile = WindowsRegistryLoader.getMDGFile();
-                }
-
+                string mdgFile = AddInSettings.buildGIEM ? WindowsRegistryLoader.getMDGFileGIEM() : WindowsRegistryLoader.getMDGFile();
                 var sr = new StreamReader(mdgFile);
                 String fileContent = sr.ReadToEnd();
                 sr.Close();
-                /* finally, after reading the file from the filesystem, load it into the model */
                 repository.ImportTechnology(fileContent);
-
-                MessageBox.Show(succMsg, "AddIn");
+                MessageBox.Show("This Model is now defined as an UMM2/UPCC3 Model", "AddIn");
             }
             catch (Exception e)
             {
-                String err = "The following exception occured while loading the MDG File: " + e.Message;
-                MessageBox.Show(err, "AddIn Error");
-
+                MessageBox.Show("The following exception occured while loading the MDG File: " + e.Message, "AddIn Error");
                 UnSetAsUMM2Model(repository);
-                return false;
             }
-            return true;
         }
 
-        /// <sUMM2ary>
+        /// <summary>
         /// Unmark an EA Model, which has previously defined as an UMM2 Model. This operation
         /// also unloads the MDG technology file, which contains the UMM2 Profile and the UMM2
         /// Standard transaction patterns
-        /// </sUMM2ary>
+        /// </summary>
         /// <param name="repository">the model which shouldnt be marked as UMM2 Model any longer</param>
         /// <returns>true, if the model can be successfully unmarked</returns>
-        private bool UnSetAsUMM2Model(Repository repository)
+        private static void UnSetAsUMM2Model(Repository repository)
         {
-            /* iterate over all issues to find the one, which defines the model 
-             * as an UMM2 model */
             Collection pIssues = repository.Issues;
             for (short i = 0; i < pIssues.Count; i++)
             {
@@ -1466,22 +1423,14 @@ namespace VIENNAAddIn
                 if (pIssue.Name.Equals("UMM2Model"))
                 {
                     pIssues.DeleteAt(i, true);
-                    String unSetMsg = "Model is not defined as an UMM2/UPCC3 Model any longer";
-                    MessageBox.Show(unSetMsg, "AddIn");
-
+                    MessageBox.Show("Model is not defined as an UMM2/UPCC3 Model any longer", "AddIn");
                     break;
                 }
             }
-            /* unload mdg UMM2 technology */
-            bool mdg_unloaded = repository.DeleteTechnology("UMM2FoundV2");
-            // leave a msg if there is a problem with unloading the MDG file
-            if (!mdg_unloaded)
+            if (!repository.DeleteTechnology("UMM2FoundV2"))
             {
-                String err =
-                    "The MDG Technology File, which contains the UMM2 Profile and some Patterns could not be unloaded";
-                MessageBox.Show(err, "AddIn Error");
+                MessageBox.Show("The MDG Technology File, which contains the UMM2 Profile and some Patterns could not be unloaded", "AddIn Error");
             }
-            return true;
         }
 
         #endregion
