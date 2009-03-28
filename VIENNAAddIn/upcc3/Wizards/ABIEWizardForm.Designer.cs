@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupboxSettings = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textPrefix = new System.Windows.Forms.TextBox();
             this.tabcontrolACC = new System.Windows.Forms.TabControl();
             this.TabControlPageAttributes = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -55,8 +57,6 @@
             this.comboBIELs = new System.Windows.Forms.ComboBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textPrefix = new System.Windows.Forms.TextBox();
             this.groupboxSettings.SuspendLayout();
             this.tabcontrolACC.SuspendLayout();
             this.TabControlPageAttributes.SuspendLayout();
@@ -91,6 +91,28 @@
             this.groupboxSettings.TabIndex = 28;
             this.groupboxSettings.TabStop = false;
             this.groupboxSettings.Text = "Settings";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 471);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(187, 13);
+            this.label6.TabIndex = 46;
+            this.label6.Text = "Prefix used for the generated Artifacts:";
+            // 
+            // textPrefix
+            // 
+            this.textPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textPrefix.Location = new System.Drawing.Point(217, 468);
+            this.textPrefix.Name = "textPrefix";
+            this.textPrefix.Size = new System.Drawing.Size(450, 20);
+            this.textPrefix.TabIndex = 45;
+            this.textPrefix.TextChanged += new System.EventHandler(this.textPrefix_TextChanged);
             // 
             // tabcontrolACC
             // 
@@ -203,6 +225,7 @@
             this.checkboxAttributes.TabIndex = 26;
             this.checkboxAttributes.Text = "Select all BCCs";
             this.checkboxAttributes.UseVisualStyleBackColor = true;
+            this.checkboxAttributes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkboxAttributes_MouseDown);
             this.checkboxAttributes.CheckedChanged += new System.EventHandler(this.checkboxAttributes_CheckedChanged);
             // 
             // groupboxBDTs
@@ -236,7 +259,7 @@
             this.TabControlPageAssociations.Controls.Add(this.groupboxASBIEs);
             this.TabControlPageAssociations.Location = new System.Drawing.Point(4, 22);
             this.TabControlPageAssociations.Name = "TabControlPageAssociations";
-            this.TabControlPageAssociations.Size = new System.Drawing.Size(651, 331);
+            this.TabControlPageAssociations.Size = new System.Drawing.Size(651, 356);
             this.TabControlPageAssociations.TabIndex = 1;
             this.TabControlPageAssociations.Text = "Associations";
             this.TabControlPageAssociations.UseVisualStyleBackColor = true;
@@ -259,6 +282,7 @@
             this.checkedlistboxASCCs.Name = "checkedlistboxASCCs";
             this.checkedlistboxASCCs.Size = new System.Drawing.Size(604, 289);
             this.checkedlistboxASCCs.TabIndex = 0;
+            this.checkedlistboxASCCs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxASCCs_ItemCheck);
             // 
             // label7
             // 
@@ -391,28 +415,6 @@
             this.buttonGenerate.Text = "&Generate ABIE ...";
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 471);
-            this.label6.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(187, 13);
-            this.label6.TabIndex = 46;
-            this.label6.Text = "Prefix used for the generated Artifacts:";
-            // 
-            // textPrefix
-            // 
-            this.textPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textPrefix.Location = new System.Drawing.Point(217, 468);
-            this.textPrefix.Name = "textPrefix";
-            this.textPrefix.Size = new System.Drawing.Size(450, 20);
-            this.textPrefix.TabIndex = 45;
-            this.textPrefix.TextChanged += new System.EventHandler(this.textPrefix_TextChanged);
             // 
             // ABIEWizardForm
             // 

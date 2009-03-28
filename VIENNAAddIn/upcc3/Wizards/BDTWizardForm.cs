@@ -19,6 +19,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         private string selectedSUPName;
         private Label errorMessageBDTName;
 
+        private const string CAPTION_ERROR_WINDOW = "BDT Wizard Error";
+        private const string CAPTION_INFO_WINDOW = "BDT Wizard";
+
         ///<summary>
         ///</summary>
         ///<param name="eaRepository"></param>
@@ -27,34 +30,34 @@ namespace VIENNAAddIn.upcc3.Wizards
             InitializeComponent();
 
             repository = new CCRepository(eaRepository);
+
             cache = new Cache();
 
-            foreach (ICDTLibrary cdtl in repository.Libraries<ICDTLibrary>())
+            try
             {
-                IDictionary<string, CCDT> cdts = new Dictionary<string, CCDT>();
-
-                foreach (ICDT cdt in cdtl.CDTs)
-                {
-                    cdts.Add(cdt.Name, new CCDT(cdt.Name, cdt.Id));
-                }
-
-                cache.CCDTLs.Add(cdtl.Name, new CCDTL(cdtl.Name, cdtl.Id, cdts));
+                cache.LoadCDTLs(repository);
+                cache.LoadBDTLs(repository);
             }
-
-            foreach (IBDTLibrary bdtl in repository.Libraries<IBDTLibrary>())
+            catch (CacheException ce)
             {
-                IDictionary<string, CBDT> bdts = new Dictionary<string, CBDT>();
-
-                foreach (IBDT bdt in bdtl.BDTs)
-                {
-                    bdts.Add(bdt.Name, new CBDT(bdt.Name, bdt.Id, bdt.BasedOn.CDT.Id, bdtl.Id));
-                }
-
-                cache.CBDTLs.Add(bdtl.Name, new CBDTL(bdtl.Name, bdtl.Id, bdts));
+                InformativeMessage(ce.Message);
+                ResetForm(0);
             }
+            catch (Exception e)
+            {
+                CriticalErrorMessage(e.ToString());
+                ResetForm(0);
+            }
+        }
 
-            comboCDTLs.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboCDTs.DropDownStyle = ComboBoxStyle.DropDownList;
+        private void BDTWizardForm_Load(object sender, EventArgs e)
+        {
+            ResetForm(0);
+
+            MirrorCDTLsToUI();
+            MirrorBDTLsToUI();
+
+            comboBDTLs.SelectedIndex = 0;
 
             errorMessageBDTName = new Label
             {
@@ -65,21 +68,33 @@ namespace VIENNAAddIn.upcc3.Wizards
                 BackColor = Color.Yellow
             };
 
-            groupboxSettings.Controls.Add(errorMessageBDTName);            
+            groupboxSettings.Controls.Add(errorMessageBDTName);
             errorMessageBDTName.Hide();
-        }
 
-        private void BDTWizardForm_Load(object sender, EventArgs e)
-        {
-            MirrorCDTLsToUI();
-            MirrorBDTLsToUI();
-            
-            comboBDTLs.SelectedIndex = 0;
+            ResetForm(1);
         }
 
         private void comboCDTLs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            MirrorCDTsToUI();
+            //try
+            //{
+            //    GatherUserInput();
+
+            //    if (cache.PathIsValid(CacheConstants.PATH_CDTs, new[] { selectedCDTName }))
+            //    {
+            //        cache.CDTLs[selectedCDTLName].LoadCDTs(repository);
+
+            //        MirrorCDTsToUI();
+
+            //        ResetForm(2);
+            //    }
+                
+            //}
+            //catch (CacheException ce)
+            //{
+            //    InformativeMessage(ce.Message);
+            //    ResetForm(0);
+            //}            
         }
 
         private void GatherUserInput()
@@ -87,14 +102,14 @@ namespace VIENNAAddIn.upcc3.Wizards
             selectedCDTLName = comboCDTLs.SelectedIndex >= 0 ? comboCDTLs.SelectedItem.ToString() : "";
             selectedCDTName = comboCDTs.SelectedIndex >= 0 ? comboCDTs.SelectedItem.ToString() : "";
             selectedBDTLName = comboBDTLs.SelectedIndex >= 0 ? comboBDTLs.SelectedItem.ToString() : "";                     
-            selectedSUPName = checkedlistboxSUPs.SelectedIndex >= 0 ? checkedlistboxSUPs.SelectedItem.ToString() : "";
+            //selectedSUPName = checkedlistboxSUPs.SelectedIndex >= 0 ? checkedlistboxSUPs.SelectedItem.ToString() : "";
         }
 
         private void MirrorCDTLsToUI()
         {
             comboCDTLs.Items.Clear();
 
-            foreach (CCDTL cdtl in cache.CCDTLs.Values)
+            foreach (cCDTLibrary cdtl in cache.CDTLs.Values)
             {
                 comboCDTLs.Items.Add(cdtl.Name);
             }
@@ -102,21 +117,21 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void MirrorCDTsToUI()
         {
-            GatherUserInput();
+            //GatherUserInput();
             
-            comboCDTs.Items.Clear();
+            //comboCDTs.Items.Clear();
 
-            foreach (CCDT cdt in cache.CCDTLs[selectedCDTLName].CDTs.Values)
-            {
-                comboCDTs.Items.Add(cdt.Name);
-            }
+            //foreach (CCDT cdt in cache.CCDTLs[selectedCDTLName].CDTs.Values)
+            //{
+            //    comboCDTs.Items.Add(cdt.Name);
+            //}
         }
 
         private void MirrorBDTLsToUI()
         {
             comboBDTLs.Items.Clear();
-            
-            foreach (CBDTL bdtl in cache.CBDTLs.Values)
+
+            foreach (cBDTLibrary bdtl in cache.BDTLs.Values)
             {
                 comboBDTLs.Items.Add(bdtl.Name);
             }
@@ -124,18 +139,18 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void MirrorAttributesToUI()
         {
-            GatherUserInput();
-            CCDT currentCDT = cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName];
+            //GatherUserInput();
+            //CCDT currentCDT = cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName];
 
 
-            checkedlistboxCON.Items.Clear();
-            checkedlistboxCON.Items.Add(currentCDT.CON.Name, currentCDT.CON.State);
+            //checkedlistboxCON.Items.Clear();
+            //checkedlistboxCON.Items.Add(currentCDT.CON.Name, currentCDT.CON.State);
             
-            checkedlistboxSUPs.Items.Clear();            
-            foreach (CSUP sup in currentCDT.SUPs.Values)
-            {
-                checkedlistboxSUPs.Items.Add(sup.Name, sup.State);
-            }
+            //checkedlistboxSUPs.Items.Clear();            
+            //foreach (CSUP sup in currentCDT.SUPs.Values)
+            //{
+            //    checkedlistboxSUPs.Items.Add(sup.Name, sup.State);
+            //}
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -145,101 +160,150 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void comboCDTs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            GatherUserInput();
+            //GatherUserInput();
 
-            textBDTName.Text = "My" + selectedCDTName;
+            //textBDTName.Text = "My" + selectedCDTName;
 
-            // CDT has not been cashed previously already
-            if (cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].CON == null)
-            {
-                int cdtId = cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].Id;
-                ICDT cdt = repository.GetCDT(cdtId);
+            //// CDT has not been cashed previously already
+            //if (cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].CON == null)
+            //{
+            //    int cdtId = cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].Id;
+            //    ICDT cdt = repository.GetCDT(cdtId);
 
-                cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].CON = new CCON(cdt.CON.Name, cdt.CON.Id, CheckState.Checked);
+            //    cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].CON = new CCON(cdt.CON.Name, cdt.CON.Id, CheckState.Checked);
 
-                IDictionary<string, CSUP> sups = new Dictionary<string, CSUP>();
+            //    IDictionary<string, CSUP> sups = new Dictionary<string, CSUP>();
 
-                foreach (ISUP sup in cdt.SUPs)
-                {
-                    sups.Add(sup.Name, new CSUP(sup.Name, sup.Id, CheckState.Unchecked));
-                }
+            //    foreach (ISUP sup in cdt.SUPs)
+            //    {
+            //        sups.Add(sup.Name, new CSUP(sup.Name, sup.Id, CheckState.Unchecked));
+            //    }
 
-                cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs = sups;
-            }
+            //    cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs = sups;
+            //}
 
-            MirrorAttributesToUI();
+            //MirrorAttributesToUI();
         }
 
         private void checkboxAttributes_CheckedChanged(object sender, EventArgs e)
         {
-            GatherUserInput();
+            //GatherUserInput();
 
-            CheckState newState = CheckState.Unchecked;
+            //CheckState newState = CheckState.Unchecked;
 
-            if (checkboxAttributes.Checked)
-            {
-                newState = CheckState.Checked;
-            }
+            //if (checkboxAttributes.Checked)
+            //{
+            //    newState = CheckState.Checked;
+            //}
 
-            foreach (KeyValuePair<string, CSUP> sup in cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs)
-            {
-                sup.Value.State = newState;
-            }
+            //foreach (KeyValuePair<string, CSUP> sup in cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs)
+            //{
+            //    sup.Value.State = newState;
+            //}
 
-            MirrorAttributesToUI();
+            //MirrorAttributesToUI();
         }
 
         private void buttonGenerateBDT_Click(object sender, EventArgs e)
         {
-            GatherUserInput();
+            //GatherUserInput();
 
-            int cdtId = cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].Id;            
-            ICDT cdt = repository.GetCDT(cdtId);
-            int bdtId = cache.CBDTLs[selectedBDTLName].Id;
-            IBDTLibrary bdtl = (IBDTLibrary) repository.GetLibrary(bdtId);
+            //int cdtId = cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].Id;            
+            //ICDT cdt = repository.GetCDT(cdtId);
+            //int bdtId = cache.CBDTLs[selectedBDTLName].Id;
+            //IBDTLibrary bdtl = (IBDTLibrary) repository.GetLibrary(bdtId);
 
-            BDTSpec bdtSpec = BDTSpec.CloneCDT(cdt, textBDTName.Text);
+            //BDTSpec bdtSpec = BDTSpec.CloneCDT(cdt, textBDTName.Text);
 
-            foreach (CSUP sup in cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs.Values)
-            {
-                if (sup.State == CheckState.Unchecked)
-                {
-                    bdtSpec.RemoveSUP(sup.Name);
-                    //MessageBox.Show("remove SUP: " + sup.Name);
-                }
-            }            
+            //foreach (CSUP sup in cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs.Values)
+            //{
+            //    if (sup.State == CheckState.Unchecked)
+            //    {
+            //        bdtSpec.RemoveSUP(sup.Name);
+            //        //MessageBox.Show("remove SUP: " + sup.Name);
+            //    }
+            //}            
 
-            bdtl.CreateBDT(bdtSpec);
+            //bdtl.CreateBDT(bdtSpec);
         }
 
         private void textBDTName_TextChanged(object sender, EventArgs e)
         {
-            GatherUserInput();
+            //GatherUserInput();
             
-            if (cache.CBDTLs[selectedBDTLName].BDTs.ContainsKey(textBDTName.Text))
-            {
-                errorMessageBDTName.Location = new Point(textBDTName.Location.X + textBDTName.Width - 105, textBDTName.Location.Y);
-                errorMessageBDTName.Text = "BDT named \"" + textBDTName.Text + "\" alreay exists!";
-                errorMessageBDTName.BringToFront();
-                errorMessageBDTName.Show();                
-            }
-            else
-            {
-                errorMessageBDTName.Hide();
-            }
+            //if (cache.CBDTLs[selectedBDTLName].BDTs.ContainsKey(textBDTName.Text))
+            //{
+            //    errorMessageBDTName.Location = new Point(textBDTName.Location.X + textBDTName.Width - 105, textBDTName.Location.Y);
+            //    errorMessageBDTName.Text = "BDT named \"" + textBDTName.Text + "\" alreay exists!";
+            //    errorMessageBDTName.BringToFront();
+            //    errorMessageBDTName.Show();                
+            //}
+            //else
+            //{
+            //    errorMessageBDTName.Hide();
+            //}
         }
 
         private void checkedlistboxSUPs_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            GatherUserInput();
+            //GatherUserInput();
 
-            if (!(selectedCDTLName.Equals("")) &&
-                !(selectedCDTName.Equals("")) &&
-                !(selectedSUPName.Equals("")) &&
-                !(selectedBDTLName.Equals("")))
+            //if (!(selectedCDTLName.Equals("")) &&
+            //    !(selectedCDTName.Equals("")) &&
+            //    !(selectedSUPName.Equals("")) &&
+            //    !(selectedBDTLName.Equals("")))
+            //{
+            //    cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs[selectedSUPName].State = e.NewValue;
+            //}
+        }
+
+        #region Convenience Methods
+
+        private static void CriticalErrorMessage(string errorMessage)
+        {
+            MessageBox.Show(errorMessage, CAPTION_ERROR_WINDOW, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private static void InformativeMessage(string infoMessage)
+        {
+            MessageBox.Show(infoMessage, CAPTION_INFO_WINDOW, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ResetForm(int level)
+        {
+            switch (level)
             {
-                cache.CCDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs[selectedSUPName].State = e.NewValue;
+                case 0:
+                    comboCDTLs.DropDownStyle = ComboBoxStyle.DropDownList;
+                    comboCDTs.DropDownStyle = ComboBoxStyle.DropDownList;
+                    comboBDTLs.DropDownStyle = ComboBoxStyle.DropDownList;
+                    tabcontrolAttributes.Enabled = false;
+                    textBDTPrefix.Enabled = false;
+                    textBDTName.Enabled = false;
+                    comboCDTLs.Enabled = false;
+                    comboCDTs.Enabled = false;
+                    comboBDTLs.Enabled = false;
+                    buttonGenerateBDT.Enabled = false;
+                    break;
+
+                case 1:
+                    comboCDTLs.Enabled = true;
+                    break;
+
+                case 2:
+                    comboCDTs.Enabled = true;
+                    break;
+
+                case 3:
+                    //tabcontrolACC.Enabled = true;
+                    //textPrefix.Enabled = true;
+                    //textABIEName.Enabled = true;
+                    //comboBDTLs.Enabled = true;
+                    //comboBIELs.Enabled = true;
+                    break;
             }
         }
+
+        #endregion
     }
 }
