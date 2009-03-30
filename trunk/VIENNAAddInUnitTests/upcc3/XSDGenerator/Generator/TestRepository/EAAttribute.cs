@@ -141,11 +141,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { classifierId = value; }
         }
 
-        public string Default
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Default { get; set; }
 
         public string Type
         {

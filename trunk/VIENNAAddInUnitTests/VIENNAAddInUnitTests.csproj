@@ -67,6 +67,7 @@
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAConnector.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAConnectorTag.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAElement.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EARepository2.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\RepositoryItemBuilder.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAPackage.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EATaggedValue.cs" />

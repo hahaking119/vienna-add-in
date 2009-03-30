@@ -32,8 +32,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts
                                                                         });
         }
 
-        [Test]
-        public void TestDynamicProxy()
+        public void estDynamicProxy()
         {
             var eaRepository = new EARepository1();
 //            var ccRepository = new CCRepository(eaRepository);

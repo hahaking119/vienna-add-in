@@ -329,13 +329,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void TestReadAccess()
         {
             var libraries = new List<IBusinessLibrary>(repository.AllLibraries());
-            Assert.AreEqual(6, libraries.Count);
+            Assert.AreEqual(7, libraries.Count);
 
-            IBusinessLibrary bLib1 = libraries[0];
+            IBusinessLibrary bLib1 = repository.Libraries<IBLibrary>().First();
             Assert.AreEqual("blib1", bLib1.Name);
             Assert.AreEqual("urn:test:blib1", bLib1.BaseURN);
 
-            var primLib1 = (IPRIMLibrary) libraries[1];
+            var primLib1 = repository.Libraries<IPRIMLibrary>().First();
             Assert.AreEqual("primlib1", primLib1.Name);
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
             var prims = new List<IPRIM>(primLib1.PRIMs);
@@ -345,7 +345,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IPRIM decimalType = prims[1];
             Assert.AreEqual("Decimal", decimalType.Name);
 
-            var cdtLib1 = (ICDTLibrary) libraries[2];
+            var cdtLib1 = repository.Libraries<ICDTLibrary>().First();
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("urn:test:blib1:cdtlib1", cdtLib1.BaseURN);
             var cdts = new List<ICDT>(cdtLib1.CDTs);
@@ -412,6 +412,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("*", abiePersonASBIEs[1].UpperBound);
             var biePerson = (IABIE) repository.FindByPath(EARepository1.PathToBIEPerson());
             Assert.AreEqual("homeAddress", biePerson.ASBIEs.First().Name);
+
+            var enumAbcCodes = (IENUM) repository.FindByPath(EARepository1.PathToEnumAbcCodes());
+            Assert.IsNotNull(enumAbcCodes, "enum ABC_Codes not found");
+            Assert.AreEqual("ABC_Codes", enumAbcCodes.Name);
+            var enumAbcCodesValues = enumAbcCodes.Values;
+            Assert.AreEqual(2, enumAbcCodesValues.Count);
+            Assert.AreEqual("abc1", enumAbcCodesValues["ABC Code 1"]);
+            Assert.AreEqual("abc2", enumAbcCodesValues["ABC Code 2"]);
         }
 
         [Test]

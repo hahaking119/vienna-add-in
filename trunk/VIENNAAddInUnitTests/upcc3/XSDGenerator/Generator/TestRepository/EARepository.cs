@@ -677,6 +677,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         eaAttribute.Stereotype = attribute.GetStereotype();
                         eaAttribute.LowerBound = attribute.GetLowerBound();
                         eaAttribute.UpperBound = attribute.GetUpperBound();
+                        eaAttribute.Default = attribute.GetDefaultValue();
                         foreach (TaggedValueBuilder tv in attribute.GetTaggedValues())
                         {
                             eaAttribute.AddTaggedValue(tv.Name, tv.Value);

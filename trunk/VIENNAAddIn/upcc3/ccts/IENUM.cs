@@ -6,6 +6,8 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System.Collections.Generic;
+
 namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IENUM : IBasicType
@@ -14,5 +16,6 @@ namespace VIENNAAddIn.upcc3.ccts
         string AgencyName { get; }
         string EnumerationURI { get; }
         IENUM IsEquivalentTo { get; }
+        IDictionary<string, string> Values { get; }
     }
 }

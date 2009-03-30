@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
@@ -15,6 +16,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private readonly Path pathToType;
         private string lowerBound = "1";
         private string upperBound = "1";
+        private string defaultValue = "";
 
         public AttributeBuilder(string name, string stereotype, Path pathToType) : base(name, stereotype)
         {
@@ -33,6 +35,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             return this;
         }
 
+        public AttributeBuilder DefaultValue(string defaultValue)
+        {
+            this.defaultValue = defaultValue;
+            return this;
+        }
+
         public Path GetPathToType()
         {
             return pathToType;
@@ -46,6 +54,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         public string GetUpperBound()
         {
             return upperBound;
+        }
+
+        public string GetDefaultValue()
+        {
+            return defaultValue;
         }
     }
 }
