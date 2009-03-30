@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 
 using VIENNAAddIn.constants;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.validator;
 
 namespace VIENNAAddIn.common
@@ -1021,7 +1022,7 @@ namespace VIENNAAddIn.common
                 EA.Project project = repository.GetProjectInterface();
                 //No CCLibrary found - import a new one           
                 String guid = model.PackageGUID;
-                project.ImportPackageXMI(guid, WindowsRegistryLoader.getCCLibraryFile(), 0, 0);
+                project.ImportPackageXMI(guid, AddInSettings.CCLibraryFilePath, 0, 0);
 
             }
             else

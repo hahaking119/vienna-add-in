@@ -9,15 +9,13 @@ http://vienna-add-in.googlecode.com
 using System;
 
 namespace VIENNAAddIn.Exceptions { 
-	/// <sUMM2ary>
+	/// <summary>
 	/// Thrown if an error occurs when accessing configuration values of the 
 	/// AddIn in the registry
-	/// </sUMM2ary>
+	/// </summary>
 	internal class RegistryAccessException : AddInException {
-		internal RegistryAccessException() : base() {
-			//
-			// TODO: Add constructor logic here
-			//
+		internal RegistryAccessException()
+		{
 		}
 		internal RegistryAccessException(String message) : base(message) {
 		}

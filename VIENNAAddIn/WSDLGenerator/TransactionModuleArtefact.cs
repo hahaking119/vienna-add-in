@@ -19,6 +19,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using VIENNAAddIn.common;
 using VIENNAAddIn.CCTS;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.constants;
 
@@ -209,7 +210,7 @@ namespace VIENNAAddIn.WSDLGenerator
 
         private void copyXSLT()
         {
-            string path = WindowsRegistryLoader.getBpelTemplateLocation();
+            string path = AddInSettings.BPELTemplatePath;
             path += "Mappings";
             CopyDirectory(path, this.xsltPath);
         }
@@ -220,7 +221,7 @@ namespace VIENNAAddIn.WSDLGenerator
             setResponderBPELVariable();
             fillHashTableResponder();
 
-            string path = WindowsRegistryLoader.getBpelTemplateLocation();
+            string path = AddInSettings.BPELTemplatePath;
             //set the default file
             string defaultFile = "";
 
@@ -276,7 +277,7 @@ namespace VIENNAAddIn.WSDLGenerator
             setInitiatorBPELVariable();
             fillHashTableInitiator();
 
-            string path = WindowsRegistryLoader.getBpelTemplateLocation();
+            string path = AddInSettings.BPELTemplatePath;
             //set the default file
             string defaultFile = "";
 
