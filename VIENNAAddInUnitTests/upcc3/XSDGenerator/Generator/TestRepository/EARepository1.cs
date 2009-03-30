@@ -24,12 +24,29 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         )
                         .Packages(
                         PRIMLib1(),
+                        ENUMLib1(),
                         CDTLib1(),
                         BDTLib1(),
                         CCLib1(),
                         BIELib1()
                         )
                     )
+                );
+        }
+
+        private static PackageBuilder ENUMLib1()
+        {
+            return Package("enumlib1", Stereotype.ENUMLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:enumlib1")
+                )
+                .Elements(
+                Element("ABC_Codes", Stereotype.ENUM)
+                    .Attributes(
+                    Attribute("ABC Code 1", "", PathToString()).DefaultValue("abc1"),
+                    Attribute("ABC Code 2", "", PathToString()).DefaultValue("abc2")
+                    ),
+                InvalidElement()
                 );
         }
 
@@ -134,6 +151,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 BDTText(),
                 BDTDate(),
                 BDTCode(),
+                BdtAbcCode(),
                 BDTMeasure(),
                 InvalidElement()
                 );
@@ -157,6 +175,25 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             return Element("Code", Stereotype.BDT)
                 .Attributes(
                 Attribute("Content", Stereotype.CON, PathToString()),
+                Attribute("Name", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Agency", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.AgencyName", Stereotype.SUP, PathToString()),
+                Attribute("CodeList", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Name", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
+                Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
+                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
+                Attribute("Language", Stereotype.SUP, PathToString()))
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, PathToCode())
+                );
+        }
+
+        private static ElementBuilder BdtAbcCode()
+        {
+            return Element("ABC_Code", Stereotype.BDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, PathToEnumAbcCodes()),
                 Attribute("Name", Stereotype.SUP, PathToString()),
                 Attribute("CodeList.Agency", Stereotype.SUP, PathToString()),
                 Attribute("CodeList.AgencyName", Stereotype.SUP, PathToString()),
@@ -321,6 +358,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         public static Path PathToBDTCode()
         {
             return (Path) "blib1"/"bdtlib1"/"Code";
+        }
+
+        public static Path PathToBdtAbcCode()
+        {
+            return (Path) "blib1"/"bdtlib1"/"ABC_Code";
+        }
+
+        public static Path PathToEnumAbcCodes()
+        {
+            return (Path) "blib1"/"enumlib1"/"ABC_Codes";
         }
 
         private static Path PathToDecimal()
