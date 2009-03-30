@@ -392,7 +392,7 @@ namespace VIENNAAddIn
                         //Invoke a validation of the whole UMM model
                     else if (menuitem == "&Validate All - UMM2")
                     {
-                        String scope = "ROOT_UMM";
+                        const string scope = "ROOT_UMM";
 
                         if (validatorForm == null || validatorForm.IsDisposed)
                         {
@@ -441,7 +441,7 @@ namespace VIENNAAddIn
                     }
                     else if (menuitem == "&Validate All - UPCC3")
                     {
-                        String scope = "ROOT_UPCC";
+                        const string scope = "ROOT_UPCC";
 
                         if (validatorForm == null || validatorForm.IsDisposed)
                         {
@@ -547,11 +547,10 @@ namespace VIENNAAddIn
                         //Generate &XBRL
                     else if (menuitem == "&Generate XBRL Linkbase file")
                     {
-                        Diagram d;
                         Object obj;
-                        ObjectType o = repo.GetTreeSelectedItem(out obj);
+                        repo.GetTreeSelectedItem(out obj);
 
-                        d = (Diagram) obj;
+                        Diagram d = (Diagram) obj;
                         int diagramID = d.DiagramID;
 
                         if (xbrlLinkbaseGenerator == null || xbrlLinkbaseGenerator.IsDisposed)
@@ -828,7 +827,7 @@ namespace VIENNAAddIn
 
         private static string determineScope(Repository repository, bool showErrors)
         {
-            Object obj = null;
+            Object obj;
             ObjectType otype = repository.GetTreeSelectedItem(out obj);
             string s = "";
 
@@ -1013,7 +1012,7 @@ namespace VIENNAAddIn
             //AddIn menu), we must evaluate, if the clicked element is of type EA.Diagram
             // or of type EA.Element
 
-            Object obj = null;
+            Object obj;
             ObjectType otype = repository.GetTreeSelectedItem(out obj);
 
             /* check if the selected model element is a Package */
@@ -1234,7 +1233,7 @@ namespace VIENNAAddIn
         /// <param name="repository"></param>
         /// <param name="menulocation"></param>
         /// <returns></returns>
-        private String determineValidationScope(Repository repository, String menulocation)
+        private static String determineValidationScope(Repository repository, String menulocation)
         {
             String s = "";
 							
@@ -1271,7 +1270,6 @@ namespace VIENNAAddIn
 
                     if (!hasParent)
                     {
-                        EA.Collection rootPackages = ((EA.Package)(repository.Models.GetAt(0))).Packages;
                         int rootModelPackageID = ((EA.Package)(repository.Models.GetAt(0))).PackageID;
                         s = "" + rootModelPackageID;
                     }
