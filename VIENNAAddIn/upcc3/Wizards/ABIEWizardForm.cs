@@ -1143,25 +1143,33 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName}))
             {
-                foreach (cBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
+                if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].HasBCCs())
                 {
-                    if (bcc.State == CheckState.Checked)
+                    foreach (cBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
                     {
-                        foreach (cBBIE bbie in bcc.BBIEs.Values)
+                        if (bcc.State == CheckState.Checked)
                         {
-                            if (bbie.State == CheckState.Checked)
+                            foreach (cBBIE bbie in bcc.BBIEs.Values)
                             {
-                                foreach (cBDT bdt in bbie.BDTs)
+                                if (bbie.State == CheckState.Checked)
                                 {
-                                    if (bdt.State == CheckState.Checked)
+                                    foreach (cBDT bdt in bbie.BDTs)
                                     {
-                                        buttonGenerate.Enabled = true;
-                                        return;
+                                        if (bdt.State == CheckState.Checked)
+                                        {
+                                            buttonGenerate.Enabled = true;
+                                            return;
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
+                    }                    
+                }
+                else
+                {
+                    buttonGenerate.Enabled = true;
+                    return;
                 }
             }
 
