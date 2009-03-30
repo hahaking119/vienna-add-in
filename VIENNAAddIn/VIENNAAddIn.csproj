@@ -192,7 +192,6 @@
     <Compile Include="common\logging\LogMessage.cs" />
     <Compile Include="common\logging\LogMessageWriter.cs" />
     <Compile Include="common\logging\LogType.cs" />
-    <Compile Include="common\MDGSetter.cs" />
     <Compile Include="common\Utility.cs" />
     <Compile Include="common\WindowsRegistryLoader.cs" />
     <Compile Include="constants\Constants.cs" />
