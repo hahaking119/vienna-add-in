@@ -17,6 +17,7 @@ using VIENNAAddIn.CCTS;
 using VIENNAAddIn.common;
 using VIENNAAddIn.constants;
 using VIENNAAddIn.ErrorReporter;
+using VIENNAAddIn.Exceptions;
 using VIENNAAddIn.ExportImport;
 using VIENNAAddIn.Setting;
 using VIENNAAddIn.Settings;
@@ -167,18 +168,13 @@ namespace VIENNAAddIn
         {
             try
             {
-                /* this method checks if all needed registry entries are present 
-                 * at startup. if not, an exception will occur and the AddIn functionality
-                // * will be disabled to avoid uncertain states of the AddIn or EA itself.*/
-                WindowsRegistryLoader.checkRegistryEntries();
+                AddInSettings.LoadRegistryEntries();
             }
-            catch (Exception e)
+            catch (RegistryAccessException e)
             {
-                String err =
-                    "An Error occured while checking if all needed registry values for the AddIn are present:\n " +
-                    e.Message + ".\n Please reinstall the AddIn";
+                String err = string.Format("Error loading settings from registry:\n{0}.\n Please reinstall the AddIn.",
+                                           e.Message);
                 MessageBox.Show(err, "AddIn Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //logger.Error(err);
             }
             return null;
         }
@@ -265,24 +261,19 @@ namespace VIENNAAddIn
 
         public object OnInitializeTechnologies(Repository repository)
         {
-            return loadMDGFile();
+            return LoadMDGFile();
         }
 
         /// <summary>
         /// Get MDG file path from registry and read it
         /// </summary>
         /// <returns>MDG in string</returns>
-        private static string loadMDGFile()
+        private static string LoadMDGFile()
         {
-            //get location of MDG profile from registry
-            string mdgPath = WindowsRegistryLoader.getMDGFile();
-
-            //read MDG profile file
-            TextReader reader = new StreamReader(mdgPath);
-            string mdgText = reader.ReadToEnd();
-            reader.Close();
-
-            return mdgText;
+            using (TextReader reader = new StreamReader(AddInSettings.MDGFilePath))
+            {
+                return reader.ReadToEnd();
+            }
         }
 
         #endregion
@@ -1382,11 +1373,7 @@ namespace VIENNAAddIn
 
             try
             {
-                string mdgFile = AddInSettings.buildGIEM ? WindowsRegistryLoader.getMDGFileGIEM() : WindowsRegistryLoader.getMDGFile();
-                var sr = new StreamReader(mdgFile);
-                String fileContent = sr.ReadToEnd();
-                sr.Close();
-                repository.ImportTechnology(fileContent);
+                repository.ImportTechnology(LoadMDGFile());
                 MessageBox.Show("This Model is now defined as an UMM2/UPCC3 Model", "AddIn");
             }
             catch (Exception e)

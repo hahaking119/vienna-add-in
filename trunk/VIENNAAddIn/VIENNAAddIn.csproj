@@ -193,7 +193,6 @@
     <Compile Include="common\logging\LogMessageWriter.cs" />
     <Compile Include="common\logging\LogType.cs" />
     <Compile Include="common\Utility.cs" />
-    <Compile Include="common\WindowsRegistryLoader.cs" />
     <Compile Include="constants\Constants.cs" />
     <Compile Include="ErrorReporter\ErrorReporterForm.cs">
       <SubType>Form</SubType>

@@ -15,6 +15,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using VIENNAAddIn.common;
+using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.WSDLGenerator.Setting
 {
@@ -125,7 +126,7 @@ namespace VIENNAAddIn.WSDLGenerator.Setting
                     if (rbtReplaceAll.Checked)
                     {
                         string sourcePath = txtReplaceAll.Text;
-                        string destination = WindowsRegistryLoader.getBpelTemplateLocation();
+                        string destination = AddInSettings.BPELTemplatePath;
 
                         replaceTemplate(sourcePath, destination);
                     }
@@ -139,7 +140,7 @@ namespace VIENNAAddIn.WSDLGenerator.Setting
                     if (rbtReplaceAll.Checked)
                     {
                         string sourcePath = txtReplaceAll.Text;
-                        string destination = WindowsRegistryLoader.getBpelTemplateLocation() + "Mappings";
+                        string destination = AddInSettings.BPELTemplatePath + "Mappings";
 
                         replaceTemplate(sourcePath, destination);
                     }
@@ -163,7 +164,7 @@ namespace VIENNAAddIn.WSDLGenerator.Setting
 
         private void replaceXSLTTemplateOneByOne()
         {
-            string destination = WindowsRegistryLoader.getBpelTemplateLocation() + "Mappings";
+            string destination = AddInSettings.BPELTemplatePath + "Mappings";
 
             if (txtMappingGeneralException.Text != "")
             {
@@ -198,7 +199,7 @@ namespace VIENNAAddIn.WSDLGenerator.Setting
 
         private void replaceBPELTemplateOneByOne()
         {
-            string destination = WindowsRegistryLoader.getBpelTemplateLocation();
+            string destination = AddInSettings.BPELTemplatePath;
 
             if (txtTemplateInitiator.Text != "")
             {
