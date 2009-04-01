@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EA;
@@ -33,6 +34,27 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                         yield return new ABIE(repository, element);
                     }
                 }
+            }
+        }
+
+        public IEnumerable<IABIE> RootElements
+        {
+            get
+            {
+                var abies = new List<IABIE>(BIEs);
+                // collect ASBIES
+                var asbies = new List<IASBIE>();
+                foreach (var abie in BIEs)
+                {
+                    asbies.AddRange(abie.ASBIEs);
+                }
+                // remove all abies that are associated via an ASBIE
+                foreach (var asbie in asbies)
+                {
+                    var associatedABIE = asbie.AssociatedElement;
+                    abies.Remove(associatedABIE);
+                }
+                return abies;
             }
         }
 

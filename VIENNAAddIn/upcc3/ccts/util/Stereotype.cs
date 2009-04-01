@@ -24,6 +24,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public const string BDT = "BDT";
         public const string BDTLibrary = "BDTLibrary";
         public const string BIELibrary = "BIELibrary";
+        public const string DOCLibrary = "DOCLibrary";
         public const string BLibrary = "bLibrary";
         public const string CCLibrary = "CCLibrary";
         public const string CDT = "CDT";
@@ -109,6 +110,10 @@ namespace VIENNAAddIn.upcc3.ccts.util
             if (typeof(T) == typeof(ICDTLibrary))
             {
                 return CDTLibrary;
+            }
+            if (typeof(T) == typeof(IDOCLibrary))
+            {
+                return DOCLibrary;
             }
             if (typeof(T) == typeof(IBIELibrary))
             {

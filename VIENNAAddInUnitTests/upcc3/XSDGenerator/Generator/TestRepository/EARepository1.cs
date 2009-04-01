@@ -28,7 +28,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         CDTLib1(),
                         BDTLib1(),
                         CCLib1(),
-                        BIELib1()
+                        BIELib1(),
+                        DOCLibrary()
                         )
                     )
                 );
@@ -300,15 +301,14 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             return Element("MyAddress", Stereotype.ABIE)
                 .Attributes(
-                Attribute("CountryName", Stereotype.BCC, PathToBDTText()),
-                Attribute("CityName", Stereotype.BCC, PathToBDTText()),
-                Attribute("StreetName", Stereotype.BCC, PathToBDTText()),
-                Attribute("StreetNumber", Stereotype.BCC, PathToBDTText()),
-                Attribute("Postcode", Stereotype.BCC, PathToBDTText()).LowerBound("0").UpperBound("*")
+                Attribute("CountryName", Stereotype.BBIE, PathToBDTText()),
+                Attribute("CityName", Stereotype.BBIE, PathToBDTText()),
+                Attribute("StreetName", Stereotype.BBIE, PathToBDTText()),
+                Attribute("StreetNumber", Stereotype.BBIE, PathToBDTText()),
+                Attribute("Postcode", Stereotype.BBIE, PathToBDTText()).LowerBound("0").UpperBound("*")
                 )
                 .Connectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToAddress()),
-                Connector("basedOn", Stereotype.ASBIE, PathToAddress())
+                Connector("basedOn", Stereotype.BasedOn, PathToAddress())
                 );
         }
 
@@ -316,14 +316,53 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             return Element("MyPerson", Stereotype.ABIE)
                 .Attributes(
-                Attribute("FirstName", Stereotype.BCC, PathToBDTText()),
-                Attribute("LastName", Stereotype.BCC, PathToBDTText())
+                Attribute("FirstName", Stereotype.BBIE, PathToBDTText()),
+                Attribute("LastName", Stereotype.BBIE, PathToBDTText())
                 )
                 .Connectors(
                 Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress()),
                 Connector("workAddress", Stereotype.ASBIE, PathToBIEAddress()).LowerBound("0").UpperBound("*")
                 )
                 ;
+        }
+
+        #endregion
+
+        #region DOCLibrary
+
+        private static PackageBuilder DOCLibrary()
+        {
+            return Package("DOCLibrary", Stereotype.DOCLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                )
+                .Elements(
+                Invoice(),
+                InvoiceInfo(),
+                InvalidElement()
+                );
+        }
+
+        private static ElementBuilder Invoice()
+        {
+            return Element("Invoice", Stereotype.ABIE)
+                .Attributes(
+                Attribute("Amount", Stereotype.BBIE, PathToBDTText())
+                )
+                .Connectors(
+                Connector("info", Stereotype.ASBIE, PathToInvoiceInfo())
+                );
+        }
+
+        private static ElementBuilder InvoiceInfo()
+        {
+            return Element("InvoiceInfo", Stereotype.ABIE)
+                .Attributes(
+                Attribute("Info", Stereotype.BBIE, PathToBDTText())
+                )
+                .Connectors(
+                Connector("deliveryAddress", Stereotype.ASBIE, PathToBIEAddress())
+                );
         }
 
         #endregion
@@ -398,6 +437,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         public static Path PathToBIEPerson()
         {
             return (Path) "blib1"/"bielib1"/"MyPerson";
+        }
+
+        public static Path PathToInvoice()
+        {
+            return (Path) "blib1"/"DOCLibrary"/"Invoice";
+        }
+
+        public static Path PathToInvoiceInfo()
+        {
+            return (Path) "blib1"/"DOCLibrary"/"InvoiceInfo";
         }
 
         #endregion

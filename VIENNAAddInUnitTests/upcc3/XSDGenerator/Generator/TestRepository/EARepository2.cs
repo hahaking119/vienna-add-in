@@ -1,4 +1,3 @@
-using System;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -6,26 +5,34 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
     internal class EARepository2 : EARepository
     {
-        public static readonly string BLibrary = "BLibrary";
-        public static readonly string PRIMLibrary = "PRIMLibrary";
-        public static readonly string ENUMLibrary = "ENUMLibrary";
-        public static readonly string CDTLibrary = "CDTLibrary";
-        public static readonly string BDTLibrary = "BDTLibrary";
+// ReSharper disable MemberCanBePrivate.Global
+        public const string ABCCode = "ABCCode";
+        public const string ABCCodes = "ABCCodes";
+        public const string Address = "Address";
+        public const string BDTLibrary = "BDTLibrary";
+        public const string BIELibrary = "BIELibrary";
+        public const string Binary = "Binary";
+        public const string BLibrary = "BLibrary";
+        public const string Boolean = "Boolean";
+        public const string CCLibrary = "CCLibrary";
+        public const string CDTLibrary = "CDTLibrary";
+        public const string Code = "Code";
+        public const string Currency = "Currency";
+        public const string Date = "Date";
+        public const string Decimal = "Decimal";
+        public const string DOCLibrary = "DOCLibrary";
+        public const string ENUMLibrary = "ENUMLibrary";
+        public const string Integer = "Integer";
 
-        public static readonly string String = "String";
-        public static readonly string Decimal = "Decimal";
-        public static readonly string Binary = "Binary";
-        public static readonly string Boolean = "Boolean";
-        public static readonly string Date = "Date";
-        public static readonly string Integer = "Integer";
-
-        public static readonly string SimpleString = "SimpleString";
-        public static readonly string Measure = "Measure";
-        public static readonly string ABCCode = "ABCCode";
-        public static readonly string Code = "Code";
-        public static readonly string Text = "Text";
-
-        public static readonly string ABCCodes = "ABCCodes";
+        public const string Invoice = "Invoice";
+        public const string InvoiceInfo = "InvoiceInfo";
+        public const string Measure = "Measure";
+        public const string Person = "Person";
+        public const string PRIMLibrary = "PRIMLibrary";
+        public const string SimpleString = "SimpleString";
+        public const string String = "String";
+        public const string Text = "Text";
+// ReSharper restore MemberCanBePrivate.Global
 
         public EARepository2()
         {
@@ -40,7 +47,10 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         BuildPrimLibrary(),
                         BuildEnumLibrary(),
                         BuildCdtLibrary(),
-                        BuildBdtLibrary()
+                        BuildBdtLibrary(),
+                        BuildCCLibrary(),
+                        BuildBIELibrary(),
+                        BuildDocLibrary()
                         )
                     )
                 );
@@ -115,7 +125,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
-        #region CDTLib1
+        #region CDTLibrary
 
         private static PackageBuilder BuildCdtLibrary()
         {
@@ -128,7 +138,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 CDTText(),
                 CDTDate(),
                 CDTCode(),
-                CDTMeasure()
+                CDTMeasure(),
+                CDTCurrency()
                 );
         }
 
@@ -137,6 +148,15 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             return Element(SimpleString, Stereotype.CDT)
                 .Attributes(
                 Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String)
+                );
+        }
+
+        private static ElementBuilder CDTCurrency()
+        {
+            return Element(Currency, Stereotype.CDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/Decimal),
+                Attribute("CurrencyCode", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -191,7 +211,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         #endregion
 
-        #region BDTLib1
+        #region BDTLibrary
 
         private static PackageBuilder BuildBdtLibrary()
         {
@@ -204,7 +224,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 BDTText(),
                 BDTDate(),
                 BDTCode(),
-                BDTMeasure()
+                BDTMeasure(),
+                BDTCurrency()
                 );
         }
 
@@ -216,6 +237,18 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 )
                 .Connectors(
                 Connector("basedOn", Stereotype.BasedOn, (Path) BLibrary/CDTLibrary/SimpleString)
+                );
+        }
+
+        private static ElementBuilder BDTCurrency()
+        {
+            return Element(Currency, Stereotype.BDT)
+                .Attributes(
+                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/Decimal),
+                Attribute("CurrencyCode", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                )
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, (Path) BLibrary/CDTLibrary/Currency)
                 );
         }
 
@@ -279,6 +312,135 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 )
                 .Connectors(
                 Connector("basedOn", Stereotype.BasedOn, (Path) BLibrary/CDTLibrary/Text)
+                );
+        }
+
+        #endregion
+
+        #region CCLibrary
+
+        private static PackageBuilder BuildCCLibrary()
+        {
+            return Package(CCLibrary, Stereotype.CCLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cclib1")
+                )
+                .Elements(
+                ACCAddress(),
+                ACCPerson()
+                );
+        }
+
+        private static ElementBuilder ACCAddress()
+        {
+            return Element(Address, Stereotype.ACC)
+                .Attributes(
+                Attribute("CountryName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
+                Attribute("CityName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
+                Attribute("StreetName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
+                Attribute("StreetNumber", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
+                Attribute("Postcode", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text)
+                )
+                ;
+        }
+
+        private static ElementBuilder ACCPerson()
+        {
+            return Element(Person, Stereotype.ACC)
+                .Attributes(
+                Attribute("FirstName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
+                Attribute("LastName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
+                Attribute("NickName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text).LowerBound("0").UpperBound("*")
+                )
+                .Connectors(
+                Connector("homeAddress", Stereotype.ASCC, (Path) BLibrary/CCLibrary/Address),
+                Connector("workAddress", Stereotype.ASCC, (Path) BLibrary/CCLibrary/Address).LowerBound("0").UpperBound(
+                    "*")
+                )
+                ;
+        }
+
+        #endregion
+
+        #region BIELibrary
+
+        private static PackageBuilder BuildBIELibrary()
+        {
+            return Package(BIELibrary, Stereotype.BIELibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                )
+                .Elements(
+                BIEAddress(),
+                BIEPerson()
+                );
+        }
+
+        private static ElementBuilder BIEAddress()
+        {
+            return Element(Address, Stereotype.ABIE)
+                .Attributes(
+                Attribute("CountryName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
+                Attribute("CityName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
+                Attribute("StreetName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
+                Attribute("StreetNumber", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
+                Attribute("Postcode", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text)
+                )
+                .Connectors(
+                Connector("basedOn", Stereotype.BasedOn, (Path) BLibrary/CCLibrary/Address)
+                );
+        }
+
+        private static ElementBuilder BIEPerson()
+        {
+            return Element(Person, Stereotype.ABIE)
+                .Attributes(
+                Attribute("FirstName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
+                Attribute("LastName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text)
+                )
+                .Connectors(
+                Connector("homeAddress", Stereotype.ASBIE, (Path) BLibrary/BIELibrary/Address),
+                Connector("workAddress", Stereotype.ASBIE, (Path) BLibrary/BIELibrary/Address).LowerBound("0").
+                    UpperBound("*")
+                )
+                ;
+        }
+
+        #endregion
+
+        #region DOCLibrary
+
+        private static PackageBuilder BuildDocLibrary()
+        {
+            return Package(DOCLibrary, Stereotype.DOCLibrary)
+                .TaggedValues(
+                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                )
+                .Elements(
+                BIEInvoice(),
+                BIEInvoiceInfo()
+                );
+        }
+
+        private static ElementBuilder BIEInvoice()
+        {
+            return Element("Invoice", Stereotype.ABIE)
+                .Attributes(
+                Attribute("Amount", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Currency)
+                )
+                .Connectors(
+                Connector("Info", Stereotype.ASBIE, (Path) BLibrary/DOCLibrary/InvoiceInfo)
+                );
+        }
+
+        private static ElementBuilder BIEInvoiceInfo()
+        {
+            return Element("InvoiceInfo", Stereotype.ABIE)
+                .Attributes(
+                Attribute("Info", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text)
+                )
+                .Connectors(
+                Connector("deliveryAddress", Stereotype.ASBIE, (Path) BLibrary/BIELibrary/Address)
                 );
         }
 

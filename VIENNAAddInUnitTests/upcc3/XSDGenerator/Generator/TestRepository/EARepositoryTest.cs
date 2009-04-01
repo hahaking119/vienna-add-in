@@ -25,7 +25,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             Assert.IsNull(model.Element);
             Assert.AreEqual(0, model.ParentID);
 
-            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "urn:test:blib1", 6, 0);
+            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "urn:test:blib1", 7, 0);
 
             var primLib1 = AssertLibrary(bLib1, 0, "PRIMLibrary", "primlib1", "urn:test:blib1:primlib1", 0, 3);
             var stringType = AssertPRIM(primLib1, 0, "String");
