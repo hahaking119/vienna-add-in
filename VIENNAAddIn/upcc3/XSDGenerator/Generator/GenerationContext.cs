@@ -8,13 +8,14 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
     ///</summary>
     public class GenerationContext
     {
-        private readonly List<XmlSchema> schemas = new List<XmlSchema>();
+        private readonly List<SchemaInfo> schemas = new List<SchemaInfo>();
 
         ///<summary>
         ///</summary>
         ///<param name="repository"></param>
         ///<param name="targetNamespace"></param>
         ///<param name="namespacePrefix"></param>
+        ///<param name="annotate"></param>
         public GenerationContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate)
         {
             Repository = repository;
@@ -33,7 +34,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
         ///<summary>
         ///</summary>
-        public List<XmlSchema> Schemas
+        public List<SchemaInfo> Schemas
         {
             get { return schemas; }
         }
@@ -49,9 +50,32 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<summary>
         ///</summary>
         ///<param name="schema"></param>
-        public void AddSchema(XmlSchema schema)
+        ///<param name="fileName"></param>
+        public void AddSchema(XmlSchema schema, string fileName)
         {
-            Schemas.Add(schema);
+            Schemas.Add(new SchemaInfo(schema, fileName));
+        }
+    }
+
+    ///<summary>
+    ///</summary>
+    public class SchemaInfo
+    {
+        ///<summary>
+        ///</summary>
+        public XmlSchema Schema { get; private set; }
+        ///<summary>
+        ///</summary>
+        public string FileName { get; private set; }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="schema"></param>
+        ///<param name="fileName"></param>
+        public SchemaInfo(XmlSchema schema, string fileName)
+        {
+            Schema = schema;
+            FileName = fileName;
         }
     }
 }

@@ -77,7 +77,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     schema.Items.Add(complexType);
                 }
             }
-            context.AddSchema(schema);
+            // TODO generate correct schema file name
+            context.AddSchema(schema, "bdts.xsd");
         }
 
         private static XmlSchemaAnnotation GetAttributeAnnotation(ISUP sup)
