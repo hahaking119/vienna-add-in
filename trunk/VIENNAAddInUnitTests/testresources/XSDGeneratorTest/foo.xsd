@@ -230,4 +230,28 @@
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
+  <xsd:complexType name="CurrencyDecimalType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <doc:DictionaryEntryName>Currency. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName>Currency</doc:PropertyTermName>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:decimal">
+        <xsd:attribute name="CurrencyCodeString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CurrencyCode</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>Currency</doc:DataTypeName>
+              <doc:DictionaryEntryName>Currency. CurrencyCode. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
 </xsd:schema>

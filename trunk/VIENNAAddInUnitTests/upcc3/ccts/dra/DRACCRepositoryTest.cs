@@ -35,10 +35,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
         #endregion
 
-        private static Repository GetFileBasedEARepository()
+        private static Repository GetFileBasedEARepository(string fileStem)
         {
             var repo = new Repository();
-            string repositoryFileStem = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest";
+            string repositoryFileStem = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\" + fileStem;
             string repositoryFile = repositoryFileStem + "_tmp.eap";
             File.Copy(repositoryFileStem + ".eap", repositoryFile, true);
             Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
@@ -101,7 +101,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
         public void TestCreateElementsFileBased()
         {
-            repository = new CCRepository(GetFileBasedEARepository());
+            repository = new CCRepository(GetFileBasedEARepository("XSDGeneratorTest"));
 
             IBLibrary bLib = repository.Libraries<IBLibrary>().First();
             Assert.IsNotNull(bLib, "bLib not found");
@@ -163,6 +163,31 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(name, asbie.Name);
             Assert.AreEqual(lowerBound, asbie.LowerBound);
             Assert.AreEqual(upperBound, asbie.UpperBound);
+        }
+
+        [Test]
+        public void TestFoo()
+        {
+            var repo = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-sandbox"));
+            Console.WriteLine("ABIEs:");
+            foreach (var abie in repo.Libraries<IDOCLibrary>().First().BIEs)
+            {
+                Console.WriteLine(abie.Name);
+            }
+            Console.WriteLine("Root elements:");
+            foreach (var abie in repo.Libraries<IDOCLibrary>().First().RootElements)
+            {
+                Console.WriteLine(abie.Name);
+            }
+            Console.WriteLine("Done.");
+        }
+
+        [Test]
+        public void TestABIEEquals()
+        {
+            object abie1 = repository.FindByPath(EARepository1.PathToBIEAddress());
+            object abie2 = repository.FindByPath(EARepository1.PathToBIEAddress());
+            Assert.AreEqual(abie1, abie2);
         }
 
         [Test]
@@ -335,7 +360,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("blib1", bLib1.Name);
             Assert.AreEqual("urn:test:blib1", bLib1.BaseURN);
 
-            var primLib1 = repository.Libraries<IPRIMLibrary>().First();
+            IPRIMLibrary primLib1 = repository.Libraries<IPRIMLibrary>().First();
             Assert.AreEqual("primlib1", primLib1.Name);
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
             var prims = new List<IPRIM>(primLib1.PRIMs);
@@ -345,7 +370,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IPRIM decimalType = prims[1];
             Assert.AreEqual("Decimal", decimalType.Name);
 
-            var cdtLib1 = repository.Libraries<ICDTLibrary>().First();
+            ICDTLibrary cdtLib1 = repository.Libraries<ICDTLibrary>().First();
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("urn:test:blib1:cdtlib1", cdtLib1.BaseURN);
             var cdts = new List<ICDT>(cdtLib1.CDTs);
@@ -417,7 +442,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var enumAbcCodes = (IENUM) repository.FindByPath(EARepository1.PathToEnumAbcCodes());
             Assert.IsNotNull(enumAbcCodes, "enum ABC_Codes not found");
             Assert.AreEqual("ABC_Codes", enumAbcCodes.Name);
-            var enumAbcCodesValues = enumAbcCodes.Values;
+            IDictionary<string, string> enumAbcCodesValues = enumAbcCodes.Values;
             Assert.AreEqual(2, enumAbcCodesValues.Count);
             Assert.AreEqual("abc1", enumAbcCodesValues["ABC Code 1"]);
             Assert.AreEqual("abc2", enumAbcCodesValues["ABC Code 2"]);
@@ -427,16 +452,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(2, docLibraryABIEs.Count);
             var docLibraryRootElements = new List<IABIE>(docLibrary.RootElements);
             Assert.AreEqual(1, docLibraryRootElements.Count);
-            var invoice = docLibraryRootElements[0];
+            IABIE invoice = docLibraryRootElements[0];
             Assert.AreEqual("Invoice", invoice.Name);
-        }
-
-        [Test]
-        public void TestABIEEquals()
-        {
-            var abie1 = repository.FindByPath(EARepository1.PathToBIEAddress());
-            var abie2 = repository.FindByPath(EARepository1.PathToBIEAddress());
-            Assert.AreEqual(abie1, abie2);
         }
 
         [Test]
