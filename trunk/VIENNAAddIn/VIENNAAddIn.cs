@@ -159,6 +159,9 @@ namespace VIENNAAddIn
             {
                 isChecked = isUmm2Model;
             }
+
+            //Overridden for debug purposes
+            isEnabled = true;
         }
 
         /// <summary>
