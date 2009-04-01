@@ -16,7 +16,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     ///<summary>
     ///</summary>
-    public abstract class UpccClass : ICCTSElement
+    public abstract class UpccClass : ICCTSElement, IEquatable<UpccClass>
     {
         protected readonly Element element;
         protected readonly CCRepository repository;
@@ -39,6 +39,26 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         protected IEnumerable<Connector> Connectors
         {
             get { return element.Connectors.AsEnumerable<Connector>(); }
+        }
+
+        public bool Equals(UpccClass other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.element.ElementID, element.ElementID);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is UpccClass) return Equals((UpccClass) obj);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (element != null ? element.GetHashCode() : 0);
         }
 
         #region ICCTSElement Members

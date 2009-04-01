@@ -329,7 +329,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void TestReadAccess()
         {
             var libraries = new List<IBusinessLibrary>(repository.AllLibraries());
-            Assert.AreEqual(7, libraries.Count);
+            Assert.AreEqual(8, libraries.Count);
 
             IBusinessLibrary bLib1 = repository.Libraries<IBLibrary>().First();
             Assert.AreEqual("blib1", bLib1.Name);
@@ -388,6 +388,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("This is the definition of BDT Text.", bdtText.CON.Definition);
 
             var abieAddress = (IABIE) repository.FindByPath(EARepository1.PathToBIEAddress());
+            Assert.IsNotNull(abieAddress);
             var abieAddressBBIEs = new List<IBBIE>(abieAddress.BBIEs);
 
             IBBIE bbieCountryName = abieAddressBBIEs[0];
@@ -420,6 +421,22 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(2, enumAbcCodesValues.Count);
             Assert.AreEqual("abc1", enumAbcCodesValues["ABC Code 1"]);
             Assert.AreEqual("abc2", enumAbcCodesValues["ABC Code 2"]);
+
+            var docLibrary = repository.LibraryByName<IDOCLibrary>("DOCLibrary");
+            var docLibraryABIEs = new List<IABIE>(docLibrary.BIEs);
+            Assert.AreEqual(2, docLibraryABIEs.Count);
+            var docLibraryRootElements = new List<IABIE>(docLibrary.RootElements);
+            Assert.AreEqual(1, docLibraryRootElements.Count);
+            var invoice = docLibraryRootElements[0];
+            Assert.AreEqual("Invoice", invoice.Name);
+        }
+
+        [Test]
+        public void TestABIEEquals()
+        {
+            var abie1 = repository.FindByPath(EARepository1.PathToBIEAddress());
+            var abie2 = repository.FindByPath(EARepository1.PathToBIEAddress());
+            Assert.AreEqual(abie1, abie2);
         }
 
         [Test]
