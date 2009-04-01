@@ -7,7 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using EA;
@@ -16,12 +18,85 @@ using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.XSDGenerator.Generator;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using File=System.IO.File;
+using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
 {
     [TestFixture]
     public class XSDGeneratorTest
     {
+// ReSharper disable UnusedMember.Local
+        private static Repository GetFileBasedEARepository()
+// ReSharper restore UnusedMember.Local
+        {
+            var repo = new Repository();
+            string repositoryFile = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest.eap";
+            Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
+            repo.OpenFile(repositoryFile);
+            return repo;
+        }
+
+        private static string PathToTestResource(string relativePath)
+        {
+            return Directory.GetCurrentDirectory() + @"\..\..\testresources\" + relativePath;
+        }
+
+        private static void AssertSchema(string expectedOutputFile, XmlSchema schema)
+        {
+            string expectedPath = PathToTestResource("XSDGeneratorTest\\" + expectedOutputFile);
+            var xmlWriterSettings = new XmlWriterSettings
+                           {
+                               Indent = true,
+//                               NewLineOnAttributes = true,
+                               Encoding = Encoding.UTF8,
+                           };
+            if (!File.Exists(expectedPath))
+            {
+                CreateActualOutputFileAndFail(expectedPath, schema, "expected output file does not exist", xmlWriterSettings);
+            }
+
+            var memStream = new MemoryStream();
+
+// ReSharper disable AssignNullToNotNullAttribute
+            schema.Write(XmlWriter.Create(memStream, xmlWriterSettings));
+// ReSharper restore AssignNullToNotNullAttribute
+
+            memStream.Seek(0, SeekOrigin.Begin);
+            var actualStreamReader = new StreamReader(memStream);
+
+            var expectedStreamReader = new StreamReader(expectedPath, Encoding.UTF8);
+            int lineCounter = 0;
+            while (true)
+            {
+                string expectedLine = expectedStreamReader.ReadLine();
+                string actualLine = actualStreamReader.ReadLine();
+                if (expectedLine != actualLine)
+                {
+                    CreateActualOutputFileAndFail(expectedPath, schema, "mismatch at line " + (lineCounter + 1) + "\nexpected:<" + expectedLine + ">\nbut was:<" + actualLine + ">", xmlWriterSettings);
+                }
+                if (expectedLine == null || actualLine == null)
+                {
+                    return;
+                }
+                ++lineCounter;
+            }
+        }
+
+        private static void CreateActualOutputFileAndFail(string expectedPath, XmlSchema schema, string message, XmlWriterSettings xmlWriterSettings)
+        {
+            var actualPath = expectedPath.Substring(0, expectedPath.Length - 4) + "-actual" +
+                             expectedPath.Substring(expectedPath.Length - 4, 4);
+// ReSharper disable AssignNullToNotNullAttribute
+            schema.Write(XmlWriter.Create(actualPath, xmlWriterSettings));
+// ReSharper restore AssignNullToNotNullAttribute
+            Assert.Fail(
+                @"{0}:
+Expected output file: {1}
+Actual output file: {2}",
+                message, expectedPath, actualPath);
+        }
+
         [Test]
         public void TestAddingComments()
         {
@@ -44,41 +119,74 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
             schema.Write(Console.Out);
         }
 
-        private static Repository GetFileBasedEARepository()
-        {
-            var repo = new Repository();
-            string repositoryFile = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\XSDGeneratorTest.eap";
-            Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
-            repo.OpenFile(repositoryFile);
-            return repo;
-        }
+//        [Test]
+//        public void TestEnumLibraryGenerator()
+//        {
+//            var expectedOutputFiles = new[]
+//                                      {
+//                                          "foo.xsd"
+//                                      };
+//            var ccRepository = new CCRepository(new EARepository2());
+//            var context = new GenerationContext(ccRepository, true, TODO);
+//            var generator = new ENUMLibraryGenerator(context);
+//
+//            var enumLibrary = ccRepository.LibraryByName<IENUMLibrary>("ENUMLibrary");
+//            generator.GenerateXSD(enumLibrary);
+//            for (int i = 0; i < expectedOutputFiles.Length; ++i)
+//            {
+//                AssertSchema(expectedOutputFiles[i], context.Schemas[i]);
+//            }
+//        }
 
         [Test]
         public void TestGenerateSchemas()
         {
 //            var ccRepository = new CCRepository(GetFileBasedEARepository());
-            var ccRepository = new CCRepository(new EARepository1());
-            var generator = new VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator(ccRepository, true);
-            foreach (XmlSchema schema in generator.GenerateSchemas())
-            {
-                schema.Write(Console.Out);
-                Console.Out.WriteLine();
-            }
+            var ccRepository = new CCRepository(new EARepository2());
+            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
+            var generator = new VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator();
+            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary, "urn:test:namespace", "test", true);
         }
 
         [Test]
-        public void TestTypeBasedSelector()
+        public void TestBDTSchemaGenerator()
         {
-            var ccRepository = new CCRepository(new EARepository1());
+            var ccRepository = new CCRepository(new EARepository2());
+            var s = ccRepository.FindByPath((Path) "BLibrary"/"PRIMLibrary"/"String");
+            Assert.IsNotNull(s);
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true);
+            BDTSchemaGenerator.GenerateXSD(context, VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBDTs(context, null));
+            Assert.AreEqual(1, context.Schemas.Count);
+            XmlSchema schema = context.Schemas[0];
+            schema.Write(Console.Out);
+            AssertSchema("foo.xsd", schema);
+        }
 
-            var selector = new TypeBasedSelector<string>();
-            selector.Case<ICDTLibrary>(l => String.Format("<<CDTLibrary>> {0}", (object) l.Name));
-            selector.Case<IPRIMLibrary>(l => String.Format("<<PRIMLibrary>> {0}", l.Name));
-            selector.Default(o => "unknown type: " + o.GetType());
-
-            foreach (IBusinessLibrary library in ccRepository.AllLibraries())
+        [Test]
+        public void TestStreadReaderExtensions()
+        {
+            var streamReader = new StreamReader(PathToTestResource("StreamReaderExtensionsTest.txt"));
+            var chars = new List<int>(streamReader.Characters());
+            foreach (int c in chars)
             {
-                Console.WriteLine(selector.Execute(library));
+                Console.WriteLine("char: " + c);
+            }
+            Assert.AreEqual(10, chars.Count);
+        }
+    }
+
+    internal static class StreamReaderExtensions
+    {
+        internal static IEnumerable<int> Characters(this StreamReader streamReader)
+        {
+            while (true)
+            {
+                int c = streamReader.Read();
+                if (c == -1)
+                {
+                    break;
+                }
+                yield return c;
             }
         }
     }

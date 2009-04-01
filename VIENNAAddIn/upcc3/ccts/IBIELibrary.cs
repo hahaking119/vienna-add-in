@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IBIELibrary : IElementLibrary
     {
-        IEnumerable<IBIE> BIEs { get; }
+        IEnumerable<IABIE> BIEs { get; }
         IABIE CreateABIE(ABIESpec spec);
     }
 }

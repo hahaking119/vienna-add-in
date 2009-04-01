@@ -6,7 +6,9 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using EA;
+using System;
+using VIENNAAddIn.upcc3.ccts.util;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -14,6 +16,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     {
         public SUP(CCRepository repository, Attribute attribute, IDT dt) : base(repository, attribute, dt)
         {
+        }
+
+        public override string DictionaryEntryName
+        {
+            get
+            {
+                var value = GetTaggedValue(TaggedValues.DictionaryEntryName);
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = DT.Name + ". " + Name + ". " + BasicType.Name;
+                }
+                return value;
+            }
         }
     }
 }

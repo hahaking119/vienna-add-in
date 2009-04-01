@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IDOCLibrary Members
 
-        public IEnumerable<IBIE> BIEs
+        public IEnumerable<IABIE> BIEs
         {
             get
             {

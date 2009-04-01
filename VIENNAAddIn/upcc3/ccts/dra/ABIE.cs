@@ -20,6 +20,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
+        public override string DictionaryEntryName
+        {
+            get
+            {
+                var value = base.DictionaryEntryName;
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = Name + ". Details";
+                }
+                return value;
+            }
+        }
+
         #region IABIE Members
 
         public IEnumerable<string> UsageRules

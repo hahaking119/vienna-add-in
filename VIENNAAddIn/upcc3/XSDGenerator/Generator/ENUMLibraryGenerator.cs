@@ -6,22 +6,35 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System.Xml.Schema;
+using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
-    public class ENUMLibraryGenerator : AbstractLibraryGenerator<IENUMLibrary>
+    public class ENUMLibraryGenerator
     {
-        public ENUMLibraryGenerator(GenerationContext context)
-            : base(context)
+        public void GenerateXSD(GenerationContext context, IEnumerable<IENUM> enums)
         {
-        }
-
-        public override XmlSchema GenerateXSD(IENUMLibrary library)
-        {
-            var schema = new XmlSchema();
-            return schema;
+//            foreach (var ENUM in library.ENUMs)
+//            {
+//                var schema = new XmlSchema
+//                             {
+//                                 ElementFormDefault = XmlSchemaForm.Qualified,
+//                                 AttributeFormDefault = XmlSchemaForm.Unqualified
+//                             };
+//                schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
+//                schema.Namespaces.Add("ccts", "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2");
+//                var simpleType = new XmlSchemaSimpleType { Name = ENUM.Name + "Type" };
+//                var simpleTypeRestriction = new XmlSchemaSimpleTypeRestriction();
+//                foreach (var value in ENUM.Values)
+//                {
+//                    var enumeration = new XmlSchemaEnumerationFacet { Value = value.Value };
+//                    simpleTypeRestriction.Facets.Add(enumeration);
+//                }
+//                simpleType.Content = simpleTypeRestriction;
+//                schema.Items.Add(simpleType);
+//                Context.AddSchema(schema);
+//            }
         }
     }
 }

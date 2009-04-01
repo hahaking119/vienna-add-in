@@ -322,19 +322,12 @@
       <DependentUpon>BDTWizardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\Cache.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\AbstractLibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\AnnotationBuilder.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\BDTLibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\BIELibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\CCLibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\CDTLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\BDTSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\BIESchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\GenerationContext.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\RootSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\StringExtensions.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\DOCLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\ENUMLibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\PRIMLibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\Selector.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\TypeBasedSelector.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\XSDGenerator.cs" />
     <Compile Include="Utils\EAElementWrapper.cs" />
     <Compile Include="Utils\FormStyles.cs" />
