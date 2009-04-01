@@ -19,7 +19,6 @@ using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.XSDGenerator.Generator;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
 using File=System.IO.File;
-using Path=VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
 {
@@ -46,14 +45,15 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
         {
             string expectedPath = PathToTestResource("XSDGeneratorTest\\" + expectedOutputFile);
             var xmlWriterSettings = new XmlWriterSettings
-                           {
-                               Indent = true,
+                                    {
+                                        Indent = true,
 //                               NewLineOnAttributes = true,
-                               Encoding = Encoding.UTF8,
-                           };
+                                        Encoding = Encoding.UTF8,
+                                    };
             if (!File.Exists(expectedPath))
             {
-                CreateActualOutputFileAndFail(expectedPath, schema, "expected output file does not exist", xmlWriterSettings);
+                CreateActualOutputFileAndFail(expectedPath, schema, "expected output file does not exist",
+                                              xmlWriterSettings);
             }
 
             var memStream = new MemoryStream();
@@ -73,7 +73,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
                 string actualLine = actualStreamReader.ReadLine();
                 if (expectedLine != actualLine)
                 {
-                    CreateActualOutputFileAndFail(expectedPath, schema, "mismatch at line " + (lineCounter + 1) + "\nexpected:<" + expectedLine + ">\nbut was:<" + actualLine + ">", xmlWriterSettings);
+                    CreateActualOutputFileAndFail(expectedPath, schema,
+                                                  "mismatch at line " + (lineCounter + 1) + "\nexpected:<" +
+                                                  expectedLine + ">\nbut was:<" + actualLine + ">", xmlWriterSettings);
                 }
                 if (expectedLine == null || actualLine == null)
                 {
@@ -83,10 +85,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
             }
         }
 
-        private static void CreateActualOutputFileAndFail(string expectedPath, XmlSchema schema, string message, XmlWriterSettings xmlWriterSettings)
+        private static void CreateActualOutputFileAndFail(string expectedPath, XmlSchema schema, string message,
+                                                          XmlWriterSettings xmlWriterSettings)
         {
-            var actualPath = expectedPath.Substring(0, expectedPath.Length - 4) + "-actual" +
-                             expectedPath.Substring(expectedPath.Length - 4, 4);
+            string actualPath = expectedPath.Substring(0, expectedPath.Length - 4) + "-actual" +
+                                expectedPath.Substring(expectedPath.Length - 4, 4);
 // ReSharper disable AssignNullToNotNullAttribute
             schema.Write(XmlWriter.Create(actualPath, xmlWriterSettings));
 // ReSharper restore AssignNullToNotNullAttribute
@@ -139,27 +142,54 @@ Actual output file: {2}",
 //        }
 
         [Test]
-        public void TestGenerateSchemas()
-        {
-//            var ccRepository = new CCRepository(GetFileBasedEARepository());
-            var ccRepository = new CCRepository(new EARepository2());
-            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
-            var generator = new VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator();
-            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary, "urn:test:namespace", "test", true);
-        }
-
-        [Test]
         public void TestBDTSchemaGenerator()
         {
             var ccRepository = new CCRepository(new EARepository2());
-            var s = ccRepository.FindByPath((Path) "BLibrary"/"PRIMLibrary"/"String");
-            Assert.IsNotNull(s);
             var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true);
-            BDTSchemaGenerator.GenerateXSD(context, VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBDTs(context, null));
+            BDTSchemaGenerator.GenerateXSD(context,
+                                           VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBDTs(context,
+                                                                                                             null));
             Assert.AreEqual(1, context.Schemas.Count);
-            XmlSchema schema = context.Schemas[0];
+            XmlSchema schema = context.Schemas[0].Schema;
             schema.Write(Console.Out);
-            AssertSchema("foo.xsd", schema);
+            AssertSchema("bdts.xsd", schema);
+        }
+
+        [Test]
+        public void TestBIESchemaGenerator()
+        {
+            var ccRepository = new CCRepository(new EARepository2());
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true);
+            BIESchemaGenerator.GenerateXSD(context,
+                                           VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBIEs(context,
+                                                                                                             null));
+            Assert.AreEqual(1, context.Schemas.Count);
+            XmlSchema schema = context.Schemas[0].Schema;
+            schema.Write(Console.Out);
+            AssertSchema("bies.xsd", schema);
+        }
+
+        [Test]
+        public void TestGenerateSchemas()
+        {
+            var ccRepository = new CCRepository(new EARepository2());
+            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
+            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary,
+                                                                                  "urn:test:namespace", "test", true,
+                                                                                  PathToTestResource(
+                                                                                      "\\XSDGeneratorTest\\all"));
+        }
+
+        [Test]
+        public void TestRootSchemaGenerator()
+        {
+            var ccRepository = new CCRepository(new EARepository2());
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true);
+            RootSchemaGenerator.GenerateXSD(context, ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary));
+            Assert.AreEqual(1, context.Schemas.Count);
+            XmlSchema schema = context.Schemas[0].Schema;
+            schema.Write(Console.Out);
+            AssertSchema("root.xsd", schema);
         }
 
         [Test]

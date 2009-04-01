@@ -4,7 +4,7 @@ using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
-    internal class BIESchemaGenerator
+    public class BIESchemaGenerator
     {
         public static void GenerateXSD(GenerationContext context, IEnumerable<IBIE> bies)
         {
