@@ -21,6 +21,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
+        public override string DictionaryEntryName
+        {
+            get
+            {
+                var value = base.DictionaryEntryName;
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = Name;
+                }
+                return value;
+            }
+        }
+
         #region IENUM Members
 
         public string AgencyIdentifier

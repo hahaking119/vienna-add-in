@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.Definition); }
         }
 
-        public string DictionaryEntryName
+        public virtual string DictionaryEntryName
         {
             get { return GetTaggedValue(TaggedValues.DictionaryEntryName); }
         }
@@ -112,7 +112,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        private string GetTaggedValue(TaggedValues key)
+        protected string GetTaggedValue(TaggedValues key)
         {
             return attribute.GetTaggedValue(key) ?? string.Empty;
         }

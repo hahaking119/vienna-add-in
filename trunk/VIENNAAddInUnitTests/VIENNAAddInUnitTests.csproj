@@ -58,7 +58,6 @@
     <Compile Include="upcc3\ccts\dra\DRACCRepositoryTest.cs" />
     <Compile Include="upcc3\ccts\DynamicProxyTest.cs" />
     <Compile Include="upcc3\Wizards\CacheTest.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\SelectorTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\StringExtensionsTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\AttributeBuilder.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\ConnectorBuilder.cs" />

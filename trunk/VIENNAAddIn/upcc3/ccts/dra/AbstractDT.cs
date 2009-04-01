@@ -23,6 +23,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
+        public override string DictionaryEntryName
+        {
+            get
+            {
+                var value = base.DictionaryEntryName;
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = Name + ". Type";
+                }
+                return value;
+            }
+        }
+
         #region IDT Members
 
         public IEnumerable<string> UsageRules

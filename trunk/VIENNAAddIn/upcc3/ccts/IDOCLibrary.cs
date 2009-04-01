@@ -13,6 +13,6 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IDOCLibrary : IElementLibrary
     {
-        IEnumerable<IBIE> BIEs { get; }
+        IEnumerable<IABIE> BIEs { get; }
     }
 }
