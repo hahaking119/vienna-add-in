@@ -64,7 +64,6 @@ namespace VIENNAAddIn.upcc3.Wizards
         public int BasedOn { get; set; }
     }
 
-
     public class cCON : cCheckItem
     {
         public cCON()
@@ -113,8 +112,26 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public cCON CON { get; set; }
         public IDictionary<string, cSUP> SUPs { get; set; }
-    }
 
+        public void LoadCONAndSUPs(CCRepository repository)
+        {
+            if ((CON.Name.Equals("") || SUPs.Count < 1))
+            {
+                int cdtId = Id;
+                ICDT cdt = repository.GetCDT(cdtId);
+
+                //CON = new cCON(cdt.CON.Name, cdt.CON.Id, CheckState.Checked);
+                CON.Name = cdt.CON.Name;
+                CON.Id = cdt.CON.Id;
+                CON.State = CheckState.Checked;
+
+                foreach (ISUP sup in cdt.SUPs)
+                {
+                    SUPs.Add(sup.Name, new cSUP(sup.Name, sup.Id, CheckState.Unchecked));
+                }
+            }
+        }
+    }
 
     public class cCDTLibrary : cItem
     {
@@ -137,25 +154,29 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cCDT> CDTs { get; set; }
 
-        
-        //public void LoadCDTs(CCRepository repository)
-        //{
-        //    if (CDTs.Count == 0)
-        //    {
-        //        ICDTLibrary cdtl = (ICDTLibrary) repository.GetLibrary(Id);
+        public void LoadCDTs(CCRepository repository)
+        {
+            if (CDTs.Count == 0)
+            {
+                ICDTLibrary cdtl = (ICDTLibrary)repository.GetLibrary(Id);
 
-        //        foreach (ICDT cdt in cdtl.CDTs)
-        //        {
-        //            if (CDTs.ContainsKey(cdt.Name))
-        //            {
-        //                CDTs.Clear();
-        //                throw new CacheException(CacheConstants.CDT_EXISTS);
-        //            }
+                foreach (ICDT cdt in cdtl.CDTs)
+                {
+                    if (CDTs.ContainsKey(cdt.Name))
+                    {
+                        CDTs.Clear();
+                        throw new CacheException(CacheConstants.CDT_EXISTS);
+                    }
 
-        //            CDTs.Add(cdt.Name, new cCDT(cdt.Name, cdt.Id));
-        //        }
-        //    }
-        //}
+                    CDTs.Add(cdt.Name, new cCDT(cdt.Name, cdt.Id));
+                }
+
+                if (CDTs.Count == 0)
+                {
+                    throw new CacheException(CacheConstants.NO_CDTs);
+                }
+            }
+        }
     }
 
     public class cBBIE : cCheckItem
@@ -340,14 +361,23 @@ namespace VIENNAAddIn.upcc3.Wizards
                         }
                     }
 
-                    // TODO: "ascc.Name" is always empty since the associations don't have names -  we should rather use the role names
-                    // or we use the IDs.. but these are of course not really useful.. 
                     if (relevantABIEs.Count > 0)
                     {
-                        
-                        //ascc.
-                        //ASCCs.Add(ascc.AssociatedElement.);
-                        ASCCs.Add(ascc.Name, new cASCC(ascc.Name, ascc.Id, CheckState.Unchecked, relevantABIEs));
+                        if (ascc.Name.Equals(""))
+                        {
+                            if (!ASCCs.ContainsKey(ascc.Name))
+                            {
+                                ASCCs.Add(ascc.Name, new cASCC(ascc.Name, ascc.Id, CheckState.Unchecked, relevantABIEs));
+                            }
+                            else
+                            {
+                                throw new CacheException(CacheConstants.ASCC_EXISTS);
+                            }                                                    
+                        }
+                        else
+                        {
+                            MessageBox.Show(CacheConstants.ASCC_ERRONEOUS, "ABIE Wizard", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
             }
@@ -372,45 +402,6 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             return false;
         }  
-
-        //public void FindAppropriateBDTsForBBIEs(IDictionary<string, cBDTLibrary> bdtls)
-        //{
-        //    foreach (cBDTLibrary bdtl in bdtls.Values)
-        //    {
-        //        foreach (cBDT bdt in bdtl.BDTs.Values)
-        //        {
-
-        //        }
-        //    }
-        //}
-
-
-
-
-        //public void AssignExistingBDTsToBBIE(IDictionary<string, cBDTLibrary> bdtls)
-        //{
-        //    GetRelevantBDTs(BBIEs.Values)
-
-        //    foreach (cBBIE bbie in BBIEs.Values)
-        //    {
-        //        if (bbie.BDTs == null)
-        //        {
-        //            bbie.BDTs = GetRelevantBDTs
-        //        }
-
-
-        //        foreach (cBDTLibrary bdtl in bdtls.Values)
-        //        {
-        //            foreach (cBDT bdt in bdtl.BDTs.Values)
-        //            {
-        //                if (bdt.BasedOn == bbie.Id)
-        //                {
-
-        //                }
-        //            }
-        //        }                
-        //    }            
-        //}
     }
 
     public class cCCLibrary : cItem
@@ -503,6 +494,47 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cABIE> ABIEs { get; set; }
     }
+  
+    public class cDOC : cCheckItem
+    {
+        public cDOC(string initName, int initId, CheckState initState) : base(initName, initId, initState)
+        {            
+            RootElements = new List<string>();
+        }
+
+        public IList<string> RootElements { get; set; }
+        public string TargetNamespace { get; set; }
+        public string TargetNamespacePrefix { get; set; }
+    }
+
+    public class cBIV : cItem
+    {
+        public cBIV(string initName, int initId) : base(initName, initId)
+        {
+            DOCs = new Dictionary<string, cDOC>();            
+        }
+
+        public string DocumentModel { get; set; }
+
+        public IDictionary<string, cDOC> DOCs { get; set;}
+
+        public void LoadDOCs(CCRepository repository)
+        {          
+            // Note: Id of the document is currently the id of the BIV
+            cDOC newDOC = new cDOC("Document 1", Id, CheckState.Unchecked);
+
+            IDOCLibrary docl = (IDOCLibrary)repository.GetLibrary(Id);
+            foreach (IBIE bie in docl.BIEs)
+            {
+                newDOC.RootElements.Add(bie.Name);
+            }
+
+            newDOC.TargetNamespace = docl.BaseURN;
+            newDOC.TargetNamespacePrefix = docl.NamespacePrefix;            
+
+            DOCs.Add("Document 1", newDOC);
+        }
+    }
 
     public class Cache
     {
@@ -510,6 +542,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         public IDictionary<string, cCDTLibrary> CDTLs { get; set; }
         public IDictionary<string, cBDTLibrary> BDTLs { get; set; }
         public IDictionary<string, cBIELibrary> BIELs { get; set; }
+        public IDictionary<string, cBIV> BIVs { get; set; }
 
         public Cache()
         {
@@ -517,6 +550,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             CDTLs = new Dictionary<string, cCDTLibrary>();
             BDTLs = new Dictionary<string, cBDTLibrary>();
             BIELs = new Dictionary<string, cBIELibrary>();
+            BIVs = new Dictionary<string, cBIV>();
         }
 
         public void EmptyCache()
@@ -614,6 +648,16 @@ namespace VIENNAAddIn.upcc3.Wizards
                 case CacheConstants.PATH_CDTs:
                     {
                         if ((path.Length > 0) && !(CDTLs.ContainsKey(path[0])))
+                        {
+                            return false;
+                        }
+
+                        if ((path.Length > 1) && !(CDTLs[path[0]].CDTs.ContainsKey(path[1])))
+                        {
+                            return false;
+                        }
+
+                        if ((path.Length > 2) && !(CDTLs[path[0]].CDTs[path[1]].SUPs.ContainsKey(path[2])))
                         {
                             return false;
                         }
@@ -720,6 +764,25 @@ namespace VIENNAAddIn.upcc3.Wizards
                 throw new CacheException(CacheConstants.NO_BDTLs);
             }
         }        
+
+        public void LoadBIVs(CCRepository repository)
+        {
+            foreach (IDOCLibrary docl in repository.Libraries<IDOCLibrary>())
+            {
+                if (BIVs.ContainsKey(docl.Name))
+                {
+                    BIVs.Clear();
+                    throw new CacheException(CacheConstants.BIV_EXISTS);
+                }
+
+                BIVs.Add(docl.Name, new cBIV(docl.Name, docl.Id));
+            }
+
+            if (BIVs.Count == 0)
+            {
+                throw new CacheException(CacheConstants.NO_BIVs);
+            }
+        }
     }
 
     public class CacheConstants
@@ -730,6 +793,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         public const string ABIE_EXISTS = "The wizard encountered two ABIEs within one BIE library having identical names. Please verify your model!";
         public const string BDTL_EXISTS = "The wizard encountered two BDT libraries having identical names. Please verify your model!";
         public const string BDT_EXISTS = "The wizard encountered two BDTs within one BDT library having identical names. Please verify your model!";
+        public const string BIV_EXISTS = "The wizard encountered two BIVs having identical names. Please verify your model!";
         public const string NO_CCLs = "The repository did not contain any CC libraries. Please make sure at least one CC library is present before proceeding with the wizard.";
         public const string NO_CDTLs = "The repository did not contain any CDT libraries. Please make sure at least one CDT library is present before proceeding with the wizard.";
         public const string NO_BIELs = "The repository did not contain any BIE libraries. Please make sure at least one BIE library is present before proceeding with the wizard.";
@@ -737,6 +801,11 @@ namespace VIENNAAddIn.upcc3.Wizards
         public const string ACC_EXISTS = "The wizard encountered two ACCs having identical names. Please verify your model!";
         public const string NO_ACCs = "The CC library did not contain any ACCs. Please make sure at least one ACC is present in the library before proceeding with the wizard.";
         public const string BCC_EXISTS = "The wizard encountered two BCCs within one ACC having identical names. Please verify your model!";
+        public const string CDT_EXISTS = "The wizard encountered two CDTs within one CDT library having identical names. Please verify your model!";
+        public const string NO_CDTs = "The CC library did not contain any CDTs. Please make sure at least one ACC is present in the library before proceeding with the wizard.";
+        public const string ASCC_EXISTS = "The wizard encountered two ASCCs having identical target role names. Please verify your model!";
+        public const string ASCC_ERRONEOUS = "The wizard encountered an association whose target role name is not set properly. Please verify your model!";
+        public const string NO_BIVs = "The repository did not contain any BIVs. Please make sure at least one BIV is present before proceeding with the wizard.";
 
         public const int PATH_BCCs = 1;
         public const int PATH_ASCCs = 2;
