@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richtextStatus = new System.Windows.Forms.RichTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textOutputDirectory = new System.Windows.Forms.TextBox();
+            this.buttonBrowseFolders = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.comboModels = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,7 +42,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.checkedlistboxDOCs = new System.Windows.Forms.CheckedListBox();
             this.textTargetNS = new System.Windows.Forms.TextBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkboxAnnotations = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
@@ -51,24 +54,27 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.richTextBox1);
-            this.groupBox1.Location = new System.Drawing.Point(9, 284);
+            this.groupBox1.Controls.Add(this.richtextStatus);
+            this.groupBox1.Location = new System.Drawing.Point(9, 312);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(533, 132);
+            this.groupBox1.Size = new System.Drawing.Size(536, 132);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
             // 
-            // richTextBox1
+            // richtextStatus
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(14, 19);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(507, 99);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.richtextStatus.Location = new System.Drawing.Point(14, 19);
+            this.richtextStatus.Name = "richtextStatus";
+            this.richtextStatus.Size = new System.Drawing.Size(507, 99);
+            this.richtextStatus.TabIndex = 0;
+            this.richtextStatus.Text = "";
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Controls.Add(this.textOutputDirectory);
+            this.groupBox4.Controls.Add(this.buttonBrowseFolders);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.comboModels);
             this.groupBox4.Controls.Add(this.label2);
@@ -77,19 +83,45 @@
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.checkedlistboxDOCs);
             this.groupBox4.Controls.Add(this.textTargetNS);
-            this.groupBox4.Controls.Add(this.checkBox2);
+            this.groupBox4.Controls.Add(this.checkboxAnnotations);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(12, 38);
+            this.groupBox4.Location = new System.Drawing.Point(9, 38);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(533, 240);
+            this.groupBox4.Size = new System.Drawing.Size(536, 268);
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Generation Settings";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 239);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(181, 13);
+            this.label3.TabIndex = 44;
+            this.label3.Text = "Select XML schema output directory:";
+            // 
+            // textOutputDirectory
+            // 
+            this.textOutputDirectory.Location = new System.Drawing.Point(201, 235);
+            this.textOutputDirectory.Name = "textOutputDirectory";
+            this.textOutputDirectory.Size = new System.Drawing.Size(282, 20);
+            this.textOutputDirectory.TabIndex = 43;
+            // 
+            // buttonBrowseFolders
+            // 
+            this.buttonBrowseFolders.Location = new System.Drawing.Point(489, 235);
+            this.buttonBrowseFolders.Name = "buttonBrowseFolders";
+            this.buttonBrowseFolders.Size = new System.Drawing.Size(32, 21);
+            this.buttonBrowseFolders.TabIndex = 42;
+            this.buttonBrowseFolders.Text = "...";
+            this.buttonBrowseFolders.UseVisualStyleBackColor = true;
+            this.buttonBrowseFolders.Click += new System.EventHandler(this.buttonBrowseFolders_Click);
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(11, 193);
+            this.label10.Location = new System.Drawing.Point(11, 165);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(179, 13);
             this.label10.TabIndex = 38;
@@ -98,7 +130,7 @@
             // comboModels
             // 
             this.comboModels.FormattingEnabled = true;
-            this.comboModels.Location = new System.Drawing.Point(201, 20);
+            this.comboModels.Location = new System.Drawing.Point(201, 208);
             this.comboModels.Name = "comboModels";
             this.comboModels.Size = new System.Drawing.Size(320, 21);
             this.comboModels.TabIndex = 40;
@@ -106,7 +138,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 23);
+            this.label2.Location = new System.Drawing.Point(11, 211);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(130, 13);
             this.label2.TabIndex = 32;
@@ -115,7 +147,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(11, 167);
+            this.label9.Location = new System.Drawing.Point(11, 139);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(135, 13);
             this.label9.TabIndex = 36;
@@ -123,7 +155,7 @@
             // 
             // textPrefixTargetNS
             // 
-            this.textPrefixTargetNS.Location = new System.Drawing.Point(201, 190);
+            this.textPrefixTargetNS.Location = new System.Drawing.Point(201, 162);
             this.textPrefixTargetNS.Name = "textPrefixTargetNS";
             this.textPrefixTargetNS.Size = new System.Drawing.Size(320, 20);
             this.textPrefixTargetNS.TabIndex = 37;
@@ -131,7 +163,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 47);
+            this.label7.Location = new System.Drawing.Point(11, 21);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(157, 13);
             this.label7.TabIndex = 31;
@@ -141,35 +173,37 @@
             // 
             this.checkedlistboxDOCs.CheckOnClick = true;
             this.checkedlistboxDOCs.FormattingEnabled = true;
-            this.checkedlistboxDOCs.Location = new System.Drawing.Point(201, 47);
+            this.checkedlistboxDOCs.Location = new System.Drawing.Point(201, 21);
             this.checkedlistboxDOCs.Name = "checkedlistboxDOCs";
             this.checkedlistboxDOCs.Size = new System.Drawing.Size(320, 109);
             this.checkedlistboxDOCs.TabIndex = 28;
             this.checkedlistboxDOCs.SelectedIndexChanged += new System.EventHandler(this.checkedlistboxDOCs_SelectedIndexChanged);
+            this.checkedlistboxDOCs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxDOCs_ItemCheck);
+            this.checkedlistboxDOCs.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkedlistboxDOCs_MouseDown);
             // 
             // textTargetNS
             // 
-            this.textTargetNS.Location = new System.Drawing.Point(201, 164);
+            this.textTargetNS.Location = new System.Drawing.Point(201, 136);
             this.textTargetNS.Name = "textTargetNS";
             this.textTargetNS.Size = new System.Drawing.Size(320, 20);
             this.textTargetNS.TabIndex = 35;
             // 
-            // checkBox2
+            // checkboxAnnotations
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Enabled = false;
-            this.checkBox2.Location = new System.Drawing.Point(201, 216);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(15, 14);
-            this.checkBox2.TabIndex = 33;
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkboxAnnotations.AutoSize = true;
+            this.checkboxAnnotations.Checked = true;
+            this.checkboxAnnotations.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkboxAnnotations.Enabled = false;
+            this.checkboxAnnotations.Location = new System.Drawing.Point(201, 188);
+            this.checkboxAnnotations.Name = "checkboxAnnotations";
+            this.checkboxAnnotations.Size = new System.Drawing.Size(15, 14);
+            this.checkboxAnnotations.TabIndex = 33;
+            this.checkboxAnnotations.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 216);
+            this.label1.Location = new System.Drawing.Point(11, 188);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(177, 13);
             this.label1.TabIndex = 34;
@@ -177,7 +211,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(354, 430);
+            this.buttonClose.Location = new System.Drawing.Point(359, 458);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 3;
@@ -187,12 +221,13 @@
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(108, 430);
+            this.buttonGenerate.Location = new System.Drawing.Point(95, 458);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(149, 23);
             this.buttonGenerate.TabIndex = 2;
             this.buttonGenerate.Text = "&Generate XML Schema...";
             this.buttonGenerate.UseVisualStyleBackColor = true;
+            this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
             // label16
             // 
@@ -216,7 +251,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 465);
+            this.ClientSize = new System.Drawing.Size(554, 488);
             this.Controls.Add(this.comboBIVs);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.buttonClose);
@@ -237,12 +272,12 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richtextStatus;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox textTargetNS;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkboxAnnotations;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckedListBox checkedlistboxDOCs;
         private System.Windows.Forms.Button buttonClose;
@@ -253,5 +288,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboModels;
         private System.Windows.Forms.ComboBox comboBIVs;
+        private System.Windows.Forms.Button buttonBrowseFolders;
+        private System.Windows.Forms.TextBox textOutputDirectory;
+        private System.Windows.Forms.Label label3;
     }
 }

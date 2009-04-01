@@ -497,12 +497,14 @@ namespace VIENNAAddIn.upcc3.Wizards
   
     public class cDOC : cCheckItem
     {
-        public cDOC(string initName, int initId, CheckState initState) : base(initName, initId, initState)
+        public cDOC(string initName, int initId, string initTargetNS, string initTargetNSPrefix, CheckState initState) : base(initName, initId, initState)
         {            
-            RootElements = new List<string>();
+            //RootElements = new List<string>();
+            TargetNamespace = initTargetNS;
+            TargetNamespacePrefix = initTargetNSPrefix;
         }
 
-        public IList<string> RootElements { get; set; }
+        //public IList<string> RootElements { get; set; }
         public string TargetNamespace { get; set; }
         public string TargetNamespacePrefix { get; set; }
     }
@@ -518,21 +520,20 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cDOC> DOCs { get; set;}
 
-        public void LoadDOCs(CCRepository repository)
-        {          
-            // Note: Id of the document is currently the id of the BIV
-            cDOC newDOC = new cDOC("Document 1", Id, CheckState.Unchecked);
-
+        public void LoadDOCsInBIV(CCRepository repository)
+        {
+            // doc library containing all the different Documents
             IDOCLibrary docl = (IDOCLibrary)repository.GetLibrary(Id);
-            foreach (IBIE bie in docl.BIEs)
+
+            // check if previously cached
+            if (DOCs.Count == 0)
             {
-                newDOC.RootElements.Add(bie.Name);
+                foreach (IABIE document in docl.RootElements)                
+                {
+                    cDOC newDOC = new cDOC(document.Name, document.Id, docl.BaseURN, docl.NamespacePrefix, CheckState.Unchecked);
+                    DOCs.Add(document.Name, newDOC);
+                }                
             }
-
-            newDOC.TargetNamespace = docl.BaseURN;
-            newDOC.TargetNamespacePrefix = docl.NamespacePrefix;            
-
-            DOCs.Add("Document 1", newDOC);
         }
     }
 
