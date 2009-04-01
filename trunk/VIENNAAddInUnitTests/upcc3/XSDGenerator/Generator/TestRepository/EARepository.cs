@@ -660,7 +660,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 foreach (ElementBuilder element in package.GetElements())
                 {
                     var eaElement = (EAElement) eaPackage.Elements.AddNew(element.GetName(), "Class");
-                    eaElement.ElementID = nextId++;
+                    var elementId = nextId++;
+                    eaElement.ElementID = elementId;
                     eaElement.PackageID = eaPackage.PackageID;
                     IndexElement(eaElement);
                     eaElement.Stereotype = element.GetStereotype();
@@ -688,6 +689,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                     {
                         var eaConnector = (EAConnector) connectors.AddNew(connector.GetName(), "Association");
                         eaConnector.Repository = this;
+                        eaConnector.ClientID = elementId;
                         eaConnector.SupplierPath = connector.GetPathToSupplier();
                         eaConnector.SupplierEnd.Role = connector.GetName();
                         eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." + connector.GetUpperBound();
