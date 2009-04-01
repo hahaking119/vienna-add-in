@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using System.Threading;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.common.logging;
+using VIENNAAddIn.ErrorReporter;
 
 namespace VIENNAAddIn.validator
 {
@@ -131,8 +132,9 @@ namespace VIENNAAddIn.validator
                 this.bworker.CancelAsync();
                 //e.WorkerEventArgs.Cancel = true;
                 this.progressTimer.Stop();
-                //this.progressBar.Value = this.progressBar.Minimum;
-                this.statusLabel.Text = "Unexpected exception occurred ...";
+                
+               
+                
             }
         }
 

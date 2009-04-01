@@ -130,7 +130,19 @@ namespace VIENNAAddIn.constants
 
     internal enum UPCC
     {
+        ACC,
+        ASCC,
+        BCC,
+        ABIE,
+        BBIE,
+        ASBIE,
         bLibrary,
+        BDT,
+        CDT,
+        CON,
+        SUP,
+        ENUM,
+        PRIM,
         BDTLibrary,
         BIELibrary,
         CCLibrary,
@@ -190,7 +202,6 @@ namespace VIENNAAddIn.constants
         bEntityV,
         bInformation,
         bInformationV,
-        bLibrary,
         bNestedCollaboration,
         bTPartition,
         bPartner,

@@ -121,7 +121,7 @@
             // sourceColumn
             // 
             this.sourceColumn.Text = "View";
-            this.sourceColumn.Width = 44;
+            this.sourceColumn.Width = 53;
             // 
             // messageColumn
             // 
