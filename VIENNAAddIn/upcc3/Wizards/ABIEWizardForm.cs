@@ -216,9 +216,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName }))
                 {
-                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndCreateDefaults(repository, cache.BDTLs);
-                    // NOTE: temporarily disabled - need to discuss with Christian E.
-                    //cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
+                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndCreateDefaults(repository, cache.BDTLs);                    
+                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
                 }
 
                 textABIEName.Text = textPrefix.Text + "_" + selectedACCName;

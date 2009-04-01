@@ -21,6 +21,7 @@ using VIENNAAddIn.Exceptions;
 using VIENNAAddIn.ExportImport;
 using VIENNAAddIn.Setting;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.workflow;
@@ -28,7 +29,8 @@ using VIENNAAddIn.WSDLGenerator;
 using VIENNAAddIn.WSDLGenerator.Setting;
 using VIENNAAddIn.XBRLGenerator;
 using VIENNAAddIn.upcc3.Wizards;
-using Attribute=EA.Attribute;
+using Attribute = EA.Attribute;
+using Path = VIENNAAddIn.upcc3.ccts.Path;
 
 namespace VIENNAAddIn
 {
@@ -99,7 +101,7 @@ namespace VIENNAAddIn
 
     [Guid("ADFF62A3-BEB5-4f39-9F79-560989B6E48B"),
      ClassInterface(ClassInterfaceType.None),
-     ComSourceInterfaces(typeof (VIENNAAddInEvents))]
+     ComSourceInterfaces(typeof(VIENNAAddInEvents))]
     public class VIENNAAddIn : VIENNAAddInInterface
     {
         #region Variables
@@ -237,8 +239,9 @@ namespace VIENNAAddIn
                 }
                 else if (menuname == "-Wizards")
                 {
-                    menu.Add("Create new &ABIE using the Wizard");
-                    menu.Add("Create new BD&T using the Wizard");
+                    menu.Add("Create new &ABIE");
+                    menu.Add("Create new BD&T");
+                    menu.Add("Generate &XML Schema");
                 }
             }
             else if (menulocation == "Diagram")
@@ -256,7 +259,7 @@ namespace VIENNAAddIn
                 }
             }
 
-            return (String[]) menu.ToArray(typeof (String));
+            return (String[])menu.ToArray(typeof(String));
         }
 
         public object OnInitializeTechnologies(Repository repository)
@@ -385,7 +388,7 @@ namespace VIENNAAddIn
                         var optionsForm = new OptionsForm(repo);
                         optionsForm.ShowDialog();
                     }
-                        //menu item validate has been chosen
+                    //menu item validate has been chosen
 
 
 
@@ -466,7 +469,7 @@ namespace VIENNAAddIn
                             wsdlGenerator = new WSDLGenerator.WSDLGenerator(repo, scope, false);
                             wsdlGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             wsdlGenerator.resetGenerator(scope);
@@ -476,7 +479,7 @@ namespace VIENNAAddIn
                             wsdlGenerator.Show();
                         }
                     }
-                        //Generate &WSDL from BusinessChoreographyView
+                    //Generate &WSDL from BusinessChoreographyView
                     else if (menuitem == "&Generate all WSDL in BusinessChoreographyView")
                     {
                         String scope = determineScope(repo, true);
@@ -487,7 +490,7 @@ namespace VIENNAAddIn
                             wsdlGenerator = new WSDLGenerator.WSDLGenerator(repo, scope, true);
                             wsdlGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             wsdlGenerator.resetGenerator(scope);
@@ -510,7 +513,7 @@ namespace VIENNAAddIn
                             //CCTS.WSDLGenerator.TransactionModuleGen(repository, scope, false);
                             tmArtefact.Show();
                         }
-                            //We already have a running instance
+                        //We already have a running instance
                         else
                         {
                             tmArtefact.resetGenerator(scope);
@@ -532,7 +535,7 @@ namespace VIENNAAddIn
                             tmArtefact = new TransactionModuleArtefact(repo, scope, true);
                             tmArtefact.Show();
                         }
-                            //We already have a running instance
+                        //We already have a running instance
                         else
                         {
                             tmArtefact.resetGenerator(scope);
@@ -578,7 +581,7 @@ namespace VIENNAAddIn
                             xbrlGenerator = new XBRLGenerator.XBRLGenerator(repo, scope, true);
                             xbrlGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             xbrlGenerator.resetGenerator(scope);
@@ -599,7 +602,7 @@ namespace VIENNAAddIn
                             BLGenerator = new BusinessLibraryGenerator(repo, scope, true);
                             BLGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             BLGenerator.resetGenerator(scope);
@@ -620,7 +623,7 @@ namespace VIENNAAddIn
                             xsdGenerator = new DOCGenerator(repo, scope, true);
                             xsdGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             xsdGenerator.resetGenerator(scope);
@@ -643,7 +646,7 @@ namespace VIENNAAddIn
                             enumGenerator = new ENUMGenerator(repo, scope, false);
                             enumGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             enumGenerator.resetGenerator(scope);
@@ -664,7 +667,7 @@ namespace VIENNAAddIn
                             bieGenerator = new BIEGenerator(repo, scope, true);
                             bieGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             bieGenerator.resetGenerator(scope);
@@ -673,7 +676,7 @@ namespace VIENNAAddIn
                             bieGenerator.Show();
                         }
                     }
-                        //Generate XSD Schema from QDT
+                    //Generate XSD Schema from QDT
                     else if (menuitem == "&Generate XSD from QDT")
                     {
                         String scope = determineScope(repo, true);
@@ -683,7 +686,7 @@ namespace VIENNAAddIn
                             qdtGenerator = new QDTGenerator(repo, scope, true);
                             qdtGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             qdtGenerator.resetGenerator(scope);
@@ -692,7 +695,7 @@ namespace VIENNAAddIn
                             qdtGenerator.Show();
                         }
                     }
-                        //Generate XSD Schema from CDT
+                    //Generate XSD Schema from CDT
                     else if (menuitem == "&Generate XSD from CDT")
                     {
                         String scope = determineScope(repo, true);
@@ -702,7 +705,7 @@ namespace VIENNAAddIn
                             cdtGenerator = new CDTGenerator(repo, scope, false);
                             cdtGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             cdtGenerator.resetGenerator(scope);
@@ -721,7 +724,7 @@ namespace VIENNAAddIn
                             ccGenerator = new CCGenerator(repo, scope, false);
                             ccGenerator.Show();
                         }
-                            //No instance yet
+                        //No instance yet
                         else
                         {
                             ccGenerator.resetGenerator(scope);
@@ -730,7 +733,7 @@ namespace VIENNAAddIn
                             ccGenerator.Show();
                         }
                     }
-                        //Insert new Qualified Data Type
+                    //Insert new Qualified Data Type
                     else if (menuitem == "&Create new Qualified Data Type")
                     {
                         String scope = determineScope(repo, true);
@@ -750,7 +753,7 @@ namespace VIENNAAddIn
                             }
                         }
                     }
-                        //Insert Business Information Entity
+                    //Insert Business Information Entity
                     else if (menuitem == "&Create new Business Information Entity")
                     {
                         String scope = determineScope(repo, true);
@@ -770,15 +773,26 @@ namespace VIENNAAddIn
                             }
                         }
                     }
-                    else if (menuitem == "Create new &ABIE using the Wizard")
+                    else if (menuitem == "Create new &ABIE")
                     {
                         ABIEWizardForm ABIEWizard = new ABIEWizardForm(repo);
-                        ABIEWizard.Show();                         
+                        ABIEWizard.Show();
                     }
-                    else if (menuitem == "Create new BD&T using the Wizard")
+                    else if (menuitem == "Create new BD&T")
                     {
                         BDTWizardForm BDTWizard = new BDTWizardForm(repo);
-                        BDTWizard.Show();                        
+                        BDTWizard.Show();
+                    }
+                    else if (menuitem == "Generate &XML Schema")
+                    {
+                        //GeneratorWizardForm GeneratorWizard = new GeneratorWizardForm
+                        //                                          {
+                        //                                              Repository = repository
+                        //                                          };
+
+                        GeneratorWizardForm GeneratorWizard = new GeneratorWizardForm(new CCRepository(repository));
+
+                        GeneratorWizard.Show();
                     }
                     else if (menuitem == "&Export Package to CSV file")
                     {
@@ -832,7 +846,7 @@ namespace VIENNAAddIn
             string s = "";
 
             //Now otype could be determined - show an error
-            if (!Enum.IsDefined(typeof (ObjectType), otype))
+            if (!Enum.IsDefined(typeof(ObjectType), otype))
             {
                 if (showErrors)
                 {
@@ -841,20 +855,20 @@ namespace VIENNAAddIn
                     //this.logger.Error(error);
                 }
             }
-                //The user clicked on a package - try to determine the stereotype
+            //The user clicked on a package - try to determine the stereotype
             else if (otype == ObjectType.otPackage)
             {
-                var p = (Package) obj;
+                var p = (Package)obj;
                 s = "" + p.PackageID;
             }
             else if (otype == ObjectType.otDiagram)
             {
-                var dgr = (Diagram) obj;
+                var dgr = (Diagram)obj;
                 s = dgr.PackageID.ToString();
             }
             else if (otype == ObjectType.otElement)
             {
-                var elm = (Element) obj;
+                var elm = (Element)obj;
                 s = elm.PackageID.ToString();
             }
 
@@ -997,7 +1011,7 @@ namespace VIENNAAddIn
             {
                 MessageBox.Show("An Error occured while creating the Diagram context Menu: " + ex.Message, "Error");
             }
-            return (String[]) UMM2DiagramMenu.ToArray(typeof (String));
+            return (String[])UMM2DiagramMenu.ToArray(typeof(String));
         }
 
         /// <summary>
@@ -1020,7 +1034,7 @@ namespace VIENNAAddIn
             {
                 #region Object Type : Package
 
-                var package = (Package) obj;
+                var package = (Package)obj;
                 String stereotype = null;
 
                 try
@@ -1056,49 +1070,49 @@ namespace VIENNAAddIn
                 }
 
                     //If the package has stereotype "DOCLibrary" add a link for generating XSD Schema
-                    //from CCTS
+                //from CCTS
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.DOCLibrary.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
                 }
-                    //If the package has stereotype "BIELibrary" add a link for generating XSD Schema
-                    //from BIE
+                //If the package has stereotype "BIELibrary" add a link for generating XSD Schema
+                //from BIE
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.BIELibrary.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
-                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE using the Wizard");
+                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
                 }
-                    //If the package has stereotype "ENUMLibrary" add a link for generating XSD Schema
-                    //from ENUM
+                //If the package has stereotype "ENUMLibrary" add a link for generating XSD Schema
+                //from ENUM
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.ENUMLibrary.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
                 }
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.BDTLibrary.ToString())))
                 {
-                    VIENNAAddInTreeViewMenu.Add("Create new BD&T using the Wizard");
+                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
                 }
                 //If the package has stereotype "QDTLibrary" add a link for generating XSD Schema
-                    //from QDT
+                //from QDT
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.QDTLibrary.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
                     VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
                 }
-                    //If the package has stereotype "CDTLibrary" add a link for generating XSD Schema
-                    //from CDT
+                //If the package has stereotype "CDTLibrary" add a link for generating XSD Schema
+                //from CDT
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.CDTLibrary.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
                 }
-                    //If the package has stereotype "CCLibrary" add a link for generating XSD Schema
-                    //from CC
+                //If the package has stereotype "CCLibrary" add a link for generating XSD Schema
+                //from CC
                 else if (stereotype != null && (stereotype.Equals(CCTS_Types.CCLibrary.ToString())))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CC");
                 }
-                    //We can export XSD and XBRL from bLibraries
+                //We can export XSD and XBRL from bLibraries
                 else if (stereotype != null &&
                          (stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) ||
                           stereotype.Equals(CCTS_Types.bLibrary.ToString())))
@@ -1116,7 +1130,7 @@ namespace VIENNAAddIn
             {
                 #region Object Type : Diagram
 
-                var selectedDiagram = (Diagram) obj;
+                var selectedDiagram = (Diagram)obj;
 
                 //Get the diagram id in order to get the package, in which the diagram is located			
                 Element parentPackage = repository.GetPackageByID(selectedDiagram.PackageID).Element;
@@ -1137,15 +1151,15 @@ namespace VIENNAAddIn
                 }
 
                     //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
-                    //BIE definition
+                //BIE definition
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
-                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE using the Wizard");
+                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
                 }
-                    //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
-                    //QDT definition
+                //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
+                //QDT definition
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
@@ -1153,10 +1167,10 @@ namespace VIENNAAddIn
                 }
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
                 {
-                    VIENNAAddInTreeViewMenu.Add("Create new BD&T using the Wizard");
+                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
                 }
-                    //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
-                    //CDT definition
+                //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
+                //CDT definition
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
@@ -1168,7 +1182,7 @@ namespace VIENNAAddIn
             {
                 #region Object Type : Element
 
-                var element = (Element) obj;
+                var element = (Element)obj;
                 Element parentPackage = repository.GetPackageByID(element.PackageID).Element;
 
                 //if the stereotype of the package is "DOCLibrary" add a link to generate xsd from
@@ -1177,22 +1191,22 @@ namespace VIENNAAddIn
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
                 }
-                    //if the steroetype of the package is "ENUMLibrary" add a link to generate xsd from 
-                    //ENUM definition
+                //if the steroetype of the package is "ENUMLibrary" add a link to generate xsd from 
+                //ENUM definition
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.ENUMLibrary.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
                 }
-                    //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
-                    //BIE definition
+                //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
+                //BIE definition
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
                     VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
-                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE using the Wizard");
+                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
                 }
-                    //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
-                    //QDT definition
+                //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
+                //QDT definition
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
@@ -1200,10 +1214,10 @@ namespace VIENNAAddIn
                 }
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
                 {
-                    VIENNAAddInTreeViewMenu.Add("Create new BD&T using the Wizard");
+                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
                 }
-                    //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
-                    //CDT definition
+                //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
+                //CDT definition
                 else if (parentPackage.Stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
                 {
                     VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
@@ -1217,7 +1231,7 @@ namespace VIENNAAddIn
 
             //if (Utility.DEBUG)
             //    VIENNAAddInTreeViewMenu.Add("&Show PackageID");
-            return (String[]) VIENNAAddInTreeViewMenu.ToArray(typeof (String));
+            return (String[])VIENNAAddInTreeViewMenu.ToArray(typeof(String));
         }
 
         /// <summary>
@@ -1236,7 +1250,7 @@ namespace VIENNAAddIn
         private static String determineValidationScope(Repository repository, String menulocation)
         {
             String s = "";
-							
+
             if (menulocation == "TreeView")
             {
                 //Get the element in the tree view which was clicked
@@ -1244,16 +1258,16 @@ namespace VIENNAAddIn
                 ObjectType otype = repository.GetTreeSelectedItem(out obj);
 
                 //Now otype could be determined - show an error
-                if (!Enum.IsDefined(typeof (ObjectType), otype))
+                if (!Enum.IsDefined(typeof(ObjectType), otype))
                 {
                     //Should not occur
                     const string error = "Unable to determine object type of element.";
                     MessageBox.Show(error, "Error");
                 }
-                    //The user clicked on a package - try to determine the stereotype
+                //The user clicked on a package - try to determine the stereotype
                 else if (otype == ObjectType.otPackage)
                 {
-                    var p = (Package) obj;
+                    var p = (Package)obj;
                     //If the package has no superpackage, it must be the very top package
                     //-> if the very top package is clicked, ALL will be validated
                     bool hasParent = false;
@@ -1278,20 +1292,20 @@ namespace VIENNAAddIn
                         s = "" + p.PackageID;
                     }
                 }
-                    //In the treeview apart from a package the user can click on 
-                    // an element, a diagram, an attribute or a method
-                    //All of these cases are handled here
+                //In the treeview apart from a package the user can click on 
+                // an element, a diagram, an attribute or a method
+                //All of these cases are handled here
                 else
                 {
                     int packageID = 0;
 
                     if (otype == ObjectType.otElement)
-                        packageID = ((Element) obj).PackageID;
+                        packageID = ((Element)obj).PackageID;
                     else if (otype == ObjectType.otDiagram)
-                        packageID = ((Diagram) obj).PackageID;
+                        packageID = ((Diagram)obj).PackageID;
                     else if (otype == ObjectType.otAttribute)
                     {
-                        var att = (Attribute) obj;
+                        var att = (Attribute)obj;
                         //Get the element that this attribute is part of
                         Element el = repository.GetElementByID(att.ParentID);
                         //Get the package, where this element is located in
@@ -1299,7 +1313,7 @@ namespace VIENNAAddIn
                     }
                     else if (otype == ObjectType.otMethod)
                     {
-                        var meth = (Method) obj;
+                        var meth = (Method)obj;
                         //Get the the element, that this attribute is part of
                         Element el = repository.GetElementByID(meth.ParentID);
                         //Get the package, where this element is located in
@@ -1311,8 +1325,8 @@ namespace VIENNAAddIn
                     s = "" + p.PackageID;
                 }
             }
-                //If the users clicks into a diagram we must determine to which package
-                //the diagram belongs
+            //If the users clicks into a diagram we must determine to which package
+            //the diagram belongs
             else if (menulocation == "Diagram")
             {
                 int packageID = 0;
@@ -1321,9 +1335,9 @@ namespace VIENNAAddIn
                     Object obj;
                     ObjectType o = repository.GetContextItem(out obj);
                     if (o == ObjectType.otDiagram)
-                        packageID = ((Diagram) obj).PackageID;
+                        packageID = ((Diagram)obj).PackageID;
                     else if (o == ObjectType.otElement)
-                        packageID = ((Element) obj).PackageID;
+                        packageID = ((Element)obj).PackageID;
                 }
                 catch (Exception e)
                 {
@@ -1365,7 +1379,7 @@ namespace VIENNAAddIn
         /// MDG file (Profiles, Patterns) can be loaded successfully</returns>
         private static void SetAsUMM2Model(Repository repository)
         {
-            var pIssues = (ProjectIssues) repository.Issues.AddNew("UMM2Model", "Issue");
+            var pIssues = (ProjectIssues)repository.Issues.AddNew("UMM2Model", "Issue");
             pIssues.Update();
             repository.Issues.Refresh();
 
@@ -1393,7 +1407,7 @@ namespace VIENNAAddIn
             Collection pIssues = repository.Issues;
             for (short i = 0; i < pIssues.Count; i++)
             {
-                var pIssue = (ProjectIssues) pIssues.GetAt(i);
+                var pIssue = (ProjectIssues)pIssues.GetAt(i);
                 if (pIssue.Name.Equals("UMM2Model"))
                 {
                     pIssues.DeleteAt(i, true);

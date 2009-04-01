@@ -322,6 +322,12 @@
       <DependentUpon>BDTWizardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\Cache.cs" />
+    <Compile Include="upcc3\Wizards\GeneratorWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="upcc3\Wizards\GeneratorWizardForm.Designer.cs">
+      <DependentUpon>GeneratorWizardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\XSDGenerator\Generator\BDTSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\BIESchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\GenerationContext.cs" />
@@ -559,6 +565,10 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\BDTWizardForm.resx">
       <DependentUpon>BDTWizardForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="upcc3\Wizards\GeneratorWizardForm.resx">
+      <DependentUpon>GeneratorWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\AboutWindow.resx">

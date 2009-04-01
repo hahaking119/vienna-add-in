@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.groupboxSettings = new System.Windows.Forms.GroupBox();
+            this.textBDTPrefix = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.comboBDTLs = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBDTName = new System.Windows.Forms.TextBox();
@@ -46,8 +48,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonGenerateBDT = new System.Windows.Forms.Button();
-            this.textBDTPrefix = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.groupboxSettings.SuspendLayout();
             this.tabcontrolAttributes.SuspendLayout();
             this.tabAttributes.SuspendLayout();
@@ -77,6 +77,25 @@
             this.groupboxSettings.TabIndex = 3;
             this.groupboxSettings.TabStop = false;
             this.groupboxSettings.Text = "Settings";
+            // 
+            // textBDTPrefix
+            // 
+            this.textBDTPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBDTPrefix.Location = new System.Drawing.Point(215, 489);
+            this.textBDTPrefix.Name = "textBDTPrefix";
+            this.textBDTPrefix.Size = new System.Drawing.Size(220, 20);
+            this.textBDTPrefix.TabIndex = 11;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 492);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(171, 13);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Prefix used for the generated BDT:";
             // 
             // comboBDTLs
             // 
@@ -184,6 +203,7 @@
             this.checkedlistboxSUPs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkedlistboxSUPs.CheckOnClick = true;
             this.checkedlistboxSUPs.FormattingEnabled = true;
             this.checkedlistboxSUPs.Location = new System.Drawing.Point(11, 44);
             this.checkedlistboxSUPs.Name = "checkedlistboxSUPs";
@@ -263,25 +283,6 @@
             this.buttonGenerateBDT.Text = "&Generate BDT ...";
             this.buttonGenerateBDT.UseVisualStyleBackColor = true;
             this.buttonGenerateBDT.Click += new System.EventHandler(this.buttonGenerateBDT_Click);
-            // 
-            // textBDTPrefix
-            // 
-            this.textBDTPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBDTPrefix.Location = new System.Drawing.Point(215, 489);
-            this.textBDTPrefix.Name = "textBDTPrefix";
-            this.textBDTPrefix.Size = new System.Drawing.Size(220, 20);
-            this.textBDTPrefix.TabIndex = 11;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 492);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(171, 13);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Prefix used for the generated BDT:";
             // 
             // BDTWizardForm
             // 
