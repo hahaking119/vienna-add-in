@@ -47,7 +47,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<IASCC> ASCCs
         {
-            get { return Connectors.Where(Stereotype.IsASCC).Convert(c => (IASCC) new ASCC(repository, c, this)); }
+            get { return Connectors.Where(IsASCC).Convert(c => (IASCC) new ASCC(repository, c, this)); }
+        }
+
+        private bool IsASCC(Connector connector)
+        {
+            return (connector.ClientID == element.ElementID) && connector.IsASCC();
         }
 
         public IACC IsEquivalentTo

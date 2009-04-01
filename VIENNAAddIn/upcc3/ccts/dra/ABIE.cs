@@ -54,8 +54,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 return
-                    Connectors.Where(Stereotype.IsASBIE).Convert(c => (IASBIE) new ASBIE(repository, c, this));
+                    Connectors.Where(IsASBIE).Convert(c => (IASBIE) new ASBIE(repository, c, this));
             }
+        }
+
+        private bool IsASBIE(Connector connector)
+        {
+            return (connector.ClientID == element.ElementID) && connector.IsASBIE();
         }
 
         public IACC BasedOn
