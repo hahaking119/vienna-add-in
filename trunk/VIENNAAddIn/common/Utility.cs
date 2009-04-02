@@ -162,8 +162,7 @@ namespace VIENNAAddIn.common
         }
 
 
-
-        
+       
 
 
 
@@ -172,13 +171,13 @@ namespace VIENNAAddIn.common
         /// <summary>
         /// retrieves recursivly elements with a given stereotype
         /// </summary>
-        internal static IList<EA.Element> getAllElements(EA.Package package, IList<EA.Element> resultList, String stereotype)
+        internal static Dictionary<Int32, EA.Element> getAllElements(EA.Package package, Dictionary<Int32, EA.Element> resultList, String stereotype)
         {
             foreach (EA.Element e in package.Elements)
             {
                 if (e.Stereotype.Equals(stereotype))
                 {
-                    resultList.Add(e);
+                    resultList.Add(e.ElementID, e);
                 }
             }
             foreach (EA.Package p in package.Packages)

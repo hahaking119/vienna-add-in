@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VIENNAAddIn.constants;
+using VIENNAAddIn.common;
+using System.Collections;
 
 namespace VIENNAAddIn.validator.upcc3
 {
@@ -27,6 +29,7 @@ namespace VIENNAAddIn.validator.upcc3
 
             checkC514k(context, package);
 
+            checkC524a(context, package),
 
 
         }
@@ -65,6 +68,32 @@ namespace VIENNAAddIn.validator.upcc3
             {
                 context.AddValidationMessage(new ValidationMessage("Invalid package found in CCLibrary.", "A CCLibrary must not contain any sub packages. Please remove sub package " + subPackage.Name, "CCLibrary", ValidationMessage.errorLevelTypes.ERROR, d.PackageID));
             }
+
+        }
+
+
+        /// <summary>
+        /// An ACC shall not contain - directly or at any nested level - a mandatory ASCC whose associated ACC is the same as the top level ACC.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        private void checkC524a(IValidationContext context, EA.Package p)
+        {
+
+            //Get a list of all ACCs            
+            Dictionary<Int32, EA.Element> accs = null;
+            Utility.getAllElements(p, accs, UPCC.ACC.ToString());
+
+            if (accs == null) return;
+
+            IDictionaryEnumerator enumerator = accs.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                EA.Element e = (EA.Element)enumerator.Value;
+
+
+            }
+
 
         }
 
