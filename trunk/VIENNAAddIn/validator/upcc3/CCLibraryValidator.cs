@@ -29,7 +29,7 @@ namespace VIENNAAddIn.validator.upcc3
 
             checkC514k(context, package);
 
-            checkC524a(context, package),
+            checkC524a(context, package);
 
 
         }
