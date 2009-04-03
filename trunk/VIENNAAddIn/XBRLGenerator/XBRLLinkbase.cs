@@ -27,6 +27,24 @@ namespace VIENNAAddIn.XBRLGenerator
 {
     public partial class XBRLLinkbase : Form, GeneratorCallBackInterface
     {
+        private static XBRLLinkbase form;
+        public static void ShowForm(Repository repo, int diagramID)
+        {
+            if (form == null || form.IsDisposed)
+            {
+                form = new XBRLLinkbase(repo, diagramID);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(diagramID);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
+
         #region Variables
         private EA.Repository repository;
         private GeneratorCallBackInterface caller;

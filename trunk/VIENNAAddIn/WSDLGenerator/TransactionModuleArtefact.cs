@@ -17,6 +17,7 @@ using System.IO;
 using System.Xml;
 using System.Collections;
 using System.Text.RegularExpressions;
+using EA;
 using VIENNAAddIn.common;
 using VIENNAAddIn.CCTS;
 using VIENNAAddIn.Settings;
@@ -27,6 +28,25 @@ namespace VIENNAAddIn.WSDLGenerator
 {
     public partial class TransactionModuleArtefact : Form, GeneratorCallBackInterface
     {
+        private static TransactionModuleArtefact form;
+        public static void ShowForm(Repository repository, bool blnAnyLevel)
+        {
+            if (form == null || form.IsDisposed)
+            {
+                form = new TransactionModuleArtefact(repository, blnAnyLevel);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator();
+                form.Scope = repository.DetermineScope();
+                form.resetBlnAnyLevel(blnAnyLevel);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
         #region Variables
         private bool withGUI = true;
         private GeneratorCallBackInterface caller = null;
@@ -135,13 +155,13 @@ namespace VIENNAAddIn.WSDLGenerator
         #endregion
 
         #region Constructor
-        public TransactionModuleArtefact(EA.Repository repo, string scope, bool blnAnyLevel)
+        public TransactionModuleArtefact(Repository repo, bool blnAnyLevel)
         {
             InitializeComponent();
             
 
             this.repository = repo;
-            this.scope = scope;
+            this.Scope = repo.DetermineScope();
             this.blnAnyLevel = blnAnyLevel;
 
             this.setActivePackageLabel();
@@ -152,13 +172,20 @@ namespace VIENNAAddIn.WSDLGenerator
             bool blnAlias, GeneratorCallBackInterface caller)
         {
             this.repository = repository;
-            this.scope = scope;
+            this.Scope = scope;
             this.path = path;
             this.blnAnyLevel = false;
             this.blnBindingService = bindingService;
             this.blnAlias = blnAlias;
             this.caller = caller;
         }
+
+        public string Scope
+        {
+            get { return scope; }
+            set { scope = value; }
+        }
+
         #endregion
 
         #region Method BPEL Generator
@@ -166,7 +193,7 @@ namespace VIENNAAddIn.WSDLGenerator
         {
             setBPELPath();
 
-            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
+            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.Scope));
 
             string fileName = this.wsdlPath + "TM" + removeSpace(pkg.Name) + ".wsdl";
 
@@ -250,7 +277,7 @@ namespace VIENNAAddIn.WSDLGenerator
                 }
                 fullText = replaceValue(fullText);
 
-                EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
+                EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.Scope));
                 string tempPath = this.bpelPath + "Responder" + removeSpace(pkg.Name) + ".bpel";
 
                 //write BPEL file
@@ -311,7 +338,7 @@ namespace VIENNAAddIn.WSDLGenerator
                 //replace the variables
                 fullText = replaceValue(fullText);
 
-                EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
+                EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.Scope));
                 string tempPath = this.bpelPath + "Initiator" + removeSpace(pkg.Name) + ".bpel";
 
                 //write BPEL file
@@ -484,7 +511,7 @@ namespace VIENNAAddIn.WSDLGenerator
             this.namespace_TransactionModule = "urn:xml-gov-au:draft:tm:TransactionModule:0.1";
 
             this.WSDL_TM_FileLocation = "../WSDL/" + System.IO.Path.GetFileName(this.wsdlPath);
-            this.WSDL_BT_FileLocation = "../WSDL/" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
+            this.WSDL_BT_FileLocation = "../WSDL/" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name) + ".wsdl";
             this.WSDL_BS_FileLocation = "../WSDL/" + "GIEMBusinessSignal.wsdl";
             this.WSDL_TMM_FileLocation = "../WSDL/" + "GIEMTransactionModuleMessage.wsdl";
 
@@ -542,7 +569,7 @@ namespace VIENNAAddIn.WSDLGenerator
             this.namespace_TransactionModule = "urn:xml-gov-au:draft:tm:TransactionModule:0.1";
 
             this.WSDL_TM_FileLocation = "../WSDL/" + System.IO.Path.GetFileName(this.wsdlPath);
-            this.WSDL_BT_FileLocation = "../WSDL/" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
+            this.WSDL_BT_FileLocation = "../WSDL/" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name) + ".wsdl";
             this.WSDL_BS_FileLocation = "../WSDL/" + "GIEMBusinessSignal.wsdl";
             this.WSDL_TMM_FileLocation = "../WSDL/" + "GIEMTransactionModuleMessage.wsdl";
 
@@ -630,9 +657,8 @@ namespace VIENNAAddIn.WSDLGenerator
             this.blnCreateWSDLFolder = false;
         }
 
-        public void resetGenerator(String scope)
+        public void resetGenerator()
         {
-            this.scope = scope;
             this.progressBar1.Value = this.progressBar1.Minimum;
             this.statusTextBox.Text = "";
             this.setActivePackageLabel();
@@ -694,7 +720,7 @@ namespace VIENNAAddIn.WSDLGenerator
 
         private void setActivePackageLabel()
         {
-            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
+            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.Scope));
             this.selectedBusinessTransaction.Text = pkg.Name + "<<" + pkg.Element.Stereotype.ToString() + ">>";
         }
 
@@ -720,13 +746,13 @@ namespace VIENNAAddIn.WSDLGenerator
 
         private void btnGenerateTMArtefact_Click(object sender, EventArgs e)
         {
-            resetGenerator(scope);
+            resetGenerator();
             getCheckedOption(); 
 
             setBPELPath(); //for BPEL
             setPath(); //for TM WSDL
 
-            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
+            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.Scope));
 
             //check for input
             if (txtSavingPath.Text == "")
@@ -1007,7 +1033,7 @@ namespace VIENNAAddIn.WSDLGenerator
 
         private String getPackageName()
         {
-            return this.repository.GetPackageByID(Int32.Parse(this.scope)).Name;
+            return this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name;
         }
         #endregion
 
@@ -1073,7 +1099,7 @@ namespace VIENNAAddIn.WSDLGenerator
         #region Method Transaction Module Generator
         private void generateTransactionModule()
         {
-            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
+            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.Scope));
 
             this.sourceTransModule = this.path + @"WSDL\GIEMTransactionModuleMessage.wsdl";
             this.sourceBusTrans = this.path + @"WSDL\" + removeSpace(pkg.Name) + ".wsdl";
@@ -2072,7 +2098,7 @@ namespace VIENNAAddIn.WSDLGenerator
             //TO DO :
             //add namespace for importing business message which is not in the same namespace with WSDL
             addImportBusinessMessageNamespace(w);
-            w.WriteAttributeString("name", this.transModulePrefix.ToUpper() + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name));
+            w.WriteAttributeString("name", this.transModulePrefix.ToUpper() + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name));
             w.WriteAttributeString("", "targetNamespace", null, getNamespace().Replace(":bt:", ":" + this.transModulePrefix + ":"));
         }
 
@@ -2087,7 +2113,7 @@ namespace VIENNAAddIn.WSDLGenerator
         {
             this.wsdlPath = this.path + "WSDL" + @"\";
             this.schemaColPath = this.path + "Schemas" + @"\";
-            this.busTransPath = this.path + "WSDL" + @"\" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
+            this.busTransPath = this.path + "WSDL" + @"\" + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name) + ".wsdl";
             this.transModulePath = this.path + @"WSDL\GIEMTransactionModuleMessage.wsdl";
         }
 
@@ -2325,7 +2351,7 @@ namespace VIENNAAddIn.WSDLGenerator
         private string getSchemaCollectionFromBusTransaction()
         {
             string schemaLocation = "";
-            string filename = this.sourceBusTrans + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.scope)).Name) + ".wsdl";
+            string filename = this.sourceBusTrans + removeSpace(this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name) + ".wsdl";
             XmlTextReader reader = new XmlTextReader(filename);
             while (reader.Read())
             {
@@ -2436,7 +2462,7 @@ namespace VIENNAAddIn.WSDLGenerator
 
         private void getInitiatorResponderElement()
         {
-            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.scope));
+            EA.Package pkg = this.repository.GetPackageByID(Int32.Parse(this.Scope));
 
             //get element with stereotype <<BusinessTransaction>>
             foreach (EA.Element e in pkg.Elements)
@@ -2473,7 +2499,7 @@ namespace VIENNAAddIn.WSDLGenerator
                             catch
                             {
                                 string erroMsg = "Failed get the classifier of <<BusinessTransactionSwimlane>> that contains a <<RequestingBusinessActivity>> on package " +
-                                    this.repository.GetPackageByID(Int32.Parse(this.scope)).Name +
+                                    this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name +
                                     ". \nIt might be caused by losing reference to classifier or you miss setting it.";
                                 throw new Exception(erroMsg);
                             }
@@ -2498,7 +2524,7 @@ namespace VIENNAAddIn.WSDLGenerator
                             catch
                             {
                                 string errorMsg = "Failed to get the classifier of <<BusinessTransactionSwimlane>> that contains a <<RespondingBusinessActivity>> on package " +
-                                    this.repository.GetPackageByID(Int32.Parse(this.scope)).Name +
+                                    this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name +
                                     ". \nIt might be caused by losing reference to classifier or you miss setting it.";
                                 throw new Exception(errorMsg);
                             }
@@ -2523,7 +2549,7 @@ namespace VIENNAAddIn.WSDLGenerator
             if (!(swimlaneRequestExist) && !(swimlaneRespondExist))
             {
                 string errorMsg = "No element with stereotype <<BusinessTransactionSwimlane>> in package " +
-                    this.repository.GetPackageByID(Int32.Parse(this.scope)).Name +
+                    this.repository.GetPackageByID(Int32.Parse(this.Scope)).Name +
                     ".\n Can't continue to generate WSDL.";
                 throw new Exception(errorMsg);
             }

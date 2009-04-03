@@ -6,53 +6,64 @@ Licensed under GNU General Public License V3 http://gplv3.fsf.org/
 For further information on the VIENNAAddIn project please visit 
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-
-using System.Threading;
-using VIENNAAddIn.validator;
+using EA;
 using VIENNAAddIn.common.logging;
-using VIENNAAddIn.ErrorReporter;
 
 namespace VIENNAAddIn.validator
 {
     public partial class ValidatorForm : Form
     {
-        
+        private static ValidatorForm form;
 
-        //The scope upon which the validator is activated (an EA package ID)
-        private String scope;
         //The repository upon which the validator validates
-        private EA.Repository repository;
+        private Repository repository;
 
         private Boolean running = false;
+        private String scope;
 
         //The Validationmessages
         private List<ValidationMessage> validationMessages = new List<ValidationMessage>();
-        
-        public ValidatorForm(EA.Repository repository, String scope)
+
+        public ValidatorForm(Repository repository, String scope)
         {
             InitializeComponent();
-            
+
             this.scope = scope;
             this.repository = repository;
-           
-            setStatusText("Selected validation scope: " + getScopeInStatusBar(repository, scope) + " Press Start to invoke a validation run.");
+
+            setStatusText("Selected validation scope: " + getScopeInStatusBar(repository, scope) +
+                          " Press Start to invoke a validation run.");
 
             // initialize progress bar
-            this.progressBar.Maximum = 100;
-            this.progressBar.Minimum = 1;
-            this.progressBar.Value = 1;
-            this.progressBar.Step = 1; 
+            progressBar.Maximum = 100;
+            progressBar.Minimum = 1;
+            progressBar.Value = 1;
+            progressBar.Step = 1;
 
             // initialize timer ...
-            this.progressTimer.Tick += new EventHandler(progressTimer_Tick);
+            progressTimer.Tick += new EventHandler(progressTimer_Tick);
+        }
+
+        public static void ShowForm(Repository repository, string scope)
+        {
+            if (form == null || form.IsDisposed)
+            {
+                form = new ValidatorForm(repository, scope);
+                form.Show();
+            }
+            else
+            {
+                form.resetValidatorForm(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
         }
 
         /// <summary>
@@ -60,9 +71,9 @@ namespace VIENNAAddIn.validator
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void progressTimer_Tick(object sender, EventArgs e)
+        private void progressTimer_Tick(object sender, EventArgs e)
         {
-            this.progressBar.PerformStep(); 
+            progressBar.PerformStep();
         }
 
         /// <summary>
@@ -71,13 +82,13 @@ namespace VIENNAAddIn.validator
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void bworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void bworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // First, handle the case where an exception was thrown.
             if (e.Error != null)
-            {     
+            {
                 MessageBox.Show(e.Error.Message);
-                this.progressBar.Value = 1; 
+                progressBar.Value = 1;
             }
             else if (e.Cancelled)
             {
@@ -90,8 +101,8 @@ namespace VIENNAAddIn.validator
             }
             else
             {
-                this.progressTimer.Stop();
-                this.progressBar.Value = this.progressBar.Maximum; 
+                progressTimer.Stop();
+                progressBar.Value = progressBar.Maximum;
 
                 //Calculate the elapsed time
                 //                DateTime endTime = DateTime.Now;
@@ -102,7 +113,7 @@ namespace VIENNAAddIn.validator
             }
 
             // Enable the Start button.
-            this.startButton.Enabled = true;
+            startButton.Enabled = true;
         }
 
         /// <summary>
@@ -111,14 +122,14 @@ namespace VIENNAAddIn.validator
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void bworker_DoWork(object sender, DoWorkEventArgs e)
+        private void bworker_DoWork(object sender, DoWorkEventArgs e)
         {
             //Deactiveate Start Button
             setStatusText("Validation started. Please wait...");
 
             validationMessages.Clear();
 
-            var validationContext = new ValidationContext(repository);            
+            var validationContext = new ValidationContext(repository);
             validationContext.ValidationMessageAdded += HandleValidationMessageAdded;
             try
             {
@@ -129,16 +140,11 @@ namespace VIENNAAddIn.validator
             {
                 Logger.Log(ex.Message, LogType.ERROR);
                 // stop worker ...
-                this.bworker.CancelAsync();
+                bworker.CancelAsync();
                 //e.WorkerEventArgs.Cancel = true;
-                this.progressTimer.Stop();
-                
-               
-                
+                progressTimer.Stop();
             }
         }
-
-
 
         /// <summary>
         /// Handle Message Added Event
@@ -147,8 +153,7 @@ namespace VIENNAAddIn.validator
         /// <param name="e"></param>
         private void HandleValidationMessageAdded(object sender, ValidationMessageAddedEventArgs e)
         {
-            bworker.ReportProgress(0,e);                     
-                      
+            bworker.ReportProgress(0, e);
         }
 
         /// <summary>
@@ -158,18 +163,17 @@ namespace VIENNAAddIn.validator
         /// <param name="e"></param>
         private void bworker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            
-            ValidationMessageAddedEventArgs vma = (ValidationMessageAddedEventArgs)e.UserState;
-                
+            var vma = (ValidationMessageAddedEventArgs) e.UserState;
+
             validationMessages.AddRange(vma.Messages);
-            fillListView();  
+            fillListView();
         }
 
         /// <summary>
         /// Reset the validatorForm
         /// </summary>
-        public void resetValidatorForm(String scope) {
-
+        public void resetValidatorForm(String scope)
+        {
             setStatusText("Selected validation scope: " + getScopeInStatusBar(repository, scope));
             this.scope = scope;
 
@@ -180,9 +184,7 @@ namespace VIENNAAddIn.validator
             }
             //Reset the progress bar
             progressBar.Value = progressBar.Minimum;
-
         }
-
 
         private void startButton_Click(object sender, EventArgs e)
         {
@@ -202,7 +204,6 @@ namespace VIENNAAddIn.validator
                     progressTimer.Interval = 400;
                 }
 
-
                 //Set back the list view
                 //Delete the old validation messages
                 foreach (ListViewItem item in validationMessagesListView.Items)
@@ -212,18 +213,15 @@ namespace VIENNAAddIn.validator
                 //Reset the progress bar
                 progressBar.Value = progressBar.Minimum;
                 //Reset the message detail box
-                this.detailsBox.Clear();
+                detailsBox.Clear();
 
-
-                this.startButton.Enabled = false;
-                this.progressTimer.Start();
+                startButton.Enabled = false;
+                progressTimer.Start();
 
                 if (bworker.IsBusy)
                     bworker.CancelAsync();
 
                 bworker.RunWorkerAsync(validationMessages);
-
-
             }
             else
             {
@@ -233,21 +231,18 @@ namespace VIENNAAddIn.validator
             }
         }
 
-
-
         /// <summary>
         /// Fill the ListView with the Validationmessagedetails
         /// </summary>
         private void fillListView()
         {
-
-            this.validationMessagesListView.BeginUpdate();
+            validationMessagesListView.BeginUpdate();
 
             //Delete the old validation messages
-            foreach (ListViewItem item in validationMessagesListView.Items) {
+            foreach (ListViewItem item in validationMessagesListView.Items)
+            {
                 validationMessagesListView.Items.Remove(item);
             }
-
 
             //Iterate over the validation messages generated by the different validatiors
             //and add the message to the grid
@@ -255,11 +250,10 @@ namespace VIENNAAddIn.validator
             if (levelSelector.SelectedItem != null)
                 selectedLevel = levelSelector.SelectedItem.ToString();
 
-            if (this.validationMessages != null && this.validationMessages.Count != 0)
+            if (validationMessages != null && validationMessages.Count != 0)
             {
-
-                foreach (ValidationMessage message in this.validationMessages)
-                {                    
+                foreach (ValidationMessage message in validationMessages)
+                {
                     if (selectedLevel == "" || selectedLevel.ToUpper() == "ALL")
                     {
                         addValidationMessageToList(message);
@@ -279,26 +273,22 @@ namespace VIENNAAddIn.validator
                         if (message.ErrorLevel == ValidationMessage.errorLevelTypes.ERROR)
                             addValidationMessageToList(message);
                     }
-
                 }
             }
             else
             {
                 //No validation messages returned - the validation was successful
-                ValidationMessage successMessage = new ValidationMessage("No errors found.", "No errors were found in your model", "-", ValidationMessage.errorLevelTypes.INFO, 0);
+                var successMessage = new ValidationMessage("No errors found.", "No errors were found in your model", "-",
+                                                           ValidationMessage.errorLevelTypes.INFO, 0);
                 if (validationMessages == null)
                     validationMessages = new List<ValidationMessage>();
-                
-                this.validationMessages.Add(successMessage);
+
+                validationMessages.Add(successMessage);
                 addValidationMessageToList(successMessage);
             }
 
-            
-
-            this.validationMessagesListView.EndUpdate();
-
+            validationMessagesListView.EndUpdate();
         }
-
 
         /// <summary>
         /// Add the validationmessage to the validation message listview
@@ -306,7 +296,6 @@ namespace VIENNAAddIn.validator
         /// <param name="message"></param>
         private void addValidationMessageToList(ValidationMessage message)
         {
-
             //Depending on the warning level get the appropriate color
             Color c = getColor(message.ErrorLevel);
 
@@ -314,12 +303,11 @@ namespace VIENNAAddIn.validator
             String affectedView = message.AffectedView;
             int msgID = message.MessageID;
 
-            Font normalFont = new Font("Tahoma", 8);
-
+            var normalFont = new Font("Tahoma", 8);
 
             //Add a new ListViewItem with the appropriate format
             //Add the error level
-            ListViewItem item = new ListViewItem(new String[] { message.ErrorLevel.ToString() }, 0, Color.Black, c, normalFont);
+            var item = new ListViewItem(new String[] {message.ErrorLevel.ToString()}, 0, Color.Black, c, normalFont);
             item.UseItemStyleForSubItems = false;
             //Add the affectedView
             item.SubItems.Add(affectedView, Color.Black, c, normalFont);
@@ -328,16 +316,8 @@ namespace VIENNAAddIn.validator
             //Add the messageID for later retrieval of information in the detail box
             item.SubItems.Add(msgID.ToString(), Color.Black, c, normalFont);
 
-
-            this.validationMessagesListView.Items.Add(item);
-
+            validationMessagesListView.Items.Add(item);
         }
-
-
-
-
-
-        
 
         /// <summary>
         /// According to the errorlevel this method returns the backgroundcolor for the 
@@ -356,8 +336,6 @@ namespace VIENNAAddIn.validator
             else if (level == ValidationMessage.errorLevelTypes.INFO)
                 c = Color.FromArgb(152, 251, 152);
 
-
-
             return c;
         }
 
@@ -368,75 +346,61 @@ namespace VIENNAAddIn.validator
         /// <param name="e"></param>
         private void levelSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             //Clear the message detail box
-            this.detailsBox.Clear();
+            detailsBox.Clear();
             //Refill the list view
             fillListView();
         }
 
-
-
-
         private void errorLink_MouseClick(object sender, MouseEventArgs e)
         {
-
         }
-
- 
-
-
-
 
         /// <summary>
         /// Set the text of the status bar
         /// </summary>
         /// <param name="s"></param>
-        private void setStatusText(String s) {
+        private void setStatusText(String s)
+        {
             statusBar.Items["statusLabel"].Text = s;
         }
 
-        private void validationMessagesListView_ItemSelectionChanged_1(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void validationMessagesListView_ItemSelectionChanged_1(object sender,
+                                                                       ListViewItemSelectionChangedEventArgs e)
         {
             //Get the message id from the list
             //Through the message id, we can set the text of the detail message
             String s = "";
             try
             {
-                s = this.validationMessagesListView.SelectedItems[0].SubItems[3].Text;
+                s = validationMessagesListView.SelectedItems[0].SubItems[3].Text;
 
                 if (s != null)
                 {
-
-                    foreach (ValidationMessage vmsg in this.validationMessages)
+                    foreach (ValidationMessage vmsg in validationMessages)
                     {
-
                         if (vmsg.MessageID.ToString() == s)
                         {
-                            this.detailsBox.Clear();
+                            detailsBox.Clear();
                             setStatusText("Message selected.");
                             if (vmsg.MessageDetail == null || vmsg.MessageDetail == "")
                             {
-                                this.detailsBox.AppendText("No message detail.");
-                                
+                                detailsBox.AppendText("No message detail.");
                             }
                             else
                             {
-                                this.detailsBox.AppendText(vmsg.MessageDetail);
+                                detailsBox.AppendText(vmsg.MessageDetail);
                             }
                             break;
                         }
-
                     }
                 }
-
-
             }
-            catch (Exception exe) { 
-            };
+            catch (Exception exe)
+            {
+            }
+            ;
         }
-
-
 
         /// <summary>
         /// Return the full package name which is scheduled as root element for the next validation run
@@ -444,54 +408,56 @@ namespace VIENNAAddIn.validator
         /// <param name="repository"></param>
         /// <param name="scope"></param>
         /// <returns></returns>
-        private String getScopeInStatusBar(EA.Repository repository, String scope)
+        private String getScopeInStatusBar(Repository repository, String scope)
         {
-            
-    		String s = "";
+            String s = "";
 
-			if (scope == null || scope == "") {
-				s = "No scope determined.";
-			}
-			else if (scope.Equals("ROOT_UMM")) {
-				s = "Entire UMM model.";
-			}
+            if (scope == null || scope == "")
+            {
+                s = "No scope determined.";
+            }
+            else if (scope.Equals("ROOT_UMM"))
+            {
+                s = "Entire UMM model.";
+            }
             else if (scope.Equals("ROOT_UCC"))
             {
                 s = "Entire UPCC model.";
             }
-			else {
-				try {
-					int packageID = Int32.Parse(scope.Trim());
-					EA.Package p = repository.GetPackageByID(packageID);
-					s = "<<" + p.Element.Stereotype + ">> ";					
-					s += p.Name;
-				} catch (Exception e) {
-					s = "Illegal scope detected. Please restart valdiator.";
-				}
-			}
+            else
+            {
+                try
+                {
+                    int packageID = Int32.Parse(scope.Trim());
+                    Package p = repository.GetPackageByID(packageID);
+                    s = "<<" + p.Element.Stereotype + ">> ";
+                    s += p.Name;
+                }
+                catch (Exception e)
+                {
+                    s = "Illegal scope detected. Please restart valdiator.";
+                }
+            }
 
             return s;
-	
-
         }
 
         private void errorLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-
             String messageID = "";
             int packageID = 0;
             //Get the message ID of the errorneous element
             try
             {
-                messageID = this.validationMessagesListView.SelectedItems[0].SubItems[3].Text;
-                
+                messageID = validationMessagesListView.SelectedItems[0].SubItems[3].Text;
             }
-            catch (Exception exe) {}
-
+            catch (Exception exe)
+            {
+            }
 
             if (messageID != null && validationMessages != null)
             {
-                foreach (ValidationMessage vmsg in this.validationMessages)
+                foreach (ValidationMessage vmsg in validationMessages)
                 {
                     //Get the ID of the erroneous element
                     if (vmsg.MessageID.ToString() == messageID)
@@ -499,7 +465,6 @@ namespace VIENNAAddIn.validator
                         packageID = vmsg.AffectedPackageID;
                         break;
                     }
-
                 }
 
                 if (packageID != 0)
@@ -507,7 +472,7 @@ namespace VIENNAAddIn.validator
                     try
                     {
                         repository.ShowInProjectView(repository.GetPackageByID(packageID));
-                        this.setStatusText("Package containing the error is highlighted in the project explorer.");
+                        setStatusText("Package containing the error is highlighted in the project explorer.");
                     }
                     catch (Exception ex)
                     {
@@ -516,19 +481,13 @@ namespace VIENNAAddIn.validator
                 }
                 else
                 {
-                    this.setStatusText("There is no erroneous element associated with this message.");
+                    setStatusText("There is no erroneous element associated with this message.");
                 }
             }
             else
             {
-                this.setStatusText("There is no erroneous element associated with this message.");
+                setStatusText("There is no erroneous element associated with this message.");
             }
-
         }
-
-
-
-
-
     }
 }

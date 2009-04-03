@@ -54,15 +54,8 @@ namespace VIENNAAddIn
         private ImportPackage importFeature;
         private QDTGenerator qdtGenerator;
         private QDTWindow qdtWindow;
-        private SynchStereotypesForm synchStereotypesForm;
 
-        private TransactionModuleArtefact tmArtefact; //WSDL Generator
-
-        //UMM Validator window        
-        private ValidatorForm validatorForm;
-        private WSDLGenerator.WSDLGenerator wsdlGenerator;
         private XBRLGeneratorForm XbrlGeneratorForm;
-        private XBRLLinkbase xbrlLinkbaseGenerator;
         private DOCGenerator xsdGenerator;
 
         //Check Tagged Values window
@@ -230,13 +223,13 @@ namespace VIENNAAddIn
                         switch (menuitem)
                         {
                             case "&BPEL-XSLT Template Setting":
-                                new TemplateSetting().Show();
+                                TemplateSetting.ShowForm();
                                 break;
                             case "Synchronize &Tagged Values...":
-                                ShowSynchStereotypesForm();
+                                SynchStereotypesForm.ShowForm(repo);
                                 break;
                             case "Synch tagged value":
-                                new SynchTaggedValue(repo, determineScope(repo)).Show();
+                                SynchTaggedValue.ShowForm(repo);
                                 break;
                             case "&Set Model as UMM2/UPCC3 Model":
                                 try
@@ -256,13 +249,13 @@ namespace VIENNAAddIn
                                 }
                                 break;
                             case "&Create initial UMM 2 model structure":
-                                new InitialPackageStructureCreator(repo).Show();
+                                InitialPackageStructureCreator.ShowForm(repo);
                                 break;
                             case "&Options":
-                                new OptionsForm(repo).ShowDialog();
+                                OptionsForm.ShowForm(repo);
                                 break;
                             case "&Validate All - UMM2":
-                                ShowValidatorForm("ROOT_UMM");
+                                ValidatorForm.ShowForm(repo, "ROOT_UMM");
                                 break;
                             case "&Validate":
                                 {
@@ -278,60 +271,60 @@ namespace VIENNAAddIn
                                     }
                                     else
                                     {
-                                        ShowValidatorForm(scope);
+                                        ValidatorForm.ShowForm(repo, scope);
                                     }
                                 }
                                 break;
                             case "&Validate All - UPCC3":
-                                ShowValidatorForm("ROOT_UPCC");
+                                ValidatorForm.ShowForm(repo, "ROOT_UPCC");
                                 break;
                             case "&Generate WSDL from Business Transaction":
-                                ShowWSDLGenerator(determineScope(repo), false);
+                                WSDLGenerator.WSDLGenerator.ShowForm(repo, false);
                                 break;
                             case "&Generate all WSDL in BusinessChoreographyView":
-                                ShowWSDLGenerator(determineScope(repo), true);
+                                WSDLGenerator.WSDLGenerator.ShowForm(repo, true);
                                 break;
                             case "&Generate Transaction Module Artefacts":
-                                ShowTransactionModuleArtefact(determineScope(repo), false);
+                                TransactionModuleArtefact.ShowForm(repo, false);
                                 break;
                             case "&Generate ALL Transaction Module Artefacts":
-                                ShowTransactionModuleArtefact(determineScope(repo), true);
+                                TransactionModuleArtefact.ShowForm(repo, true);
                                 break;
                             case "&Generate XBRL Linkbase file":
                                 {
                                     Object obj;
                                     repo.GetTreeSelectedItem(out obj);
                                     int diagramID = ((Diagram) obj).DiagramID;
-                                    ShowXBRLLinkBaseGenerator(diagramID);
+                                    XBRLLinkbase.ShowForm(repo, diagramID);
                                 }
                                 break;
                             case "&Generate XBRL":
-                                ShowXBRLGeneratorForm(determineScope(repo));
+                                ShowXBRLGeneratorForm(repo.DetermineScope());
                                 break;
                             case "&Generate XSD":
-                                ShowBLGenerator(determineScope(repo));
+                                ShowBLGenerator(repo.DetermineScope());
                                 break;
                             case "&Generate XSD from DOC":
-                                ShowDOCGenerator(determineScope(repo));
+                                ShowDOCGenerator(repo.DetermineScope());
                                 break;
                             case "&Generate XSD from ENUM":
-                                ShowENUMGenerator(determineScope(repo));
+                                ShowENUMGenerator(repo.DetermineScope());
                                 break;
                             case "&Generate XSD from BIE":
-                                ShowBIEGenerator(determineScope(repo));
+                                ShowBIEGenerator(repo.DetermineScope());
                                 break;
                             case "&Generate XSD from QDT":
-                                ShowQDTGenerator(determineScope(repo));
+                                ShowQDTGenerator(repo.DetermineScope());
                                 break;
                             case "&Generate XSD from CDT":
-                                ShowCDTGenerator(determineScope(repo));
+                                ShowCDTGenerator(repo.DetermineScope());
                                 break;
                             case "&Generate XSD from CC":
-                                ShowCCGenerator(determineScope(repo));
+                                ShowCCGenerator(repo.DetermineScope());
                                 break;
                             case "&Create new Qualified Data Type":
                                 {
-                                    String scope = determineScope(repo);
+                                    String scope = repo.DetermineScope();
                                     if (CC_Utils.checkPackageConsistencyForQDT(repo, scope))
                                     {
                                         ShowQDTWindow(scope);
@@ -340,7 +333,7 @@ namespace VIENNAAddIn
                                 break;
                             case "&Create new Business Information Entity":
                                 {
-                                    String scope = determineScope(repo);
+                                    String scope = repo.DetermineScope();
                                     if (CC_Utils.checkPackageConsistencyForCC(repo, scope))
                                     {
                                         ShowCCWindow(scope);
@@ -360,10 +353,10 @@ namespace VIENNAAddIn
                                 }
                                 break;
                             case "&Export Package to CSV file":
-                                ShowExportPackage(determineScope(repo));
+                                ShowExportPackage(repo.DetermineScope());
                                 break;
                             case "&Import Package to CSV file":
-                                ShowImportPackage(determineScope(repo));
+                                ShowImportPackage(repo.DetermineScope());
                                 break;
                         }
                 }
@@ -435,71 +428,6 @@ namespace VIENNAAddIn
                 qdtWindow.Select();
                 qdtWindow.Focus();
                 qdtWindow.Show();
-            }
-        }
-
-        private void ShowXBRLLinkBaseGenerator(int diagramID)
-        {
-            if (xbrlLinkbaseGenerator == null || xbrlLinkbaseGenerator.IsDisposed)
-            {
-                xbrlLinkbaseGenerator = new XBRLLinkbase(repo, diagramID);
-                xbrlLinkbaseGenerator.Show();
-            }
-            else
-            {
-                xbrlLinkbaseGenerator.resetGenerator(diagramID);
-                xbrlLinkbaseGenerator.Select();
-                xbrlLinkbaseGenerator.Focus();
-                xbrlLinkbaseGenerator.Show();
-            }
-        }
-
-        private void ShowSynchStereotypesForm()
-        {
-            if (synchStereotypesForm == null || synchStereotypesForm.IsDisposed)
-            {
-                synchStereotypesForm = new SynchStereotypesForm(repo);
-                synchStereotypesForm.Show();
-            }
-            else
-            {
-                synchStereotypesForm.resetSynchStereotypesForm();
-                synchStereotypesForm.Select();
-                synchStereotypesForm.Focus();
-                synchStereotypesForm.Show();
-            }
-        }
-
-        private void ShowValidatorForm(string scope)
-        {
-            if (validatorForm == null || validatorForm.IsDisposed)
-            {
-                validatorForm = new ValidatorForm(repo, scope);
-                validatorForm.Show();
-            }
-            else
-            {
-                validatorForm.resetValidatorForm(scope);
-                validatorForm.Select();
-                validatorForm.Focus();
-                validatorForm.Show();
-            }
-        }
-
-        private void ShowTransactionModuleArtefact(string scope, bool blnAnyLevel)
-        {
-            if (tmArtefact == null || tmArtefact.IsDisposed)
-            {
-                tmArtefact = new TransactionModuleArtefact(repo, scope, blnAnyLevel);
-                tmArtefact.Show();
-            }
-            else
-            {
-                tmArtefact.resetGenerator(scope);
-                tmArtefact.resetBlnAnyLevel(blnAnyLevel);
-                tmArtefact.Select();
-                tmArtefact.Focus();
-                tmArtefact.Show();
             }
         }
 
@@ -632,23 +560,6 @@ namespace VIENNAAddIn
             }
         }
 
-        private void ShowWSDLGenerator(string scope, bool blnAnyLevel)
-        {
-            if (wsdlGenerator == null || wsdlGenerator.IsDisposed)
-            {
-                wsdlGenerator = new WSDLGenerator.WSDLGenerator(repo, scope, blnAnyLevel);
-                wsdlGenerator.Show();
-            }
-            else
-            {
-                wsdlGenerator.resetGenerator(scope);
-                wsdlGenerator.resetBlnAnyLevel(blnAnyLevel);
-                wsdlGenerator.Select();
-                wsdlGenerator.Focus();
-                wsdlGenerator.Show();
-            }
-        }
-
         /// <summary>
         /// Get MDG file path from registry and read it
         /// </summary>
@@ -664,22 +575,6 @@ namespace VIENNAAddIn
         #endregion
 
         #region Private Method
-
-        private static string determineScope(Repository repository)
-        {
-            Object obj;
-            switch (repository.GetTreeSelectedItem(out obj))
-            {
-                case ObjectType.otPackage:
-                    return ((Package) obj).PackageID.ToString();
-                case ObjectType.otDiagram:
-                    return ((Diagram) obj).PackageID.ToString();
-                case ObjectType.otElement:
-                    return ((Element) obj).PackageID.ToString();
-                default:
-                    return "";
-            }
-        }
 
         /// <summary>
         /// Get the AddIn Menu for the diagram context
@@ -1114,5 +1009,24 @@ namespace VIENNAAddIn
         }
 
         #endregion
+    }
+
+    internal static class EARepositoryExtensions
+    {
+        internal static string DetermineScope(this Repository repository)
+        {
+            Object obj;
+            switch (repository.GetTreeSelectedItem(out obj))
+            {
+                case ObjectType.otPackage:
+                    return ((Package)obj).PackageID.ToString();
+                case ObjectType.otDiagram:
+                    return ((Diagram)obj).PackageID.ToString();
+                case ObjectType.otElement:
+                    return ((Element)obj).PackageID.ToString();
+                default:
+                    return "";
+            }
+        }
     }
 }

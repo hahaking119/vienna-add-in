@@ -37,6 +37,11 @@ namespace VIENNAAddIn.WSDLGenerator.Setting
         #endregion
 
 
+        public static void ShowForm()
+        {
+            new TemplateSetting().Show();
+        }
+
         private void rbtBPELTemplate_Click(object sender, EventArgs e)
         {
             if (pnlBPELTemplate.Visible == false)
