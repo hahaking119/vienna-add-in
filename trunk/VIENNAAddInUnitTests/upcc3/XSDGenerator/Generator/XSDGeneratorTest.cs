@@ -25,14 +25,17 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator
     [TestFixture]
     public class XSDGeneratorTest
     {
-// ReSharper disable UnusedMember.Local
-        // file: e.g. XSDGeneratorTest.eap
-        private static Repository GetFileBasedEARepository(String file)
-// ReSharper restore UnusedMember.Local
+
+        /// <summary>
+        /// Load a repository file for testing.
+        /// </summary>
+        /// <param name="relativePath">Path to repository file, relative to the "testresources" directory, e.g. "XSDGeneratorTest.eap".</param>
+        /// <returns></returns>
+        private static Repository GetFileBasedEARepository(string relativePath)
         {
-            var repo = new Repository();
-            string repositoryFile = Directory.GetCurrentDirectory() + "\\..\\..\\testresources\\" + file;
+            string repositoryFile = PathToTestResource(relativePath);
             Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
+            var repo = new Repository();
             repo.OpenFile(repositoryFile);
             return repo;
         }

@@ -25,7 +25,7 @@ using System.Xml.Schema;
 
 namespace VIENNAAddIn.XBRLGenerator
 {
-    public partial class XBRLGenerator : Form
+    public partial class XBRLGeneratorForm : Form
     {
         private Repository repository;
         private String scope;
@@ -41,7 +41,7 @@ namespace VIENNAAddIn.XBRLGenerator
         private String path = "";
         private bool linkbase = false;
 
-        public XBRLGenerator(EA.Repository repository, String scope, bool annotate)
+        public XBRLGeneratorForm(EA.Repository repository, String scope, bool annotate)
         {
             DEBUG = Utility.DEBUG;
 
@@ -55,7 +55,7 @@ namespace VIENNAAddIn.XBRLGenerator
             this.setActivePackageLabel();
         }
 
-        public XBRLGenerator(EA.Repository repository, String scope, bool annotate, bool linkbase)
+        public XBRLGeneratorForm(EA.Repository repository, String scope, bool annotate, bool linkbase)
         {
             DEBUG = Utility.DEBUG;
 

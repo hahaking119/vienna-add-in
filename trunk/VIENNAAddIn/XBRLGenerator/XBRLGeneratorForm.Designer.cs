@@ -1,6 +1,8 @@
 namespace VIENNAAddIn.XBRLGenerator
 {
-    partial class XBRLGenerator
+    ///<summary>
+    ///</summary>
+    partial class XBRLGeneratorForm
     {
         /// <summary>
         /// Required designer variable.
