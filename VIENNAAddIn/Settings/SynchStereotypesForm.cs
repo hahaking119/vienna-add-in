@@ -12,6 +12,8 @@ namespace VIENNAAddIn.Settings
 {
     public partial class SynchStereotypesForm : Form
     {
+        private static SynchStereotypesForm synchStereotypesForm;
+
         //The repository which is checked
         private Repository repo;
 
@@ -20,6 +22,22 @@ namespace VIENNAAddIn.Settings
             InitializeComponent();
 
             this.repo = repository;
+        }
+
+        public static void ShowForm(Repository repository)
+        {
+            if (synchStereotypesForm == null || synchStereotypesForm.IsDisposed)
+            {
+                synchStereotypesForm = new SynchStereotypesForm(repository);
+                synchStereotypesForm.Show();
+            }
+            else
+            {
+                synchStereotypesForm.resetSynchStereotypesForm();
+                synchStereotypesForm.Select();
+                synchStereotypesForm.Focus();
+                synchStereotypesForm.Show();
+            }
         }
 
         public void resetSynchStereotypesForm()

@@ -24,19 +24,19 @@ namespace VIENNAAddIn.Setting
 
         #region Constructor
 
-        public SynchTaggedValue()
-        {
-            InitializeComponent();
-        }
-
-        public SynchTaggedValue(Repository repository, string scope)
+        public SynchTaggedValue(Repository repository)
         {
             InitializeComponent();
             this.repository = repository;
-            this.scope = scope;
+            scope = repository.DetermineScope();
         }
 
         #endregion
+
+        public static void ShowForm(Repository repository)
+        {
+            new SynchTaggedValue(repository).Show();
+        }
 
         private void SynchTaggedValue_Load(object sender, EventArgs e)
         {
