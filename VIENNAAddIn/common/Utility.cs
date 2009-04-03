@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
-
+using EA;
 using VIENNAAddIn.constants;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.validator;
@@ -566,7 +566,7 @@ namespace VIENNAAddIn.common
         /// should be retrieved, or null if all elements should be retrieved</param>
         /// <returns>a List containing all elements that correspond to the given
         /// criteria (stereotype)</returns>
-        private static IList getAllElements(EA.Package package, IList resultList, String stereotype)
+        internal static IList<EA.Element> getAllElements(EA.Package package, IList<EA.Element> resultList, String stereotype)
         {
             foreach (EA.Element e in package.Elements)
             {
@@ -1218,10 +1218,10 @@ namespace VIENNAAddIn.common
             EA.Package root = (EA.Package)repo.Models.GetAt(0);
             return getAllSubPackagesRecursively(root, new ArrayList(), null);
         }
-        internal static IList getAllElementsFromModel(EA.Repository repo)
+        internal static IList<Element> getAllElementsFromModel(EA.Repository repo)
         {
             EA.Package root = (EA.Package)repo.Models.GetAt(0);
-            return getAllElements(root, new ArrayList(), null);
+            return getAllElements(root, new List<EA.Element>(), null);
         }
         internal static IList getAllDiagramsFromModel(EA.Repository repo)
         {
