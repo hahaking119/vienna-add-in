@@ -100,9 +100,9 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.Update();
         }
 
-        public static void AddDependency(this Element element, string stereotype, string name, int supplierId, string lowerBound, string upperBound)
+        public static void AddDependency(this Element element, string stereotype, int supplierId, string lowerBound, string upperBound)
         {
-            element.AddConnector(ConnectorTypes.Dependency, stereotype, name, supplierId, AggregationKind.None, lowerBound, upperBound);
+            element.AddConnector(ConnectorTypes.Dependency, stereotype, "", supplierId, AggregationKind.None, lowerBound, upperBound);
         }
 
         public static void AddAggregation(this Element element, AggregationKind aggregationKind, string stereotype, string name, int supplierId, string lowerBound, string upperBound)
