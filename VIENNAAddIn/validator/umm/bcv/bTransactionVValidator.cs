@@ -143,9 +143,9 @@ namespace VIENNAAddIn.validator.umm.bcv
                 {
                     //Only associations and dependencies are allowed
                     if (
-                        !(con.Type == AssocationTypes.Association.ToString() ||
-                          con.Type == AssocationTypes.Dependency.ToString() ||
-                          con.Type == AssocationTypes.Realisation.ToString() || con.Type == "UseCase"))
+                        !(con.Type == AssociationTypes.Association.ToString() ||
+                          con.Type == AssociationTypes.Dependency.ToString() ||
+                          con.Type == AssociationTypes.Realisation.ToString() || con.Type == "UseCase"))
                     {
                         context.AddValidationMessage(new ValidationMessage("Violation of constraint C35.",
                                                                            "A BusinessTransactionUseCase MUST be associated with exactly two AuthorizedRoles via stereotyped binary participates associations.\n\nOnly assocations and dependencies are allowed. Invalid connection type found: " +

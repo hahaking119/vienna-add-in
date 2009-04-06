@@ -88,7 +88,7 @@ namespace VIENNAAddIn.validator.upcc3
                     new CDTLibraryValidator().validate(context, scope);
                 }
                 //CCLibrary
-                else if (stereotype == UPCC_Packages.CDTLibrary.ToString())
+                else if (stereotype == UPCC_Packages.CCLibrary.ToString())
                 {
                     new CCLibraryValidator().validate(context, scope);
                 }
