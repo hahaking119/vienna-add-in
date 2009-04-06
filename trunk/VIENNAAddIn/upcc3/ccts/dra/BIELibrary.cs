@@ -49,11 +49,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
             if (spec.BasedOn != null)
             {
-                abie.AddDependency(util.Stereotype.BasedOn, "basedOn", spec.BasedOn.Id, "1", "1");
+                abie.AddDependency(util.Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
             }
             if (spec.IsEquivalentTo != null)
             {
-                abie.AddDependency(util.Stereotype.IsEquivalentTo, "isEquivalentTo", spec.IsEquivalentTo.Id, "1", "1");
+                abie.AddDependency(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
             }
             if (spec.ASBIEs != null)
             {
