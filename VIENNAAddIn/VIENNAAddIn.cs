@@ -9,7 +9,6 @@ http://vienna-add-in.googlecode.com
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
@@ -29,7 +28,6 @@ using VIENNAAddIn.workflow;
 using VIENNAAddIn.WSDLGenerator;
 using VIENNAAddIn.WSDLGenerator.Setting;
 using VIENNAAddIn.XBRLGenerator;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn
 {
@@ -40,27 +38,7 @@ namespace VIENNAAddIn
      ComSourceInterfaces(typeof (VIENNAAddInEvents))]
     public class VIENNAAddIn : VIENNAAddInInterface
     {
-        #region Variables
-
         private static Repository repo;
-        private BIEGenerator bieGenerator;
-        private BusinessLibraryGenerator BLGenerator;
-        private CCGenerator ccGenerator;
-        private CCWindow ccWindow;
-        private CDTGenerator cdtGenerator;
-        private ENUMGenerator enumGenerator;
-
-        private ExportPackage exportFeature;
-        private ImportPackage importFeature;
-        private QDTGenerator qdtGenerator;
-        private QDTWindow qdtWindow;
-
-        private XBRLGeneratorForm XbrlGeneratorForm;
-        private DOCGenerator xsdGenerator;
-
-        //Check Tagged Values window
-
-        #endregion
 
         #region implement VIENNAAddInInterface
 
@@ -76,18 +54,25 @@ namespace VIENNAAddIn
         public void EA_GetMenuState(Repository repository, string menulocation, string menuname, string itemname,
                                     ref bool isEnabled, ref bool isChecked)
         {
-            bool isUmm2Model = IsUmm2Model(repo);
-            if (!isUmm2Model)
+            if (repo == null)
             {
                 isEnabled = false;
+                isChecked = false;
             }
-            if (itemname == "&Set Model as UMM2/UPCC3 Model")
+            else
             {
-                isChecked = isUmm2Model;
+                bool isUmm2Model = repo.IsUmm2Model();
+                if (itemname == "&Set Model as UMM2/UPCC3 Model")
+                {
+                    isEnabled = true;
+                    isChecked = isUmm2Model;
+                }
+                else
+                {
+                    isEnabled = isUmm2Model;
+                    isChecked = false;
+                }
             }
-
-            //Overridden for debug purposes
-            isEnabled = true;
         }
 
         /// <summary>
@@ -193,7 +178,7 @@ namespace VIENNAAddIn
 
         public object OnInitializeTechnologies(Repository repository)
         {
-            return LoadMDGFile();
+            return AddInSettings.LoadMDGFile();
         }
 
         /// <summary>
@@ -232,21 +217,7 @@ namespace VIENNAAddIn
                                 SynchTaggedValue.ShowForm(repo);
                                 break;
                             case "&Set Model as UMM2/UPCC3 Model":
-                                try
-                                {
-                                    if (IsUmm2Model(repo))
-                                    {
-                                        UnSetAsUMM2Model(repo);
-                                    }
-                                    else
-                                    {
-                                        SetAsUMM2Model(repo);
-                                    }
-                                }
-                                catch (COMException)
-                                {
-                                    MessageBox.Show("Please open a model first", "AddIn Error");
-                                }
+                                repo.ToggleUmm2ModelState();
                                 break;
                             case "&Create initial UMM 2 model structure":
                                 InitialPackageStructureCreator.ShowForm(repo);
@@ -255,28 +226,13 @@ namespace VIENNAAddIn
                                 OptionsForm.ShowForm(repo);
                                 break;
                             case "&Validate All - UMM2":
-                                ValidatorForm.ShowForm(repo, "ROOT_UMM");
+                                ValidatorForm.ShowForm(repo, "ROOT_UMM", menulocation);
                                 break;
                             case "&Validate":
-                                {
-                                    //First determine try to determine a UMM scope
-                                    string scope = determineValidationScope(repo, menulocation);
-                                    if (scope == "")
-                                    {
-                                        //TO DO - add additional routines here which i.e. try to determine
-                                        //a UPCC validation scope
-
-                                        MessageBox.Show(
-                                            "Unable to determine a validator for the selected diagram, element or package.");
-                                    }
-                                    else
-                                    {
-                                        ValidatorForm.ShowForm(repo, scope);
-                                    }
-                                }
+                                ValidatorForm.ShowForm(repo, null, menulocation);
                                 break;
                             case "&Validate All - UPCC3":
-                                ValidatorForm.ShowForm(repo, "ROOT_UPCC");
+                                ValidatorForm.ShowForm(repo, "ROOT_UPCC", menulocation);
                                 break;
                             case "&Generate WSDL from Business Transaction":
                                 WSDLGenerator.WSDLGenerator.ShowForm(repo, false);
@@ -291,52 +247,45 @@ namespace VIENNAAddIn
                                 TransactionModuleArtefact.ShowForm(repo, true);
                                 break;
                             case "&Generate XBRL Linkbase file":
-                                {
-                                    Object obj;
-                                    repo.GetTreeSelectedItem(out obj);
-                                    int diagramID = ((Diagram) obj).DiagramID;
-                                    XBRLLinkbase.ShowForm(repo, diagramID);
-                                }
+                                XBRLLinkbase.ShowForm(repo);
                                 break;
                             case "&Generate XBRL":
-                                ShowXBRLGeneratorForm(repo.DetermineScope());
+                                XBRLGeneratorForm.ShowForm(repo);
                                 break;
                             case "&Generate XSD":
-                                ShowBLGenerator(repo.DetermineScope());
+                                BusinessLibraryGenerator.ShowForm(repo);
                                 break;
                             case "&Generate XSD from DOC":
-                                ShowDOCGenerator(repo.DetermineScope());
+                                DOCGenerator.ShowForm(repo);
                                 break;
                             case "&Generate XSD from ENUM":
-                                ShowENUMGenerator(repo.DetermineScope());
+                                ENUMGenerator.ShowForm(repo);
                                 break;
                             case "&Generate XSD from BIE":
-                                ShowBIEGenerator(repo.DetermineScope());
+                                BIEGenerator.ShowForm(repo);
                                 break;
                             case "&Generate XSD from QDT":
-                                ShowQDTGenerator(repo.DetermineScope());
+                                QDTGenerator.ShowForm(repo);
                                 break;
                             case "&Generate XSD from CDT":
-                                ShowCDTGenerator(repo.DetermineScope());
+                                CDTGenerator.ShowForm(repo);
                                 break;
                             case "&Generate XSD from CC":
-                                ShowCCGenerator(repo.DetermineScope());
+                                CCGenerator.ShowForm(repo);
                                 break;
                             case "&Create new Qualified Data Type":
                                 {
-                                    String scope = repo.DetermineScope();
-                                    if (CC_Utils.checkPackageConsistencyForQDT(repo, scope))
+                                    if (CC_Utils.checkPackageConsistencyForQDT(repo))
                                     {
-                                        ShowQDTWindow(scope);
+                                        QDTWindow.ShowForm(repo);
                                     }
                                 }
                                 break;
                             case "&Create new Business Information Entity":
                                 {
-                                    String scope = repo.DetermineScope();
-                                    if (CC_Utils.checkPackageConsistencyForCC(repo, scope))
+                                    if (CC_Utils.checkPackageConsistencyForCC(repo))
                                     {
-                                        ShowCCWindow(scope);
+                                        CCWindow.ShowForm(repo);
                                     }
                                 }
                                 break;
@@ -347,16 +296,13 @@ namespace VIENNAAddIn
                                 new BDTWizardForm(repo).Show();
                                 break;
                             case "Generate &XML Schema":
-                                {
-//                                    GeneratorWizardForm GeneratorWizard = new GeneratorWizardForm { Repository = repository };
-                                    new GeneratorWizardForm(new CCRepository(repository)).Show();
-                                }
+                                new GeneratorWizardForm(new CCRepository(repository)).Show();
                                 break;
                             case "&Export Package to CSV file":
-                                ShowExportPackage(repo.DetermineScope());
+                                ExportPackage.ShowForm(repo);
                                 break;
                             case "&Import Package to CSV file":
-                                ShowImportPackage(repo.DetermineScope());
+                                ImportPackage.ShowForm(repo);
                                 break;
                         }
                 }
@@ -364,211 +310,6 @@ namespace VIENNAAddIn
             catch (Exception e)
             {
                 new ErrorReport(e.Message + "\n" + e.StackTrace, repo.LibraryVersion);
-            }
-        }
-
-        private void ShowImportPackage(string scope)
-        {
-            if (importFeature == null || importFeature.IsDisposed)
-            {
-                importFeature = new ImportPackage(repo, scope);
-                importFeature.Show();
-            }
-            else
-            {
-                importFeature.resetGenerator(scope);
-                importFeature.Select();
-                importFeature.Focus();
-                importFeature.Show();
-            }
-        }
-
-        private void ShowExportPackage(string scope)
-        {
-            if (exportFeature == null || exportFeature.IsDisposed)
-            {
-                exportFeature = new ExportPackage(repo, scope);
-                exportFeature.Show();
-            }
-            else
-            {
-                exportFeature.resetGenerator(scope);
-                exportFeature.Select();
-                exportFeature.Focus();
-                exportFeature.Show();
-            }
-        }
-
-        private void ShowCCWindow(string scope)
-        {
-            if (ccWindow == null || ccWindow.IsDisposed)
-            {
-                ccWindow = new CCWindow(repo, scope);
-                ccWindow.Show();
-            }
-            else
-            {
-                ccWindow.resetWindow(scope);
-                ccWindow.Select();
-                ccWindow.Focus();
-                ccWindow.Show();
-            }
-        }
-
-        private void ShowQDTWindow(string scope)
-        {
-            if (qdtWindow == null || qdtWindow.IsDisposed)
-            {
-                qdtWindow = new QDTWindow(repo, scope);
-                qdtWindow.Show();
-            }
-            else
-            {
-                qdtWindow.resetWindow(scope);
-                qdtWindow.Select();
-                qdtWindow.Focus();
-                qdtWindow.Show();
-            }
-        }
-
-        private void ShowCCGenerator(string scope)
-        {
-            if (ccGenerator == null || ccGenerator.IsDisposed)
-            {
-                ccGenerator = new CCGenerator(repo, scope, false);
-                ccGenerator.Show();
-            }
-            else
-            {
-                ccGenerator.resetGenerator(scope);
-                ccGenerator.Select();
-                ccGenerator.Focus();
-                ccGenerator.Show();
-            }
-        }
-
-        private void ShowCDTGenerator(string scope)
-        {
-            if (cdtGenerator == null || cdtGenerator.IsDisposed)
-            {
-                cdtGenerator = new CDTGenerator(repo, scope, false);
-                cdtGenerator.Show();
-            }
-            else
-            {
-                cdtGenerator.resetGenerator(scope);
-                cdtGenerator.Select();
-                cdtGenerator.Focus();
-                cdtGenerator.Show();
-            }
-        }
-
-        private void ShowQDTGenerator(string scope)
-        {
-            if (qdtGenerator == null || qdtGenerator.IsDisposed)
-            {
-                qdtGenerator = new QDTGenerator(repo, scope, true);
-                qdtGenerator.Show();
-            }
-            else
-            {
-                qdtGenerator.resetGenerator(scope);
-                qdtGenerator.Select();
-                qdtGenerator.Focus();
-                qdtGenerator.Show();
-            }
-        }
-
-        private void ShowBIEGenerator(string scope)
-        {
-            if (bieGenerator == null || bieGenerator.IsDisposed)
-            {
-                bieGenerator = new BIEGenerator(repo, scope, true);
-                bieGenerator.Show();
-            }
-            else
-            {
-                bieGenerator.resetGenerator(scope);
-                bieGenerator.Select();
-                bieGenerator.Focus();
-                bieGenerator.Show();
-            }
-        }
-
-        private void ShowENUMGenerator(string scope)
-        {
-            if (enumGenerator == null || enumGenerator.IsDisposed)
-            {
-                enumGenerator = new ENUMGenerator(repo, scope, false);
-                enumGenerator.Show();
-            }
-            else
-            {
-                enumGenerator.resetGenerator(scope);
-                enumGenerator.Select();
-                enumGenerator.Focus();
-                enumGenerator.Show();
-            }
-        }
-
-        private void ShowDOCGenerator(string scope)
-        {
-            if (xsdGenerator == null || xsdGenerator.IsDisposed)
-            {
-                xsdGenerator = new DOCGenerator(repo, scope, true);
-                xsdGenerator.Show();
-            }
-            else
-            {
-                xsdGenerator.resetGenerator(scope);
-                xsdGenerator.fillChoiceBox();
-                xsdGenerator.Select();
-                xsdGenerator.Focus();
-                xsdGenerator.Show();
-            }
-        }
-
-        private void ShowBLGenerator(string scope)
-        {
-            if (BLGenerator == null || BLGenerator.IsDisposed)
-            {
-                BLGenerator = new BusinessLibraryGenerator(repo, scope, true);
-                BLGenerator.Show();
-            }
-            else
-            {
-                BLGenerator.resetGenerator(scope);
-                BLGenerator.Select();
-                BLGenerator.Focus();
-                BLGenerator.Show();
-            }
-        }
-
-        private void ShowXBRLGeneratorForm(string scope)
-        {
-            if (XbrlGeneratorForm == null || XbrlGeneratorForm.IsDisposed)
-            {
-                XbrlGeneratorForm = new XBRLGeneratorForm(repo, scope, true);
-                XbrlGeneratorForm.Show();
-            }
-            else
-            {
-                XbrlGeneratorForm.resetGenerator(scope);
-                XbrlGeneratorForm.Select();
-                XbrlGeneratorForm.Focus();
-                XbrlGeneratorForm.Show();
-            }
-        }
-
-        /// <summary>
-        /// Get MDG file path from registry and read it
-        /// </summary>
-        /// <returns>MDG in string</returns>
-        private static string LoadMDGFile()
-        {
-            using (TextReader reader = new StreamReader(AddInSettings.MDGFilePath))
-            {
-                return reader.ReadToEnd();
             }
         }
 
@@ -814,219 +555,6 @@ namespace VIENNAAddIn
             return (String[]) VIENNAAddInTreeViewMenu.ToArray(typeof (String));
         }
 
-        /// <summary>
-        /// Depending on the area, where the user clicks "Validate", a different scope of the model
-        /// is validated.
-        /// For instance, a validation can be restricted to a certain view, or a certain diagram
-        /// 
-        /// 
-        /// Comment by pl:
-        /// Clearly the method could have been optimized in terms of eliminating re-occuring code.
-        /// However re-occuring code was left for the sake of lucidity.
-        /// </summary>
-        /// <param name="repository"></param>
-        /// <param name="menulocation"></param>
-        /// <returns></returns>
-        private static String determineValidationScope(Repository repository, String menulocation)
-        {
-            String s = "";
-
-            if (menulocation == "TreeView")
-            {
-                //Get the element in the tree view which was clicked
-                Object obj;
-                ObjectType otype = repository.GetTreeSelectedItem(out obj);
-
-                //Now otype could be determined - show an error
-                if (!Enum.IsDefined(typeof (ObjectType), otype))
-                {
-                    //Should not occur
-                    const string error = "Unable to determine object type of element.";
-                    MessageBox.Show(error, "Error");
-                }
-                    //The user clicked on a package - try to determine the stereotype
-                else if (otype == ObjectType.otPackage)
-                {
-                    var p = (Package) obj;
-                    //If the package has no superpackage, it must be the very top package
-                    //-> if the very top package is clicked, ALL will be validated
-                    bool hasParent = false;
-                    try
-                    {
-                        int dummy = p.ParentID;
-                        if (dummy != 0)
-                            hasParent = true;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine("Error checking for superpackage (" + e.Message + ")");
-                    }
-
-                    if (!hasParent)
-                    {
-                        int rootModelPackageID = ((Package) (repository.Models.GetAt(0))).PackageID;
-                        s = "" + rootModelPackageID;
-                    }
-                    else
-                    {
-                        s = "" + p.PackageID;
-                    }
-                }
-                    //In the treeview apart from a package the user can click on 
-                    // an element, a diagram, an attribute or a method
-                    //All of these cases are handled here
-                else
-                {
-                    int packageID = 0;
-
-                    if (otype == ObjectType.otElement)
-                        packageID = ((Element) obj).PackageID;
-                    else if (otype == ObjectType.otDiagram)
-                        packageID = ((Diagram) obj).PackageID;
-                    else if (otype == ObjectType.otAttribute)
-                    {
-                        var att = (Attribute) obj;
-                        //Get the element that this attribute is part of
-                        Element el = repository.GetElementByID(att.ParentID);
-                        //Get the package, where this element is located in
-                        packageID = el.PackageID;
-                    }
-                    else if (otype == ObjectType.otMethod)
-                    {
-                        var meth = (Method) obj;
-                        //Get the the element, that this attribute is part of
-                        Element el = repository.GetElementByID(meth.ParentID);
-                        //Get the package, where this element is located in
-                        packageID = el.PackageID;
-                    }
-                    //Get the package					 
-                    Package p = repository.GetPackageByID(packageID);
-
-                    s = "" + p.PackageID;
-                }
-            }
-                //If the users clicks into a diagram we must determine to which package
-                //the diagram belongs
-            else if (menulocation == "Diagram")
-            {
-                int packageID = 0;
-                try
-                {
-                    Object obj;
-                    ObjectType o = repository.GetContextItem(out obj);
-                    if (o == ObjectType.otDiagram)
-                        packageID = ((Diagram) obj).PackageID;
-                    else if (o == ObjectType.otElement)
-                        packageID = ((Element) obj).PackageID;
-                }
-                catch (Exception e)
-                {
-                    Debug.Write("Exception while determining Menulocation (" + e.Message + ")");
-                }
-
-                if (packageID != 0)
-                {
-                    //To which package does this diagram belong?
-                    Package p = repository.GetPackageByID(packageID);
-
-                    s = "" + p.PackageID;
-                }
-            }
-
-            return s;
-        }
-
-        private static bool IsUmm2Model(Repository repository)
-        {
-            if (repository == null)
-            {
-                return false;
-            }
-            foreach (ProjectIssues issue in repository.Issues)
-            {
-                if (issue.Name.Equals("UMM2Model"))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// defines a normal EA model as an UMM2 model. An "Issue" is added to the repository object,
-        /// which marks the model permanently until the user chooses to revert the setting. Also
-        /// an MDG file is loaded, which contains the UMM2 Profile and the UMM2 Standard Transaction
-        /// Patterns
-        /// </summary>
-        /// <param name="repository">the model, which should be marked as UMM2 model</param>
-        /// <returns>true if the model can be successfully marked and the relevant 
-        /// MDG file (Profiles, Patterns) can be loaded successfully</returns>
-        private static void SetAsUMM2Model(Repository repository)
-        {
-            var pIssues = (ProjectIssues) repository.Issues.AddNew("UMM2Model", "Issue");
-            pIssues.Update();
-            repository.Issues.Refresh();
-
-            try
-            {
-                repository.ImportTechnology(LoadMDGFile());
-                MessageBox.Show("This Model is now defined as an UMM2/UPCC3 Model", "AddIn");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("The following exception occured while loading the MDG File: " + e.Message,
-                                "AddIn Error");
-                UnSetAsUMM2Model(repository);
-            }
-        }
-
-        /// <summary>
-        /// Unmark an EA Model, which has previously defined as an UMM2 Model. This operation
-        /// also unloads the MDG technology file, which contains the UMM2 Profile and the UMM2
-        /// Standard transaction patterns
-        /// </summary>
-        /// <param name="repository">the model which shouldnt be marked as UMM2 Model any longer</param>
-        /// <returns>true, if the model can be successfully unmarked</returns>
-        private static void UnSetAsUMM2Model(Repository repository)
-        {
-            Collection pIssues = repository.Issues;
-            for (short i = 0; i < pIssues.Count; i++)
-            {
-                var pIssue = (ProjectIssues) pIssues.GetAt(i);
-                if (pIssue.Name.Equals("UMM2Model"))
-                {
-                    pIssues.DeleteAt(i, true);
-                    MessageBox.Show("Model is not defined as an UMM2/UPCC3 Model any longer", "AddIn");
-                    break;
-                }
-            }
-            if (!repository.DeleteTechnology("UMM2FoundV2"))
-            {
-                MessageBox.Show(
-                    "The MDG Technology File, which contains the UMM2 Profile and some Patterns could not be unloaded",
-                    "AddIn Error");
-            }
-        }
-
         #endregion
-    }
-
-    internal static class EARepositoryExtensions
-    {
-        internal static string DetermineScope(this Repository repository)
-        {
-            Object obj;
-            switch (repository.GetTreeSelectedItem(out obj))
-            {
-                case ObjectType.otPackage:
-                    return ((Package)obj).PackageID.ToString();
-                case ObjectType.otDiagram:
-                    return ((Diagram)obj).PackageID.ToString();
-                case ObjectType.otElement:
-                    return ((Element)obj).PackageID.ToString();
-                default:
-                    return "";
-            }
-        }
     }
 }

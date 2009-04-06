@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Text;
 using System.Windows.Forms;
+using EA;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.constants;
 using VIENNAAddIn.common;
@@ -25,9 +26,8 @@ namespace VIENNAAddIn.CCTS {
         /// Checks the consistency of a Core Component Model
         /// </sUMM2ary>
         /// <param name="repo"></param>
-        /// <param name="scope"></param>
         /// <returns></returns>
-        internal static bool checkPackageConsistencyForQDT(EA.Repository repo, String scope) {
+        internal static bool checkPackageConsistencyForQDT(Repository repo) {
             //Get the BCSS package
 
             IList sourceCDTLibaries = new ArrayList();
@@ -53,9 +53,8 @@ namespace VIENNAAddIn.CCTS {
         /// Checks the consistency of a Core Component Model
         /// </sUMM2ary>
         /// <param name="repo"></param>
-        /// <param name="scope"></param>
         /// <returns></returns>
-        internal static bool checkPackageConsistencyForCC(EA.Repository repo, String scope) {
+        internal static bool checkPackageConsistencyForCC(Repository repo) {
             //Get the BCSS package
             
             IList sourceCCLibaries = new ArrayList();

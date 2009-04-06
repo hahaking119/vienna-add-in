@@ -25,6 +25,24 @@ using EA;
 namespace VIENNAAddIn.CCTS {
     public partial class CDTGenerator : Form, GeneratorCallBackInterface
     {
+        private static CDTGenerator form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new CDTGenerator(repository, scope, false);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
 
 
         #region Variables
