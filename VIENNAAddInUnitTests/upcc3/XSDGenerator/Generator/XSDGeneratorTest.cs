@@ -149,7 +149,7 @@ Actual output file: {2}",
         public void TestBDTSchemaGenerator()
         {
             var ccRepository = new CCRepository(new EARepository2());
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true);
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, "C:\\dump\\");
             BDTSchemaGenerator.GenerateXSD(context,
                                            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBDTs(context,
                                                                                                              null));
@@ -163,7 +163,7 @@ Actual output file: {2}",
         public void TestBIESchemaGenerator()
         {
             var ccRepository = new CCRepository(new EARepository2());
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true);
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, "C:\\dump\\");
             BIESchemaGenerator.GenerateXSD(context,
                                            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBIEs(context,
                                                                                                              null));
@@ -188,7 +188,7 @@ Actual output file: {2}",
         public void TestRootSchemaGenerator()
         {
             var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true);
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "eb", true, "C:\\dump\\");
             RootSchemaGenerator.GenerateXSD(context, ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary));
             Assert.AreEqual(1, context.Schemas.Count);
             XmlSchema schema = context.Schemas[0].Schema;
@@ -197,7 +197,21 @@ Actual output file: {2}",
         }
 
         [Test]
-        public void TestStreadReaderExtensions()
+        public void TestSchemaGenerator()
+        {
+            var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
+            var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), "ebInterface", "eb", true, "C:\\dump\\");
+            Assert.AreEqual(3, context.Schemas.Count);
+            XmlSchema schema = context.Schemas[0].Schema;
+            schema.Write(Console.Out);
+            schema = context.Schemas[1].Schema;
+            schema.Write(Console.Out);
+            schema = context.Schemas[2].Schema;
+            schema.Write(Console.Out);
+        }
+
+        [Test]
+        public void TestStreamReaderExtensions()
         {
             var streamReader = new StreamReader(PathToTestResource("StreamReaderExtensionsTest.txt"));
             var chars = new List<int>(streamReader.Characters());
