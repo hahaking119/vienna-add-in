@@ -703,6 +703,26 @@ namespace VIENNAAddIn.common
             }
             return elements;
         }
+
+        /// <sUMM2ary>
+        /// retrieves all elements from a given package
+        /// </sUMM2ary>
+        /// <param name="repo">the repository</param>
+        /// <param name="scope">the package</param>
+        /// <returns>a list with all elements from the package with the given ID</returns>
+        internal static IList getAllElementsFromPackage(EA.Repository repo, EA.Package package)
+        {
+            IList elements = new ArrayList();
+            foreach (EA.Element element in package.Elements)
+            {
+                elements.Add(element);
+            }
+            return elements;
+        }
+
+
+
+
         /// <sUMM2ary>
         /// returns all packages from a given package
         /// </sUMM2ary>
@@ -1204,6 +1224,7 @@ namespace VIENNAAddIn.common
         {
             foreach (EA.TaggedValue tv in package.Element.TaggedValuesEx)
             {
+                String s = tv.Name;
                 if (tv.Name.Equals(nameOfTV))
                 {
                     return tv;
@@ -1211,6 +1232,117 @@ namespace VIENNAAddIn.common
             }
             return null;
         }
+
+
+
+        /// <sUMM2ary>
+        /// retrieves a tagged value from a connector
+        /// </sUMM2ary>
+        /// <param name="element">the connector to which the seeked tagged value belongs</param>
+        /// <param name="nameOfTV">the name of the tagged value that is seeked</param>
+        /// <returns>the tagged value object if a tagged value with the given name is found, null
+        /// if the tagged value cannot be found</returns>
+        internal static EA.IConnectorTag getTaggedValue(EA.Connector connector, String nameOfTV)
+        {
+
+            foreach (EA.IConnectorTag tv in connector.TaggedValues)
+            {
+                String s = tv.Name.ToString();
+                if (tv.Name.Equals(nameOfTV))
+                {
+                    
+                    return tv;
+                }
+            }
+            return null;
+        }
+
+        /// <sUMM2ary>
+        /// retrieves a tagged value from an element
+        /// </sUMM2ary>
+        /// <param name="element">the element to which the seeked tagged value belongs</param>
+        /// <param name="nameOfTV">the name of the tagged value that is seeked</param>
+        /// <returns>the tagged value object if a tagged value with the given name is found, null
+        /// if the tagged value cannot be found</returns>
+        internal static EA.TaggedValue getTaggedValue(EA.Element element, String nameOfTV)
+        {
+            foreach (EA.TaggedValue tv in element.TaggedValuesEx)
+            {
+                String s = tv.Name;
+                if (tv.Name.Equals(nameOfTV))
+                {
+                    return tv;
+                }
+            }
+            return null;
+        }
+
+
+
+        /// <sUMM2ary>
+        /// retrieves a tagged value from an attribute
+        /// </sUMM2ary>
+        /// <param name="element">the attribute to which the seeked tagged value belongs</param>
+        /// <param name="nameOfTV">the name of the tagged value that is seeked</param>
+        /// <returns>the tagged value object if a tagged value with the given name is found, null
+        /// if the tagged value cannot be found</returns>
+        internal static EA.AttributeTag getTaggedValue(EA.Attribute attribute, String nameOfTV)
+        {
+            foreach (EA.AttributeTag tv in attribute.TaggedValues)
+            {
+                String s = tv.Name;
+                if (tv.Name.Equals(nameOfTV))
+                {
+                    return tv;
+                }
+            }
+            return null;
+        }
+
+
+
+
+        /// <summary>
+        /// Find the key in a given dictionary using the value
+        /// </summary>
+        /// <param name="lookup"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        internal static int findKey(IDictionary<Int32, string> lookup, string value)
+        {
+            foreach (var pair in lookup)
+            {
+                if (pair.Value == value)
+                {
+                    return pair.Key;
+                }                
+            }
+            return 0;
+
+        }
+
+
+
+        /// <summary>
+        /// Find the key in a given dictionary using the value
+        /// </summary>
+        /// <param name="lookup"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        internal static string findKey(IDictionary<string, string> lookup, string value)
+        {
+            foreach (var pair in lookup)
+            {
+                if (pair.Value == value)
+                {
+                    return pair.Key;
+                }
+            }
+            return null;
+
+        }
+
+
 
 
         internal static IList getAllPackagesFromModel(EA.Repository repo)

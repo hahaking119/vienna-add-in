@@ -248,8 +248,8 @@ namespace VIENNAAddIn.validator.umm.brv
                 {
                     //Only associations or dependencies are allowed
                     if (
-                        !(con.Type == AssocationTypes.Association.ToString() ||
-                          con.Type == AssocationTypes.Dependency.ToString()))
+                        !(con.Type == AssociationTypes.Association.ToString() ||
+                          con.Type == AssociationTypes.Dependency.ToString()))
                     {
                         context.AddValidationMessage(new ValidationMessage("Violation of constraint C12",
                                                                            "A BusinessProcessUseCase MUST be associated with one to many BusinessPartners using the participates relationship. \n\nInvalid connection (" +
@@ -326,8 +326,8 @@ namespace VIENNAAddIn.validator.umm.brv
                 {
                     //Only associations or dependencies are allowed
                     if (
-                        !(con.Type == AssocationTypes.Association.ToString() ||
-                          con.Type == AssocationTypes.Dependency.ToString()))
+                        !(con.Type == AssociationTypes.Association.ToString() ||
+                          con.Type == AssociationTypes.Dependency.ToString()))
                     {
                         context.AddValidationMessage(new ValidationMessage("Violation of constraint C13",
                                                                            "A BusinessProcessUseCase MAY be associated with zero to many Stakeholders using the isOfInterestTo relationship. \n\nInvalid connection (" +

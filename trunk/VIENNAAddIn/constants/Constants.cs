@@ -14,15 +14,6 @@ using System.Text;
 namespace VIENNAAddIn.constants
 { 
 
-    internal enum AssocationTypes
-    {
-
-        Association,
-        Dependency,
-        Realisation
-    }
-
-
     internal enum TaggedValues
     {
 
@@ -149,8 +140,15 @@ namespace VIENNAAddIn.constants
         CDTLibrary,
         DOCLibrary,
         ENUMLibrary,
-        PRIMLibrary
+        PRIMLibrary,
+        isEquivalentTo,
+        
+    }
 
+    internal enum UPCC_TV
+    {
+        dictionaryEntryName,
+        uniqueIdentifier
     }
 
 
@@ -235,6 +233,7 @@ namespace VIENNAAddIn.constants
         Dependency,
         Aggregation,
         Extends,
+        Realisation,
         include,
         Includes,
         NoteLink,
