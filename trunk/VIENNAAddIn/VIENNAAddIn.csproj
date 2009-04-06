@@ -195,6 +195,7 @@
     <Compile Include="common\logging\LogType.cs" />
     <Compile Include="common\Utility.cs" />
     <Compile Include="constants\Constants.cs" />
+    <Compile Include="EARepositoryExtensions.cs" />
     <Compile Include="ErrorReporter\ErrorReporterForm.cs">
       <SubType>Form</SubType>
     </Compile>

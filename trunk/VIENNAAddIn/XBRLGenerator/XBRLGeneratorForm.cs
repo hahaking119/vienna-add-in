@@ -27,6 +27,24 @@ namespace VIENNAAddIn.XBRLGenerator
 {
     public partial class XBRLGeneratorForm : Form
     {
+        private static XBRLGeneratorForm form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new XBRLGeneratorForm(repository, scope, true);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
         private Repository repository;
         private String scope;
         private Boolean annotate;

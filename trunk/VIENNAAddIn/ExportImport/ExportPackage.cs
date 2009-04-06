@@ -14,11 +14,30 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using EA;
 
 namespace VIENNAAddIn.ExportImport
 {
     public partial class ExportPackage : Form
     {
+        private static ExportPackage form;
+        public static void ShowForm(Repository repository)
+        {
+            string scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new ExportPackage(repository, scope);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
         #region Variable
         private EA.Repository repository;
         private string scope = "";

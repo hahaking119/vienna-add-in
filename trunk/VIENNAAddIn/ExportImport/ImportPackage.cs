@@ -21,6 +21,24 @@ namespace VIENNAAddIn.ExportImport
 {
     public partial class ImportPackage : Form
     {
+        private static ImportPackage form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new ImportPackage(repository, scope);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
         #region Variables
         private EA.Repository repository;
         private string scope = "";

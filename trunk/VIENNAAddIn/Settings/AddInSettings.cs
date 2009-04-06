@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Win32;
 using VIENNAAddIn.Exceptions;
 
@@ -62,6 +63,18 @@ namespace VIENNAAddIn.Settings
             catch (Exception e)
             {
                 throw new RegistryAccessException(e.Message, e);
+            }
+        }
+
+        /// <summary>
+        /// Get MDG file path from registry and read it
+        /// </summary>
+        /// <returns>MDG in string</returns>
+        internal static string LoadMDGFile()
+        {
+            using (TextReader reader = new StreamReader(MDGFilePath))
+            {
+                return reader.ReadToEnd();
             }
         }
     }

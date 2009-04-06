@@ -28,6 +28,24 @@ namespace VIENNAAddIn.CCTS
 
     public partial class DOCGenerator : Form, GeneratorCallBackInterface
     {
+        private static DOCGenerator form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new DOCGenerator(repository, scope, true);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.fillChoiceBox();
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
 
         #region Variables
         private EA.Repository repository = null;

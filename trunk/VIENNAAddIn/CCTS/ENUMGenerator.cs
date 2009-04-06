@@ -13,6 +13,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using EA;
 using VIENNAAddIn.Utils;
 using System.IO;
 using System.Xml;
@@ -27,6 +28,24 @@ using VIENNAAddIn.constants;
 namespace VIENNAAddIn.CCTS
 {
     public partial class ENUMGenerator : Form, GeneratorCallBackInterface {
+
+        private static ENUMGenerator form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new ENUMGenerator(repository, scope, false);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
 
         private EA.Repository repository = null;
         private String scope = "";

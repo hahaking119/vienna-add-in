@@ -22,6 +22,24 @@ namespace VIENNAAddIn.CCTS
 {
     public partial class BusinessLibraryGenerator : Form, GeneratorCallBackInterface
     {
+        private static BusinessLibraryGenerator form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new BusinessLibraryGenerator(repository, scope, true);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
         #region Variables
         private Repository repository;
         private String scope;

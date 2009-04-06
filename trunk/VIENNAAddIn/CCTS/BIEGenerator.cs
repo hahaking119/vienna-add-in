@@ -27,7 +27,23 @@ namespace VIENNAAddIn.CCTS
 {
     public partial class BIEGenerator : Form, GeneratorCallBackInterface
     {
-
+        private static BIEGenerator form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new BIEGenerator(repository, scope, true);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
 
         #region Variable
         private Repository repository;

@@ -13,13 +13,31 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using VIENNAAddIn.CCTS.CCTSBIE_MetaModel;
+using EA;
 using VIENNAAddIn.common;
 using VIENNAAddIn.constants;
+using TaggedValue=VIENNAAddIn.CCTS.CCTSBIE_MetaModel.TaggedValue;
 
 namespace VIENNAAddIn.CCTS {
     public partial class CCWindow : Form
     {
+        private static CCWindow form;
+        public static void ShowForm(Repository repository)
+        {
+            string scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new CCWindow(repository, scope);
+                form.Show();
+            }
+            else
+            {
+                form.resetWindow(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
 
         #region Variables
         private EA.Repository repository;

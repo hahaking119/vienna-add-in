@@ -10,10 +10,12 @@ http://vienna-add-in.googlecode.com
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.common.logging;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.validator
 {
@@ -50,20 +52,157 @@ namespace VIENNAAddIn.validator
             progressTimer.Tick += new EventHandler(progressTimer_Tick);
         }
 
-        public static void ShowForm(Repository repository, string scope)
+        public static void ShowForm(Repository repository, string scope, string menulocation)
         {
-            if (form == null || form.IsDisposed)
+            if (string.IsNullOrEmpty(scope))
             {
-                form = new ValidatorForm(repository, scope);
-                form.Show();
+                scope = DetermineValidationScope(repository, menulocation);
+            }
+            if (scope == "")
+            {
+                //TO DO - add additional routines here which i.e. try to determine
+                //a UPCC validation scope
+
+                MessageBox.Show(
+                    "Unable to determine a validator for the selected diagram, element or package.");
             }
             else
             {
-                form.resetValidatorForm(scope);
-                form.Select();
-                form.Focus();
-                form.Show();
+                if (form == null || form.IsDisposed)
+                {
+                    form = new ValidatorForm(repository, scope);
+                    form.Show();
+                }
+                else
+                {
+                    form.resetValidatorForm(scope);
+                    form.Select();
+                    form.Focus();
+                    form.Show();
+                }
             }
+        }
+
+        /// <summary>
+        /// Depending on the area, where the user clicks "Validate", a different scope of the model
+        /// is validated.
+        /// For instance, a validation can be restricted to a certain view, or a certain diagram
+        /// 
+        /// 
+        /// Comment by pl:
+        /// Clearly the method could have been optimized in terms of eliminating re-occuring code.
+        /// However re-occuring code was left for the sake of lucidity.
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="menulocation"></param>
+        /// <returns></returns>
+        private static String DetermineValidationScope(Repository repository, String menulocation)
+        {
+            String s = "";
+
+            if (menulocation == "TreeView")
+            {
+                //Get the element in the tree view which was clicked
+                Object obj;
+                ObjectType otype = repository.GetTreeSelectedItem(out obj);
+
+                //Now otype could be determined - show an error
+                if (!Enum.IsDefined(typeof(ObjectType), otype))
+                {
+                    //Should not occur
+                    const string error = "Unable to determine object type of element.";
+                    MessageBox.Show(error, "Error");
+                }
+                //The user clicked on a package - try to determine the stereotype
+                else if (otype == ObjectType.otPackage)
+                {
+                    var p = (Package)obj;
+                    //If the package has no superpackage, it must be the very top package
+                    //-> if the very top package is clicked, ALL will be validated
+                    bool hasParent = false;
+                    try
+                    {
+                        int dummy = p.ParentID;
+                        if (dummy != 0)
+                            hasParent = true;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("Error checking for superpackage (" + e.Message + ")");
+                    }
+
+                    if (!hasParent)
+                    {
+                        int rootModelPackageID = ((Package)(repository.Models.GetAt(0))).PackageID;
+                        s = "" + rootModelPackageID;
+                    }
+                    else
+                    {
+                        s = "" + p.PackageID;
+                    }
+                }
+                //In the treeview apart from a package the user can click on 
+                // an element, a diagram, an attribute or a method
+                //All of these cases are handled here
+                else
+                {
+                    int packageID = 0;
+
+                    if (otype == ObjectType.otElement)
+                        packageID = ((Element)obj).PackageID;
+                    else if (otype == ObjectType.otDiagram)
+                        packageID = ((Diagram)obj).PackageID;
+                    else if (otype == ObjectType.otAttribute)
+                    {
+                        var att = (Attribute)obj;
+                        //Get the element that this attribute is part of
+                        Element el = repository.GetElementByID(att.ParentID);
+                        //Get the package, where this element is located in
+                        packageID = el.PackageID;
+                    }
+                    else if (otype == ObjectType.otMethod)
+                    {
+                        var meth = (Method)obj;
+                        //Get the the element, that this attribute is part of
+                        Element el = repository.GetElementByID(meth.ParentID);
+                        //Get the package, where this element is located in
+                        packageID = el.PackageID;
+                    }
+                    //Get the package					 
+                    Package p = repository.GetPackageByID(packageID);
+
+                    s = "" + p.PackageID;
+                }
+            }
+            //If the users clicks into a diagram we must determine to which package
+            //the diagram belongs
+            else if (menulocation == "Diagram")
+            {
+                int packageID = 0;
+                try
+                {
+                    Object obj;
+                    ObjectType o = repository.GetContextItem(out obj);
+                    if (o == ObjectType.otDiagram)
+                        packageID = ((Diagram)obj).PackageID;
+                    else if (o == ObjectType.otElement)
+                        packageID = ((Element)obj).PackageID;
+                }
+                catch (Exception e)
+                {
+                    Debug.Write("Exception while determining Menulocation (" + e.Message + ")");
+                }
+
+                if (packageID != 0)
+                {
+                    //To which package does this diagram belong?
+                    Package p = repository.GetPackageByID(packageID);
+
+                    s = "" + p.PackageID;
+                }
+            }
+
+            return s;
         }
 
         /// <summary>

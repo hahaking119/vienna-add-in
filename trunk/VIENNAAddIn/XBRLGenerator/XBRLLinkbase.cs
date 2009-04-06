@@ -28,11 +28,12 @@ namespace VIENNAAddIn.XBRLGenerator
     public partial class XBRLLinkbase : Form, GeneratorCallBackInterface
     {
         private static XBRLLinkbase form;
-        public static void ShowForm(Repository repo, int diagramID)
+        public static void ShowForm(Repository repository)
         {
+            var diagramID = repository.DetermineDiagramID();
             if (form == null || form.IsDisposed)
             {
-                form = new XBRLLinkbase(repo, diagramID);
+                form = new XBRLLinkbase(repository, diagramID);
                 form.Show();
             }
             else

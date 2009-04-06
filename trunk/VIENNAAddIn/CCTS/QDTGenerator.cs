@@ -25,7 +25,23 @@ using VIENNAAddIn.common;
 namespace VIENNAAddIn.CCTS {
     public partial class QDTGenerator : Form, GeneratorCallBackInterface
     {
-
+        private static QDTGenerator form;
+        public static void ShowForm(Repository repository)
+        {
+            var scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new QDTGenerator(repository, scope, true);
+                form.Show();
+            }
+            else
+            {
+                form.resetGenerator(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
 
         #region Variables
         private Repository repository;

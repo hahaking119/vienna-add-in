@@ -12,13 +12,32 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using VIENNAAddIn.CCTS.CCTSBIE_MetaModel;
+using EA;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.constants;
 using VIENNAAddIn.common;
+using TaggedValue=VIENNAAddIn.CCTS.CCTSBIE_MetaModel.TaggedValue;
 
 namespace VIENNAAddIn.CCTS {
     public partial class QDTWindow : Form {
+        private static QDTWindow form;
+        public static void ShowForm(Repository repository)
+        {
+            string scope = repository.DetermineScope();
+            if (form == null || form.IsDisposed)
+            {
+                form = new QDTWindow(repository, scope);
+                form.Show();
+            }
+            else
+            {
+                form.resetWindow(scope);
+                form.Select();
+                form.Focus();
+                form.Show();
+            }
+        }
+
 
         
         private EA.Repository repository;
