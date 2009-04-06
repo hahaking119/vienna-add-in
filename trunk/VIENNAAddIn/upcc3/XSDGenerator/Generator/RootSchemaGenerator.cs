@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
@@ -9,10 +10,12 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
     public class RootSchemaGenerator
     {
+        private static string NSPREFIX_BDT = "bdt";
+        private static string NSPREFIX_BIE = "bie";
+
         public static void GenerateXSD(GenerationContext context, IDOCLibrary docLibrary)
         {
-            //private static string NSPREFIX_BDT = "bdt";
-            //private static string NSPREFIX_TNS = "tns";
+
             //private static string SCHEMA_LOCATION_BDT = "bdts.xsd";
             //private static string SCHEMA_NAME_BIE = "bies.xsd";
             
@@ -22,8 +25,9 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
                 schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
                 schema.Namespaces.Add("ccts",
-                                      "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2");
-                
+                                      "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
+                schema.Namespaces.Add(NSPREFIX_BDT,context.TargetNamespace);
+                schema.Namespaces.Add(NSPREFIX_BIE, context.TargetNamespace);
 
                 schema.ElementFormDefault = XmlSchemaForm.Qualified;
                 schema.AttributeFormDefault = XmlSchemaForm.Unqualified;
@@ -36,7 +40,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 AddRootElemntDeclaration(schema, abie, context);
                 AddRootTypeDefinition(schema, abie, context);
                
-                AddGlobalElementDeclarations(schema, (new List<IABIE>(docLibrary.BIEs)), context);
+                AddGlobalElementDeclarations(schema, removeRootElements(docLibrary.BIEs, docLibrary.RootElements), context);
                 context.AddSchema(schema, "root.xsd");
             }
         }
@@ -62,19 +66,29 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             //TODO Generate Type Annotations
         }
 
+        private static IList<IABIE> removeRootElements(IEnumerable<IABIE> abies, IEnumerable<IABIE> rootelements)
+        {
+            IList<IABIE> temp = new List<IABIE>(abies);
+            foreach (IABIE rootelement in rootelements)
+            {
+                temp.Remove(rootelement);
+            }
+            return temp;
+        }
+
         private static void AddRootElemntDeclaration(XmlSchema schema, IABIE abie, GenerationContext context)
         {
             XmlSchemaElement root = new XmlSchemaElement();
             root.Name = abie.Name;
             root.SchemaTypeName =
-                        new XmlQualifiedName(context.NamespacePrefix + ":" + abie.Name + "Type");
+                        new XmlQualifiedName(context.NamespacePrefix + ":"+ abie.Name + "Type");
             schema.Items.Add(root);
         }
 
         private static void AddRootTypeDefinition(XmlSchema schema, IABIE abie, GenerationContext context)
         {
             XmlSchemaComplexType roottype = new XmlSchemaComplexType();
-            roottype.Name = context.NamespacePrefix + ":" + abie.Name + "Type";
+            roottype.Name = abie.Name + "Type";
 
             XmlSchemaSequence sequence = new XmlSchemaSequence();
 
@@ -89,7 +103,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 element.MaxOccursString = asbie.UpperBound;
                 sequence.Items.Add(element);
             }
-            
+            roottype.Particle = sequence;
             schema.Items.Add(roottype);
 
 
@@ -100,13 +114,13 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             //foreach (SchemaInfo si in context.Schemas)
            // {
                 //XmlTextReader textReader = new XmlTextReader(si.FileName);
-                XmlTextReader textReader = new XmlTextReader("C:\\XMLNDR_Documentation_3p0.xsd");
+                XmlTextReader textReader = new XmlTextReader("C:\\dump\\documentation\\standard\\XMLNDR_Documentation_3p0.xsd");
                 XmlSchema importSchema = XmlSchema.Read(textReader, null);
 
                 XmlSchemaImport import = new XmlSchemaImport();
                 import.Schema = importSchema;
                 import.Namespace = importSchema.TargetNamespace;
-                import.SchemaLocation = "C:\\XMLNDR_Documentation_3p0.xsd";
+                import.SchemaLocation = "documentation/standard/XMLNDR_Documentation_3p0.xsd";
                 
                 schema.Includes.Add(import);
            // }
@@ -116,11 +130,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             foreach (SchemaInfo si in context.Schemas)
             {
-                XmlTextReader textReader = new XmlTextReader(si.FileName);
-                XmlSchema includeSchema = XmlSchema.Read(textReader, null);
-
+                //XmlTextReader textReader = new XmlTextReader(context.OutputDirectory + si.FileName);
+                //XmlSchema includeSchema = XmlSchema.Read(textReader, null);
                 XmlSchemaInclude include = new XmlSchemaInclude();
-                include.Schema = includeSchema;
+                //include.Schema = includeSchema;
+                include.SchemaLocation = si.FileName;
                 schema.Includes.Add(include);
             }
         }

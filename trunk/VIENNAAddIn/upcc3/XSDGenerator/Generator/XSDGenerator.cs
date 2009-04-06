@@ -24,10 +24,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<param name="docLibrary"></param>
         ///<param name="targetNamespace"></param>
         ///<param name="namespacePrefix"></param>
-        public static void GenerateSchemas(ICCRepository ccRepository, IDOCLibrary docLibrary, string targetNamespace,
+        public static GenerationContext GenerateSchemas(ICCRepository ccRepository, IDOCLibrary docLibrary, string targetNamespace,
                                            string namespacePrefix, bool annotate, string outputDirectory)
         {
-            var context = new GenerationContext(ccRepository, targetNamespace, namespacePrefix, annotate);
+            var context = new GenerationContext(ccRepository, targetNamespace, namespacePrefix, annotate, outputDirectory);
             BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context, docLibrary));
             BIESchemaGenerator.GenerateXSD(context, CollectBIEs(context, docLibrary));
             RootSchemaGenerator.GenerateXSD(context, docLibrary);
@@ -48,6 +48,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 schemaInfo.Schema.Write(XmlWriter.Create(outputDirectory + "\\" + schemaInfo.FileName, xmlWriterSettings));
 // ReSharper restore AssignNullToNotNullAttribute
             }
+            return context;
         }
 
         ///<summary>

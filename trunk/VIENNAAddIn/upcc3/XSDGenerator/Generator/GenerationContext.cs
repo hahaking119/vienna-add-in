@@ -16,13 +16,16 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<param name="targetNamespace"></param>
         ///<param name="namespacePrefix"></param>
         ///<param name="annotate"></param>
-        public GenerationContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate)
+        ///<param name="outputDirectory"></param>
+        public GenerationContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate, string outputDirectory)
         {
             Repository = repository;
             TargetNamespace = targetNamespace;
             NamespacePrefix = namespacePrefix;
             Annotate = annotate;
+            OutputDirectory = outputDirectory;
         }
+
 
         ///<summary>
         ///</summary>
@@ -46,6 +49,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<summary>
         ///</summary>
         public bool Annotate { get; private set; }
+
+        ///<summary>
+        ///</summary>
+        public string OutputDirectory { get; private set; }
 
         ///<summary>
         ///</summary>
