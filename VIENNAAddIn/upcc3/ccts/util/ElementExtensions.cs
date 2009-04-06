@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="connectorType">Must be one of <see cref="ConnectorTypes"/>.</param>
         ///<param name="stereotype"></param>
         ///<param name="supplierId"></param>
-        private static void AddConnector(this Element element, string connectorType, string stereotype, string name, int supplierId, int aggregationKind, string lowerBound, string upperBound)
+        private static void AddConnector(this Element element, string connectorType, string stereotype, string name, int supplierId, AggregationKind aggregationKind, string lowerBound, string upperBound)
         {
             var connector = (Connector) element.Connectors.AddNew("", "Association");
             connector.Type = connectorType;
@@ -96,7 +96,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.SupplierID = supplierId;
             connector.SupplierEnd.Role = name;
             connector.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
-            connector.ClientEnd.Aggregation = aggregationKind;
+            connector.ClientEnd.Aggregation = (int) aggregationKind;
             connector.Update();
         }
 
@@ -105,7 +105,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             element.AddConnector(ConnectorTypes.Dependency, stereotype, name, supplierId, AggregationKind.None, lowerBound, upperBound);
         }
 
-        public static void AddAggregation(this Element element, int aggregationKind, string stereotype, string name, int supplierId, string lowerBound, string upperBound)
+        public static void AddAggregation(this Element element, AggregationKind aggregationKind, string stereotype, string name, int supplierId, string lowerBound, string upperBound)
         {
             element.AddConnector(ConnectorTypes.Aggregation, stereotype, name, supplierId, aggregationKind, lowerBound, upperBound);
         }
