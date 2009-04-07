@@ -18,7 +18,7 @@ namespace VIENNAAddIn.ErrorReporter
 	/// <summary>
 	/// summary description for ErrorReporterForm.
 	/// </summary>
-	public class ErrorReport : System.Windows.Forms.Form
+    public class ErrorReporterForm : System.Windows.Forms.Form
 	{
 		private System.Windows.Forms.Label label;
         private System.Windows.Forms.Label label1;
@@ -32,7 +32,7 @@ namespace VIENNAAddIn.ErrorReporter
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		public ErrorReport(String message, int eaVersion)
+		public ErrorReporterForm(String message, int eaVersion)
 		{
 			
 			//
@@ -98,7 +98,7 @@ namespace VIENNAAddIn.ErrorReporter
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorReport));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorReporterForm));
             this.label = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.errorMessageBox = new System.Windows.Forms.RichTextBox();
