@@ -71,9 +71,9 @@
             this.groupboxSettings.Controls.Add(this.label2);
             this.groupboxSettings.Controls.Add(this.comboCDTLs);
             this.groupboxSettings.Controls.Add(this.label1);
-            this.groupboxSettings.Location = new System.Drawing.Point(12, 5);
+            this.groupboxSettings.Location = new System.Drawing.Point(5, 7);
             this.groupboxSettings.Name = "groupboxSettings";
-            this.groupboxSettings.Size = new System.Drawing.Size(451, 577);
+            this.groupboxSettings.Size = new System.Drawing.Size(477, 580);
             this.groupboxSettings.TabIndex = 3;
             this.groupboxSettings.TabStop = false;
             this.groupboxSettings.Text = "Settings";
@@ -82,16 +82,16 @@
             // 
             this.textBDTPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBDTPrefix.Location = new System.Drawing.Point(215, 489);
+            this.textBDTPrefix.Location = new System.Drawing.Point(206, 499);
             this.textBDTPrefix.Name = "textBDTPrefix";
-            this.textBDTPrefix.Size = new System.Drawing.Size(220, 20);
+            this.textBDTPrefix.Size = new System.Drawing.Size(264, 20);
             this.textBDTPrefix.TabIndex = 11;
             // 
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 492);
+            this.label5.Location = new System.Drawing.Point(6, 502);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(171, 13);
             this.label5.TabIndex = 10;
@@ -102,16 +102,16 @@
             this.comboBDTLs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBDTLs.FormattingEnabled = true;
-            this.comboBDTLs.Location = new System.Drawing.Point(215, 541);
+            this.comboBDTLs.Location = new System.Drawing.Point(206, 551);
             this.comboBDTLs.Name = "comboBDTLs";
-            this.comboBDTLs.Size = new System.Drawing.Size(220, 21);
+            this.comboBDTLs.Size = new System.Drawing.Size(264, 21);
             this.comboBDTLs.TabIndex = 9;
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 544);
+            this.label4.Location = new System.Drawing.Point(6, 554);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(173, 13);
             this.label4.TabIndex = 8;
@@ -121,9 +121,9 @@
             // 
             this.textBDTName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBDTName.Location = new System.Drawing.Point(215, 515);
+            this.textBDTName.Location = new System.Drawing.Point(206, 525);
             this.textBDTName.Name = "textBDTName";
-            this.textBDTName.Size = new System.Drawing.Size(220, 20);
+            this.textBDTName.Size = new System.Drawing.Size(264, 20);
             this.textBDTName.TabIndex = 7;
             this.textBDTName.TextChanged += new System.EventHandler(this.textBDTName_TextChanged);
             // 
@@ -131,7 +131,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 518);
+            this.label3.Location = new System.Drawing.Point(6, 528);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(144, 13);
             this.label3.TabIndex = 6;
@@ -143,10 +143,10 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tabcontrolAttributes.Controls.Add(this.tabAttributes);
-            this.tabcontrolAttributes.Location = new System.Drawing.Point(16, 74);
+            this.tabcontrolAttributes.Location = new System.Drawing.Point(9, 70);
             this.tabcontrolAttributes.Name = "tabcontrolAttributes";
             this.tabcontrolAttributes.SelectedIndex = 0;
-            this.tabcontrolAttributes.Size = new System.Drawing.Size(419, 395);
+            this.tabcontrolAttributes.Size = new System.Drawing.Size(461, 423);
             this.tabcontrolAttributes.TabIndex = 5;
             // 
             // tabAttributes
@@ -156,7 +156,7 @@
             this.tabAttributes.Location = new System.Drawing.Point(4, 22);
             this.tabAttributes.Name = "tabAttributes";
             this.tabAttributes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAttributes.Size = new System.Drawing.Size(411, 369);
+            this.tabAttributes.Size = new System.Drawing.Size(453, 397);
             this.tabAttributes.TabIndex = 0;
             this.tabAttributes.Text = "Attributes";
             this.tabAttributes.UseVisualStyleBackColor = true;
@@ -168,7 +168,7 @@
             this.groupboxCON.Controls.Add(this.checkedlistboxCON);
             this.groupboxCON.Location = new System.Drawing.Point(6, 6);
             this.groupboxCON.Name = "groupboxCON";
-            this.groupboxCON.Size = new System.Drawing.Size(399, 51);
+            this.groupboxCON.Size = new System.Drawing.Size(441, 51);
             this.groupboxCON.TabIndex = 3;
             this.groupboxCON.TabStop = false;
             this.groupboxCON.Text = "CON";
@@ -181,7 +181,7 @@
             this.checkedlistboxCON.FormattingEnabled = true;
             this.checkedlistboxCON.Location = new System.Drawing.Point(11, 19);
             this.checkedlistboxCON.Name = "checkedlistboxCON";
-            this.checkedlistboxCON.Size = new System.Drawing.Size(376, 19);
+            this.checkedlistboxCON.Size = new System.Drawing.Size(418, 19);
             this.checkedlistboxCON.TabIndex = 4;
             // 
             // groupboxSUPs
@@ -193,7 +193,7 @@
             this.groupboxSUPs.Controls.Add(this.checkboxAttributes);
             this.groupboxSUPs.Location = new System.Drawing.Point(6, 66);
             this.groupboxSUPs.Name = "groupboxSUPs";
-            this.groupboxSUPs.Size = new System.Drawing.Size(399, 297);
+            this.groupboxSUPs.Size = new System.Drawing.Size(441, 325);
             this.groupboxSUPs.TabIndex = 2;
             this.groupboxSUPs.TabStop = false;
             this.groupboxSUPs.Text = "SUPs";
@@ -205,9 +205,9 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedlistboxSUPs.CheckOnClick = true;
             this.checkedlistboxSUPs.FormattingEnabled = true;
-            this.checkedlistboxSUPs.Location = new System.Drawing.Point(11, 44);
+            this.checkedlistboxSUPs.Location = new System.Drawing.Point(11, 42);
             this.checkedlistboxSUPs.Name = "checkedlistboxSUPs";
-            this.checkedlistboxSUPs.Size = new System.Drawing.Size(376, 244);
+            this.checkedlistboxSUPs.Size = new System.Drawing.Size(418, 274);
             this.checkedlistboxSUPs.TabIndex = 1;
             this.checkedlistboxSUPs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxSUPs_ItemCheck);
             // 
@@ -227,16 +227,16 @@
             this.comboCDTs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.comboCDTs.FormattingEnabled = true;
-            this.comboCDTs.Location = new System.Drawing.Point(216, 47);
+            this.comboCDTs.Location = new System.Drawing.Point(206, 43);
             this.comboCDTs.Name = "comboCDTs";
-            this.comboCDTs.Size = new System.Drawing.Size(219, 21);
+            this.comboCDTs.Size = new System.Drawing.Size(264, 21);
             this.comboCDTs.TabIndex = 4;
             this.comboCDTs.SelectionChangeCommitted += new System.EventHandler(this.comboCDTs_SelectionChangeCommitted);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 50);
+            this.label2.Location = new System.Drawing.Point(6, 46);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(197, 13);
             this.label2.TabIndex = 3;
@@ -247,16 +247,16 @@
             this.comboCDTLs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.comboCDTLs.FormattingEnabled = true;
-            this.comboCDTLs.Location = new System.Drawing.Point(215, 20);
+            this.comboCDTLs.Location = new System.Drawing.Point(206, 16);
             this.comboCDTLs.Name = "comboCDTLs";
-            this.comboCDTLs.Size = new System.Drawing.Size(220, 21);
+            this.comboCDTLs.Size = new System.Drawing.Size(264, 21);
             this.comboCDTLs.TabIndex = 2;
             this.comboCDTLs.SelectionChangeCommitted += new System.EventHandler(this.comboCDTLs_SelectionChangeCommitted);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 23);
+            this.label1.Location = new System.Drawing.Point(6, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(187, 13);
             this.label1.TabIndex = 1;
@@ -265,7 +265,7 @@
             // buttonClose
             // 
             this.buttonClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonClose.Location = new System.Drawing.Point(275, 599);
+            this.buttonClose.Location = new System.Drawing.Point(278, 606);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(101, 22);
             this.buttonClose.TabIndex = 6;
@@ -276,7 +276,7 @@
             // buttonGenerateBDT
             // 
             this.buttonGenerateBDT.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonGenerateBDT.Location = new System.Drawing.Point(95, 599);
+            this.buttonGenerateBDT.Location = new System.Drawing.Point(98, 606);
             this.buttonGenerateBDT.Name = "buttonGenerateBDT";
             this.buttonGenerateBDT.Size = new System.Drawing.Size(101, 22);
             this.buttonGenerateBDT.TabIndex = 5;
@@ -288,13 +288,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 633);
+            this.ClientSize = new System.Drawing.Size(487, 635);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonGenerateBDT);
             this.Controls.Add(this.groupboxSettings);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "BDTWizardForm";
             this.Text = "BDTWizardForm";
             this.Load += new System.EventHandler(this.BDTWizardForm_Load);
+            this.SizeChanged += new System.EventHandler(this.BDTWizardForm_SizeChanged);
             this.groupboxSettings.ResumeLayout(false);
             this.groupboxSettings.PerformLayout();
             this.tabcontrolAttributes.ResumeLayout(false);
