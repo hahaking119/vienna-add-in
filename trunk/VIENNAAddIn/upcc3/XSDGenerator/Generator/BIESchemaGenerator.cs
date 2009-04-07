@@ -49,8 +49,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
     {
         private const string NSPREFIX_BDT = "bdt";
         private const string NSPREFIX_TNS = "tns";
-        private const string NSPREFIX_DOC = "doc";        
-        private const string NS_DOC = "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3";
+        private const string NSPREFIX_DOC = "doc";
+
+        private const string NS_DOC =
+            "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3";
+
         //private const string NSPREFIX_CCTS = "ccts";
         //private const string NS_CCTS = "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2";
         private const string NSPREFIX_XSD = "xsd";
@@ -67,7 +70,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             // Create XML schema file and prepare the XML schema header
             // R 88E2: all XML schema files must use UTF-8 encoding
             // R B387: every XML schema must have a declared target namespace
-            var schema = new XmlSchema {TargetNamespace = context.TargetNamespace};            
+            var schema = new XmlSchema {TargetNamespace = context.TargetNamespace};
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
 
             // TODO: discuss R A0E5 and R A9C5 with Christian E. and Michi S. since this is something that should be added to the context
@@ -89,93 +92,14 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
             // R 8FE2: include BDT XML schema file
             // TODO: check with christian e. if we can retrieve the bdt schema file from the context
-            XmlSchemaInclude bdtInclude = new XmlSchemaInclude();            
+            XmlSchemaInclude bdtInclude = new XmlSchemaInclude();
             bdtInclude.SchemaLocation = SCHEMA_LOCATION_BDT;
             schema.Includes.Add(bdtInclude);
 
             foreach (IABIE abie in bies)
             {
-                // R A4CE, R AF95: a complex type must be defined for each ABIE   
-                XmlSchemaComplexType complexTypeBIE = new XmlSchemaComplexType();
-
-                // R 9D83: the name of the ABIE must be the DictionaryEntryName with all whitespace and separators 
-                //         removed. The 'Details' suffix is replaced with 'Type'.
-                complexTypeBIE.Name = abie.Name + "Type";
-
-                if (context.Annotate)
-                {
-                    complexTypeBIE.Annotation = GetABIEAnnotation(abie);
-                }
-
-                // create the sequence for the BBIEs within the ABIE
-                XmlSchemaSequence sequenceBBIEs = new XmlSchemaSequence();
-
-                foreach (IBBIE bbie in abie.BBIEs)
-                {
-                    // R 89A6: for every BBIE a named element must be locally declared
-                    XmlSchemaElement elementBBIE = new XmlSchemaElement();
-
-                    // R AEFE, R 96D9, R9A40, R A34A are implemented in GenerateBBIEName(...)
-                    elementBBIE.Name = GenerateBBIEName(bbie.Name, bbie.Type.Name);
-                    
-                    // R 8B85: every BBIE type must be named the property term and qualifiers and the
-                    //         representation term of the basic business information entity (BBIE) it represents
-                    //         with the word 'Type' appended. 
-                    elementBBIE.SchemaTypeName = new XmlQualifiedName(NSPREFIX_BDT + ":" + bbie.Type.Name + bbie.Type.CON.BasicType.Name + "Type");
-
-
-                    // R 90F9: cardinality of elements within the ABIE
-                    elementBBIE.MinOccursString = AdjustLowerBound(bbie.LowerBound);
-                    elementBBIE.MaxOccursString = AdjustUpperBound(bbie.UpperBound);
-
-                    if (context.Annotate)
-                    {
-                        elementBBIE.Annotation = GetBBIEAnnotation(bbie);
-                    }
-
-                    // add the element created to the sequence
-                    sequenceBBIEs.Items.Add(elementBBIE);
-                }
-
-
-                foreach (IASBIE asbie in abie.ASBIEs)
-                {
-                    XmlSchemaElement elementASBIE = new XmlSchemaElement();
-
-                    // R A08A: name of the ASBIE
-                    elementASBIE.Name = asbie.Name + asbie.AssociatedElement.Name;
-                    elementASBIE.SchemaTypeName = new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.AssociatedElement.Name + "Type");
-
-                    //elementASBIE.MinOccursString = AdjustLowerBound(asbie.LowerBound);
-                    //elementASBIE.MaxOccursString = AdjustUpperBound(asbie.UpperBound);
-
-                    if (context.Annotate)
-                    {
-                        elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
-                    }
-
-                    if (asbie.AggregationKind == AggregationKind.Shared)
-                    {
-                        // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
-                        XmlSchemaElement refASBIE = new XmlSchemaElement();
-                        refASBIE.RefName = new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.Name + asbie.AssociatedElement.Name);
-                        sequenceBBIEs.Items.Add(refASBIE);
-
-                        schema.Items.Add(elementASBIE);
-                    }
-                    else 
-                    {
-                        //R 9025: ASBIEs with Aggregation Kind = composite a local element for the
-                        //        associated ABIE must be declared in the associating ABIE complex type.
-                        sequenceBBIEs.Items.Add(elementASBIE);
-                    }
-                }
-
-                // add the sequence created to the complex type
-                complexTypeBIE.Particle = sequenceBBIEs;
-
                 // finally add the complex type to the schema
-                schema.Items.Add(complexTypeBIE);
+                schema.Items.Add(GenerateBIE(context, schema, abie));
 
                 // R 9DA0: for each ABIE a named element must be globally declared
                 // R 9A25: the name of the ABIE element must be the DictionaryEntryName with whitespace 
@@ -193,6 +117,92 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             // to the context which will then later on be used to serialize the 
             // xml schema to a file.
             context.AddSchema(schema, SCHEMA_NAME_BIE);
+        }
+
+        internal static XmlSchemaComplexType GenerateBIE(GenerationContext context, XmlSchema schema, IABIE abie)
+        {
+            // R A4CE, R AF95: a complex type must be defined for each ABIE   
+            XmlSchemaComplexType complexTypeBIE = new XmlSchemaComplexType();
+
+            // R 9D83: the name of the ABIE must be the DictionaryEntryName with all whitespace and separators 
+            //         removed. The 'Details' suffix is replaced with 'Type'.
+            complexTypeBIE.Name = abie.Name + "Type";
+
+            if (context.Annotate)
+            {
+                complexTypeBIE.Annotation = GetABIEAnnotation(abie);
+            }
+
+            // create the sequence for the BBIEs within the ABIE
+            XmlSchemaSequence sequenceBBIEs = new XmlSchemaSequence();
+
+            foreach (IBBIE bbie in abie.BBIEs)
+            {
+                // R 89A6: for every BBIE a named element must be locally declared
+                XmlSchemaElement elementBBIE = new XmlSchemaElement();
+
+                // R AEFE, R 96D9, R9A40, R A34A are implemented in GenerateBBIEName(...)
+                elementBBIE.Name = GenerateBBIEName(bbie.Name, bbie.Type.Name);
+
+                // R 8B85: every BBIE type must be named the property term and qualifiers and the
+                //         representation term of the basic business information entity (BBIE) it represents
+                //         with the word 'Type' appended. 
+                elementBBIE.SchemaTypeName =
+                    new XmlQualifiedName(NSPREFIX_BDT + ":" + bbie.Type.Name + bbie.Type.CON.BasicType.Name + "Type");
+
+
+                // R 90F9: cardinality of elements within the ABIE
+                elementBBIE.MinOccursString = AdjustLowerBound(bbie.LowerBound);
+                elementBBIE.MaxOccursString = AdjustUpperBound(bbie.UpperBound);
+
+                if (context.Annotate)
+                {
+                    elementBBIE.Annotation = GetBBIEAnnotation(bbie);
+                }
+
+                // add the element created to the sequence
+                sequenceBBIEs.Items.Add(elementBBIE);
+            }
+
+
+            foreach (IASBIE asbie in abie.ASBIEs)
+            {
+                XmlSchemaElement elementASBIE = new XmlSchemaElement();
+
+                // R A08A: name of the ASBIE
+                elementASBIE.Name = asbie.Name + asbie.AssociatedElement.Name;
+                elementASBIE.SchemaTypeName =
+                    new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.AssociatedElement.Name + "Type");
+
+                //elementASBIE.MinOccursString = AdjustLowerBound(asbie.LowerBound);
+                //elementASBIE.MaxOccursString = AdjustUpperBound(asbie.UpperBound);
+
+                if (context.Annotate)
+                {
+                    elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
+                }
+
+                if (asbie.AggregationKind == AggregationKind.Shared)
+                {
+                    // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
+                    XmlSchemaElement refASBIE = new XmlSchemaElement();
+                    refASBIE.RefName =
+                        new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.Name + asbie.AssociatedElement.Name);
+                    sequenceBBIEs.Items.Add(refASBIE);
+
+                    schema.Items.Add(elementASBIE);
+                }
+                else
+                {
+                    //R 9025: ASBIEs with Aggregation Kind = composite a local element for the
+                    //        associated ABIE must be declared in the associating ABIE complex type.
+                    sequenceBBIEs.Items.Add(elementASBIE);
+                }
+            }
+
+            // add the sequence created to the complex type
+            complexTypeBIE.Particle = sequenceBBIEs;
+            return complexTypeBIE;
         }
 
         ///<summary>
@@ -306,7 +316,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             return AdjustBound(lb);
         }
 
-        private static string AdjustUpperBound (string ub)
+        private static string AdjustUpperBound(string ub)
         {
             return AdjustBound(ub);
         }
@@ -323,7 +333,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 return "unbounded";
             }
 
-            return bound;         
+            return bound;
         }
 
         private static string GenerateBBIEName(string bbieName, string bbieType)
@@ -339,11 +349,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             }
 
             if (bbieType.Equals("Text"))
-            {                
-                return bbieName;                
+            {
+                return bbieName;
             }
-            
+
             return bbieName + bbieType;
         }
-   }
+    }
 }
