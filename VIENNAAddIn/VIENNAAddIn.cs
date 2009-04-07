@@ -273,7 +273,7 @@ namespace VIENNAAddIn
             }
             catch (Exception e)
             {
-                new ErrorReport(e.Message + "\n" + e.StackTrace, repo.LibraryVersion);
+                new ErrorReporterForm(e.Message + "\n" + e.StackTrace, repo.LibraryVersion);
             }
         }
 

@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.common.logging;
 using Attribute=EA.Attribute;
+using VIENNAAddIn.ErrorReporter;
 
 namespace VIENNAAddIn.validator
 {
@@ -26,7 +27,6 @@ namespace VIENNAAddIn.validator
         //The repository upon which the validator validates
         private Repository repository;
 
-        private Boolean running = false;
         private String scope;
 
         //The Validationmessages
@@ -224,9 +224,13 @@ namespace VIENNAAddIn.validator
         private void bworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             // First, handle the case where an exception was thrown.
-            if (e.Error != null)
+            // If so, the exception is returned via the Result field
+            if (e.Result != null)
             {
-                MessageBox.Show(e.Error.Message);
+                Exception execption = (Exception)e.Result;
+
+                new ErrorReporterForm(execption.Message + "\n" + execption.StackTrace, repository.LibraryVersion);
+                
                 progressBar.Value = 1;
             }
             else if (e.Cancelled)
@@ -277,11 +281,15 @@ namespace VIENNAAddIn.validator
             }
             catch (Exception ex)
             {
+                               
                 Logger.Log(ex.Message, LogType.ERROR);
                 // stop worker ...
-                bworker.CancelAsync();
-                //e.WorkerEventArgs.Cancel = true;
+                bworker.CancelAsync();                
+                //Set the Excpetion as Result
+                e.Result = ex;
+                               
                 progressTimer.Stop();
+                              
             }
         }
 
@@ -327,12 +335,7 @@ namespace VIENNAAddIn.validator
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            //Is the validation currently running?
-            if (!running)
-            {
-                running = true;
-                startButton.Text = "Stop";
-
+            
                 //If a top-down validation of the whole model is initialized, the intervall must be higher
                 if (scope == "ROOT")
                 {
@@ -361,13 +364,7 @@ namespace VIENNAAddIn.validator
                     bworker.CancelAsync();
 
                 bworker.RunWorkerAsync(validationMessages);
-            }
-            else
-            {
-                bworker.CancelAsync();
-                running = false;
-                startButton.Text = "Start";
-            }
+
         }
 
         /// <summary>
@@ -538,7 +535,7 @@ namespace VIENNAAddIn.validator
             catch (Exception exe)
             {
             }
-            ;
+            
         }
 
         /// <summary>

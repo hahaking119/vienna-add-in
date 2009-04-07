@@ -1300,7 +1300,49 @@ namespace VIENNAAddIn.common
         }
 
 
+        /// <summary>
+        /// Returns the first occurence of an attribute with the given stereotype
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="stereotype"></param>
+        /// <returns></returns>
+        internal static EA.Attribute fetchFirstAttributeFromElement(EA.Element e, String stereotype)
+        {
 
+            foreach (EA.Attribute a in e.Attributes)
+            {
+                if (a.Stereotype == stereotype)
+                    return a;
+
+            }
+            return null;
+
+        }
+
+
+        /// <summary>
+        /// Fetch all attributes of a given element which have the specified stereotype
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="stereotype"></param>
+        /// <returns></returns>
+        internal static Dictionary<string, EA.Attribute> fetchAllAttributesFromElement(EA.Element e, String stereotype)
+        {
+            Dictionary<string, EA.Attribute> attributes = new Dictionary<string, EA.Attribute>();
+
+            foreach (EA.Attribute a in e.Attributes)
+            {
+                if (a.Stereotype == stereotype)
+                    attributes.Add(a.AttributeGUID, a);
+            }
+
+            return attributes;
+
+        }
+
+
+        
+        
 
         /// <summary>
         /// Find the key in a given dictionary using the value
@@ -1321,6 +1363,35 @@ namespace VIENNAAddIn.common
 
         }
 
+
+        /// <summary>
+        /// Evaluates whether the passed lowerBound/upperBound values
+        ///                     //The only allowed combinations for the cardinality are [0..1] and [1..1]
+        //                      [0..1] = lowerBound = 0, upperBound = 1
+        //                      [1..1] = lowerBound = 1, upperBound = 1 || lowerBound = "", upperBound = ""
+        /// </summary>
+        /// <param name="lowerBound"></param>
+        /// <param name="upperBound"></param>
+        /// <returns></returns>
+        internal static bool isValid_0_1_or_1_1_Cardinality(String lowerBound, String upperBound)
+        {
+            if (lowerBound.Trim() == "0" && upperBound.Trim() == "1")
+            {
+                return true;
+            }
+            else if (lowerBound.Trim() == "1" && upperBound.Trim() == "1")
+            {
+                return true;
+            }
+            else if (lowerBound.Trim() == "" && upperBound.Trim() == "")
+            {
+                return true;
+            }
+
+            return false;            
+        }
+
+                
 
 
         /// <summary>
