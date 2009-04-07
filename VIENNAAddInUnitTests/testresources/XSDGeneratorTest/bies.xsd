@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tns="urn:test:namespace" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" xmlns:bdt="urn:test:namespace" xmlns:test="urn:test:namespace" targetNamespace="urn:test:namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="bdts.xsd" />
+  <xsd:complexType name="AddressType">
+    <xsd:sequence>
+      <xsd:element name="CountryName" type="bdt:TextType" />
+      <xsd:element name="CityName" type="bdt:TextType" />
+      <xsd:element name="StreetName" type="bdt:TextType" />
+      <xsd:element name="StreetNumber" type="bdt:TextType" />
+      <xsd:element name="Postcode" type="bdt:TextType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="Address" type="tns:AddressType" />
+  <xsd:complexType name="PersonType">
+    <xsd:sequence>
+      <xsd:element name="FirstName" type="bdt:TextType" />
+      <xsd:element name="LastName" type="bdt:TextType" />
+      <xsd:element name="homeAddress" type="tns:AddressType" />
+      <xsd:element name="workAddress" type="tns:AddressType" />
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="Person" type="tns:PersonType" />
+</xsd:schema>
