@@ -120,6 +120,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
         internal static XmlSchemaComplexType GenerateComplexTypeABIE(GenerationContext context, XmlSchema schema, IABIE abie)
         {
+            return GenerateComplexTypeABIE(context, schema, abie, NSPREFIX_TNS);
+        }
+
+        internal static XmlSchemaComplexType GenerateComplexTypeABIE(GenerationContext context, XmlSchema schema, IABIE abie, string abiePrefix)
+        {
             // R A4CE, R AF95: a complex type must be defined for each ABIE   
             XmlSchemaComplexType complexTypeBIE = new XmlSchemaComplexType();
 
@@ -171,7 +176,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 // R A08A: name of the ASBIE
                 elementASBIE.Name = asbie.Name + asbie.AssociatedElement.Name;
                 elementASBIE.SchemaTypeName =
-                    new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.AssociatedElement.Name + "Type");
+                    new XmlQualifiedName(abiePrefix + ":" + asbie.AssociatedElement.Name + "Type");
 
                 if (context.Annotate)
                 {
@@ -183,7 +188,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
                     XmlSchemaElement refASBIE = new XmlSchemaElement();
                     refASBIE.RefName =
-                        new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.Name + asbie.AssociatedElement.Name);
+                        new XmlQualifiedName(abiePrefix + ":" + asbie.Name + asbie.AssociatedElement.Name);
                     sequenceBBIEs.Items.Add(refASBIE);
 
                     schema.Items.Add(elementASBIE);
