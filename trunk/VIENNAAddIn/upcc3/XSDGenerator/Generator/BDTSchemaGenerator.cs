@@ -18,11 +18,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             var schema = new XmlSchema {TargetNamespace = context.TargetNamespace};
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
             schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
-            schema.Namespaces.Add("ccts",
-                                  "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2");
-            schema.Namespaces.Add("doc",
-                                  "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3");
-
+            schema.Namespaces.Add("ccts","urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
+        
             foreach (IBDT bdt in bdts)
             {
                 var sups = new List<ISUP>(bdt.SUPs);
