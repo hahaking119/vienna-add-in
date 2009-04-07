@@ -41,12 +41,17 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 var xmlWriterSettings = new XmlWriterSettings
                                         {
                                             Indent = true,
-                                            //                               NewLineOnAttributes = true,
                                             Encoding = Encoding.UTF8,
                                         };
+                using (var xmlWriter = XmlWriter.Create(outputDirectory + "\\" + schemaInfo.FileName, xmlWriterSettings))
+                {
 // ReSharper disable AssignNullToNotNullAttribute
-                schemaInfo.Schema.Write(XmlWriter.Create(outputDirectory + "\\" + schemaInfo.FileName, xmlWriterSettings));
+                    schemaInfo.Schema.Write(xmlWriter);
 // ReSharper restore AssignNullToNotNullAttribute
+// ReSharper disable PossibleNullReferenceException
+                    xmlWriter.Close();
+// ReSharper restore PossibleNullReferenceException
+                }
             }
             return context;
         }
