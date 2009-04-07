@@ -166,10 +166,7 @@ namespace VIENNAAddIn.constants
 
     }
 
-
-
-
-    internal enum UMM
+    public enum UMM
     {
 
         AuthorizedRole,
@@ -369,7 +366,7 @@ namespace VIENNAAddIn.constants
 
 
     // all stereotypes which owns tagged values
-    internal enum StereotypeOwnTaggedValues
+    public enum StereotypeOwnTaggedValues
     {
         BusinessDomainView,
         BusinessCategory,

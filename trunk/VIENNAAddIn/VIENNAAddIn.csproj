@@ -216,7 +216,12 @@
     <Compile Include="ExportImport\ImportPackage.Designer.cs">
       <DependentUpon>ImportPackage.cs</DependentUpon>
     </Compile>
-    <Compile Include="MenuManager.cs" />
+    <Compile Include="menu\AddInContext.cs" />
+    <Compile Include="menu\MenuAction.cs" />
+    <Compile Include="menu\MenuItem.cs" />
+    <Compile Include="menu\MenuManager.cs" />
+    <Compile Include="menu\MenuSeparator.cs" />
+    <Compile Include="menu\SubMenu.cs" />
     <Compile Include="Settings\AddInSettings.cs" />
     <Compile Include="Settings\SynchStereotypes.cs" />
     <Compile Include="Settings\SynchStereotypesForm.cs">

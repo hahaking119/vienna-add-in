@@ -40,7 +40,7 @@ namespace VIENNAAddIn
     {
         private static Repository repo;
 
-        #region implement VIENNAAddInInterface
+        #region VIENNAAddInInterface Members
 
         /// <summary>
         /// Get menu state
@@ -124,56 +124,20 @@ namespace VIENNAAddIn
         /// <returns></returns>
         public string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname)
         {
-            var menu = new ArrayList();
-            if (menuname == String.Empty)
+            if (menuname == string.Empty)
             {
-                menu.Add("-" + AddInSettings.AddInCaption);
+                return new[] {"-" + AddInSettings.AddInCaption};
             }
-            else if (menulocation == "MainMenu")
+            switch (menulocation)
             {
-                if (menuname == "-" + AddInSettings.AddInCaption)
-                {
-                    menu.Add("&Set Model as UMM2/UPCC3 Model");
-                    menu.Add("&Create initial UMM 2 model structure");
-                    menu.Add("-");
-                    menu.Add("&Validate All - UPCC3");
-                    menu.Add("&Validate All - UMM2");
-                    menu.Add("-");
-                    menu.Add("-Maintenance");
-                    menu.Add("-Wizards");
-                    menu.Add("&Import CCTS Library");
-                    menu.Add("&Options");
-                    menu.Add("&About " + AddInSettings.AddInCaption + " Add-In");
-                }
-                else if (menuname == "-Maintenance")
-                {
-                    menu.Add("Synch tagged value");
-                    menu.Add("Synchronize &Tagged Values...");
-                    menu.Add("&BPEL-XSLT Template Setting");
-                }
-                else if (menuname == "-Wizards")
-                {
-                    menu.Add("Create new &ABIE");
-                    menu.Add("Create new BD&T");
-                    menu.Add("Generate &XML Schema");
-                }
+                case "MainMenu":
+                    return GetMainMenu(menuname);
+                case "Diagram":
+                    return GetDiagramMenu();
+                case "TreeView":
+                    return GetTreeViewMenu(repo);
             }
-            else if (menulocation == "Diagram")
-            {
-                if (menuname == "-UMM2")
-                {
-                    return getDiagramMenu();
-                }
-            }
-            else if (menulocation == "TreeView")
-            {
-                if (menuname == "-" + AddInSettings.AddInCaption)
-                {
-                    return getTreeViewMenu(repo);
-                }
-            }
-
-            return (String[]) menu.ToArray(typeof (String));
+            return null;
         }
 
         public object OnInitializeTechnologies(Repository repository)
@@ -315,24 +279,45 @@ namespace VIENNAAddIn
 
         #endregion
 
-        #region Private Method
+        private static string[] GetMainMenu(string menuname)
+        {
+            var menu = new ArrayList();
+            if (menuname == "-" + AddInSettings.AddInCaption)
+            {
+                menu.Add("&Set Model as UMM2/UPCC3 Model");
+                menu.Add("&Create initial UMM 2 model structure");
+                menu.Add("-");
+                menu.Add("&Validate All - UPCC3");
+                menu.Add("&Validate All - UMM2");
+                menu.Add("-");
+                menu.Add("-Maintenance");
+                menu.Add("-Wizards");
+                menu.Add("&Import CCTS Library");
+                menu.Add("&Options");
+                menu.Add("&About " + AddInSettings.AddInCaption + " Add-In");
+            }
+            else if (menuname == "-Maintenance")
+            {
+                menu.Add("Synch tagged value");
+                menu.Add("Synchronize &Tagged Values...");
+                menu.Add("&BPEL-XSLT Template Setting");
+            }
+            else if (menuname == "-Wizards")
+            {
+                menu.Add("Create new &ABIE");
+                menu.Add("Create new BD&T");
+                menu.Add("Generate &XML Schema");
+            }
+            return (String[]) menu.ToArray(typeof (String));
+        }
 
         /// <summary>
         /// Get the AddIn Menu for the diagram context
         /// </summary>
         /// <returns></returns>
-        private static string[] getDiagramMenu()
+        private static string[] GetDiagramMenu()
         {
-            var UMM2DiagramMenu = new ArrayList();
-            try
-            {
-                UMM2DiagramMenu.Add("&Validate");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An Error occured while creating the Diagram context Menu: " + ex.Message, "Error");
-            }
-            return (String[]) UMM2DiagramMenu.ToArray(typeof (String));
+            return new [] {"&Validate"};
         }
 
         /// <summary>
@@ -340,221 +325,155 @@ namespace VIENNAAddIn
         /// </summary>
         /// <param name="repository"></param>
         /// <returns></returns>
-        private static String[] getTreeViewMenu(Repository repository)
+        private static String[] GetTreeViewMenu(Repository repository)
         {
             var VIENNAAddInTreeViewMenu = new ArrayList();
-            //When an element in the treeview is right clicked (in order to access the
-            //AddIn menu), we must evaluate, if the clicked element is of type EA.Diagram
-            // or of type EA.Element
 
             Object obj;
             ObjectType otype = repository.GetTreeSelectedItem(out obj);
 
-            /* check if the selected model element is a Package */
-            if (otype.Equals(ObjectType.otPackage))
+            switch (otype)
             {
-                #region Object Type : Package
-
-                var package = (Package) obj;
-                String stereotype = null;
-
-                try
-                {
-                    stereotype = package.Element.Stereotype;
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Error while checking Package (" + e.Message + ")");
-                }
-
-                /* if the package is a BusinessRequirementsView or BusinessTransactionView, than enable the menu
-                to add a subpackage */
-                if (stereotype != null &&
-                    ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessRequirementsView.ToString()) ||
-                      stereotype.Equals(UMM.bRequirementsV.ToString()) ||
-                      stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) ||
-                      stereotype.Equals(UMM.bTransactionV.ToString()))))
-                {
-                    if ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) ||
-                         stereotype.Equals(UMM.bTransactionV.ToString())))
-                    {
-                        VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
-                        VIENNAAddInTreeViewMenu.Add("&Generate Transaction Module Artefacts");
-                    }
-                }
-                else if (stereotype != null &&
-                         (stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) ||
-                          stereotype.Equals(UMM.bChoreographyV.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
-                    VIENNAAddInTreeViewMenu.Add("&Generate ALL Transaction Module Artefacts");
-                }
-
-                    //If the package has stereotype "DOCLibrary" add a link for generating XSD Schema
-                    //from CCTS
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.DOCLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
-                }
-                    //If the package has stereotype "BIELibrary" add a link for generating XSD Schema
-                    //from BIE
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.BIELibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
-                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
-                }
-                    //If the package has stereotype "ENUMLibrary" add a link for generating XSD Schema
-                    //from ENUM
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.ENUMLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
-                }
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.BDTLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
-                }
-                    //If the package has stereotype "QDTLibrary" add a link for generating XSD Schema
-                    //from QDT
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.QDTLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
-                }
-                    //If the package has stereotype "CDTLibrary" add a link for generating XSD Schema
-                    //from CDT
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.CDTLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
-                }
-                    //If the package has stereotype "CCLibrary" add a link for generating XSD Schema
-                    //from CC
-                else if (stereotype != null && (stereotype.Equals(CCTS_Types.CCLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CC");
-                }
-                    //We can export XSD and XBRL from bLibraries
-                else if (stereotype != null &&
-                         (stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) ||
-                          stereotype.Equals(CCTS_Types.bLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD");
-                    VIENNAAddInTreeViewMenu.Add("&Generate XBRL");
-                }
-
-                VIENNAAddInTreeViewMenu.Add("&Export Package to CSV file");
-                VIENNAAddInTreeViewMenu.Add("&Import Package to CSV file");
-
-                #endregion
-            }
-            else if (otype == ObjectType.otDiagram)
-            {
-                #region Object Type : Diagram
-
-                var selectedDiagram = (Diagram) obj;
-
-                //Get the diagram id in order to get the package, in which the diagram is located			
-                Element parentPackage = repository.GetPackageByID(selectedDiagram.PackageID).Element;
-
-                //if the stereotype of the package is "DOCLibrary" add a link to generate xsd from
-                //CCTS definition
-                if (parentPackage.Stereotype.Equals(CCTS_Types.DOCLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
-                    VIENNAAddInTreeViewMenu.Add("&Generate XBRL Linkbase file");
-                }
-
-
-                    //if the stereotype of the package is "ENUMLibrary" add a link 
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.ENUMLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
-                }
-
-                    //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
-                    //BIE definition
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
-                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
-                }
-                    //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
-                    //QDT definition
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
-                }
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
-                }
-                    //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
-                    //CDT definition
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
-                }
-
-                #endregion
-            }
-            else if (otype == ObjectType.otElement)
-            {
-                #region Object Type : Element
-
-                var element = (Element) obj;
-                Element parentPackage = repository.GetPackageByID(element.PackageID).Element;
-
-                //if the stereotype of the package is "DOCLibrary" add a link to generate xsd from
-                //CCTS definition
-                if (parentPackage.Stereotype.Equals(CCTS_Types.DOCLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
-                }
-                    //if the steroetype of the package is "ENUMLibrary" add a link to generate xsd from 
-                    //ENUM definition
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.ENUMLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
-                }
-                    //if the steroetype of the package is "BIELibrary" add a link to generate xsd from 
-                    //BIE definition
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
-                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
-                }
-                    //if the steroetype of the package is "QDTLibrary" add a link to generate xsd from 
-                    //QDT definition
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
-                }
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
-                }
-                    //if the steroetype of the package is "CDTLibrary" add a link to generate xsd from 
-                    //CDT definition
-                else if (parentPackage.Stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
-                }
-
-                #endregion
+                case ObjectType.otPackage:
+                    GetTreeViewPackageMenu(obj, VIENNAAddInTreeViewMenu);
+                    break;
+                case ObjectType.otDiagram:
+                    GetTreeViewDiagramMenu(repository, obj, VIENNAAddInTreeViewMenu);
+                    break;
+                case ObjectType.otElement:
+                    GetTreeViewElementMenu(repository, obj, VIENNAAddInTreeViewMenu);
+                    break;
             }
 
             VIENNAAddInTreeViewMenu.Add("-");
             VIENNAAddInTreeViewMenu.Add("&Validate");
 
-            //if (Utility.DEBUG)
-            //    VIENNAAddInTreeViewMenu.Add("&Show PackageID");
             return (String[]) VIENNAAddInTreeViewMenu.ToArray(typeof (String));
         }
 
-        #endregion
+        private static void GetTreeViewElementMenu(Repository repository, object obj, ArrayList VIENNAAddInTreeViewMenu)
+        {
+            var stereotype = repository.GetPackageByID(((Element) obj).PackageID).Element.Stereotype;
+            if (stereotype.Equals(CCTS_Types.DOCLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
+            }
+            else if (stereotype.Equals(CCTS_Types.ENUMLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
+            }
+            else if (stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
+                VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
+                VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
+            }
+            else if (stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
+                VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
+            }
+            else if (stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("Create new BD&T");
+            }
+            else if (stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
+            }
+        }
+
+        private static void GetTreeViewDiagramMenu(Repository repository, object obj, ArrayList VIENNAAddInTreeViewMenu)
+        {
+            var stereotype = repository.GetPackageByID(((Diagram) obj).PackageID).Element.Stereotype;
+            if (stereotype.Equals(CCTS_Types.DOCLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
+                VIENNAAddInTreeViewMenu.Add("&Generate XBRL Linkbase file");
+            }
+            else if (stereotype.Equals(CCTS_Types.ENUMLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
+            }
+            else if (stereotype.Equals(CCTS_Types.BIELibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
+                VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
+                VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
+            }
+            else if (stereotype.Equals(CCTS_Types.QDTLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
+                VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
+            }
+            else if (stereotype.Equals(CCTS_Types.BDTLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("Create new BD&T");
+            }
+            else if (stereotype.Equals(CCTS_Types.CDTLibrary.ToString()))
+            {
+                VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
+            }
+        }
+
+        private static void GetTreeViewPackageMenu(object obj, ArrayList VIENNAAddInTreeViewMenu)
+        {
+            string stereotype = ((Package) obj).Element.Stereotype;
+            if (stereotype != null)
+            {
+                if (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) ||
+                    stereotype.Equals(UMM.bTransactionV.ToString()))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
+                    VIENNAAddInTreeViewMenu.Add("&Generate Transaction Module Artefacts");
+                }
+                else if ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) ||
+                          stereotype.Equals(UMM.bChoreographyV.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
+                    VIENNAAddInTreeViewMenu.Add("&Generate ALL Transaction Module Artefacts");
+                }
+                else if ((stereotype.Equals(CCTS_Types.DOCLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
+                }
+                else if ((stereotype.Equals(CCTS_Types.BIELibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
+                    VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
+                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
+                }
+                else if ((stereotype.Equals(CCTS_Types.ENUMLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
+                }
+                else if ((stereotype.Equals(CCTS_Types.BDTLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
+                }
+                else if ((stereotype.Equals(CCTS_Types.QDTLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
+                    VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
+                }
+                else if ((stereotype.Equals(CCTS_Types.CDTLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
+                }
+                else if ((stereotype.Equals(CCTS_Types.CCLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CC");
+                }
+                else if ((stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) ||
+                          stereotype.Equals(CCTS_Types.bLibrary.ToString())))
+                {
+                    VIENNAAddInTreeViewMenu.Add("&Generate XSD");
+                    VIENNAAddInTreeViewMenu.Add("&Generate XBRL");
+                }
+            }
+
+            VIENNAAddInTreeViewMenu.Add("&Export Package to CSV file");
+            VIENNAAddInTreeViewMenu.Add("&Import Package to CSV file");
+        }
     }
 }
