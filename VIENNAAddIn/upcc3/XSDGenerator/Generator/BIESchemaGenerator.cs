@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -120,7 +121,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     // R 8B85: every BBIE type must be named the property term and qualifiers and the
                     //         representation term of the basic business information entity (BBIE) it represents
                     //         with the word 'Type' appended. 
-                    elementBBIE.SchemaTypeName = new XmlQualifiedName(NSPREFIX_BDT + ":" + bbie.Type.Name + "Type");
+                    elementBBIE.SchemaTypeName = new XmlQualifiedName(NSPREFIX_BDT + ":" + bbie.Type.Name + bbie.Type.CON.BasicType.Name + "Type");
+
 
                     // R 90F9: cardinality of elements within the ABIE
                     elementBBIE.MinOccursString = AdjustLowerBound(bbie.LowerBound);
@@ -141,11 +143,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     XmlSchemaElement elementASBIE = new XmlSchemaElement();
 
                     // R A08A: name of the ASBIE
-                    elementASBIE.Name = asbie.Name;
+                    elementASBIE.Name = asbie.Name + asbie.AssociatedElement.Name;
                     elementASBIE.SchemaTypeName = new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.AssociatedElement.Name + "Type");
 
-                    elementASBIE.MinOccursString = AdjustLowerBound(asbie.LowerBound);
-                    elementASBIE.MaxOccursString = AdjustUpperBound(asbie.UpperBound);
+                    //elementASBIE.MinOccursString = AdjustLowerBound(asbie.LowerBound);
+                    //elementASBIE.MaxOccursString = AdjustUpperBound(asbie.UpperBound);
 
                     if (context.Annotate)
                     {
@@ -156,7 +158,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     {
                         // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
                         XmlSchemaElement refASBIE = new XmlSchemaElement();
-                        refASBIE.RefName = new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.Name);
+                        refASBIE.RefName = new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.Name + asbie.AssociatedElement.Name);
                         sequenceBBIEs.Items.Add(refASBIE);
 
                         schema.Items.Add(elementASBIE);
