@@ -80,16 +80,6 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             
         }
 
-        private static void AddElementAnnotations()
-        {
-            //TODO Generate Element Annotations
-        }
-
-        private static void AddTypeAnnotations()
-        {
-            //TODO Generate Type Annotations
-        }
-
         private static IList<IABIE> removeRootElements(IEnumerable<IABIE> abies, IEnumerable<IABIE> rootelements)
         {
             IList<IABIE> temp = new List<IABIE>(abies);
@@ -111,10 +101,45 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
         private static void AddRootTypeDefinition(XmlSchema schema, IABIE abie, GenerationContext context, IDOCLibrary docLibrary)
         {
-            XmlSchemaComplexType roottype = new XmlSchemaComplexType();
-            roottype.Name = abie.Name + "Type";
+            XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie, NSPREFIX_BIE);
+            XmlSchemaElement element;
+            schema.Items.Add(type);
+            IList<IABIE> temp = new List<IABIE>(docLibrary.BIEs);
+            XmlSchemaSequence sequence = type.Particle as XmlSchemaSequence;
+            
+            
+            foreach (XmlSchemaObject item in sequence.Items)
+            {
+                if(item is XmlSchemaElement)
+                {
+                    element = item as XmlSchemaElement;
 
-            XmlSchemaSequence sequence = new XmlSchemaSequence();
+                    foreach (IASBIE asbie in abie.ASBIEs) {
+                        // this condition makes sure only docLibraryLevel ABIEs get selected
+                        if (temp.Contains(asbie.AssociatedElement))
+                        {
+                            if (element.RefName != null && element.RefName.ToString().Contains(NSPREFIX_BIE + ":" + asbie.Name + asbie.AssociatedElement.Name))
+                            {
+                                String s = element.RefName.ToString();
+                                s = s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
+                                element.RefName = new XmlQualifiedName(s);
+                            }
+                            else if (element.Name != null && element.Name.ToString().Contains(NSPREFIX_BIE + ":" + asbie.Name + asbie.AssociatedElement.Name))
+                            {
+                                String s = element.SchemaTypeName.ToString();
+                                s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
+                                element.SchemaTypeName = new XmlQualifiedName(s);
+                            }
+                        }     
+                    }
+                }
+            }
+          
+
+            //XmlSchemaComplexType roottype = new XmlSchemaComplexType();
+            //roottype.Name = abie.Name + "Type";
+
+            //XmlSchemaSequence sequence = new XmlSchemaSequence();
             
 
             //TODO this is now only partially correct implemented, an algorithmn has to take links and instances of ASBIEs into account
@@ -128,10 +153,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
                 //sequence.Items.Add(element);
             //}
-            roottype.Particle = sequence;
-            schema.Items.Add(roottype);
+            //roottype.Particle = sequence;
+            //schema.Items.Add(roottype);
         }
 
+       
         private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IABIE abie, GenerationContext context, IDOCLibrary docLibrary)
         {
             IList<IABIE> temp = new List<IABIE>(docLibrary.BIEs);
