@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             foreach (IABIE abie in bies)
             {
                 // finally add the complex type to the schema
-                schema.Items.Add(GenerateBIE(context, schema, abie));
+                schema.Items.Add(GenerateComplexTypeABIE(context, schema, abie));
 
                 // R 9DA0: for each ABIE a named element must be globally declared
                 // R 9A25: the name of the ABIE element must be the DictionaryEntryName with whitespace 
@@ -119,7 +119,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             context.AddSchema(schema, SCHEMA_NAME_BIE);
         }
 
-        internal static XmlSchemaComplexType GenerateBIE(GenerationContext context, XmlSchema schema, IABIE abie)
+        internal static XmlSchemaComplexType GenerateComplexTypeABIE(GenerationContext context, XmlSchema schema, IABIE abie)
         {
             // R A4CE, R AF95: a complex type must be defined for each ABIE   
             XmlSchemaComplexType complexTypeBIE = new XmlSchemaComplexType();
