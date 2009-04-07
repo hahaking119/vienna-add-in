@@ -49,10 +49,9 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
     {
         private const string NSPREFIX_BDT = "bdt";
         private const string NSPREFIX_TNS = "tns";
-        private const string NSPREFIX_DOC = "doc";
+        private const string NSPREFIX_DOC = "ccts";
 
-        private const string NS_DOC =
-            "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3";
+        private const string NS_DOC = "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3";
 
         //private const string NSPREFIX_CCTS = "ccts";
         //private const string NS_CCTS = "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2";
@@ -173,9 +172,6 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 elementASBIE.Name = asbie.Name + asbie.AssociatedElement.Name;
                 elementASBIE.SchemaTypeName =
                     new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.AssociatedElement.Name + "Type");
-
-                //elementASBIE.MinOccursString = AdjustLowerBound(asbie.LowerBound);
-                //elementASBIE.MaxOccursString = AdjustUpperBound(asbie.UpperBound);
 
                 if (context.Annotate)
                 {

@@ -37,8 +37,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
                 schema.ElementFormDefault = XmlSchemaForm.Qualified;
                 schema.AttributeFormDefault = XmlSchemaForm.Unqualified;
-                schema.Version = docLibrary.VersionIdentifier;
-
+                schema.Version = docLibrary.VersionIdentifier.DefaultTo("1");
+                
                 //TODO how do i now what schemas to include and what to import
                 AddImports(schema, context, docLibrary);
                 AddIncludes(schema, context, docLibrary);
@@ -70,12 +70,14 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             foreach (IABIE abie in abies)
             {
-                XmlSchemaComplexType type = new XmlSchemaComplexType();
-                type.Name = abie.Name + "Type";
-                XmlSchemaSequence sequence = new XmlSchemaSequence();
-                type.Particle = sequence;
-                schema.Items.Add(type);
+                schema.Items.Add(BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie));
+                //XmlSchemaComplexType type = new XmlSchemaComplexType();
+                //type.Name = abie.Name + "Type";
+                //XmlSchemaSequence sequence = new XmlSchemaSequence();
+                //type.Particle = sequence;
+                //schema.Items.Add(type);
             }
+            
         }
 
         private static void AddElementAnnotations()
@@ -116,7 +118,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             
 
             //TODO this is now only partially correct implemented, an algorithmn has to take links and instances of ASBIEs into account
-            AddASBIE(schema, sequence, abie, context, docLibrary);
+           // AddASBIE(schema, sequence, abie, context, docLibrary);
             
            // foreach (IASBIE asbie in abie.ASBIEs)
             //{
