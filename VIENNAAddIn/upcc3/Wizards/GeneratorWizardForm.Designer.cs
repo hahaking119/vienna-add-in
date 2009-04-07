@@ -241,9 +241,9 @@
             // comboBIVs
             // 
             this.comboBIVs.FormattingEnabled = true;
-            this.comboBIVs.Location = new System.Drawing.Point(213, 12);
+            this.comboBIVs.Location = new System.Drawing.Point(210, 12);
             this.comboBIVs.Name = "comboBIVs";
-            this.comboBIVs.Size = new System.Drawing.Size(332, 21);
+            this.comboBIVs.Size = new System.Drawing.Size(335, 21);
             this.comboBIVs.TabIndex = 41;
             this.comboBIVs.SelectionChangeCommitted += new System.EventHandler(this.comboBIVs_SelectionChangeCommitted);
             // 

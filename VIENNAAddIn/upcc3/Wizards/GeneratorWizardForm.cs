@@ -199,6 +199,8 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             richtextStatus.Text = "";
 
+            richtextStatus.Text = "Starting to generate XML schemas ...\n\n";
+
             GatherUserInput();
 
             cBIV currentBIV = cache.BIVs[selectedBIVName];
@@ -217,7 +219,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             //                                                                                  PathToTestResource(
             //                                                                                      "\\XSDGeneratorTest\\all"));
 
-            richtextStatus.Text = "Generating XML schemas completed!";
+            richtextStatus.Text += "Generating XML schemas completed!";
         }
     }
 }

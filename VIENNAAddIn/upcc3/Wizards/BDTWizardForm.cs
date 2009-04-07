@@ -23,6 +23,8 @@ namespace VIENNAAddIn.upcc3.Wizards
         private const string CAPTION_INFO_WINDOW = "BDT Wizard";
         private const string DEFAULT_PREFIX = "My";
 
+
+        #region Constructor
         ///<summary>
         ///</summary>
         ///<param name="eaRepository"></param>
@@ -50,6 +52,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                 ResetForm(0);
             }
         }
+        #endregion
+
+        #region Event Handler Methods
 
         private void BDTWizardForm_Load(object sender, EventArgs e)
         {
@@ -251,12 +256,19 @@ namespace VIENNAAddIn.upcc3.Wizards
                     errorMessageBDTName.Location = new Point(textBDTName.Location.X + textBDTName.Width - 105, textBDTName.Location.Y);
                     errorMessageBDTName.Text = "BDT named \"" + textBDTName.Text + "\" alreay exists!";
                     errorMessageBDTName.BringToFront();
-                    errorMessageBDTName.Show();                    
+                    errorMessageBDTName.Show();
+                    ResetForm(3);
                 }
                 else
                 {
                     errorMessageBDTName.Hide();
+                    ResetForm(4);
                 }
+            }
+
+            if (string.IsNullOrEmpty(textBDTName.Text))
+            {
+                ResetForm(3);
             }
         }
 
@@ -275,6 +287,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
         }
+
+        #endregion
 
         #region Convenience Methods
 
@@ -319,11 +333,20 @@ namespace VIENNAAddIn.upcc3.Wizards
                     textBDTPrefix.Enabled = true;
                     textBDTName.Enabled = true;
                     comboBDTLs.Enabled = true;
-                    buttonGenerateBDT.Enabled = true;                    
+                    buttonGenerateBDT.Enabled = false;
+                    break;
+
+                case 4:
+                    buttonGenerateBDT.Enabled = true;
                     break;
             }
         }
 
         #endregion
+
+        private void BDTWizardForm_SizeChanged(object sender, EventArgs e)
+        {
+            errorMessageBDTName.Location = new Point(textBDTName.Location.X + textBDTName.Width - 105, textBDTName.Location.Y);
+        }
     }
 }
