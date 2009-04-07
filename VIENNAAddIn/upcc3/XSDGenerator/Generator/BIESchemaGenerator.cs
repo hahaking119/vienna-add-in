@@ -28,14 +28,6 @@ using VIENNAAddIn.upcc3.ccts.util;
 // R 90F9
 //    --> sequencing currently ignored 
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
@@ -109,10 +101,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 //         removed. The 'Details' suffix is replaced with 'Type'.
                 complexTypeBIE.Name = abie.Name + "Type";
 
-                //////if (context.Annotate)
-                //////{
-                //////    complexTypeBIE.Annotation = GetABIEAnnotation(abie);
-                //////}
+                if (context.Annotate)
+                {
+                    complexTypeBIE.Annotation = GetABIEAnnotation(abie);
+                }
 
                 // create the sequence for the BBIEs within the ABIE
                 XmlSchemaSequence sequenceBBIEs = new XmlSchemaSequence();
@@ -122,8 +114,9 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     // R 89A6: for every BBIE a named element must be locally declared
                     XmlSchemaElement elementBBIE = new XmlSchemaElement();
 
+                    // R AEFE, R 96D9, R9A40, R A34A are implemented in GenerateBBIEName(...)
                     elementBBIE.Name = GenerateBBIEName(bbie.Name, bbie.Type.Name);
-
+                    
                     // R 8B85: every BBIE type must be named the property term and qualifiers and the
                     //         representation term of the basic business information entity (BBIE) it represents
                     //         with the word 'Type' appended. 
@@ -133,10 +126,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     elementBBIE.MinOccursString = AdjustLowerBound(bbie.LowerBound);
                     elementBBIE.MaxOccursString = AdjustUpperBound(bbie.UpperBound);
 
-                    //////if (context.Annotate)
-                    //////{
-                    //////    elementBBIE.Annotation = GetBBIEAnnotation(bbie);
-                    //////}
+                    if (context.Annotate)
+                    {
+                        elementBBIE.Annotation = GetBBIEAnnotation(bbie);
+                    }
 
                     // add the element created to the sequence
                     sequenceBBIEs.Items.Add(elementBBIE);
@@ -147,16 +140,17 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 {
                     XmlSchemaElement elementASBIE = new XmlSchemaElement();
 
+                    // R A08A: name of the ASBIE
                     elementASBIE.Name = asbie.Name;
                     elementASBIE.SchemaTypeName = new XmlQualifiedName(NSPREFIX_TNS + ":" + asbie.AssociatedElement.Name + "Type");
 
                     elementASBIE.MinOccursString = AdjustLowerBound(asbie.LowerBound);
                     elementASBIE.MaxOccursString = AdjustUpperBound(asbie.UpperBound);
 
-                    //////if (context.Annotate)
-                    //////{
-                    //////    elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
-                    //////}
+                    if (context.Annotate)
+                    {
+                        elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
+                    }
 
                     if (asbie.AggregationKind == AggregationKind.Shared)
                     {
@@ -167,7 +161,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
                         schema.Items.Add(elementASBIE);
                     }
-                    else //if(asbie.AggregationKind == AggregationKind.Composite)
+                    else 
                     {
                         //R 9025: ASBIEs with Aggregation Kind = composite a local element for the
                         //        associated ABIE must be declared in the associating ABIE complex type.
@@ -332,21 +326,21 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
         private static string GenerateBBIEName(string bbieName, string bbieType)
         {
-            if ((bbieName.EndsWith("Identification")) && (bbieType.Equals("Identifer")))
+            if ((bbieName.EndsWith("Identification")) && (bbieType.Equals("Identifier")))
             {
-                return bbieName.Remove(bbieName.Length - 14);
+                return bbieName.Remove(bbieName.Length - 14) + "Identifer";
             }
 
             if ((bbieName.EndsWith("Indication")) && (bbieType.Equals("Indicator")))
             {
-                return bbieName.Remove(bbieName.Length - 10);
+                return bbieName.Remove(bbieName.Length - 10) + "Indicator";
             }
 
             if (bbieType.Equals("Text"))
-            {
-                return bbieName;
+            {                
+                return bbieName;                
             }
-
+            
             return bbieName + bbieType;
         }
    }
