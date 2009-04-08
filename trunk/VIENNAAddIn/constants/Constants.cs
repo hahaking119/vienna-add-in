@@ -142,13 +142,16 @@ namespace VIENNAAddIn.constants
         ENUMLibrary,
         PRIMLibrary,
         isEquivalentTo,
+        basedOn
         
     }
 
     internal enum UPCC_TV
     {
         dictionaryEntryName,
-        uniqueIdentifier
+        uniqueIdentifier,
+        agencyName,
+        agencyIdentifier
     }
 
 
