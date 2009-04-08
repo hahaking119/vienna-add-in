@@ -200,7 +200,7 @@ Actual output file: {2}",
         public void TestSchemaGenerator()
         {
             var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
-            var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), "ebInterface", "eb", true, "C:\\dump\\");
+            var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), "ebInterface", "eb", false, "C:\\dump\\");
             Assert.AreEqual(3, context.Schemas.Count);
             XmlSchema schema = context.Schemas[2].Schema;
             schema.Write(Console.Out);
