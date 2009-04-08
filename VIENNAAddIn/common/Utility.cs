@@ -1341,6 +1341,89 @@ namespace VIENNAAddIn.common
         }
 
 
+        /// <summary>
+        /// Checks whether the given element is the source of an isEquivalentTo dependency
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        internal static bool isEquivalentToAnotherElement(EA.Element e)
+        {
+
+            foreach (EA.Connector con in e.Connectors)
+            {
+                if (con.ClientID == e.ElementID && con.Stereotype == UPCC.isEquivalentTo.ToString())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// Returns the target of an isEquivalentToDependency
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        internal static EA.Element getTargetOfisEquivalentToDependency(EA.Element sourceElement, EA.Repository repo)
+        {
+
+            foreach (EA.Connector con in sourceElement.Connectors)
+            {
+                if (con.ClientID == sourceElement.ElementID && con.Stereotype == UPCC.isEquivalentTo.ToString())
+                {
+                    return repo.GetElementByID(con.SupplierID);
+                }
+            }
+            return null;
+        }
+
+
+
+        /// <summary>
+        /// Returns the target of a basedOn dependency
+        /// </summary>
+        /// <param name="sourceElement"></param>
+        /// <param name="repo"></param>
+        /// <returns></returns>
+        internal static EA.Element getTargetOfisbasedOnDependency(EA.Element sourceElement, EA.Repository repo)
+        {
+
+            foreach (EA.Connector con in sourceElement.Connectors)
+            {
+                if (con.ClientID == sourceElement.ElementID && con.Stereotype == UPCC.basedOn.ToString())
+                {
+                    return repo.GetElementByID(con.SupplierID);
+                }
+            }
+            return null;
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// Checks whether the given element is based on another element via a basedOn dependency
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        internal static bool isBasedOnAnotherElement(EA.Element e)
+        {
+
+            foreach (EA.Connector con in e.Connectors)
+            {
+                if (con.ClientID == e.ElementID && con.Stereotype == UPCC.basedOn.ToString())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         
         
 
