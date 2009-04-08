@@ -91,8 +91,17 @@ namespace VIENNAAddIn.menu
 
                     if (otype.Equals(ObjectType.otPackage))
                     {
-                        String stereotype = ((Package) obj).Element.Stereotype;
-                        menu = packageMenus.ContainsKey(stereotype) ? packageMenus[stereotype] : AllPackages;
+                        var package = (Package) obj;
+                        if (package.Element == null)
+                        {
+                            // right click on a Module (top level package), which has no stereotype
+                            menu = AllPackages;
+                        }
+                        else
+                        {
+                            String stereotype = package.Element.Stereotype;
+                            menu = packageMenus.ContainsKey(stereotype) ? packageMenus[stereotype] : AllPackages;
+                        }
                     }
                     else if (otype.Equals(ObjectType.otElement))
                     {

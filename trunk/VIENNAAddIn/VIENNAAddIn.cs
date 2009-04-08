@@ -317,7 +317,7 @@ namespace VIENNAAddIn
         /// <returns></returns>
         private static string[] GetDiagramMenu()
         {
-            return new [] {"&Validate"};
+            return new[] {"&Validate"};
         }
 
         /// <summary>
@@ -328,14 +328,11 @@ namespace VIENNAAddIn
         private static String[] GetTreeViewMenu(Repository repository)
         {
             var VIENNAAddInTreeViewMenu = new ArrayList();
-
             Object obj;
-            ObjectType otype = repository.GetTreeSelectedItem(out obj);
-
-            switch (otype)
+            switch (repository.GetTreeSelectedItem(out obj))
             {
                 case ObjectType.otPackage:
-                    GetTreeViewPackageMenu(obj, VIENNAAddInTreeViewMenu);
+                    GetTreeViewPackageMenu((Package) obj, VIENNAAddInTreeViewMenu);
                     break;
                 case ObjectType.otDiagram:
                     GetTreeViewDiagramMenu(repository, obj, VIENNAAddInTreeViewMenu);
@@ -416,64 +413,67 @@ namespace VIENNAAddIn
             }
         }
 
-        private static void GetTreeViewPackageMenu(object obj, ArrayList VIENNAAddInTreeViewMenu)
+        private static void GetTreeViewPackageMenu(Package package, ArrayList VIENNAAddInTreeViewMenu)
         {
-            string stereotype = ((Package) obj).Element.Stereotype;
-            if (stereotype != null)
+            if (package.Element != null)
             {
-                if (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) ||
-                    stereotype.Equals(UMM.bTransactionV.ToString()))
+                string stereotype = package.Element.Stereotype;
+                if (stereotype != null)
                 {
-                    VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
-                    VIENNAAddInTreeViewMenu.Add("&Generate Transaction Module Artefacts");
+                    if (stereotype.Equals(StereotypeOwnTaggedValues.BusinessTransactionView.ToString()) ||
+                        stereotype.Equals(UMM.bTransactionV.ToString()))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate WSDL from Business Transaction");
+                        VIENNAAddInTreeViewMenu.Add("&Generate Transaction Module Artefacts");
+                    }
+                    else if ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) ||
+                              stereotype.Equals(UMM.bChoreographyV.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
+                        VIENNAAddInTreeViewMenu.Add("&Generate ALL Transaction Module Artefacts");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.DOCLibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.BIELibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
+                        VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
+                        VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.ENUMLibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.BDTLibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("Create new BD&T");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.QDTLibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
+                        VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.CDTLibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.CCLibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate XSD from CC");
+                    }
+                    else if ((stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) ||
+                              stereotype.Equals(CCTS_Types.bLibrary.ToString())))
+                    {
+                        VIENNAAddInTreeViewMenu.Add("&Generate XSD");
+                        VIENNAAddInTreeViewMenu.Add("&Generate XBRL");
+                    }
                 }
-                else if ((stereotype.Equals(StereotypeOwnTaggedValues.BusinessChoreographyView.ToString()) ||
-                          stereotype.Equals(UMM.bChoreographyV.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate all WSDL in BusinessChoreographyView");
-                    VIENNAAddInTreeViewMenu.Add("&Generate ALL Transaction Module Artefacts");
-                }
-                else if ((stereotype.Equals(CCTS_Types.DOCLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from DOC");
-                }
-                else if ((stereotype.Equals(CCTS_Types.BIELibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from BIE");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Business Information Entity");
-                    VIENNAAddInTreeViewMenu.Add("Create new &ABIE");
-                }
-                else if ((stereotype.Equals(CCTS_Types.ENUMLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from ENUM");
-                }
-                else if ((stereotype.Equals(CCTS_Types.BDTLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("Create new BD&T");
-                }
-                else if ((stereotype.Equals(CCTS_Types.QDTLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from QDT");
-                    VIENNAAddInTreeViewMenu.Add("&Create new Qualified Data Type");
-                }
-                else if ((stereotype.Equals(CCTS_Types.CDTLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CDT");
-                }
-                else if ((stereotype.Equals(CCTS_Types.CCLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD from CC");
-                }
-                else if ((stereotype.Equals(CCTS_Types.BusinessLibrary.ToString()) ||
-                          stereotype.Equals(CCTS_Types.bLibrary.ToString())))
-                {
-                    VIENNAAddInTreeViewMenu.Add("&Generate XSD");
-                    VIENNAAddInTreeViewMenu.Add("&Generate XBRL");
-                }
-            }
 
-            VIENNAAddInTreeViewMenu.Add("&Export Package to CSV file");
-            VIENNAAddInTreeViewMenu.Add("&Import Package to CSV file");
+                VIENNAAddInTreeViewMenu.Add("&Export Package to CSV file");
+                VIENNAAddInTreeViewMenu.Add("&Import Package to CSV file");
+            }
         }
     }
 }
