@@ -241,9 +241,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
             AddDocumentation(documentation, "UniqueID", abie.UniqueIdentifier);
             AddDocumentation(documentation, "VersionID", abie.VersionIdentifier);
-            // ObjectClassQualifierName could be extracted from the ObjectClassTermName (e.g. "My" in "My_Address") but is 
-            // not implement at this point            
-            AddDocumentation(documentation, "ObjectClassTermName", abie.Name);
+            AddDocumentation(documentation, "ObjectClassQualifierName", getObjectClassQualifier(abie.Name));
+            AddDocumentation(documentation, "ObjectClassTermName", getObjectClassTerm(abie.Name));
             AddDocumentation(documentation, "DictionaryEntryName", abie.DictionaryEntryName);
             AddDocumentation(documentation, "Definition", abie.Definition);
             AddDocumentation(documentation, "BusinessTermName", abie.BusinessTerms);
@@ -286,7 +285,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             return annotation;
         }
 
-        private static void AddDocumentation(IList<XmlNode> doc, string name, string value)
+        public static void AddDocumentation(IList<XmlNode> doc, string name, string value)
         {
             // Dummy XML Document needed to create various XML schema elements (e.g. text nodes)
             XmlDocument dummyDoc = new XmlDocument();
@@ -296,7 +295,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             doc.Add(documentationElement);
         }
 
-        private static void AddDocumentation(IList<XmlNode> doc, string name, IEnumerable<string> values)
+        public static void AddDocumentation(IList<XmlNode> doc, string name, IEnumerable<string> values)
         {
             int countBusinessTerms = 0;
 
@@ -356,5 +355,24 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
             return bbieName + bbieType;
         }
+
+        public static string getObjectClassTerm(string name)
+        {
+            if (name.LastIndexOf('_') != -1)
+            {
+                return name.Substring(name.LastIndexOf('_') + 1);
+            }
+            return name;
+        }
+
+        public static string getObjectClassQualifier(string name)
+        {
+            if (name.LastIndexOf('_') != -1)
+            {
+                return name.Substring(0, name.LastIndexOf('_'));
+            }
+            return name;
+        }
+
     }
 }
