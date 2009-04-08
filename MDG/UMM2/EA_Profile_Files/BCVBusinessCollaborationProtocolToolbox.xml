@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="7F14FCDF-4" name="BCVBusinessCollaborationProtocolToolbox" version="1.0" notes="BCVBusinessCollaborationProtocolToolbox"/>
+	<Documentation id="FC714F78-C" name="BCVBusinessCollaborationProtocolToolbox" version="1.0" notes="BCVBusinessCollaborationProtocolToolbox"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="BCPModelElements" alias="Business Collaboration Protocol Modeling Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BCPModelElements" alias="Business Collaboration Protocol Modeling Elements" notes="" cx="331" cy="118" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
@@ -12,9 +12,11 @@
 					<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default="Activity Final"/>
 					<Tag name="UMM2::bCPartition(UML::ActivityPartition)" type="" description="" unit="" values="" default="Business Collaboration Partition"/>
 					<Tag name="UMM2::bTransactionAction(UML::Action)" type="" description="" unit="" values="" default="Business Transaction Action"/>
+					<Tag name="UMM2::bNestedCollaboration(UML::Action)" type="" description="" unit="" values="" default="Nested Collaboration Action"/>
+					<Tag name="UMM2::bCollaborationAction(UML::Action)" type="" description="" unit="" values="" default="Business Collaboration Action"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BCPModelRelationships" alias="Business Collaboration Protocol Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BCPModelRelationships" alias="Business Collaboration Protocol Model Relationships" notes="" cx="304" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
