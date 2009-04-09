@@ -38,6 +38,7 @@ namespace VIENNAAddIn.Settings
         ///</summary>
         public static string MDGFilePath { get; private set; }
 
+        public static string CommonXSDPath { get; private set; }
         private static string HomeDirectory { get; set; }
 
         /// <summary>
@@ -55,6 +56,7 @@ namespace VIENNAAddIn.Settings
                 CCLibraryFilePath = HomeDirectory + registryKey.LoadRegistryEntry("cclibrary");
                 BPELTemplatePath = HomeDirectory + registryKey.LoadRegistryEntry("bpelTemplate");
                 ImagesPath = HomeDirectory + registryKey.LoadRegistryEntry("images");
+                CommonXSDPath = HomeDirectory + registryKey.LoadRegistryEntry("commonxsd");
             }
             catch (RegistryAccessException)
             {
