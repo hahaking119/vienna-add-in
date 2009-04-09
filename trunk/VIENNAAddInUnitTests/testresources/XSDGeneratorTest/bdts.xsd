@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3" xmlns:test="urn:test:namespace" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" targetNamespace="urn:test:namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:test="urn:test:namespace" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3" targetNamespace="urn:test:namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <xsd:simpleType name="SimpleStringStringType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-        <doc:DictionaryEntryName>SimpleString. Type</doc:DictionaryEntryName>
-        <doc:PropertyTermName>SimpleString</doc:PropertyTermName>
+        <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">SimpleString. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">SimpleString</doc:PropertyTermName>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:restriction base="xsd:string" />
@@ -12,13 +12,13 @@
   <xsd:complexType name="TextStringType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-        <doc:UniqueID>234235235</doc:UniqueID>
-        <doc:VersionID>1.0</doc:VersionID>
-        <doc:DictionaryEntryName>Text. Type</doc:DictionaryEntryName>
-        <doc:Definition>This is the definition of BDT Text.</doc:Definition>
-        <doc:BusinessTermName>business term 1</doc:BusinessTermName>
-        <doc:BusinessTermName>business term 2</doc:BusinessTermName>
-        <doc:PropertyTermName>Text</doc:PropertyTermName>
+        <doc:UniqueID xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">234235235</doc:UniqueID>
+        <doc:VersionID xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">1.0</doc:VersionID>
+        <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Text. Type</doc:DictionaryEntryName>
+        <doc:Definition xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">This is the definition of BDT Text.</doc:Definition>
+        <doc:BusinessTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">business term 1</doc:BusinessTermName>
+        <doc:BusinessTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">business term 2</doc:BusinessTermName>
+        <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Text</doc:PropertyTermName>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
@@ -26,24 +26,24 @@
         <xsd:attribute name="LanguageString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>Language</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>Text</doc:DataTypeName>
-              <doc:DictionaryEntryName>Text. Language. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Language</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Text</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Text. Language. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="LanguageLocaleString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>Language.Locale</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>Text</doc:DataTypeName>
-              <doc:DictionaryEntryName>Text. Language.Locale. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Language.Locale</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Text</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Text. Language.Locale. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
@@ -53,8 +53,8 @@
   <xsd:complexType name="DateStringType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-        <doc:DictionaryEntryName>Date. Type</doc:DictionaryEntryName>
-        <doc:PropertyTermName>Date</doc:PropertyTermName>
+        <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Date. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Date</doc:PropertyTermName>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
@@ -62,12 +62,12 @@
         <xsd:attribute name="FormatString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>Format</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>Date</doc:DataTypeName>
-              <doc:DictionaryEntryName>Date. Format. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Format</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Date</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Date. Format. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
@@ -77,8 +77,8 @@
   <xsd:complexType name="ABCCodeABCCodesType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-        <doc:DictionaryEntryName>ABCCode. Type</doc:DictionaryEntryName>
-        <doc:PropertyTermName>ABCCode</doc:PropertyTermName>
+        <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:PropertyTermName>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
@@ -86,108 +86,108 @@
         <xsd:attribute name="NameString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>Name</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. Name. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Name</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. Name. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="CodeListAgencyString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CodeList.Agency</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. CodeList.Agency. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CodeList.Agency</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. CodeList.Agency. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="CodeListAgencyNameString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CodeList.AgencyName</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. CodeList.AgencyName. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CodeList.AgencyName</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. CodeList.AgencyName. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="CodeListString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CodeList</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. CodeList. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CodeList</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. CodeList. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="CodeListNameString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CodeList.Name</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. CodeList.Name. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CodeList.Name</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. CodeList.Name. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="CodeListUniformResourceIdentifierString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CodeList.UniformResourceIdentifier</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. CodeList.UniformResourceIdentifier. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CodeList.UniformResourceIdentifier</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. CodeList.UniformResourceIdentifier. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="CodeListVersionString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CodeList.Version</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. CodeList.Version. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CodeList.Version</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. CodeList.Version. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="CodeListSchemeUniformResourceIdentifierString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CodeListScheme.UniformResourceIdentifier</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. CodeListScheme.UniformResourceIdentifier. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CodeListScheme.UniformResourceIdentifier</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. CodeListScheme.UniformResourceIdentifier. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="LanguageString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>Language</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>ABCCode</doc:DataTypeName>
-              <doc:DictionaryEntryName>ABCCode. Language. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Language</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">ABCCode. Language. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
@@ -197,8 +197,8 @@
   <xsd:complexType name="MeasureDecimalType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-        <doc:DictionaryEntryName>Measure. Type</doc:DictionaryEntryName>
-        <doc:PropertyTermName>Measure</doc:PropertyTermName>
+        <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Measure. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Measure</doc:PropertyTermName>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
@@ -206,24 +206,24 @@
         <xsd:attribute name="MeasureUnitString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>MeasureUnit</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>Measure</doc:DataTypeName>
-              <doc:DictionaryEntryName>Measure. MeasureUnit. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">MeasureUnit</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Measure</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Measure. MeasureUnit. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="MeasureUnitCodeListVersionString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>MeasureUnit.CodeListVersion</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>Measure</doc:DataTypeName>
-              <doc:DictionaryEntryName>Measure. MeasureUnit.CodeListVersion. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">MeasureUnit.CodeListVersion</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Measure</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Measure. MeasureUnit.CodeListVersion. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
@@ -233,8 +233,8 @@
   <xsd:complexType name="CurrencyDecimalType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-        <doc:DictionaryEntryName>Currency. Type</doc:DictionaryEntryName>
-        <doc:PropertyTermName>Currency</doc:PropertyTermName>
+        <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Currency. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Currency</doc:PropertyTermName>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:simpleContent>
@@ -242,12 +242,12 @@
         <xsd:attribute name="CurrencyCodeString" type="xsd:string">
           <xsd:annotation>
             <xsd:documentation xml:lang="en">
-              <doc:PropertyTermName>CurrencyCode</doc:PropertyTermName>
-              <doc:RepresentationTermName>String</doc:RepresentationTermName>
-              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
-              <doc:DataTypeName>Currency</doc:DataTypeName>
-              <doc:DictionaryEntryName>Currency. CurrencyCode. String</doc:DictionaryEntryName>
-              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+              <doc:PropertyTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">CurrencyCode</doc:PropertyTermName>
+              <doc:RepresentationTermName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">String</doc:PrimitiveTypeName>
+              <doc:DataTypeName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Currency</doc:DataTypeName>
+              <doc:DictionaryEntryName xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">Currency. CurrencyCode. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3">true</doc:ModificationAllowedIndicator>
             </xsd:documentation>
           </xsd:annotation>
         </xsd:attribute>
