@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.XSDGenerator.Generator;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -254,6 +255,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             richtextStatus.Text = "";
 
             richtextStatus.Text = "Starting to generate XML schemas ...\n\n";
+            richtextStatus.Refresh();
 
             GatherUserInput();
 
@@ -278,14 +280,27 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             //TODO: currently the wizard just takes the input from the text fields whereas the prefix and the
             // target namespace should be (a) stored in the cache and (b) read from there while generation.. 
-            XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccR, docl, relevantDocuments, textTargetNS.Text, textPrefixTargetNS.Text, checkboxAnnotations.CheckState == CheckState.Checked ? true : false, outputDirectory);
+            string targetNamespace = textTargetNS.Text;
+            string namespacePrefix = textPrefixTargetNS.Text;
+            bool annotate = checkboxAnnotations.CheckState == CheckState.Checked ? true : false;
+            var generationContext = new GenerationContext(ccR, targetNamespace,
+                                                namespacePrefix, annotate,
+                                                outputDirectory, docl, relevantDocuments);
+            generationContext.SchemaAdded += HandleSchemaAdded;
+            XSDGenerator.Generator.XSDGenerator.GenerateSchemas(generationContext);
 
             //VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary,
             //                                                                                  "urn:test:namespace", "test", true,
             //                                                                                  PathToTestResource(
             //                                                                                      "\\XSDGeneratorTest\\all"));
 
-            richtextStatus.Text += "Generating XML schemas completed!";
+            richtextStatus.Text += "\nGenerating XML schemas completed!";
+        }
+
+        private void HandleSchemaAdded(object sender, SchemaAddedEventArgs e)
+        {
+            richtextStatus.Text += "Schema generated: " + e.FileName + "\n";
+            richtextStatus.Refresh();
         }
 
         private void textTargetNS_TextChanged(object sender, EventArgs e)

@@ -20,21 +20,15 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
     {
         ///<summary>
         ///</summary>
-        ///<param name="ccRepository"></param>
-        ///<param name="docLibrary"></param>
-        ///<param name="targetNamespace"></param>
-        ///<param name="namespacePrefix"></param>
-        public static GenerationContext GenerateSchemas(ICCRepository ccRepository, IDOCLibrary docLibrary, IList<IABIE> selectedRootElements, string targetNamespace,
-                                           string namespacePrefix, bool annotate, string outputDirectory)
+        public static GenerationContext GenerateSchemas(GenerationContext context)
         {
-            var context = new GenerationContext(ccRepository, targetNamespace, namespacePrefix, annotate, outputDirectory);
-            BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context, docLibrary));
-            BIESchemaGenerator.GenerateXSD(context, CollectBIEs(context, docLibrary));
-            RootSchemaGenerator.GenerateXSD(context, docLibrary, selectedRootElements);
+            BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context));
+            BIESchemaGenerator.GenerateXSD(context, CollectBIEs(context));
+            RootSchemaGenerator.GenerateXSD(context);
 
-            if (!Directory.Exists(outputDirectory))
+            if (!Directory.Exists(context.OutputDirectory))
             {
-                Directory.CreateDirectory(outputDirectory);
+                Directory.CreateDirectory(context.OutputDirectory);
             }
             foreach (SchemaInfo schemaInfo in context.Schemas)
             {
@@ -43,7 +37,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                                             Indent = true,
                                             Encoding = Encoding.UTF8,
                                         };
-                using (var xmlWriter = XmlWriter.Create(outputDirectory + "\\" + schemaInfo.FileName, xmlWriterSettings))
+                using (var xmlWriter = XmlWriter.Create(context.OutputDirectory + "\\" + schemaInfo.FileName, xmlWriterSettings))
                 {
 // ReSharper disable AssignNullToNotNullAttribute
                     schemaInfo.Schema.Write(xmlWriter);
@@ -59,9 +53,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
-        ///<param name="docLibrary"></param>
         ///<returns></returns>
-        public static IEnumerable<IBDT> CollectBDTs(GenerationContext context, IDOCLibrary docLibrary)
+        public static IEnumerable<IBDT> CollectBDTs(GenerationContext context)
         {
             foreach (IBDTLibrary bdtLibrary in context.Repository.Libraries<IBDTLibrary>())
             {
@@ -72,7 +65,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             }
         }
 
-        public static IEnumerable<IBIE> CollectBIEs(GenerationContext context, IDOCLibrary docLibrary)
+        public static IEnumerable<IBIE> CollectBIEs(GenerationContext context)
         {
             foreach (IBIELibrary bieLibrary in context.Repository.Libraries<IBIELibrary>())
             {
