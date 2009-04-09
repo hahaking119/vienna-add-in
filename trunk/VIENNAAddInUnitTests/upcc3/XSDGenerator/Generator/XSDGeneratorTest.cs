@@ -14,6 +14,7 @@ using System.Xml;
 using System.Xml.Schema;
 using EA;
 using NUnit.Framework;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.XSDGenerator.Generator;
@@ -196,6 +197,7 @@ Actual output file: {2}",
         [Test]
         public void TestSchemaGenerator()
         {
+            AddInSettings.LoadRegistryEntries();
             var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
             var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(new GenerationContext(ccRepository, "ebInterface", "eb", false, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary).RootElements)));
             Assert.AreEqual(3, context.Schemas.Count);
