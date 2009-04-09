@@ -46,34 +46,32 @@ namespace VIENNAAddIn.menu
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
-        ///<param name="menuLocation"></param>
-        ///<param name="menuName"></param>
         ///<returns></returns>
-        public string[] GetMenuItems(AddInContext context, string menuLocation, string menuName)
+        public string[] GetMenuItems(AddInContext context)
         {
-            return menuName == String.Empty ? topLevelMenu : GetSubMenu(context, menuLocation, menuName).GetMenuItems();
+            return string.IsNullOrEmpty(context.MenuName) ? topLevelMenu : GetSubMenu(context).GetMenuItems();
         }
 
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
-        ///<param name="menuLocation"></param>
-        ///<param name="menuName"></param>
-        ///<param name="menuItem"></param>
         ///<exception cref="ArgumentException"></exception>
-        public void MenuClick(AddInContext context, string menuLocation, string menuName, string menuItem)
+        public void MenuClick(AddInContext context)
         {
-            MenuAction action = GetSubMenu(context, menuLocation, menuName).FindAction(menuItem);
+            MenuAction action = GetSubMenu(context).FindAction(context.MenuItem);
             if (action == null)
             {
-                throw new ArgumentException(string.Format("menu item not found: {0}/{1}/{2}", menuLocation, menuName,
-                                                          menuItem));
+                throw new ArgumentException(string.Format("menu item not found: {0}/{1}/{2}", context.MenuLocation,
+                                                          context.MenuName,
+                                                          context.MenuItem));
             }
             action.Execute(context);
         }
 
-        private SubMenu GetSubMenu(AddInContext context, string menuLocation, string menuName)
+        private SubMenu GetSubMenu(AddInContext context)
         {
+            var menuLocation = context.MenuLocation;
+            var menuName = context.MenuName;
             if (!menuName.StartsWith("-"))
             {
                 throw new ArgumentException("sub-menu name does not start with '-': " + menuName);
@@ -110,7 +108,7 @@ namespace VIENNAAddIn.menu
                     }
                     else if (otype.Equals(ObjectType.otDiagram))
                     {
-                        var stereotype = context.Repository.GetPackageByID(((Diagram)obj).PackageID).Element.Stereotype;
+                        var stereotype = context.Repository.GetPackageByID(((Diagram) obj).PackageID).Element.Stereotype;
                         menu = diagramMenus.ContainsKey(stereotype) ? diagramMenus[stereotype] : AllDiagrams;
                     }
 
