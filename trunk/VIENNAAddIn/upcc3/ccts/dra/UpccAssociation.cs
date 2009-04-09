@@ -13,7 +13,8 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal abstract class UpccAssociation<TAssociatingClass> : ICCTSElement, IHasUsageRules, ISequenced, IHasMultiplicity
+    internal abstract class UpccAssociation<TAssociatingClass> : ICCTSElement, IHasUsageRules, ISequenced,
+                                                                 IHasMultiplicity
         where TAssociatingClass : ICCTSElement
     {
         private readonly TAssociatingClass associatingClass;
@@ -41,7 +42,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Name
         {
-            get { return connector.SupplierEnd.Role; }
+            get
+            {
+                return connector.ClientEnd.Aggregation == (int) AggregationKind.None
+                           ? connector.ClientEnd.Role
+                           : connector.SupplierEnd.Role;
+            }
         }
 
         public string Definition
@@ -81,6 +87,46 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
+        #region IHasMultiplicity Members
+
+        public string UpperBound
+        {
+            get
+            {
+                string cardinality = connector.SupplierEnd.Cardinality;
+                string[] parts = cardinality.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 1)
+                {
+                    return parts[0];
+                }
+                if (parts.Length == 2)
+                {
+                    return parts[1];
+                }
+                return "1";
+            }
+        }
+
+        public string LowerBound
+        {
+            get
+            {
+                string cardinality = connector.SupplierEnd.Cardinality;
+                string[] parts = cardinality.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 1)
+                {
+                    return (parts[0] == "*" ? "0" : parts[0]);
+                }
+                if (parts.Length == 2)
+                {
+                    return parts[0];
+                }
+                return "1";
+            }
+        }
+
+        #endregion
+
         #region IHasUsageRules Members
 
         public IEnumerable<string> UsageRules
@@ -103,41 +149,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             return connector.GetTaggedValue(key);
         }
-        public string UpperBound
-        {
-            get
-            {
-                var cardinality = connector.SupplierEnd.Cardinality;
-                var parts = cardinality.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length == 1)
-                {
-                    return parts[0];
-                }
-                if (parts.Length == 2)
-                {
-                    return parts[1];
-                }
-                return "1";
-            }
-        }
-
-        public string LowerBound
-        {
-            get
-            {
-                var cardinality = connector.SupplierEnd.Cardinality;
-                var parts = cardinality.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length == 1)
-                {
-                    return (parts[0] == "*" ? "0" : parts[0]);
-                }
-                if (parts.Length == 2)
-                {
-                    return parts[0];
-                }
-                return "1";
-            }
-        }
-
     }
 }

@@ -52,7 +52,18 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private bool IsASCC(Connector connector)
         {
-            return (connector.ClientID == element.ElementID) && connector.IsASCC();
+            if (connector.IsASCC())
+            {
+                if (connector.ClientID == element.ElementID)
+                {
+                    return connector.ClientEnd.Aggregation != (int)AggregationKind.None;
+                }
+                if (connector.SupplierID == element.ElementID)
+                {
+                    return connector.SupplierEnd.Aggregation != (int)AggregationKind.None;
+                }
+            }
+            return false;
         }
 
         public IACC IsEquivalentTo
