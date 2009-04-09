@@ -21,12 +21,12 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///</summary>
         ///<param name="context"></param>
         ///<param name="docLibrary"></param>
-        public static void GenerateXSD(GenerationContext context, IDOCLibrary docLibrary)
+        public static void GenerateXSD(GenerationContext context, IDOCLibrary docLibrary, IList<IABIE> selectedRootElements)
         {
             //private static string SCHEMA_LOCATION_BDT = "bdts.xsd";
             //private static string SCHEMA_NAME_BIE = "bies.xsd";
 
-            foreach (IABIE abie in docLibrary.RootElements)
+            foreach (IABIE abie in selectedRootElements)
             {
                 var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
                 schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);

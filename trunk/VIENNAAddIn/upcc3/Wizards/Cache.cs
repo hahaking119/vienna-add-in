@@ -497,7 +497,7 @@ namespace VIENNAAddIn.upcc3.Wizards
   
     public class cDOC : cCheckItem
     {
-        public cDOC(string initName, int initId, string initTargetNS, string initTargetNSPrefix, CheckState initState) : base(initName, initId, initState)
+        public cDOC(string initName, int initId, CheckState initState, string initTargetNS, string initTargetNSPrefix) : base(initName, initId, initState)
         {            
             //RootElements = new List<string>();
             TargetNamespace = initTargetNS;
@@ -507,6 +507,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         //public IList<string> RootElements { get; set; }
         public string TargetNamespace { get; set; }
         public string TargetNamespacePrefix { get; set; }
+        public string OutputDirectory { get; set; }
     }
 
     public class cBIV : cItem
@@ -530,7 +531,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 foreach (IABIE document in docl.RootElements)                
                 {
-                    cDOC newDOC = new cDOC(document.Name, document.Id, docl.BaseURN, docl.NamespacePrefix, CheckState.Unchecked);
+                    cDOC newDOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
                     DOCs.Add(document.Name, newDOC);
                 }                
             }
