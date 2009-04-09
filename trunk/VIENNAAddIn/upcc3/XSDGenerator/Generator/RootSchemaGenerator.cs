@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                                              context);
                 AddGlobalTypeDefinitions(schema, removeRootElements(context.DocLibrary.BIEs, context.DocLibrary.RootElements),
                                              context);
-                context.AddSchema(schema, "root.xsd");
+                context.AddSchema(schema, abie.Name + ".xsd");
             }
         }
 
