@@ -48,16 +48,18 @@
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.comboBIVs = new System.Windows.Forms.ComboBox();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.progressBar);
             this.groupBox1.Controls.Add(this.richtextStatus);
             this.groupBox1.Location = new System.Drawing.Point(9, 312);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(536, 132);
+            this.groupBox1.Size = new System.Drawing.Size(536, 153);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
@@ -69,6 +71,8 @@
             this.richtextStatus.Size = new System.Drawing.Size(507, 99);
             this.richtextStatus.TabIndex = 0;
             this.richtextStatus.Text = "";
+            this.richtextStatus.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richtextStatus_LinkClicked);
+            this.richtextStatus.TextChanged += new System.EventHandler(this.richtextStatus_TextChanged);
             // 
             // groupBox4
             // 
@@ -215,7 +219,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(359, 458);
+            this.buttonClose.Location = new System.Drawing.Point(369, 475);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 3;
@@ -225,7 +229,7 @@
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(95, 458);
+            this.buttonGenerate.Location = new System.Drawing.Point(105, 475);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(149, 23);
             this.buttonGenerate.TabIndex = 2;
@@ -251,17 +255,27 @@
             this.comboBIVs.TabIndex = 41;
             this.comboBIVs.SelectionChangeCommitted += new System.EventHandler(this.comboBIVs_SelectionChangeCommitted);
             // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(15, 126);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(506, 13);
+            this.progressBar.TabIndex = 1;
+            // 
             // GeneratorWizardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 488);
+            this.ClientSize = new System.Drawing.Size(554, 509);
             this.Controls.Add(this.comboBIVs);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "GeneratorWizardForm";
             this.Text = "GeneratorWizardForm";
             this.Load += new System.EventHandler(this.GeneratorWizardForm_Load);
@@ -295,5 +309,6 @@
         private System.Windows.Forms.Button buttonBrowseFolders;
         private System.Windows.Forms.TextBox textOutputDirectory;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ProgressBar progressBar;
     }
 }

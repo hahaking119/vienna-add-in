@@ -89,6 +89,13 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 comboBIVs.Items.Add(docl.Name);
             }
+
+            // TODO: preselect first item
+
+            //if (comboBIVs.Items.Count > 0)
+            //{
+            //    comboBIVs.SelectedIndex = 0;    
+            //}            
         }
 
         private void MirrorModelsToUI()
@@ -149,6 +156,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                     textOutputDirectory.Enabled = false;
                     buttonBrowseFolders.Enabled = false;
                     buttonGenerate.Enabled = false;
+                    progressBar.Maximum = 100;
+                    progressBar.Value = 0;
                     break;
 
                 case 1:
@@ -252,11 +261,10 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            richtextStatus.Text = "";
+            Cursor.Current = Cursors.WaitCursor;
 
             richtextStatus.Text = "Starting to generate XML schemas ...\n\n";
-            richtextStatus.Refresh();
-
+            
             GatherUserInput();
 
             cBIV currentBIV = cache.BIVs[selectedBIVName];
@@ -271,8 +279,6 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
             
-            
-
             IDOCLibrary docl = (IDOCLibrary)ccR.GetLibrary(currentBIV.Id);
 
             // TODO: xsd generator needs to be adapted - currently all doc libraries are being generated whereas
@@ -295,12 +301,16 @@ namespace VIENNAAddIn.upcc3.Wizards
             //                                                                                      "\\XSDGeneratorTest\\all"));
 
             richtextStatus.Text += "\nGenerating XML schemas completed!";
+            progressBar.Value = 100;
+            Cursor.Current = Cursors.Default;
         }
 
         private void HandleSchemaAdded(object sender, SchemaAddedEventArgs e)
         {
-            richtextStatus.Text += "Schema generated: " + e.FileName + "\n";
-            richtextStatus.Refresh();
+            //richtextStatus.Text += "Schema generated: file:///C:/Temp/output/" + e.FileName + "\n";
+            richtextStatus.Text += "Generated Schema file:" + e.FileName + "\n";
+
+            progressBar.Value += e.Progress;
         }
 
         private void textTargetNS_TextChanged(object sender, EventArgs e)
@@ -341,6 +351,19 @@ namespace VIENNAAddIn.upcc3.Wizards
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void richtextStatus_TextChanged(object sender, EventArgs e)
+        {
+            richtextStatus.Refresh();
+        }
+
+        private void richtextStatus_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            
+
+            // todo: make path check
+            System.Diagnostics.Process.Start(cache.BIVs[selectedBIVName].DOCs[selectedDOCName].OutputDirectory + "/" + e.LinkText.Substring(5));
         }
     }
 }
