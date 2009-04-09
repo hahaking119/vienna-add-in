@@ -98,7 +98,7 @@ namespace VIENNAAddIn.validator.umm
                 bool foundInternest = false;
                 foreach (EA.ConnectorTag ctag in con.TaggedValues)
                 {
-                    if (ctag.Name == TaggedValues.interest.ToString())
+                    if (ctag.Name == UMMTaggedValues.interest.ToString())
                     {
                         foundInternest = true;
                     }
@@ -136,12 +136,12 @@ namespace VIENNAAddIn.validator.umm
                 String n = tv.Name;
                 String v = tv.Value;
 
-                if (n == TaggedValues.timeToPerform.ToString())
+                if (n == UMMTaggedValues.timeToPerform.ToString())
                 {
                     foundTimeToPerform = true;
                     valueTimeToPerform = v;
                 }
-                else if (n == TaggedValues.isConcurrent.ToString())
+                else if (n == UMMTaggedValues.isConcurrent.ToString())
                 {
                     foundIsConcurrent = true;
                     valueIsConcurrent = v;
@@ -202,17 +202,17 @@ namespace VIENNAAddIn.validator.umm
                 String n = tv.Name;
                 String v = tv.Value;
 
-                if (n == TaggedValues.isConfidential.ToString())
+                if (n == UMMTaggedValues.isConfidential.ToString())
                 {
                     foundIsConfidential = true;
                     valueIsConfidential = v;
                 }
-                else if (n == TaggedValues.isTamperProof.ToString())
+                else if (n == UMMTaggedValues.isTamperProof.ToString())
                 {
                     foundIsTamperProof = true;
                     valueIsTamperProof = v;
                 }
-                else if (n == TaggedValues.isAuthenticated.ToString())
+                else if (n == UMMTaggedValues.isAuthenticated.ToString())
                 {
                     foundIsAuthenticated = true;
                     valueIsAuthenticated = v;
@@ -293,43 +293,43 @@ namespace VIENNAAddIn.validator.umm
                 String n = tv.Name;
                 String v = tv.Value;
 
-                if (n == TaggedValues.isAuthorizationRequired.ToString())
+                if (n == UMMTaggedValues.isAuthorizationRequired.ToString())
                 {
                     foundIsAuthorizationRequired = true;
                     valueIsAuthorizationRequired = v;
                 }
-                else if (n == TaggedValues.isNonRepudiationRequired.ToString())
+                else if (n == UMMTaggedValues.isNonRepudiationRequired.ToString())
                 {
                     foundIsNonRepudationRequired = true;
                     valueIsNonRepudationRequired = v;
                 }
-                else if (n == TaggedValues.isNonRepudiationReceiptRequired.ToString())
+                else if (n == UMMTaggedValues.isNonRepudiationReceiptRequired.ToString())
                 {
                     foundIsNonRepudationReceiptRequired = true;
                     valueIsNonRepudationReceiptRequired = v;
 
                 }
-                else if (n == TaggedValues.timeToAcknowledgeReceipt.ToString())
+                else if (n == UMMTaggedValues.timeToAcknowledgeReceipt.ToString())
                 {
                     foundTimeToAcknowledgeReceipt = true;
                     valueTimeToAcknowledgeReceipt = v;
                 }
-                else if (n == TaggedValues.timeToAcknowledgeProcessing.ToString())
+                else if (n == UMMTaggedValues.timeToAcknowledgeProcessing.ToString())
                 {
                     foundTimeToAcknowledgeProcessing = true;
                     valueTimeToAcknowledgeProcessing = v;
                 }
-                else if (n == TaggedValues.isIntelligibleCheckRequired.ToString())
+                else if (n == UMMTaggedValues.isIntelligibleCheckRequired.ToString())
                 {
                     foundIsIntelligibleCheckRequired = true;
                     valueIsIntelligibleCheckRequired = v;
                 }
-                else if (n == TaggedValues.timeToRespond.ToString())
+                else if (n == UMMTaggedValues.timeToRespond.ToString())
                 {
                     foundTimeToRespond = true;
                     valueTimeToRespond = v;
                 }
-                else if (n == TaggedValues.retryCount.ToString())
+                else if (n == UMMTaggedValues.retryCount.ToString())
                 {
                     foundRetryCount = true;
                     valueRetrycount = v;
@@ -458,12 +458,12 @@ namespace VIENNAAddIn.validator.umm
 
             foreach (EA.TaggedValue tv in element.TaggedValues)
             {
-                if (tv.Name == TaggedValues.businessTransactionType.ToString())
+                if (tv.Name == UMMTaggedValues.businessTransactionType.ToString())
                 {
                     foundBusinessTransactionType = true;
                     valueBusinessTransactionType = tv.Value;
                 }
-                else if (tv.Name == TaggedValues.isSecureTransportRequired.ToString()) {
+                else if (tv.Name == UMMTaggedValues.isSecureTransportRequired.ToString()) {
                     foundIsSecureTransportRequired = true;
                     valueIsSecureTransportRequired = tv.Value;
                 }
@@ -512,7 +512,7 @@ namespace VIENNAAddIn.validator.umm
 
             foreach (EA.TaggedValue tv in element.TaggedValues)
             {
-                if (tv.Name == TaggedValues.interest.ToString())
+                if (tv.Name == UMMTaggedValues.interest.ToString())
                 {
                     foundInterest = true;
                 }
@@ -546,19 +546,19 @@ namespace VIENNAAddIn.validator.umm
             {
                 String n = tv.Name;
 
-                if (n == TaggedValues.definition.ToString())
+                if (n == UMMTaggedValues.definition.ToString())
                     foundDefinition = true;
-                if (n == TaggedValues.beginsWhen.ToString())
+                if (n == UMMTaggedValues.beginsWhen.ToString())
                     foundBeginsWhen = true;
-                if (n == TaggedValues.preCondition.ToString())
+                if (n == UMMTaggedValues.preCondition.ToString())
                     foundPreCondition = true;
-                if (n == TaggedValues.endsWhen.ToString())
+                if (n == UMMTaggedValues.endsWhen.ToString())
                     foundEndsWhen = true;
-                if (n == TaggedValues.postCondition.ToString())
+                if (n == UMMTaggedValues.postCondition.ToString())
                     foundPostCondition = true;
-                if (n == TaggedValues.exceptions.ToString())
+                if (n == UMMTaggedValues.exceptions.ToString())
                     foundExceptions = true;
-                if (n == TaggedValues.actions.ToString())
+                if (n == UMMTaggedValues.actions.ToString())
                     foundAction = true;                
 
             }
@@ -624,27 +624,27 @@ namespace VIENNAAddIn.validator.umm
             {
                 String n = t.Name;
 
-                if (n == TaggedValues.justification.ToString())
+                if (n == UMMTaggedValues.justification.ToString())
                     foundJustification = true;
-                else if (n == TaggedValues.businessTerm.ToString())
+                else if (n == UMMTaggedValues.businessTerm.ToString())
                     foundBusinessTerm = true;
-                else if (n == TaggedValues.copyright.ToString())
+                else if (n == UMMTaggedValues.copyright.ToString())
                     foundCopyright = true;
-                else if (n == TaggedValues.owner.ToString())
+                else if (n == UMMTaggedValues.owner.ToString())
                     foundOwner = true;
-                else if (n == TaggedValues.reference.ToString())
+                else if (n == UMMTaggedValues.reference.ToString())
                     foundReference = true;
-                else if (n == TaggedValues.status.ToString())
+                else if (n == UMMTaggedValues.status.ToString())
                     foundStatus = true;
-                else if (n == TaggedValues.URI.ToString())
+                else if (n == UMMTaggedValues.URI.ToString())
                     foundURI = true;
-                else if (n == TaggedValues.version.ToString())
+                else if (n == UMMTaggedValues.version.ToString())
                     foundVersion = true;
-                else if (n == TaggedValues.objective.ToString())
+                else if (n == UMMTaggedValues.objective.ToString())
                     foundObjective = true;
-                else if (n == TaggedValues.scope.ToString())
+                else if (n == UMMTaggedValues.scope.ToString())
                     foundScope = true;
-                else if (n == TaggedValues.businessOpportunity.ToString())
+                else if (n == UMMTaggedValues.businessOpportunity.ToString())
                     foundBusinessOpportunity = true;
             }
 
