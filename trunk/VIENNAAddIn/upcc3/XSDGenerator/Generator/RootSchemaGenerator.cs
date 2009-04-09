@@ -226,13 +226,13 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             //foreach (SchemaInfo si in context.Schemas)
             // {
             //XmlTextReader textReader = new XmlTextReader(si.FileName);
-            XmlTextReader textReader =
-                new XmlTextReader("C:\\dump\\documentation\\standard\\XMLNDR_Documentation_3p0.xsd");
-            XmlSchema importSchema = XmlSchema.Read(textReader, null);
+           // XmlTextReader textReader =
+                //new XmlTextReader("C:\\dump\\documentation\\standard\\XMLNDR_Documentation_3p0.xsd");
+            //XmlSchema importSchema = XmlSchema.Read(textReader, null);
 
             XmlSchemaImport import = new XmlSchemaImport();
-            import.Schema = importSchema;
-            import.Namespace = importSchema.TargetNamespace;
+            //import.Schema = importSchema;
+            import.Namespace = "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3";
             import.SchemaLocation = "documentation/standard/XMLNDR_Documentation_3p0.xsd";
 
             schema.Includes.Add(import);
