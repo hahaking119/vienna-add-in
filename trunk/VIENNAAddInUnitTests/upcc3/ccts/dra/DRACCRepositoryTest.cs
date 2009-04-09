@@ -141,6 +141,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             var accAddress = (IACC) repository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
             Assert.IsNotNull(accAddress, "ACC Address not found");
+            var asccs = new List<IASCC>(accAddress.ASCCs);
+            Assert.AreEqual(2, asccs.Count);
 
             var bccs = new List<IBCC>(accAddress.BCCs);
             bieLib.CreateABIE(new ABIESpec
