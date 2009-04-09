@@ -10,14 +10,14 @@ namespace VIENNAAddInUnitTests.menu
     [TestFixture]
     public class MenuManagerTest
     {
-        private static AddInContext CreatePackageContext(string stereotype)
+        private static AddInContext CreatePackageContext(string stereotype, string menuName)
         {
             var packageMock = CreatePackageMock(stereotype);
             var repositoryMock = new Mock<Repository>();
             object selectedObject = packageMock.Object;
             repositoryMock.Setup(r => r.GetTreeSelectedItem(out selectedObject)).Returns(ObjectType.otPackage);
 
-            return new AddInContext {Repository = repositoryMock.Object};
+            return new AddInContext {Repository = repositoryMock.Object, MenuLocation = "TreeView", MenuName = menuName};
         }
 
         private static AddInContext CreateElementContext(string packageStereotype)
@@ -54,7 +54,7 @@ namespace VIENNAAddInUnitTests.menu
             repositoryMock.Setup(r => r.GetTreeSelectedItem(out selectedObject)).Returns(ObjectType.otDiagram);
             repositoryMock.Setup(r => r.GetPackageByID(It.IsAny<int>())).Returns(packageMock.Object);
 
-            return new AddInContext { Repository = repositoryMock.Object };
+            return new AddInContext {Repository = repositoryMock.Object};
         }
 
         private static MenuAction TestMenuAction(string menuName)
@@ -70,7 +70,7 @@ namespace VIENNAAddInUnitTests.menu
             const string stereotype3 = "stereotype3";
             const string stereotype4 = "stereotype4";
 
-            var menuManager = new MenuManager(AddInSettings.AddInCaption);
+            var menuManager = new MenuManager("top");
             menuManager
                 .MainMenu.SetItems(
                 new SubMenu("main_menu_1").SetItems(
@@ -166,35 +166,31 @@ namespace VIENNAAddInUnitTests.menu
                 TestMenuAction("tree_menu_diagram_3_action_2")
                 );
 
-            Assert.AreEqual("-" + AddInSettings.AddInCaption, menuManager.GetMenuItems(null, "MainMenu", "")[0]);
+            Assert.AreEqual("-top", menuManager.GetMenuItems(new AddInContext {MenuLocation = "MainMenu"})[0]);
             Assert.AreEqual(new[] {"-main_menu_1"},
-                            menuManager.GetMenuItems(null, "MainMenu", "-" + AddInSettings.AddInCaption));
+                            menuManager.GetMenuItems(new AddInContext {MenuLocation = "MainMenu", MenuName = "-top"}));
             Assert.AreEqual(new[] {"-main_menu_1.1", "main_menu_1_action_1"},
-                            menuManager.GetMenuItems(null, "MainMenu", "-main_menu_1"));
+                            menuManager.GetMenuItems(new AddInContext
+                                                     {MenuLocation = "MainMenu", MenuName = "-main_menu_1"}));
             Assert.AreEqual(new[] {"main_menu_1.1_action_1", "-", "main_menu_1.1_action_2"},
-                            menuManager.GetMenuItems(null, "MainMenu", "-main_menu_1.1"));
+                            menuManager.GetMenuItems(new AddInContext
+                                                     {MenuLocation = "MainMenu", MenuName = "-main_menu_1.1"}));
 
-            Assert.AreEqual("-" + AddInSettings.AddInCaption,
+            Assert.AreEqual("-top",
                             menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype1),
-                                "TreeView", "")[0]);
-            Assert.AreEqual(
-                new[]
-                {
-                    "tree_menu_package_1_2_action_1", "tree_menu_package_1_2_action_2",
-                    "tree_menu_package_all_action_1", "tree_menu_package_all_action_2"
-                },
-                menuManager.GetMenuItems(CreatePackageContext(stereotype1), "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreatePackageContext(stereotype1, null))[0]);
             Assert.AreEqual(new[]
                             {
-                                "tree_menu_package_1_2_action_1",
-                                "tree_menu_package_1_2_action_2",
-                                "tree_menu_package_all_action_1",
-                                "tree_menu_package_all_action_2"
+                                "tree_menu_package_1_2_action_1", "tree_menu_package_1_2_action_2",
+                                "tree_menu_package_all_action_1", "tree_menu_package_all_action_2"
                             },
-                            menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype2),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                            menuManager.GetMenuItems(CreatePackageContext(stereotype1, "-top")));
+            Assert.AreEqual(new[]
+                            {
+                                "tree_menu_package_1_2_action_1", "tree_menu_package_1_2_action_2",
+                                "tree_menu_package_all_action_1", "tree_menu_package_all_action_2"
+                            },
+                            menuManager.GetMenuItems(CreatePackageContext(stereotype2, "-top")));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_package_3_action_1",
@@ -203,9 +199,7 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_package_all_action_1",
                                 "tree_menu_package_all_action_2"
                             },
-                            menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype3),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                            menuManager.GetMenuItems(CreatePackageContext(stereotype3, "-top")));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_package_3_menu_1_action_1",
@@ -214,28 +208,25 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_package_3_menu_1_action_3",
                             },
                             menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype3),
-                                "TreeView", "-tree_menu_package_3_menu_1"));
+                                CreatePackageContext(stereotype3, "-tree_menu_package_3_menu_1")));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_package_all_action_1",
                                 "tree_menu_package_all_action_2"
                             },
                             menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype4),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreatePackageContext(stereotype4, "-top")));
 
             Assert.AreEqual("-" + AddInSettings.AddInCaption,
-                    menuManager.GetMenuItems(
-                        CreateElementContext(stereotype1),
-                        "TreeView", "")[0]);
+                            menuManager.GetMenuItems(
+                                CreateElementContext(stereotype1))[0]);
             Assert.AreEqual(
                 new[]
                 {
                     "tree_menu_element_1_2_action_1", "tree_menu_element_1_2_action_2",
                     "tree_menu_element_all_action_1", "tree_menu_element_all_action_2"
                 },
-                menuManager.GetMenuItems(CreateElementContext(stereotype1), "TreeView", "-" + AddInSettings.AddInCaption));
+                menuManager.GetMenuItems(CreateElementContext(stereotype1)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_element_1_2_action_1",
@@ -244,8 +235,7 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_element_all_action_2"
                             },
                             menuManager.GetMenuItems(
-                                CreateElementContext(stereotype2),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreateElementContext(stereotype2)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_element_3_action_1",
@@ -255,8 +245,7 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_element_all_action_2"
                             },
                             menuManager.GetMenuItems(
-                                CreateElementContext(stereotype3),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreateElementContext(stereotype3)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_element_3_menu_1_action_1",
@@ -265,28 +254,25 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_element_3_menu_1_action_3",
                             },
                             menuManager.GetMenuItems(
-                                CreateElementContext(stereotype3),
-                                "TreeView", "-tree_menu_element_3_menu_1"));
+                                CreateElementContext(stereotype3)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_element_all_action_1",
                                 "tree_menu_element_all_action_2"
                             },
                             menuManager.GetMenuItems(
-                                CreateElementContext(stereotype4),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreateElementContext(stereotype4)));
 
             Assert.AreEqual("-" + AddInSettings.AddInCaption,
-                    menuManager.GetMenuItems(
-                        CreateDiagramContext(stereotype1),
-                        "TreeView", "")[0]);
+                            menuManager.GetMenuItems(
+                                CreateDiagramContext(stereotype1))[0]);
             Assert.AreEqual(
                 new[]
                 {
                     "tree_menu_diagram_1_2_action_1", "tree_menu_diagram_1_2_action_2",
                     "tree_menu_diagram_all_action_1", "tree_menu_diagram_all_action_2"
                 },
-                menuManager.GetMenuItems(CreateDiagramContext(stereotype1), "TreeView", "-" + AddInSettings.AddInCaption));
+                menuManager.GetMenuItems(CreateDiagramContext(stereotype1)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_diagram_1_2_action_1",
@@ -295,8 +281,7 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_diagram_all_action_2"
                             },
                             menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype2),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreateDiagramContext(stereotype2)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_diagram_3_action_1",
@@ -306,8 +291,7 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_diagram_all_action_2"
                             },
                             menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype3),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreateDiagramContext(stereotype3)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_diagram_3_menu_1_action_1",
@@ -316,16 +300,22 @@ namespace VIENNAAddInUnitTests.menu
                                 "tree_menu_diagram_3_menu_1_action_3",
                             },
                             menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype3),
-                                "TreeView", "-tree_menu_diagram_3_menu_1"));
+                                CreateDiagramContext(stereotype3)));
             Assert.AreEqual(new[]
                             {
                                 "tree_menu_diagram_all_action_1",
                                 "tree_menu_diagram_all_action_2"
                             },
                             menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype4),
-                                "TreeView", "-" + AddInSettings.AddInCaption));
+                                CreateDiagramContext(stereotype4)));
+
+            menuManager.MenuClick(new AddInContext
+                                  {
+                                      Repository = null,
+                                      MenuLocation = "MainMenu",
+                                      MenuName = "-main_menu_1.1",
+                                      MenuItem = "main_menu_1.1_action_2"
+                                  });
         }
     }
 
