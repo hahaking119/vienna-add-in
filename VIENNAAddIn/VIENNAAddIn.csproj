@@ -86,108 +86,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CCTS\AuxilliarySchema.cs" />
-    <Compile Include="CCTS\BCSSValidator.cs" />
-    <Compile Include="CCTS\BIEConnector.cs" />
-    <Compile Include="CCTS\BIEGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\BIEGenerator.Designer.cs">
-      <DependentUpon>BIEGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\BusinessLibraryGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\BusinessLibraryGenerator.Designer.cs">
-      <DependentUpon>BusinessLibraryGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\CCGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\CCGenerator.Designer.cs">
-      <DependentUpon>CCGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\CCImporter\BIEParser.cs" />
-    <Compile Include="CCTS\CCImporter\CCParser.cs" />
-    <Compile Include="CCTS\CCImporter\CDTParser.cs" />
-    <Compile Include="CCTS\CCImporter\EAModelWriter.cs" />
-    <Compile Include="CCTS\CCImporter\Program.cs" />
-    <Compile Include="CCTS\CCImporter\QDTParser.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\AggregateBusinessInformationEntity.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\AggregateCoreComponent.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\ASBIE.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\ASCC.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\AssociationBIEProperty.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\AssociationCCProperty.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\Attribute.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\BasicBIEProperty.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\BasicCCProperty.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\BBIE.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\BCC.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\BIEProperty.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\BusinessContext.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\BusinessInformationEntity.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\CCProperty.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\CoreComponent.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\DataType.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\ENUM.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\EnumAttribute.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\EnumLibrary.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\RegistryClass.cs" />
-    <Compile Include="CCTS\CCTSBIE_MetaModel\TaggedValue.cs" />
-    <Compile Include="CCTS\CCWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\CCWindow.Designer.cs">
-      <DependentUpon>CCWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\CC_Utils.cs" />
-    <Compile Include="CCTS\CDTGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\CDTGenerator.Designer.cs">
-      <DependentUpon>CDTGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\DOCGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\DOCGenerator.Designer.cs">
-      <DependentUpon>DOCGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\ENUMGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\ENUMGenerator.Designer.cs">
-      <DependentUpon>ENUMGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\GeneratorCallBackInterface.cs" />
-    <Compile Include="CCTS\OCLMapper.cs" />
-    <Compile Include="CCTS\QDTGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\QDTGenerator.Designer.cs">
-      <DependentUpon>QDTGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\QDTWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CCTS\QDTWindow.Designer.cs">
-      <DependentUpon>QDTWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CCTS\XMLTools.cs" />
-    <Compile Include="common\corecomponents\ABIE.cs" />
-    <Compile Include="common\corecomponents\ACC.cs" />
-    <Compile Include="common\corecomponents\ASBIE.cs" />
-    <Compile Include="common\corecomponents\ASCC.cs" />
-    <Compile Include="common\corecomponents\BBIE.cs" />
-    <Compile Include="common\corecomponents\BCC.cs" />
-    <Compile Include="common\corecomponents\BIE.cs" />
-    <Compile Include="common\corecomponents\CC.cs" />
-    <Compile Include="common\corecomponents\CDT.cs" />
-    <Compile Include="common\corecomponents\ContentComponent.cs" />
-    <Compile Include="common\corecomponents\DT.cs" />
-    <Compile Include="common\corecomponents\QDT.cs" />
-    <Compile Include="common\corecomponents\SupplementaryComponent.cs" />
     <Compile Include="common\logging\ILogger.cs" />
     <Compile Include="common\logging\Logger.cs" />
     <Compile Include="common\logging\LogMessage.cs" />
@@ -204,18 +102,6 @@
     <Compile Include="Exceptions\AddInException.cs" />
     <Compile Include="Exceptions\UnexpectedElementException.cs" />
     <Compile Include="Exceptions\XMLException.cs" />
-    <Compile Include="ExportImport\ExportPackage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportImport\ExportPackage.Designer.cs">
-      <DependentUpon>ExportPackage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ExportImport\ImportPackage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ExportImport\ImportPackage.Designer.cs">
-      <DependentUpon>ImportPackage.cs</DependentUpon>
-    </Compile>
     <Compile Include="menu\AddInContext.cs" />
     <Compile Include="menu\MenuAction.cs" />
     <Compile Include="menu\MenuItem.cs" />
@@ -415,69 +301,6 @@
       <DependentUpon>InitialPackageStructureCreator.cs</DependentUpon>
     </Compile>
     <Compile Include="workflow\ModelStructureCreator.cs" />
-    <Compile Include="WSDLGenerator\Setting\TemplateSetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WSDLGenerator\Setting\TemplateSetting.Designer.cs">
-      <DependentUpon>TemplateSetting.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WSDLGenerator\TransactionModuleArtefact.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WSDLGenerator\TransactionModuleArtefact.Designer.cs">
-      <DependentUpon>TransactionModuleArtefact.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WSDLGenerator\WSDLGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WSDLGenerator\WSDLGenerator.Designer.cs">
-      <DependentUpon>WSDLGenerator.cs</DependentUpon>
-    </Compile>
-    <Compile Include="XBRLGenerator\BIEGeneratorXBRL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\CCGeneratorXBRL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\CCGeneratorXBRL.Designer.cs">
-      <DependentUpon>CCGeneratorXBRL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="XBRLGenerator\CDTGeneratorXBRL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\CDTGeneratorXBRL.Designer.cs">
-      <DependentUpon>CDTGeneratorXBRL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="XBRLGenerator\DOCGeneratorXBRL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\DOCGeneratorXBRL.Designer.cs">
-      <DependentUpon>DOCGeneratorXBRL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="XBRLGenerator\ENUMGeneratorXBRL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\ENUMGeneratorXBRL.Designer.cs">
-      <DependentUpon>ENUMGeneratorXBRL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="XBRLGenerator\QDTGeneratorXBRL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\QDTGeneratorXBRL.Designer.cs">
-      <DependentUpon>QDTGeneratorXBRL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="XBRLGenerator\XBRLGeneratorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\XBRLGeneratorForm.Designer.cs">
-      <DependentUpon>XBRLGeneratorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="XBRLGenerator\XBRLLinkbase.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="XBRLGenerator\XBRLLinkbase.Designer.cs">
-      <DependentUpon>XBRLLinkbase.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)\res"
@@ -495,78 +318,8 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     <PreBuildEvent>del /Q "$(TargetDir)\EA"</PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="WSDLGenerator\BPELTemplate\TemplateInitiator.bpel" />
-    <None Include="WSDLGenerator\BPELTemplate\TemplateInitiatorOneWay.bpel" />
-    <None Include="WSDLGenerator\BPELTemplate\TemplateInitiatorSpecialCase.bpel" />
-    <None Include="WSDLGenerator\BPELTemplate\TemplateResponder.bpel" />
-    <None Include="WSDLGenerator\BPELTemplate\TemplateResponderOneWay.bpel" />
-    <None Include="WSDLGenerator\BPELTemplate\TemplateResponderSpecialCase.bpel" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="EA\CCTS\cclibrary.xml" />
-    <Content Include="EA\MDG\BCVModelPattern.xml" />
-    <Content Include="EA\MDG\BIVModelPattern.xml" />
-    <Content Include="EA\MDG\BRVModelPattern.xml" />
-    <Content Include="EA\MDG\GIEM.xml" />
-    <Content Include="EA\MDG\GIEM_Icon.bmp" />
-    <Content Include="EA\MDG\GIEM_Logo.bmp" />
-    <Content Include="EA\MDG\UMM2.xml" />
-    <Content Include="EA\MDG\UMMfG.xml" />
-    <Content Include="images\GIEM_Icon.bmp" />
-    <Content Include="images\GIEM_Logo.bmp" />
-    <Content Include="WSDLGenerator\XSLTTemplate\MappingGeneralException.xslt" />
-    <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptAcknowledgement.xslt" />
-    <Content Include="WSDLGenerator\XSLTTemplate\MappingReceiptException.xslt" />
-    <Content Include="WSDLGenerator\XSLTTemplate\MappingTransactionProtocolFailure.xslt" />
-    <Content Include="WSDLGenerator\XSLTTemplate\MappingTransactionProtocolSuccess.xslt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="CCTS\BIEGenerator.resx">
-      <DependentUpon>BIEGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\BusinessLibraryGenerator.resx">
-      <DependentUpon>BusinessLibraryGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\CCGenerator.resx">
-      <DependentUpon>CCGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\CCWindow.resx">
-      <DependentUpon>CCWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\CDTGenerator.resx">
-      <DependentUpon>CDTGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\DOCGenerator.resx">
-      <DependentUpon>DOCGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\ENUMGenerator.resx">
-      <DependentUpon>ENUMGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\QDTGenerator.resx">
-      <DependentUpon>QDTGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CCTS\QDTWindow.resx">
-      <DependentUpon>QDTWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="ErrorReporter\ErrorReporterForm.resx">
       <DependentUpon>ErrorReporterForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportImport\ExportPackage.resx">
-      <DependentUpon>ExportPackage.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ExportImport\ImportPackage.resx">
-      <DependentUpon>ImportPackage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Settings\SynchStereotypesForm.resx">
@@ -609,50 +362,6 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
       <DependentUpon>InitialPackageStructureCreator.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WSDLGenerator\Setting\TemplateSetting.resx">
-      <DependentUpon>TemplateSetting.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WSDLGenerator\TransactionModuleArtefact.resx">
-      <DependentUpon>TransactionModuleArtefact.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WSDLGenerator\WSDLGenerator.resx">
-      <DependentUpon>WSDLGenerator.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\BIEGeneratorXBRL.resx">
-      <DependentUpon>BIEGeneratorXBRL.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\CCGeneratorXBRL.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>CCGeneratorXBRL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\CDTGeneratorXBRL.resx">
-      <DependentUpon>CDTGeneratorXBRL.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\DOCGeneratorXBRL.resx">
-      <DependentUpon>DOCGeneratorXBRL.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\ENUMGeneratorXBRL.resx">
-      <DependentUpon>ENUMGeneratorXBRL.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\QDTGeneratorXBRL.resx">
-      <DependentUpon>QDTGeneratorXBRL.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\XBRLGeneratorForm.resx">
-      <DependentUpon>XBRLGeneratorForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="XBRLGenerator\XBRLLinkbase.resx">
-      <DependentUpon>XBRLLinkbase.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -693,6 +402,7 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
+    <Folder Include="images\" />
     <Folder Include="upcc3\XSDGenerator\UI\" />
   </ItemGroup>
 </Project>
