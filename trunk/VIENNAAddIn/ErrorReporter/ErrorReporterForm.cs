@@ -43,7 +43,7 @@ namespace VIENNAAddIn.ErrorReporter
             String s = "";
 
             s += "EA-Version: " + eaVersion + "\n";
-            s += "UMM-AddIn-Version: " + typeof(VIENNAAddIn).Assembly.GetName().Name + " " + typeof(VIENNAAddIn).Assembly.GetName().Version + "\n";
+            s += "Add-In-Version: " + typeof(VIENNAAddIn).Assembly.GetName().Name + " " + typeof(VIENNAAddIn).Assembly.GetName().Version + "\n";
             s += ".NET version: " + System.Environment.Version + "\n";
             s += "OS version: " + System.Environment.OSVersion + "\n";
 

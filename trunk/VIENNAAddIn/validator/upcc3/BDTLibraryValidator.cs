@@ -456,31 +456,12 @@ namespace VIENNAAddIn.validator.upcc3
                 if (Utility.isEquivalentToAnotherElement(e.Value))
                 {
 
-                    int countSUP = 0;
-                    int countSUP_of_supplier = 0;
-
-                    //Count the supplementary attributes of the current BDT
-                    foreach (EA.Attribute a in e.Value.Attributes)
-                    {
-                        if (a.Stereotype == UPCC.SUP.ToString())
-                        {
-                            countSUP++;
-                        }
-
-                    }
+                    int countSUP = Utility.countAttributesOfElement(e.Value, UPCC.SUP.ToString());
+                    
 
                     //Count the supplementary attributes of the BDT which is the target of the isEquivalentDependency
                     EA.Element supplierElement = Utility.getTargetOfisEquivalentToDependency(e.Value, context.Repository);
-                    if (supplierElement != null)
-                    {
-                        foreach (EA.Attribute a in supplierElement.Attributes)
-                        {
-                            if (a.Stereotype == UPCC.SUP.ToString())
-                            {
-                                countSUP_of_supplier++;
-                            }
-                        }
-                    }
+                    int countSUP_of_supplier = Utility.countAttributesOfElement(supplierElement, UPCC.SUP.ToString());
 
                     //Do both BDT have the same amount of SUPs?
                     if (countSUP != countSUP_of_supplier) {
@@ -504,13 +485,37 @@ namespace VIENNAAddIn.validator.upcc3
         {
 
 
+            foreach (KeyValuePair<Int32, EA.Element> e in bdts)
+            {
+
+                    //Check only unqualified Elements
+                    if (!Utility.isAQualifiedElement(e.Value.Name))
+                    {
+                        //Get the CDT
+                        EA.Element supplier = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
+                        if (supplier.Stereotype == UPCC.CDT.ToString() || supplier.Stereotype == UPCC.BDT.ToString())
+                        {
+
+                            int countSUP = Utility.countAttributesOfElement(e.Value, UPCC.SUP.ToString());
+                            int countSUP_supplier = Utility.countAttributesOfElement(supplier, UPCC.SUP.ToString());
+
+                            if (countSUP != countSUP_supplier)
+                            {
+                                context.AddValidationMessage(new ValidationMessage("Invalid number of supplementary components found.", "An unqualified BDT shall include the same supplementary components as its source CDT. BDT " + e.Value.Name + " is based on " + supplier.Stereotype + " " + supplier.Name + ". " + e.Value.Stereotype + " " + e.Value.Name + " has " + countSUP + " SUPs and " + supplier.Stereotype + " " + supplier.Name + " has " + countSUP_supplier + " SUPs.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+
+                            }
+                        }                       
+                    }                
+            }
+
+
 
 
         }
 
 
         /// <summary>
-        /// 
+        /// An unqualified BDT shall have the same name as the CDT the BDT is based on.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
@@ -518,11 +523,25 @@ namespace VIENNAAddIn.validator.upcc3
         private void checkC564k(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
 
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bdts)
+            {
+
+                //Determine whether the given BDT is qualified or not
+                if (!Utility.isAQualifiedElement(e.Value.Name))
+                {
+                    EA.Element supplier = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
+                    if (supplier.Name.Trim() != e.Value.Name.Trim()) {
+                        context.AddValidationMessage(new ValidationMessage("Mismatch of names between BDT and underlying CDT.", "An unqualified BDT shall have the same name as the CDT the BDT is based on. BDT " + e.Value.Name + " and the CDT/BDT " + supplier.Name + " do not have the same name.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    }
+                }
+            }
+
         }
 
 
         /// <summary>
-        /// 
+        /// A BDT shall not contain attributes which have not been defined in the CDT the BDT is based on or in the less qualified BDT the given BDT is based on. 
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
@@ -530,35 +549,58 @@ namespace VIENNAAddIn.validator.upcc3
         private void checkC564l(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
 
+            foreach (KeyValuePair<Int32, EA.Element> e in bdts)
+            {
+                if (Utility.isBasedOnAnotherElement(e.Value))
+                {
+
+                    EA.Element CDT_BDT_base = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
+                    //Get a collection of the attribute names of the base CDT/BDT
+                    IList<String> baseAttributes = Utility.getSupplementaryComponentsOfElement(CDT_BDT_base);
+
+                    //Every SUP attribute of this BDT must also be contained in the underlying BDT/CDT
+                    foreach (EA.Attribute a in e.Value.Attributes)
+                    {
+                        if (a.Stereotype == UPCC.SUP.ToString())
+                        {
+
+                            if (!baseAttributes.Contains(a.Name))
+                            {
+                                context.AddValidationMessage(new ValidationMessage("Invalid attribute found in BDT.", "A BDT shall not contain attributes which have not been defined in the CDT the BDT is based on or in the less qualified BDT the given BDT is based on. Invalid attribute " + a.Name + " in BDT " + e.Value.Name, "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                            }
+                        }
+                    }
+                }
+            }
         }
 
 
         /// <summary>
-        /// 
+        /// Each BDT content component enumeration set of allowed values shall be equal to or less than the set of enumeration values of its source CDT content component enumeration or less restricted BDT content component enumeration.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
         /// <param name="bdts"></param>
         private void checkC564m(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
-
+            //Not a crucial constraint - will be implemented at a later stage
         }
 
 
         /// <summary>
-        /// 
+        /// Each BDT supplementary component enumeration set of allowed values shall be equal to or less than the set of enumeration values of its source CDT supplementary component enumeration or less restricted BDT supplementary component enumeration.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
         /// <param name="bdts"></param>
         private void checkC564n(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
-
+            //Not a crucial constraint - will be implemented at a later stage
         }
 
 
         /// <summary>
-        /// 
+        /// BDT supplementary component cardinality shall be equal to [0..1] if the BDT supplementary component is optional, or [1..1] if mandatory.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
@@ -566,41 +608,84 @@ namespace VIENNAAddIn.validator.upcc3
         private void checkC564o(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
 
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bdts)
+            {
+                //Fetch all attributes of the given element
+                Dictionary<string, EA.Attribute> attributes = Utility.fetchAllAttributesFromElement(e.Value, UPCC.SUP.ToString());
+
+                foreach (KeyValuePair<string, EA.Attribute> a in attributes)
+                {
+                    String lowerBound = a.Value.LowerBound;
+                    String upperBound = a.Value.UpperBound;
+
+                    //The only allowed combinations for the cardinality are [0..1] and [1..1]
+                    //[0..1] = lowerBound = 0, upperBound = 1
+                    //[1..1] = lowerBound = 1, upperBound = 1 || lowerBound = "", upperBound = ""
+                    if (!Utility.isValid_0_1_or_1_1_Cardinality(lowerBound, upperBound))
+                    {
+                        context.AddValidationMessage(new ValidationMessage("Invalid cardinality found for a BDT.", "BDT supplementary component cardinality shall be equal to [0..1] if the BDT supplementary component is optional, or [1..1] if mandatory. Attribute " + a.Value.Name + " in ACC " + e.Value.Name + " has an invalid cardinality: lower bound: " + lowerBound + " upper bound " + upperBound + ".", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    }
+                }
+
+            }
+
         }
 
 
         /// <summary>
-        /// 
+        /// The cardinality of a supplementary component of an unqualified BDT shall be cardinality of the supplementary component of the CDT the BDT is based on.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
         /// <param name="bdts"></param>
         private void checkC564p(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
+            //Not a crucial constraint - will be implemented at a later stage
 
         }
 
 
         /// <summary>
-        /// 
+        /// A BDT supplementary component’s cardinality shall be a restriction of the cardinality of the underlying CDT or less qualified BDT but never an extension thereof.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
         /// <param name="bdts"></param>
         private void checkC564q(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
-
+            //Not a crucial constraint - will be implemented at a later stage
         }
 
 
         /// <summary>
-        /// 
+        /// The tagged value unique identifier of a BDT shall be unique for a given BDT library.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
         /// <param name="bdts"></param>
         private void checkC564r(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
+
+            Dictionary<Int32, string> values = new Dictionary<Int32, string>();
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bdts)
+            {
+                EA.TaggedValue tv = Utility.getTaggedValue(e.Value, UPCC_TV.uniqueIdentifier.ToString());
+                if (tv != null)
+                {
+                    //Has this unique identifier already been used?
+                    if (values.ContainsValue(tv.Value))
+                    {
+                        //Get the other element with the same unique identifier
+                        EA.Element duplicateElement = context.Repository.GetElementByID(Utility.findKey(values, tv.Value));
+
+                        context.AddValidationMessage(new ValidationMessage("Two identical unique identifier tagged values of a BDT detected.", "The unique identifier tagged value of a BDT shall be unique for a given BDT library. " + e.Value.Name + " and " + duplicateElement.Name + " have the same unique identifier.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    }
+
+                    values.Add(e.Value.ElementID, tv.Value);
+                }
+            }  
 
         }
 
