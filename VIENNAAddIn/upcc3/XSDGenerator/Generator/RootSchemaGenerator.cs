@@ -19,13 +19,12 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
-        ///<param name="docLibrary"></param>
-        public static void GenerateXSD(GenerationContext context, IDOCLibrary docLibrary, IList<IABIE> selectedRootElements)
+        public static void GenerateXSD(GenerationContext context)
         {
             //private static string SCHEMA_LOCATION_BDT = "bdts.xsd";
             //private static string SCHEMA_NAME_BIE = "bies.xsd";
 
-            foreach (IABIE abie in selectedRootElements)
+            foreach (IABIE abie in context.RootElements)
             {
                 var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
                 schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
@@ -37,18 +36,18 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
                 schema.ElementFormDefault = XmlSchemaForm.Qualified;
                 schema.AttributeFormDefault = XmlSchemaForm.Unqualified;
-                schema.Version = docLibrary.VersionIdentifier.DefaultTo("1");
+                schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
 
                 //TODO how do i now what schemas to include and what to import
-                AddImports(schema, context, docLibrary);
-                AddIncludes(schema, context, docLibrary);
+                AddImports(schema, context, context.DocLibrary);
+                AddIncludes(schema, context, context.DocLibrary);
 
                 AddRootElemntDeclaration(schema, abie, context);
-                AddRootTypeDefinition(schema, abie, context, docLibrary);
+                AddRootTypeDefinition(schema, abie, context, context.DocLibrary);
 
-                AddGlobalElementDeclarations(schema, removeRootElements(docLibrary.BIEs, docLibrary.RootElements),
+                AddGlobalElementDeclarations(schema, removeRootElements(context.DocLibrary.BIEs, context.DocLibrary.RootElements),
                                              context);
-                AddGlobalTypeDefinitions(schema, removeRootElements(docLibrary.BIEs, docLibrary.RootElements),
+                AddGlobalTypeDefinitions(schema, removeRootElements(context.DocLibrary.BIEs, context.DocLibrary.RootElements),
                                              context);
                 context.AddSchema(schema, "root.xsd");
             }

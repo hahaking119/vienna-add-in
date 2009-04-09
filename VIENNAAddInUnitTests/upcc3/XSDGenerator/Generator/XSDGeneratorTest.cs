@@ -149,10 +149,9 @@ Actual output file: {2}",
         public void TestBDTSchemaGenerator()
         {
             var ccRepository = new CCRepository(new EARepository2());
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, "C:\\dump\\");
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, "C:\\dump\\", null, null);
             BDTSchemaGenerator.GenerateXSD(context,
-                                           VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBDTs(context,
-                                                                                                             null));
+                                           VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBDTs(context));
             Assert.AreEqual(1, context.Schemas.Count);
             XmlSchema schema = context.Schemas[0].Schema;
             schema.Write(Console.Out);
@@ -163,10 +162,9 @@ Actual output file: {2}",
         public void TestBIESchemaGenerator()
         {
             var ccRepository = new CCRepository(new EARepository2());
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, "C:\\dump\\");
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, "C:\\dump\\", null, null);
             BIESchemaGenerator.GenerateXSD(context,
-                                           VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBIEs(context,
-                                                                                                             null));
+                                           VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBIEs(context));
             Assert.AreEqual(1, context.Schemas.Count);
             XmlSchema schema = context.Schemas[0].Schema;
             schema.Write(Console.Out);
@@ -178,18 +176,17 @@ Actual output file: {2}",
         {
             var ccRepository = new CCRepository(new EARepository2());
             var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
-            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary, new List<IABIE>(docLibrary.RootElements),
-                                                                                  "urn:test:namespace", "test", true,
-                                                                                  PathToTestResource(
-                                                                                      "\\XSDGeneratorTest\\all"));
+            string outputDirectory = PathToTestResource(
+                "\\XSDGeneratorTest\\all");
+            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(new GenerationContext(ccRepository, "urn:test:namespace", "test", true, outputDirectory, docLibrary, new List<IABIE>(docLibrary.RootElements)));
         }
 
         [Test]
         public void TestRootSchemaGenerator()
         {
             var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "eb", true, "C:\\dump\\");
-            RootSchemaGenerator.GenerateXSD(context, ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary).RootElements));
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "eb", true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary).RootElements));
+            RootSchemaGenerator.GenerateXSD(context);
             Assert.AreEqual(1, context.Schemas.Count);
             XmlSchema schema = context.Schemas[0].Schema;
             schema.Write(Console.Out);
@@ -200,7 +197,7 @@ Actual output file: {2}",
         public void TestSchemaGenerator()
         {
             var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
-            var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary).RootElements), "ebInterface", "eb", false, "C:\\dump\\");
+            var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(new GenerationContext(ccRepository, "ebInterface", "eb", false, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary).RootElements)));
             Assert.AreEqual(3, context.Schemas.Count);
             XmlSchema schema = context.Schemas[2].Schema;
             schema.Write(Console.Out);
