@@ -274,8 +274,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("NickName", Stereotype.BCC, PathToText()).LowerBound("0").UpperBound("*")
                 )
                 .Connectors(
-                Connector("homeAddress", Stereotype.ASCC, PathToAddress()),
-                Connector("workAddress", Stereotype.ASCC, PathToAddress()).LowerBound("0").UpperBound("*")
+                Connector("homeAddress", Stereotype.ASCC, PathToAddress()).AggregationKind(AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASCC, PathToAddress()).AggregationKind(AggregationKind.Shared).LowerBound("0").UpperBound("*")
                 )
                 ;
         }
@@ -320,8 +320,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("LastName", Stereotype.BBIE, PathToBDTText())
                 )
                 .Connectors(
-                Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress()),
-                Connector("workAddress", Stereotype.ASBIE, PathToBIEAddress()).LowerBound("0").UpperBound("*")
+                Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Composite).LowerBound("0").UpperBound("*")
                 )
                 ;
         }
@@ -350,7 +350,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("Amount", Stereotype.BBIE, PathToBDTText())
                 )
                 .Connectors(
-                Connector("info", Stereotype.ASBIE, PathToInvoiceInfo())
+                Connector("info", Stereotype.ASBIE, PathToInvoiceInfo()).AggregationKind(AggregationKind.Shared)
                 );
         }
 
@@ -361,7 +361,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("Info", Stereotype.BBIE, PathToBDTText())
                 )
                 .Connectors(
-                Connector("deliveryAddress", Stereotype.ASBIE, PathToBIEAddress())
+                Connector("deliveryAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Shared)
                 );
         }
 
