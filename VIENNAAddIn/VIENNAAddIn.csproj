@@ -297,19 +297,10 @@
     <Compile Include="workflow\ModelStructureCreator.cs" />
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(TargetDir)\res"
-mkdir "$(TargetDir)\EA"
-mkdir "$(TargetDir)\EA\MDG"
-mkdir "$(TargetDir)\EA\CCTS"
-mkdir "$(TargetDir)\BPEL"
-
-xcopy /Y /E /I "$(ProjectDir)WSDLGenerator\BPELTemplate" "$(TargetDir)\BPEL"
-xcopy /Y /E /I "$(ProjectDir)WSDLGenerator\XSLTTemplate" "$(TargetDir)\BPEL\Mappings"
-xcopy /Y /E /I "$(ProjectDir)images" "$(TargetDir)\images"
-xcopy /Y /E /I "$(ProjectDir)EA\MDG" "$(TargetDir)EA\MDG"
-
-xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
-    <PreBuildEvent>del /Q "$(TargetDir)\EA"</PreBuildEvent>
+    <PostBuildEvent>xcopy /Y /E /I "$(ProjectDir)images" "$(TargetDir)\images"
+</PostBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="ErrorReporter\ErrorReporterForm.resx">
