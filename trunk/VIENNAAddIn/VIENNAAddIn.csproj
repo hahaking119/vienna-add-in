@@ -335,6 +335,7 @@
     <Compile Include="upcc3\Wizards\GeneratorWizardForm.Designer.cs">
       <DependentUpon>GeneratorWizardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\util\ModelCreator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\BDTSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\BIESchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\GenerationContext.cs" />
