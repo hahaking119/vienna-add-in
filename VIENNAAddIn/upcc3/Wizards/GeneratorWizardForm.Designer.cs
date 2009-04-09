@@ -107,6 +107,7 @@
             this.textOutputDirectory.Name = "textOutputDirectory";
             this.textOutputDirectory.Size = new System.Drawing.Size(282, 20);
             this.textOutputDirectory.TabIndex = 43;
+            this.textOutputDirectory.TextChanged += new System.EventHandler(this.textOutputDirectory_TextChanged);
             // 
             // buttonBrowseFolders
             // 
@@ -134,6 +135,7 @@
             this.comboModels.Name = "comboModels";
             this.comboModels.Size = new System.Drawing.Size(320, 21);
             this.comboModels.TabIndex = 40;
+            this.comboModels.SelectionChangeCommitted += new System.EventHandler(this.comboModels_SelectionChangeCommitted);
             // 
             // label2
             // 
@@ -159,6 +161,7 @@
             this.textPrefixTargetNS.Name = "textPrefixTargetNS";
             this.textPrefixTargetNS.Size = new System.Drawing.Size(320, 20);
             this.textPrefixTargetNS.TabIndex = 37;
+            this.textPrefixTargetNS.TextChanged += new System.EventHandler(this.textPrefixTargetNS_TextChanged);
             // 
             // label7
             // 
@@ -187,6 +190,7 @@
             this.textTargetNS.Name = "textTargetNS";
             this.textTargetNS.Size = new System.Drawing.Size(320, 20);
             this.textTargetNS.TabIndex = 35;
+            this.textTargetNS.TextChanged += new System.EventHandler(this.textTargetNS_TextChanged);
             // 
             // checkboxAnnotations
             // 
@@ -217,7 +221,7 @@
             this.buttonClose.TabIndex = 3;
             this.buttonClose.Text = "C&lose";
             this.buttonClose.UseVisualStyleBackColor = true;
-            this.buttonClose.Click += new System.EventHandler(this.button1_Click);
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonGenerate
             // 
