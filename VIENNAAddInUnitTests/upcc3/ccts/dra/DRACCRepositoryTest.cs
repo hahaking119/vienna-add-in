@@ -206,6 +206,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             var bccs = new List<IBCC>(accPerson.BCCs);
             var asccs = new List<IASCC>(accPerson.ASCCs);
+            Assert.AreEqual(2, asccs.Count);
             var abieSpec = new ABIESpec
                            {
                                Name = "My_" + accPerson.Name,

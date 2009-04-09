@@ -690,6 +690,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         var eaConnector = (EAConnector) connectors.AddNew(connector.GetName(), "Association");
                         eaConnector.Repository = this;
                         eaConnector.ClientID = elementId;
+                        eaConnector.ClientEnd.Aggregation = (int) connector.GetAggregationKind();
                         eaConnector.SupplierPath = connector.GetPathToSupplier();
                         eaConnector.SupplierEnd.Role = connector.GetName();
                         eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." + connector.GetUpperBound();

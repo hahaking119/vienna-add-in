@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 {
@@ -15,6 +16,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private readonly Path pathToSupplier;
         private string lowerBound = "1";
         private string upperBound = "1";
+        private AggregationKind aggregationKind = VIENNAAddIn.upcc3.ccts.util.AggregationKind.None;
 
         public ConnectorBuilder(string name, string stereotype, Path pathToSupplier) : base(name, stereotype)
         {
@@ -47,5 +49,17 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         {
             return upperBound;
         }
+
+        public ConnectorBuilder AggregationKind(AggregationKind aggregationKind)
+        {
+            this.aggregationKind = aggregationKind;
+            return this;
+        }
+
+        public AggregationKind GetAggregationKind()
+        {
+            return aggregationKind;
+        }
+
     }
 }
