@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:doc="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3" xmlns:test="urn:test:namespace" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2" targetNamespace="urn:test:namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:simpleType name="SimpleStringStringType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <doc:DictionaryEntryName>SimpleString. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName>SimpleString</doc:PropertyTermName>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string" />
+  </xsd:simpleType>
+  <xsd:complexType name="TextStringType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <doc:UniqueID>234235235</doc:UniqueID>
+        <doc:VersionID>1.0</doc:VersionID>
+        <doc:DictionaryEntryName>Text. Type</doc:DictionaryEntryName>
+        <doc:Definition>This is the definition of BDT Text.</doc:Definition>
+        <doc:BusinessTermName>business term 1</doc:BusinessTermName>
+        <doc:BusinessTermName>business term 2</doc:BusinessTermName>
+        <doc:PropertyTermName>Text</doc:PropertyTermName>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="LanguageString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>Language</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>Text</doc:DataTypeName>
+              <doc:DictionaryEntryName>Text. Language. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="LanguageLocaleString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>Language.Locale</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>Text</doc:DataTypeName>
+              <doc:DictionaryEntryName>Text. Language.Locale. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="DateStringType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <doc:DictionaryEntryName>Date. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName>Date</doc:PropertyTermName>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="FormatString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>Format</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>Date</doc:DataTypeName>
+              <doc:DictionaryEntryName>Date. Format. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="ABCCodeABCCodesType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <doc:DictionaryEntryName>ABCCode. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName>ABCCode</doc:PropertyTermName>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="NameString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>Name</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. Name. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="CodeListAgencyString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CodeList.Agency</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. CodeList.Agency. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="CodeListAgencyNameString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CodeList.AgencyName</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. CodeList.AgencyName. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="CodeListString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CodeList</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. CodeList. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="CodeListNameString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CodeList.Name</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. CodeList.Name. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="CodeListUniformResourceIdentifierString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CodeList.UniformResourceIdentifier</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. CodeList.UniformResourceIdentifier. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="CodeListVersionString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CodeList.Version</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. CodeList.Version. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="CodeListSchemeUniformResourceIdentifierString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CodeListScheme.UniformResourceIdentifier</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. CodeListScheme.UniformResourceIdentifier. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="LanguageString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>Language</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>ABCCode</doc:DataTypeName>
+              <doc:DictionaryEntryName>ABCCode. Language. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="MeasureDecimalType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <doc:DictionaryEntryName>Measure. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName>Measure</doc:PropertyTermName>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:decimal">
+        <xsd:attribute name="MeasureUnitString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>MeasureUnit</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>Measure</doc:DataTypeName>
+              <doc:DictionaryEntryName>Measure. MeasureUnit. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="MeasureUnitCodeListVersionString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>MeasureUnit.CodeListVersion</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>Measure</doc:DataTypeName>
+              <doc:DictionaryEntryName>Measure. MeasureUnit.CodeListVersion. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CurrencyDecimalType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        <doc:DictionaryEntryName>Currency. Type</doc:DictionaryEntryName>
+        <doc:PropertyTermName>Currency</doc:PropertyTermName>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:decimal">
+        <xsd:attribute name="CurrencyCodeString" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              <doc:PropertyTermName>CurrencyCode</doc:PropertyTermName>
+              <doc:RepresentationTermName>String</doc:RepresentationTermName>
+              <doc:PrimitiveTypeName>String</doc:PrimitiveTypeName>
+              <doc:DataTypeName>Currency</doc:DataTypeName>
+              <doc:DictionaryEntryName>Currency. CurrencyCode. String</doc:DictionaryEntryName>
+              <doc:ModificationAllowedIndicator>true</doc:ModificationAllowedIndicator>
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

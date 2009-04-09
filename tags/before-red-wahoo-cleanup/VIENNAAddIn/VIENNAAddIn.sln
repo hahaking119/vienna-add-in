@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIENNAAddIn", "VIENNAAddIn.csproj", "{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GIEMInstaller", "..\GIEMInstaller\GIEMInstaller.vdproj", "{C33BF264-B0D8-4B78-88D2-97BE4B5B931D}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VIENNAAddInInstaller", "..\VIENNAInstaller\UMM2AddInInstaller.vdproj", "{67AD0FD5-742A-4D11-A55B-BEFF2064E849}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3} = {5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C33BF264-B0D8-4B78-88D2-97BE4B5B931D}.Debug|Any CPU.ActiveCfg = Debug
+		{C33BF264-B0D8-4B78-88D2-97BE4B5B931D}.Release|Any CPU.ActiveCfg = Release
+		{67AD0FD5-742A-4D11-A55B-BEFF2064E849}.Debug|Any CPU.ActiveCfg = Debug
+		{67AD0FD5-742A-4D11-A55B-BEFF2064E849}.Release|Any CPU.ActiveCfg = Release
+		{67AD0FD5-742A-4D11-A55B-BEFF2064E849}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

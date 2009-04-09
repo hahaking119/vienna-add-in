@@ -1,0 +1,245 @@
+ADD/CHG/DEL/WDR;Unique UN Assigned ID; ABIE/ BBIE/ ASBIE/ACC/BCC/ASCC/DT/CC/SC;Dictionary Entry Name (auto generated);Definition Mandatory;Working comments and instructions;Publication comments;Object Class Term Qualifier(s);Object Class Term;Property Term Qualifier(s);Property Term;Datatype Qualifier(s);Representation Term;Qualified Data Type UID;Associated Object Class Term Qualifier(s);Associated Object Class;Business Term(s);Usage Rule(s);Sequence Number;Occurrence Min;Occurrence Max;Context Categories Mandatory for BIE's;;;;;;;;;;;;;;;;;;;;;;;;Facets To restrict the set of values of Content Component or Supplementary Components;;;;;;;;;;;;;;;Example(s);BIE/CC/DT Version;Ref Library Version;Submitter Name;Ref Component UN ID;Ref CR ID;Unique submitter ID;CR Status Date;CR Status;TBG17 Comment;TDED;Submitted Definition;Submitter Comment;Submitted DEN;Submission Row Number;Unique CC/BIE ID;CR Storage Date;Publication Refs -- Source
+;UN02000020;DT;Acknowledgement_ Code. Type;A character string used to represent a type of acknowledgment.;;;;;;;Acknowledgement;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;1225;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent a type of acknowledgment.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_1225-AcknowledgementCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1225;;;;;;;;1225_Acknowledgement;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+ADD;UN02000039;DT;Address Type_ Code. Type;A character string used to represent or replace an address type.;;;;;;;Address Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APP;;3131;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to represent or replace an address type.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_3131-AddressTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3131;;;;;;;;3131;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000001;DT;Adjustment Reason_ Code. Type;A character string used to represent an adjustment reason.;;;;;;;Adjustment Reason;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;4465;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent an adjustment reason.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_4465-AdjustmentReasonCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4465;;;;;;;;4465;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000002;DT;Billing_ Document_ Code. Type;A character string used to represent a type of billing document.;;;;;;;Billing_ Document;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;1001;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a type of billing document.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_1001-BillingDocumentCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1001;;;;;;;;1001_Billing Document;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;UN02000049;DT;Cargo Type Classification_ Code. Type;A character string used to represent a cargo type classification.;;;;;;;Cargo Type Classification;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;19MAY08;APP;;7085;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to represent a cargo type classification.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_7085-CargoTypeClassification_D08A.TXT;;;;;;;;;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7085;;;;;;;;7085;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;19MAY08;APP;;;;;;;;;
+;UN02000021;DT;Contract Type_ Code. Type;A character string used to represent a type of contract.;;;;;;;Contract Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent a type of contract.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9651-ContractTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9651;;;;;;;;9651;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000023;DT;Cost Management_ Code. Type;A character string used to represent or replace a cost management value.;;;;;;;Cost Management;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a cost management value.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_CostManagementCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9653;;;;;;;;9653;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000024;DT;Cost Reporting_ Code. Type;A character string used to represent or replace a cost reporting value.;;;;;;;Cost Reporting;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a cost reporting value.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_CostReportingCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9655;;;;;;;;9655;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000003;DT;Country_ Identifier. Type;A character string to identify and distinguish uniquely, one instance of a country in an identification scheme from all other objects within the same scheme.;;;;;;;Country;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D06B
+;;CC;Identifier. Content;A character string to identify and distinguish uniquely, one instance of an object in an identification scheme from all other objects within the same scheme.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;ISO_3166-1-2A-CountryIdentifier_SecondEdition2006.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme. Identifier;The identification of the identification scheme.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;ISO 3166-1 2A;;;;;;;;ISO 3166-1 2A;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme Agency. Identifier;The identification of the agency that maintains the identification scheme.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5;;;;;;;;5;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme. Version. Identifier;The version of the identification scheme.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;20080425;;;;;;;;second edition 2006;;;;;;;;;;;;;;;;;;;;
+;UN02000004;DT;Currency_ Code. Type;A character string used to represent a currency.;;;;;;;Currency;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;6345;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a currency.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;ISO_4217-3A-CurrencyCode_20070618.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;ISO 4217 3A;;;;;;;;ISO 4217 3A;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5;;;;;;;;5;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2007-06-18;;;;;;;;2007-06-18;;;;;;;;;;;;;;;;;;;;
+;UN02000019;DT;Date Mandatory_ Date Time. Type;A particular point in the progression of time defined by a mandatory date and an optional time component.;;;;;;;Date Mandatory;Date Time;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D06B
+;;CC;Date Time. Content;A particular point in the progression of time defined by a mandatory date and an optional time component.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8;17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Date Time. Format. Text;The format of the date/time content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;UN02000005;DT;Delivery Terms_ Code. Type;A character string used to represent delivery terms.;;;;;;;Delivery Terms;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;4053;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent delivery terms.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_4053-DeliveryTermsCode_2000.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4053;;;;;;;;4053;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000025;DT;Document Status_ Code. Type;A character string used to represent or replace a document status.;;;;;;;Document Status;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;1373;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a document status.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_1373-DocumentStatusCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1373;;;;;;;;1373;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000006;DT;Document_ Code. Type;A character string denoting the type of a document. [Reference United Nations Code List (UNCL) 1001];;;;;;;Document;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;1001;;;;;;;D06B
+;;CC;Code. Content;A character string denoting the type of a document. [Reference United Nations Code List (UNCL) 1001];;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_1001-DocumentCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1001;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000026;DT;Duration_ Measure. Type;A numeric value determined by measuring a duration of time.;;;;;;;Duration;Measure;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Measure. Content;A numeric value determined by measuring a duration of time.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Measure Unit. Code;The type of unit of measure.;;;;;;;;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_6411-DurationMeasure_2006.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Measure Unit. Code List Version. Identifier;The version of the measure unit code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4;;;;;;;;4;;;;;;;;;;;;;;;;;;;;
+;UN02000027;DT;Earned Value Calculation Method_ Code. Type;A character string used to represent or replace the type of earned value calculation method.;;;;;;;Earned Value Calculation Method;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace the type of earned value calculation method.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9657-EarnedValueCalculationMethodCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9657;;;;;;;;9657;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000029;DT;Funding Type_ Code. Type;A character string used to represent or replace a type of funding.;;;;;;;Funding Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a type of funding.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9659-FundingTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9659;;;;;;;;9659;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;UN02000040;DT;Government Action_ Code. Type;A character string used to replace or represent a government action.;;;;;;;Government Action;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APP;;9417;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to replace or represent a government action.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9417-GovernmentActionCode_D08A.TXT;;;;;;;;;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9417;;;;;;;;9417;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000030;DT;Hierarchical Structure Type_ Code. Type;A character string used to represent or replace a type of hierarchical structure.;;;;;;;Hierarchical Structure Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a type of data structure.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9661-HierarchicalStructureTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9661;;;;;;;;9661;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000007;DT;IBAN_ Identifier. Type;A character string used to represent the International Bank Account Number Type.;;;;;;;IBAN;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D06B
+;;CC;Identifier. Content;A character string used to represent the IBAN identifier.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme. Identifier;The identification of the identification scheme.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;13616;;;;;;;;13616;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme Agency. Identifier;The agency that maintains the identifier list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5;;;;;;;;5;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme. Version. Identifier;The version of the identification scheme.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2007;;;;;;;;2007;;;;;;;;;;;;;;;;;;;;
+ADD;UN02000041;DT;Location Function_ Code. Type;A character string used to replace or represent a location function.;;;;;;;Location Function;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APP;;3227;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to replace or represent a location function.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_3227-LocationFunctionCode_D08A.TXT;;;;;;;;;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3227;;;;;;;;3227;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+ADD;UN02000042;DT;Measured Attribute_ Code. Type;A character string used to replace or represent a measured attribute.;;;;;;;Measured Attribute;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APP;;6313;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to replace or represent a measured attribute.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_6313-MeasuredAttributeCode_D08A.TXT;;;;;;;;;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6313;;;;;;;;6313;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+ADD;UN02000043;DT;Package Type_ Code. Type;A character string used to replace or represent a type of package.;;;;;;;Package Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APC;Changed data type qualifier and definition.;7065;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to replace or represent a type of package.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_7065-PackageTypeCode_2006.TXT;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7065;;;;;;;;7065;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+ADD;UN02000044;DT;Party Role_ Code. Type;A character string used to replace or represent a role of a party.;;;;;;;Party Role;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APC;Changed data type qualifier and definition.;3035;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to replace or represent a role of a party.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_3035-PartyRoleCode_D08A.TX;;;;;;;;;;;;;;;;;;29JAN08;APC;Changed definition.;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;3035;;;;;;;;3035;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000009;DT;Payment Guarantee Means_ Code. Type;A character string used to represent a payment guarantee means.;;;;;;;Payment Guarantee Means;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;4431;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a payment guarantee means.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_4431-PaymentGuaranteeMeansCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4431;;;;;;;;4431;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000010;DT;Payment Means_ Code. Type;A character string used to represent a payment means.;;;;;;;Payment Means;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;4461;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a payment means.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_4461-PaymentMeansCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4461;;;;;;;;4461;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000011;DT;Payment Method_ Code. Type;A character string used to represent a payment method.;;;;;;;Payment Method;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;4439;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent or replace a payment method.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_4439-PaymentMethodCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4439;;;;;;;;4439;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000008;DT;Payment Terms Event_ Time Reference_ Code. Type;A character string used to represent a time reference for a payment terms event.;;;;;;;Payment Terms Event_ Time Reference;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;2475;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a time reference for a payment terms event.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_2475-PaymentTermsEventTimeReferenceCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2475;;;;;;;;2475_Payment Terms Event;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000012;DT;Payment Terms_ Identifier. Type;A character string used to represent a payment terms.;;;;;;;Payment Terms;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;4277;;;;;;;D06B
+;;CC;Identifier. Content;A character string used to represent a payment terms.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_4277-PaymentTermsIdentifier_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme. Identifier;The identification of the identification scheme.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4277;;;;;;;;4277;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme Agency. Identifier;The agency that maintains the identifier list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Identification Scheme. Version. Identifier;The version of the identification scheme.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000013;DT;Price Type_ Code. Type;A character string used to represent or replace a type of price.;;;;;;;Price Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;5375;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent or replace a type of price.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_5375-PriceTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5375;;;;;;;;5375;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;UN02000045;DT;Process Type_ Code. Type;A character string used to replace or represent a type of process.;;;;;;;Process Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APC;Changed data type qualifier.;7187;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to replace or represent a type of process.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_7187-ProcessTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;7187;;;;;;;;7187;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000032;DT;Project Type_ Code. Type;A character string used to replace or represent a type of project.;;;;;;;Project Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to replace or represent a type of project.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9665-ProjectTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9665;;;;;;;;9665;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;UN02000048;DT;Reference_ Code. Type;A character string used to represent a reference.;;;;;;;Reference;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;19MAY08;APP;;1153;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to represent a reference.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_1153-ReferenceTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1153;;;;;;;;1153;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;19MAY08;APP;;;;;;;;;
+;UN02000033;DT;Reporting Threshold Trigger Type_ Code. Type;A character string used to represent or replace a type of trigger for a reporting threshold.;;;;;;;Reporting Threshold Trigger Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a type of trigger for a reporting threshold.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9667-ReportingThresholdTriggerTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9667;;;;;;;;9667;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000034;DT;Resource Cost Category_ Code. Type;A character string used to represent or replace a cost category for a resource.;;;;;;;Resource Cost Category;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a cost category for a resource.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9669-ResourceCostCategoryCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9669;;;;;;;;9669;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000035;DT;Resource Plan Measure Type_ Code. Type;A character string used to represent or replace the type of resource plan measure.;;;;;;;Resource Plan Measure Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace the type of resource plan measure.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9671-ResourcePlanMeasureTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9671;;;;;;;;9671;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000036;DT;Schedule Task Relationship Type_ Code. Type;A character string used to represent or replace a type of relationship between schedule tasks.;;;;;;;Schedule Task Relationship Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a type of relationship between schedule tasks.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9673-ScheduleTaskRelationshipTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9673;;;;;;;;9673;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000037;DT;Schedule Task Type_ Code. Type;A character string used to represent or replace a type of schedule task.;;;;;;;Schedule Task Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to represent or replace a type of schedule task.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9675-ScheduleTaskTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9675;;;;;;;;9675;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000038;DT;Security Classification Type_ Code. Type;A character string used to replace or represent a security classification.;;;;;;;Security Classification Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D07A
+;;CC;Code. Content;A character string used to replace or represent a security classification.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_9677-SecurityClassificationTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;9677;;;;;;;;9677;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;UN02000047;DT;Status_ Code. Type;A character string used to represent a status.;;;;;;;Status;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;19MAY08;APP;;4405;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to represent a status.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_4405-StatusCode_D08A.TXT;;;;;;;;;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;4405;;;;;;;;4405;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;19MAY08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;19MAY08;APP;;;;;;;;;
+;UN02000014;DT;Tax Category_ Code. Type;A character string used to represent a duty or tax category.;;;;;;;Tax Category;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;5305;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a duty or tax category.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_5305-TaxCategoryCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5305;;;;;;;;5305;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+;UN02000015;DT;Tax Type_ Code. Type;A character string used to represent or replace a tax type.;;;;;;;Tax Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;5153;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent or replace a tax type.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_5153-TaxTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;5153;;;;;;;;5153;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D07A;;;;;;;;;;;;;;;;;;;;
+ADD;UN02000046;DT;Temperature Type_ Code. Type;A character string used to replace or represent a type of temperature.;;;;;;;Temperature Type;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;29JAN08;APP;;6245;;;;;;;D08A
+ADD;;CC;Code. Content;A character string used to replace or represent a type of temperature.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_6245-TemperatureTypeCode_D08A.TXT;;;;;;;;;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6245;;;;;;;;6245;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;D08A;;;;;;;;;;29JAN08;APP;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000016;DT;Time Reference_ Code. Type;A character string used to represent a time reference.;;;;;;;Time Reference;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;2475;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a time reference.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_2475-TimeReferenceCode_D08A.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2475;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;D08A;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000017;DT;Transport Means_ Code. Type;A character string used to represent a transport means.;;;;;;;Transport Means;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a transport means.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_8179-TransportMeansCode_2007.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Recommendation 28;;;;;;;;Recommendation 28;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2007;;;;;;;;2007;;;;;;;;;;;;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
+;UN02000018;DT;Transport Mode_ Code. Type;A character string used to represent a transport mode.;;;;;;;Transport Mode;Code;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1.0;;;;;;;;;;;;;;;;D06B
+;;CC;Code. Content;A character string used to represent a transport mode.;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UNECE_8067-TransportModeCode_2001.TXT;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Identifier;The identification of a list of codes.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Recommendation 19;;;;;;;;Recommendation 19;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Agency. Identifier;An agency that maintains one or more code lists.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;6;;;;;;;;6;;;;;;;;;;;;;;;;;;;;
+;;SC;Code List. Version. Identifier;The version of the code list.;;;;;;;;Identifier;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2;;;;;;;;2;;;;;;;;;;;;;;;;;;;;
+ADD;;SC;Code. Name. Text;The textual equivalent of the code content.;;;;;;;;Text;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;29JAN08;APC;Removed enumeration.;;;;;;;;
