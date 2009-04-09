@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
-using VIENNAAddIn.CCTS;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 

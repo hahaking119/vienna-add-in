@@ -282,12 +282,6 @@
     </Compile>
     <Compile Include="VIENNAAddIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\SynchTaggedValue.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Settings\SynchTaggedValue.Designer.cs">
-      <DependentUpon>SynchTaggedValue.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utils\AboutWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -325,10 +319,6 @@ xcopy /Y /E /I "$(ProjectDir)EA\CCTS" "$(TargetDir)EA\CCTS"</PostBuildEvent>
     <EmbeddedResource Include="Settings\SynchStereotypesForm.resx">
       <DependentUpon>SynchStereotypesForm.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Settings\SynchTaggedValue.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>SynchTaggedValue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\ABIEWizardForm.resx">
       <DependentUpon>ABIEWizardForm.cs</DependentUpon>
