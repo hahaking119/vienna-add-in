@@ -14,7 +14,7 @@ using System.Text;
 namespace VIENNAAddIn.constants
 { 
 
-    internal enum TaggedValues
+    internal enum UMMTaggedValues
     {
 
         URI,
