@@ -38,13 +38,15 @@ namespace VIENNAAddIn.Settings
         ///</summary>
         public static string MDGFilePath { get; private set; }
 
+        ///<summary>
+        ///</summary>
         public static string CommonXSDPath { get; private set; }
         private static string HomeDirectory { get; set; }
 
         /// <summary>
         /// Retrieves settings from the windows registry.
         /// </summary>
-        internal static void LoadRegistryEntries()
+        public static void LoadRegistryEntries()
         {
             try
             {
