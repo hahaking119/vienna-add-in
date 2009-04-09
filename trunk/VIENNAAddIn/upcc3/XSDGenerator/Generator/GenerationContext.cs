@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             OutputDirectory = outputDirectory;
             DocLibrary = docLibrary;
             RootElements = rootElements;
-            progress = 100/(2 + rootElements.Count);
+            progress = 100/(2 + (rootElements != null ? rootElements.Count : 0));
         }
 
         ///<summary>
@@ -76,7 +76,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         public void AddSchema(XmlSchema schema, string fileName)
         {
             Schemas.Add(new SchemaInfo(schema, fileName));
-            SchemaAdded(this, new SchemaAddedEventArgs(fileName, progress));
+            if (SchemaAdded != null)
+            {
+                SchemaAdded(this, new SchemaAddedEventArgs(fileName, progress));
+            }
         }
 
         public event EventHandler<SchemaAddedEventArgs> SchemaAdded;
