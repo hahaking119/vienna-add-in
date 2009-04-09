@@ -188,6 +188,21 @@ namespace VIENNAAddIn.common
         }
 
 
+        /// <summary>
+        /// Determines whether a BDT or an ABIE is qualified or not
+        /// If the name of the element contains an underscore character, the element is qualified
+        /// </summary>
+        /// <param name="elementName"></param>
+        /// <returns></returns>
+        internal static bool isAQualifiedElement(String elementName)
+        {
+            if (elementName.Contains("_"))
+                return true;
+
+
+            return false;
+        }
+
 
 
         /// <summary>
@@ -1379,6 +1394,55 @@ namespace VIENNAAddIn.common
         }
 
 
+        /// <summary>
+        /// Count the attributes of a given element which have the stereotype s
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="stereotype"></param>
+        /// <returns></returns>
+        internal static int countAttributesOfElement(EA.Element e, String s)
+        {
+            int i = 0;
+
+            if (e != null)
+            {
+                foreach (EA.Attribute a in e.Attributes)
+                {
+                    if (a.Stereotype == s)
+                        i++;
+                }
+            }
+
+            return i;
+        }
+
+
+        /// <summary>
+        /// Return a list with all attribute of a given element which have the stereotype SUP
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        internal static IList<String> getSupplementaryComponentsOfElement(EA.Element e)
+        {
+            IList<String> list = new List<String>();
+
+            if (e != null)
+            {
+                foreach (EA.Attribute a in e.Attributes)
+                {
+                    if (a.Stereotype == UPCC.SUP.ToString())
+                        list.Add(a.Name);
+                }
+
+            }
+
+            return list;
+
+
+        }
+
+
+        
 
         /// <summary>
         /// Returns the target of a basedOn dependency
