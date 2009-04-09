@@ -7,7 +7,6 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
-using VIENNAAddIn.CCTS.CCTSBIE_MetaModel;
 
 namespace VIENNAAddIn.Exceptions { 
     /// <sUMM2ary>
@@ -27,11 +26,6 @@ namespace VIENNAAddIn.Exceptions {
         internal XMLException(String message)
             : base(message) {
             errorString = message;
-        }
-
-        internal XMLException(String message, AggregateBusinessInformationEntity abie) 
-            :base(message) {
-            errorString = message + ". \n Affected abie: " + abie.Name;            
         }
 
         internal XMLException(String message, EA.Package p)
