@@ -363,8 +363,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                     if (relevantABIEs.Count > 0)
                     {
-                        if (ascc.Name.Equals(""))
-                        {
+                        if (!(ascc.Name.Equals("")))
+                        {                            
                             if (!ASCCs.ContainsKey(ascc.Name))
                             {
                                 ASCCs.Add(ascc.Name, new cASCC(ascc.Name, ascc.Id, CheckState.Unchecked, relevantABIEs));
