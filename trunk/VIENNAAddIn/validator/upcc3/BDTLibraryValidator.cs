@@ -764,13 +764,33 @@ namespace VIENNAAddIn.validator.upcc3
 
 
         /// <summary>
-        /// 
+        /// The dictionary entry name tagged value of a BDT shall be unique for a given BDT library.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
         /// <param name="bdts"></param>
         private void checkC564y(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bdts)
         {
+
+            Dictionary<Int32, string> values = new Dictionary<Int32, string>();
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bdts)
+            {
+                EA.TaggedValue tv = Utility.getTaggedValue(e.Value, UPCC_TV.dictionaryEntryName.ToString());
+                if (tv != null)
+                {
+                    //Has this dictionary entry name already been used?
+                    if (values.ContainsValue(tv.Value))
+                    {
+                        //Get the other element with the same dictionary entry name
+                        EA.Element duplicateElement = context.Repository.GetElementByID(Utility.findKey(values, tv.Value));
+
+                        context.AddValidationMessage(new ValidationMessage("Two identical dictionary entry name tagged values of a BDT detected.", "The dictionary entry name tagged value of a BDT shall be unique for a given BDT library. " + e.Value.Name + " and " + duplicateElement.Name + " have the same dictionary entry name.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    }
+
+                    values.Add(e.Value.ElementID, tv.Value);
+                }
+            }  
 
         }
 
