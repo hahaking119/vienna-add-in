@@ -286,80 +286,6 @@ namespace VIENNAAddIn.common
 
 
 
-        /// <sUMM2ary>
-        /// Get the element with which the passed element 
-        /// is asssociated with
-        /// </sUMM2ary>
-        /// <param name="e">the object which is associated with the target object</param>
-        /// <param name="mode">valid modes are transaction, collaboration, usecase or bta</param>
-        /// <param name="repository">the model</param>
-        /// 
-        /// <returns>the associated object of the parameter e</returns>
-        internal static Object getAssociatedElement(Object e, String mode, EA.Repository repository)
-        {
-
-            Object rv = null;
-
-            if (e != null)
-            {
-                String beginString = "";
-                String s = "";
-                if (mode == "transaction" || mode == "collaboration")
-                {
-                    //The entry should have the form [[AC_ID=1234]]
-                    //(because a businesscollaboration or a businesstransaction is associated
-                    //with a use case and the diagramID is written into the use case notes field)
-                    beginString = "[[AG_ID=";
-                    s = ((EA.Element)e).Notes.Trim();
-                }
-                else if (mode == "bta")
-                {
-                    /* The entry should have the form [[BT_ID=1234]]
-                     * because a refining BusinessTransaction is associated to a 
-                     * BusinessTransactionActivity and the diagramID is written into the
-                     * use case notes field */
-                    beginString = "[[BT_ID=";
-                    s = ((EA.Element)e).Notes.Trim();
-                }
-                else
-                {
-                    //The entry should have the form [[UC_ID=1234]]
-                    //(because a businesscollaborationusecase or a businesstransactionusecase is
-                    //associated with a businesscollaboration protocol or a business transaction
-                    //and the elementID of the use case is wirtten into the notes field of the 
-                    //diagram
-                    beginString = "[[UC_ID=";
-                    s = ((EA.Diagram)e).Notes.Trim();
-                }
-
-                //Get the string, which is stored in the notes field of the element				
-                if (s != null && !s.Equals(""))
-                {
-
-                    //Therefore we are trying to get the figure which is located
-                    //between the first = and the first ]
-                    try
-                    {
-                        int begin = s.IndexOf(beginString);
-                        begin = begin + 8;
-                        int end = s.IndexOf("]]");
-                        int id = Int32.Parse(s.Substring(begin, end - begin));
-
-                        if (mode == "transaction" || mode == "collaboration" || mode == "bta")
-                            rv = repository.GetDiagramByID(id);
-                        else
-                            rv = repository.GetElementByID(id);
-
-                    }
-                    catch (Exception exe) { }
-
-                }
-            }
-            return rv;
-        }
-
-
-
 
         /// <sUMM2ary>
         /// Get the diagrams which are stereotyped "stereotype" from the package
@@ -1035,61 +961,6 @@ namespace VIENNAAddIn.common
         }
 
 
-
-
-
-        /// <sUMM2ary>
-        /// Import the Core Component Library
-        /// </sUMM2ary>
-        internal static void importCCTSLibrary(EA.Repository repository, bool showInfo)
-        {
-
-            //Get the root element
-            EA.Package model = (EA.Package)repository.Models.GetAt(0);
-            //Does a library with the name CCTS already exist?
-            int i = Utility.getPackagesWithSpecificName(model, CCTS_Types.CCTS.ToString()).Count;
-
-            //No Library exists - import it from XMI
-            if (i == 0)
-            {
-                System.Windows.Forms.MessageBox.Show("The CCTS Library will be imported. Please wait until the import has finished.");
-                EA.Project project = repository.GetProjectInterface();
-                //No CCLibrary found - import a new one           
-                String guid = model.PackageGUID;
-                project.ImportPackageXMI(guid, AddInSettings.CCLibraryFilePath, 0, 0);
-
-            }
-            else
-            {
-                if (showInfo)
-                    System.Windows.Forms.MessageBox.Show("The CCTS Library is already imported.", "Information");
-            }
-        }
-
-        /// <sUMM2ary>
-        /// Delete the CCTS library from the model
-        /// </sUMM2ary>
-        /// <param name="repository"></param>
-        internal static void unimportCCTSLibrary(EA.Repository repository)
-        {
-
-            //Get the root element
-            EA.Package model = (EA.Package)repository.Models.GetAt(0);
-            int i = 0;
-            foreach (EA.Package p in model.Packages)
-            {
-                if (p.Element.Name.ToString() == CCTS_Types.CCTS.ToString())
-                {
-                    model.Packages.Delete(short.Parse(i.ToString()));
-                    model.Update();
-                    model.Packages.Refresh();
-                    break;
-                }
-                i++;
-            }
-            repository.RefreshModelView(model.PackageID);
-        }
-
         /// <sUMM2ary>
         /// Searches the package with the ID parentPackageID for subpackages with the
         /// stereotype "stereotype"
@@ -1464,6 +1335,22 @@ namespace VIENNAAddIn.common
         }
 
 
+
+        /// <summary>
+        /// Get the unqualified name based on the passed string
+        /// 
+        /// e.g. Qualified Name = US_Internal_Address
+        /// Unqualified Name    = Address
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        internal static String getUnqualifiedName(String s)
+        {
+            //Are there any _ in the name (= is the name qualified)?
+            int pos = s.LastIndexOf("_");
+            return s.Substring(pos + 1);
+
+        }
 
 
 

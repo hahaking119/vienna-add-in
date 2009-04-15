@@ -41,6 +41,10 @@ namespace VIENNAAddIn.validator.upcc3
 
             checkC574c(context, package, bies);
 
+            checkC574d(context, package, bies);
+
+            checkC574e(context, package, bies);
+
         }
 
 
@@ -120,9 +124,9 @@ namespace VIENNAAddIn.validator.upcc3
                     }
                 }
 
-                foreach (EA.Attribute bcc in element.Attributes)
+                foreach (EA.Attribute bbie in element.Attributes)
                 {
-                    if (bcc.Stereotype == UPCC.BCC.ToString())
+                    if (bbie.Stereotype == UPCC.BBIE.ToString())
                     {
                         count_bbie++;
                     }
@@ -178,7 +182,7 @@ namespace VIENNAAddIn.validator.upcc3
                 //No based on dependency found - raise an error
                 if (!foundBasedOn)
                 {
-                    context.AddValidationMessage(new ValidationMessage("Missing basedOn dependency found in an ABIE.", "An ABIE shall have exactly one dependency of stereotype <<basedOn>> with an ACC as the target. Errorneous ABIE: " + element.Name, "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    context.AddValidationMessage(new ValidationMessage("Missing basedOn dependency found in an ABIE.", "An ABIE shall have exactly one dependency of stereotype <<basedOn>> with an ACC as the target. Errorneous ABIE: " + element.Name + " in BIELibrary " + p.Name, "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                 }
 
             }
@@ -187,8 +191,63 @@ namespace VIENNAAddIn.validator.upcc3
 
 
 
+        /// <summary>
+        /// The name of an ABIE shall be unique for a given BIE library.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bies"></param>
+        private void checkC574d(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+            Dictionary<Int32, string> names = new Dictionary<int, string>();
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+
+                if (names.ContainsValue(e.Value.Name))
+                {
+                    context.AddValidationMessage(new ValidationMessage("Two BIEs with the same name found.", "Each BIE shall have a unique name within the BIE library of which it is part of. Two BIEs with the name " + e.Value.Name + " found in BIELibrary " + p.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                }
+
+                names.Add(e.Value.ElementID, e.Value.Name);
+            }
+
+        }
 
 
+
+
+
+        /// <summary>
+        /// The name on an ABIE shall be the same as the name of the ACC on which it is based.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574e(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+                //Getthe ACC on which this BIE is based on 
+                EA.Element targetElement = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
+
+                if (targetElement != null)
+                {
+                    //The unqualified name of the BIE
+                    String unqualifiedName = Utility.getUnqualifiedName(e.Value.Name);
+
+                    //Compare the unqualified name of the BIE to the name of the underlying ACC
+                    if (targetElement.Name != unqualifiedName)
+                    {
+                        context.AddValidationMessage(new ValidationMessage("Mismatch between ABIE and ACC name found.", "The name on an ABIE shall be the same as the name of the ACC on which it is based. The ABIE " + e.Value.Name + " found in BIELibrary " + p.Name + " does not have the same name as the ACC " + targetElement.Name + " it is based on.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+
+                    }
+                }
+            }
+
+        }
 
 
 
