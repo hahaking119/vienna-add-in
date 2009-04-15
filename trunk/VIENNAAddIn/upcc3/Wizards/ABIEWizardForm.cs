@@ -20,6 +20,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private TextBox editboxBBIEName;
         private TextBox editboxBDTName;
         private int mouseDownPosX;
+        private bool editMode = true;
         private bool userHasClickedCheckbox;
         private const int MARGIN = 15;
         private const string DEFAULT_PREFIX = "My";
@@ -94,7 +95,21 @@ namespace VIENNAAddIn.upcc3.Wizards
                 ResetForm(0);
             }
         }
-
+                ///<summary>
+        /// The constructor of the ABIE has one input parameter which is the EA
+        /// repository that the wizard operates on. Based on the EA repository the 
+        /// constructor pre-poluates the internal cache of the wizard with all CC 
+        /// libraries, all BDT libraries and their corresponding BDTs, all BIE libraries 
+        /// and their corresponding ABIEs. Furthermore, the constructor initializes
+        /// different textboxes and labels used for on-the-fly editing or validation. 
+        /// An example for on-the-fly editing and validation is renaming a BBIE and
+        /// validation that the name of the BBIE is already in use. 
+        ///</summary>
+        ///<param name="eaRepo"></param>
+        public ABIEWizardForm(EA.Repository eaRepo, EA.Element element)
+                {
+                    editMode = false;
+                }
         #endregion
 
         #region Event Handlers
@@ -132,7 +147,17 @@ namespace VIENNAAddIn.upcc3.Wizards
              * Per default all of the user input controls are disabled except the
              * combo box containing all the CC libraries. 
              **/
-            ResetForm(1);
+            if (!editMode)
+            {
+                ResetForm(1);
+                ResetForm(2);
+                ResetForm(3);
+                buttonGenerate.Show();
+            }
+            else
+            {
+                buttonSave.Show();
+            }
 
             /*
              * In the following two labels and two edit boxes are defined. The labels are used
