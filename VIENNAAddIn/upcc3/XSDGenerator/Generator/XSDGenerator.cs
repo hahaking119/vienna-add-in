@@ -57,7 +57,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             return context;
         }
 
-        public static void CopyFolder(string sourceFolder, string destFolder)
+        private static void CopyFolder(string sourceFolder, string destFolder)
         {
             if (!Directory.Exists(destFolder))
                 Directory.CreateDirectory(destFolder);
