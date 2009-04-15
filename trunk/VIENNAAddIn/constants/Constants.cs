@@ -151,7 +151,8 @@ namespace VIENNAAddIn.constants
         dictionaryEntryName,
         uniqueIdentifier,
         agencyName,
-        agencyIdentifier
+        agencyIdentifier,
+        definition
     }
 
 
