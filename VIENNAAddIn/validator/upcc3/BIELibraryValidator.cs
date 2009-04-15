@@ -45,6 +45,48 @@ namespace VIENNAAddIn.validator.upcc3
 
             checkC574e(context, package, bies);
 
+            checkC574f(context, package, bies);
+
+            checkC574g(context, package, bies);
+
+            checkC574h(context, package, bies);
+
+            checkC574i(context, package, bies);
+
+            checkC574j(context, package, bies);
+
+            checkC574k(context, package, bies);
+
+            checkC574l(context, package, bies);
+
+            checkC574m(context, package, bies);
+
+            checkC574n(context, package, bies);
+
+            checkC574o(context, package, bies);
+
+            checkC574p(context, package, bies);
+
+            checkC574q(context, package, bies);
+
+            checkC574r(context, package, bies);
+
+            checkC574s(context, package, bies);
+
+            checkC574t(context, package, bies);
+
+            checkC574u(context, package, bies);
+
+            checkC574v(context, package, bies);
+
+            checkC574w(context, package, bies);
+
+            checkC574x(context, package, bies);
+
+            checkC574y(context, package, bies);
+
+            checkC574z(context, package, bies);
+
         }
 
 
@@ -241,13 +283,509 @@ namespace VIENNAAddIn.validator.upcc3
                     //Compare the unqualified name of the BIE to the name of the underlying ACC
                     if (targetElement.Name != unqualifiedName)
                     {
-                        context.AddValidationMessage(new ValidationMessage("Mismatch between ABIE and ACC name found.", "The name on an ABIE shall be the same as the name of the ACC on which it is based. The ABIE " + e.Value.Name + " found in BIELibrary " + p.Name + " does not have the same name as the ACC " + targetElement.Name + " it is based on.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                        context.AddValidationMessage(new ValidationMessage("Mismatch between ABIE and ACC name found.", "The name on an ABIE shall be the same as the name of the ACC on which it is based. The ABIE " + e.Value.Name + " found in BIELibrary " + p.Name + " does not have the same name as the ACC " + targetElement.Name + " it is based on. \n Pelase note, that Qualifiers (e.g. US_Internal_) are not part of an ABIE's name.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
 
                     }
                 }
             }
 
         }
+
+
+
+
+        /// <summary>
+        /// An ABIE which is the source of an isEquivalentTo dependency shall not be the target of an isEquivalentTo dependency.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574f(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+                //The source element of the isEquivalentTo dependency
+                EA.Element element = e.Value;
+                bool isSourceOfAnIsEquivalentToDependency = false;
+                bool isTargetOfAnIsEquivlanetToDependency = false;
+
+                foreach (EA.Connector con in element.Connectors)
+                {
+
+                    //Is the element source of an isEquivalentTo dependency?
+                    if (con.Type == AssociationTypes.Dependency.ToString())
+                    {
+                        //Is Source
+                        if (con.Stereotype == UPCC.isEquivalentTo.ToString() && con.ClientID == element.ElementID)
+                        {
+                            isSourceOfAnIsEquivalentToDependency = true;
+                        }
+                        else if (con.Stereotype == UPCC.isEquivalentTo.ToString() && con.SupplierID == element.ElementID)
+                        {
+                            isTargetOfAnIsEquivlanetToDependency = true;
+                        }
+                    }
+                }
+
+                if (isSourceOfAnIsEquivalentToDependency && isTargetOfAnIsEquivlanetToDependency)
+                {
+                    context.AddValidationMessage(new ValidationMessage("BIE is source and target of an isEquivalentTo dependency.", "A BIE which is the source of an isEquivalentTo dependency must not be the target of an isEquivalentTo dependency. Errorneous BIE: " + element.Name, "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                }
+            }
+
+
+        }
+
+
+
+
+        /// <summary>
+        /// An ABIE which is the source of an isEquivalentTo dependency shall have the same number of BBIEs and ASBIEs as the ABIE the dependency is targeting.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574g(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+
+                if (Utility.isEquivalentToAnotherElement(e.Value))
+                {
+
+                    int countBBIEs = Utility.countAttributesOfElement(e.Value, UPCC.BBIE.ToString());
+                    int countASBIEs = Utility.countConnectorsOfElement(e.Value, UPCC.ASBIE.ToString());
+
+
+                    //Count the supplementary attributes of the BDT which is the target of the isEquivalentDependency
+                    EA.Element supplierElement = Utility.getTargetOfisEquivalentToDependency(e.Value, context.Repository);
+                    int countBBIEs_of_supplier = Utility.countAttributesOfElement(supplierElement, UPCC.BBIE.ToString());
+                    int countASBIEs_of_supplier = Utility.countConnectorsOfElement(supplierElement, UPCC.ASBIE.ToString());
+
+                    //Do both BIEs have the same amount of BBIEs?
+                    if (countBBIEs != countBBIEs_of_supplier)
+                    {
+                        context.AddValidationMessage(new ValidationMessage("Invalid number of BBIEs found.", "An ABIE which is the source of an isEquivalentTo dependency shall have the same number of BBIEs as the ABIE the dependency is targeting. The source ABIE " + e.Value.Name + " has " + countBBIEs + " BBIEs but the ABIE " + supplierElement.Name + " which is targeted by an isEquivalent dependency has " + countBBIEs_of_supplier + " BBIEs.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+
+                    }
+
+                    //Do both BIEs have the same number of ASBIEs?
+                    if (countASBIEs != countASBIEs_of_supplier)
+                    {
+                        context.AddValidationMessage(new ValidationMessage("Invalid number of ASBIEs found.", "An ABIE which is the source of an isEquivalentTo dependency shall have the same number of ASBIEs as the ABIE the dependency is targeting. The source ABIE " + e.Value.Name + " has " + countASBIEs + " ASBIEs but the ABIE " + supplierElement.Name + " which is targeted by an isEquivalent dependency has " + countASBIEs_of_supplier + " ASBIEs.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+
+                    }
+
+
+                }
+            }
+
+        }
+
+
+
+        /// <summary>
+        /// Each qualifier of an ABIE shall be followed by an underscore (_).
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574h(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+            //We cannot really check this constraint here but have to leave it in the UPCC specification in order to 
+            //show users how qualifiers are represented correctly
+
+        }
+
+
+
+
+        /// <summary>
+        /// If an ABIE does not have any qualifier its definition tagged value shall be the same as the definition tagged value of the ACC the ABIE is based on.
+        /// 
+        /// This is a WARN check
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574i(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+            
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+                //Is the ABIE qualified?
+                if (!Utility.isAQualifiedElement(e.Value.Name))
+                {
+                    //Get the ACC this ABIE is based on
+                    EA.Element acc = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
+
+                    if (acc != null)
+                    {
+                        EA.TaggedValue definition = Utility.getTaggedValue(e.Value, UPCC_TV.definition.ToString());
+                        EA.TaggedValue definition_acc = Utility.getTaggedValue(acc, UPCC_TV.definition.ToString());
+
+                        //Both definitions must be the same
+                        if (definition.Value != definition_acc.Value)
+                        {
+                            context.AddValidationMessage(new ValidationMessage("Mismatch in  definition tagged values.", "If an ABIE does not have any qualifier its definition tagged value shall be the same as the definition tagged value of the ACC the ABIE is based on. The source ABIE " + e.Value.Name + " in BIELibrary "+p.Name+" has a definition tagged value entry '" + definition.Value + "' but the ACC " + acc.Name + " on which the ABIE is based on has a definition tagged value entry '" + definition_acc.Name + "'.", "BIELibrary", ValidationMessage.errorLevelTypes.WARN, p.PackageID));
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// For a given BIELibrary there shall not be two ABIEs with the same unique identifier tagged value.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bies"></param>
+        private void checkC574j(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+            Dictionary<Int32, string> values = new Dictionary<Int32, string>();
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+                EA.TaggedValue tv = Utility.getTaggedValue(e.Value, UPCC_TV.uniqueIdentifier.ToString());
+                if (tv != null)
+                {
+                    //Has this unique identifier already been used?
+                    if (values.ContainsValue(tv.Value))
+                    {
+                        //Get the other element with the same unique identifier
+                        EA.Element duplicateElement = context.Repository.GetElementByID(Utility.findKey(values, tv.Value));
+
+                        context.AddValidationMessage(new ValidationMessage("Two identical unique identifier tagged values of a BIE detected.", "The unique identifier tagged value of a BIE shall be unique for a given BIE library. " + e.Value.Name + " and " + duplicateElement.Name + " in BIELibrary "+p.Name+" have the same unique identifier.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    }
+
+                    values.Add(e.Value.ElementID, tv.Value);
+                }
+            }  
+
+
+        }
+
+        
+
+        /// <summary>
+        /// All BBIEs of a given ABIE shall have unique names.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574k(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+            Dictionary<Int32, string> names = new Dictionary<int, string>();
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+
+                foreach (EA.Attribute a in e.Value.Attributes)
+                {
+                    
+                    if (names.ContainsValue(a.Name))
+                    {
+                        context.AddValidationMessage(new ValidationMessage("Two BBIEs with the same name found.", "Each BBIE shall have a unique name within its ABIE it is contained in. BBIE name " + a.Name + " found in ABIE "+e.Value.Name+" in BIELibrary " + p.Name + " is not unique.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    }
+
+                    names.Add(a.AttributeID, a.Name);
+                }
+
+                names = new Dictionary<int, string>();
+
+            }
+
+        }
+
+
+
+
+        /// <summary>
+        /// A BBIE type shall be typed with a class of stereotype <<BDT>>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bies"></param>
+        private void checkC574l(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+                //Iterate over the different attributes of every BIE
+                foreach (EA.Attribute a in e.Value.Attributes)
+                {
+                    //Get the classifying element
+                    int classifierID = a.ClassifierID;
+                    bool error = false;
+                    if (classifierID == 0)
+                    {
+                        error = true;
+                    }
+                    else
+                    {
+                        EA.Element classifyingElement = context.Repository.GetElementByID(classifierID);
+                        if (!(classifyingElement.Stereotype == UPCC.BDT.ToString()))
+                        {
+                            error = true;
+                        }
+                    }
+
+                    //Did an error occur?
+                    if (error)
+                    {
+                        context.AddValidationMessage(new ValidationMessage("A BBIE with an invalid type has been found.", "A BBIE type shall be typed with a class of stereotype <<BDT>>. BBIE " + a.Name + " in ABIE " + e.Value.Name + " in BIELibrary " + p.Name + " has an invalid type.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    }
+
+
+                }
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// Each qualifier of a BBIE shall be followed by an underscore (_).
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bies"></param>
+        private void checkC574m(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+            //We cannot really enfore this constraint
+
+        }
+
+
+        /// <summary>
+        /// For every BBIE of an ABIE there shall be a BCC with the same name in the underlying ACC the ABIE is based on.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bies"></param>
+        private void checkC574n(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+                if (Utility.isBasedOnAnotherElement(e.Value))
+                {
+
+                    EA.Element ACC_base = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
+                    if (ACC_base != null)
+                    {
+                        //Get a collection of the attribute names of the base ACC
+                        IList<String> baseAttributes = Utility.getAttributesOfElement(e.Value, UPCC.BCC.ToString());
+
+
+                        //Every BBIE name of this ABIE must also be contained in the underlying ACC
+                        foreach (EA.Attribute a in e.Value.Attributes)
+                        {
+                            if (a.Stereotype == UPCC.BBIE.ToString())
+                            {
+
+                                if (!baseAttributes.Contains(Utility.getUnqualifiedName(a.Name)))
+                                {
+                                    context.AddValidationMessage(new ValidationMessage("BBIE with missing BCC equivalent found.", "For every BBIE of an ABIE there shall be a BCC with the same name in the underlying ACC the ABIE is based on. BBIE " + a.Name + " in ABIE " + e.Value.Name + " does not have a BCC with the same name in the underlying ACC.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+                        
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574o(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574p(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574q(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+
+    
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574r(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574s(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+        
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574t(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+        
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574u(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+    
+    
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574v(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574w(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574x(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574y(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="p"></param>
+        /// <param name="bdts"></param>
+        private void checkC574z(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
+        {
+
+
+        }
+
+        
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

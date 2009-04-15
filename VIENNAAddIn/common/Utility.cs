@@ -1289,6 +1289,29 @@ namespace VIENNAAddIn.common
 
 
         /// <summary>
+        /// Count the number of connectors of the given element which have a stereotype equal to s
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        internal static int countConnectorsOfElement(EA.Element e, String s)
+        {
+            int i = 0;
+
+            if (e != null)
+            {
+                foreach (EA.Connector con in e.Connectors)
+                {
+                    if (con.Stereotype == s) i++;
+                        
+                }
+            }
+
+            return i;
+        }
+
+
+        /// <summary>
         /// Return a list with all attribute of a given element which have the stereotype SUP
         /// </summary>
         /// <param name="e"></param>
@@ -1302,6 +1325,32 @@ namespace VIENNAAddIn.common
                 foreach (EA.Attribute a in e.Attributes)
                 {
                     if (a.Stereotype == UPCC.SUP.ToString())
+                        list.Add(a.Name);
+                }
+
+            }
+
+            return list;
+
+
+        }
+
+        
+        /// <summary>
+        /// Returns a list of Attributes from the passed element which have the stereotype s
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        internal static IList<String> getAttributesOfElement(EA.Element e, String s)
+        {
+            IList<String> list = new List<String>();
+
+            if (e != null)
+            {
+                foreach (EA.Attribute a in e.Attributes)
+                {
+                    if (a.Stereotype == s)
                         list.Add(a.Name);
                 }
 
