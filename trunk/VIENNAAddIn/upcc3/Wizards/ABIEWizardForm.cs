@@ -96,19 +96,19 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
                 ///<summary>
-        /// The constructor of the ABIE has one input parameter which is the EA
-        /// repository that the wizard operates on. Based on the EA repository the 
-        /// constructor pre-poluates the internal cache of the wizard with all CC 
-        /// libraries, all BDT libraries and their corresponding BDTs, all BIE libraries 
-        /// and their corresponding ABIEs. Furthermore, the constructor initializes
+        /// The constructor of the ABIE has two input parameter, where one is the EA
+        /// repository to save the edited Element into and the other one is the element
+        /// which should be manipulated. Furthermore, the constructor initializes
         /// different textboxes and labels used for on-the-fly editing or validation. 
         /// An example for on-the-fly editing and validation is renaming a BBIE and
         /// validation that the name of the BBIE is already in use. 
         ///</summary>
         ///<param name="eaRepo"></param>
+        /// <param name="element"></param>
         public ABIEWizardForm(EA.Repository eaRepo, EA.Element element)
                 {
                     editMode = false;
+                    InitializeComponent();
                 }
         #endregion
 
@@ -147,7 +147,7 @@ namespace VIENNAAddIn.upcc3.Wizards
              * Per default all of the user input controls are disabled except the
              * combo box containing all the CC libraries. 
              **/
-            if (!editMode)
+            if (editMode)
             {
                 ResetForm(1);
                 ResetForm(2);
