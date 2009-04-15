@@ -11,8 +11,9 @@ using VIENNAAddIn.upcc3.ccts.util;
 // XML Naming and Design Rules that are currently not considered:
 //
 // R 8A68, R B0AD, R 942D, R A8A6 Currently there is no codelist generated, and thus not inclcuded within the BDT schema files
-// R AB90
-
+// R AB90; R A154, R BD2F, R AFEB Business Identifier Schemas are currently not supported by this generator
+// R 84BE, R 9049, R A735, R AFA8, R R BBD5, R 998B Only simple versioning is currently supported by this generator. The suggested template is not supported yet.
+// R ABD2, R BD41 The XMLSchema API of .NET does not support comments. Comments are not treated at the moment.
 
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator

@@ -95,6 +95,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             AddAnnotation(xml, annNodes, "ModificationAllowedIndicator",
                           sup.ModificationAllowedIndicator.ToString().ToLower());
             AddAnnotation(xml, annNodes, "LanguageCode", sup.LanguageCode);
+            AddAnnotation(xml, annNodes, "AcronymCode", "SUP");
             var ann = new XmlSchemaAnnotation();
             ann.Items.Add(new XmlSchemaDocumentation {Language = "en", Markup = annNodes.ToArray()});
             return ann;
@@ -112,6 +113,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             AddAnnotations(xml, annNodes, "BusinessTermName", bdt.BusinessTerms);
             AddAnnotation(xml, annNodes, "PropertyTermName", bdt.Name);
             AddAnnotation(xml, annNodes, "LanguageCode", bdt.LanguageCode);
+            AddAnnotation(xml, annNodes, "AcronymCode", "BDT");
             var ann = new XmlSchemaAnnotation();
             ann.Items.Add(new XmlSchemaDocumentation {Language = "en", Markup = annNodes.ToArray()});
             return ann;
@@ -130,8 +132,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             if (!string.IsNullOrEmpty(value))
             {
-                XmlElement annotation = xml.CreateElement("doc", name,
-                                                          "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:3");
+                XmlElement annotation = xml.CreateElement("ccts", name,
+                                                          "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
                 annotation.InnerText = value;
                 annNodes.Add(annotation);
             }
