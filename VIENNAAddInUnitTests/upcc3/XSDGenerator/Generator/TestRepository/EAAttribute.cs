@@ -8,6 +8,7 @@
 // *******************************************************************************
 using System;
 using EA;
+using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
 using Attribute=EA.Attribute;
 
@@ -137,7 +138,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int ClassifierID
         {
-            get { return (ClassifierPath != null ? ClassifierPath.Resolve<Element>(Repository).ElementID : classifierId); }
+            get { return (ClassifierPath != null ? Repository.Resolve<Element>(ClassifierPath).ElementID : classifierId); }
             set { classifierId = value; }
         }
 
@@ -145,7 +146,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public string Type
         {
-            get { return ClassifierPath.Resolve<Element>(Repository).Name; }
+            get { return Repository.Resolve<Element>(ClassifierPath).Name; }
             set { }
         }
 

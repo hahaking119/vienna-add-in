@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using EA;
 using Moq;
 using NUnit.Framework;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.Settings;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.menu
 {
@@ -12,26 +13,26 @@ namespace VIENNAAddInUnitTests.menu
     {
         private static AddInContext CreatePackageContext(string stereotype, string menuName)
         {
-            var packageMock = CreatePackageMock(stereotype);
+            Mock<Package> packageMock = CreatePackageMock(stereotype);
             var repositoryMock = new Mock<Repository>();
-            object selectedObject = packageMock.Object;
-            repositoryMock.Setup(r => r.GetTreeSelectedItem(out selectedObject)).Returns(ObjectType.otPackage);
-
-            return new AddInContext {Repository = repositoryMock.Object, MenuLocation = "TreeView", MenuName = menuName};
+            repositoryMock.Setup(r => r.GetPackageByGuid(It.IsAny<string>())).Returns(packageMock.Object);
+            return new AddInContext
+                   {Repository = repositoryMock.Object, MenuLocation = MenuLocation.TreeView, MenuName = menuName, SelectedItemObjectType = ObjectType.otPackage, SelectedItemGUID = "1"};
         }
 
-        private static AddInContext CreateElementContext(string packageStereotype)
+        private static AddInContext CreateElementContext(string packageStereotype, string menuName)
         {
             var elementMock = new Mock<Element>();
 
-            var packageMock = CreatePackageMock(packageStereotype);
+            Mock<Package> packageMock = CreatePackageMock(packageStereotype);
 
             var repositoryMock = new Mock<Repository>();
-            object selectedObject = elementMock.Object;
-            repositoryMock.Setup(r => r.GetTreeSelectedItem(out selectedObject)).Returns(ObjectType.otElement);
+//            repositoryMock.Setup(r => r.GetTreeSelectedItem(out selectedObject)).Returns(ObjectType.otElement);
+            repositoryMock.Setup(r => r.GetElementByGuid(It.IsAny<string>())).Returns(elementMock.Object);
             repositoryMock.Setup(r => r.GetPackageByID(It.IsAny<int>())).Returns(packageMock.Object);
 
-            return new AddInContext {Repository = repositoryMock.Object};
+            return new AddInContext
+                   {Repository = repositoryMock.Object, MenuLocation = MenuLocation.TreeView, MenuName = menuName, SelectedItemObjectType = ObjectType.otElement, SelectedItemGUID = "1"};
         }
 
         private static Mock<Package> CreatePackageMock(string stereotype)
@@ -43,294 +44,269 @@ namespace VIENNAAddInUnitTests.menu
             return packageMock;
         }
 
-        private static AddInContext CreateDiagramContext(string packageStereotype)
+        private static AddInContext CreateDiagramContext(string packageStereotype, string menuName)
         {
             var diagramMock = new Mock<Diagram>();
-
-            var packageMock = CreatePackageMock(packageStereotype);
-
+            Mock<Package> packageMock = CreatePackageMock(packageStereotype);
             var repositoryMock = new Mock<Repository>();
-            object selectedObject = diagramMock.Object;
-            repositoryMock.Setup(r => r.GetTreeSelectedItem(out selectedObject)).Returns(ObjectType.otDiagram);
+            repositoryMock.Setup(r => r.GetDiagramByGuid(It.IsAny<string>())).Returns(diagramMock.Object);
             repositoryMock.Setup(r => r.GetPackageByID(It.IsAny<int>())).Returns(packageMock.Object);
-
-            return new AddInContext {Repository = repositoryMock.Object};
+            return new AddInContext { Repository = repositoryMock.Object, MenuLocation = MenuLocation.TreeView, MenuName = menuName, SelectedItemObjectType = ObjectType.otDiagram, SelectedItemGUID = "1" };
         }
 
-        private static MenuAction TestMenuAction(string menuName)
+        private static void DoNothing(AddInContext context)
         {
-            return new MenuAction(menuName, new TestAction(menuName).Execute);
         }
 
         [Test]
-        public void TestGetMenuItems()
+        public void TestMainMenuClick()
         {
-            const string stereotype1 = "stereotype1";
-            const string stereotype2 = "stereotype2";
-            const string stereotype3 = "stereotype3";
-            const string stereotype4 = "stereotype4";
+            var action = new AssertableMenuAction();
+            var menuManager = new MenuManager();
+            menuManager[MenuLocation.MainMenu] = "menu"
+                                   + "action1".OnClick(action.Execute)
+                                   + "action2".OnClick(action.Execute)
+                                   + MenuItem.Separator
+                                   + ("sub-menu"
+                                      + "sub-menu-action1".OnClick(action.Execute)
+                                      + "sub-menu-action2".OnClick(action.Execute)
+                                     )
+                                   + "action3".OnClick(action.Execute);
+            menuManager.MenuClick(new AddInContext{MenuLocation = MenuLocation.MainMenu, MenuName = "-menu", MenuItem = "action1"});
+            menuManager.MenuClick(new AddInContext{MenuLocation = MenuLocation.MainMenu, MenuName = "-menu", MenuItem = "action2"});
+            menuManager.MenuClick(new AddInContext{MenuLocation = MenuLocation.MainMenu, MenuName = "-sub-menu", MenuItem = "sub-menu-action1"});
+            menuManager.MenuClick(new AddInContext{MenuLocation = MenuLocation.MainMenu, MenuName = "-sub-menu", MenuItem = "sub-menu-action2"});
+            menuManager.MenuClick(new AddInContext{MenuLocation = MenuLocation.MainMenu, MenuName = "-menu", MenuItem = "action3"});
+            Assert.AreEqual(new[] {"action1", "action2", "sub-menu-action1", "sub-menu-action2", "action3"},
+                            action.ExecutedActions);
+        }
 
-            var menuManager = new MenuManager("top");
-            menuManager
-                .MainMenu.SetItems(
-                new SubMenu("main_menu_1").SetItems(
-                    new SubMenu("main_menu_1.1").SetItems(
-                        TestMenuAction("main_menu_1.1_action_1"),
-                        new MenuSeparator(),
-                        TestMenuAction("main_menu_1.1_action_2")
-                        ),
-                    TestMenuAction("main_menu_1_action_1")
-                    ));
-            menuManager
-                .ForPackagesWithStereotypes(
-                stereotype1,
-                stereotype2
-                )
-                .SetItems(
-                TestMenuAction("tree_menu_package_1_2_action_1"),
-                TestMenuAction("tree_menu_package_1_2_action_2")
-                );
-            menuManager
-                .AllPackages.SetItems(
-                TestMenuAction("tree_menu_package_all_action_1"),
-                TestMenuAction("tree_menu_package_all_action_2")
-                );
-            menuManager
-                .ForPackagesWithStereotypes(
-                stereotype3
-                )
-                .SetItems(
-                TestMenuAction("tree_menu_package_3_action_1"),
-                new SubMenu("tree_menu_package_3_menu_1").SetItems(
-                    TestMenuAction("tree_menu_package_3_menu_1_action_1"),
-                    new MenuSeparator(),
-                    TestMenuAction("tree_menu_package_3_menu_1_action_2"),
-                    TestMenuAction("tree_menu_package_3_menu_1_action_3")
-                    ),
-                TestMenuAction("tree_menu_package_3_action_2")
-                );
-            menuManager
-                .ForElementsWithPackageStereotypes(
-                stereotype1,
-                stereotype2
-                )
-                .SetItems(
-                TestMenuAction("tree_menu_element_1_2_action_1"),
-                TestMenuAction("tree_menu_element_1_2_action_2")
-                );
-            menuManager
-                .AllElements.SetItems(
-                TestMenuAction("tree_menu_element_all_action_1"),
-                TestMenuAction("tree_menu_element_all_action_2")
-                );
-            menuManager
-                .ForElementsWithPackageStereotypes(
-                stereotype3
-                )
-                .SetItems(
-                TestMenuAction("tree_menu_element_3_action_1"),
-                new SubMenu("tree_menu_element_3_menu_1").SetItems(
-                    TestMenuAction("tree_menu_element_3_menu_1_action_1"),
-                    new MenuSeparator(),
-                    TestMenuAction("tree_menu_element_3_menu_1_action_2"),
-                    TestMenuAction("tree_menu_element_3_menu_1_action_3")
-                    ),
-                TestMenuAction("tree_menu_element_3_action_2")
-                );
-            menuManager
-                .ForDiagramsWithPackageStereotypes(
-                stereotype1,
-                stereotype2
-                )
-                .SetItems(
-                TestMenuAction("tree_menu_diagram_1_2_action_1"),
-                TestMenuAction("tree_menu_diagram_1_2_action_2")
-                );
-            menuManager
-                .AllDiagrams.SetItems(
-                TestMenuAction("tree_menu_diagram_all_action_1"),
-                TestMenuAction("tree_menu_diagram_all_action_2")
-                );
-            menuManager
-                .ForDiagramsWithPackageStereotypes(
-                stereotype3
-                )
-                .SetItems(
-                TestMenuAction("tree_menu_diagram_3_action_1"),
-                new SubMenu("tree_menu_diagram_3_menu_1").SetItems(
-                    TestMenuAction("tree_menu_diagram_3_menu_1_action_1"),
-                    new MenuSeparator(),
-                    TestMenuAction("tree_menu_diagram_3_menu_1_action_2"),
-                    TestMenuAction("tree_menu_diagram_3_menu_1_action_3")
-                    ),
-                TestMenuAction("tree_menu_diagram_3_action_2")
-                );
+        [Test]
+        public void TestGetMainMenuState()
+        {
+            var testPredicate = new TestPredicate();
+            var menuManager = new MenuManager();
+            menuManager[MenuLocation.MainMenu] = ("menu"
+                                    + "action1".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
+                                    + "action2".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
+                                    + MenuItem.Separator
+                                    + ("sub-menu"
+                                       + "sub-menu-action1".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
+                                       + "sub-menu-action2".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
+                                      ).Enabled(testPredicate.IsEnabled)
+                                    + "action3".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
+                                   ).Enabled(testPredicate.IsEnabled);
+            AssertMenuState(testPredicate, menuManager, false, null, "-menu");
+            AssertMenuState(testPredicate, menuManager, true, "-menu", "action1");
+            AssertMenuState(testPredicate, menuManager, true, "-menu", "action2");
+            AssertMenuState(testPredicate, menuManager, true, "-menu", "action3");
+            AssertMenuState(testPredicate, menuManager, false, "-menu", "-sub-menu");
+            AssertMenuState(testPredicate, menuManager, true, "-sub-menu", "sub-menu-action1");
+            AssertMenuState(testPredicate, menuManager, true, "-sub-menu", "sub-menu-action2");
+        }
 
-            Assert.AreEqual("-top", menuManager.GetMenuItems(new AddInContext {MenuLocation = "MainMenu"})[0]);
-            Assert.AreEqual(new[] {"-main_menu_1"},
-                            menuManager.GetMenuItems(new AddInContext {MenuLocation = "MainMenu", MenuName = "-top"}));
-            Assert.AreEqual(new[] {"-main_menu_1.1", "main_menu_1_action_1"},
-                            menuManager.GetMenuItems(new AddInContext
-                                                     {MenuLocation = "MainMenu", MenuName = "-main_menu_1"}));
-            Assert.AreEqual(new[] {"main_menu_1.1_action_1", "-", "main_menu_1.1_action_2"},
-                            menuManager.GetMenuItems(new AddInContext
-                                                     {MenuLocation = "MainMenu", MenuName = "-main_menu_1.1"}));
+        private static void AssertMenuState(TestPredicate testPredicate, MenuManager menuManager, bool canBeChecked, string menuName, string menuItem)
+        {
+            var context = new AddInContext { MenuLocation = MenuLocation.MainMenu, MenuName = menuName, MenuItem = menuItem };
 
-            Assert.AreEqual("-top",
-                            menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype1, null))[0]);
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_package_1_2_action_1", "tree_menu_package_1_2_action_2",
-                                "tree_menu_package_all_action_1", "tree_menu_package_all_action_2"
-                            },
-                            menuManager.GetMenuItems(CreatePackageContext(stereotype1, "-top")));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_package_1_2_action_1", "tree_menu_package_1_2_action_2",
-                                "tree_menu_package_all_action_1", "tree_menu_package_all_action_2"
-                            },
-                            menuManager.GetMenuItems(CreatePackageContext(stereotype2, "-top")));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_package_3_action_1",
-                                "-tree_menu_package_3_menu_1",
-                                "tree_menu_package_3_action_2",
-                                "tree_menu_package_all_action_1",
-                                "tree_menu_package_all_action_2"
-                            },
-                            menuManager.GetMenuItems(CreatePackageContext(stereotype3, "-top")));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_package_3_menu_1_action_1",
-                                "-",
-                                "tree_menu_package_3_menu_1_action_2",
-                                "tree_menu_package_3_menu_1_action_3",
-                            },
-                            menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype3, "-tree_menu_package_3_menu_1")));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_package_all_action_1",
-                                "tree_menu_package_all_action_2"
-                            },
-                            menuManager.GetMenuItems(
-                                CreatePackageContext(stereotype4, "-top")));
+            bool isEnabled = false;
+            bool isChecked = false;
 
-            Assert.AreEqual("-" + AddInSettings.AddInCaption,
-                            menuManager.GetMenuItems(
-                                CreateElementContext(stereotype1))[0]);
-            Assert.AreEqual(
-                new[]
-                {
-                    "tree_menu_element_1_2_action_1", "tree_menu_element_1_2_action_2",
-                    "tree_menu_element_all_action_1", "tree_menu_element_all_action_2"
-                },
-                menuManager.GetMenuItems(CreateElementContext(stereotype1)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_element_1_2_action_1",
-                                "tree_menu_element_1_2_action_2",
-                                "tree_menu_element_all_action_1",
-                                "tree_menu_element_all_action_2"
-                            },
-                            menuManager.GetMenuItems(
-                                CreateElementContext(stereotype2)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_element_3_action_1",
-                                "-tree_menu_element_3_menu_1",
-                                "tree_menu_element_3_action_2",
-                                "tree_menu_element_all_action_1",
-                                "tree_menu_element_all_action_2"
-                            },
-                            menuManager.GetMenuItems(
-                                CreateElementContext(stereotype3)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_element_3_menu_1_action_1",
-                                "-",
-                                "tree_menu_element_3_menu_1_action_2",
-                                "tree_menu_element_3_menu_1_action_3",
-                            },
-                            menuManager.GetMenuItems(
-                                CreateElementContext(stereotype3)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_element_all_action_1",
-                                "tree_menu_element_all_action_2"
-                            },
-                            menuManager.GetMenuItems(
-                                CreateElementContext(stereotype4)));
+            testPredicate.Enable();
+            testPredicate.Check();
+            menuManager.GetMenuState(context, ref isEnabled, ref isChecked);
+            Assert.IsTrue(isEnabled);
+            if (canBeChecked)
+            {
+                Assert.IsTrue(isChecked);
+            }
+            else
+            {
+                Assert.IsFalse(isChecked);
+            }
 
-            Assert.AreEqual("-" + AddInSettings.AddInCaption,
-                            menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype1))[0]);
-            Assert.AreEqual(
-                new[]
-                {
-                    "tree_menu_diagram_1_2_action_1", "tree_menu_diagram_1_2_action_2",
-                    "tree_menu_diagram_all_action_1", "tree_menu_diagram_all_action_2"
-                },
-                menuManager.GetMenuItems(CreateDiagramContext(stereotype1)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_diagram_1_2_action_1",
-                                "tree_menu_diagram_1_2_action_2",
-                                "tree_menu_diagram_all_action_1",
-                                "tree_menu_diagram_all_action_2"
-                            },
-                            menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype2)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_diagram_3_action_1",
-                                "-tree_menu_diagram_3_menu_1",
-                                "tree_menu_diagram_3_action_2",
-                                "tree_menu_diagram_all_action_1",
-                                "tree_menu_diagram_all_action_2"
-                            },
-                            menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype3)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_diagram_3_menu_1_action_1",
-                                "-",
-                                "tree_menu_diagram_3_menu_1_action_2",
-                                "tree_menu_diagram_3_menu_1_action_3",
-                            },
-                            menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype3)));
-            Assert.AreEqual(new[]
-                            {
-                                "tree_menu_diagram_all_action_1",
-                                "tree_menu_diagram_all_action_2"
-                            },
-                            menuManager.GetMenuItems(
-                                CreateDiagramContext(stereotype4)));
+            testPredicate.Disable();
+            testPredicate.Uncheck();
+            menuManager.GetMenuState(context, ref isEnabled, ref isChecked);
+            Assert.IsFalse(isEnabled);
+            Assert.IsFalse(isChecked);
+        }
 
-            menuManager.MenuClick(new AddInContext
-                                  {
-                                      Repository = null,
-                                      MenuLocation = "MainMenu",
-                                      MenuName = "-main_menu_1.1",
-                                      MenuItem = "main_menu_1.1_action_2"
-                                  });
+        private static AddInContext CreateMainMenuContext(string menuName)
+        {
+            return new AddInContext
+                   {MenuLocation = MenuLocation.MainMenu, MenuName = menuName};
+        }
+
+        [Test]
+        public void TestGetMainMenuItems()
+        {
+            var menuManager = new MenuManager
+                              {
+                                  DefaultMenuItems = new[]{"default"}
+                              };
+            menuManager[MenuLocation.MainMenu] = "menu"
+                                   + "action1".OnClick(DoNothing)
+                                   + "action2".OnClick(DoNothing)
+                                   + MenuItem.Separator
+                                   + ("sub-menu"
+                                      + "sub-menu-action1".OnClick(DoNothing)
+                                      + "sub-menu-action2".OnClick(DoNothing)
+                                     )
+                                   + "action3".OnClick(DoNothing);
+            Assert.AreEqual(new[]{"default"}, menuManager.GetMenuItems(CreateMainMenuContext("unknown menu name")));
+            Assert.AreEqual(new[] {"-menu"},
+                            menuManager.GetMenuItems(CreateMainMenuContext(null)));
+            Assert.AreEqual(new[] {"-menu"},
+                            menuManager.GetMenuItems(CreateMainMenuContext(string.Empty)));
+            Assert.AreEqual(new[] {"action1", "action2", "-", "-sub-menu", "action3"},
+                            menuManager.GetMenuItems(CreateMainMenuContext("-menu")));
+            Assert.AreEqual(new[] {"sub-menu-action1", "sub-menu-action2"},
+                            menuManager.GetMenuItems(CreateMainMenuContext("-sub-menu")));
+        }
+
+        [Test]
+        public void TestGetContextMenuItems()
+        {
+            var menuManager = new MenuManager
+                              {
+                                  DefaultMenuItems = new[]{"default"}
+                              };
+            menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BDTLibrary] = 
+                ("VIENNAAddIn"
+                         + "Validate BDT Library".OnClick(DoNothing)
+                         + "Create new BDT".OnClick(DoNothing)
+                        );
+            Assert.AreEqual(new[] { "default" }, menuManager.GetMenuItems(CreateMainMenuContext(null)));
+            Assert.AreEqual(new[]{"-VIENNAAddIn"}, menuManager.GetMenuItems(CreatePackageContext(Stereotype.BDTLibrary, null)));
+            Assert.AreEqual(new[]{"Validate BDT Library", "Create new BDT"}, menuManager.GetMenuItems(CreatePackageContext(Stereotype.BDTLibrary, "-VIENNAAddIn")));
+            Assert.AreEqual(new[]{"Validate BDT Library", "Create new BDT"}, menuManager.GetMenuItems(CreateElementContext(Stereotype.BDTLibrary, "-VIENNAAddIn")));
+            Assert.AreEqual(new[]{"Validate BDT Library", "Create new BDT"}, menuManager.GetMenuItems(CreateDiagramContext(Stereotype.BDTLibrary, "-VIENNAAddIn")));
+        }
+
+        [Test]
+        public void TestContextMenuClick()
+        {
+            var action = new AssertableMenuAction();
+            var menuManager = new MenuManager();
+            menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BDTLibrary] = 
+                ("VIENNAAddIn"
+                         + "Validate BDT Library".OnClick(action.Execute)
+                         + "Create new BDT".OnClick(action.Execute)
+                        );
+            menuManager.MenuClick(CreatePackageContext(Stereotype.BDTLibrary, "-VIENNAAddIn", "Validate BDT Library"));
+            menuManager.MenuClick(CreatePackageContext(Stereotype.BDTLibrary, "-VIENNAAddIn", "Create new BDT"));
+            Assert.AreEqual(new[] { "Validate BDT Library", "Create new BDT" },
+                            action.ExecutedActions);
+
+        }
+
+        private AddInContext CreatePackageContext(string stereotype, string menuName, string menuItem)
+        {
+            var context = CreatePackageContext(stereotype, menuName);
+            context.MenuItem = menuItem;
+            return context;
+        }
+
+        [Test]
+        public void TestNestedSubMenu()
+        {
+            SubMenu nestedMenu = ("menu"
+                                  + "action1".OnClick(DoNothing)
+                                  + "action2".OnClick(DoNothing)
+                                  + MenuItem.Separator
+                                  + ("sub-menu"
+                                     + "sub-menu-action1".OnClick(DoNothing)
+                                     + "sub-menu-action2".OnClick(DoNothing)
+                                    )
+                                  + "action3".OnClick(DoNothing)
+                                 );
+            Assert.AreEqual("-menu", nestedMenu.Name);
+            Assert.AreEqual(5, nestedMenu.Items.Count);
+            Assert.AreEqual("action1", nestedMenu.Items[0].Name);
+            Assert.AreEqual("action2", nestedMenu.Items[1].Name);
+            Assert.AreEqual("-", nestedMenu.Items[2].Name);
+            Assert.AreEqual("action3", nestedMenu.Items[4].Name);
+            Assert.IsTrue(nestedMenu.Items[3] is SubMenu);
+            var subMenu = (SubMenu) nestedMenu.Items[3];
+            Assert.AreEqual("-sub-menu", subMenu.Name);
+            Assert.AreEqual(2, subMenu.Items.Count);
+            Assert.AreEqual("sub-menu-action1", subMenu.Items[0].Name);
+            Assert.AreEqual("sub-menu-action2", subMenu.Items[1].Name);
+        }
+
+        [Test]
+        public void TestSimpleSubMenu()
+        {
+            SubMenu simpleSubMenu = "subMenu"
+                                    + "action1".OnClick(DoNothing)
+                                    + "action2".OnClick(DoNothing)
+                                    + MenuItem.Separator
+                                    + "action3".OnClick(DoNothing);
+            Assert.AreEqual("-subMenu", simpleSubMenu.Name);
+            Assert.AreEqual(4, simpleSubMenu.Items.Count);
+            Assert.AreEqual("action1", simpleSubMenu.Items[0].Name);
+            Assert.AreEqual("action2", simpleSubMenu.Items[1].Name);
+            Assert.AreEqual("-", simpleSubMenu.Items[2].Name);
+            Assert.AreEqual("action3", simpleSubMenu.Items[3].Name);
+        }
+
+        [Test]
+        public void TestSingleActionMenu()
+        {
+            MenuAction singleActionMenu = "action".OnClick(DoNothing);
+            Assert.AreEqual("action", singleActionMenu.Name);
         }
     }
 
-    public class TestAction
+    public class TestPredicate
     {
-        private readonly string action;
+        private bool isEnabled;
+        private bool isChecked;
 
-        public TestAction(string action)
+        public bool IsEnabled(AddInContext obj)
         {
-            this.action = action;
+            return isEnabled;
+        }
+
+        public void Enable()
+        {
+            isEnabled = true;
+        }
+
+        public void Disable()
+        {
+            isEnabled = false;
+        }
+
+        public bool IsChecked(AddInContext obj)
+        {
+            return isChecked;
+        }
+
+        public void Check()
+        {
+            isChecked = true;
+        }
+        public void Uncheck()
+        {
+            isChecked = false;
+        }
+    }
+
+    public class AssertableMenuAction
+    {
+        private readonly List<string> executedActions = new List<string>();
+
+        public string[] ExecutedActions
+        {
+            get { return executedActions.ToArray(); }
         }
 
         public void Execute(AddInContext context)
         {
-            Console.WriteLine("executing action {0}", action);
+            executedActions.Add(context.MenuItem);
         }
     }
+
 }

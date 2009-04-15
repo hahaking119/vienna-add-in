@@ -66,48 +66,9 @@ namespace VIENNAAddIn.upcc3.ccts
             return new Path(lhs).Append(rhs);
         }
 
-        public static explicit operator Path(string firstPart)
+        public static implicit operator Path(string firstPart)
         {
             return new Path(firstPart);
         }
-
-        public T Resolve<T>(Repository repository) where T : class
-        {
-            if (Length == 0)
-            {
-                return default(T);
-            }
-            foreach (Package model in repository.Models)
-            {
-                foreach (Package package in model.Packages)
-                {
-                    if (package.Name == FirstPart)
-                    {
-                        return Resolve<T>(package, Rest);
-                    }
-                }
-            }
-            return default(T);
-        }
-
-        private static T Resolve<T>(Package package, Path path) where T : class
-        {
-            if (package == null)
-            {
-                return default(T);
-            }
-            if (path.Length == 0)
-            {
-                return package as T;
-            }
-            string firstPart = path.FirstPart;
-            if (package.Element.Stereotype == "bLibrary")
-            {
-                return Resolve<T>(package.PackageByName(firstPart), path.Rest);
-            }
-            return package.ElementByName(firstPart) as T;
-        }
-
-
     }
 }

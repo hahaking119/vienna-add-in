@@ -52,7 +52,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public object FindByPath(Path path)
         {
-            var o = path.Resolve<object>(eaRepository);
+            var o = eaRepository.Resolve<object>(path);
             if (o == null)
             {
                 return null;

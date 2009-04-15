@@ -179,6 +179,7 @@ Actual output file: {2}",
             var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
             string outputDirectory = PathToTestResource(
                 "\\XSDGeneratorTest\\all");
+            AddInSettings.LoadRegistryEntries();
             VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(new GenerationContext(ccRepository, "urn:test:namespace", "test", true, outputDirectory, docLibrary, new List<IABIE>(docLibrary.RootElements)));
         }
 

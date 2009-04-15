@@ -35,12 +35,6 @@ namespace VIENNAAddIn
         /// <returns></returns>
         string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname);
 
-        ///<summary>
-        ///</summary>
-        ///<param name="repository"></param>
-        ///<returns></returns>
-        object OnInitializeTechnologies(Repository repository);
-
         /// <summary>
         /// Menu Click
         /// </summary>
