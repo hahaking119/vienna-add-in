@@ -7,6 +7,14 @@ using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 
+
+// XML Naming and Design Rules that are currently not considered:
+//
+// R 8A68, R B0AD, R 942D, R A8A6 Currently there is no codelist generated, and thus not inclcuded within the BDT schema files
+// R AB90
+
+
+
 namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 {
     ///<summary>
