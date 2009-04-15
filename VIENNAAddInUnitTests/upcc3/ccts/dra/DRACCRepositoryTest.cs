@@ -16,6 +16,7 @@ using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using Attribute=EA.Attribute;
 using File=System.IO.File;
 using Path=VIENNAAddIn.upcc3.ccts.Path;
 
@@ -30,7 +31,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void Init()
         {
             eaRepository = new EARepository1();
-            repository = new CCRepository(eaRepository);
+            ccRepository = new CCRepository(eaRepository);
         }
 
         #endregion
@@ -46,7 +47,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             return repo;
         }
 
-        private ICCRepository repository;
+        private ICCRepository ccRepository;
         private Repository eaRepository;
 
         private static void AssertSUPs(IDT expectedDT, IDT actualDT)
@@ -101,9 +102,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
         public void TestCreateElementsFileBased()
         {
-            repository = new CCRepository(GetFileBasedEARepository("XSDGeneratorTest"));
+            var repository = GetFileBasedEARepository("XSDGeneratorTest");
+            ccRepository = new CCRepository(repository);
 
-            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
+            IBLibrary bLib = ccRepository.Libraries<IBLibrary>().First();
             Assert.IsNotNull(bLib, "bLib not found");
             IBDTLibrary bdtLib = bLib.CreateBDTLibrary(new LibrarySpec
                                                        {
@@ -135,29 +137,33 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                                        });
 
             IBDT bdtText = bdtLib.CreateBDT(
-                BDTSpec.CloneCDT((ICDT) repository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"),
+                BDTSpec.CloneCDT((ICDT) ccRepository.FindByPath((Path) "ebInterface Data Model"/"CDTLibrary"/"Text"),
                                  "My_Text"));
             Assert.IsNotNull(bdtText.BasedOn);
 
-            var accAddress = (IACC) repository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
+            var accAddress = (IACC) ccRepository.FindByPath((Path) "ebInterface Data Model"/"CCLibrary"/"Address");
             Assert.IsNotNull(accAddress, "ACC Address not found");
             var asccs = new List<IASCC>(accAddress.ASCCs);
             Assert.AreEqual(2, asccs.Count);
 
             var bccs = new List<IBCC>(accAddress.BCCs);
-            bieLib.CreateABIE(new ABIESpec
-                              {
-                                  Name = "My_" + accAddress.Name,
-                                  DictionaryEntryName = "overriding default dictionary entry name",
-                                  Definition = "My specific version of an address",
-                                  UniqueIdentifier = "my unique identifier",
-                                  VersionIdentifier = "my version identifier",
-                                  LanguageCode = "my language code",
-                                  BusinessTerms = new[] {"business term 1", "business term 2"},
-                                  UsageRules = new[] {"usage rule 1", "usage rule 2"},
-                                  BasedOn = accAddress,
-                                  BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
-                              });
+            var abieSpec = new ABIESpec
+                       {
+                           Name = "My_" + accAddress.Name,
+                           DictionaryEntryName = "overriding default dictionary entry name",
+                           Definition = "My specific version of an address",
+                           UniqueIdentifier = "my unique identifier",
+                           VersionIdentifier = "my version identifier",
+                           LanguageCode = "my language code",
+                           BusinessTerms = new[] {"business term 1", "business term 2"},
+                           UsageRules = new[] {"usage rule 1", "usage rule 2"},
+                           BasedOn = accAddress,
+                           BBIEs = bccs.Convert(bcc => BBIESpec.CloneBCC(bcc, bdtText)),
+                       };
+            var myAddress = bieLib.CreateABIE(abieSpec);
+            var myAddressElement = repository.GetElementByID(myAddress.Id);
+            var attribute = (Attribute) myAddressElement.Attributes.GetAt(0);
+            Assert.AreEqual(8, attribute.TaggedValues.Count);
         }
 
         private static void AssertASBIE(string name, string lowerBound, string upperBound, IASBIE asbie)
@@ -168,43 +174,24 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         }
 
         [Test]
-        public void TestFoo()
-        {
-            var repo = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-sandbox"));
-            Console.WriteLine("ABIEs:");
-            foreach (var abie in repo.Libraries<IDOCLibrary>().First().BIEs)
-            {
-                Console.WriteLine(abie.Name);
-            }
-            Console.WriteLine("Root elements:");
-            foreach (var abie in repo.Libraries<IDOCLibrary>().First().RootElements)
-            {
-                Console.WriteLine(abie.Name);
-            }
-            Console.WriteLine("Done.");
-        }
-
-        [Test]
         public void TestABIEEquals()
         {
-            object abie1 = repository.FindByPath(EARepository1.PathToBIEAddress());
-            object abie2 = repository.FindByPath(EARepository1.PathToBIEAddress());
-            Assert.AreEqual(abie1, abie2);
+            Assert.AreEqual(ccRepository.FindByPath(EARepository1.PathToBIEAddress()), ccRepository.FindByPath(EARepository1.PathToBIEAddress()));
         }
 
         [Test]
         public void TestCreateABIE()
         {
-            var accPerson = (IACC) repository.FindByPath(EARepository1.PathToACCPerson());
+            var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());
             Assert.IsNotNull(accPerson, "ACC Person not found");
 
-            var bieAddress = (IABIE) repository.FindByPath(EARepository1.PathToBIEAddress());
+            var bieAddress = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEAddress());
             Assert.IsNotNull(bieAddress, "BIE Address not found");
 
-            var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
+            var bdtText = (IBDT) ccRepository.FindByPath(EARepository1.PathToBDTText());
             Assert.IsNotNull(bdtText, "BDT Text not found");
 
-            IBIELibrary bieLibrary = repository.Libraries<IBIELibrary>().First();
+            IBIELibrary bieLibrary = ccRepository.Libraries<IBIELibrary>().First();
 
             var bccs = new List<IBCC>(accPerson.BCCs);
             var asccs = new List<IASCC>(accPerson.ASCCs);
@@ -274,10 +261,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestCreateBDT()
         {
-            var cdtDate = (ICDT) repository.FindByPath(EARepository1.PathToDate());
+            var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
-            IBDTLibrary bdtLibrary = repository.Libraries<IBDTLibrary>().First();
+            IBDTLibrary bdtLibrary = ccRepository.Libraries<IBDTLibrary>().First();
 
             BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My_" + cdtDate.Name);
             IBDT bdtDate = bdtLibrary.CreateBDT(bdtSpec);
@@ -306,7 +293,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestCreateLibrary()
         {
-            IBLibrary bLib = repository.Libraries<IBLibrary>().First();
+            IBLibrary bLib = ccRepository.Libraries<IBLibrary>().First();
             Assert.IsNotNull(bLib, "bLib not found");
             var spec = new LibrarySpec
                        {
@@ -338,7 +325,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestFindCDTs()
         {
-            foreach (ICDTLibrary library in repository.Libraries<ICDTLibrary>())
+            foreach (ICDTLibrary library in ccRepository.Libraries<ICDTLibrary>())
             {
                 IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.CDTs
                                                                      group cdt by cdt.CON.BasicType;
@@ -356,14 +343,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestReadAccess()
         {
-            var libraries = new List<IBusinessLibrary>(repository.AllLibraries());
+            var libraries = new List<IBusinessLibrary>(ccRepository.AllLibraries());
             Assert.AreEqual(8, libraries.Count);
 
-            IBusinessLibrary bLib1 = repository.Libraries<IBLibrary>().First();
+            IBusinessLibrary bLib1 = ccRepository.Libraries<IBLibrary>().First();
             Assert.AreEqual("blib1", bLib1.Name);
             Assert.AreEqual("urn:test:blib1", bLib1.BaseURN);
 
-            IPRIMLibrary primLib1 = repository.Libraries<IPRIMLibrary>().First();
+            IPRIMLibrary primLib1 = ccRepository.Libraries<IPRIMLibrary>().First();
             Assert.AreEqual("primlib1", primLib1.Name);
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
             var prims = new List<IPRIM>(primLib1.PRIMs);
@@ -373,7 +360,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IPRIM decimalType = prims[1];
             Assert.AreEqual("Decimal", decimalType.Name);
 
-            ICDTLibrary cdtLib1 = repository.Libraries<ICDTLibrary>().First();
+            ICDTLibrary cdtLib1 = ccRepository.Libraries<ICDTLibrary>().First();
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("urn:test:blib1:cdtlib1", cdtLib1.BaseURN);
             var cdts = new List<ICDT>(cdtLib1.CDTs);
@@ -386,7 +373,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Format", dateFormat.Name);
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
-            ICCLibrary ccLib1 = repository.Libraries<ICCLibrary>().First();
+            ICCLibrary ccLib1 = ccRepository.Libraries<ICCLibrary>().First();
             IACC accAddress = ccLib1.ACCs.First();
             var accAddressBCCs = new List<IBCC>(accAddress.BCCs);
 
@@ -400,10 +387,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Postcode", bccPostcode.Name);
             Assert.AreEqual("0", bccPostcode.LowerBound);
             Assert.AreEqual("*", bccPostcode.UpperBound);
-            var cdtText = (ICDT) repository.FindByPath(EARepository1.PathToText());
+            var cdtText = (ICDT) ccRepository.FindByPath(EARepository1.PathToText());
             Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
 
-            var accPerson = (IACC) repository.FindByPath(EARepository1.PathToACCPerson());
+            var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());
             var accPersonASCCs = new List<IASCC>(accPerson.ASCCs);
             Assert.AreEqual("homeAddress", accPersonASCCs[0].Name);
             Assert.AreEqual("1", accPersonASCCs[0].LowerBound);
@@ -412,10 +399,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("0", accPersonASCCs[1].LowerBound);
             Assert.AreEqual("*", accPersonASCCs[1].UpperBound);
 
-            var bdtText = (IBDT) repository.FindByPath(EARepository1.PathToBDTText());
+            var bdtText = (IBDT) ccRepository.FindByPath(EARepository1.PathToBDTText());
             Assert.AreEqual("This is the definition of BDT Text.", bdtText.CON.Definition);
 
-            var abieAddress = (IABIE) repository.FindByPath(EARepository1.PathToBIEAddress());
+            var abieAddress = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEAddress());
             Assert.IsNotNull(abieAddress);
             var abieAddressBBIEs = new List<IBBIE>(abieAddress.BBIEs);
 
@@ -431,7 +418,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("0", bbiePostcode.LowerBound);
             Assert.AreEqual("*", bbiePostcode.UpperBound);
 
-            var abiePerson = (IABIE) repository.FindByPath(EARepository1.PathToBIEPerson());
+            var abiePerson = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEPerson());
             var abiePersonASBIEs = new List<IASBIE>(abiePerson.ASBIEs);
             Assert.AreEqual("homeAddress", abiePersonASBIEs[0].Name);
             Assert.AreEqual("1", abiePersonASBIEs[0].LowerBound);
@@ -439,10 +426,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("workAddress", abiePersonASBIEs[1].Name);
             Assert.AreEqual("0", abiePersonASBIEs[1].LowerBound);
             Assert.AreEqual("*", abiePersonASBIEs[1].UpperBound);
-            var biePerson = (IABIE) repository.FindByPath(EARepository1.PathToBIEPerson());
+            var biePerson = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEPerson());
             Assert.AreEqual("homeAddress", biePerson.ASBIEs.First().Name);
 
-            var enumAbcCodes = (IENUM) repository.FindByPath(EARepository1.PathToEnumAbcCodes());
+            var enumAbcCodes = (IENUM) ccRepository.FindByPath(EARepository1.PathToEnumAbcCodes());
             Assert.IsNotNull(enumAbcCodes, "enum ABC_Codes not found");
             Assert.AreEqual("ABC_Codes", enumAbcCodes.Name);
             IDictionary<string, string> enumAbcCodesValues = enumAbcCodes.Values;
@@ -450,7 +437,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("abc1", enumAbcCodesValues["ABC Code 1"]);
             Assert.AreEqual("abc2", enumAbcCodesValues["ABC Code 2"]);
 
-            var docLibrary = repository.LibraryByName<IDOCLibrary>("DOCLibrary");
+            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
             var docLibraryABIEs = new List<IABIE>(docLibrary.BIEs);
             Assert.AreEqual(2, docLibraryABIEs.Count);
             var docLibraryRootElements = new List<IABIE>(docLibrary.RootElements);

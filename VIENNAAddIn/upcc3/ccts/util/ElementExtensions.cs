@@ -6,8 +6,10 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using EA;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -129,15 +131,18 @@ namespace VIENNAAddIn.upcc3.ccts.util
             attribute.ClassifierID = classifierId;
             attribute.LowerBound = lowerBound;
             attribute.UpperBound = upperBound;
+            attribute.Update();
             Collection taggedValues = attribute.TaggedValues;
             foreach (TaggedValueSpec taggedValueSpec in taggedValueSpecs)
             {
                 var taggedValue = (AttributeTag) taggedValues.AddNew(taggedValueSpec.Key.AsString(), "");
                 taggedValue.Value = taggedValueSpec.Value;
-                taggedValue.Update();
+                if (!taggedValue.Update())
+                {
+                    throw new EAException(taggedValue.GetLastError());
+                }
             }
             taggedValues.Refresh();
-            attribute.Update();
         }
     }
 }
