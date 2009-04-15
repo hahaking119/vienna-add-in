@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Outline for a VIENNA Add-In Tool Presentation
 
 = Storyboard =
 
@@ -16,4 +16,4 @@
 
 7. Validate the existing model libraries
 
-8. Generate XSD Schemas from docLibrary
+8. Generate XSD Schemas from DOCLibrary
