@@ -57,6 +57,7 @@
             this.comboBIELs = new System.Windows.Forms.ComboBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.groupboxSettings.SuspendLayout();
             this.tabcontrolACC.SuspendLayout();
             this.TabControlPageAttributes.SuspendLayout();
@@ -414,13 +415,26 @@
             this.buttonGenerate.TabIndex = 31;
             this.buttonGenerate.Text = "&Generate ABIE ...";
             this.buttonGenerate.UseVisualStyleBackColor = true;
+            this.buttonGenerate.Visible = false;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonSave.Location = new System.Drawing.Point(189, 588);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(86, 22);
+            this.buttonSave.TabIndex = 33;
+            this.buttonSave.Text = "&Save ABIE ...";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Visible = false;
             // 
             // ABIEWizardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 618);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.groupboxSettings);
@@ -477,6 +491,7 @@
         private System.Windows.Forms.CheckedListBox checkedlistboxASCCs;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textPrefix;
+        private System.Windows.Forms.Button buttonSave;
 
     }
 }
