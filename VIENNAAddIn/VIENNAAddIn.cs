@@ -31,13 +31,6 @@ namespace VIENNAAddIn
      ComSourceInterfaces(typeof (VIENNAAddInEvents))]
     public class VIENNAAddIn : VIENNAAddInInterface
     {
-        private static readonly MenuAction CreateABIE = "Create new &ABIE".OnClick(ShowABIEWizard);
-        private static readonly MenuAction CreateBDT = "Create new BD&T".OnClick(ShowBDTWizard);
-
-        private static readonly MenuItem ModifyABIE =
-            "&Modify ABIE".OnClick(ShowModifyABIEWizard).Enabled(ABIEIsSelected);
-
-        private static readonly MenuAction Validate = "&Validate".OnClick(ShowValidator);
         private static Repository Repo;
         private static string SelectedItemGUID;
         private static ObjectType SelectedItemObjectType;
@@ -50,24 +43,31 @@ namespace VIENNAAddIn
             menuManager = new MenuManager
                           {
                               DefaultMenuItems = new[] {AddInSettings.AddInName},
-                              DefaultEnabled = IsUmm2Model,
+                              DefaultEnabled = IfRepositoryIsUmm2Model,
                               DefaultChecked = Never
                           };
+
+            var createABIE = "Create new &ABIE".OnClick(ShowABIEWizard);
+            var createBDT = "Create new BD&T".OnClick(ShowBDTWizard);
+            var modifyABIE = "&Modify ABIE".OnClick(ShowModifyABIEWizard).Enabled(ABIEIsSelected);
+            var validate = "&Validate".OnClick(ShowValidator);
+            var _____ = MenuItem.Separator;
+
             menuManager[MenuLocation.MainMenu] =
                 (AddInSettings.AddInName
-                 + "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IsUmm2Model).Enabled(Always)
+                 + "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
                  + "&Create initial UMM 2 model structure".OnClick(ShowInitialPackageStructureCreator)
-                 + MenuItem.Separator
+                 + _____
                  + "&Validate All - UPCC3".OnClick(ShowUpccValidator)
                  + "&Validate All - UMM2".OnClick(ShowUmmValidator)
-                 + MenuItem.Separator
+                 + _____
                  + ("Maintenance"
                     + "Synchronize &Tagged Values...".OnClick(ShowSynchStereotypes)
                    )
                  + ("Wizards"
-                    + CreateABIE
-                    + ModifyABIE
-                    + CreateBDT
+                    + createABIE
+                    + modifyABIE
+                    + createBDT
                     + "Generate &XML Schema".OnClick(ShowGeneratorWizard)
                    )
                  + "&Options".OnClick(ShowOptions)
@@ -75,20 +75,20 @@ namespace VIENNAAddIn
                 );
             menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BIELibrary] =
                 (AddInSettings.AddInName
-                 + CreateABIE
-                 + ModifyABIE
-                 + MenuItem.Separator
-                 + Validate
+                 + createABIE
+                 + modifyABIE
+                 + _____
+                 + validate
                 );
             menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BDTLibrary] =
                 (AddInSettings.AddInName
-                 + CreateBDT
-                 + MenuItem.Separator
-                 + Validate
+                 + createBDT
+                 + _____
+                 + validate
                 );
             menuManager[MenuLocation.TreeView | MenuLocation.Diagram] =
                 (AddInSettings.AddInName
-                 + Validate
+                 + validate
                 );
         }
 
@@ -299,7 +299,7 @@ namespace VIENNAAddIn
             return false;
         }
 
-        private static bool IsUmm2Model(AddInContext context)
+        private static bool IfRepositoryIsUmm2Model(AddInContext context)
         {
             return context.Repository.IsUmm2Model();
         }
