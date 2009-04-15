@@ -3,10 +3,17 @@
 = Storyboard =
 
 1. Create New Project
+
 2. Use Add-in Wizard to create initial model structure
+
 3. Create sample artifacts using the UML Profile for Core Components
+
 4. Open existing sample model with CCTS structures
+
 5. Create ABIE using Add-in Wizard based on existing ACCs and BCCs
+
 6. Create business document based on ABIEs
+
 7. Validate the existing model libraries
+
 8. Generate XSD Schemas from docLibrary
