@@ -73,7 +73,7 @@ namespace VIENNAAddIn
                 {
                     if(selectedOT == EA.ObjectType.otElement)
                     {
-                        isEnabled = repo.GetElementByGuid(selectedGUID).Stereotype.ToString().Equals("ABIE")
+                        isEnabled = repo.GetElementByGuid(selectedGUID).Stereotype.ToString().Equals("ABIE");
                     }
                     else
                     {
