@@ -183,6 +183,9 @@ namespace VIENNAAddIn
                             case "Create new &ABIE":
                                 new ABIEWizardForm(repo).Show();
                                 break;
+                            case "&Modify ABIE":
+                                new ABIEWizardForm(repo, new EA.Element()).Show();
+                                break;
                             case "Create new BD&T":
                                 new BDTWizardForm(repo).Show();
                                 break;
@@ -222,6 +225,7 @@ namespace VIENNAAddIn
             else if (menuname == "-Wizards")
             {
                 menu.Add("Create new &ABIE");
+                menu.Add("&Modify ABIE");
                 menu.Add("Create new BD&T");
                 menu.Add("Generate &XML Schema");
             }
