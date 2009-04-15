@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="FBC1A9D0-1" name="CDTLibraryToolBox" version="1.0" notes="CDTLibraryToolBox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="CDTLibraryModelElements" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UPCC3::CDT(UML::Class)" type="int" description="" unit="" values="" default="Core Data Type"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="CDTLibraryRelationships" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

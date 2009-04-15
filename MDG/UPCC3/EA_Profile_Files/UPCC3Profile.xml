@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UMLProfile>
+	<Documentation id="9D1C6EE7-C" name="UPCC3Profile" version="1.0" notes="UPCC3Profile"/>
+	<!-- The profile content -->
+	<Content>
+		<!-- List of stereotypes used in this profile-->
+		<Stereotypes>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>
