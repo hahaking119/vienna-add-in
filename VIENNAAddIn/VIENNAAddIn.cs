@@ -33,6 +33,8 @@ namespace VIENNAAddIn
     public class VIENNAAddIn : VIENNAAddInInterface
     {
         private static Repository repo;
+        private static ObjectType selectedOT;
+        private static string selectedGUID;
 
         #region VIENNAAddInInterface Members
 
@@ -65,6 +67,18 @@ namespace VIENNAAddIn
                 {
                     isEnabled = isUmm2Model;
                     isChecked = false;
+                }
+
+                if(itemname == "&Modify ABIE")
+                {
+                    if(selectedOT == EA.ObjectType.otElement)
+                    {
+                        isEnabled = repo.GetElementByGuid(selectedGUID).Stereotype.ToString().Equals("ABIE")
+                    }
+                    else
+                    {
+                        isEnabled = false;
+                    }
                 }
             }
         }
@@ -184,7 +198,7 @@ namespace VIENNAAddIn
                                 new ABIEWizardForm(repo).Show();
                                 break;
                             case "&Modify ABIE":
-                                new ABIEWizardForm(repo, new EA.Element()).Show();
+                                new ABIEWizardForm(repo, repo.GetElementByGuid(selectedGUID)).Show();
                                 break;
                             case "Create new BD&T":
                                 new BDTWizardForm(repo).Show();
@@ -198,6 +212,18 @@ namespace VIENNAAddIn
             {
                 new ErrorReporterForm(e.Message + "\n" + e.StackTrace, repo.LibraryVersion);
             }
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="GUID"></param>
+        ///<param name="ot"></param>
+        ///<returns></returns>
+        public void EA_OnContextItemChanged(EA.Repository repository, string GUID, EA.ObjectType ot)
+        {
+            selectedOT = ot;
+            selectedGUID = GUID;
         }
 
         #endregion
