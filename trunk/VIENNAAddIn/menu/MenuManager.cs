@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.menu
 {
@@ -8,40 +9,77 @@ namespace VIENNAAddIn.menu
     ///</summary>
     public class MenuManager
     {
-        private readonly Dictionary<string, SubMenu> diagramMenus = new Dictionary<string, SubMenu>();
-        private readonly Dictionary<string, SubMenu> elementMenus = new Dictionary<string, SubMenu>();
-        private readonly Dictionary<string, SubMenu> packageMenus = new Dictionary<string, SubMenu>();
-        private readonly string[] topLevelMenu;
-        private readonly string topLevelMenuName;
+        private readonly Dictionary<string, Dictionary<string, MenuState>> menuStates =
+            new Dictionary<string, Dictionary<string, MenuState>>();
+
+        private readonly Dictionary<string, Dictionary<string, Action<AddInContext>>> menuActions =
+            new Dictionary<string, Dictionary<string, Action<AddInContext>>>();
+
+        private readonly List<MenuItems> menuItems = new List<MenuItems>();
+
+        public string[] DefaultMenuItems { get; set; }
+        public Predicate<AddInContext> DefaultEnabled { get; set; }
+        public Predicate<AddInContext> DefaultChecked { get; set; }
 
         ///<summary>
         ///</summary>
-        ///<param name="topLevelMenuName"></param>
-        public MenuManager(string topLevelMenuName)
+        ///<param name="context"></param>
+        ///<param name="isEnabled"></param>
+        ///<param name="isChecked"></param>
+        public void GetMenuState(AddInContext context, ref bool isEnabled, ref bool isChecked)
         {
-            this.topLevelMenuName = topLevelMenuName;
-            topLevelMenu = new[] {"-" + topLevelMenuName};
-            MainMenu = new SubMenu(topLevelMenuName);
-            AllPackages = new SubMenu(topLevelMenuName);
-            AllElements = new SubMenu(topLevelMenuName);
-            AllDiagrams = new SubMenu(topLevelMenuName);
+            Dictionary<string, MenuState> menu;
+            if (menuStates.TryGetValue(context.MenuName, out menu))
+            {
+                MenuState menuState;
+                if (menu.TryGetValue(context.MenuItem, out menuState))
+                {
+                    isEnabled = menuState.IsEnabled == null ? DefaultEnabled(context) : menuState.IsEnabled(context);
+                    isChecked = menuState.IsChecked == null ? DefaultChecked(context) : menuState.IsChecked(context);
+                    return;
+                }
+            }
+            isEnabled = false;
+            isChecked = false;
+        }
+
+        private void ProcessMenuItem(Predicate<AddInContext> predicate, string menuName, MenuItem menuItem)
+        {
+            var menuState = new MenuState {IsEnabled = menuItem.IsEnabled};
+            if (menuItem is SubMenu)
+            {
+                var subMenu = (SubMenu) menuItem;
+                menuState.IsChecked = Never;
+                var items = new List<string>();
+                foreach (MenuItem item in subMenu.Items)
+                {
+                    items.Add(item.Name);
+                    ProcessMenuItem(predicate, menuItem.Name, item);
+                }
+                menuItems.Add(new MenuItems(MenuNameIs(menuItem.Name).And(predicate), items));
+            }
+            else if (menuItem is MenuAction)
+            {
+                var menuAction = (MenuAction) menuItem;
+                menuState.IsChecked = menuAction.IsChecked;
+                AddMenuAction(menuName, menuItem.Name, menuAction.Execute);
+            }
+            AddMenuState(menuName, menuItem.Name, menuState);
+        }
+
+        private static Predicate<AddInContext> MenuNameIs(string menuName)
+        {
+            return context => (menuName??string.Empty) == context.MenuName;
         }
 
         ///<summary>
         ///</summary>
-        public SubMenu MainMenu { get; private set; }
-
-        ///<summary>
-        ///</summary>
-        public SubMenu AllPackages { get; private set; }
-
-        ///<summary>
-        ///</summary>
-        public SubMenu AllElements { get; private set; }
-
-        ///<summary>
-        ///</summary>
-        public SubMenu AllDiagrams { get; private set; }
+        ///<param name="context"></param>
+        ///<returns></returns>
+        public static bool Never(AddInContext context)
+        {
+            return false;
+        }
 
         ///<summary>
         ///</summary>
@@ -49,7 +87,14 @@ namespace VIENNAAddIn.menu
         ///<returns></returns>
         public string[] GetMenuItems(AddInContext context)
         {
-            return string.IsNullOrEmpty(context.MenuName) ? topLevelMenu : GetSubMenu(context).GetMenuItems();
+            foreach (var items in menuItems)
+            {
+                if (items.Matches(context))
+                {
+                    return items.Items;
+                }
+            }
+            return DefaultMenuItems;
         }
 
         ///<summary>
@@ -58,141 +103,104 @@ namespace VIENNAAddIn.menu
         ///<exception cref="ArgumentException"></exception>
         public void MenuClick(AddInContext context)
         {
-            MenuAction action = GetSubMenu(context).FindAction(context.MenuItem);
-            if (action == null)
+            Dictionary<string, Action<AddInContext>> menu;
+            if (menuActions.TryGetValue(context.MenuName, out menu))
             {
-                throw new ArgumentException(string.Format("menu item not found: {0}/{1}/{2}", context.MenuLocation,
-                                                          context.MenuName,
-                                                          context.MenuItem));
+                Action<AddInContext> action;
+                if (menu.TryGetValue(context.MenuItem, out action))
+                {
+                    action(context);
+                }
             }
-            action.Execute(context);
         }
 
-        private SubMenu GetSubMenu(AddInContext context)
+        private void AddMenuAction(string menuName, string menuItem, Action<AddInContext> action)
         {
-            var menuLocation = context.MenuLocation;
-            var menuName = context.MenuName;
-            if (!menuName.StartsWith("-"))
-            {
-                throw new ArgumentException("sub-menu name does not start with '-': " + menuName);
-            }
-            string subMenuName = menuName.Substring(1);
-            SubMenu menu = SubMenu.EmptyMenu;
-            switch (menuLocation)
-            {
-                case "MainMenu":
-                    menu = MainMenu;
-                    break;
-                case "TreeView":
-                    Object obj;
-                    ObjectType otype = context.Repository.GetTreeSelectedItem(out obj);
+            menuActions.GetAndCreate(menuName)[menuItem] = action;
+        }
 
-                    if (otype.Equals(ObjectType.otPackage))
+        private void AddMenuState(string menuName, string menuItem, MenuState menuState)
+        {
+            menuStates.GetAndCreate(menuName)[menuItem] = menuState;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="predicate"></param>
+        public MenuItem this[Predicate<AddInContext> predicate]
+        {
+            set
+            {
+                menuItems.Add(new MenuItems(MenuNameIs(null).And(predicate), new List<string> {value.Name}));
+                ProcessMenuItem(predicate, string.Empty, value);
+            }
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="menuLocation"></param>
+        ///<param name="packageStereotype"></param>
+        public MenuItem this[MenuLocation menuLocation, string packageStereotype]
+        {
+            set
+            {
+                this[context =>
+                {
+                    if ((menuLocation & context.MenuLocation) == context.MenuLocation)
                     {
-                        var package = (Package) obj;
-                        if (package.Element == null)
+                        ObjectType otype = context.SelectedItemObjectType;
+
+                        if (otype.Equals(ObjectType.otPackage))
                         {
-                            // right click on a Module (top level package), which has no stereotype
-                            menu = AllPackages;
+                            var obj = context.Repository.GetPackageByGuid(context.SelectedItemGUID);
+                            return obj.HasStereotype(packageStereotype);
                         }
-                        else
+                        if (otype.Equals(ObjectType.otElement))
                         {
-                            String stereotype = package.Element.Stereotype;
-                            menu = packageMenus.ContainsKey(stereotype) ? packageMenus[stereotype] : AllPackages;
+                            var obj = context.Repository.GetElementByGuid(context.SelectedItemGUID);
+                            return context.Repository.GetPackageByID(obj.PackageID).HasStereotype(packageStereotype);
+                        }
+                        if (otype.Equals(ObjectType.otDiagram))
+                        {
+                            var obj = (Diagram) context.Repository.GetDiagramByGuid(context.SelectedItemGUID);
+                            return context.Repository.GetPackageByID(obj.PackageID).HasStereotype(packageStereotype);
                         }
                     }
-                    else if (otype.Equals(ObjectType.otElement))
-                    {
-                        var stereotype = context.Repository.GetPackageByID(((Element) obj).PackageID).Element.Stereotype;
-                        menu = elementMenus.ContainsKey(stereotype) ? elementMenus[stereotype] : AllElements;
-                    }
-                    else if (otype.Equals(ObjectType.otDiagram))
-                    {
-                        var stereotype = context.Repository.GetPackageByID(((Diagram) obj).PackageID).Element.Stereotype;
-                        menu = diagramMenus.ContainsKey(stereotype) ? diagramMenus[stereotype] : AllDiagrams;
-                    }
-
-                    break;
-                case "Diagram":
-                    menu = SubMenu.EmptyMenu;
-                    break;
-                default:
-                    throw new ArgumentException("unknown menu location: " + menuLocation);
+                    return false;
+                }] = value;
             }
-            SubMenu subMenu = menu.FindSubMenu(subMenuName);
-            if (subMenu == null)
-            {
-                throw new ArgumentException(string.Format("sub-menu not found: {0}/{1}", menuLocation, menuName));
-            }
-            return subMenu;
         }
 
         ///<summary>
         ///</summary>
-        ///<param name="stereotypes"></param>
-        ///<returns></returns>
-        public StereotypeMenuBuilder ForPackagesWithStereotypes(params string[] stereotypes)
+        ///<param name="menuLocation"></param>
+        public MenuItem this[MenuLocation menuLocation]
         {
-            var builder = new StereotypeMenuBuilder();
-            foreach (string stereotype in stereotypes)
+            set
             {
-                builder.AddMenu(packageMenus[stereotype] = new SubMenu(topLevelMenuName, AllPackages));
+                this[context => (menuLocation & context.MenuLocation) == context.MenuLocation] = value;
             }
-            return builder;
-        }
-
-        ///<summary>
-        ///</summary>
-        ///<param name="stereotypes"></param>
-        ///<returns></returns>
-        public StereotypeMenuBuilder ForElementsWithPackageStereotypes(params string[] stereotypes)
-        {
-            var builder = new StereotypeMenuBuilder();
-            foreach (string stereotype in stereotypes)
-            {
-                builder.AddMenu(elementMenus[stereotype] = new SubMenu(topLevelMenuName, AllElements));
-            }
-            return builder;
-        }
-
-        ///<summary>
-        ///</summary>
-        ///<param name="stereotypes"></param>
-        ///<returns></returns>
-        public StereotypeMenuBuilder ForDiagramsWithPackageStereotypes(params string[] stereotypes)
-        {
-            var builder = new StereotypeMenuBuilder();
-            foreach (string stereotype in stereotypes)
-            {
-                builder.AddMenu(diagramMenus[stereotype] = new SubMenu(topLevelMenuName, AllDiagrams));
-            }
-            return builder;
         }
     }
 
-    ///<summary>
-    ///</summary>
-    public class StereotypeMenuBuilder
+    class MenuItems
     {
-        private readonly List<SubMenu> menus = new List<SubMenu>();
+        public Predicate<AddInContext> Matches { get; private set; }
 
-        ///<summary>
-        ///</summary>
-        ///<param name="menu"></param>
-        public void AddMenu(SubMenu menu)
+        public MenuItems(Predicate<AddInContext> predicate, List<string> items)
         {
-            menus.Add(menu);
+            Matches = predicate;
+            Items = items.ToArray();
         }
 
-        ///<summary>
-        ///</summary>
-        ///<param name="items"></param>
-        public void SetItems(params MenuItem[] items)
-        {
-            foreach (SubMenu menu in menus)
-            {
-                menu.SetItems(items);
-            }
-        }
+        public string[] Items { get; private set; }
     }
+
+    class MenuState
+    {
+        public Predicate<AddInContext> IsEnabled { get; set; }
+
+        public Predicate<AddInContext> IsChecked { get; set; }
+    }
+
 }

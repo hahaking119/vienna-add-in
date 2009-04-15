@@ -3,11 +3,50 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn
 {
-    internal static class EARepositoryExtensions
+    public static class EARepositoryExtensions
     {
+        public static T Resolve<T>(this Repository repository, Path path) where T : class
+        {
+            if (path.Length == 0)
+            {
+                return default(T);
+            }
+            foreach (Package model in repository.Models)
+            {
+                foreach (Package package in model.Packages)
+                {
+                    if (package.Name == path.FirstPart)
+                    {
+                        return Resolve<T>(package, path.Rest);
+                    }
+                }
+            }
+            return default(T);
+        }
+
+        private static T Resolve<T>(Package package, Path path) where T : class
+        {
+            if (package == null)
+            {
+                return default(T);
+            }
+            if (path.Length == 0)
+            {
+                return package as T;
+            }
+            string firstPart = path.FirstPart;
+            if (package.Element.Stereotype == "bLibrary")
+            {
+                return Resolve<T>(package.PackageByName(firstPart), path.Rest);
+            }
+            return package.ElementByName(firstPart) as T;
+        }
+
         internal static string DetermineScope(this Repository repository)
         {
             Object obj;
@@ -64,7 +103,6 @@ namespace VIENNAAddIn
 
             try
             {
-                repository.ImportTechnology(AddInSettings.LoadMDGFile());
                 MessageBox.Show("This Model is now defined as an UMM2/UPCC3 Model", "AddIn");
             }
             catch (Exception e)
@@ -94,12 +132,6 @@ namespace VIENNAAddIn
                     MessageBox.Show("Model is not defined as an UMM2/UPCC3 Model any longer", "AddIn");
                     break;
                 }
-            }
-            if (!repository.DeleteTechnology("UMM2FoundV2"))
-            {
-                MessageBox.Show(
-                    "The MDG Technology File, which contains the UMM2 Profile and some Patterns could not be unloaded",
-                    "AddIn Error");
             }
         }
 

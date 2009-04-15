@@ -103,11 +103,13 @@
     <Compile Include="Exceptions\UnexpectedElementException.cs" />
     <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
+    <Compile Include="menu\DictionaryExtensions.cs" />
     <Compile Include="menu\MenuAction.cs" />
     <Compile Include="menu\MenuItem.cs" />
+    <Compile Include="menu\MenuLocation.cs" />
     <Compile Include="menu\MenuManager.cs" />
-    <Compile Include="menu\MenuSeparator.cs" />
-    <Compile Include="menu\SubMenu.cs" />
+    <Compile Include="menu\MenuStringExtensions.cs" />
+    <Compile Include="menu\AddInContextPredicateExtensions.cs" />
     <Compile Include="Settings\AddInSettings.cs" />
     <Compile Include="Settings\SynchStereotypes.cs" />
     <Compile Include="Settings\SynchStereotypesForm.cs">

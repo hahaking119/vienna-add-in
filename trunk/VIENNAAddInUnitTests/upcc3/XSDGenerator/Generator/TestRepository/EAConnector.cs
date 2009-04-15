@@ -8,6 +8,7 @@
 // *******************************************************************************
 using System;
 using EA;
+using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
@@ -65,7 +66,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public int SupplierID
         {
-            get { return SupplierPath != null ? SupplierPath.Resolve<Element>(Repository).ElementID : supplierID; }
+            get { return SupplierPath != null ? Repository.Resolve<Element>(SupplierPath).ElementID : supplierID; }
             set { supplierID = value; }
         }
 
