@@ -51,7 +51,13 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 }
             }
 
-            CopyFolder(AddInSettings.CommonXSDPath, context.OutputDirectory);
+            try
+            {
+                CopyFolder(AddInSettings.CommonXSDPath, context.OutputDirectory);
+            }catch(IOException ioe)
+            {
+            }
+
 
 
             return context;

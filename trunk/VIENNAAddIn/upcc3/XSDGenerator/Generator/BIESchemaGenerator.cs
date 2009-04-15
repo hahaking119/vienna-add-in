@@ -224,6 +224,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             AddDocumentation(documentation, "BusinessTermName", bbie.BusinessTerms);
             AddDocumentation(documentation, "PropertyTermName", bbie.Name);
             AddDocumentation(documentation, "RepresentationTermName", bbie.Type.Name);
+            AddDocumentation(documentation, "AcronymCode", "BBIE");
 
             XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();
             annotation.Items.Add(new XmlSchemaDocumentation {Language = "en", Markup = documentation.ToArray()});
@@ -246,6 +247,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             AddDocumentation(documentation, "DictionaryEntryName", abie.DictionaryEntryName);
             AddDocumentation(documentation, "Definition", abie.Definition);
             AddDocumentation(documentation, "BusinessTermName", abie.BusinessTerms);
+            AddDocumentation(documentation, "AcronymCode", "ABIE");
 
             XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();
             annotation.Items.Add(new XmlSchemaDocumentation {Language = "en", Markup = documentation.ToArray()});
@@ -277,6 +279,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             AddDocumentation(documentation, "AssociatedObjectClassTermName", asbie.AssociatedElement.Name);
             // AssociatedObjectClassQualifierTermName could be extracted from the AssociatedObjectClassTermName
             // (e.g. "My" in "My_Address") but is not implement at this point 
+            AddDocumentation(documentation, "AcronymCode", "ASBIE");
 
 
             XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();
