@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EARepositoryExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchTaggedValuesTest\SynchStereotypesTest.cs" />
     <Compile Include="upcc3\ccts\dra\DRACCRepositoryTest.cs" />

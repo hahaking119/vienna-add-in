@@ -7,9 +7,12 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -70,23 +73,43 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<IBusinessLibrary> AllLibraries()
         {
+            foreach (var rootBLibraryPackage in AllRootBLibraryPackages())
+            {
+                var bLibrary = (IBLibrary)GetLibrary(rootBLibraryPackage);
+                yield return bLibrary;
+                foreach (IBusinessLibrary child in bLibrary.AllChildren)
+                {
+                    yield return child;
+                }
+            }
+        }
+
+        private IEnumerable<Package> AllRootBLibraryPackages()
+        {
             foreach (Package model in eaRepository.Models)
             {
                 foreach (Package rootPackage in model.Packages)
                 {
-                    IBusinessLibrary rootLibrary = GetLibrary(rootPackage);
-                    yield return rootLibrary;
-                    if (rootLibrary is IBLibrary)
+                    if (rootPackage.HasStereotype(Stereotype.BInformationV))
                     {
-                        foreach (IBusinessLibrary child in ((IBLibrary) rootLibrary).AllChildren)
+                        foreach (Package subPackage in rootPackage.Packages)
                         {
-                            yield return child;
+                            if (subPackage.HasStereotype(Stereotype.BLibrary))
+                            {
+                                yield return subPackage;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (rootPackage.HasStereotype(Stereotype.BLibrary))
+                        {
+                            yield return rootPackage;
                         }
                     }
                 }
             }
         }
-
         #endregion
 
         public ICDT GetCDT(int id)

@@ -2,7 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
-using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -40,11 +39,25 @@ namespace VIENNAAddIn
                 return package as T;
             }
             string firstPart = path.FirstPart;
-            if (package.Element.Stereotype == "bLibrary")
+            if (path.Length == 1)
             {
-                return Resolve<T>(package.PackageByName(firstPart), path.Rest);
+                // this is the last element
+                if (typeof (T) == typeof (Package))
+                {
+                    return package.PackageByName(firstPart) as T;
+                }
+                if (typeof (T) == typeof (Element))
+                {
+                    return package.ElementByName(firstPart) as T;
+                }
+                var o = package.PackageByName(firstPart) as T;
+                if (o != default(T))
+                {
+                    return o;
+                }
+                return package.ElementByName(firstPart) as T;
             }
-            return package.ElementByName(firstPart) as T;
+            return Resolve<T>(package.PackageByName(firstPart), path.Rest);
         }
 
         internal static string DetermineScope(this Repository repository)
@@ -53,11 +66,11 @@ namespace VIENNAAddIn
             switch (repository.GetTreeSelectedItem(out obj))
             {
                 case ObjectType.otPackage:
-                    return ((Package)obj).PackageID.ToString();
+                    return ((Package) obj).PackageID.ToString();
                 case ObjectType.otDiagram:
-                    return ((Diagram)obj).PackageID.ToString();
+                    return ((Diagram) obj).PackageID.ToString();
                 case ObjectType.otElement:
-                    return ((Element)obj).PackageID.ToString();
+                    return ((Element) obj).PackageID.ToString();
                 default:
                     return "";
             }

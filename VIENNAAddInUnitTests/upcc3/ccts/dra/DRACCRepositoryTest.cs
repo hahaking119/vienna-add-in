@@ -344,7 +344,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void TestReadAccess()
         {
             var libraries = new List<IBusinessLibrary>(ccRepository.AllLibraries());
-            Assert.AreEqual(8, libraries.Count);
+            Assert.AreEqual(10, libraries.Count);
 
             IBusinessLibrary bLib1 = ccRepository.Libraries<IBLibrary>().First();
             Assert.AreEqual("blib1", bLib1.Name);
