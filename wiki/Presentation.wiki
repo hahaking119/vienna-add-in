@@ -4,13 +4,33 @@
 
 1. Create New Project
 
+2. Set model as UMM2/UPCC3 model
+
 2. Use Add-in Wizard to create initial model structure
 
 3. Show the UML Profile for Core Components - explain the dynamic loading mechanism for MDG
 
+Elaborate on the advantages of the UML profile:
+
+a) Constant access to the most recent version of the UPCC - bugfixes in the profile are automatically loaded into EA
+
+b) Automatic generation of necessary attributes (tagged values)
+
 3. Create sample artifacts using the UML Profile for Core Components
 
-4. Open existing sample model with CCTS structures
+a) Create a CDT "Text"
+
+b) Create an ACC "Address".
+
+c) Add BCCs
+
+d) Set the BCC type
+
+e) Set unique identifier, DEN, definition etc.
+
+4. Validate the sample artifacts
+
+5. Open existing sample model with CCTS structures
 
 5. Create ABIE using Add-in Wizard based on existing ACCs and BCCs
 
