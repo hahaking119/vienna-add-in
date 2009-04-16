@@ -7,10 +7,12 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using VIENNAAddIn.menu;
 
 namespace VIENNAAddIn.Utils
 {
@@ -284,7 +286,7 @@ namespace VIENNAAddIn.Utils
             this.ClientSize = new System.Drawing.Size(457, 361);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.tabControl);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.Name = "AboutWindow";
             this.Text = "About...";
             this.tabControl.ResumeLayout(false);
@@ -306,39 +308,35 @@ namespace VIENNAAddIn.Utils
 		private void websiteLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{
 			e.Link.Visited = true;
-			System.Diagnostics.Process.Start(WEBSITE);
+			Process.Start(WEBSITE);
 		}
 
 		private void bugReportLabel_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
 		{
 			e.Link.Visited = true;
-			System.Diagnostics.Process.Start(BUG_REPORT);
+			Process.Start(BUG_REPORT);
 		}
         
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.umm-dev.org");
+            Process.Start("http://www.umm-dev.org");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://vienna-add-in.googlecode.com");
+            Process.Start("http://vienna-add-in.googlecode.com");
         }
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
-            System.Diagnostics.Process.Start("http://code.google.com/p/vienna-add-in/issues/list");
+            Process.Start("http://code.google.com/p/vienna-add-in/issues/list");
         }
 
-		
-
-		
-
-		
-
-	
-
+	    public static void ShowForm(AddInContext context)
+	    {
+	        new AboutWindow().Show();
+	    }
 	}
 }

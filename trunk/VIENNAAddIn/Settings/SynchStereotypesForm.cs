@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using EA;
+using VIENNAAddIn.menu;
 
 namespace VIENNAAddIn.Settings
 {
@@ -24,11 +25,11 @@ namespace VIENNAAddIn.Settings
             this.repo = repository;
         }
 
-        public static void ShowForm(Repository repository)
+        public static void ShowForm(AddInContext context)
         {
             if (synchStereotypesForm == null || synchStereotypesForm.IsDisposed)
             {
-                synchStereotypesForm = new SynchStereotypesForm(repository);
+                synchStereotypesForm = new SynchStereotypesForm(context.Repository);
                 synchStereotypesForm.Show();
             }
             else

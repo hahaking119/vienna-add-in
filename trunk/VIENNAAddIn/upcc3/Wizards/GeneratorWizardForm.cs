@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
+using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.XSDGenerator.Generator;
@@ -181,12 +183,12 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             GatherUserInput();
 
-            if (!(string.IsNullOrEmpty(selectedBIVName)) &&
+            if (!(String.IsNullOrEmpty(selectedBIVName)) &&
                  (checkedlistboxDOCs.CheckedItems.Count > 0) &&
-                !(string.IsNullOrEmpty(textTargetNS.Text)) &&
-                !(string.IsNullOrEmpty(textPrefixTargetNS.Text)) &&
-                !(string.IsNullOrEmpty(selectedModelName)) &&
-                !(string.IsNullOrEmpty(textOutputDirectory.Text)))
+                !(String.IsNullOrEmpty(textTargetNS.Text)) &&
+                !(String.IsNullOrEmpty(textPrefixTargetNS.Text)) &&
+                !(String.IsNullOrEmpty(selectedModelName)) &&
+                !(String.IsNullOrEmpty(textOutputDirectory.Text)))
             {
                 ResetForm(2);
             }
@@ -363,7 +365,12 @@ namespace VIENNAAddIn.upcc3.Wizards
             
 
             // todo: make path check
-            System.Diagnostics.Process.Start(cache.BIVs[selectedBIVName].DOCs[selectedDOCName].OutputDirectory + "/" + e.LinkText.Substring(5));
+            Process.Start(cache.BIVs[selectedBIVName].DOCs[selectedDOCName].OutputDirectory + "/" + e.LinkText.Substring(5));
+        }
+
+        public static void ShowGeneratorWizard(AddInContext context)
+        {
+            new GeneratorWizardForm(context.CCRepository).Show();
         }
     }
 }

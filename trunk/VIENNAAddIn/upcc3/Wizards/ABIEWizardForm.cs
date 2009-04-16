@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 
@@ -1200,6 +1201,16 @@ namespace VIENNAAddIn.upcc3.Wizards
             buttonGenerate.Enabled = false;
         }
 
-        #endregion 
+        #endregion
+
+        public static void ShowABIEWizard(AddInContext context)
+        {
+            new ABIEWizardForm(context.Repository).Show();
+        }
+
+        public static void ShowModifyABIEWizard(AddInContext context)
+        {
+            new ABIEWizardForm(context.Repository, context.Repository.GetElementByGuid(context.SelectedItemGUID)).Show();
+        }
     }
 }
