@@ -2,6 +2,9 @@ using System;
 
 namespace VIENNAAddIn.menu
 {
+    ///<summary>
+    /// Enum for EA menu locations.
+    ///</summary>
     [Flags]
     public enum MenuLocation
     {

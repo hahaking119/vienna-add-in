@@ -3,6 +3,7 @@ using System;
 namespace VIENNAAddIn.menu
 {
     ///<summary>
+    /// Extension methods for combining AddInContext predicates.
     ///</summary>
     public static class AddInContextPredicateExtensions
     {
