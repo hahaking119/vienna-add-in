@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.common.logging;
+using VIENNAAddIn.menu;
 using Attribute=EA.Attribute;
 using VIENNAAddIn.ErrorReporter;
 
@@ -52,25 +53,38 @@ namespace VIENNAAddIn.validator
             progressTimer.Tick += new EventHandler(progressTimer_Tick);
         }
 
-        public static void ShowForm(Repository repository, string scope, string menulocation)
+        public static void ShowValidator(AddInContext context)
         {
-            if (string.IsNullOrEmpty(scope))
+            ShowForm(context, null);
+        }
+
+        public static void ShowUmmValidator(AddInContext context)
+        {
+            ShowForm(context, "ROOT_UMM");
+        }
+
+        public static void ShowUpccValidator(AddInContext context)
+        {
+            ShowForm(context, "ROOT_UPCC");
+        }
+
+        private static void ShowForm(AddInContext context, string scope)
+        {
+            if (String.IsNullOrEmpty(scope))
             {
-                scope = DetermineValidationScope(repository, menulocation);
+                scope = DetermineValidationScope(context.Repository, context.MenuLocationString);
             }
             if (scope == "")
             {
                 //TO DO - add additional routines here which i.e. try to determine
                 //a UPCC validation scope
-
-                MessageBox.Show(
-                    "Unable to determine a validator for the selected diagram, element or package.");
+                MessageBox.Show("Unable to determine a validator for the selected diagram, element or package.");
             }
             else
             {
                 if (form == null || form.IsDisposed)
                 {
-                    form = new ValidatorForm(repository, scope);
+                    form = new ValidatorForm(context.Repository, scope);
                     form.Show();
                 }
                 else
@@ -625,5 +639,6 @@ namespace VIENNAAddIn.validator
                 setStatusText("There is no erroneous element associated with this message.");
             }
         }
+
     }
 }

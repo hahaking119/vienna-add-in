@@ -12,6 +12,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using EA;
+using VIENNAAddIn.menu;
 
 namespace VIENNAAddIn.Utils
 {
@@ -159,9 +160,9 @@ namespace VIENNAAddIn.Utils
 			this.Close();
 		}
 
-	    public static void ShowForm(Repository repository)
+	    public static void ShowForm(AddInContext context)
 	    {
-	        new OptionsForm(repository).ShowDialog();
+	        new OptionsForm(context.Repository).ShowDialog();
 	    }
 	}
 }

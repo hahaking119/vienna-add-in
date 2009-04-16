@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 
@@ -266,7 +267,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
 
-            if (string.IsNullOrEmpty(textBDTName.Text))
+            if (String.IsNullOrEmpty(textBDTName.Text))
             {
                 ResetForm(3);
             }
@@ -347,6 +348,11 @@ namespace VIENNAAddIn.upcc3.Wizards
         private void BDTWizardForm_SizeChanged(object sender, EventArgs e)
         {
             errorMessageBDTName.Location = new Point(textBDTName.Location.X + textBDTName.Width - 105, textBDTName.Location.Y);
+        }
+
+        public static void ShowBDTWizard(AddInContext context)
+        {
+            new BDTWizardForm(context.Repository).Show();
         }
     }
 }

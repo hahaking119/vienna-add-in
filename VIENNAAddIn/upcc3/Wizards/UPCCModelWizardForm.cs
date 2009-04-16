@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using EA;
+using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
 
 namespace VIENNAAddIn.upcc3.Wizards
@@ -258,6 +259,14 @@ namespace VIENNAAddIn.upcc3.Wizards
         private void checkboxDOCL_CheckedChanged(object sender, EventArgs e)
         {
             CheckIfInputIsValid();
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="context"></param>
+        public static void ShowForm(AddInContext context)
+        {
+            new UpccModelWizardForm(context.Repository).Show();
         }
     }
 }

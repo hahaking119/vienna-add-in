@@ -9,6 +9,7 @@ http://vienna-add-in.googlecode.com
 using System;
 using System.Windows.Forms;
 using EA;
+using VIENNAAddIn.menu;
 using VIENNAAddIn.WorkFlow;
 
 namespace VIENNAAddIn.workflow
@@ -25,16 +26,14 @@ namespace VIENNAAddIn.workflow
         public InitialPackageStructureCreator(Repository repository)
         {
             InitializeComponent();
-
             this.repository = repository;
         }
 
         ///<summary>
         ///</summary>
-        ///<param name="repository"></param>
-        public static void ShowForm(Repository repository)
+        public static void ShowForm(AddInContext context)
         {
-            new InitialPackageStructureCreator(repository).Show();
+            new InitialPackageStructureCreator(context.Repository).Show();
         }
 
         /// <summary>

@@ -47,32 +47,33 @@ namespace VIENNAAddIn
                               DefaultChecked = Never
                           };
 
-            var createABIE = "Create new &ABIE".OnClick(ShowABIEWizard);
-            var createBDT = "Create new BD&T".OnClick(ShowBDTWizard);
-            var modifyABIE = "&Modify ABIE".OnClick(ShowModifyABIEWizard).Enabled(ABIEIsSelected);
-            var validate = "&Validate".OnClick(ShowValidator);
-            var _____ = MenuItem.Separator;
+            MenuAction createABIE = "Create new &ABIE".OnClick(ABIEWizardForm.ShowABIEWizard);
+            MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
+            MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
+            MenuAction validate = "&Validate".OnClick(ValidatorForm.ShowValidator);
+            MenuItem _____ = MenuItem.Separator;
 
             menuManager[MenuLocation.MainMenu] =
                 (AddInSettings.AddInName
-                 + "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
-                 + "&Create initial UPCC3 model structure".OnClick(ShowInitialUPCCPackageStructureCreator)
-                 + "&Create initial UMM 2 model structure".OnClick(ShowInitialPackageStructureCreator)
+                 +
+                 "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
+                 + "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm)
+                 + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
                  + _____
-                 + "&Validate All - UPCC3".OnClick(ShowUpccValidator)
-                 + "&Validate All - UMM2".OnClick(ShowUmmValidator)
+                 + "&Validate All - UPCC3".OnClick(ValidatorForm.ShowUpccValidator)
+                 + "&Validate All - UMM2".OnClick(ValidatorForm.ShowUmmValidator)
                  + _____
                  + ("Maintenance"
-                    + "Synchronize &Tagged Values...".OnClick(ShowSynchStereotypes)
+                    + "Synchronize &Tagged Values...".OnClick(SynchStereotypesForm.ShowForm)
                    )
                  + ("Wizards"
                     + createABIE
                     + modifyABIE
                     + createBDT
-                    + "Generate &XML Schema".OnClick(ShowGeneratorWizard)
+                    + "Generate &XML Schema".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                    )
-                 + "&Options".OnClick(ShowOptions)
-                 + ("&About " + AddInSettings.AddInName).OnClick(ShowAbout)
+                 + "&Options".OnClick(OptionsForm.ShowForm)
+                 + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)
                 );
             menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BIELibrary] =
                 (AddInSettings.AddInName
@@ -91,11 +92,6 @@ namespace VIENNAAddIn
                 (AddInSettings.AddInName
                  + validate
                 );
-        }
-
-        private void ShowInitialUPCCPackageStructureCreator(AddInContext context)
-        {
-            new UpccModelWizardForm(context.Repository).Show();
         }
 
         #region VIENNAAddInInterface Members
@@ -119,15 +115,16 @@ namespace VIENNAAddIn
             }
             else
             {
-                menuManager.GetMenuState(new AddInContext
-                                         {
-                                             Repository = Repo,
-                                             MenuLocationString = menulocation,
-                                             MenuName = menuname,
-                                             MenuItem = itemname,
-                                             SelectedItemGUID = SelectedItemGUID,
-                                             SelectedItemObjectType = SelectedItemObjectType
-                                         }, ref isEnabled, ref isChecked);
+                var context = new AddInContext
+                              {
+                                  Repository = Repo,
+                                  MenuLocationString = menulocation,
+                                  MenuName = menuname,
+                                  MenuItem = itemname,
+                                  SelectedItemGUID = SelectedItemGUID,
+                                  SelectedItemObjectType = SelectedItemObjectType
+                              };
+                menuManager.GetMenuState(context, ref isEnabled, ref isChecked);
             }
         }
 
@@ -180,14 +177,15 @@ namespace VIENNAAddIn
         /// <returns></returns>
         public string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname)
         {
-            return menuManager.GetMenuItems(new AddInContext
-                                            {
-                                                Repository = Repo,
-                                                MenuLocationString = menulocation,
-                                                MenuName = menuname,
-                                                SelectedItemGUID = SelectedItemGUID,
-                                                SelectedItemObjectType = SelectedItemObjectType
-                                            });
+            var context = new AddInContext
+                          {
+                              Repository = Repo,
+                              MenuLocationString = menulocation,
+                              MenuName = menuname,
+                              SelectedItemGUID = SelectedItemGUID,
+                              SelectedItemObjectType = SelectedItemObjectType
+                          };
+            return menuManager.GetMenuItems(context);
         }
 
         /// <summary>
@@ -199,19 +197,18 @@ namespace VIENNAAddIn
         /// <param name="menuitem"></param>
         public void EA_MenuClick(Repository repository, string menulocation, string menuname, string menuitem)
         {
-            //This try/catch catches all Exceptions, which might possibly occur
-            //during the execution of the plugin and shows the ErrorWindow to the user
             try
             {
-                menuManager.MenuClick(new AddInContext
-                                      {
-                                          Repository = Repo,
-                                          MenuLocationString = menulocation,
-                                          MenuName = menuname,
-                                          MenuItem = menuitem,
-                                          SelectedItemGUID = SelectedItemGUID,
-                                          SelectedItemObjectType = SelectedItemObjectType
-                                      });
+                var context = new AddInContext
+                              {
+                                  Repository = Repo,
+                                  MenuLocationString = menulocation,
+                                  MenuName = menuname,
+                                  MenuItem = menuitem,
+                                  SelectedItemGUID = SelectedItemGUID,
+                                  SelectedItemObjectType = SelectedItemObjectType
+                              };
+                menuManager.MenuClick(context);
             }
             catch (Exception e)
             {
@@ -233,66 +230,17 @@ namespace VIENNAAddIn
 
         #endregion
 
-        private static void ShowValidator(AddInContext context)
-        {
-            ValidatorForm.ShowForm(context.Repository, null,
-                                   context.MenuLocationString);
-        }
+        #region AddInContext Predicates
 
-        private static bool ABIEIsSelected(AddInContext context)
+        private static bool IfABIEIsSelected(AddInContext context)
         {
             return context.SelectedItemObjectType == ObjectType.otElement &&
                    Repo.GetElementByGuid(context.SelectedItemGUID).IsABIE();
         }
 
-        private static void ShowAbout(AddInContext context)
+        private static bool IfRepositoryIsUmm2Model(AddInContext context)
         {
-            new AboutWindow().Show();
-        }
-
-        private static void ShowOptions(AddInContext context)
-        {
-            OptionsForm.ShowForm(context.Repository);
-        }
-
-        private static void ShowGeneratorWizard(AddInContext context)
-        {
-            new GeneratorWizardForm(context.CCRepository).Show();
-        }
-
-        private static void ShowBDTWizard(AddInContext context)
-        {
-            new BDTWizardForm(context.Repository).Show();
-        }
-
-        private static void ShowABIEWizard(AddInContext context)
-        {
-            new ABIEWizardForm(context.Repository).Show();
-        }
-
-        private static void ShowModifyABIEWizard(AddInContext context)
-        {
-            new ABIEWizardForm(context.Repository, context.Repository.GetElementByGuid(SelectedItemGUID)).Show();
-        }
-
-        private static void ShowSynchStereotypes(AddInContext context)
-        {
-            SynchStereotypesForm.ShowForm(context.Repository);
-        }
-
-        private static void ShowUmmValidator(AddInContext context)
-        {
-            ValidatorForm.ShowForm(context.Repository, "ROOT_UMM", context.MenuLocationString);
-        }
-
-        private static void ShowUpccValidator(AddInContext context)
-        {
-            ValidatorForm.ShowForm(context.Repository, "ROOT_UPCC", context.MenuLocationString);
-        }
-
-        private static void ShowInitialPackageStructureCreator(AddInContext context)
-        {
-            InitialPackageStructureCreator.ShowForm(context.Repository);
+            return context.Repository.IsUmm2Model();
         }
 
         private static bool Always(AddInContext context)
@@ -305,10 +253,7 @@ namespace VIENNAAddIn
             return false;
         }
 
-        private static bool IfRepositoryIsUmm2Model(AddInContext context)
-        {
-            return context.Repository.IsUmm2Model();
-        }
+        #endregion
 
         private static void ToggleUmm2ModelState(AddInContext context)
         {
