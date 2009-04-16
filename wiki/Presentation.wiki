@@ -16,7 +16,7 @@ Elaborate on the advantages of the UML profile:
 
 -) Automatic generation of necessary attributes (tagged values)
 
-3. Create sample artifacts using the UML Profile for Core Components
+4. Create sample artifacts using the UML Profile for Core Components
 
 -) Create a CDT "Text"
 
@@ -28,12 +28,12 @@ Elaborate on the advantages of the UML profile:
 
 -) Set unique identifier, DEN, definition etc.
 
-4. Validate the sample artifacts
+5. Validate the sample artifacts
 
-5. Open existing sample model with CCTS structures
+6. Open existing sample model with CCTS structures
 
-6. Create a new and empty BIELibrary
+7. Create a new and empty BIELibrary
 
-7. Create ABIE using Add-in Wizard based on existing ACCs and BCCs - Select the newly created BIELibrary as target
+8. Create ABIE using Add-in Wizard based on existing ACCs and BCCs - Select the newly created BIELibrary as target
 
-10. Generate XSD Schemas from DOCLibrary
+9. Generate XSD Schemas from DOCLibrary
