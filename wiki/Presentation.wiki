@@ -12,27 +12,29 @@
 
 Elaborate on the advantages of the UML profile:
 
-a) Constant access to the most recent version of the UPCC - bugfixes in the profile are automatically loaded into EA
+-) Constant access to the most recent version of the UPCC - bugfixes in the profile are automatically loaded into EA
 
-b) Automatic generation of necessary attributes (tagged values)
+-) Automatic generation of necessary attributes (tagged values)
 
 3. Create sample artifacts using the UML Profile for Core Components
 
-a) Create a CDT "Text"
+-) Create a CDT "Text"
 
-b) Create an ACC "Address".
+-) Create an ACC "Address".
 
-c) Add BCCs
+-) Add BCCs
 
-d) Set the BCC type
+-) Set the BCC type
 
-e) Set unique identifier, DEN, definition etc.
+-) Set unique identifier, DEN, definition etc.
 
 4. Validate the sample artifacts
 
 5. Open existing sample model with CCTS structures
 
-5. Create ABIE using Add-in Wizard based on existing ACCs and BCCs
+6. Create a new and empty BIELibrary
+
+5. Create ABIE using Add-in Wizard based on existing ACCs and BCCs - Select the newly created BIELibrary as target
 
 6. Create business document based on ABIEs
 
