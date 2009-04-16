@@ -6,6 +6,8 @@
 
 2. Use Add-in Wizard to create initial model structure
 
+3. Show the UML Profile for Core Components - explain the dynamic loading mechanism for MDG
+
 3. Create sample artifacts using the UML Profile for Core Components
 
 4. Open existing sample model with CCTS structures
