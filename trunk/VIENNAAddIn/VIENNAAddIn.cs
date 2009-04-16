@@ -56,6 +56,7 @@ namespace VIENNAAddIn
             menuManager[MenuLocation.MainMenu] =
                 (AddInSettings.AddInName
                  + "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
+                 + "&Create initial UPCC3 model structure".OnClick(ShowInitialUPCCPackageStructureCreator)
                  + "&Create initial UMM 2 model structure".OnClick(ShowInitialPackageStructureCreator)
                  + _____
                  + "&Validate All - UPCC3".OnClick(ShowUpccValidator)
@@ -90,6 +91,11 @@ namespace VIENNAAddIn
                 (AddInSettings.AddInName
                  + validate
                 );
+        }
+
+        private void ShowInitialUPCCPackageStructureCreator(AddInContext context)
+        {
+            new UpccModelWizardForm(context.Repository).Show();
         }
 
         #region VIENNAAddInInterface Members
