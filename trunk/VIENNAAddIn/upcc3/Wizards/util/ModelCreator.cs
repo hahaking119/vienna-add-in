@@ -14,12 +14,28 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         internal void CreateUpccModel(string modelName, string primLibraryName, string enumLibraryName, string cdtLibraryName, string ccLibraryName, string bdtLibraryName, string bieLibraryName, string docLibraryName)
         {
-            // ADD NEW MODEL
-            // add new model to the repository named "Model"
-            Package model = (Package)repository.Models.AddNew("Model", "");
-            model.Update();
-            repository.Models.Refresh();
+            // check if the repository contains an existing model named "Model" which does 
+            // not contain any content
+            Package model = null;
+            foreach (Package m in repository.Models)
+            {
+                if ((m.Packages.Count == 0) && (m.Diagrams.Count == 0))                    
+                {
+                    // we found an existing root model that does not contain any packages and diagrams
+                    model = m;
+                    break;
+                }
+            }
 
+            if (model == null)
+            {
+                // ADD NEW MODEL
+                // add new model to the repository named "Model"
+                model = (Package)repository.Models.AddNew("Model", "");
+                model.Update();
+                repository.Models.Refresh();
+            }
+            
             // ADD VIEW TO THE MODEL
             // add a new view named "ebInterface Data Model" to the model created in 
             // previous step 
