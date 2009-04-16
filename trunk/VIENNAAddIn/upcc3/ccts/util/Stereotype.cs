@@ -27,6 +27,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public const string DOCLibrary = "DOCLibrary";
         public const string BLibrary = "bLibrary";
         public const string CCLibrary = "CCLibrary";
+        public const string BInformationV = "bInformationV";
         public const string CDT = "CDT";
         public const string CDTLibrary = "CDTLibrary";
         public const string CON = "CON";

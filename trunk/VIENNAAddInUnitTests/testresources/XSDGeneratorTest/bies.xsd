@@ -11,6 +11,7 @@
         <ccts:DictionaryEntryName>Address. Details</ccts:DictionaryEntryName>
         <ccts:Definition></ccts:Definition>
         <ccts:BusinessTermName></ccts:BusinessTermName>
+        <ccts:AcronymCode>ABIE</ccts:AcronymCode>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
@@ -26,6 +27,7 @@
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>CountryName</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -41,6 +43,7 @@
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>CityName</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -56,6 +59,7 @@
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>StreetName</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -71,6 +75,7 @@
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>StreetNumber</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -86,6 +91,7 @@
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>Postcode</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -106,6 +112,7 @@
         <ccts:PropertyTermName>homeAddress</ccts:PropertyTermName>
         <ccts:PropertyQualifierName></ccts:PropertyQualifierName>
         <ccts:AssociatedObjectClassTermName>Address</ccts:AssociatedObjectClassTermName>
+        <ccts:AcronymCode>ASBIE</ccts:AcronymCode>
       </xsd:documentation>
     </xsd:annotation>
   </xsd:element>
@@ -119,6 +126,7 @@
         <ccts:DictionaryEntryName>Person. Details</ccts:DictionaryEntryName>
         <ccts:Definition></ccts:Definition>
         <ccts:BusinessTermName></ccts:BusinessTermName>
+        <ccts:AcronymCode>ABIE</ccts:AcronymCode>
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
@@ -134,6 +142,7 @@
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>FirstName</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -149,6 +158,7 @@
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>LastName</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
@@ -167,6 +177,7 @@
             <ccts:PropertyTermName>workAddress</ccts:PropertyTermName>
             <ccts:PropertyQualifierName></ccts:PropertyQualifierName>
             <ccts:AssociatedObjectClassTermName>Address</ccts:AssociatedObjectClassTermName>
+            <ccts:AcronymCode>ASBIE</ccts:AcronymCode>
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>

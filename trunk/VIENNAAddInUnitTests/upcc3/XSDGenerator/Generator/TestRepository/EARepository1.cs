@@ -30,6 +30,17 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         CCLib1(),
                         BIELib1(),
                         DOCLibrary()
+                        ),
+                    Package("Business Information View", Stereotype.BInformationV)
+                        .Packages(
+                        Package("A bLibrary nested in a bInformationV", Stereotype.BLibrary)
+                            .Packages(
+                            Package("Another PRIMLibrary", Stereotype.PRIMLibrary)
+                            )
+                        ),
+                    Package("A package with an arbitrary stereotype", "Some arbitrary stereotype")
+                        .Packages(
+                        Package("This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy", Stereotype.BLibrary)
                         )
                     )
                 );
@@ -275,7 +286,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 )
                 .Connectors(
                 Connector("homeAddress", Stereotype.ASCC, PathToAddress()).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASCC, PathToAddress()).AggregationKind(AggregationKind.Shared).LowerBound("0").UpperBound("*")
+                Connector("workAddress", Stereotype.ASCC, PathToAddress()).AggregationKind(AggregationKind.Shared).
+                    LowerBound("0").UpperBound("*")
                 )
                 ;
         }
@@ -321,7 +333,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 )
                 .Connectors(
                 Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Composite).LowerBound("0").UpperBound("*")
+                Connector("workAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Composite)
+                    .LowerBound("0").UpperBound("*")
                 )
                 ;
         }
@@ -361,7 +374,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Attribute("Info", Stereotype.BBIE, PathToBDTText())
                 )
                 .Connectors(
-                Connector("deliveryAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Shared)
+                Connector("deliveryAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(
+                    AggregationKind.Shared)
                 );
         }
 

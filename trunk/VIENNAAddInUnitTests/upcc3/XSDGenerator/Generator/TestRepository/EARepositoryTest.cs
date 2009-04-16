@@ -21,7 +21,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             Assert.AreEqual(1, repository.Models.Count);
 
             var model = (Package) repository.Models.GetAt(0);
-            Assert.AreEqual(1, model.Packages.Count);
+            Assert.AreEqual(3, model.Packages.Count);
             Assert.IsNull(model.Element);
             Assert.AreEqual(0, model.ParentID);
 

@@ -8,6 +8,7 @@
 // *******************************************************************************
 using System;
 using System.Collections.Generic;
+using System.Text;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -69,6 +70,16 @@ namespace VIENNAAddIn.upcc3.ccts
         public static implicit operator Path(string firstPart)
         {
             return new Path(firstPart);
+        }
+
+        public override string ToString()
+        {
+            var result = new StringBuilder();
+            foreach (var part in parts)
+            {
+                result.Append("/").Append(part);
+            }
+            return result.ToString();
         }
     }
 }
