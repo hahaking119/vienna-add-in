@@ -1362,6 +1362,120 @@ namespace VIENNAAddIn.common
         }
 
 
+
+        /// <summary>
+        /// Checks whether bound A is higher than bound B
+        /// 
+        /// Bound can either be * or any number between 0 and infinity
+        /// 
+        /// </summary>
+        /// <param name="boundA"></param>
+        /// <param name="boundB"></param>
+        /// <returns></returns>
+        internal static bool isHigherBound(String boundA, String boundB)
+        {
+
+            //Bound A is infinity - bound B can be anything
+            if (boundA.Trim() == "*")
+                return false;
+            else
+            {
+                try
+                {
+                    if (boundB == "*")
+                        return true;
+                    else
+                    {
+                        //Nor a or b are *
+                        int a = Int32.Parse(boundA);
+                        int b = Int32.Parse(boundB);
+
+                        if (a > b)
+                            return true;
+
+                    }
+
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+
+            return false;
+        }
+
+
+
+
+        /// <summary>
+        /// Checks whether bound A is lower than bound B
+        /// 
+        /// Bound can either be * or any number between 0 and infinity
+        /// 
+        /// </summary>
+        /// <param name="boundA"></param>
+        /// <param name="boundB"></param>
+        /// <returns></returns>
+        internal static bool isLowerBound(String boundA, String boundB)
+        {
+
+            //Bound A is infinity - bound B can be anything
+            if (boundA.Trim() == "*")
+                return false;
+            else
+            {
+                try
+                {
+                    if (boundB == "*")
+                        return true;
+                    else
+                    {
+                        //Nor a or b are *
+                        int a = Int32.Parse(boundA);
+                        int b = Int32.Parse(boundB);
+
+                        if (a < b)
+                            return true;
+
+                    }
+
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+
+            return false;
+        }
+
+
+
+
+        /// <summary>
+        /// Get the attributes of the given element with the stereotype s
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        internal static Dictionary<String, String> getAttributesOfElementAsDictionary(EA.Element e, String s) {
+
+            Dictionary<String, String> attributes = new Dictionary<string, string>();
+
+            if (e != null)
+            {
+                foreach (EA.Attribute a in e.Attributes) {
+
+                    if (a.Stereotype == s)
+                        attributes.Add(a.AttributeGUID, a.Name);
+                }
+            }
+
+
+            return attributes;
+        }
+
         
 
         /// <summary>
@@ -1474,6 +1588,36 @@ namespace VIENNAAddIn.common
             return false;            
         }
 
+
+        /// <summary>
+        /// Determines whether a cardinality is valid or not
+        /// valid cardinalities include * and any number between 0 and infinity
+        /// </summary>
+        /// <param name="bound"></param>
+        /// <returns></returns>
+        internal static bool isValidCardinality(String bound)
+        {
+
+            if (bound.Trim() == "*")
+                return true;
+            else
+            {
+                //Cardinality must be a number
+                try
+                {
+                    int i = Int32.Parse(bound.Trim());
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+
+
+            }
+
+
+            return true;
+        }
                 
 
 
