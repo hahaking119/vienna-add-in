@@ -22,15 +22,27 @@ namespace VIENNAAddIn.menu
         public Action<AddInContext> Execute { get; private set; }
 
         public Predicate<AddInContext> IsChecked { get; private set; }
+        public Predicate<AddInContext> IsEnabled { get; private set; }
 
         /// <summary>
         /// Sets the predicate to determine the action's checked state.
         /// </summary>
         /// <param name="isChecked"></param>
         /// <returns></returns>
-        public MenuItem Checked(Predicate<AddInContext> isChecked)
+        public MenuAction Checked(Predicate<AddInContext> isChecked)
         {
             IsChecked = isChecked;
+            return this;
+        }
+
+        ///<summary>
+        /// Sets the predicate to determine the action's enabled/disabled state.
+        ///</summary>
+        ///<param name="isEnabled"></param>
+        ///<returns></returns>
+        public MenuAction Enabled(Predicate<AddInContext> isEnabled)
+        {
+            IsEnabled = isEnabled;
             return this;
         }
     }

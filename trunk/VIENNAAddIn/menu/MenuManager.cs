@@ -15,11 +15,35 @@ namespace VIENNAAddIn.menu
     /// <b>Defining menu structures:</b>
     /// </para>
     /// <para>
-    /// Menu structures are defined in a hierarchical syntax. For example, 
-    /// the following code defines a "File" menu with four menu items and a separator 
+    /// A menu can contain any number of
+    /// <list type="bullet">
+    /// <item>actions,</item>
+    /// <item>sub-menus, and</item>
+    /// <item>separators.</item>
+    /// </list>
+    /// <br/>
+    /// <b>Actions</b> can be defined with the <see cref="MenuStringExtensions.OnClick"/> string extension method 
+    /// (or with <see cref="MenuAction"/>'s constructor). The following example defines a menu action
+    /// with the name "Open" (the "&amp;" designates the item's hot key):
+    /// <code>
+    /// var openFileMenuAction = "&amp;Open".OnClick(OpenFile)
+    /// </code>
+    /// 
+    /// The argument to the OnClick method is a delegate with one argument of type <see cref="AddInContext"/>, such as
+    /// <code>
+    /// public void OpenFile(AddInContext context)
+    /// {
+    ///   // display open file dialog
+    /// }
+    /// </code>
+    /// 
+    /// <b>Separators</b> are added using <see cref="MenuItem.Separator"/>.
+    /// </para>
+    /// <para>
+    /// Here is an example of a flat "File" menu containing four menu items and a separator 
     /// (the "&amp;" designates the item's hot key):
     /// <code>
-    /// var menu = ("File" 
+    /// var menu = ("&amp;File" 
     ///             + "&amp;New".OnClick(CreateFile)
     ///             + "&amp;Open".OnClick(OpenFile)
     ///             + "&amp;Close".OnClick(CloseFile)
@@ -27,13 +51,15 @@ namespace VIENNAAddIn.menu
     ///             + "&amp;Exit".OnClick(Exit)
     ///            );
     /// </code>
-    /// When clicked, each of the menu items invokes the delegate specified with <see cref="MenuStringExtensions.OnClick"/>. 
-    /// For example:
+    /// 
+    /// This code will result in a menu looking like this:
     /// <code>
-    /// public void OpenFile(AddInContext context)
-    /// {
-    ///   // display open file dialog
-    /// }
+    /// File
+    ///   New
+    ///   Open
+    ///   Close
+    ///   -----
+    ///   Exit
     /// </code>
     /// </para>
     /// 
@@ -54,8 +80,8 @@ namespace VIENNAAddIn.menu
     /// </para>
     /// 
     /// <para>
-    /// The <b>enabled/disabled</b> state of a menu item is determined at runtime via the delegate specified with <see cref="MenuItem.Enabled"/>.
-    /// For sub-menus, <see cref="MenuItem.Enabled"/> must be specified after the closing parenthesis. For example:
+    /// The <b>enabled/disabled</b> state of a menu item is determined at runtime via the delegate specified with <see cref="MenuAction.Enabled"/>.
+    /// For sub-menus, <see cref="MenuAction.Enabled"/> must be specified after the closing parenthesis. For example:
     /// <code>
     /// var menu = ("File" 
     ///             + ("&amp;New"
@@ -153,7 +179,7 @@ namespace VIENNAAddIn.menu
     /// <para>
     /// The following default settings must be specified as MenuManager properties:
     /// <list type="bullet">
-    /// <item><see cref="DefaultEnabled"/>: A predicate to determine the enabled/disabled state of items where <see cref="MenuItem.Enabled"/> is not explicitely set.</item>
+    /// <item><see cref="DefaultEnabled"/>: A predicate to determine the enabled/disabled state of items where <see cref="MenuAction.Enabled"/> is not explicitely set.</item>
     /// <item><see cref="DefaultChecked"/>: A predicate to determine the checked state of items where <see cref="MenuAction.Checked"/> is not explicitely set.</item>
     /// <item><see cref="DefaultMenuItems"/>: A string[] containing the menu items to be displayed when no context matches.</item>
     /// </list>
@@ -195,13 +221,20 @@ namespace VIENNAAddIn.menu
     ///</summary>
     public class MenuManager
     {
-        private readonly Dictionary<string, Dictionary<string, Action<AddInContext>>> menuActions =
-            new Dictionary<string, Dictionary<string, Action<AddInContext>>>();
+        private readonly Dictionary<string, Dictionary<string, MenuAction>> menuActions =
+            new Dictionary<string, Dictionary<string, MenuAction>>();
 
         private readonly List<MenuItems> menuItems = new List<MenuItems>();
 
         private readonly Dictionary<string, Dictionary<string, MenuState>> menuStates =
             new Dictionary<string, Dictionary<string, MenuState>>();
+
+        private readonly MenuAction defaultAction = string.Empty.OnClick(DoNothing).Checked(Never).Enabled(Always);
+
+        private static void DoNothing(AddInContext context)
+        {
+            // do nothing
+        }
 
         #region Default settings
 
@@ -307,19 +340,9 @@ namespace VIENNAAddIn.menu
         ///<param name="isChecked"></param>
         public void GetMenuState(AddInContext context, ref bool isEnabled, ref bool isChecked)
         {
-            Dictionary<string, MenuState> menu;
-            if (menuStates.TryGetValue(context.MenuName, out menu))
-            {
-                MenuState menuState;
-                if (menu.TryGetValue(context.MenuItem, out menuState))
-                {
-                    isEnabled = menuState.IsEnabled == null ? DefaultEnabled(context) : menuState.IsEnabled(context);
-                    isChecked = menuState.IsChecked == null ? DefaultChecked(context) : menuState.IsChecked(context);
-                    return;
-                }
-            }
-            isEnabled = false;
-            isChecked = false;
+            var menuAction = GetMenuAction(context);
+            isEnabled = menuAction.IsEnabled == null ? DefaultEnabled(context) : menuAction.IsEnabled(context);
+            isChecked = menuAction.IsChecked == null ? DefaultChecked(context) : menuAction.IsChecked(context);
         }
 
         ///<summary>
@@ -345,15 +368,21 @@ namespace VIENNAAddIn.menu
         ///<param name="context"></param>
         public void MenuClick(AddInContext context)
         {
-            Dictionary<string, Action<AddInContext>> menu;
+            GetMenuAction(context).Execute(context);
+        }
+
+        private MenuAction GetMenuAction(AddInContext context)
+        {
+            Dictionary<string, MenuAction> menu;
             if (menuActions.TryGetValue(context.MenuName, out menu))
             {
-                Action<AddInContext> action;
+                MenuAction action;
                 if (menu.TryGetValue(context.MenuItem, out action))
                 {
-                    action(context);
+                    return action;
                 }
             }
+            return defaultAction;
         }
 
         #endregion
@@ -366,10 +395,11 @@ namespace VIENNAAddIn.menu
         /// <param name="menuItem">The menu item to process.</param>
         private void ProcessMenuItem(Predicate<AddInContext> predicate, string menuName, MenuItem menuItem)
         {
-            var menuState = new MenuState {IsEnabled = menuItem.IsEnabled};
+            var menuState = new MenuState();
             if (menuItem is SubMenu)
             {
                 var subMenu = (SubMenu) menuItem;
+                menuState.IsEnabled = Always;
                 menuState.IsChecked = Never;
                 var items = new List<string>();
                 foreach (MenuItem item in subMenu.Items)
@@ -382,8 +412,9 @@ namespace VIENNAAddIn.menu
             else if (menuItem is MenuAction)
             {
                 var menuAction = (MenuAction) menuItem;
+                menuState.IsEnabled = menuAction.IsEnabled;
                 menuState.IsChecked = menuAction.IsChecked;
-                menuActions.GetAndCreate(menuName)[menuItem.Name] = menuAction.Execute;
+                menuActions.GetAndCreate(menuName)[menuItem.Name] = menuAction;
             }
             menuStates.GetAndCreate(menuName)[menuItem.Name] = menuState;
         }
@@ -398,6 +429,15 @@ namespace VIENNAAddIn.menu
             return context => (menuName ?? string.Empty) == context.MenuName;
         }
 
+        ///<summary>
+        /// Returns false.
+        ///</summary>
+        ///<param name="context"></param>
+        ///<returns></returns>
+        private static bool Always(AddInContext context)
+        {
+            return true;
+        }
         ///<summary>
         /// Returns false.
         ///</summary>

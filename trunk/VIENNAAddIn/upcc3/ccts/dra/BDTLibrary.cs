@@ -65,6 +65,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             bdt.Update();
             bdt.Refresh();
             package.Elements.Refresh();
+
+            AddElementToDiagram(bdt);
+
             return new BDT(repository, bdt);
         }
 

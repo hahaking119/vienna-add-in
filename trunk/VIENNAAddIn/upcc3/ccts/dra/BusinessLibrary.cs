@@ -131,5 +131,48 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             return package.GetTaggedValue(key) ?? string.Empty;
         }
+
+        public static Package CreateLibraryPackage(LibrarySpec spec, Package parentPackage, string stereotype)
+        {
+            var libraryPackage = (Package) parentPackage.Packages.AddNew(spec.Name, "");
+            libraryPackage.Update();
+            libraryPackage.ParentID = parentPackage.PackageID;
+            libraryPackage.Element.Stereotype = stereotype;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.BaseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.Copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.NamespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.Owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.Reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.Status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+
+            if (util.Stereotype.BLibrary == stereotype)
+            {
+                var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
+                packageDiagram.Update();
+            }
+            else
+            {
+                var classDiagram = (Diagram)libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+                classDiagram.Update();
+            }
+            libraryPackage.Diagrams.Refresh();
+
+            parentPackage.Packages.Refresh();
+
+            return libraryPackage;
+        }
+
+        protected void AddElementToDiagram(Element element)
+        {
+            var diagram = (Diagram)package.Diagrams.GetByName(Name);
+            var newDiagramObject = (DiagramObject)diagram.DiagramObjects.AddNew("", "");
+            newDiagramObject.ElementID = element.ElementID;
+            newDiagramObject.Update();
+        }
     }
 }

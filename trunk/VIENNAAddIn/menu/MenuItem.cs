@@ -30,14 +30,6 @@ namespace VIENNAAddIn.menu
         {
             return new List<MenuItem>(lhs) {rhs};
         }
-
-        public MenuItem Enabled(Predicate<AddInContext> isEnabled)
-        {
-            IsEnabled = isEnabled;
-            return this;
-        }
-
-        public Predicate<AddInContext> IsEnabled { get; private set; }
     }
 
     public class SubMenu:MenuItem

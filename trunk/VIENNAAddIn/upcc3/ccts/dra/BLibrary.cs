@@ -6,9 +6,9 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -61,6 +61,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return null;
         }
 
+
+        private Package CreateLibraryPackage(LibrarySpec spec, string stereotype)
+        {
+            var libraryPackage = CreateLibraryPackage(spec, package, stereotype);
+            AddPackageToDiagram(libraryPackage);
+            return libraryPackage;
+        }
+
+        private void AddPackageToDiagram(Package libraryPackage)
+        {
+            var diagram = (Diagram) package.Diagrams.GetByName(Name);
+            var newDiagramObject = (DiagramObject)diagram.DiagramObjects.AddNew("", "");
+            newDiagramObject.ElementID = libraryPackage.Element.ElementID;
+            newDiagramObject.Update();
+        }
+
         public IBLibrary CreateBLibrary(LibrarySpec spec)
         {
             return new BLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BLibrary));
@@ -96,29 +112,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return new ENUMLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.ENUMLibrary));
         }
 
-        #endregion
-
-        private Package CreateLibraryPackage(LibrarySpec spec, string stereotype)
+        public IDOCLibrary CreateDOCLibrary(LibrarySpec spec)
         {
-            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, "");
-            libraryPackage.Update();
-            libraryPackage.ParentID = Id;
-            libraryPackage.Element.Stereotype = stereotype;
-
-            libraryPackage.Element.SetTaggedValue(TaggedValues.BaseURN, spec.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.Copyright, spec.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.NamespacePrefix, spec.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.Owner, spec.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.Reference, spec.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.Status, spec.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
-
-            libraryPackage.Update();
-            package.Packages.Refresh();
-
-            return libraryPackage;
+            return new DOCLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.DOCLibrary));
         }
+
+        #endregion
     }
 }
