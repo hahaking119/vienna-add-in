@@ -365,6 +365,23 @@ namespace VIENNAAddIn.menu
     /// Due to a bug in Enterprise Architect's EA_MenuClick event, the menu item is selected only based on the menu name and 
     /// menu item name (e.g. menu name: "File", menu item name: "Close"). The menu location is ignored, because EA does not 
     /// consistently provide the correct menu location.
+    /// <br/>
+    /// Basically, this means that a combination of menu name and menu item should trigger the same action, no matter in which
+    /// menu it is defined. Example:
+    /// 
+    /// <code>
+    /// var menuManager = new MenuManager();
+    /// menuManager[MenuLocation.MainMenu] = ("File"
+    ///                                       + "Open".OnClick(OpenFile)
+    ///                                      );
+    /// menuManager[MenuLocation.TreeView] = ("File"
+    ///                                       + "Open".OnClick(OpenFile)
+    ///                                      );
+    /// </code>
+    /// <br/>
+    /// In this case, both "File"/"Open" actions invoke the same delegate, no matter whether the user clicked on the main menu
+    /// or tree view menu item. This is the required behaviour. If they invoke different delegates, there is no guarantee as to 
+    /// which delegate will be invoked.
     /// </para>
     /// 
     /// <hr/>
