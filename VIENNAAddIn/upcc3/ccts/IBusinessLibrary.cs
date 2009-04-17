@@ -52,5 +52,6 @@ namespace VIENNAAddIn.upcc3.ccts
         IBIELibrary CreateBIELibrary(LibrarySpec spec);
         IPRIMLibrary CreatePRIMLibrary(LibrarySpec spec);
         IENUMLibrary CreateENUMLibrary(LibrarySpec spec);
+        IDOCLibrary CreateDOCLibrary(LibrarySpec spec);
     }
 }

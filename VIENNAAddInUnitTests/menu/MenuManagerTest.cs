@@ -93,19 +93,17 @@ namespace VIENNAAddInUnitTests.menu
                                     + ("sub-menu"
                                        + "sub-menu-action1".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
                                        + "sub-menu-action2".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
-                                      ).Enabled(testPredicate.IsEnabled)
+                                      )
                                     + "action3".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
-                                   ).Enabled(testPredicate.IsEnabled);
-            AssertMenuState(testPredicate, menuManager, false, null, "-menu");
-            AssertMenuState(testPredicate, menuManager, true, "-menu", "action1");
-            AssertMenuState(testPredicate, menuManager, true, "-menu", "action2");
-            AssertMenuState(testPredicate, menuManager, true, "-menu", "action3");
-            AssertMenuState(testPredicate, menuManager, false, "-menu", "-sub-menu");
-            AssertMenuState(testPredicate, menuManager, true, "-sub-menu", "sub-menu-action1");
-            AssertMenuState(testPredicate, menuManager, true, "-sub-menu", "sub-menu-action2");
+                                   );
+            AssertMenuState(testPredicate, menuManager, "-menu", "action1");
+            AssertMenuState(testPredicate, menuManager, "-menu", "action2");
+            AssertMenuState(testPredicate, menuManager, "-menu", "action3");
+            AssertMenuState(testPredicate, menuManager, "-sub-menu", "sub-menu-action1");
+            AssertMenuState(testPredicate, menuManager, "-sub-menu", "sub-menu-action2");
         }
 
-        private static void AssertMenuState(TestPredicate testPredicate, MenuManager menuManager, bool canBeChecked, string menuName, string menuItem)
+        private static void AssertMenuState(TestPredicate testPredicate, MenuManager menuManager, string menuName, string menuItem)
         {
             var context = new AddInContext { MenuLocation = MenuLocation.MainMenu, MenuName = menuName, MenuItem = menuItem };
 
@@ -116,14 +114,7 @@ namespace VIENNAAddInUnitTests.menu
             testPredicate.Check();
             menuManager.GetMenuState(context, ref isEnabled, ref isChecked);
             Assert.IsTrue(isEnabled);
-            if (canBeChecked)
-            {
-                Assert.IsTrue(isChecked);
-            }
-            else
-            {
-                Assert.IsFalse(isChecked);
-            }
+            Assert.IsTrue(isChecked);
 
             testPredicate.Disable();
             testPredicate.Uncheck();

@@ -74,10 +74,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
             }
             abie.Attributes.Refresh();
-
             abie.Update();
             abie.Refresh();
             package.Elements.Refresh();
+
+            AddElementToDiagram(abie);
+
             return new ABIE(repository, abie);
         }
 

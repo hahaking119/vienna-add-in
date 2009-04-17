@@ -213,5 +213,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             return new PRIM(this, eaRepository.GetElementByID(id));
         }
+
+        ///<summary>
+        /// Create a new <<bLibrary>> package in the given parent package.
+        ///</summary>
+        ///<param name="spec"></param>
+        ///<param name="parentPackage"></param>
+        ///<returns></returns>
+        public IBLibrary CreateBLibrary(LibrarySpec spec, Package parentPackage)
+        {
+            return new BLibrary(this, BusinessLibrary.CreateLibraryPackage(spec, parentPackage, Stereotype.BLibrary));
+        }
     }
 }

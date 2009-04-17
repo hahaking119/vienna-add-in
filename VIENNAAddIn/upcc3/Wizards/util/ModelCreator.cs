@@ -1,4 +1,6 @@
 ﻿using EA;
+using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
@@ -36,30 +38,62 @@ namespace VIENNAAddIn.upcc3.Wizards.util
                 repository.Models.Refresh();
             }
             
-            // ADD VIEW TO THE MODEL
-            // add a new view named "ebInterface Data Model" to the model created in 
-            // previous step 
-            // TODO: icon of the view is "Simple View" instead of "Class View"
-            Package view = (Package)model.Packages.AddNew(modelName, "");
-            view.Update();
-            view.Element.Stereotype = "bLibrary";
-            view.Update();
+            CCRepository ccRepository = new CCRepository(repository);
+            IBLibrary bLibrary = ccRepository.CreateBLibrary(new LibrarySpec {Name = modelName}, model);
 
-            // ADD PACKAGE DIAGRAM TO THE VIEW
-            // add a new package diagram named "ebInterface Data Model" to the view created in 
-            // previous step
-            Diagram packages = (Diagram)view.Diagrams.AddNew(modelName, "Package");            
-            packages.Update();
+            if (!primLibraryName.Equals(""))
+            {
+                bLibrary.CreatePRIMLibrary(new LibrarySpec {Name = primLibraryName});
+            }
+            if (!enumLibraryName.Equals(""))
+            {
+                bLibrary.CreateENUMLibrary(new LibrarySpec {Name = enumLibraryName});
+            }
+            if (!cdtLibraryName.Equals(""))
+            {
+                bLibrary.CreateCDTLibrary(new LibrarySpec {Name = cdtLibraryName});
+            }
+            if (!ccLibraryName.Equals(""))
+            {
+                bLibrary.CreateCCLibrary(new LibrarySpec {Name = ccLibraryName});
+            }
+            if (!bdtLibraryName.Equals(""))
+            {
+                bLibrary.CreateBDTLibrary(new LibrarySpec {Name = bdtLibraryName});
+            }
+            if (!bieLibraryName.Equals(""))
+            {
+                bLibrary.CreateBIELibrary(new LibrarySpec {Name = bieLibraryName});
+            }
+            if (!docLibraryName.Equals(""))
+            {
+                bLibrary.CreateDOCLibrary(new LibrarySpec {Name = docLibraryName});
+            }
 
-            // ADD PACKAGES TO THE VIEW
-            // ADD LIBRARY PACKAGES TO THE PACKAGE DIAGRAM            
-            CreateLibraryAndAttachToDiagram(packages, view, primLibraryName, "BDTLibrary");
-            CreateLibraryAndAttachToDiagram(packages, view, enumLibraryName, "ENUMLibrary");
-            CreateLibraryAndAttachToDiagram(packages, view, cdtLibraryName, "CDTLibrary");
-            CreateLibraryAndAttachToDiagram(packages, view, ccLibraryName, "CCLibrary");
-            CreateLibraryAndAttachToDiagram(packages, view, bdtLibraryName, "BDTLibrary");
-            CreateLibraryAndAttachToDiagram(packages, view, bieLibraryName, "BIELibrary");
-            CreateLibraryAndAttachToDiagram(packages, view, docLibraryName, "DOCLibrary");            
+            //            // ADD VIEW TO THE MODEL
+//            // add a new view named "ebInterface Data Model" to the model created in 
+//            // previous step 
+//            // TODO: icon of the view is "Simple View" instead of "Class View"
+//            Package view = (Package)model.Packages.AddNew(modelName, "");
+//            view.Update();
+//            view.Element.Stereotype = "bLibrary";
+//            view.Update();
+//
+//            // ADD PACKAGE DIAGRAM TO THE VIEW
+//            // add a new package diagram named "ebInterface Data Model" to the view created in 
+//            // previous step
+//            Diagram packages = (Diagram)view.Diagrams.AddNew(modelName, "Package");            
+//            packages.Update();
+//
+//            // ADD PACKAGES TO THE VIEW
+//            // ADD LIBRARY PACKAGES TO THE PACKAGE DIAGRAM            
+//            CreateLibraryAndAttachToDiagram(packages, view, primLibraryName, "BDTLibrary");
+//            CreateLibraryAndAttachToDiagram(packages, view, enumLibraryName, "ENUMLibrary");
+//            CreateLibraryAndAttachToDiagram(packages, view, cdtLibraryName, "CDTLibrary");
+//            CreateLibraryAndAttachToDiagram(packages, view, ccLibraryName, "CCLibrary");
+//            CreateLibraryAndAttachToDiagram(packages, view, bdtLibraryName, "BDTLibrary");
+//            CreateLibraryAndAttachToDiagram(packages, view, bieLibraryName, "BIELibrary");
+//            CreateLibraryAndAttachToDiagram(packages, view, docLibraryName, "DOCLibrary");            
             
             repository.RefreshModelView(0);
 
