@@ -143,7 +143,7 @@ namespace VIENNAAddIn.validator.upcc3
 
 
         /// <summary>
-        /// An ABIE shall contain only BBIEs and ASBIEs. 
+        /// An ABIE shall contain only BBIEs and ASBIEs. An ABIE shall contain at least one BBIE or ASBIE.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
@@ -234,7 +234,7 @@ namespace VIENNAAddIn.validator.upcc3
 
 
         /// <summary>
-        /// The name of an ABIE shall be unique for a given BIE library.
+        /// For a given BIE library the qualified ABIE name (= qualifiers + name) shall be unique
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
@@ -248,7 +248,7 @@ namespace VIENNAAddIn.validator.upcc3
 
                 if (names.ContainsValue(e.Value.Name))
                 {
-                    context.AddValidationMessage(new ValidationMessage("Two BIEs with the same name found.", "Each BIE shall have a unique name within the BIE library of which it is part of. Two BIEs with the name " + e.Value.Name + " found in BIELibrary " + p.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    context.AddValidationMessage(new ValidationMessage("Two ABIEs with the same name found.", "Each ABIE shall have a unique name within the BIELibrary of which it is part of. Two ABIEs with the name " + e.Value.Name + " found in BIELibrary " + p.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                 }
 
                 names.Add(e.Value.ElementID, e.Value.Name);
@@ -330,7 +330,7 @@ namespace VIENNAAddIn.validator.upcc3
 
                 if (isSourceOfAnIsEquivalentToDependency && isTargetOfAnIsEquivlanetToDependency)
                 {
-                    context.AddValidationMessage(new ValidationMessage("BIE is source and target of an isEquivalentTo dependency.", "A BIE which is the source of an isEquivalentTo dependency must not be the target of an isEquivalentTo dependency. Errorneous BIE: " + element.Name, "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    context.AddValidationMessage(new ValidationMessage("ABIE is source and target of an isEquivalentTo dependency.", "An ABIE which is the source of an isEquivalentTo dependency must not be the target of an isEquivalentTo dependency. Errorneous ABIE: " + element.Name, "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                 }
             }
 
@@ -431,7 +431,7 @@ namespace VIENNAAddIn.validator.upcc3
                         //Both definitions must be the same
                         if (definition.Value != definition_acc.Value)
                         {
-                            context.AddValidationMessage(new ValidationMessage("Mismatch in  definition tagged values.", "If an ABIE does not have any qualifier its definition tagged value shall be the same as the definition tagged value of the ACC the ABIE is based on. The source ABIE " + e.Value.Name + " in BIELibrary "+p.Name+" has a definition tagged value entry '" + definition.Value + "' but the ACC " + acc.Name + " on which the ABIE is based on has a definition tagged value entry '" + definition_acc.Name + "'.", "BIELibrary", ValidationMessage.errorLevelTypes.WARN, p.PackageID));
+                            context.AddValidationMessage(new ValidationMessage("Mismatch in  definition tagged values.", "If an ABIE does not have any qualifier its definition tagged value shall be the same as the definition tagged value of the ACC the ABIE is based on. The source ABIE " + e.Value.Name + " in BIELibrary "+p.Name+" has a definition tagged value entry '" + definition.Value + "' but the ACC " + acc.Name + " on which the ABIE is based on has a definition tagged value entry '" + definition_acc.Value + "'.", "BIELibrary", ValidationMessage.errorLevelTypes.WARN, p.PackageID));
                         }
                     }
                 }
@@ -583,7 +583,7 @@ namespace VIENNAAddIn.validator.upcc3
                     if (ACC_base != null)
                     {
                         //Get a collection of the attribute names of the base ACC
-                        IList<String> baseAttributes = Utility.getAttributesOfElement(e.Value, UPCC.BCC.ToString());
+                        IList<String> baseAttributes = Utility.getAttributesOfElement(ACC_base, UPCC.BCC.ToString());
 
 
                         //Every BBIE name of this ABIE must also be contained in the underlying ACC
@@ -594,7 +594,7 @@ namespace VIENNAAddIn.validator.upcc3
 
                                 if (!baseAttributes.Contains(Utility.getUnqualifiedName(a.Name)))
                                 {
-                                    context.AddValidationMessage(new ValidationMessage("BBIE with missing BCC equivalent found.", "For every BBIE of an ABIE there shall be a BCC with the same name in the underlying ACC the ABIE is based on. BBIE " + a.Name + " in ABIE " + e.Value.Name + " does not have a BCC with the same name in the underlying ACC.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                                    context.AddValidationMessage(new ValidationMessage("BBIE with missing BCC equivalent found.", "For every BBIE of an ABIE there shall be a BCC with the same name in the underlying ACC the ABIE is based on. BBIE " + a.Name + " in ABIE " + e.Value.Name + " in BIELibrary "+p.Name+" does not have a BCC with the same name in the underlying ACC.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                                 }
                             }
                         }
@@ -608,7 +608,7 @@ namespace VIENNAAddIn.validator.upcc3
 
 
         /// <summary>
-        /// 
+        /// The cardinality of a BBIE shall not be an extension (i.e. be higher than) of the cardinality of the BCC, the BBIE is based on. A BBIE is based on another BCC if their names are the same and the ACC/ABIE they are properties of have, a basedOn dependency.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
@@ -616,12 +616,72 @@ namespace VIENNAAddIn.validator.upcc3
         private void checkC574o(IValidationContext context, EA.Package p, Dictionary<Int32, EA.Element> bies)
         {
 
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
 
+                                    EA.Element ACC_base = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
+                                    if (ACC_base != null)
+                                    {
+                                        //Get a collection of the attribute names of the base ACC
+                                        Dictionary<String, String> bccs = Utility.getAttributesOfElementAsDictionary(ACC_base, UPCC.BCC.ToString());
+
+
+                                        //Every BBIE name of this ABIE must also be contained in the underlying ACC
+                                        foreach (EA.Attribute a in e.Value.Attributes)
+                                        {
+                                            if (a.Stereotype == UPCC.BBIE.ToString())
+                                            {
+
+                                                if (bccs.ContainsValue(a.Name))
+                                                {
+                                                    //Get the BCC
+                                                    EA.Attribute bcc = context.Repository.GetAttributeByGuid(Utility.findKey(bccs, a.Name));
+                                                    String bcc_lowerBound = bcc.LowerBound;
+                                                    String bcc_upperBound = bcc.UpperBound;
+
+                                                    //Check whether the lower bound is O.K.
+                                                    if (Utility.isValidCardinality(bcc_lowerBound) && Utility.isValidCardinality(a.LowerBound))
+                                                    {
+                                                        //Raise an error if the lowerbound of the underlying BCC is higher than the lower bound of the 
+                                                        if (Utility.isLowerBound(bcc_lowerBound, a.LowerBound))
+                                                        {
+                                                            context.AddValidationMessage(new ValidationMessage("BBIE has higher lower bound cardinality than underlying BCC.", "The cardinality of a BBIE shall not be an extension (i.e. be higher than) of the cardinality of the BCC, the BBIE is based on. A BBIE is based on another BCC if their names are the same and the ACC/ABIE they are properties of have, a basedOn dependency. \n\nLower bound cardinality of the underlying BCC " + bcc.Name + " of BBIE " + a.Name + " in ABIE " + e.Value.Name + " in BIELibrary " + p.Name + " is higher than the cardinality of the BBIE.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                                                        }
+
+                                                    }
+                                                        //Invalid cardinality - raise an error
+                                                    else
+                                                    {
+                                                        context.AddValidationMessage(new ValidationMessage("Unable to determine cardinality of BBIE/underlying BCC.", "The cardinality of a BBIE shall not be an extension (i.e. be higher than) of the cardinality of the BCC, the BBIE is based on. A BBIE is based on another BCC if their names are the same and the ACC/ABIE they are properties of have, a basedOn dependency. \n\nUnable to determine the lower bound cardinality of the BBIE/underlying BCC " + bcc.Name + " of BBIE " + a.Name + " in ABIE " + e.Value.Name + " in BIELibrary " + p.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                                                    }
+
+
+
+
+                                                    if (Utility.isValidCardinality(bcc_upperBound) && Utility.isValidCardinality(a.UpperBound))
+                                                    {
+                                                        //Raise an error if the higher bound of the underlying BCC is higher than the lower bound of the 
+                                                        if (Utility.isHigherBound(a.UpperBound, bcc_upperBound))
+                                                        {
+                                                            context.AddValidationMessage(new ValidationMessage("BBIE has higher upper bound cardinality than underlying BCC.", "The cardinality of a BBIE shall not be an extension (i.e. be higher than) of the cardinality of the BCC, the BBIE is based on. A BBIE is based on another BCC if their names are the same and the ACC/ABIE they are properties of have, a basedOn dependency. \n\nHigher bound cardinality of of BBIE " + a.Name + " in ABIE " + e.Value.Name + " in BIELibrary " + p.Name + " is higher than the cardinality of the underlying BCC.", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                                                        }
+
+                                                    }
+                                                    //Invalid cardinality - raise an error
+                                                    else
+                                                    {
+                                                        context.AddValidationMessage(new ValidationMessage("Unable to determine cardinality of BBIE/underlying BCC.", "The cardinality of a BBIE shall not be an extension (i.e. be higher than) of the cardinality of the BCC, the BBIE is based on. A BBIE is based on another BCC if their names are the same and the ACC/ABIE they are properties of have, a basedOn dependency. \n\nUnable to determine the higher bound cardinality of the BBIE/underlying BCC " + bcc.Name + " of BBIE " + a.Name + " in ABIE " + e.Value.Name + " in BIELibrary " + p.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                                                    }    
+                                                }
+                                            }
+                                        }
+                                    }
+            }
         }
 
 
         /// <summary>
-        /// 
+        /// For a given BIELibrary there shall not be two BBIEs with the same unique identifier tagged value.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
@@ -630,11 +690,35 @@ namespace VIENNAAddIn.validator.upcc3
         {
 
 
+            Dictionary<Int32, String> names = new Dictionary<Int32, string>();
+
+
+            //Iterate over all ABIEs of a given BIELibrary
+            foreach (KeyValuePair<Int32, EA.Element> e in bies)
+            {
+
+                //Get every BBIE unique identifier tagged value of every ABIE in this library
+                foreach (EA.Attribute a in e.Value.Attributes)
+                {
+                    if (a.Stereotype == UPCC.BBIE.ToString())
+                    {
+                        EA.AttributeTag at = Utility.getTaggedValue(a, UPCC_TV.uniqueIdentifier.ToString());
+
+                        //Found double name
+                        if (names.ContainsValue(at.Value))
+                        {
+                            context.AddValidationMessage(new ValidationMessage("Found two BBIEs with the same unique identifier tagged value.", "For a given BIELibrary there shall not be two BBIEs with the same unique identifier tagged value. ABIE " + e.Value.Name + " has more than one BBIE with the name " + at.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                        }
+
+                        names.Add(at.AttributeID, at.Value);
+                    }
+                }
+            }
         }
 
 
         /// <summary>
-        /// 
+        /// If a BBIE does not have any qualifiers its definition shall be the same as the definition of the BCC the BBIE is based on.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
