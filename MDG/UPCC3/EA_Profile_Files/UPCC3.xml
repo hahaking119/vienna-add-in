@@ -1,4 +1,4 @@
-<MDG.Technology version="1.0"><Documentation id="UPCC3" name="UPCC 3.0" version="0.1" notes="ODP4 version - 20090209"/><UMLProfiles><UMLProfile profiletype="uml2">
+<MDG.Technology version="1.0"><Documentation id="UPCC3" name="UPCC 3.0" version="0.2" notes="ODP4 version - 20090417"/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="6C22877F-F" name="UPCC3 - BDTLibrary Abstract Syntax" version="1.0" notes="UPCC3 - BDTLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
@@ -84,7 +84,7 @@
 			<Documentation id="47F17FB5-2" name="UPCC3 - BIELibrary Abstract Syntax" version="1.0" notes="UPCC3 - BIELibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="ABIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ABIE" notes="" cx="159" cy="127" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
@@ -100,9 +100,9 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="ASBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ASBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
-							<Apply type="Association">
+							<Apply type="Composition">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
@@ -117,7 +117,7 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Attribute"/>
 						</AppliesTo>
@@ -132,14 +132,14 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="basedOn" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="basedOn" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Dependency">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="isEquivalentTo" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Dependency">
 								<Property name="direction" value="Source -&gt; Destination"/>
@@ -154,7 +154,7 @@
 			<Documentation id="32929252-F" name="UPCC3 - CCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CCLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="ACC" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ACC" notes="" cx="170" cy="132" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Class">
 								<Property name="isActive" value=""/>
@@ -170,9 +170,9 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="ASCC" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ASCC" notes="" cx="175" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
-							<Apply type="Association">
+							<Apply type="Composition">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
@@ -187,7 +187,7 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BCC" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BCC" notes="" cx="169" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Attribute"/>
 						</AppliesTo>
@@ -202,7 +202,7 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="isEquivalentTo" notes="" cx="160" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Dependency">
 								<Property name="direction" value="Source -&gt; Destination"/>
@@ -296,7 +296,7 @@
 					</Stereotype>
 					<Stereotype name="ASBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
-							<Apply type="Association">
+							<Apply type="Composition">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>

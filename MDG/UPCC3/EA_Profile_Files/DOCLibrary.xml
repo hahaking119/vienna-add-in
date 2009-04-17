@@ -21,7 +21,7 @@
 			</Stereotype>
 			<Stereotype name="ASBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="Association">
+					<Apply type="Composition">
 						<Property name="direction" value="Source -&gt; Destination"/>
 					</Apply>
 				</AppliesTo>
