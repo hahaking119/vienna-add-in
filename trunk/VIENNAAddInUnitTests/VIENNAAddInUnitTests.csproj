@@ -68,10 +68,13 @@
     <Compile Include="upcc3\XSDGenerator\Generator\StringExtensionsTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\AttributeBuilder.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\ConnectorBuilder.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\DiagramBuilder.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAAttribute.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAAttributeTag.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAConnector.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAConnectorTag.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EADiagram.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EADiagramObject.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EAElement.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\EARepository2.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\TestRepository\RepositoryItemBuilder.cs" />
