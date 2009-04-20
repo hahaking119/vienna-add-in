@@ -45,20 +45,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_818A0288924F4C029B9A4D06BAA5C183"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_6016725BFCDB2F9E85672581E6FD4BA1"
+        "OwnerKey" = "8:_F4EC814584E362276E7D4AF4568014E4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_9417970650AF4783B22D8CCF56EC77FB"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_950C42EDEFA65661263631FB2581D4C4"
-        "OwnerKey" = "8:_F4EC814584E362276E7D4AF4568014E4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -141,7 +135,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\VIENNAAddIn.msi"
+        "OutputFilename" = "8:Debug\\VIENNAAddIn_0_3.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -320,12 +314,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_818A0288924F4C029B9A4D06BAA5C183"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6016725BFCDB2F9E85672581E6FD4BA1"
             {
-            "SourcePath" = "8:..\\VIENNAAddIn\\EA\\MDG\\UMM2.xml"
-            "TargetName" = "8:UMM2.xml"
+            "SourcePath" = "8:EA.TLB"
+            "TargetName" = "8:EA.TLB"
             "Tag" = "8:"
-            "Folder" = "8:_FB2A14DDDFC64340805794A95DBE59AE"
+            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -335,9 +329,9 @@
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
-            "Register" = "3:1"
+            "Register" = "3:2"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9417970650AF4783B22D8CCF56EC77FB"
@@ -358,26 +352,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_950C42EDEFA65661263631FB2581D4C4"
-            {
-            "SourcePath" = "8:EA.TLB"
-            "TargetName" = "8:EA.TLB"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E1CED6D07B28BAE4D290B05AD6316084"
@@ -449,6 +423,11 @@
             "AssemblyAsmDisplayName" = "8:Interop.EA, Version=2.10.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_F4EC814584E362276E7D4AF4568014E4"
+                    {
+                    "Name" = "8:Interop.EA.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:Interop.EA.dll"
             "TargetName" = "8:"
@@ -548,17 +527,6 @@
                         {
                         }
                     }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_FB2A14DDDFC64340805794A95DBE59AE"
-                    {
-                    "Name" = "8:mdg"
-                    "AlwaysCreate" = "11:TRUE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_788A22D1E8A647D39E310F4588F09F1B"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
         }
@@ -592,14 +560,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:VIENNAAddIn"
-        "ProductCode" = "8:{3680839E-C9BE-4E7B-8436-F028D869F0E4}"
-        "PackageCode" = "8:{FED16A07-7D91-4DE5-94E7-A2D22BC1B3D2}"
+        "ProductCode" = "8:{D5F8E27A-3821-4468-89F1-0E87EB218C14}"
+        "PackageCode" = "8:{52B619F2-8282-4452-BAA7-3304520E72D8}"
         "UpgradeCode" = "8:{577D477F-D456-43AE-ACDF-5C40A4810579}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.2"
+        "ProductVersion" = "8:0.0.3"
         "Manufacturer" = "8:VIENNA Add-In"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://vienna-add-in.googlecode.com"
@@ -775,6 +743,14 @@
                                 }
                                 "Values"
                                 {
+                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_02ED3F104B0E448EA1AEFEB9D53C6FC2"
+                                    {
+                                    "Name" = "8:commonxsd"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "ValueTypes" = "3:1"
+                                    "Value" = "8:upcc3\\\\XSDGenerator\\\\common\\\\"
+                                    }
                                     "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_2DB9D0D3767D4555A2B586688CD70B39"
                                     {
                                     "Name" = "8:images"
