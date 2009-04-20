@@ -47,6 +47,7 @@ namespace VIENNAAddIn
                               DefaultChecked = Never
                           };
 
+            MenuAction createUPCCStructure = "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm);
             MenuAction createABIE = "Create new &ABIE".OnClick(ABIEWizardForm.ShowABIEWizard);
             MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
             MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
@@ -57,7 +58,7 @@ namespace VIENNAAddIn
                 (AddInSettings.AddInName
                  +
                  "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
-                 + "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm)
+                 + createUPCCStructure
                  + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
                  + _____
                  + "&Validate All - UPCC3".OnClick(ValidatorForm.ShowUpccValidator)
@@ -87,6 +88,10 @@ namespace VIENNAAddIn
                  + createBDT
                  + _____
                  + validate
+                );
+            menuManager[IsRootModel] =
+                (AddInSettings.AddInName
+                 + createUPCCStructure
                 );
             menuManager[MenuLocation.TreeView | MenuLocation.Diagram] =
                 (AddInSettings.AddInName
@@ -231,6 +236,19 @@ namespace VIENNAAddIn
         #endregion
 
         #region AddInContext Predicates
+
+        private static bool IsRootModel(AddInContext context)
+        {
+            if (context.MenuLocation == MenuLocation.TreeView)
+            {
+                if (context.Repository.GetTreeSelectedPackage().IsModel)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         private static bool IfABIEIsSelected(AddInContext context)
         {
