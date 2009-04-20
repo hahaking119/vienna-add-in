@@ -16,8 +16,8 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         internal void CreateUpccModel(string modelName, string primLibraryName, string enumLibraryName, string cdtLibraryName, string ccLibraryName, string bdtLibraryName, string bieLibraryName, string docLibraryName)
         {
-            // check if the repository contains an existing model named "Model" which does 
-            // not contain any content
+            repository.Models.Refresh();
+            
             Package model = null;
             foreach (Package m in repository.Models)
             {
