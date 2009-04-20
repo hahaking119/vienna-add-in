@@ -64,7 +64,8 @@ namespace VIENNAAddIn.upcc3.Wizards
             MirrorCDTLsToUI();
             MirrorBDTLsToUI();
 
-            comboBDTLs.SelectedIndex = 0;
+            SetSafeIndex(comboBDTLs, 0);
+            //comboBDTLs.SelectedIndex = 0;
 
             errorMessageBDTName = new Label
             {
@@ -292,6 +293,21 @@ namespace VIENNAAddIn.upcc3.Wizards
         #endregion
 
         #region Convenience Methods
+
+        private static void SetSafeIndex(ComboBox box, int indexToBeSet)
+        {
+            if (box.Items.Count > 0)
+            {
+                if (indexToBeSet < box.Items.Count)
+                {
+                    box.SelectedIndex = indexToBeSet;
+                }
+                else
+                {
+                    box.SelectedIndex = 0;
+                }
+            }
+        }
 
         private static void CriticalErrorMessage(string errorMessage)
         {
