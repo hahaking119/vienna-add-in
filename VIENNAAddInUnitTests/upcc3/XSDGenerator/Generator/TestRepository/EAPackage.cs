@@ -15,6 +15,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     {
         private readonly Collection packages = new EACollection<EAPackage>();
         private readonly Collection elements = new EACollection<EAElement>();
+        private readonly Collection diagrams = new EACollection<EADiagram>();
         private readonly Element element = new EAElement();
 
         #region IEACollectionElement Members
@@ -43,7 +44,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public Collection Diagrams
         {
-            get { throw new NotImplementedException(); }
+            get { return diagrams; }
         }
 
         public string Notes

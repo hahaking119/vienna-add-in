@@ -19,6 +19,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 Package("test model", "")
                     .Packages(
                     Package("blib1", Stereotype.BLibrary)
+                        .Diagrams(
+                        Diagram("blib1", "Package")
+                        )
                         .TaggedValues(
                         TaggedValue(TaggedValues.BaseURN, "urn:test:blib1")
                         )
@@ -72,6 +75,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private static PackageBuilder PRIMLib1()
         {
             return Package("primlib1", Stereotype.PRIMLibrary)
+                .Diagrams(
+                Diagram("primlib1", "Class")
+                )
                 .TaggedValues(
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:primlib1")
                 )
@@ -89,6 +95,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private static PackageBuilder CDTLib1()
         {
             return Package("cdtlib1", Stereotype.CDTLibrary)
+                .Diagrams(
+                Diagram("cdtlib1", "Class")
+                )
                 .TaggedValues(
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cdtlib1")
                 )
@@ -156,6 +165,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private static PackageBuilder BDTLib1()
         {
             return Package("bdtlib1", Stereotype.BDTLibrary)
+                .Diagrams(
+                Diagram("bdtlib1", "Class")
+                )
                 .TaggedValues(
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bdtlib1")
                 )
@@ -253,6 +265,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private static PackageBuilder CCLib1()
         {
             return Package("cclib1", Stereotype.CCLibrary)
+                .Diagrams(
+                Diagram("cclib1", "Class")
+                )
                 .TaggedValues(
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cclib1")
                 )
@@ -299,6 +314,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private static PackageBuilder BIELib1()
         {
             return Package("bielib1", Stereotype.BIELibrary)
+                .Diagrams(
+                Diagram("bielib1", "Class")
+                )
                 .TaggedValues(
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
                 )
@@ -346,6 +364,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         private static PackageBuilder DOCLibrary()
         {
             return Package("DOCLibrary", Stereotype.DOCLibrary)
+                .Diagrams(
+                Diagram("DOCLibrary", "Class")
+                )
                 .TaggedValues(
                 TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
                 )

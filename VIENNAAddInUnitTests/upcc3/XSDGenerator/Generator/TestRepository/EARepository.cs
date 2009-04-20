@@ -653,10 +653,17 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 IndexPackage(eaPackage);
                 eaPackage.ParentID = parentId;
                 eaPackage.Element.Stereotype = package.GetStereotype();
+
+                foreach (var diagram in package.GetDiagrams())
+                {
+                    eaPackage.Diagrams.AddNew(diagram.GetName(), diagram.GetDiagramType());
+                }
+
                 foreach (TaggedValueBuilder tv in package.GetTaggedValues())
                 {
                     eaPackage.Element.AddTaggedValue(tv.Name, tv.Value);
                 }
+
                 foreach (ElementBuilder element in package.GetElements())
                 {
                     var eaElement = (EAElement) eaPackage.Elements.AddNew(element.GetName(), "Class");
@@ -770,6 +777,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         protected static PackageBuilder Package(string name, string stereotype)
         {
             return new PackageBuilder(name, stereotype);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="DiagramBuilder"/>.
+        /// </summary>
+        /// <param name="name"><see cref="DiagramBuilder(string)"/></param>
+        /// <returns>A new <see cref="DiagramBuilder"/>.</returns>
+        protected static DiagramBuilder Diagram(string name, string diagramType)
+        {
+            return new DiagramBuilder(name, diagramType);
         }
     }
 

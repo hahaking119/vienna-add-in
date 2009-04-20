@@ -17,6 +17,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
     {
         private readonly List<ElementBuilder> elements = new List<ElementBuilder>();
         private readonly List<PackageBuilder> packages = new List<PackageBuilder>();
+        private readonly List<DiagramBuilder> diagrams = new List<DiagramBuilder>();
 
         /// <summary>
         /// Build a package with the given <paramref name="name"/> and  <paramref name="stereotype"/>.
@@ -35,6 +36,17 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         public PackageBuilder Packages(params PackageBuilder[] packages)
         {
             this.packages.AddRange(packages);
+            return this;
+        }
+
+        /// <summary>
+        /// Add diagrams to this package.
+        /// </summary>
+        /// <param name="diagrams">The diagrams.</param>
+        /// <returns>This object.</returns>
+        public PackageBuilder Diagrams(params DiagramBuilder[] diagrams)
+        {
+            this.diagrams.AddRange(diagrams);
             return this;
         }
 
@@ -59,6 +71,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         public IEnumerable<ElementBuilder> GetElements()
         {
             return elements;
+        }
+
+        public IEnumerable<DiagramBuilder> GetDiagrams()
+        {
+            return diagrams;
         }
     }
 }
