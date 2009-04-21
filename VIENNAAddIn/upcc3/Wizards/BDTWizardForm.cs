@@ -19,12 +19,12 @@ namespace VIENNAAddIn.upcc3.Wizards
         private string selectedBDTLName;
         private string selectedSUPName;
         private Label errorMessageBDTName;
+        private bool userHasClicked = false;
 
         private const string CAPTION_ERROR_WINDOW = "BDT Wizard Error";
         private const string CAPTION_INFO_WINDOW = "BDT Wizard";
         private const string DEFAULT_PREFIX = "My";
-
-
+        
         #region Constructor
         ///<summary>
         ///</summary>
@@ -156,10 +156,16 @@ namespace VIENNAAddIn.upcc3.Wizards
             
             if (cache.PathIsValid(CacheConstants.PATH_CDTs, new[] {selectedCDTLName, selectedCDTName}))
             {
-                cCDT currentCDT = cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName];
+                // Set the checkbox Status whether all CON and SUPs are selected or not
+                // bug: currently disabled
+                //userHasClicked = false;
+                //checkboxAttributes.CheckState = cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].AllSUPs;
 
+                // Write the CON attribute of the CDT to the User Interface.
+                cCDT currentCDT = cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName];
                 checkedlistboxCON.Items.Add(currentCDT.CON.Name, currentCDT.CON.State);
 
+                // Write all SUP attributes of the CDT to the User Interface.
                 foreach (cSUP sup in currentCDT.SUPs.Values)
                 {
                     checkedlistboxSUPs.Items.Add(sup.Name, sup.State);
@@ -176,8 +182,6 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             GatherUserInput();
 
-            textBDTName.Text = textBDTPrefix.Text + selectedCDTName;
-
             try
             {
                 if (cache.PathIsValid(CacheConstants.PATH_CDTs, new[] {selectedCDTLName, selectedCDTName}))
@@ -188,6 +192,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                 MirrorAttributesToUI();
 
                 ResetForm(3);
+
+                textBDTName.Text = textBDTPrefix.Text + selectedCDTName;
             }
             catch (CacheException ce)
             {
@@ -201,17 +207,33 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (cache.PathIsValid(CacheConstants.PATH_CDTs, new[] {selectedCDTLName, selectedCDTName}))
             {
-                CheckState newState = CheckState.Unchecked;
-                
+                // Determine the status of the checkbox since all items in the checked 
+                // listbox will be assigned the new value.
+                CheckState newState = CheckState.Unchecked;                               
+
                 if (checkboxAttributes.Checked)
                 {
                     newState = CheckState.Checked;
                 }
 
-                foreach (KeyValuePair<string, cSUP> sup in cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs)
+                // Unluckily, the current event CheckedChanged is also triggered
+                // if the status of the checkbox is set programmatically. Therefore, we
+                // introduced a boolean variable named userHasClicked which is only set to 
+                // true in case the user clicked the checkbox. The userHasClicked Variable
+                // is therefore set to true by the event MouseDown of the checkbox control 
+                // checkboxAttributes. 
+                if (userHasClicked)
                 {
-                    sup.Value.State = newState;
+                    foreach (KeyValuePair<string, cSUP> sup in cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs)
+                    {
+                        sup.Value.State = newState;
+                    }
                 }
+
+                // Furthermore, the new check state of the checkbox needs to be stored
+                // in the cache.
+                // todo: bug - currently disabled
+                //cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].AllSUPs = newState;
 
                 MirrorAttributesToUI();
             }
@@ -227,7 +249,6 @@ namespace VIENNAAddIn.upcc3.Wizards
                 ICDT cdt = repository.GetCDT(cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].Id);
                 IBDTLibrary bdtl = (IBDTLibrary)repository.GetLibrary(cache.BDTLs[selectedBDTLName].Id);
 
-                // todo: check if bdt name ""
                 BDTSpec bdtSpec = BDTSpec.CloneCDT(cdt, textBDTName.Text);
 
                 foreach (cSUP sup in cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs.Values)
@@ -268,7 +289,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
 
-            if (String.IsNullOrEmpty(textBDTName.Text))
+            if (string.IsNullOrEmpty(textBDTName.Text))
             {
                 ResetForm(3);
             }
@@ -284,9 +305,13 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (e.NewValue == CheckState.Unchecked)
                 {
+                    userHasClicked = false;
                     checkboxAttributes.CheckState = CheckState.Unchecked;
-                    // todo: also set in the cache
-                }
+
+                    // bug - currently disabled
+                    //// store in the cache
+                    //cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].AllSUPs = e.NewValue;                    
+                }                
             }
         }
 
@@ -369,6 +394,11 @@ namespace VIENNAAddIn.upcc3.Wizards
         public static void ShowBDTWizard(AddInContext context)
         {
             new BDTWizardForm(context.Repository).Show();
+        }
+
+        private void checkboxAttributes_MouseDown(object sender, MouseEventArgs e)
+        {
+            userHasClicked = true;
         }
     }
 }
