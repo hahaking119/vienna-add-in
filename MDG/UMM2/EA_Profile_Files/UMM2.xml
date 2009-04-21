@@ -10278,36 +10278,6 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="45C01C55-A" name="BusinessRequirementsViewToolbox" version="1.0" notes="BusinessRequirementsViewToolbox"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BusinessRequirementsViewModelElements" alias="Business Requirements View Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::bEntity(UML::Class)" type="" description="" unit="" values="" default="Business Entity"/>
-							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
-							<Tag name="UMM2::bProcess(UML::Activity)" type="" description="" unit="" values="" default="Business Process"/>
-							<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="BusinessRequirementsViewToolbox" alias="Business Requirements View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::bDomainV(UML::Package)" type="" description="" unit="" values="" default="Business Domain View"/>
-							<Tag name="UMM2::bEntityV(UML::Package)" type="" description="" unit="" values="" default="Business Entity View"/>
-							<Tag name="UMM2::bPartnerV(UML::Package)" type="" description="" unit="" values="" default="Business Partner View"/>
-							<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
-						</TaggedValues>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
-		<UMLProfile profiletype="uml2">
 			<Documentation id="A32999AA-D" name="BusinessEntityViewToolbox" version="1.0" notes="BusinessEntityViewToolbox"/>
 			<Content>
 				<Stereotypes>
