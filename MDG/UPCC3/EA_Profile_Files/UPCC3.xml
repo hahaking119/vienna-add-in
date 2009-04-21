@@ -1,4 +1,4 @@
-<MDG.Technology version="1.0"><Documentation id="UPCC3" name="UPCC 3.0" version="0.2" notes="ODP4 version - 20090417"/><UMLProfiles><UMLProfile profiletype="uml2">
+<MDG.Technology version="1.0"><Documentation id="UPCC3" name="UPCC 3.0" version="0.2" notes="ODP4 version - 20090421"/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="6C22877F-F" name="UPCC3 - BDTLibrary Abstract Syntax" version="1.0" notes="UPCC3 - BDTLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
@@ -355,6 +355,8 @@
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
+							<Tag name="codeListName" type="String" description="" unit="" values="" default=""/>
+							<Tag name="codeListIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="agencyIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="agencyName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
@@ -363,6 +365,9 @@
 							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="enumerationURI" type="String" description="" unit="" values="" default=""/>
+							<Tag name="allowedPrimitives" type="String" description="" unit="" values="" default=""/>
+							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
+							<Tag name="coreValueDomainDefaultIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">

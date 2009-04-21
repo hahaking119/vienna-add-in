@@ -10,6 +10,8 @@
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
+					<Tag name="codeListName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="codeListIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="agencyIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="agencyName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
@@ -18,6 +20,9 @@
 					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="enumerationURI" type="String" description="" unit="" values="" default=""/>
+					<Tag name="allowedPrimitives" type="String" description="" unit="" values="" default=""/>
+					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
+					<Tag name="coreValueDomainDefaultIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
