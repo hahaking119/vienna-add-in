@@ -654,14 +654,19 @@ namespace VIENNAAddIn.validator.upcc3
                         EA.IConnectorTag tv = Utility.getTaggedValue(con, UPCC_TV.dictionaryEntryName.ToString());
                         if (names.ContainsValue(tv.Value.ToString()))
                         {
-                            EA.Element duplicateACC = context.Repository.GetElementByID(Utility.findKey(names, tv.Value.ToString()));
+                            //We have the connector ID  - the ACC is the supplier
+                            EA.Connector _con = context.Repository.GetConnectorByID(Utility.findKey(names, tv.Value.ToString()));
+                            
+                            EA.Element duplicateACC = context.Repository.GetElementByID(_con.SupplierID);
+                                
+
                             String den = tv.Value.ToString();
                             if (den == null || den == "") 
                                 den = "No name specified.";
 
                             context.AddValidationMessage(new ValidationMessage("Duplicate dictionary entry names of ASCCs found.", "For a given CCLibrary there shall not be two ASCCs with the same dictionary entry name. ACC " + e.Value.Name + " and ACC " + duplicateACC.Name + "  both have an ASCC with the same dictionary entry name value: " + den, "CCLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));                                                                                    
                         }
-                        names.Add(e.Value.ElementID, tv.Value.ToString());                        
+                        names.Add(con.ConnectorID, tv.Value.ToString());                        
                     }
                 }
             }
@@ -694,14 +699,18 @@ namespace VIENNAAddIn.validator.upcc3
                         EA.IConnectorTag tv = Utility.getTaggedValue(con, UPCC_TV.uniqueIdentifier.ToString());
                         if (names.ContainsValue(tv.Value.ToString()))
                         {
-                            EA.Element duplicateACC = context.Repository.GetElementByID(Utility.findKey(names, tv.Value.ToString()));
+
+                            EA.Connector _con = context.Repository.GetConnectorByID(Utility.findKey(names, tv.Value.ToString()));
+
+                            EA.Element duplicateACC = context.Repository.GetElementByID(_con.SupplierID);
+
                             String den = tv.Value.ToString();
                             if (den == null || den == "")
                                 den = "No name specified.";
 
                             context.AddValidationMessage(new ValidationMessage("Duplicate unique identifier of ASCCs found.", "For a given CCLibrary there shall not be two ASCCs with the same unique identifier tagged value. ACC " + e.Value.Name + " and ACC " + duplicateACC.Name + "  both have an ASCC with the same unique identifier value: " + den, "CCLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                         }
-                        names.Add(e.Value.ElementID, tv.Value.ToString());
+                        names.Add(con.ConnectorID, tv.Value.ToString());
                     }
                 }
             }
