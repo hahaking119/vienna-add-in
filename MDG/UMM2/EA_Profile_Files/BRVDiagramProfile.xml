@@ -30,12 +30,12 @@
 					</Apply>
 				</AppliesTo>
 			</Stereotype>
-			<Stereotype name="BRVStructureDiagram" alias="Business Requirements Structure" notes="Creates a Business Requirements View structure diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessRequirementsViewDiagram" alias="Business Requirements View Diagram" notes="Creates a Business Requirements View Diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Diagram_Package">
-						<Property name="alias" value="Business Requirements View Structure Diagram"/>
-						<Property name="diagramID" value="BRVStructureDiagram"/>
-						<Property name="toolbox" value="BRVModelManagementToolbox"/>
+						<Property name="alias" value="Business Requirements View Diagram"/>
+						<Property name="diagramID" value="BusinessRequirementsViewDiagram"/>
+						<Property name="toolbox" value="BusinessRequirementsViewToolbox"/>
 					</Apply>
 				</AppliesTo>
 			</Stereotype>

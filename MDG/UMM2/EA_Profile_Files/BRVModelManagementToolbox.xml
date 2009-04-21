@@ -24,7 +24,7 @@
 					<Tag name="UMM2::bDomainV(UML::Package)" type="int" description="" unit="" values="" default="Business Domain View"/>
 					<Tag name="UMM2::bEntityV(UML::Package)" type="" description="" unit="" values="" default="Business Entity View"/>
 					<Tag name="UMM2::bPartnerV(UML::Package)" type="" description="" unit="" values="" default="Business Partner View"/>
-					<Tag name="UMM2::bProcessArea(UML::Package)" type="" description="" unit="" values="" default="Business Process Area"/>
+					<Tag name="UMM2::ProcessArea(UML::Package)" type="" description="" unit="" values="" default="Process Area"/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>

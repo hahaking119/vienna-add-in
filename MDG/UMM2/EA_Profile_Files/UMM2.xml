@@ -10092,12 +10092,12 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
-					<Stereotype name="BRVStructureDiagram" alias="Business Requirements Structure" notes="Creates a Business Requirements View structure diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessRequirementsViewDiagram" alias="Business Requirements View Diagram" notes="Creates a Business Requirements View Diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Diagram_Package">
-								<Property name="alias" value="Business Requirements View Structure Diagram"/>
-								<Property name="diagramID" value="BRVStructureDiagram"/>
-								<Property name="toolbox" value="BRVModelManagementToolbox"/>
+								<Property name="alias" value="Business Requirements View Diagram"/>
+								<Property name="diagramID" value="BusinessRequirementsViewDiagram"/>
+								<Property name="toolbox" value="BusinessRequirementsViewToolbox"/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
@@ -10185,7 +10185,7 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 	</DiagramProfile><UIToolboxes><UMLProfile profiletype="uml2">
-			<Documentation id="D3F3F748-B" name="BRVBusinessEntityLifecycleToolbox" version="1.0" notes="BRVBusinessEntityLifecycleToolbox"/>
+			<Documentation id="D3F3F748-B" name="BusinessEntityLifecycleToolbox" version="1.0" notes="BusinessEntityLifecycleToolbox"/>
 			<Content>
 				<Stereotypes>
 					<Stereotype name="BELModelElements" alias="Business Entity Lifecycle Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -10214,10 +10214,40 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="175E1721-1" name="BRVBusinessProcessActivityDefinitionToolbox" version="1.0" notes="BRVBusinessProcessActivityDefinitionToolbox"/>
+			<Documentation id="45C01C55-A" name="BusinessRequirementsViewToolbox" version="1.0" notes="BusinessRequirementsViewToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BPADModelElements" alias="Business Process Activity Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessRequirementsViewModelElements" alias="Business Requirements View Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::bEntity(UML::Class)" type="" description="" unit="" values="" default="Business Entity"/>
+							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
+							<Tag name="UMM2::bProcess(UML::Activity)" type="" description="" unit="" values="" default="Business Process"/>
+							<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="BusinessRequirementsViewToolbox" alias="Business Requirements View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::bDomainV(UML::Package)" type="" description="" unit="" values="" default="Business Domain View"/>
+							<Tag name="UMM2::bEntityV(UML::Package)" type="" description="" unit="" values="" default="Business Entity View"/>
+							<Tag name="UMM2::bPartnerV(UML::Package)" type="" description="" unit="" values="" default="Business Partner View"/>
+							<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="175E1721-1" name="BusinessProcessViewToolbox" version="1.0" notes="BusinessProcessViewToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessProcessElements" alias="Business Process - Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10229,12 +10259,12 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 							<Tag name="UML::ForkJoinV" type="" description="" unit="" values="" default="Fork/Join"/>
 							<Tag name="UML::MergeNode" type="" description="" unit="" values="" default="Merge"/>
 							<Tag name="UML::ActivityPartition" type="" description="" unit="" values="" default="Partition"/>
-							<Tag name="UMM2::bEInternalState(UML::Object)" type="" description="" unit="" values="" default="Business Entity Internal State"/>
-							<Tag name="UMM2::bESharedState(UML::Object)" type="" description="" unit="" values="" default="Business Entity Shared State"/>
+							<Tag name="UMM2::bEInternalState(UML::Object)" type="" description="" unit="" values="" default="Internal Business Entity State"/>
+							<Tag name="UMM2::bESharedState(UML::Object)" type="" description="" unit="" values="" default="Shared Business Entity State"/>
 							<Tag name="UMM2::bProcessAction(UML::Action)" type="" description="" unit="" values="" default="Business Process Action"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BPADModelRelationships" alias="Business Process Activity Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessProcessRelationships" alias="Business Process - Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10248,38 +10278,10 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="1C1BF619-1" name="BRVBusinessProcessDefinitionToolbox" version="1.0" notes="BRVBusinessProcessDefinitionToolbox"/>
+			<Documentation id="45C01C55-A" name="BusinessRequirementsViewToolbox" version="1.0" notes="BusinessRequirementsViewToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BPDModelElements" alias="Business Process Definition Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
-							<Tag name="UMM2::bProcessUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Process Use Case"/>
-							<Tag name="UMM2::Stackeholder(UML::Actor)" type="" description="" unit="" values="" default="Stackeholder"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="BPDModelRelationships" alias="Business Process Definition Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::isOfInterestTo(UML::Dependency)" type="" description="" unit="" values="" default="Is Of Interest To"/>
-							<Tag name="UMM2::particiaptes(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
-							<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
-						</TaggedValues>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
-		<UMLProfile profiletype="uml2">
-			<Documentation id="45C01C55-A" name="BRVModelManagementToolbox" version="1.0" notes="BRVModelManagementToolbox"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BRVModelElements" alias="BRV Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessRequirementsViewModelElements" alias="Business Requirements View Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10290,17 +10292,32 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 							<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BRVModelStructureElements" alias="BRV Model Structure Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessRequirementsViewToolbox" alias="Business Requirements View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="UMM2::bArea(UML::Package)" type="" description="" unit="" values="" default="Business Area"/>
-							<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
-							<Tag name="UMM2::bDomainV(UML::Package)" type="int" description="" unit="" values="" default="Business Domain View"/>
+							<Tag name="UMM2::bDomainV(UML::Package)" type="" description="" unit="" values="" default="Business Domain View"/>
 							<Tag name="UMM2::bEntityV(UML::Package)" type="" description="" unit="" values="" default="Business Entity View"/>
 							<Tag name="UMM2::bPartnerV(UML::Package)" type="" description="" unit="" values="" default="Business Partner View"/>
-							<Tag name="UMM2::bProcessArea(UML::Package)" type="" description="" unit="" values="" default="Business Process Area"/>
+							<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="A32999AA-D" name="BusinessEntityViewToolbox" version="1.0" notes="BusinessEntityViewToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessEntityViewElements" alias="Business Entity View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::bEntity(UML::Class)" type="" description="" unit="" values="" default="Business Entity"/>
+							<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
 						</TaggedValues>
 					</Stereotype>
 				</Stereotypes>
