@@ -112,10 +112,11 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public cCON CON { get; set; }
         public IDictionary<string, cSUP> SUPs { get; set; }
+        public CheckState AllSUPs { get; set; }
 
         public void LoadCONAndSUPs(CCRepository repository)
         {
-            if ((CON.Name.Equals("") || SUPs.Count < 1))
+            if ((CON.Name.Equals("") && SUPs.Count < 1))
             {
                 int cdtId = Id;
                 ICDT cdt = repository.GetCDT(cdtId);

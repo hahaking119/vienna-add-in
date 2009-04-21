@@ -220,6 +220,7 @@
             this.checkboxAttributes.TabIndex = 0;
             this.checkboxAttributes.Text = "Select all SUPs";
             this.checkboxAttributes.UseVisualStyleBackColor = true;
+            this.checkboxAttributes.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkboxAttributes_MouseDown);
             this.checkboxAttributes.CheckedChanged += new System.EventHandler(this.checkboxAttributes_CheckedChanged);
             // 
             // comboCDTs
