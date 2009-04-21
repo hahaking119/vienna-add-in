@@ -1310,6 +1310,9 @@ namespace VIENNAAddIn.common
             return i;
         }
 
+        
+
+
 
         /// <summary>
         /// Return a list with all attribute of a given element which have the stereotype SUP
@@ -1334,6 +1337,8 @@ namespace VIENNAAddIn.common
 
 
         }
+
+
 
         
         /// <summary>

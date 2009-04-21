@@ -24,7 +24,7 @@ namespace VIENNAAddIn.validator.upcc3
 
             EA.Package package = context.Repository.GetPackageByID(Int32.Parse(scope));
 
-            //Get all ACCs from the given package
+            //Get all CDTs from the given package
             Dictionary<Int32, EA.Element> cdts = new Dictionary<int, EA.Element>();
             Utility.getAllElements(package, cdts, UPCC.CDT.ToString());
 
@@ -398,14 +398,14 @@ namespace VIENNAAddIn.validator.upcc3
                     int classifier = bcc.ClassifierID;
                     if (classifier == 0)
                     {
-                        context.AddValidationMessage(new ValidationMessage("Invalid type of content or supplementary component in a CDT.", "The type of CON and SUP attributes in a CDT shall be a class of stereotype <<PRIM>> or <<ENUM>>. Attribute " + bcc.Name  + " in ACC "+ element.Name+" has an invalid type." , "CCLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                        context.AddValidationMessage(new ValidationMessage("Invalid type of content or supplementary component in a CDT.", "The type of CON and SUP attributes in a CDT shall be a class of stereotype <<PRIM>> or <<ENUM>>. Attribute " + bcc.Name  + " in CDT "+ element.Name+" has an invalid type." , "CCLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                     }
                     else
                     {
                         EA.Element classifyingElement = context.Repository.GetElementByID(classifier);
                         if (!(classifyingElement.Stereotype == UPCC.PRIM.ToString() || classifyingElement.Stereotype == UPCC.ENUM.ToString()))
                         {
-                            context.AddValidationMessage(new ValidationMessage("Invalid type of content or supplementary component in a CDT.", "The type of CON and SUP attributes in a CDT shall be a class of stereotype <<PRIM>> or <<ENUM>>. Attribute " + bcc.Name + " in ACC " + element.Name + " has an invalid type.", "CDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                            context.AddValidationMessage(new ValidationMessage("Invalid type of content or supplementary component in a CDT.", "The type of CON and SUP attributes in a CDT shall be a class of stereotype <<PRIM>> or <<ENUM>>. Attribute " + bcc.Name + " in CDT " + element.Name + " has an invalid type.", "CDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                         }
 
                     }
@@ -452,7 +452,7 @@ namespace VIENNAAddIn.validator.upcc3
                     //[1..1] = lowerBound = 1, upperBound = 1 || lowerBound = "", upperBound = ""
                     if (!Utility.isValid_0_1_or_1_1_Cardinality(lowerBound, upperBound))
                     {
-                        context.AddValidationMessage(new ValidationMessage("Invalid cardinality found for a CDT.", "CDT supplementary component cardinality shall be equal to [0..1] if the CDT supplementary component is optional, or [1..1] if mandatory. Attribute " + a.Value.Name + " in ACC " + e.Value.Name + " has an invalid cardinality: lower bound: " + lowerBound + " upper bound " + upperBound + ".", "CDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                        context.AddValidationMessage(new ValidationMessage("Invalid cardinality found for a CDT.", "CDT supplementary component cardinality shall be equal to [0..1] if the CDT supplementary component is optional, or [1..1] if mandatory. Attribute " + a.Value.Name + " in CDT " + e.Value.Name + " has an invalid cardinality: lower bound: " + lowerBound + " upper bound " + upperBound + ".", "CDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
                     }
                 }
 
