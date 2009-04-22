@@ -343,8 +343,11 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public void LoadASCCs(CCRepository repository, IDictionary<string, cBIELibrary> biels)
         {
-            if (!HasASCCs())
-            {
+            // TODO: temporarily disabled to forace ASCCs
+            //if (!HasASCCs())
+            //{
+                ASCCs.Clear();
+
                 IACC acc = repository.GetACC(Id);
 
                 foreach (IASCC ascc in acc.ASCCs)
@@ -381,7 +384,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                         }
                     }
                 }
-            }
+            //}
         }
 
         public bool HasBCCs()
