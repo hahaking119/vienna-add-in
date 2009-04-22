@@ -53,7 +53,7 @@ namespace VIENNAAddIn.validator.upcc3
 
             checkC524j(context, package, accs);
 
-            checkC524k(context, package, accs);
+            //checkC524k(context, package, accs);
 
             checkC524l(context, package, accs);
 
@@ -511,10 +511,10 @@ namespace VIENNAAddIn.validator.upcc3
                 foreach (EA.Connector con in e.Value.Connectors)
                 {
                     //Get all emanating ASCCs of this ACC
-                    if (con.Stereotype == UPCC.ASCC.ToString() && con.SupplierID == e.Value.ElementID)
+                    if (con.Stereotype == UPCC.ASCC.ToString() && con.ClientID == e.Value.ElementID)
                     {
                         //Get the role name of the ASCC
-                        String rolename = con.ClientEnd.Role;
+                        String rolename = con.SupplierEnd.Role;
 
                         //Has this role name already been used?
                         if (values.ContainsValue(rolename))
@@ -590,10 +590,10 @@ namespace VIENNAAddIn.validator.upcc3
                 foreach (EA.Connector con in e.Value.Connectors)
                 {
                     //Get all emanating ASCCs of this ACC
-                    if (con.Stereotype == UPCC.ASCC.ToString() && con.SupplierID == e.Value.ElementID)
+                    if (con.Stereotype == UPCC.ASCC.ToString() && con.ClientID == e.Value.ElementID)
                     {
                         //Get the role name of the ASCC
-                        String rolename = con.ClientEnd.Role;
+                        String rolename = con.SupplierEnd.Role;
 
 
                         if (names.ContainsValue(rolename))
