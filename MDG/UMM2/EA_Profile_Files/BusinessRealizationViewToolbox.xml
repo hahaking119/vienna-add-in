@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="317A3370-0" name="BCVBusinessRealizationViewToolbox" version="1.0" notes="BCVBusinessRealizationViewToolbox"/>
+	<Documentation id="317A3370-0" name="BusinessRealizationViewToolbox" version="1.0" notes="BusinessRealizationViewToolbox"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="BRVModelElements" alias="Business Realization View Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessRealizationViewElements" alias="Business Realization View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
@@ -11,17 +11,16 @@
 					<Tag name="UMM2::AuthorizedRole(UML::Actor)" type="" description="" unit="" values="" default="Authorized Role"/>
 					<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
 					<Tag name="UMM2::bRealizationUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Realization Use Case"/>
-					<Tag name="UMM2::bCollaborationUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Collaboration Use Case"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BRVModelRelationships" alias="Business Realization View Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessRealizationViewRelationships" alias="Business Realization View Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="UMM2::mapsTo(UML::Dependency)" type="" description="" unit="" values="" default="Maps To"/>
 					<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
-					<Tag name="UMM2::realizes(UML::Realisation)" type="" description="" unit="" values="" default="Realizes"/>
+					<Tag name="UML::Realization" type="" description="" unit="" values="" default="Realize"/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>

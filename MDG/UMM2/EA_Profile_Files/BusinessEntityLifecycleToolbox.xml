@@ -3,7 +3,7 @@
 	<Documentation id="D3F3F748-B" name="BusinessEntityLifecycleToolbox" version="1.0" notes="BusinessEntityLifecycleToolbox"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="BELModelElements" alias="Business Entity Lifecycle Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessEntityLifecycleElements" alias="Business Entity Lifecycle Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
@@ -16,7 +16,7 @@
 					<Tag name="UML::InitialState" type="" description="" unit="" values="" default="Initial State"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BELRelationships" alias="Business Entity Lifecycle Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessEntityLifecycleRelationships" alias="Business Entity Lifecycle Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>

@@ -1,4 +1,4 @@
-<MDG.Technology version="1.0"><Documentation id="UMM2FoundV2" name="UMM 2.0 Profile" version="Draft-20081112" notes="Based on the UMM 2 latest version, 20090212"/><UMLProfiles><UMLProfile profiletype="uml2">
+<MDG.Technology version="1.0"><Documentation id="UMM2FoundV2" name="UMM 2.0 Profile" version="Draft-20090421" notes="Based on the UMM 2 latest version, 20090130"/><UMLProfiles><UMLProfile profiletype="uml2">
 			<Documentation id="D8435D48-1" name="UMM2" version="1.0" alias="UMM2" notes="UMM2"/>
 			<Content>
 				<Stereotypes>
@@ -17,7 +17,7 @@
 					<Stereotype name="Association" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<Redefinitions>
 							<Redefine type="Association">
-								<Property name="direction" value="Source -&gt; Destination"/>
+								<Property name="direction" value="Unspecified"/>
 							</Redefine>
 						</Redefinitions>
 					</Stereotype>
@@ -99,13 +99,6 @@
 							</Redefine>
 						</Redefinitions>
 					</Stereotype>
-					<Stereotype name="Extend" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<Redefinitions>
-							<Redefine type="Extend">
-								<Property name="direction" value="Source -&gt; Destination"/>
-							</Redefine>
-						</Redefinitions>
-					</Stereotype>
 					<Stereotype name="Final" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<Redefinitions>
 							<Redefine type="ActivityFinal"/>
@@ -121,13 +114,6 @@
 							<Redefine type="Generalization">
 								<Property name="direction" value="Source -&gt; Destination"/>
 								<Property name="isSubstitutable" value=""/>
-							</Redefine>
-						</Redefinitions>
-					</Stereotype>
-					<Stereotype name="Include" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<Redefinitions>
-							<Redefine type="Include">
-								<Property name="direction" value="Source -&gt; Destination"/>
 							</Redefine>
 						</Redefinitions>
 					</Stereotype>
@@ -394,7 +380,7 @@
 							<Tag name="actions" type="string" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="bRealization" metatype="Business Collaboration Realization" notes="" cx="100" cy="80" bgcolor="13090035" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+					<Stereotype name="bRealizationUC" metatype="Business Collaboration Realization" notes="" cx="100" cy="80" bgcolor="13090035" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
 						<AppliesTo>
 							<Apply type="UseCase"/>
 						</AppliesTo>
@@ -471,7 +457,7 @@
 					<Stereotype name="participates" metatype="Participates" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Association">
-								<Property name="direction" value="Source -&gt; Destination"/>
+								<Property name="direction" value="Unspecified"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
@@ -496,7 +482,7 @@
 					<TaggedValueType property="output" description="" notes="Type=RefGUIDList;Stereotypes=bESharedState;"/>
 					<TaggedValueType property="input" description="" notes="Type=RefGUIDList;Stereotypes=bESharedState;"/>
 				</TaggedValueTypes>
-				<QuickLink data="Synchronization,,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Action,bTransactionAction,InformationFlow,,to,,InformationFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Action,bTransactionAction,InformationFlow,,from,,InformationFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,Action,bTransactionAction,,,,InformationFlow,,to,InformationFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,Action,bTransactionAction,,,,InformationFlow,,from,InformationFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Synchronization,,ControlFlow,,from,,ControlFlow from Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Synchronization,,,,,ControlFlow,,from,ControlFlow from Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Synchronization,,ControlFlow,,to,,ControlFlow to Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Synchronization,,,,,ControlFlow,,to,ControlFlow to Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Synchronization,,ControlFlow,,to,,ControlFlow to Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Synchronization,,ControlFlow,,from,,ControlFlow from Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Synchronization,,,,,ControlFlow,,to,ControlFlow to Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Synchronization,,,,,ControlFlow,,from,ControlFlow from Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Synchronization,,InformationFlow,,to,,InformationFlow to Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Synchronization,,InformationFlow,,from,,InformationFlow from Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Synchronization,,,,,InformationFlow,,to,InformationFlow to Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Synchronization,,,,,InformationFlow,,from,InformationFlow from Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,,,,Action,ReqAction,ObjectFlow,,to,,ObjectFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,,,,Action,bTransactionAction,InformationFlow,reFlow,from,,ReFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,from,ObjectFlow from ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,to,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,from,,ObjectFlow from ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,to,,ObjectFlow to ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,from,ObjectFlow from ResAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,to,,ObjectFlow to ResAction,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow from InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bProcessAction,ControlFlow,,to,,ControlFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bProcessAction,,,,ControlFlow,,to,ControlFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bProcessAction,ControlFlow,,from,,ControlFlow from bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bProcessAction,,,,ControlFlow,,from,ControlFlow from bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,,,,Action,ReqAction,ObjectFlow,,to,,ObjectFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,from,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,to,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,from,,ObjectFlow to ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,to,,ObjectFlow to ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,from,ObjectFlow to ResAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,to,ObjectFlow to ResAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Object,bESharedState,ObjectFlow,,from,,ControlFlow from bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Object,bESharedState,,,,ObjectFlow,,from,ControlFlow from bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,,,,ActivityFinal,,ObjectFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,ActivityFinal,,,,,ObjectFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bProcessAction,ControlFlow,,to,,ControlFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bProcessAction,,,,ControlFlow,,to,ControlFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bProcessAction,ControlFlow,,from,,ControlFlow from bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bProcessAction,,,,ControlFlow,,from,ControlFlow from bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,,,,Action,ReqAction,ObjectFlow,,to,,ObjectFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,UseCase,bRealization,Association,participates,to,,Participates in bRealization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,,,,Actor,AuthorizedRole,Association,participates,to,,Participating AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,,,,UseCase,bCollaborationUC,Realization,realizes,to,,Realizes bCollaborationUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,,,,UseCase,bRealization,Realization,realizes,from,,Realizes bCollaborationUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,,,,UseCase,bTransactionUC,Dependency,include,to,,Include includes bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,,,,UseCase,bCollaborationUC,Dependency,include,from,,Include relationship to bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,Object,bEInternalState,ObjectFlow,,to,,ObjectFlow to bEInternalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bEInternalState,,,,Action,bProcessAction,ObjectFlow,,to,,ObjectFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Activity,bProcessActivity,ControlFlow,,to,,ControlFlow to bProcessActivity,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,State,bEState,ObjectFlow,,to,,ObjectFlow to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Action,ReqAction,ControlFlow,,to,,ControlFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Action,bTransactionAction,ControlFlow,,to,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,,,,InitialState,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,InitialState,,ObjectFlow,,from,,ObjectFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,InitialState,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,InitialState,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Activity,bProcessActivity,ControlFlow,,from,,ControlFlow to bProcessActivity,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,,,,FinalState,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,State,bEState,ObjectFlow,,from,,ObjectFlow to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,FinalState,,ObjectFlow,,to,,ObjectFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,,,,FinalState,,ObjectFlow,,to,,ObjectFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,State,bESharedState,ObjectFlow,,from,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,FinalState,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Action,ReqAction,ControlFlow,,from,,ControlFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,FinalState,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Action,bTransactionAction,ControlFlow,,from,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,,,,Activity,bProcessActivity,ObjectFlow,,to,,ObjectFlow to bProcessActivity,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,,,,State,bESharedState,ObjectFlow,,to,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,State,bEState,ObjectFlow,,to,,ObjectFlow to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,Actor,bPartner,,,,Association,participates,to,Participating bPartner,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,UseCase,bProcessUC,,,,Association,participates,to,Participates in bProcessUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,Actor,Stakeholder,,,,Dependency,isOfInterestTo,from,Interested Stakeholder,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,Stakeholder,UseCase,bProcessUC,,,,Dependency,isOfInterestTo,to,Is of interest to a bProcessUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,Object,bESharedState,,,,ObjectFlow,,to,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,Action,bProcessAction,,,,ObjectFlow,,to,ObjectFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,Action,bProcessAction,,,,ControlFlow,,to,ControlFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,Actor,AuthorizedRole,,,,Association,participates,to,Participating AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Object,bESharedState,,,,ObjectFlow,,to,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,Action,bTransactionAction,,,,InformationFlow,initFlow,to,InitFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,ActivityPartition,bCPartition,,,,InformationFlow,initFlow,to,InitFlow to bCPartition,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Partition,bCPartition,Action,bTransactionAction,,,,InformationFlow,reFlow,to,ReFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Partition,bCPartition,,,,InformationFlow,reFlow,to,ReFlow to bCPartition,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Action,bTransactionAction,,,,ControlFlow,,to,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,Actor,AuthorizedRole,,,,Association,participates,to,Participating AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,UseCase,bTransactionUC,,,,Association,participates,to,Participates in bTransactionUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,Actor,AuthorizedRole,,,,Association,participates,to,Participating AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,UseCase,bCollaborationUC,,,,Association,participates,to,Participates in bCollaborationUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,Actor,AuthorizedRole,,,,Dependency,mapsTo,to,Maps to AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,Actor,bPartner,,,,Dependency,mapsTo,from,Maps to bPartner,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,Actor,AuthorizedRole,,,,Dependency,mapsTo,to,Maps to AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,Action,ReqAction,,,,ObjectFlow,,to,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,Action,bTransactionAction,,,,InformationFlow,reFlow,from,ReFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,UseCase,bRealization,,,,Association,participates,to,Participates in bRealization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,Actor,AuthorizedRole,,,,Association,participates,to,Participates in bRealization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,UseCase,bCollaborationUC,,,,Realization,realizes,to,Realizes bCollaborationUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,UseCase,bRealization,,,,Realization,realizes,from,Realizes bCollaborationUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,UseCase,bTransactionUC,,,,Dependency,include,to,Include includes bTransactionUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,UseCase,bCollaborationUC,,,,Dependency,include,from,Include relationship to bTransactionUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,Object,bEInternalState,,,,ObjectFlow,,to,ObjectFlow to bEInternalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bEInternalState,Action,bProcessAction,,,,ObjectFlow,,to,ObjectFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Activity,bProcessActivity,,,,ControlFlow,,to,ControlFlow to bProcessActivity,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,State,bEState,,,,ObjectFlow,,to,ObjectFlow to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Action,ReqAction,,,,ControlFlow,,to,ControlFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Action,bTransactionAction,,,,ControlFlow,,to,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,InitialState,,,,,ControlFlow,,to,ControlFlow to InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,InitialState,,,,,ObjectFlow,,to,ObjectFlow to InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,InitialState,,,,,ControlFlow,,from,ControlFlow from InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,InitialState,,,,,ControlFlow,,from,ControlFlow from InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Activity,bProcessActivity,,,,ControlFlow,,from,ControlFlow to bProcessActivity,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,FinalState,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,State,bEState,,,,ObjectFlow,,from,ObjectFlow to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,FinalState,,,,,ObjectFlow,,to,ObjectFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,FinalState,,,,,ObjectFlow,,to,ObjectFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,State,bESharedState,,,,ObjectFlow,,from,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,FinalState,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Action,ReqAction,,,,ControlFlow,,from,ControlFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,FinalState,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,,,,Actor,bPartner,Association,participates,to,,Participating bPartner,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,,,,UseCase,bProcessUC,Association,participates,to,,Participates in bProcessUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,,,,Actor,Stakeholder,Dependency,isOfInterestTo,from,,Interested Stakeholder,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,Stakeholder,,,,UseCase,bProcessUC,Dependency,isOfInterestTo,to,,Is of interest to a bProcessUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,Object,bESharedState,ObjectFlow,,to,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,,,,Action,bProcessAction,ObjectFlow,,to,,ObjectFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,Action,bProcessAction,ControlFlow,,to,,ControlFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,,,,Actor,AuthorizedRole,Association,participates,to,,Participating AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Object,bESharedState,ObjectFlow,,to,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,,,,Action,bTransactionAction,InformationFlow,initFlow,to,,InitFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,ActivityPartition,bCPartition,InformationFlow,initFlow,to,,InitFlow to bCPartition,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Partition,bCPartition,,,,Action,bTransactionAction,InformationFlow,reFlow,to,,ReFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Partition,bCPartition,InformationFlow,reFlow,to,,ReFlow to bCPartition,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Action,bTransactionAction,ControlFlow,,to,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,,,,Actor,AuthorizedRole,Association,participates,to,,Participates in bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,UseCase,bTransactionUC,Association,participates,to,,Participates in bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,,,,Actor,AuthorizedRole,Association,participates,to,,Participating AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,UseCase,bCollaborationUC,Association,participates,to,,Participates in bCollaborationUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,,,,Actor,AuthorizedRole,Dependency,mapsTo,to,,Maps to AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,Actor,bPartner,Dependency,mapsTo,from,,Maps to bPartner,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,Actor,AuthorizedRole,Dependency,mapsTo,to,,Maps to AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Action,bTransactionAction,,,,ControlFlow,,from,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,Activity,bProcessActivity,,,,ObjectFlow,,to,ObjectFlow to bProcessActivity,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,State,bESharedState,,,,ObjectFlow,,to,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,State,bEState,,,,ObjectFlow,,to,ObjectFlow to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bCollaborationAction,ControlFlow,,to,,ControlFlow to bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bCollaborationAction,ControlFlow,,from,,ControlFlow from bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bCollaborationAction,,,,ControlFlow,,to,ControlFlow to bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bCollaborationAction,,,,ControlFlow,,from,ControlFlow from bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bTransactionAction,InformationFlow,,to,,InformationFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bTransactionAction,InformationFlow,,from,,InformationFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bTransactionAction,,,,InformationFlow,,to,InformationFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bTransactionAction,,,,InformationFlow,,from,InformationFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,MergeNode,,ControlFlow,,to,,ControlFlow to MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,MergeNode,,ControlFlow,,from,,ControlFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,MergeNode,,,,,ControlFlow,,to,ControlFlow to MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,MergeNode,,,,,ControlFlow,,from,ControlFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,MergeNode,,InformationFlow,,to,,InformationFlow to MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,MergeNode,,InformationFlow,,from,,InformationFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,MergeNode,,,,,InformationFlow,,to,InformationFlow to MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,MergeNode,,,,,InformationFlow,,from,InformationFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,MergeNode,,ControlFlow,,to,,ControlFlow to MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,MergeNode,,ControlFlow,,from,,ControlFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,MergeNode,,,,,ControlFlow,,to,ControlFlow to MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,MergeNode,,,,,ControlFlow,,from,ControlFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,MergeNode,,ControlFlow,,from,,ControlFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,MergeNode,,,,,ControlFlow,,from,ControlFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow from ActivityInitial,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,ActivityInitial,,,,,ControlFlow,,from,ControlFlow from ActivityInitial,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Action,bTransactionAction,InformationFlow,,to,,InformationFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Action,bTransactionAction,InformationFlow,,from,,InformationFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Action,bTransactionAction,,,,InformationFlow,,to,InformationFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Action,bTransactionAction,,,,InformationFlow,,from,InformationFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Decision,Decision,ControlFlow,,to,,ControlFlow to Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Decision,Decision,,,,ControlFlow,,to,ControlFlow to Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Decision,Decision,ControlFlow,,from,,ControlFlow from Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Decision,Decision,,,,ControlFlow,,from,ControlFlow from Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Decision,Decision,ControlFlow,,to,,ControlFlow to Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Decision,Decision,ControlFlow,,from,,ControlFlow from Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Decision,Decision,,,,ControlFlow,,to,ControlFlow to Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Decision,Decision,,,,ControlFlow,,from,ControlFlow from Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Decision,Decision,InformationFlow,,to,,InformationFlow to Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Decision,Decision,InformationFlow,,from,,InformationFlow from Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Decision,Decision,,,,InformationFlow,,to,InformationFlow to Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Decision,Decision,,,,InformationFlow,,from,InformationFlow from Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,ReqAction,ControlFlow,,to,,ControlFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,ReqAction,,,,ControlFlow,,to,ControlFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bTransactionAction,ControlFlow,,to,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bTransactionAction,,,,ControlFlow,,to,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bCollaborationAction,ControlFlow,,to,,ControlFlow to bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bCollaborationAction,,,,ControlFlow,,to,ControlFlow to bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow to Initial State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow to Initial State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bTransactionAction,ControlFlow,,from,,ControlFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bTransactionAction,,,,ControlFlow,,from,ControlFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,ReqAction,ControlFlow,,from,,ControlFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,ReqAction,,,,ControlFlow,,from,ControlFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bCollaborationAction,ControlFlow,,from,,ControlFlow from bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bCollaborationAction,,,,ControlFlow,,from,ControlFlow from bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,State,bEState,Transition,,from,,Transition from bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,State,bEState,,,,Transition,,from,Transition from bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,ActivityFinal,,Transition,,to,,Transition from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,ActivityFinal,,,,,Transition,,to,Transition from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,State,bEState,Transition,,to,,Transition to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,State,bEState,Transition,,from,,Transition from bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,State,bEState,,,,Transition,,to,Transition to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,State,bEState,,,,Transition,,from,Transition from bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,FinalState,,Transition,,to,,Transition to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,FinalState,,,,,Transition,,to,Transition to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,InitialState,,Transition,,from,,Transition to InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,InitialState,,,,,Transition,,from,Transition to InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,Choice,,Transition,,to,,Transition to Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,Choice,,Transition,,from,,Transition from Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,Choice,,,,,Transition,,to,Transition to Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,Choice,,,,,Transition,,from,Transition from Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Choice,,Transition,,from,,Transition to Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Choice,,,,,Transition,,from,Transition to Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Choice,,Transition,,to,,Transition to Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Choice,,,,,Transition,,to,Transition to Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,,,,Action,ReqAction,ObjectFlow,,from,,ObjectFlow from ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow from ActivityInitial,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,ActivityInitial,,,,,ControlFlow,,from,ControlFlow from ActivityInitial,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;&#xA;"/>
+				<QuickLink data="Synchronization,,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Action,bTransactionAction,InformationFlow,,to,,InformationFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Action,bTransactionAction,InformationFlow,,from,,InformationFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,Action,bTransactionAction,,,,InformationFlow,,to,InformationFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,Action,bTransactionAction,,,,InformationFlow,,from,InformationFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Synchronization,,ControlFlow,,from,,ControlFlow from Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Synchronization,,,,,ControlFlow,,from,ControlFlow from Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Synchronization,,ControlFlow,,to,,ControlFlow to Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Synchronization,,,,,ControlFlow,,to,ControlFlow to Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Synchronization,,ControlFlow,,to,,ControlFlow to Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Synchronization,,ControlFlow,,from,,ControlFlow from Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Synchronization,,,,,ControlFlow,,to,ControlFlow to Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Synchronization,,,,,ControlFlow,,from,ControlFlow from Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Synchronization,,InformationFlow,,to,,InformationFlow to Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Synchronization,,InformationFlow,,from,,InformationFlow from Synchronization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Synchronization,,,,,InformationFlow,,to,InformationFlow to Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Synchronization,,,,,InformationFlow,,from,InformationFlow from Synchronization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,,,,Action,ReqAction,ObjectFlow,,to,,ObjectFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,,,,Action,bTransactionAction,InformationFlow,reFlow,from,,ReFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,from,ObjectFlow from ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,to,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,from,,ObjectFlow from ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,to,,ObjectFlow to ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,from,ObjectFlow from ResAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,to,,ObjectFlow to ResAction,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow from InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bProcessAction,ControlFlow,,to,,ControlFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bProcessAction,,,,ControlFlow,,to,ControlFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bProcessAction,ControlFlow,,from,,ControlFlow from bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bProcessAction,,,,ControlFlow,,from,ControlFlow from bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,,,,Action,ReqAction,ObjectFlow,,to,,ObjectFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,from,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,Action,ReqAction,,,,ObjectFlow,,to,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,from,,ObjectFlow to ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Action,ResAction,ObjectFlow,,to,,ObjectFlow to ResAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,from,ObjectFlow to ResAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Action,ResAction,,,,ObjectFlow,,to,ObjectFlow to ResAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Object,bESharedState,ObjectFlow,,from,,ControlFlow from bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Object,bESharedState,,,,ObjectFlow,,from,ControlFlow from bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,,,,ActivityFinal,,ObjectFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,ActivityFinal,,,,,ObjectFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bProcessAction,ControlFlow,,to,,ControlFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bProcessAction,,,,ControlFlow,,to,ControlFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bProcessAction,ControlFlow,,from,,ControlFlow from bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bProcessAction,,,,ControlFlow,,from,ControlFlow from bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,,,,Action,ReqAction,ObjectFlow,,to,,ObjectFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,UseCase,bRealization,Association,participates,to,,Participates in bRealization,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,,,,Actor,AuthorizedRole,Association,participates,to,,Participating AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,,,,UseCase,bCollaborationUC,Realization,realizes,to,,Realizes bCollaborationUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,,,,UseCase,bRealization,Realization,realizes,from,,Realizes bCollaborationUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,,,,UseCase,bTransactionUC,Dependency,include,to,,Include includes bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,,,,UseCase,bCollaborationUC,Dependency,include,from,,Include relationship to bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,Object,bEInternalState,ObjectFlow,,to,,ObjectFlow to bEInternalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bEInternalState,,,,Action,bProcessAction,ObjectFlow,,to,,ObjectFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Activity,bProcessActivity,ControlFlow,,to,,ControlFlow to bProcessActivity,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,State,bEState,ObjectFlow,,to,,ObjectFlow to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Action,ReqAction,ControlFlow,,to,,ControlFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Action,bTransactionAction,ControlFlow,,to,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,,,,InitialState,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,InitialState,,Transition,,from,,Transition from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,InitialState,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,InitialState,,ControlFlow,,from,,ControlFlow from InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Activity,bProcessActivity,ControlFlow,,from,,ControlFlow to bProcessActivity,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,,,,FinalState,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,State,bEState,ObjectFlow,,from,,ObjectFlow to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,FinalState,,Transition,,to,,Transition to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,,,,FinalState,,ObjectFlow,,to,,ObjectFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,State,bESharedState,ObjectFlow,,from,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,FinalState,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Action,ReqAction,ControlFlow,,from,,ControlFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,FinalState,,ControlFlow,,to,,ControlFlow to FinalState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Action,bTransactionAction,ControlFlow,,from,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,,,,Activity,bProcessActivity,ObjectFlow,,to,,ObjectFlow to bProcessActivity,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,,,,State,bESharedState,ObjectFlow,,to,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,State,bEState,Transition,,to,,Transition to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,Actor,bPartner,,,,Association,participates,to,Participating bPartner,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,UseCase,bProcessUC,,,,Association,participates,to,Participates in bProcessUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,Actor,Stakeholder,,,,Dependency,isOfInterestTo,from,Interested Stakeholder,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,Stakeholder,UseCase,bProcessUC,,,,Dependency,isOfInterestTo,to,Is of interest to a bProcessUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,Object,bESharedState,,,,ObjectFlow,,to,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,Action,bProcessAction,,,,ObjectFlow,,to,ObjectFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,Action,bProcessAction,,,,ControlFlow,,to,ControlFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,Actor,AuthorizedRole,,,,Association,participates,to,Participating AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,Object,bESharedState,,,,ObjectFlow,,to,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,Action,bTransactionAction,,,,InformationFlow,initFlow,to,InitFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,ActivityPartition,bCPartition,,,,InformationFlow,initFlow,to,InitFlow to bCPartition,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Partition,bCPartition,Action,bTransactionAction,,,,InformationFlow,reFlow,to,ReFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Partition,bCPartition,,,,InformationFlow,reFlow,to,ReFlow to bCPartition,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Action,bTransactionAction,,,,ControlFlow,,to,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,Actor,AuthorizedRole,,,,Association,participates,to,Participating AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,UseCase,bTransactionUC,,,,Association,participates,to,Participates in bTransactionUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,Actor,AuthorizedRole,,,,Association,participates,to,Participating AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,UseCase,bCollaborationUC,,,,Association,participates,to,Participates in bCollaborationUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,Actor,AuthorizedRole,,,,Dependency,mapsTo,to,Maps to AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,Actor,bPartner,,,,Dependency,mapsTo,from,Maps to bPartner,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,Actor,AuthorizedRole,,,,Dependency,mapsTo,to,Maps to AuthorizedRole,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,Action,ReqAction,,,,ObjectFlow,,to,ObjectFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,Action,bTransactionAction,,,,InformationFlow,reFlow,from,ReFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,UseCase,bRealization,,,,Association,participates,to,Participates in bRealization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,Actor,AuthorizedRole,,,,Association,participates,to,Participates in bRealization,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bRealization,UseCase,bCollaborationUC,,,,Realization,realizes,to,Realizes bCollaborationUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,UseCase,bRealization,,,,Realization,realizes,from,Realizes bCollaborationUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,UseCase,bTransactionUC,,,,Dependency,include,to,Include includes bTransactionUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,UseCase,bCollaborationUC,,,,Dependency,include,from,Include relationship to bTransactionUC,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,Object,bEInternalState,,,,ObjectFlow,,to,ObjectFlow to bEInternalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bEInternalState,Action,bProcessAction,,,,ObjectFlow,,to,ObjectFlow to bProcessAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Activity,bProcessActivity,,,,ControlFlow,,to,ControlFlow to bProcessActivity,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,State,bEState,,,,ObjectFlow,,to,ObjectFlow to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Action,ReqAction,,,,ControlFlow,,to,ControlFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Action,bTransactionAction,,,,ControlFlow,,to,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,InitialState,,,,,ControlFlow,,to,ControlFlow to InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,InitialState,,,,,Transition,,to,Transition to InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,InitialState,,,,,ControlFlow,,from,ControlFlow from InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,InitialState,,,,,ControlFlow,,from,ControlFlow from InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Activity,bProcessActivity,,,,ControlFlow,,from,ControlFlow to bProcessActivity,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,FinalState,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,State,bEState,,,,ObjectFlow,,from,ObjectFlow to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,FinalState,,,,,Transition,,to,Transition to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,FinalState,,,,,ObjectFlow,,to,ObjectFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,State,bESharedState,,,,ObjectFlow,,from,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,FinalState,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Action,ReqAction,,,,ControlFlow,,from,ControlFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,FinalState,,,,,ControlFlow,,to,ControlFlow to FinalState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,,,,Actor,bPartner,Association,participates,to,,Participating bPartner,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,,,,UseCase,bProcessUC,Association,participates,to,,Participates in bProcessUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,,,,Actor,Stakeholder,Dependency,isOfInterestTo,from,,Interested Stakeholder,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,Stakeholder,,,,UseCase,bProcessUC,Dependency,isOfInterestTo,to,,Is of interest to a bProcessUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,Object,bESharedState,ObjectFlow,,to,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Object,bESharedState,,,,Action,bProcessAction,ObjectFlow,,to,,ObjectFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bProcessAction,,,,Action,bProcessAction,ControlFlow,,to,,ControlFlow to bProcessAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bProcessUC,,,,Actor,AuthorizedRole,Association,participates,to,,Participating AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,Object,bESharedState,ObjectFlow,,to,,ObjectFlow to bESharedState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityPartition,bCPartition,,,,Action,bTransactionAction,InformationFlow,initFlow,to,,InitFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,ActivityPartition,bCPartition,InformationFlow,initFlow,to,,InitFlow to bCPartition,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Partition,bCPartition,,,,Action,bTransactionAction,InformationFlow,reFlow,to,,ReFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Partition,bCPartition,InformationFlow,reFlow,to,,ReFlow to bCPartition,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Action,bTransactionAction,ControlFlow,,to,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bTransactionUC,,,,Actor,AuthorizedRole,Association,participates,to,,Participates in bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,UseCase,bTransactionUC,Association,participates,to,,Participates in bTransactionUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;UseCase,bCollaborationUC,,,,Actor,AuthorizedRole,Association,participates,to,,Participating AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,UseCase,bCollaborationUC,Association,participates,to,,Participates in bCollaborationUC,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,bPartner,,,,Actor,AuthorizedRole,Dependency,mapsTo,to,,Maps to AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,Actor,bPartner,Dependency,mapsTo,from,,Maps to bPartner,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Actor,AuthorizedRole,,,,Actor,AuthorizedRole,Dependency,mapsTo,to,,Maps to AuthorizedRole,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Action,bTransactionAction,,,,ControlFlow,,from,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bESharedState,Activity,bProcessActivity,,,,ObjectFlow,,to,ObjectFlow to bProcessActivity,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcessActivity,State,bESharedState,,,,ObjectFlow,,to,ObjectFlow to bESharedState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,State,bEState,,,,Transition,,to,Transition to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bCollaborationAction,ControlFlow,,to,,ControlFlow to bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bCollaborationAction,ControlFlow,,from,,ControlFlow from bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bCollaborationAction,,,,ControlFlow,,to,ControlFlow to bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bCollaborationAction,,,,ControlFlow,,from,ControlFlow from bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bTransactionAction,InformationFlow,,to,,InformationFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Action,bTransactionAction,InformationFlow,,from,,InformationFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bTransactionAction,,,,InformationFlow,,to,InformationFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Action,bTransactionAction,,,,InformationFlow,,from,InformationFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;MergeNode,,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,MergeNode,,ControlFlow,,to,,ControlFlow to MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,MergeNode,,ControlFlow,,from,,ControlFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,MergeNode,,,,,ControlFlow,,to,ControlFlow to MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,MergeNode,,,,,ControlFlow,,from,ControlFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,MergeNode,,InformationFlow,,to,,InformationFlow to MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,MergeNode,,InformationFlow,,from,,InformationFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,MergeNode,,,,,InformationFlow,,to,InformationFlow to MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,MergeNode,,,,,InformationFlow,,from,InformationFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,MergeNode,,ControlFlow,,to,,ControlFlow to MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,MergeNode,,ControlFlow,,from,,ControlFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,MergeNode,,,,,ControlFlow,,to,ControlFlow to MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,MergeNode,,,,,ControlFlow,,from,ControlFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,MergeNode,,ControlFlow,,from,,ControlFlow from MergeNode,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,MergeNode,,,,,ControlFlow,,from,ControlFlow from MergeNode,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow from ActivityInitial,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,ActivityInitial,,,,,ControlFlow,,from,ControlFlow from ActivityInitial,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Action,bTransactionAction,InformationFlow,,to,,InformationFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,,,,Action,bTransactionAction,InformationFlow,,from,,InformationFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Action,bTransactionAction,,,,InformationFlow,,to,InformationFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Decision,Decision,Action,bTransactionAction,,,,InformationFlow,,from,InformationFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Decision,Decision,ControlFlow,,to,,ControlFlow to Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Decision,Decision,,,,ControlFlow,,to,ControlFlow to Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Decision,Decision,ControlFlow,,from,,ControlFlow from Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Decision,Decision,,,,ControlFlow,,from,ControlFlow from Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Decision,Decision,ControlFlow,,to,,ControlFlow to Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,Decision,Decision,ControlFlow,,from,,ControlFlow from Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Decision,Decision,,,,ControlFlow,,to,ControlFlow to Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,Decision,Decision,,,,ControlFlow,,from,ControlFlow from Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Decision,Decision,InformationFlow,,to,,InformationFlow to Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,Decision,Decision,InformationFlow,,from,,InformationFlow from Decision,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Decision,Decision,,,,InformationFlow,,to,InformationFlow to Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,Decision,Decision,,,,InformationFlow,,from,InformationFlow from Decision,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,ReqAction,ControlFlow,,to,,ControlFlow to ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,ReqAction,,,,ControlFlow,,to,ControlFlow to ReqAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bTransactionAction,ControlFlow,,to,,ControlFlow to bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bTransactionAction,,,,ControlFlow,,to,ControlFlow to bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Action,bCollaborationAction,ControlFlow,,to,,ControlFlow to bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Action,bCollaborationAction,,,,ControlFlow,,to,ControlFlow to bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityInitial,,Activity,bProcess,,,,ControlFlow,,to,ControlFlow to bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow to Initial State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow to Initial State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,ActivityInitial,,,,,ControlFlow,,from,ControlFlow to Initial State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bTransactionAction,ControlFlow,,from,,ControlFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bTransactionAction,,,,ControlFlow,,from,ControlFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,ReqAction,ControlFlow,,from,,ControlFlow from bTransactionAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,ReqAction,,,,ControlFlow,,from,ControlFlow from bTransactionAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Action,bCollaborationAction,ControlFlow,,from,,ControlFlow from bCollaborationAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Action,bCollaborationAction,,,,ControlFlow,,from,ControlFlow from bCollaborationAction,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,State,bEState,Transition,,from,,Transition from bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,State,bEState,,,,Transition,,from,Transition from bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;ActivityFinal,,Activity,bProcess,,,,ControlFlow,,from,ControlFlow from bProcess,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bTransactionAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ReqAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Action,bCollaborationAction,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,ActivityFinal,,Transition,,to,,Transition from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,ActivityFinal,,,,,Transition,,to,Transition from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow from Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Activity,bProcess,ActivityFinal,,,,,ControlFlow,,to,ControlFlow from Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,State,bEState,Transition,,to,,Transition to bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,State,bEState,Transition,,from,,Transition from bEState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,State,bEState,,,,Transition,,to,Transition to bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,State,bEState,,,,Transition,,from,Transition from bEState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,FinalState,,Transition,,to,,Transition to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,FinalState,,,,,Transition,,to,Transition to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,,,,InitialState,,Transition,,from,,Transition to InitialState,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Choice,,InitialState,,,,,Transition,,from,Transition to InitialState,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,Choice,,Transition,,to,,Transition to Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,,,,Choice,,Transition,,from,,Transition from Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,Choice,,,,,Transition,,to,Transition to Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;State,bEState,Choice,,,,,Transition,,from,Transition from Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,,,,Choice,,Transition,,from,,Transition to Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;FinalState,,Choice,,,,,Transition,,from,Transition to Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,,,,Choice,,Transition,,to,,Transition to Choice,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;InitialState,,Choice,,,,,Transition,,to,Transition to Choice,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Action,ResAction,,,,Action,ReqAction,ObjectFlow,,from,,ObjectFlow from ReqAction,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,ActivityInitial,,ControlFlow,,from,,ControlFlow from ActivityInitial,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,ActivityInitial,,,,,ControlFlow,,from,ControlFlow from ActivityInitial,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,ActivityFinal,,ControlFlow,,to,,ControlFlow to Final State,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,ActivityFinal,,,,,ControlFlow,,to,ControlFlow to Final State,,TRUE,,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Activity,bProcess,ControlFlow,,to,,ControlFlow to bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;Synchronization,,,,,Activity,bProcess,ControlFlow,,from,,ControlFlow from bProcess,TRUE,TRUE,TRUE,TRUE,UMM,0,,,,,&#xA;&#xA;"/>
 			</Content>
 		</UMLProfile>
 	</UMLProfiles><UMLPatterns><UMLPattern><XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2008-11-12 12:00:39">
@@ -10062,40 +10048,137 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 		</UMLPattern></UMLPatterns><TaggedValueTypes><RefData version="1.0" exporter="EA.25">
 			<DataSet name="Property Types" table="t_propertytypes" filter="Property='#Property#'"><DataRow><Column name="Property" value="Datafield"/><Column name="Description" value="Database field"/></DataRow><DataRow><Column name="Property" value="Role"/><Column name="Description" value="Person role "/><Column name="Notes" value="Used in entities"/></DataRow><DataRow><Column name="Property" value="Software"/><Column name="Description" value="Software component"/></DataRow></DataSet></RefData></TaggedValueTypes><CodeModules/><Transforms/><Images><RefData version="1.0" exporter="EA.25">
 		</RefData></Images><DiagramProfile><UMLProfile profiletype="uml2">
-			<Documentation id="D8401CF7-9" name="BRVDiagramProfile" version="1.0" alias="UMM2 BRV" notes="BRVDiagramProfile"/>
+			<Documentation id="27F29D81-2" name="BusinessChoreographyViewDiagramProfile" version="1.0" alias="UMM2 Business Choreography View" notes="BusinessChoreographyViewDiagramProfile"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BRVBusinessEntityLifecycleDiagram" alias="Business Entity Lifecycle" notes="Creates a Business Entity Lifecycle diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Statechart">
-								<Property name="alias" value="Business Entity Lifecycle Diagram"/>
-								<Property name="diagramID" value="BRVBusinessEntityLifecycleDiagram"/>
-								<Property name="toolbox" value="BRVBusinessEntityLifecycleToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BRVBusinessProcessActivityDefinitionDiagram" alias="Business Process Activity Definition" notes="Creates a Business Process Activity Definition diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Activity">
-								<Property name="alias" value="Business Proces Activity Definition Diagram"/>
-								<Property name="diagramID" value="BRVBusinessProcessActivityDefinitionDiagram"/>
-								<Property name="toolbox" value="BRVBusinessProcessActivityDefinitionToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BRVBusinessProcessDefinitionDiagram" alias="Business Process Definition" notes="Creates a Business Process Definition diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Use Case">
-								<Property name="alias" value="Business Process Definition Diagram"/>
-								<Property name="diagramID" value="BRVBusinessProcessDefinitionDiagram"/>
-								<Property name="toolbox" value="BRVBusinessProcessDefinitionToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BusinessRequirementsViewDiagram" alias="Business Requirements View Diagram" notes="Creates a Business Requirements View Diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessChoreographyViewDiagram" alias="Business Choreography View" notes="Creates a Business Choreography View diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="Diagram_Package">
-								<Property name="alias" value="Business Requirements View Diagram"/>
+								<Property name="alias" value="Business Choreography View Diagram"/>
+								<Property name="diagramID" value="BusinessChoreographyViewDiagram"/>
+								<Property name="toolbox" value="BusinessChoreographyViewToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessCollaborationProtocolDiagram" alias="Business Collaboration Protocol" notes="Creates a Business Collaboration Protocol diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Activity">
+								<Property name="alias" value="Business Collaboration Protocol"/>
+								<Property name="diagramID" value="BusinessCollaborationProtocolDiagram"/>
+								<Property name="toolbox" value="BusinessCollaborationProtocolToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessCollaborationUseCaseDiagram" alias="Business Collaboration Use Case" notes="Creates a Business Collaboration Use Case diagram. " cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Use Case">
+								<Property name="alias" value="Business Collaboration Use Case"/>
+								<Property name="diagramID" value="BusinessCollaborationUseCaseDiagram"/>
+								<Property name="toolbox" value="BusinessCollaborationUseCaseToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessRealizationViewDiagram" alias="Business Realization View" notes="Creaets a Business Realization View diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Use Case">
+								<Property name="alias" value="Business Realization View"/>
+								<Property name="diagramID" value="BusinessRealizationViewDiagram"/>
+								<Property name="toolbox" value="BusinessRealizationViewToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessTransactionDiagram" alias="Business Transaction" notes="Creates a Business Transaction diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Activity">
+								<Property name="alias" value="Business Transaction"/>
+								<Property name="diagramID" value="BusinessTransactionDiagram"/>
+								<Property name="toolbox" value="BusinessTransactionToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessTransactionUseCaseDiagram" alias="Business Transaction Use Case" notes="Creates a Business Transaction Use Case diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Use Case">
+								<Property name="alias" value="Business Transaction Use Case"/>
+								<Property name="diagramID" value="BusinessTransactionUseCaseDiagram"/>
+								<Property name="toolbox" value="BusinessTransactionUseCaseToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="4BFBBD61-5" name="BusinessInformationViewDiagramProfile" version="1.0" alias="UMM2 Business Information View" notes="BusinessInformationViewDiagramProfile"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessInformationViewDiagram" alias="Business Information View" notes="Creates a Business Information View diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Logical">
+								<Property name="alias" value="Business Information View Diagram"/>
+								<Property name="diagramID" value="BusinessInformationViewDiagram"/>
+								<Property name="toolbox" value="BusinessInformationViewToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="D8401CF7-9" name="BusinessRequirementsViewDiagramProfile" version="1.0" alias="UMM2 Business Requirements View" notes="BusinessRequirementsViewDiagramProfile"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessDomainViewDiagram" alias="Business Domain View" notes="Creates a Business Domain View diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Use Case">
+								<Property name="alias" value="Business Domain View"/>
+								<Property name="diagramID" value="BusinessDomainViewDiagram"/>
+								<Property name="toolbox" value="BusinessDomainViewToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessEntityLifecycleDiagram" alias="Business Entity Lifecycle" notes="Creates a Business Entity Lifecycle diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Statechart">
+								<Property name="alias" value="Business Entity Lifecycle"/>
+								<Property name="diagramID" value="BusinessEntityLifecycleDiagram"/>
+								<Property name="toolbox" value="BusinessEntityLifecycleToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessEntityViewDiagram" alias="Business Entity View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Logical">
+								<Property name="alias" value="Business Entity View"/>
+								<Property name="diagramID" value="BusinessEntityViewDiagram"/>
+								<Property name="toolbox" value="BusinessEntityViewToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessPartnerView" alias="Business Partner View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Use Case">
+								<Property name="alias" value="Business Partner View"/>
+								<Property name="diagramID" value="BusinessPartnerViewDiagram"/>
+								<Property name="toolbox" value="BusinessPartnerViewToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessProcessDiagram" alias="Business Process" notes="Creates a Business Process diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Activity">
+								<Property name="alias" value="Business Process"/>
+								<Property name="diagramID" value="BusinessProcessDiagram"/>
+								<Property name="toolbox" value="BusinessProcessToolbox"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="BusinessRequirementsViewDiagram" alias="Business Requirements View" notes="Creates a Business Requirements View Diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Diagram_Package">
+								<Property name="alias" value="Business Requirements View"/>
 								<Property name="diagramID" value="BusinessRequirementsViewDiagram"/>
 								<Property name="toolbox" value="BusinessRequirementsViewToolbox"/>
 							</Apply>
@@ -10105,90 +10188,121 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 				<TaggedValueTypes/>
 			</Content>
 		</UMLProfile>
-		<UMLProfile profiletype="uml2">
-			<Documentation id="4BFBBD61-5" name="BIVDiagramProfile" version="1.0" alias="UMM2 BIV" notes="BIVDiagramProfile"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BIVEnvelopeDiagram" alias="Business Information View" notes="Creates a Business Information View." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Logical">
-								<Property name="alias" value="Business Information View Diagram"/>
-								<Property name="diagramID" value="BIVEnvelopeDiagram"/>
-								<Property name="toolbox" value="BIVModelManagementToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
-		<UMLProfile profiletype="uml2">
-			<Documentation id="27F29D81-2" name="BCVDiagramProfile" version="1.0" alias="UMM2 BCV" notes="BCVDiagramProfile"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BCVModelStructureDiagram" alias="BCV Model Structure Diagram" notes="Creates a Business Choreography structure diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Package">
-								<Property name="alias" value="Business Choreography View Model Structure"/>
-								<Property name="diagramID" value="BCVModelStructureDiagram"/>
-								<Property name="toolbox" value="BCVModelManagementlToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BusinessCollaborationProtocolDiagram" alias="Business Collaboration Protocol" notes="Creates a Business Collaboration Protocol." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Activity">
-								<Property name="alias" value="Business Collaboration Protocol"/>
-								<Property name="diagramID" value="BusinessCollaborationProtocolDiagram"/>
-								<Property name="toolbox" value="BCVBusinessCollaborationProtocolToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BusinessCollaborationUseCaseDiagram" alias="Business Collaboration Use Case" notes="Creates a Business Collaboration Use Case diagram. " cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Use Case">
-								<Property name="alias" value="Business Collaboration Use Case"/>
-								<Property name="diagramID" value="BusinessCollaborationUseCaseDiagram"/>
-								<Property name="toolbox" value="BCVBusinessCollaborationUseCaseToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BusinessRealizationViewDiagram" alias="Business Realization View" notes="Creaets a Business Realization View." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Use Case">
-								<Property name="alias" value="Business Realization"/>
-								<Property name="diagramID" value="Business Realization View"/>
-								<Property name="toolbox" value="BCVBusinessRealizationViewToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BusinessTransactionDiagram" alias="Business Transaction Diagram" notes="Creates a Business Transaction Diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Activity">
-								<Property name="alias" value="Business Transaction Diagram"/>
-								<Property name="diagramID" value="BusinessTransactionDiagram"/>
-								<Property name="toolbox" value="BCVBusinessTransactionToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="BusinessTransactionUseCaseDiagram" alias="Business Transaction Use Case Diagram" notes="Creates a Business Transaction Use Case diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Diagram_Use Case">
-								<Property name="alias" value="Business Transaction Use Case"/>
-								<Property name="diagramID" value="BusinessTransactionUseCaseDiagram"/>
-								<Property name="toolbox" value="BCVBusinessTransactionUseCaseToolbox"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
 	</DiagramProfile><UIToolboxes><UMLProfile profiletype="uml2">
+			<Documentation id="8796E632-8" name="BusinessChoreographyViewToolbox" version="1.0" notes="BusinessChoreographyViewToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessChoreographyViewElements" alias="Business Choreography View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::bCollaborationV(UML::Package)" type="" description="" unit="" values="" default="Business Collaboration View"/>
+							<Tag name="UMM2::bTransactionV(UML::Package)" type="" description="" unit="" values="" default="Business Transaction View"/>
+							<Tag name="UMM2::bRealizationV(UML::Package)" type="" description="" unit="" values="" default="Business Realization View"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="7F14FCDF-4" name="BusinessCollaborationProtocolToolbox" version="1.0" notes="BusinessCollaborationProtocolToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessCollaborationProtocolElements" alias="Business Collaboration Protocol Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UML::ActivityInitial" type="" description="" unit="" values="" default="Initial "/>
+							<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default=" Final"/>
+							<Tag name="UMM2::bCPartition(UML::ActivityPartition)" type="" description="" unit="" values="" default="Business Collaboration Partition"/>
+							<Tag name="UMM2::bTransactionAction(UML::Action)" type="" description="" unit="" values="" default="Business Transaction Action"/>
+							<Tag name="UMM2::bNestedCollaboration(UML::Action)" type="" description="" unit="" values="" default="Nested Collaboration Action"/>
+							<Tag name="UMM2::bCollaborationAction(UML::Action)" type="" description="" unit="" values="" default="Business Collaboration Action"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="BusinessCollaborationProtocolRelationships" alias="Business Collaboration Protocol Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UML::ControlFlow" type="" description="" unit="" values="" default="Control Flow"/>
+							<Tag name="UMM2::initFlow(UML::InformationFlow)" type="" description="" unit="" values="" default="Initialization Flow"/>
+							<Tag name="UMM2::reFlow(UML::InformationFlow)" type="" description="" unit="" values="" default="Responding Flow"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="CC0F9ECB-1" name="BusinessCollaborationUseCaseToolbox" version="1.0" notes="BusinessCollaborationUseCaseToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessCollaborationUseCaseElements" alias="Business Collaboration Use Case Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::AuthorizedRole(UML::Actor)" type="" description="" unit="" values="" default="Authorized Role"/>
+							<Tag name="UMM2::bTransactionUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Transaction Use Case"/>
+							<Tag name="UMM2::bCollaborationProtocol(UML::Activity)" type="" description="" unit="" values="" default="Business Collaboration Protocol"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="BusinessCollaborationUseCaseRelationships" alias="Business Collaboration Use Case Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UML::Dependency" type="" description="" unit="" values="" default="Dependency"/>
+							<Tag name="UML::Include" type="" description="" unit="" values="" default="Include"/>
+							<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="1C1BF619-1" name="BusinessDomainViewToolbox" version="1.0" alias="BusinessDomainViewToolbox" notes="BusinessDomainViewToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessDomainViewElements" alias="Business Domain View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::bArea(UML::Package)" type="" description="" unit="" values="" default="Business Area"/>
+							<Tag name="UMM2::ProcessArea(UML::Package)" type="" description="" unit="" values="" default="Process Area"/>
+							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
+							<Tag name="UMM2::bProcessUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Process Use Case"/>
+							<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
+							<Tag name="UMM2::bProcess(UML::Activity)" type="" description="" unit="" values="" default="Business Process"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="BusinessDomainViewRelationships" alias="Business Domain View Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::isOfInterestTo(UML::Dependency)" type="" description="" unit="" values="" default="Is Of Interest To"/>
+							<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
+							<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
+							<Tag name="UML::Include" type="" description="" unit="" values="" default="Include"/>
+							<Tag name="UML::Extend" type="" description="" unit="" values="" default="Extends"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
 			<Documentation id="D3F3F748-B" name="BusinessEntityLifecycleToolbox" version="1.0" notes="BusinessEntityLifecycleToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BELModelElements" alias="Business Entity Lifecycle Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessEntityLifecycleElements" alias="Business Entity Lifecycle Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10201,7 +10315,7 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 							<Tag name="UML::InitialState" type="" description="" unit="" values="" default="Initial State"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BELRelationships" alias="Business Entity Lifecycle Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessEntityLifecycleRelationships" alias="Business Entity Lifecycle Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10214,28 +10328,15 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="45C01C55-A" name="BusinessRequirementsViewToolbox" version="1.0" notes="BusinessRequirementsViewToolbox"/>
+			<Documentation id="A32999AA-D" name="BusinessEntityViewToolbox" version="1.0" notes="BusinessEntityViewToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BusinessRequirementsViewModelElements" alias="Business Requirements View Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessEntityViewElements" alias="Business Entity View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
 						<TaggedValues>
 							<Tag name="UMM2::bEntity(UML::Class)" type="" description="" unit="" values="" default="Business Entity"/>
-							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
-							<Tag name="UMM2::bProcess(UML::Activity)" type="" description="" unit="" values="" default="Business Process"/>
-							<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="BusinessRequirementsViewToolbox" alias="Business Requirements View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::bDomainV(UML::Package)" type="" description="" unit="" values="" default="Business Domain View"/>
-							<Tag name="UMM2::bEntityV(UML::Package)" type="" description="" unit="" values="" default="Business Entity View"/>
-							<Tag name="UMM2::bPartnerV(UML::Package)" type="" description="" unit="" values="" default="Business Partner View"/>
 							<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
 						</TaggedValues>
 					</Stereotype>
@@ -10244,10 +10345,51 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="175E1721-1" name="BusinessProcessViewToolbox" version="1.0" notes="BusinessProcessViewToolbox"/>
+			<Documentation id="706F11CB-5" name="BusinessInformationViewToolbox" version="1.0" notes="BusinessInformationViewToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BusinessProcessElements" alias="Business Process - Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessInformationViewModelElements" alias="Business Information View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::InfEnvelope(UML::Class)" type="" description="" unit="" values="" default="Business Information Envelope"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="9BB14719-2" name="BusinessPartnerViewToolbox" version="1.0" notes="BusinessPartnerViewToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessPartnerViewElements" alias="Business Partner View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
+							<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="BusinessPartnerViewRelationships" alias="Business Partner View Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="175E1721-1" name="BusinessProcessToolbox" version="1.0" notes="BusinessProcessToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessProcessElements" alias="Business Process Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10264,7 +10406,7 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 							<Tag name="UMM2::bProcessAction(UML::Action)" type="" description="" unit="" values="" default="Business Process Action"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BusinessProcessRelationships" alias="Business Process - Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessProcessRelationships" alias="Business Process Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10278,15 +10420,45 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="A32999AA-D" name="BusinessEntityViewToolbox" version="1.0" notes="BusinessEntityViewToolbox"/>
+			<Documentation id="317A3370-0" name="BusinessRealizationViewToolbox" version="1.0" notes="BusinessRealizationViewToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BusinessEntityViewElements" alias="Business Entity View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessRealizationViewElements" alias="Business Realization View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="UMM2::bEntity(UML::Class)" type="" description="" unit="" values="" default="Business Entity"/>
+							<Tag name="UMM2::AuthorizedRole(UML::Actor)" type="" description="" unit="" values="" default="Authorized Role"/>
+							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
+							<Tag name="UMM2::bRealizationUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Realization Use Case"/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="BusinessRealizationViewRelationships" alias="Business Realization View Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::mapsTo(UML::Dependency)" type="" description="" unit="" values="" default="Maps To"/>
+							<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
+							<Tag name="UML::Realization" type="" description="" unit="" values="" default="Realize"/>
+						</TaggedValues>
+					</Stereotype>
+				</Stereotypes>
+				<TaggedValueTypes/>
+			</Content>
+		</UMLProfile>
+		<UMLProfile profiletype="uml2">
+			<Documentation id="45C01C55-A" name="BusinessRequirementsViewToolbox" version="1.0" notes="BusinessRequirementsViewToolbox"/>
+			<Content>
+				<Stereotypes>
+					<Stereotype name="BusinessRequirementsViewElements" alias="Business Requirements View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="ToolboxPage"/>
+						</AppliesTo>
+						<TaggedValues>
+							<Tag name="UMM2::bDomainV(UML::Package)" type="" description="" unit="" values="" default="Business Domain View"/>
+							<Tag name="UMM2::bEntityV(UML::Package)" type="" description="" unit="" values="" default="Business Entity View"/>
+							<Tag name="UMM2::bPartnerV(UML::Package)" type="" description="" unit="" values="" default="Business Partner View"/>
 							<Tag name="UMM2::bDataV(UML::Package)" type="" description="" unit="" values="" default="Business Data View"/>
 						</TaggedValues>
 					</Stereotype>
@@ -10295,128 +10467,25 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="706F11CB-5" name="BIVModelManagementToolbox" version="1.0" notes="BIVModelManagementToolbox"/>
+			<Documentation id="DDD1A879-D" name="BusinessTransactionToolbox" version="1.0" notes="BusinessTransactionToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BIVModelElements" alias="BIV Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessTransactionElements" alias="Business Transaction Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="UMM2::InfEnvelope(UML::Class)" type="" description="" unit="" values="" default="Business Information Envelope"/>
-						</TaggedValues>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
-		<UMLProfile profiletype="uml2">
-			<Documentation id="FC714F78-C" name="BCVBusinessCollaborationProtocolToolbox" version="1.0" notes="BCVBusinessCollaborationProtocolToolbox"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BCPModelElements" alias="Business Collaboration Protocol Modeling Elements" notes="" cx="331" cy="118" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UML::ActivityInitial" type="" description="" unit="" values="" default="Initial Activity"/>
-							<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default="Activity Final"/>
-							<Tag name="UMM2::bCPartition(UML::ActivityPartition)" type="" description="" unit="" values="" default="Business Collaboration Partition"/>
-							<Tag name="UMM2::bTransactionAction(UML::Action)" type="" description="" unit="" values="" default="Business Transaction Action"/>
-							<Tag name="UMM2::bNestedCollaboration(UML::Action)" type="" description="" unit="" values="" default="Nested Collaboration Action"/>
-							<Tag name="UMM2::bCollaborationAction(UML::Action)" type="" description="" unit="" values="" default="Business Collaboration Action"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="BCPModelRelationships" alias="Business Collaboration Protocol Model Relationships" notes="" cx="304" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UML::ControlFlow" type="" description="" unit="" values="" default="Control Flow"/>
-							<Tag name="UMM2::initFlow(UML::InformationFlow)" type="" description="" unit="" values="" default="Initialization Flow"/>
-							<Tag name="UMM2::reFlow(UML::InformationFlow)" type="" description="" unit="" values="" default="Responding Flow"/>
-						</TaggedValues>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
-		<UMLProfile profiletype="uml2">
-			<Documentation id="CC0F9ECB-1" name="BCVBusinessCollaborationUseCaseToolbox" version="1.0" notes="BCVBusinessCollaborationUseCaseToolbox"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BCUCModelElements" alias="Business Collaboration Use Case Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::AuthorizedRole(UML::Actor)" type="" description="" unit="" values="" default="Authorized Role"/>
-							<Tag name="UMM2::bTransactionUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Transaction Use Case"/>
-							<Tag name="UMM2::bCollaborationProtocol(UML::Activity)" type="" description="" unit="" values="" default="Business Collaboration Protocol"/>
-							<Tag name="UMM2::bTransaction(UML::Activity)" type="" description="" unit="" values="" default="Business Transaction"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="BCUCModelRelationships" alias="Business Collaboration Use Case Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UML::Includes" type="" description="" unit="" values="" default="Includes"/>
-							<Tag name="UML::Dependency" type="" description="" unit="" values="" default="Dependency"/>
-							<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
-						</TaggedValues>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
-		<UMLProfile profiletype="uml2">
-			<Documentation id="317A3370-0" name="BCVBusinessRealizationViewToolbox" version="1.0" notes="BCVBusinessRealizationViewToolbox"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BRVModelElements" alias="Business Realization View Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::AuthorizedRole(UML::Actor)" type="" description="" unit="" values="" default="Authorized Role"/>
-							<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
-							<Tag name="UMM2::bRealizationUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Realization Use Case"/>
-							<Tag name="UMM2::bCollaborationUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Collaboration Use Case"/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="BRVModelRelationships" alias="Business Realization View Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UMM2::mapsTo(UML::Dependency)" type="" description="" unit="" values="" default="Maps To"/>
-							<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
-							<Tag name="UMM2::realizes(UML::Realisation)" type="" description="" unit="" values="" default="Realizes"/>
-						</TaggedValues>
-					</Stereotype>
-				</Stereotypes>
-				<TaggedValueTypes/>
-			</Content>
-		</UMLProfile>
-		<UMLProfile profiletype="uml2">
-			<Documentation id="DDD1A879-D" name="BCVBusinessTransactionToolbox" version="1.0" notes="BCVBusinessTransactionToolbox"/>
-			<Content>
-				<Stereotypes>
-					<Stereotype name="BTModelElements" alias="Business Transaction Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="ToolboxPage"/>
-						</AppliesTo>
-						<TaggedValues>
-							<Tag name="UML::ActivityInitial" type="" description="" unit="" values="" default="Initial Activity"/>
-							<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default="Final Activity"/>
+							<Tag name="UML::ActivityInitial" type="" description="" unit="" values="" default="Initial"/>
+							<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default="Final"/>
 							<Tag name="UMM2::ReqAction(UML::Action)" type="" description="" unit="" values="" default="Requesting Action"/>
 							<Tag name="UMM2::ResAction(UML::Action)" type="" description="" unit="" values="" default="Responding Action"/>
 							<Tag name="UMM2::bTPartition(UML::ActivityPartition)" type="" description="" unit="" values="" default="Business Transaction Partition"/>
-							<Tag name="UMM2::bESharedState(UML::Object)" type="" description="" unit="" values="" default="Business Entity Shared State"/>
+							<Tag name="UMM2::bESharedState(UML::Object)" type="" description="" unit="" values="" default="Shared Business Entity State"/>
+							<Tag name="UMM2::ReqInfPin(UML::ActionPin)" type="" description="" unit="" values="" default="Requesting Information Envelope"/>
+							<Tag name="UMM2::ResInfPin(UML::ActionPin)" type="" description="" unit="" values="" default="Responding Information Envelope"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BTModelRelationships" alias="Business Transaction Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessTransactionRelationships" alias="Business Transaction Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10430,10 +10499,10 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="3D4612A1-F" name="BCVBusinessTransactionUseCaseToolbox" version="1.0" notes="BCVBusinessTransactionUseCaseToolbox"/>
+			<Documentation id="3D4612A1-F" name="BusinessTransactionUseCaseToolbox" version="1.0" notes="BusinessTransactionUseCaseToolbox"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="BTUCModelElements" alias="Business Transaction Use Case Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessTransactionUseCaseElements" alias="Business Transaction Use Case Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>
@@ -10443,7 +10512,7 @@ DAAAAAMAAAAOAAAAFAAAAAAAAAAQAAAAFAAAAA==</UMLPattern.PreviewImage>
 							<Tag name="UMM2::bTransaction(UML::Activity)" type="" description="" unit="" values="" default="Business Transaction"/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BTUCModelRelationships" alias="Business Transaction Use Case Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="BusinessTransactionUseCaseRelationships" alias="Business Transaction Use Case Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
 							<Apply type="ToolboxPage"/>
 						</AppliesTo>

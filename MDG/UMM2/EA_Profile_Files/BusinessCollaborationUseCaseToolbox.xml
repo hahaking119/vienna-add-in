@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="CC0F9ECB-1" name="BCVBusinessCollaborationUseCaseToolbox" version="1.0" notes="BCVBusinessCollaborationUseCaseToolbox"/>
+	<Documentation id="CC0F9ECB-1" name="BusinessCollaborationUseCaseToolbox" version="1.0" notes="BusinessCollaborationUseCaseToolbox"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="BCUCModelElements" alias="Business Collaboration Use Case Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessCollaborationUseCaseElements" alias="Business Collaboration Use Case Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
@@ -11,16 +11,15 @@
 					<Tag name="UMM2::AuthorizedRole(UML::Actor)" type="" description="" unit="" values="" default="Authorized Role"/>
 					<Tag name="UMM2::bTransactionUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Transaction Use Case"/>
 					<Tag name="UMM2::bCollaborationProtocol(UML::Activity)" type="" description="" unit="" values="" default="Business Collaboration Protocol"/>
-					<Tag name="UMM2::bTransaction(UML::Activity)" type="" description="" unit="" values="" default="Business Transaction"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BCUCModelRelationships" alias="Business Collaboration Use Case Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessCollaborationUseCaseRelationships" alias="Business Collaboration Use Case Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="UML::Includes" type="" description="" unit="" values="" default="Includes"/>
 					<Tag name="UML::Dependency" type="" description="" unit="" values="" default="Dependency"/>
+					<Tag name="UML::Include" type="" description="" unit="" values="" default="Include"/>
 					<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
 				</TaggedValues>
 			</Stereotype>

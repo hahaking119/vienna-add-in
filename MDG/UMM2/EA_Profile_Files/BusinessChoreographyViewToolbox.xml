@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="8796E632-8" name="BusinessChoreographyViewToolbox" version="1.0" notes="BusinessChoreographyViewToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BusinessChoreographyViewElements" alias="Business Choreography View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::bCollaborationV(UML::Package)" type="" description="" unit="" values="" default="Business Collaboration View"/>
+					<Tag name="UMM2::bTransactionV(UML::Package)" type="" description="" unit="" values="" default="Business Transaction View"/>
+					<Tag name="UMM2::bRealizationV(UML::Package)" type="" description="" unit="" values="" default="Business Realization View"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

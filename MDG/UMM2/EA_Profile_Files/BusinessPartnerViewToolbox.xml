@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="9BB14719-2" name="BusinessPartnerViewToolbox" version="1.0" notes="BusinessPartnerViewToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BusinessPartnerViewElements" alias="Business Partner View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
+					<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BusinessPartnerViewRelationships" alias="Business Partner View Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

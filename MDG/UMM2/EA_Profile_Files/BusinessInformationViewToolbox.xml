@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="706F11CB-5" name="BIVModelManagementToolbox" version="1.0" notes="BIVModelManagementToolbox"/>
+	<Documentation id="706F11CB-5" name="BusinessInformationViewToolbox" version="1.0" notes="BusinessInformationViewToolbox"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="BIVModelElements" alias="BIV Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessInformationViewModelElements" alias="Business Information View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>

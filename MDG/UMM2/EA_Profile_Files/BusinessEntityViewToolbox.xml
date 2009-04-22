@@ -3,7 +3,7 @@
 	<Documentation id="A32999AA-D" name="BusinessEntityViewToolbox" version="1.0" notes="BusinessEntityViewToolbox"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="BusinessEntityViewElements" alias="Business Entity View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessEntityViewElements" alias="Business Entity View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>

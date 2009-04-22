@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="1C1BF619-1" name="BusinessDomainViewDiagramToolbox" version="1.0" notes="BusinessDomainViewDiagramToolbox"/>
+	<Documentation id="1C1BF619-1" name="BusinessDomainViewToolbox" version="1.0" alias="BusinessDomainViewToolbox" notes="BusinessDomainViewToolbox"/>
 	<Content>
 		<Stereotypes>
 			<Stereotype name="BusinessDomainViewElements" alias="Business Domain View Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -8,11 +8,12 @@
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="UMM2::BusinessArea(UML::Package)" type="" description="" unit="" values="" default="Business Area"/>
+					<Tag name="UMM2::bArea(UML::Package)" type="" description="" unit="" values="" default="Business Area"/>
 					<Tag name="UMM2::ProcessArea(UML::Package)" type="" description="" unit="" values="" default="Process Area"/>
 					<Tag name="UMM2::bPartner(UML::Actor)" type="" description="" unit="" values="" default="Business Partner"/>
 					<Tag name="UMM2::bProcessUC(UML::UseCase)" type="" description="" unit="" values="" default="Business Process Use Case"/>
 					<Tag name="UMM2::Stakeholder(UML::Actor)" type="" description="" unit="" values="" default="Stakeholder"/>
+					<Tag name="UMM2::bProcess(UML::Activity)" type="" description="" unit="" values="" default="Business Process"/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="BusinessDomainViewRelationships" alias="Business Domain View Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -21,8 +22,10 @@
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="UMM2::isOfInterestTo(UML::Dependency)" type="" description="" unit="" values="" default="Is Of Interest To"/>
-					<Tag name="UMM2::particiaptes(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
+					<Tag name="UMM2::participates(UML::Association)" type="" description="" unit="" values="" default="Participates"/>
 					<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
+					<Tag name="UML::Include" type="" description="" unit="" values="" default="Include"/>
+					<Tag name="UML::Extend" type="" description="" unit="" values="" default="Extends"/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>

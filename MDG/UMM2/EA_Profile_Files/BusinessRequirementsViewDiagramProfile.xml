@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="D8401CF7-9" name="BusinessRequirementsViewDiagramProfile" version="1.0" alias="UMM2 Business Requirements View" notes="BusinessRequirementsViewDiagramProfile"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BusinessDomainViewDiagram" alias="Business Domain View" notes="Creates a Business Domain View diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Use Case">
+						<Property name="alias" value="Business Domain View"/>
+						<Property name="diagramID" value="BusinessDomainViewDiagram"/>
+						<Property name="toolbox" value="BusinessDomainViewToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessEntityLifecycleDiagram" alias="Business Entity Lifecycle" notes="Creates a Business Entity Lifecycle diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Statechart">
+						<Property name="alias" value="Business Entity Lifecycle"/>
+						<Property name="diagramID" value="BusinessEntityLifecycleDiagram"/>
+						<Property name="toolbox" value="BusinessEntityLifecycleToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessEntityViewDiagram" alias="Business Entity View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Logical">
+						<Property name="alias" value="Business Entity View"/>
+						<Property name="diagramID" value="BusinessEntityViewDiagram"/>
+						<Property name="toolbox" value="BusinessEntityViewToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessPartnerView" alias="Business Partner View" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Use Case">
+						<Property name="alias" value="Business Partner View"/>
+						<Property name="diagramID" value="BusinessPartnerViewDiagram"/>
+						<Property name="toolbox" value="BusinessPartnerViewToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessProcessDiagram" alias="Business Process" notes="Creates a Business Process diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Activity">
+						<Property name="alias" value="Business Process"/>
+						<Property name="diagramID" value="BusinessProcessDiagram"/>
+						<Property name="toolbox" value="BusinessProcessToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="BusinessRequirementsViewDiagram" alias="Business Requirements View" notes="Creates a Business Requirements View Diagram." cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Diagram_Package">
+						<Property name="alias" value="Business Requirements View"/>
+						<Property name="diagramID" value="BusinessRequirementsViewDiagram"/>
+						<Property name="toolbox" value="BusinessRequirementsViewToolbox"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

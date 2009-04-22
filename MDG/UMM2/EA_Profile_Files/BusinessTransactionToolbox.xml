@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="DDD1A879-D" name="BusinessTransactionToolbox" version="1.0" notes="BusinessTransactionToolbox"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="BusinessTransactionElements" alias="Business Transaction Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UML::ActivityInitial" type="" description="" unit="" values="" default="Initial"/>
+					<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default="Final"/>
+					<Tag name="UMM2::ReqAction(UML::Action)" type="" description="" unit="" values="" default="Requesting Action"/>
+					<Tag name="UMM2::ResAction(UML::Action)" type="" description="" unit="" values="" default="Responding Action"/>
+					<Tag name="UMM2::bTPartition(UML::ActivityPartition)" type="" description="" unit="" values="" default="Business Transaction Partition"/>
+					<Tag name="UMM2::bESharedState(UML::Object)" type="" description="" unit="" values="" default="Shared Business Entity State"/>
+					<Tag name="UMM2::ReqInfPin(UML::ActionPin)" type="" description="" unit="" values="" default="Requesting Information Envelope"/>
+					<Tag name="UMM2::ResInfPin(UML::ActionPin)" type="" description="" unit="" values="" default="Responding Information Envelope"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BusinessTransactionRelationships" alias="Business Transaction Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="ToolboxPage"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="UML::ControlFlow" type="" description="" unit="" values="" default="ControlFlow"/>
+					<Tag name="UML::ObjectFlow" type="" description="" unit="" values="" default="Object Flow"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

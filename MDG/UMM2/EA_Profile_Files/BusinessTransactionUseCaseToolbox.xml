@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="3D4612A1-F" name="BCVBusinessTransactionUseCaseToolbox" version="1.0" notes="BCVBusinessTransactionUseCaseToolbox"/>
+	<Documentation id="3D4612A1-F" name="BusinessTransactionUseCaseToolbox" version="1.0" notes="BusinessTransactionUseCaseToolbox"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="BTUCModelElements" alias="Business Transaction Use Case Model Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessTransactionUseCaseElements" alias="Business Transaction Use Case Elements" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
@@ -13,7 +13,7 @@
 					<Tag name="UMM2::bTransaction(UML::Activity)" type="" description="" unit="" values="" default="Business Transaction"/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BTUCModelRelationships" alias="Business Transaction Use Case Model Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessTransactionUseCaseRelationships" alias="Business Transaction Use Case Relationships" notes="" cx="100" cy="80" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="ToolboxPage"/>
 				</AppliesTo>
