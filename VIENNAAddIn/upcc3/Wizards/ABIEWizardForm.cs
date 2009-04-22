@@ -110,6 +110,42 @@ namespace VIENNAAddIn.upcc3.Wizards
                 {
                     editMode = false;
                     InitializeComponent();
+                    try
+                    {
+                        repository = new CCRepository(eaRepo);
+
+                        cache = new Cache();
+
+                        /*
+                         * Populate the internal cache with all the CC libraries currently
+                         * available the repository.
+                         **/
+                        cache.LoadCCLs(repository);
+
+                        /*
+                         * Populate the internal cache with all the BIE libraries currently
+                         * available the repository. For each BIE library all ABIEs contained
+                         * in the library are cached as well. 
+                         **/
+                        cache.LoadBIELs(repository);
+
+                        /*
+                         * Populate the internal cache with all the BDT libraries currently
+                         * available the repository. For each BDT library all BDTs contained
+                         * in the library are cached as well. 
+                         **/
+                        cache.LoadBDTLs(repository);
+                    }
+                    catch (CacheException ce)
+                    {
+                        InformativeMessage(ce.Message);
+                        ResetForm(0);
+                    }
+                    catch (Exception e)
+                    {
+                        CriticalErrorMessage(e.ToString());
+                        ResetForm(0);
+                    }
                 }
         #endregion
 
