@@ -2,38 +2,41 @@
 
 = Storyboard =
 
-1. Create New Project
 
-2. Set model as UMM2/UPCC3 model
+Storyboard for UPCC Tutorial, Rome, 23rd April 2009
 
-2. Use Add-in Wizard to create initial model structure
+1. Create a new UPCC Model Structure
 
-3. Show the UML Profile for Core Components - explain the dynamic loading mechanism for MDG
+2. Define PRIMs (Decimal, String, TimePoint, Boolean)
 
-Elaborate on the advantages of the UML profile:
+3. Define ENUMs 
 
--) Constant access to the most recent version of the UPCC - bugfixes in the profile are automatically loaded into EA
+- ISO 3166-1 Country Codes
 
--) Automatic generation of necessary attributes (tagged values)
+- ISO4217 Currency Codes
 
-4. Create sample artifacts using the UML Profile for Core Components
+4. Define CDTs
 
--) Create a CDT "Text"
+- Amount
 
--) Create an ACC "Address".
+- BinaryObject
 
--) Add BCCs
+- DateTime
 
--) Set the BCC type
+- Identifier
 
--) Set unique identifier, DEN, definition etc.
+- Indicator
 
-5. Validate the sample artifacts
+- Quantity
 
-6. Open existing sample model with CCTS structures
+- Text
 
-7. Create a new and empty BIELibrary
+5. Define CCs
 
-8. Create ABIE using Add-in Wizard based on existing ACCs and BCCs - Select the newly created BIELibrary as target
+- Order, Item, Party, Address
 
-9. Generate XSD Schemas from DOCLibrary
+6. Define new ABIEs using the wizard
+
+7. Define new Business Document in the DOCLibrary
+
+8. Generate a new XML Scheme from the DOCLibrary
