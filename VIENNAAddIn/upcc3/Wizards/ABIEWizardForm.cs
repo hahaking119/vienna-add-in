@@ -681,30 +681,36 @@ namespace VIENNAAddIn.upcc3.Wizards
                 {                  
                     foreach (cASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
                     {
-                        //if (cascc.State == CheckState.Checked)
-                        //{
-                        // rip the checked item apart
-                        int indexBrace = selectedASCCName.IndexOf('(');
-                        //string asccName = selectedASCCName.Substring(0, selectedASCCName.Length - indexBrace - 3);
-                        string abieName = selectedASCCName.Substring(indexBrace + 1);
-                        abieName = abieName.Remove(abieName.Length - 1);
-
-
-                        int accId = cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id;
-                        IACC acc = repository.GetACC(accId);
-
-                        IASCC origASCC = null;
-                        foreach (IASCC ascc in acc.ASCCs)
+                        if (cascc.State == CheckState.Checked)
                         {
-                            if (ascc.Id == cascc.Id)
-                            {
-                                origASCC = ascc;
-                            }
-                        }
+                            // get the original ACC that we currently process
+                            int accId = cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id;
+                            IACC acc = repository.GetACC(accId);
 
-                        // todo: check if origASCC is null
-                        newASBIEs.Add(ASBIESpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name, cascc.ABIEs[abieName].Id));
-                        //}
+                            // get the original ASCC of the above ACC that we currently process
+                            IASCC origASCC = null;
+                            foreach (IASCC ascc in acc.ASCCs)
+                            {
+                                if (ascc.Id == cascc.Id)
+                                {
+                                    origASCC = ascc;
+                                }
+                            }
+
+                            // get the name of the abie
+                            // todo: there is always one relevant abie only. therefore we should
+                            // change the abie dictionary to storing the abie name and id only (e.g. cABIE 
+                            // instead of cABIE dictionary).
+                            string abieName = "";
+                            foreach (cABIE cabie in cascc.ABIEs.Values)
+                            {
+                                abieName = cabie.Name;
+                                break;
+                            }
+
+                            newASBIEs.Add(ASBIESpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name, cascc.ABIEs[abieName].Id));
+
+                        }
                         // else don't worry about it
                     }
                 }
@@ -782,24 +788,26 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             GatherUserInput();
 
-            if (cache.PathIsValid(CacheConstants.PATH_ASCCs, new[] { selectedCCLName, selectedACCName, selectedASCCName }))
-            {
-                int indexBrace = selectedASCCName.IndexOf('(');
-                //string asccName = selectedASCCName.Substring(0, selectedASCCName.Length - indexBrace - 3);
-                string abieName = selectedASCCName.Substring(indexBrace + 1);
-                abieName = abieName.Remove(abieName.Length - 1);
+            // todo: implement error handling (e.g. selectedASCCName is empty)
 
-                foreach (cASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
-                {
-                    foreach (cABIE abie in ascc.ABIEs.Values)
-                    {
-                        if (abie.Name == abieName)
-                        {
-                            ascc.State = e.NewValue;
-                            return;
-                        }
-                    }
-                }
+            int indexBrace = selectedASCCName.IndexOf('(');            
+            string asccName = selectedASCCName.Substring(0, indexBrace - 1);            
+            
+            if (cache.PathIsValid(CacheConstants.PATH_ASCCs, new[] { selectedCCLName, selectedACCName, asccName }))
+            {
+                cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs[asccName].State = e.NewValue;
+
+                //foreach (cASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+                //{
+                //    foreach (cABIE abie in ascc.ABIEs.Values)
+                //    {
+                //        if (abie.Name == abieName)
+                //        {
+                //            ascc.State = e.NewValue;
+                //            return;
+                //        }
+                //    }
+                //}
             }
         }
 
