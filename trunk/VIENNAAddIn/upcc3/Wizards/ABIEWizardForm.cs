@@ -15,6 +15,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         #region Variable Declarations
 
         private CCRepository repository;
+        private ABIE abie;
         private Cache cache;
         private Label errorMessageABIE;
         private Label errorMessageBDT;
@@ -108,6 +109,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         /// <param name="element"></param>
         public ABIEWizardForm(EA.Repository eaRepo, EA.Element element)
                 {
+            
+                    repository = new CCRepository(eaRepo);
+                    abie = (ABIE) repository.GetABIE(element.ElementID);
                     editMode = false;
                     InitializeComponent();
                     try
@@ -193,6 +197,12 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
             else
             {
+                textABIEName.Text = abie.Name;
+                comboCCLs.SelectedIndex = 0;
+                comboCCLs_SelectionChangeCommitted(null,null);
+                comboACCs.SelectedIndex= comboACCs.FindString(abie.BasedOn.Name);
+                comboACCs_SelectionChangeCommitted(null, null);
+                ResetForm(4);
                 buttonSave.Show();
             }
 
@@ -248,7 +258,10 @@ namespace VIENNAAddIn.upcc3.Wizards
                      * Accordingly, enable the combo box containing all ACCs to allow the 
                      * user to choose an ACC.
                      **/
-                    ResetForm(2);                    
+                    if (editMode)
+                    {
+                        ResetForm(2);
+                    }
                 }
             }
             catch (CacheException ce)
@@ -281,10 +294,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndCreateDefaults(repository, cache.BDTLs);                    
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
                 }
-
-                textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
-
-                ResetForm(3);
+                if (editMode)
+                {
+                    textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
+                    ResetForm(3);
+                }
             }
             catch (CacheException ce)
             {
@@ -576,16 +590,20 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void textABIEName_TextChanged(object sender, EventArgs e)
         {
-            if (cache.BIELs[selectedBIELName].ABIEs.ContainsKey(textABIEName.Text))
+            if (editMode)
             {
-                errorMessageABIE.Location = new Point(textABIEName.Location.X + textABIEName.Width - 210, textABIEName.Location.Y);
-                errorMessageABIE.Text = "ABIE named \"" + textABIEName.Text + "\" alreay exists!";
-                errorMessageABIE.BringToFront();
-                errorMessageABIE.Show();
-            }
-            else
-            {
-                errorMessageABIE.Hide();
+                if (cache.BIELs[selectedBIELName].ABIEs.ContainsKey(textABIEName.Text))
+                {
+                    errorMessageABIE.Location = new Point(textABIEName.Location.X + textABIEName.Width - 210,
+                                                          textABIEName.Location.Y);
+                    errorMessageABIE.Text = "ABIE named \"" + textABIEName.Text + "\" alreay exists!";
+                    errorMessageABIE.BringToFront();
+                    errorMessageABIE.Show();
+                }
+                else
+                {
+                    errorMessageABIE.Hide();
+                }
             }
         }
 
@@ -1011,6 +1029,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                     textABIEName.Enabled = true;
                     comboBDTLs.Enabled = true;
                     comboBIELs.Enabled = true;
+                    break;
+                case 4:
+                    tabcontrolACC.Enabled = true;
                     break;
             }
         }
