@@ -9,6 +9,7 @@
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="UML::ActivityFinal" type="" description="" unit="" values="" default="Activity Final"/>
+					<Tag name="UML::FlowFinal" type="" description="" unit="" values="" default="Flow Final"/>
 					<Tag name="UML::ActivityInitial" type="" description="" unit="" values="" default="Activity Initial"/>
 					<Tag name="UML::Decision" type="" description="" unit="" values="" default="Decision"/>
 					<Tag name="UML::ForkJoinH" type="" description="" unit="" values="" default="Fork/Join"/>

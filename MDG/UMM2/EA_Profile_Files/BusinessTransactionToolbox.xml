@@ -38,6 +38,7 @@
 				<TaggedValues>
 					<Tag name="UML::ControlFlow" type="" description="" unit="" values="" default="ControlFlow"/>
 					<Tag name="UML::ObjectFlow" type="" description="" unit="" values="" default="Object Flow"/>
+					<Tag name="UML::Realization" type="" description="" unit="" values="" default="Realizes"/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>

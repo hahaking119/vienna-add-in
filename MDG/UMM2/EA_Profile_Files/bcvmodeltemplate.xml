@@ -1249,14 +1249,18 @@
 			<diagram xmi:id="EAID_54E2D3E3_A4D9_4fc7_BDEA_2D75D2CCC6A0">
 				<model package="EAPK_85473FB5_1882_4fdb_9696_8B867F74A256" localID="84" owner="EAPK_85473FB5_1882_4fdb_9696_8B867F74A256"/>
 				<properties name="UMM2 Dample Business Transaction View" type="Use Case"/>
-				<project author="motal" version="1.0" created="2008-11-17 15:32:09" modified="2009-04-22 13:32:43"/>
+				<project author="motal" version="1.0" created="2008-11-17 15:32:09" modified="2009-04-23 10:22:38"/>
 				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=1;PPgs.cy=1;DocSize.cx=780;DocSize.cy=1138;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;MDGDgm=BusinessChoreographyViewDiagramProfile::BusinessTransactionUseCaseDiagram;"/>
+				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;MatrixLineWidth=1;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;ProfileData=;MDGDgm=BusinessChoreographyViewDiagramProfile::BusinessTransactionUseCaseDiagram;STBLDgm=;ShowNotes=0;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
 				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;;cls=0;"/>
 				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;width=1;"/>
 				<extendedProperties/>
 				<elements>
-					<element geometry="Left=290;Top=240;Right=422;Bottom=328;" subject="EAID_5B5DDCB9_B87D_4005_BEBE_A6E152B36AB3" seqno="1" style="DUID=F94B58E3;HideIcon=0;"/>
+					<element geometry="Left=520;Top=230;Right=570;Bottom=330;" subject="EAID_65847774_8C96_4633_BB1A_3CF05A1694CC" seqno="1" style="DUID=833145C7;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="Left=90;Top=220;Right=140;Bottom=320;" subject="EAID_D4CC7C14_DCB2_4ab1_B658_679506B7FC9F" seqno="2" style="DUID=CFBA1B02;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;italic=0;ul=0;charset=0;pitch=0;"/>
+					<element geometry="Left=270;Top=240;Right=402;Bottom=328;" subject="EAID_5B5DDCB9_B87D_4005_BEBE_A6E152B36AB3" seqno="3" style="DUID=F94B58E3;HideIcon=0;"/>
+					<element geometry="EDGE=4;$LLB=;LLT=;LMT=;LMB=CX=66:CY=15:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_AF779E9B_E2F7_4a3c_8D0C_CED0D18C5F6D" style="Mode=3;EOID=F94B58E3;SOID=833145C7;Color=-1;LWidth=0;Hidden=0;"/>
+					<element geometry="EDGE=2;$LLB=;LLT=;LMT=;LMB=CX=66:CY=15:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=0:DIR=0:ROT=0;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_3D726CFC_265D_4b64_BC33_F3A4B571FB30" style="Mode=3;EOID=F94B58E3;SOID=CFBA1B02;Color=-1;LWidth=0;Hidden=0;"/>
 				</elements>
 			</diagram>
 			<diagram xmi:id="EAID_E1072A9D_1BA7_4b1e_9FBE_9028FD027200">

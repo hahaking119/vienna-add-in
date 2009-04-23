@@ -26,6 +26,7 @@
 					<Tag name="UML::Generalization" type="" description="" unit="" values="" default="Generalization"/>
 					<Tag name="UML::Include" type="" description="" unit="" values="" default="Include"/>
 					<Tag name="UML::Extend" type="" description="" unit="" values="" default="Extends"/>
+					<Tag name="UML::Realization" type="" description="" unit="" values="" default="Realizes"/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>
