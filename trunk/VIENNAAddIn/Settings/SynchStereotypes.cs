@@ -74,7 +74,7 @@ namespace VIENNAAddIn.Settings
             }
 
             // check TaggedValues of sub-packages recursively
-            var missingValuesL = new List<List<String>>();
+            List<List<string>> missingValuesL;
             foreach (Package pp in p.Packages)
             {
                 missingValuesL = Check(pp);
