@@ -170,9 +170,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         protected void AddElementToDiagram(Element element)
         {
             var diagram = (Diagram)package.Diagrams.GetByName(Name);
-            var newDiagramObject = (DiagramObject)diagram.DiagramObjects.AddNew("", "");
-            newDiagramObject.ElementID = element.ElementID;
-            newDiagramObject.Update();
+            if (diagram != null)
+            {
+                var newDiagramObject = (DiagramObject) diagram.DiagramObjects.AddNew("", "");
+                newDiagramObject.ElementID = element.ElementID;
+                newDiagramObject.Update();
+            }
         }
     }
 }
