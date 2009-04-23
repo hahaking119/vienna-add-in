@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("VIENNAAdd-In")]
 [assembly: AssemblyProduct("Add-In for Sparx Enterprise Architect")]
-[assembly: AssemblyCopyright("2008")]
+[assembly: AssemblyCopyright("2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("0.0.1.*")]
+[assembly: AssemblyVersion("0.0.3.400")]
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
