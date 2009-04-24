@@ -39,48 +39,47 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IABIE CreateABIE(ABIESpec spec)
         {
-            var abie = (Element) package.Elements.AddNew(spec.Name, "Class");
-            abie.Stereotype = util.Stereotype.ABIE;
-            abie.PackageID = Id;
-
-            foreach (TaggedValueSpec taggedValueSpec in spec.GetTaggedValues())
-            {
-                abie.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
-            }
-
-            if (spec.BasedOn != null)
-            {
-                abie.AddDependency(util.Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
-            }
-            if (spec.IsEquivalentTo != null)
-            {
-                abie.AddDependency(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
-            }
-            if (spec.ASBIEs != null)
-            {
-                foreach (var asbie in spec.ASBIEs)
-                {
-                    abie.AddAggregation(AggregationKind.Composite, util.Stereotype.ASBIE, asbie.Name, asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
-                }
-            }
-            abie.Connectors.Refresh();
-
-            if (spec.BBIEs != null)
-            {
-                foreach (BBIESpec bbie in spec.BBIEs)
-                {
-                    abie.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, bbie.LowerBound, bbie.UpperBound,
-                                      bbie.GetTaggedValues());
-                }
-            }
-            abie.Attributes.Refresh();
-            abie.Update();
-            abie.Refresh();
+            var element = (Element) package.Elements.AddNew(spec.Name, "Class");
+            element.Stereotype = util.Stereotype.ABIE;
+            element.PackageID = Id;
+//            foreach (TaggedValueSpec taggedValueSpec in spec.GetTaggedValues())
+//            {
+//                abie.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+//            }
+//
+//            if (spec.BasedOn != null)
+//            {
+//                abie.AddDependency(util.Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
+//            }
+//            if (spec.IsEquivalentTo != null)
+//            {
+//                abie.AddDependency(util.Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+//            }
+//            if (spec.ASBIEs != null)
+//            {
+//                foreach (var asbie in spec.ASBIEs)
+//                {
+//                    abie.AddAggregation(AggregationKind.Composite, util.Stereotype.ASBIE, asbie.Name, asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
+//                }
+//            }
+//            abie.Connectors.Refresh();
+//
+//            if (spec.BBIEs != null)
+//            {
+//                foreach (BBIESpec bbie in spec.BBIEs)
+//                {
+//                    abie.AddAttribute(util.Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, bbie.LowerBound, bbie.UpperBound,
+//                                      bbie.GetTaggedValues());
+//                }
+//            }
+//            abie.Attributes.Refresh();
+//            abie.Update();
+//            abie.Refresh();
             package.Elements.Refresh();
-
-            AddElementToDiagram(abie);
-
-            return new ABIE(repository, abie);
+            AddElementToDiagram(element);
+            var abie = new ABIE(repository, element);
+            abie.Update(spec);
+            return abie;
         }
 
         public ICCTSElement ElementByName(string name)
