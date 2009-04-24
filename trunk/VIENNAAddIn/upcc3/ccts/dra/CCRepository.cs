@@ -73,8 +73,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public TItem Update<TItem, TSpec>(TItem item, TSpec spec)
         {
-            var updateable = (IUpdateable<TSpec>) item;
-            updateable.Update(spec);
+            ((IUpdateable<TSpec>) item).Update(spec);
             return item;
         }
 
