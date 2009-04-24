@@ -9,10 +9,11 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public class CCTSSpec
+    public abstract class CCTSSpec
     {
         public IEnumerable<TaggedValueSpec> GetTaggedValues()
         {
@@ -44,5 +45,20 @@ namespace VIENNAAddIn.upcc3.ccts
                 }
             }
         }
+    }
+
+    public class TaggedValueAttribute : Attribute
+    {
+        public TaggedValueAttribute()
+            : this(TaggedValues.Undefined)
+        {
+        }
+
+        public TaggedValueAttribute(TaggedValues key)
+        {
+            Key = key;
+        }
+
+        public TaggedValues Key { get; private set; }
     }
 }

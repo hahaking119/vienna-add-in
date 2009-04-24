@@ -10,5 +10,12 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public class CDTSpec : DTSpec
     {
+        public CDTSpec(ICDT cdt) : base(cdt)
+        {
+        }
+
+        public CDTSpec()
+        {
+        }
     }
 }

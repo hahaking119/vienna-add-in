@@ -10,6 +10,8 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
+    ///<summary>
+    ///</summary>
     public interface ICCRepository
     {
         IBusinessLibrary GetLibrary(int id);
@@ -17,5 +19,14 @@ namespace VIENNAAddIn.upcc3.ccts
         IEnumerable<T> Libraries<T>() where T : IBusinessLibrary;
         T LibraryByName<T>(string name) where T : IBusinessLibrary;
         object FindByPath(Path path);
+
+        ///<summary>
+        ///</summary>
+        ///<param name="item"></param>
+        ///<param name="spec"></param>
+        ///<typeparam name="TItem"></typeparam>
+        ///<typeparam name="TSpec"></typeparam>
+        ///<returns></returns>
+        TItem Update<TItem, TSpec>(TItem item, TSpec spec);
     }
 }

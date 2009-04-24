@@ -5,6 +5,18 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public class ASBIESpec : BIESpec
     {
+        public ASBIESpec(IASBIE asbie) : base(asbie)
+        {
+            SequencingKey = asbie.SequencingKey;
+            AssociatedABIEId = asbie.AssociatedElement.Id;
+            LowerBound = asbie.LowerBound;
+            UpperBound = asbie.UpperBound;
+        }
+
+        public ASBIESpec()
+        {
+        }
+
         [TaggedValue(TaggedValues.SequencingKey)]
         public string SequencingKey { get; set; }
 

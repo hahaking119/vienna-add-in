@@ -6,14 +6,28 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public class CCTSElementSpec : CCTSSpec
+    public abstract class CCTSElementSpec : CCTSSpec
     {
+        protected CCTSElementSpec(ICCTSElement cctsElement)
+        {
+            Name = cctsElement.Name;
+            DictionaryEntryName = cctsElement.DictionaryEntryName;
+            Definition = cctsElement.Definition;
+            UniqueIdentifier = cctsElement.UniqueIdentifier;
+            VersionIdentifier = cctsElement.VersionIdentifier;
+            LanguageCode = cctsElement.LanguageCode;
+            BusinessTerms = new List<string>(cctsElement.BusinessTerms);
+        }
+
+        protected CCTSElementSpec()
+        {
+        }
+
         public string Name { get; set; }
 
         [TaggedValue(TaggedValues.DictionaryEntryName)]
@@ -33,19 +47,5 @@ namespace VIENNAAddIn.upcc3.ccts
 
         [TaggedValue(TaggedValues.BusinessTerm)]
         public IEnumerable<string> BusinessTerms { get; set; }
-    }
-
-    public class TaggedValueAttribute : Attribute
-    {
-        public TaggedValueAttribute() : this(TaggedValues.Undefined)
-        {
-        }
-
-        public TaggedValueAttribute(TaggedValues key)
-        {
-            Key = key;
-        }
-
-        public TaggedValues Key { get; private set; }
     }
 }
