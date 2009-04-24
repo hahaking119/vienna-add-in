@@ -56,8 +56,7 @@ namespace VIENNAAddIn
 
             menuManager[MenuLocation.MainMenu] =
                 (AddInSettings.AddInName
-                 +
-                 "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
+                 + "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
                  + createUPCCStructure
                  + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
                  + _____
@@ -72,6 +71,7 @@ namespace VIENNAAddIn
                     + modifyABIE
                     + createBDT
                     + "Generate &XML Schema".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
+                    + "&Import XML Schemas".OnClick(ImporterWizardForm.ShowImporterWizard)
                    )
                  + "&Options".OnClick(OptionsForm.ShowForm)
                  + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)

@@ -64,6 +64,7 @@
     <Compile Include="upcc3\ccts\DynamicProxyTest.cs" />
     <Compile Include="upcc3\ccts\util\AggregationKindTest.cs" />
     <Compile Include="upcc3\Wizards\CacheTest.cs" />
+    <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
     <Compile Include="upcc3\Wizards\util\ModelCreatorTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\DictionaryExtensionsTest.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\StringExtensionsTest.cs" />
