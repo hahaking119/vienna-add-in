@@ -13,6 +13,18 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public class BBIESpec : BIESpec
     {
+        public BBIESpec(IBBIE bbie) : base(bbie)
+        {
+            SequencingKey = bbie.SequencingKey;
+            Type = bbie.Type;
+            LowerBound = bbie.LowerBound;
+            UpperBound = bbie.UpperBound;
+        }
+
+        public BBIESpec()
+        {
+        }
+
         [TaggedValue(TaggedValues.SequencingKey)]
         public string SequencingKey { get; set; }
 

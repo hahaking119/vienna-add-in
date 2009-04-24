@@ -13,6 +13,24 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public class LibrarySpec : CCTSSpec
     {
+        public LibrarySpec(IBusinessLibrary businessLibrary)
+        {
+            Name = businessLibrary.Name;
+            Status = businessLibrary.Status;
+            UniqueIdentifier = businessLibrary.UniqueIdentifier;
+            VersionIdentifier = businessLibrary.VersionIdentifier;
+            BaseURN = businessLibrary.BaseURN;
+            NamespacePrefix = businessLibrary.NamespacePrefix;
+            BusinessTerms = new List<string>(businessLibrary.BusinessTerms);
+            Copyrights = new List<string>(businessLibrary.Copyrights);
+            Owners = new List<string>(businessLibrary.Owners);
+            References = new List<string>(businessLibrary.References);
+        }
+
+        public LibrarySpec()
+        {
+        }
+
         public string Name { get; set; }
 
         [TaggedValue(TaggedValues.Status)]

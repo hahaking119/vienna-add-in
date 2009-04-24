@@ -68,7 +68,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
 
         public void Delete(short index)
         {
-            throw new NotImplementedException();
+            elements.RemoveAt(index);
         }
 
         IEnumerator IDualCollection.GetEnumerator()

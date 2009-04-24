@@ -11,8 +11,17 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public class BIESpec: CCTSElementSpec
+    public abstract class BIESpec : CCTSElementSpec
     {
+        protected BIESpec(IBIE bie) : base(bie)
+        {
+            UsageRules = new List<string>(bie.UsageRules);
+        }
+
+        protected BIESpec()
+        {
+        }
+
         [TaggedValue(TaggedValues.UsageRule)]
         public IEnumerable<string> UsageRules { get; set; }
     }

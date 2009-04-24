@@ -11,8 +11,21 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public class DTComponentSpec : CCTSElementSpec
+    public abstract class DTComponentSpec : CCTSElementSpec
     {
+        protected DTComponentSpec(IDTComponent dtComponent) : base(dtComponent)
+        {
+            BasicType = dtComponent.BasicType;
+            ModificationAllowedIndicator = dtComponent.ModificationAllowedIndicator;
+            UsageRules = new List<string>(dtComponent.UsageRules);
+            UpperBound = dtComponent.UpperBound;
+            LowerBound = dtComponent.LowerBound;
+        }
+
+        protected DTComponentSpec()
+        {
+        }
+
         public IBasicType BasicType { get; set; }
 
         [TaggedValue(TaggedValues.ModificationAllowedIndicator)]

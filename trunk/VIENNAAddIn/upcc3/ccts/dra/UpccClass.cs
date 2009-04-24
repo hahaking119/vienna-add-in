@@ -132,5 +132,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             return element.GetTaggedValue(key) ?? string.Empty;
         }
+
+        protected void Update(CCTSElementSpec spec)
+        {
+            element.Name = spec.Name;
+            foreach (TaggedValueSpec taggedValueSpec in spec.GetTaggedValues())
+            {
+                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
+        }
     }
 }

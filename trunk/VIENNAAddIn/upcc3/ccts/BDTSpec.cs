@@ -7,17 +7,22 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
     public class BDTSpec : DTSpec
     {
-        public ICDT BasedOn { get; set; }
-
-        public static BDTSpec CloneCDT(ICDT cdt)
+        public BDTSpec(IBDT bdt) : base(bdt)
         {
-            return CloneCDT(cdt, null);
+            BasedOn = bdt.BasedOn.CDT;
         }
+
+        public BDTSpec()
+        {
+        }
+
+        public ICDT BasedOn { get; set; }
 
         public static BDTSpec CloneCDT(ICDT cdt, string name)
         {
@@ -32,8 +37,8 @@ namespace VIENNAAddIn.upcc3.ccts
                        UniqueIdentifier = cdt.UniqueIdentifier,
                        UsageRules = new List<string>(cdt.UsageRules),
                        VersionIdentifier = cdt.VersionIdentifier,
-                       CON = CloneCON(cdt),
-                       SUPs = new List<SUPSpec>(CloneSUPs(cdt)),
+                       CON = new CONSpec(cdt.CON),
+                       SUPs = new List<SUPSpec>(cdt.SUPs.Convert(sup => new SUPSpec(sup))),
                    };
         }
     }
