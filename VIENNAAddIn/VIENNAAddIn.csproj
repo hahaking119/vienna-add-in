@@ -104,6 +104,12 @@
     <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
     <Compile Include="upcc3\ccts\dra\IUpdateable.cs" />
+    <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="upcc3\Wizards\ImporterWizardForm.Designer.cs">
+      <DependentUpon>ImporterWizardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\DictionaryExtensions.cs" />
     <Compile Include="menu\MenuAction.cs" />
     <Compile Include="menu\MenuItem.cs" />
@@ -330,6 +336,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\GeneratorWizardForm.resx">
       <DependentUpon>GeneratorWizardForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="upcc3\Wizards\ImporterWizardForm.resx">
+      <DependentUpon>ImporterWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\UPCCModelWizardForm.resx">
