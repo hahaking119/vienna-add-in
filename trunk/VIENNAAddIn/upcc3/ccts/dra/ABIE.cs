@@ -14,7 +14,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ABIE : UpccClass, IABIE, Updateable<ABIESpec>
+    internal class ABIE : UpccClass, IABIE, IUpdateable<ABIESpec>
     {
         public ABIE(CCRepository repository, Element element) : base(repository, element, "ABIE")
         {
@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        #region Updateable<ABIESpec> Members
+        #region IUpdateable<ABIESpec> Members
 
         public void Update(ABIESpec spec)
         {
