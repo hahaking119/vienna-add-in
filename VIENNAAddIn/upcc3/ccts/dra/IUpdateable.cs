@@ -1,6 +1,6 @@
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public interface Updateable<TSpec>
+    public interface IUpdateable<TSpec>
     {
         void Update(TSpec spec);
     }
