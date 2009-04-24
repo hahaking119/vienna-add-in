@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
-using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+﻿using NUnit.Framework;
+using VIENNAAddInUnitTests.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.TestRepository
 {
