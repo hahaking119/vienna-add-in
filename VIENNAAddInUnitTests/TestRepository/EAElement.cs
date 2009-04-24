@@ -9,7 +9,7 @@
 using System;
 using EA;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EAElement : Element, IEACollectionElement
     {

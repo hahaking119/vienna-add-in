@@ -13,7 +13,7 @@ using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     /// <summary>
     /// An implementation of the <c>EA.Repository</c> API for unit testing.
@@ -654,7 +654,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 eaPackage.ParentID = parentId;
                 eaPackage.Element.Stereotype = package.GetStereotype();
 
-                foreach (var diagram in package.GetDiagrams())
+                foreach (DiagramBuilder diagram in package.GetDiagrams())
                 {
                     eaPackage.Diagrams.AddNew(diagram.GetName(), diagram.GetDiagramType());
                 }
@@ -667,7 +667,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                 foreach (ElementBuilder element in package.GetElements())
                 {
                     var eaElement = (EAElement) eaPackage.Elements.AddNew(element.GetName(), "Class");
-                    var elementId = nextId++;
+                    int elementId = nextId++;
                     eaElement.ElementID = elementId;
                     eaElement.PackageID = eaPackage.PackageID;
                     IndexElement(eaElement);
@@ -700,7 +700,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
                         eaConnector.ClientEnd.Aggregation = (int) connector.GetAggregationKind();
                         eaConnector.SupplierPath = connector.GetPathToSupplier();
                         eaConnector.SupplierEnd.Role = connector.GetName();
-                        eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." + connector.GetUpperBound();
+                        eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." +
+                                                              connector.GetUpperBound();
                         eaConnector.Stereotype = connector.GetStereotype();
                         foreach (TaggedValueBuilder tv in connector.GetTaggedValues())
                         {
@@ -725,9 +726,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         /// <summary>
         /// Creates a new <see cref="ConnectorBuilder"/>.
         /// </summary>
-        /// <param name="name"><see cref="ConnectorBuilder(string, string, Path)"/></param>
-        /// <param name="stereotype"><see cref="ConnectorBuilder(string, string, Path)"/></param>
-        /// <param name="pathToSupplier"><see cref="ConnectorBuilder(string, string, Path)"/></param>
+        /// <param name="name"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
+        /// <param name="stereotype"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
+        /// <param name="pathToSupplier"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
         /// <returns>A new <see cref="ConnectorBuilder"/>.</returns>
         protected static ConnectorBuilder Connector(string name, string stereotype, Path pathToSupplier)
         {
@@ -737,9 +738,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         /// <summary>
         /// Creates a new <see cref="AttributeBuilder"/>.
         /// </summary>
-        /// <param name="name"><see cref="AttributeBuilder(string, string, Path)"/></param>
-        /// <param name="stereotype"><see cref="AttributeBuilder(string, string, Path)"/></param>
-        /// <param name="pathToType"><see cref="AttributeBuilder(string, string, Path)"/></param>
+        /// <param name="name"><see cref="AttributeBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
+        /// <param name="stereotype"><see cref="AttributeBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
+        /// <param name="pathToType"><see cref="AttributeBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
         /// <returns>A new <see cref="AttributeBuilder"/>.</returns>
         protected static AttributeBuilder Attribute(string name, string stereotype, Path pathToType)
         {
@@ -749,8 +750,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         /// <summary>
         /// Creates a new <see cref="TaggedValueBuilder"/>.
         /// </summary>
-        /// <param name="key"><see cref="TaggedValueBuilder(TaggedValues, string)"/></param>
-        /// <param name="value"><see cref="TaggedValueBuilder(TaggedValues, string)"/></param>
+        /// <param name="key"><see cref="TaggedValueBuilder(VIENNAAddIn.upcc3.ccts.util.TaggedValues,string)"/></param>
+        /// <param name="value"><see cref="TaggedValueBuilder(VIENNAAddIn.upcc3.ccts.util.TaggedValues,string)"/></param>
         /// <returns>A new <see cref="TaggedValueBuilder"/>.</returns>
         protected static TaggedValueBuilder TaggedValue(TaggedValues key, string value)
         {
@@ -760,8 +761,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         /// <summary>
         /// Creates a new <see cref="ElementBuilder"/>.
         /// </summary>
-        /// <param name="name"><see cref="ElementBuilder(string, string)"/></param>
-        /// <param name="stereotype"><see cref="PackageBuilder(string, string)"/></param>
+        /// <param name="name"><see cref="ElementBuilder(string,string)"/></param>
+        /// <param name="stereotype"><see cref="PackageBuilder(string,string)"/></param>
         /// <returns>A new <see cref="ElementBuilder"/>.</returns>
         protected static ElementBuilder Element(string name, string stereotype)
         {
@@ -771,8 +772,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         /// <summary>
         /// Creates a new <see cref="PackageBuilder"/>.
         /// </summary>
-        /// <param name="name"><see cref="PackageBuilder(string, string)"/></param>
-        /// <param name="stereotype"><see cref="PackageBuilder(string, string)"/></param>
+        /// <param name="name"><see cref="PackageBuilder(string,string)"/></param>
+        /// <param name="stereotype"><see cref="PackageBuilder(string,string)"/></param>
         /// <returns>A new <see cref="PackageBuilder"/>.</returns>
         protected static PackageBuilder Package(string name, string stereotype)
         {
@@ -782,7 +783,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
         /// <summary>
         /// Creates a new <see cref="DiagramBuilder"/>.
         /// </summary>
-        /// <param name="name"><see cref="DiagramBuilder(string)"/></param>
+        /// <param name="name"><see cref="DiagramBuilder"/></param>
+        /// <param name="diagramType"></param>
         /// <returns>A new <see cref="DiagramBuilder"/>.</returns>
         protected static DiagramBuilder Diagram(string name, string diagramType)
         {

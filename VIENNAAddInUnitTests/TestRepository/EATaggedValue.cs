@@ -9,11 +9,21 @@
 using System;
 using EA;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
-    internal class EAAttributeTag : IEACollectionElement, AttributeTag
+    internal class EATaggedValue : IEACollectionElement, TaggedValue
     {
-        #region AttributeTag Members
+        #region IEACollectionElement Members
+
+        string IEACollectionElement.Name
+        {
+            get { return Name; }
+            set { Name = value; }
+        }
+
+        #endregion
+
+        #region TaggedValue Members
 
         public bool Update()
         {
@@ -25,20 +35,20 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             throw new NotImplementedException();
         }
 
-        public int TagID
+        public int PropertyID
         {
             get { throw new NotImplementedException(); }
         }
 
-        public int AttributeID
+        public string PropertyGUID
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public string Name { get; set; }
+        public string Name{ get; set;}
 
-        public string Value { get; set; }
+        public string Value { get; set;}
 
         public string Notes
         {
@@ -46,7 +56,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public string TagGUID
+        public int ElementID
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
@@ -57,14 +67,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
-
-        #region IEACollectionElement Members
-
-        string IEACollectionElement.Name
+        public int ParentID
         {
-            get { return Name; }
-            set { Name = value; }
+            get { throw new NotImplementedException(); }
         }
 
         #endregion

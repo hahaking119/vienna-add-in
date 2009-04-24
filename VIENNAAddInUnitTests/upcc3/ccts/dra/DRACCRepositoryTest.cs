@@ -15,7 +15,7 @@ using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using VIENNAAddInUnitTests.TestRepository;
 using Attribute=EA.Attribute;
 using File=System.IO.File;
 using Path=VIENNAAddIn.upcc3.ccts.Path;

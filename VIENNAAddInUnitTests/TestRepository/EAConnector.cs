@@ -11,7 +11,7 @@ using EA;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EAConnector : IEACollectionElement, Connector
     {

@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
-using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using VIENNAAddInUnitTests.TestRepository;
 
 namespace VIENNAAddInUnitTests
 {

@@ -14,7 +14,7 @@ using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using VIENNAAddInUnitTests.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts
 {

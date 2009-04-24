@@ -18,7 +18,7 @@ using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.XSDGenerator.Generator;
-using VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository;
+using VIENNAAddInUnitTests.TestRepository;
 using File=System.IO.File;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator

@@ -8,7 +8,7 @@
 // *******************************************************************************
 using VIENNAAddIn.upcc3.ccts.util;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     public class TaggedValueBuilder
     {
