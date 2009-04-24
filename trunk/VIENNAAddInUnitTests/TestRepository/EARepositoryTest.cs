@@ -9,7 +9,7 @@
 using EA;
 using NUnit.Framework;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     [TestFixture]
     public class EARepositoryTest

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace VIENNAAddInUnitTests.upcc3.ccts.dra
+namespace VIENNAAddInUnitTests.upcc3.Wizards
 {
     [TestFixture]
     public class CacheTest

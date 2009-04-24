@@ -1,11 +1,19 @@
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
 using System;
 using EA;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
-    internal class EAConnectorTag : IEACollectionElement, ConnectorTag
+    internal class EAAttributeTag : IEACollectionElement, AttributeTag
     {
-        #region ConnectorTag Members
+        #region AttributeTag Members
 
         public bool Update()
         {
@@ -22,7 +30,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        public int ConnectorID
+        public int AttributeID
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }

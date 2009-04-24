@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using EA;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     public class EACollection<TCollectionElement> : Collection
         where TCollectionElement : class, IEACollectionElement, new()
@@ -49,7 +49,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             var element = elements.Find(e => e.Name == name);
             if (element == null)
             {
-               throw new IndexOutOfRangeException(name); 
+                throw new IndexOutOfRangeException(name); 
             }
             return element;
         }

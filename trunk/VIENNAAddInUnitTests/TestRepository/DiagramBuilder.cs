@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     public class DiagramBuilder
     {
-        private readonly string name;
         private readonly string diagramType;
+        private readonly string name;
 
         public DiagramBuilder(string name, string diagramType)
         {

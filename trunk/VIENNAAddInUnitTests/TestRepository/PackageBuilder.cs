@@ -8,7 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
     /// <summary>
     /// A builder class for packages.

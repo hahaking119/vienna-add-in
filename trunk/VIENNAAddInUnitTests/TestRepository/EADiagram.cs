@@ -1,30 +1,15 @@
-// *******************************************************************************
-// This file is part of the VIENNAAddIn project
-// 
-// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
-// 
-// For further information on the VIENNAAddIn project please visit 
-// http://vienna-add-in.googlecode.com
-// *******************************************************************************
 using System;
 using EA;
-using VIENNAAddIn;
-using VIENNAAddIn.upcc3.ccts;
-using Attribute=EA.Attribute;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
+namespace VIENNAAddInUnitTests.TestRepository
 {
-    internal class EAAttribute : Attribute, IEACollectionElement
+    internal class EADiagram : Diagram, IEACollectionElement
     {
-        private readonly Collection taggedValues = new EACollection<EAAttributeTag>();
-        private int classifierId;
-        public Repository Repository { get; set; }
-        public Path ClassifierPath { get; set; }
-
-        #region Attribute Members
+        private readonly Collection diagramObjects = new EACollection<EADiagramObject>();
 
         public bool Update()
         {
+            // do nothing
             return true;
         }
 
@@ -33,51 +18,68 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             throw new NotImplementedException();
         }
 
+        public void ReorderMessages()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowAsElementList(bool ShowAsList, bool Persist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ApplyUserLock()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ReleaseUserLock()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ApplyGroupLock(string aGroupName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DiagramID
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public int PackageID
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public int ParentID
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Type
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public string Name { get; set; }
 
-        public string Visibility
+        public string Version
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public string Stereotype { get; set; }
-
-        public string Containment
+        public string Author
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public bool IsStatic
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public bool IsCollection
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public bool IsOrdered
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public bool AllowDuplicates
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
-
-        public string LowerBound { get; set; }
-
-        public string UpperBound { get; set; }
-
-        public string Container
+        public int ShowDetails
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
@@ -89,81 +91,110 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public bool IsDerived
+        public string Stereotype
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public int AttributeID
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public int Pos
+        public bool ShowPublic
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public string Length
+        public bool ShowPrivate
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public string Precision
+        public bool ShowProtected
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public string Scale
+        public string Orientation
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public bool IsConst
+        public int cx
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public string Style
+        public int cy
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
 
-        public int ClassifierID
-        {
-            get { return (ClassifierPath != null ? Repository.Resolve<Element>(ClassifierPath).ElementID : classifierId); }
-            set { classifierId = value; }
-        }
-
-        public string Default { get; set; }
-
-        public string Type
-        {
-            get { return Repository.Resolve<Element>(ClassifierPath).Name; }
-            set { }
-        }
-
-        public Collection Constraints
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public Collection TaggedValues
-        {
-            get { return taggedValues; }
-        }
-
-        public string AttributeGUID
+        public int Scale
         {
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
+        }
+
+        public DateTime CreatedDate
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public DateTime ModifiedDate
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool HighlightImports
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool ShowPackageContents
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string ExtendedStyle
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public bool IsLocked
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string DiagramGUID
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string Swimlanes
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public Collection DiagramObjects
+        {
+            get { return diagramObjects; }
+        }
+
+        public Collection DiagramLinks
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public string StyleEx
@@ -172,12 +203,12 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public ObjectType ObjectType
+        public Collection SelectedObjects
         {
             get { throw new NotImplementedException(); }
         }
 
-        public int ParentID
+        public ObjectType ObjectType
         {
             get { throw new NotImplementedException(); }
         }
@@ -188,21 +219,20 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.Generator.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public Collection TaggedValuesEx
+        public Connector SelectedConnector
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
+        public string MetaType
         {
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
-
-        #region IEACollectionElement Members
-
-        string IEACollectionElement.Name
+        public SwimlaneDef SwimlaneDef
         {
-            get { return Name; }
-            set { Name = value; }
+            get { throw new NotImplementedException(); }
         }
-
-        #endregion
     }
 }
