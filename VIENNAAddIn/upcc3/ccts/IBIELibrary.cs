@@ -14,5 +14,6 @@ namespace VIENNAAddIn.upcc3.ccts
     {
         IEnumerable<IABIE> BIEs { get; }
         IABIE CreateABIE(ABIESpec spec);
+        IABIE UpdateABIE(IABIE abie, ABIESpec spec);
     }
 }
