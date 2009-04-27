@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.richtextStatus = new System.Windows.Forms.RichTextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -48,7 +49,6 @@
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.comboBIVs = new System.Windows.Forms.ComboBox();
-            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
@@ -63,6 +63,13 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
+            // 
+            // progressBar
+            // 
+            this.progressBar.Location = new System.Drawing.Point(15, 126);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(506, 13);
+            this.progressBar.TabIndex = 1;
             // 
             // richtextStatus
             // 
@@ -201,7 +208,6 @@
             this.checkboxAnnotations.AutoSize = true;
             this.checkboxAnnotations.Checked = true;
             this.checkboxAnnotations.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkboxAnnotations.Enabled = false;
             this.checkboxAnnotations.Location = new System.Drawing.Point(201, 188);
             this.checkboxAnnotations.Name = "checkboxAnnotations";
             this.checkboxAnnotations.Size = new System.Drawing.Size(15, 14);
@@ -254,13 +260,6 @@
             this.comboBIVs.Size = new System.Drawing.Size(335, 21);
             this.comboBIVs.TabIndex = 41;
             this.comboBIVs.SelectionChangeCommitted += new System.EventHandler(this.comboBIVs_SelectionChangeCommitted);
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(15, 126);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(506, 13);
-            this.progressBar.TabIndex = 1;
             // 
             // GeneratorWizardForm
             // 
