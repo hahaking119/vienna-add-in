@@ -202,6 +202,14 @@ namespace VIENNAAddIn.upcc3.Wizards
                 comboCCLs_SelectionChangeCommitted(null,null);
                 comboACCs.SelectedIndex= comboACCs.FindString(abie.BasedOn.Name);
                 comboACCs_SelectionChangeCommitted(null, null);
+                foreach (IBBIE BBIE in abie.BBIEs)
+                {
+                    if (checkedlistboxBCCs.Items.Contains(BBIE.Name))
+                    {
+                        checkedlistboxBCCs.SetItemChecked(checkedlistboxBCCs.Items.IndexOf(BBIE.Name),true);
+                    }
+                    
+                }
                 ResetForm(4);
                 buttonSave.Show();
             }
@@ -620,141 +628,15 @@ namespace VIENNAAddIn.upcc3.Wizards
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
             GatherUserInput();
+            IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
 
-            if ((cache.PathIsValid(CacheConstants.PATH_BDTLs, new[] {selectedBDTLName})) &&
-                (cache.PathIsValid(CacheConstants.PATH_BIELs, new[] {selectedBIELName})) &&
-                (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName})))
-            {
-                IBDTLibrary selectedBDTL = (IBDTLibrary)repository.GetLibrary(cache.BDTLs[selectedBDTLName].Id);
-                IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
-
-                /* get the selected ACC which we as a basis to generate the new ABIE */
-                IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-
-                List<BBIESpec> newBBIEs = new List<BBIESpec>();
-                IDictionary<string, cBDT> generatedBDTs = new Dictionary<string, cBDT>();
-
-                foreach (cBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
-                {
-                    /* only process those bccs that are selected */
-                    if (bcc.State == CheckState.Checked)
-                    {
-                        /* iterate through the bbies that are based on the bcc */
-                        foreach (cBBIE bbie in bcc.BBIEs.Values)
-                        {
-                            if (bbie.State == CheckState.Checked)
-                            {
-                                /* iterate through the bdts that are available for the bbie */
-                                foreach (cBDT bdt in bbie.BDTs)
-                                {
-                                    if (bdt.State == CheckState.Checked)
-                                    {
-                                        IBDT bdtUsed;
-
-                                        if (bdt.Id == -1)
-                                        {
-                                            // check if datatype has been generated previously
-                                            if (!(generatedBDTs.ContainsKey(bdt.Name)))
-                                            {
-                                                /* the BDT to be used is to be created based on the CDT used in the BCC */
-                                                ICDT baseCDT = repository.GetCDT(bcc.Type);
-                                                BDTSpec bdtSpec = BDTSpec.CloneCDT(baseCDT, bdt.Name);
-                                                IBDT newBDT = selectedBDTL.CreateBDT(bdtSpec);
-                                                bdtUsed = newBDT;
-
-                                                generatedBDTs.Add(newBDT.Name, new cBDT(newBDT.Name, newBDT.Id, newBDT.BasedOn.CDT.Id, CheckState.Unchecked));
-                                            }
-                                            else
-                                            {
-                                                bdtUsed = repository.GetBDT(generatedBDTs[bdt.Name].Id);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            bdtUsed = repository.GetBDT(bdt.Id);
-                                        }
-
-                                        foreach (IBCC currentBCC in selectedACC.BCCs)
-                                        {
-                                            if (currentBCC.Id == bcc.Id)
-                                            {
-                                                /* now create the new bbie */
-                                                BBIESpec x = BBIESpec.CloneBCC(currentBCC, bdtUsed);
-                                                x.Name = bbie.Name;
-                                                newBBIEs.Add(x);
-                                                break;
-                                            }
-                                        }
-
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                IList<ASBIESpec> newASBIEs = new List<ASBIESpec>();
-                if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].HasASCCs())
-                {                  
-                    foreach (cASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
-                    {
-                        if (cascc.State == CheckState.Checked)
-                        {
-                            // get the original ACC that we currently process
-                            int accId = cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id;
-                            IACC acc = repository.GetACC(accId);
-
-                            // get the original ASCC of the above ACC that we currently process
-                            IASCC origASCC = null;
-                            foreach (IASCC ascc in acc.ASCCs)
-                            {
-                                if (ascc.Id == cascc.Id)
-                                {
-                                    origASCC = ascc;
-                                }
-                            }
-
-                            // get the name of the abie
-                            // todo: there is always one relevant abie only. therefore we should
-                            // change the abie dictionary to storing the abie name and id only (e.g. cABIE 
-                            // instead of cABIE dictionary).
-                            string abieName = "";
-                            foreach (cABIE cabie in cascc.ABIEs.Values)
-                            {
-                                abieName = cabie.Name;
-                                break;
-                            }
-
-                            newASBIEs.Add(ASBIESpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name, cascc.ABIEs[abieName].Id));
-
-                        }
-                        // else don't worry about it
-                    }
-                }
-
-
-                ABIESpec abieSpec = new ABIESpec
-                {
-                    Name = textABIEName.Text,
-                    DictionaryEntryName = selectedACC.DictionaryEntryName,
-                    Definition = selectedACC.Definition,
-                    UniqueIdentifier = selectedACC.UniqueIdentifier,
-                    VersionIdentifier = selectedACC.VersionIdentifier,
-                    LanguageCode = selectedACC.LanguageCode,
-                    BusinessTerms = selectedACC.BusinessTerms,
-                    UsageRules = selectedACC.UsageRules,
-                    BasedOn = selectedACC,
-                    BBIEs = newBBIEs,
-                    ASBIEs = newASBIEs,
-                };
-
-                IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
-                cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
-
-                textABIEName.Text = "";
-                textABIEName.Text = newABIE.Name;
-            }
+            /* get the selected ACC which we as a basis to generate the new ABIE */
+            IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+            ABIESpec abieSpec = createABISpec(selectedBIEL, selectedACC);
+            IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
+            cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
+            textABIEName.Text = "";
+            textABIEName.Text = newABIE.Name;
         }
         
         private void buttonClose_Click(object sender, EventArgs e)
@@ -1178,11 +1060,23 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName, selectedBCCName }))
             {
-                foreach (cBBIE bbie in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
+                if (editMode)
                 {
-                    checkedlistboxBBIEs.Items.Add(bbie.Name, bbie.State);
+                    foreach (
+                        cBBIE bbie in
+                            cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
+                    {
+                        checkedlistboxBBIEs.Items.Add(bbie.Name, bbie.State);
+                    }
                 }
-                
+                else
+                {
+                    foreach (IBBIE bbie in abie.BBIEs)
+                    {
+                        checkedlistboxBBIEs.Items.Add(bbie.Name, true);
+                    }
+                }
+
                 SetSafeIndex(checkedlistboxBBIEs, oldIndex);
 
                 MirrorBDTsToUI();
@@ -1277,5 +1171,158 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             new ABIEWizardForm(context.Repository, context.Repository.GetElementByGuid(context.SelectedItemGUID)).Show();
         }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+                GatherUserInput();
+                IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+
+                /* get the selected ACC which we as a basis to generate the new ABIE */
+                IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                ABIESpec abieSpec = createABISpec(selectedBIEL,selectedACC);
+                IABIE newABIE = selectedBIEL.UpdateABIE(abie,abieSpec);
+                //todo: find a better way to update internal cache
+                cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
+                cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
+                textABIEName.Text = "";
+                textABIEName.Text = newABIE.Name;
+                if(newABIE!=null)
+                {
+                    InformativeMessage("ABIE "+newABIE.Name+" update succeeded.");
+                }
+        }
+        private ABIESpec createABISpec(IBIELibrary selectedBIEL, IACC selectedACC)
+        {
+            
+            ABIESpec abieSpec =null;
+            if ((cache.PathIsValid(CacheConstants.PATH_BDTLs, new[] { selectedBDTLName })) &&
+                (cache.PathIsValid(CacheConstants.PATH_BIELs, new[] { selectedBIELName })) &&
+                (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName })))
+            {
+                IBDTLibrary selectedBDTL = (IBDTLibrary)repository.GetLibrary(cache.BDTLs[selectedBDTLName].Id);
+                
+
+                List<BBIESpec> newBBIEs = new List<BBIESpec>();
+                IDictionary<string, cBDT> generatedBDTs = new Dictionary<string, cBDT>();
+
+                foreach (cBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
+                {
+                    /* only process those bccs that are selected */
+                    if (bcc.State == CheckState.Checked)
+                    {
+                        /* iterate through the bbies that are based on the bcc */
+                        foreach (cBBIE bbie in bcc.BBIEs.Values)
+                        {
+                            if (bbie.State == CheckState.Checked)
+                            {
+                                /* iterate through the bdts that are available for the bbie */
+                                foreach (cBDT bdt in bbie.BDTs)
+                                {
+                                    if (bdt.State == CheckState.Checked)
+                                    {
+                                        IBDT bdtUsed;
+
+                                        if (bdt.Id == -1)
+                                        {
+                                            // check if datatype has been generated previously
+                                            if (!(generatedBDTs.ContainsKey(bdt.Name)))
+                                            {
+                                                /* the BDT to be used is to be created based on the CDT used in the BCC */
+                                                ICDT baseCDT = repository.GetCDT(bcc.Type);
+                                                BDTSpec bdtSpec = BDTSpec.CloneCDT(baseCDT, bdt.Name);
+                                                IBDT newBDT = selectedBDTL.CreateBDT(bdtSpec);
+                                                bdtUsed = newBDT;
+
+                                                generatedBDTs.Add(newBDT.Name, new cBDT(newBDT.Name, newBDT.Id, newBDT.BasedOn.CDT.Id, CheckState.Unchecked));
+                                            }
+                                            else
+                                            {
+                                                bdtUsed = repository.GetBDT(generatedBDTs[bdt.Name].Id);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            bdtUsed = repository.GetBDT(bdt.Id);
+                                        }
+
+                                        foreach (IBCC currentBCC in selectedACC.BCCs)
+                                        {
+                                            if (currentBCC.Id == bcc.Id)
+                                            {
+                                                /* now create the new bbie */
+                                                BBIESpec x = BBIESpec.CloneBCC(currentBCC, bdtUsed);
+                                                x.Name = bbie.Name;
+                                                newBBIEs.Add(x);
+                                                break;
+                                            }
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                IList<ASBIESpec> newASBIEs = new List<ASBIESpec>();
+                if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].HasASCCs())
+                {
+                    foreach (cASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+                    {
+                        if (cascc.State == CheckState.Checked)
+                        {
+                            // get the original ACC that we currently process
+                            int accId = cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id;
+                            IACC acc = repository.GetACC(accId);
+
+                            // get the original ASCC of the above ACC that we currently process
+                            IASCC origASCC = null;
+                            foreach (IASCC ascc in acc.ASCCs)
+                            {
+                                if (ascc.Id == cascc.Id)
+                                {
+                                    origASCC = ascc;
+                                }
+                            }
+
+                            // get the name of the abie
+                            // todo: there is always one relevant abie only. therefore we should
+                            // change the abie dictionary to storing the abie name and id only (e.g. cABIE 
+                            // instead of cABIE dictionary).
+                            string abieName = "";
+                            foreach (cABIE cabie in cascc.ABIEs.Values)
+                            {
+                                abieName = cabie.Name;
+                                break;
+                            }
+
+                            newASBIEs.Add(ASBIESpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name, cascc.ABIEs[abieName].Id));
+
+                        }
+                        // else don't worry about it
+                    }
+                }
+
+
+                abieSpec = new ABIESpec
+                {
+                    Name = textABIEName.Text,
+                    DictionaryEntryName = selectedACC.DictionaryEntryName,
+                    Definition = selectedACC.Definition,
+                    UniqueIdentifier = selectedACC.UniqueIdentifier,
+                    VersionIdentifier = selectedACC.VersionIdentifier,
+                    LanguageCode = selectedACC.LanguageCode,
+                    BusinessTerms = selectedACC.BusinessTerms,
+                    UsageRules = selectedACC.UsageRules,
+                    BasedOn = selectedACC,
+                    BBIEs = newBBIEs,
+                    ASBIEs = newASBIEs,
+                };
+
+            }
+            return abieSpec;
+        }
+        }
+
     }
-}

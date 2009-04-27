@@ -428,6 +428,7 @@
             this.buttonSave.Text = "&Save ABIE ...";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Visible = false;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // ABIEWizardForm
             // 
