@@ -154,6 +154,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     checkedlistboxDOCs.Enabled = false;
                     textTargetNS.Enabled = false;
                     textPrefixTargetNS.Enabled = false;
+                    checkboxAnnotations.Enabled = false;
                     comboModels.Enabled = false;
                     textOutputDirectory.Enabled = false;
                     buttonBrowseFolders.Enabled = false;
@@ -166,6 +167,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     checkedlistboxDOCs.Enabled = true;
                     textTargetNS.Enabled = true;
                     textPrefixTargetNS.Enabled = true;
+                    checkboxAnnotations.Enabled = true;
                     comboModels.Enabled = true;
                     textOutputDirectory.Enabled = true;
                     buttonBrowseFolders.Enabled = true;
@@ -226,7 +228,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
             else
             {
-                cache.BIVs[selectedBIVName].DOCs[selectedDOCName].State = e.NewValue;
+                cache.BIVs[selectedBIVName].DOCs[selectedDOCName].State = e.NewValue;                
             }
 
             VerifyUserInput();
