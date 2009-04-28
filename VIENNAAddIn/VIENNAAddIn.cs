@@ -76,6 +76,10 @@ namespace VIENNAAddIn
                  + "&Options".OnClick(OptionsForm.ShowForm)
                  + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)
                 );
+            menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BLibrary] =
+                (AddInSettings.AddInName
+                 + "Import Standard CC Libraries".OnClick(ImportStandardCcLibraries)
+                );
             menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BIELibrary] =
                 (AddInSettings.AddInName
                  + createABIE
@@ -276,6 +280,11 @@ namespace VIENNAAddIn
         private static void ToggleUmm2ModelState(AddInContext context)
         {
             context.Repository.ToggleUmm2ModelState();
+        }
+
+        private static void ImportStandardCcLibraries(AddInContext context)
+        {
+            context.Repository.ImportStandardCcLibraries();
         }
     }
 }

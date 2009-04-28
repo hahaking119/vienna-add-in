@@ -70,7 +70,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void SetModelDefaultName()
         {
-            textboxModelName.Text = "Sample Model";
+            textboxModelName.Text = "Default Model";
         }
 
         private void SetLibraryDefaultNames()
@@ -116,14 +116,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             bdtLibraryName = checkboxBDTL.Checked ? textboxBDTLName.Text : "";
             bieLibraryName = checkboxBIEL.Checked ? textboxBIELName.Text : "";
             docLibraryName = checkboxDOCL.Checked ? textboxDOCLName.Text : "";
-
-            //primLibraryName = textboxPRIMLName.Text;
-            //enumLibraryName = textboxENUMLName.Text;
-            //cdtLibraryName = textboxCDTLName.Text;
-            //ccLibraryName = textboxCCLName.Text;
-            //bdtLibraryName = textboxBDTLName.Text;
-            //bieLibraryName = textboxBIELName.Text;
-            //docLibraryName = textboxDOCLName.Text;
         }
 
         private void CheckIfInputIsValid()
@@ -156,12 +148,16 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
+            buttonGenerate.Enabled = false;
+
             GatherUserInput();
 
             ModelCreator creator = new ModelCreator(repository);
 
             creator.CreateUpccModel(modelName, primLibraryName, enumLibraryName, cdtLibraryName,
                                     ccLibraryName, bdtLibraryName, bieLibraryName, docLibraryName);
+
+            buttonGenerate.Enabled = true;
         }
 
         private void checkboxDefaultValues_CheckedChanged(object sender, EventArgs e)
