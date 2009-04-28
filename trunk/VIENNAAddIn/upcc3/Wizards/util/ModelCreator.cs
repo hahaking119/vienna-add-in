@@ -1,16 +1,24 @@
 ﻿using System.IO;
 using System.Net;
 using EA;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
-    internal class ModelCreator
+    ///<summary>
+    ///</summary>
+    public class ModelCreator
     {
+// ReSharper disable FieldCanBeMadeReadOnly.Local
         private Repository repository;
+// ReSharper restore FieldCanBeMadeReadOnly.Local
 
-        internal ModelCreator(Repository eaRepository)
+        ///<summary>
+        ///</summary>
+        ///<param name="eaRepository"></param>
+        public ModelCreator(Repository eaRepository)
         {
             repository = eaRepository;
         }
@@ -76,20 +84,44 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             repository.Models.Refresh();
         }
 
-        private static void RetrieveAndStoreXmiFromUri(string fileName, string directoryLocation, string fileUri)
+        ///<summary>
+        ///</summary>
+        ///<param name="fileUri"></param>
+        ///<param name="fileName"></param>
+        ///<returns></returns>
+        public string RetrieveXmiFromUri(string fileUri, string fileName)
         {
-            using (StreamWriter writer = System.IO.File.CreateText(directoryLocation + fileName))
+            using (WebClient client = new WebClient())
             {
-                using (WebClient client = new WebClient())
-                {
-                    string xmiContent = client.DownloadString(fileUri + fileName);
+                return client.DownloadString(fileUri + fileName);
+            }
+        }
 
-                    if (!string.IsNullOrEmpty(xmiContent))
+        ///<summary>
+        ///</summary>
+        ///<param name="directoryLocation"></param>
+        ///<param name="fileName"></param>
+        ///<param name="newXmiContent"></param>
+        public void WriteXmiContentToFile(string directoryLocation, string fileName, string newXmiContent)
+        {
+            string xmiFile = directoryLocation + fileName;
+            string currentXmiContent = "";
+
+            if (System.IO.File.Exists(xmiFile))
+            {
+                currentXmiContent = System.IO.File.ReadAllText(xmiFile);
+            }                      
+
+            if (!string.IsNullOrEmpty(newXmiContent))
+            {
+                if (!currentXmiContent.Equals(newXmiContent))
+                {
+                    using (StreamWriter writer = System.IO.File.CreateText(directoryLocation + fileName))
                     {
-                        writer.Write(xmiContent);
+                        writer.Write(newXmiContent);
                     }
                 }
-            }
+            }           
         }
 
         private static void CleanUpUpccModel(Package bLibrary)
@@ -119,18 +151,17 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         internal void ImportStandardCcLibraries()
         {
-            string storageDirectory = "C:\\Temp\\retrieval\\";
-            string downloadUri = "http://www.umm-dev.org/xmi/";
-            string enumFile = "enumlibrary.xmi";
-            string primFile = "primlibrary.xmi";
-            string cdtFile = "cdtlibrary.xmi";
-            string ccFile = "cclibrary.xmi";
+            const string downloadUri = "http://www.umm-dev.org/xmi/";
+            const string enumFile = "enumlibrary.xmi";
+            const string primFile = "primlibrary.xmi";
+            const string cdtFile = "cdtlibrary.xmi";
+            const string ccFile = "cclibrary.xmi"; 
+            string storageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";            
 
-
-            RetrieveAndStoreXmiFromUri(enumFile, storageDirectory, downloadUri);
-            RetrieveAndStoreXmiFromUri(primFile, storageDirectory, downloadUri);
-            RetrieveAndStoreXmiFromUri(cdtFile, storageDirectory, downloadUri);
-            RetrieveAndStoreXmiFromUri(ccFile, storageDirectory, downloadUri);
+            WriteXmiContentToFile(storageDirectory, enumFile, RetrieveXmiFromUri(downloadUri, enumFile));
+            WriteXmiContentToFile(storageDirectory, primFile, RetrieveXmiFromUri(downloadUri, primFile));
+            WriteXmiContentToFile(storageDirectory, cdtFile, RetrieveXmiFromUri(downloadUri, cdtFile));
+            WriteXmiContentToFile(storageDirectory, ccFile, RetrieveXmiFromUri(downloadUri, ccFile));
 
             // Retrieve the GUID of the currenlty selected package in the tree view 
             // which is of stereotype "bLibrary". 
@@ -143,8 +174,6 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
             repository.Models.Refresh();
             repository.RefreshModelView(bLibrary.PackageID);
-
-
 
             // TODO: importing generates an error message that the add-in can't write the log file
             // can i maybe somehow disable the logging?          

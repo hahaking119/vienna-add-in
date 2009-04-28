@@ -5,12 +5,12 @@ using VIENNAAddInUnitTests.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.TestRepository
 {
     [TestFixture]
-    public class EARepositoryCache : EARepository
+    public class EARepositoryModelCreator : EARepository
     {
         [Test]
         public void Test1()
         {
-            SetContent(Package("test model", ""));
+            SetContent(Package("Test Model", ""));
         }
     }
 }

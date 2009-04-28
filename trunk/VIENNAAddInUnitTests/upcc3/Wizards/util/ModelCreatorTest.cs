@@ -1,9 +1,9 @@
 using System;
 using System.IO;
-using System.Net;
 using EA;
 using NUnit.Framework;
-using File=EA.File;
+using VIENNAAddIn.upcc3.Wizards.util;
+using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
@@ -13,32 +13,52 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         [Test]
         public void TestXmiRetrieval()
         {
+            Repository repository = new EARepositoryModelCreator();
+            ModelCreator creator = new ModelCreator(repository);
             string fileUri = "http://www.umm-dev.org/xmi/";
             string fileName = "primlibrary.xmi";
-            string directoryLocation = "C:\\Temp\\retrieval\\";
+                    
+            string xmiContent = creator.RetrieveXmiFromUri(fileUri, fileName);
 
-            // existing_primlibrary.xmi
-
-            RetrieveAndStoreXmiFromUri(fileName, directoryLocation, fileUri);
+            Assert.AreNotEqual(xmiContent, "");        
         }
 
-        private static void RetrieveAndStoreXmiFromUri(string fileName, string directoryLocation, string fileUri)
+        [Test]
+        public void TestXmiRetrievalAndWriteToFileSystem()
         {
-            using (StreamWriter writer = System.IO.File.CreateText(directoryLocation + fileName))
-            {
-                using (WebClient client = new WebClient())
-                {
-                    string xmiContent = client.DownloadString(fileUri + fileName);
+            Repository repository = new EARepositoryModelCreator();
+            ModelCreator creator = new ModelCreator(repository);
+            string fileUri = "http://www.umm-dev.org/xmi/";
+            string fileName = "primlibrary.xmi";
+            string directoryLocation = Directory.GetCurrentDirectory() + "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\";
 
-                    if (!string.IsNullOrEmpty(xmiContent))
-                    {
-                        writer.Write(xmiContent);
-                    }
-                }
+            
+            string xmiContent = creator.RetrieveXmiFromUri(fileUri, fileName);
+            Assert.AreNotEqual(xmiContent, "");
+
+            creator.WriteXmiContentToFile(directoryLocation, fileName, xmiContent);
+            AssertXmi(directoryLocation + fileName, xmiContent);
+        }
+
+        private static void AssertXmi(string currentXmiFileLocation, string newXmiContent)
+        {
+            string currentXmiContent = System.IO.File.ReadAllText(currentXmiFileLocation);
+
+            if (!currentXmiContent.Equals(newXmiContent))
+            {
+                Assert.Fail("XMI file couldn't be updated at: {0}", currentXmiFileLocation);
             }
         }
+        
 
-        public Repository GetFileBasedRepository(string filePath, string fileName)
+
+
+
+
+
+
+
+        private Repository GetFileBasedRepository(string filePath, string fileName)
         {
             string sourceRepositoryFile = filePath + fileName;
             string backupRepositoryFile = filePath + fileName.Remove(fileName.Length - 4, 4) + "_tmp.eap";
