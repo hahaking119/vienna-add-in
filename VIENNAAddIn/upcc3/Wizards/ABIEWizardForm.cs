@@ -1174,22 +1174,23 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-                GatherUserInput();
-                IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+            GatherUserInput();
+            IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
 
-                /* get the selected ACC which we as a basis to generate the new ABIE */
-                IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-                ABIESpec abieSpec = createABISpec(selectedBIEL,selectedACC);
-                IABIE newABIE = selectedBIEL.UpdateABIE(abie,abieSpec);
-                //todo: find a better way to update internal cache
-                cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
-                cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
-                textABIEName.Text = "";
-                textABIEName.Text = newABIE.Name;
-                if(newABIE!=null)
-                {
-                    InformativeMessage("ABIE "+newABIE.Name+" update succeeded.");
-                }
+            /* get the selected ACC which we as a basis to generate the new ABIE */
+            IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+            ABIESpec abieSpec = createABISpec(selectedBIEL,selectedACC);
+            IABIE newABIE = selectedBIEL.UpdateABIE(abie,abieSpec);
+            //todo: find a better way to update internal cache
+            cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
+            cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
+            textABIEName.Text = "";
+            textABIEName.Text = newABIE.Name;
+            if(newABIE!=null)
+            {
+                InformativeMessage("ABIE "+newABIE.Name+" update succeeded.");
+            }
+            this.Close();
         }
         private ABIESpec createABISpec(IBIELibrary selectedBIEL, IACC selectedACC)
         {
