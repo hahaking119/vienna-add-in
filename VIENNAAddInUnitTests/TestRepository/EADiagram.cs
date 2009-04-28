@@ -5,7 +5,12 @@ namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EADiagram : Diagram, IEACollectionElement
     {
-        private readonly Collection diagramObjects = new EACollection<EADiagramObject>();
+        private readonly Collection diagramObjects;
+
+        public EADiagram(EARepository repository)
+        {
+            diagramObjects = new EADiagramObjectCollection(repository, this);
+        }
 
         public bool Update()
         {
@@ -43,16 +48,9 @@ namespace VIENNAAddInUnitTests.TestRepository
             throw new NotImplementedException();
         }
 
-        public int DiagramID
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int DiagramID { get; set;}
 
-        public int PackageID
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int PackageID { get; set;}
 
         public int ParentID
         {
@@ -60,10 +58,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public string Type
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string Type { get; set; }
 
         public string Name { get; set; }
 

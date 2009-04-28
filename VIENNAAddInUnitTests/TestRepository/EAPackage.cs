@@ -13,10 +13,18 @@ namespace VIENNAAddInUnitTests.TestRepository
 {
     public class EAPackage : Package, IEACollectionElement
     {
-        private readonly Collection packages = new EACollection<EAPackage>();
-        private readonly Collection elements = new EACollection<EAElement>();
-        private readonly Collection diagrams = new EACollection<EADiagram>();
-        private readonly Element element = new EAElement();
+        private readonly Collection packages;
+        private readonly Collection elements;
+        private readonly Collection diagrams;
+        private readonly Element element;
+
+        public EAPackage(EARepository repository)
+        {
+            element = new EAElement(repository);
+            diagrams = new EADiagramCollection(repository, this);
+            elements = new EAElementCollection(repository, this);
+            packages = new EAPackageCollection(repository, this);
+        }
 
         #region IEACollectionElement Members
 

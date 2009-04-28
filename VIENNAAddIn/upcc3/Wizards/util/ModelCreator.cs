@@ -127,6 +127,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
                 defaultDiagram.Update();
 
                 DiagramObject newDiagramObject = (DiagramObject)diagram.DiagramObjects.AddNew("", "");
+                newDiagramObject.DiagramID = diagram.DiagramID;
                 newDiagramObject.ElementID = libraryPackage.Element.ElementID;
                 newDiagramObject.Update();                  
             }

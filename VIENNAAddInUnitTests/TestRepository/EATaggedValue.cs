@@ -56,11 +56,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int ElementID
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int ElementID { get; set; }
 
         public ObjectType ObjectType
         {

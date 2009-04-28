@@ -17,11 +17,14 @@ namespace VIENNAAddInUnitTests.TestRepository
     {
         private readonly EAConnectorEnd clientEnd = new EAConnectorEnd();
         private readonly EAConnectorEnd supplierEnd = new EAConnectorEnd();
-        private readonly Collection taggedValues = new EACollection<EAConnectorTag>();
-        private int supplierID;
-        public EARepository Repository { get; set; }
+        private readonly Collection taggedValues;
 
-        public Path SupplierPath { get; set; }
+        public EAConnector(EARepository repository)
+        {
+            taggedValues = new EAConnectorTagCollection(repository, this);
+        }
+
+        public EARepository Repository { get; set; }
 
         #region Connector Members
 
@@ -35,10 +38,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             throw new NotImplementedException();
         }
 
-        public int ConnectorID
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int ConnectorID { get; set;}
 
         public string Name { get; set; }
 
@@ -64,11 +64,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public int ClientID { get; set; }
 
-        public int SupplierID
-        {
-            get { return SupplierPath != null ? Repository.Resolve<Element>(SupplierPath).ElementID : supplierID; }
-            set { supplierID = value; }
-        }
+        public int SupplierID { get; set; }
 
         public int SequenceNo
         {
@@ -268,7 +264,8 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public bool Update()
         {
-            throw new NotImplementedException();
+            // do nothing
+            return true;
         }
 
         public string GetLastError()
@@ -303,11 +300,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public string Containment
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Containment { get; set;}
 
         public int Aggregation { get; set; }
 

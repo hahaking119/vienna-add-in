@@ -11,7 +11,7 @@ using EA;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
-    internal class EAAttributeTag : IEACollectionElement, AttributeTag
+    public class EAAttributeTag : IEACollectionElement, AttributeTag
     {
         #region AttributeTag Members
 
@@ -30,11 +30,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        public int AttributeID
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int AttributeID { get; set;}
 
         public string Name { get; set; }
 

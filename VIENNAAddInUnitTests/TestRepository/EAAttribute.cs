@@ -16,10 +16,17 @@ namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EAAttribute : Attribute, IEACollectionElement
     {
-        private readonly Collection taggedValues = new EACollection<EAAttributeTag>();
+        private readonly Collection taggedValues;
         private int classifierId;
         public Repository Repository { get; set; }
         public Path ClassifierPath { get; set; }
+
+        public EAAttribute(EARepository repository, int elementId)
+        {
+            taggedValues = new EAAttributeTagCollection(repository, this);
+            Repository = repository;
+            ParentID = elementId;
+        }
 
         #region Attribute Members
 
@@ -95,10 +102,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int AttributeID
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int AttributeID { get; set;}
 
         public int Pos
         {
@@ -177,10 +181,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        public int ParentID
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int ParentID { get; private set; }
 
         public string StereotypeEx
         {

@@ -16,7 +16,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     internal class ABIE : UpccClass, IABIE, IUpdateable<ABIESpec>
     {
-        public ABIE(CCRepository repository, Element element) : base(repository, element, "ABIE")
+        public ABIE(CCRepository repository, Element element) : base(repository, element, Stereotype.ABIE)
         {
         }
 

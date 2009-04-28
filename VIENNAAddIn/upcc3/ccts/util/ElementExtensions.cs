@@ -95,10 +95,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             var connector = (Connector) element.Connectors.AddNew("", "Association");
             connector.Type = connectorType;
             connector.Stereotype = stereotype;
+            connector.ClientID = element.ElementID;
+            connector.ClientEnd.Aggregation = (int)aggregationKind;
             connector.SupplierID = supplierId;
             connector.SupplierEnd.Role = name;
             connector.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
-            connector.ClientEnd.Aggregation = (int) aggregationKind;
             connector.Update();
         }
 

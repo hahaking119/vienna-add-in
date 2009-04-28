@@ -60,6 +60,9 @@
     <Compile Include="EARepositoryExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchTaggedValuesTest\SynchStereotypesTest.cs" />
+    <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
+    <Compile Include="Utils\EARepositoryCopierTest.cs" />
+    <Compile Include="TestUtils.cs" />
     <Compile Include="upcc3\ccts\dra\DRACCRepositoryTest.cs" />
     <Compile Include="upcc3\ccts\DynamicProxyTest.cs" />
     <Compile Include="upcc3\ccts\util\AggregationKindTest.cs" />

@@ -12,6 +12,7 @@ using EA;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
+using EARepositoryExtensions=VIENNAAddIn.EARepositoryExtensions;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
@@ -32,16 +33,21 @@ namespace VIENNAAddInUnitTests.TestRepository
     /// up to date and should be extended as required by future tests and in compliance with the <c>EA.Repository</c> API.
     /// </remarks>
     /// </summary>
-    public abstract class EARepository : Repository
+    public class EARepository : Repository
     {
-        private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
-        private readonly EACollection<EAPackage> models = new EACollection<EAPackage>();
-        private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
-
         /// <summary>
         /// Counter for unique repository element IDs.
         /// </summary>
-        private int nextId = 1;
+        private readonly IDFactory idFactory = new IDFactory();
+
+        private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
+        private readonly EACollection models;
+        private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
+
+        public EARepository()
+        {
+            models = new EAPackageCollection(this, null);
+        }
 
         #region Repository Members
 
@@ -628,8 +634,6 @@ namespace VIENNAAddInUnitTests.TestRepository
             foreach (PackageBuilder model in models)
             {
                 var eaPackage = (EAPackage) this.models.AddNew(model.GetName(), "Package");
-                eaPackage.PackageID = nextId++;
-                IndexPackage(eaPackage);
                 foreach (TaggedValueBuilder tv in model.GetTaggedValues())
                 {
                     eaPackage.Element.AddTaggedValue(tv.Name, tv.Value);
@@ -649,8 +653,6 @@ namespace VIENNAAddInUnitTests.TestRepository
             foreach (PackageBuilder package in packages)
             {
                 var eaPackage = (EAPackage) packageCollection.AddNew(package.GetName(), "Package");
-                eaPackage.PackageID = nextId++;
-                IndexPackage(eaPackage);
                 eaPackage.ParentID = parentId;
                 eaPackage.Element.Stereotype = package.GetStereotype();
 
@@ -667,10 +669,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 foreach (ElementBuilder element in package.GetElements())
                 {
                     var eaElement = (EAElement) eaPackage.Elements.AddNew(element.GetName(), "Class");
-                    int elementId = nextId++;
-                    eaElement.ElementID = elementId;
                     eaElement.PackageID = eaPackage.PackageID;
-                    IndexElement(eaElement);
                     eaElement.Stereotype = element.GetStereotype();
                     foreach (TaggedValueBuilder tv in element.GetTaggedValues())
                     {
@@ -691,36 +690,37 @@ namespace VIENNAAddInUnitTests.TestRepository
                             eaAttribute.AddTaggedValue(tv.Name, tv.Value);
                         }
                     }
-                    Collection connectors = eaElement.Connectors;
-                    foreach (ConnectorBuilder connector in element.GetConnectors())
-                    {
-                        var eaConnector = (EAConnector) connectors.AddNew(connector.GetName(), "Association");
-                        eaConnector.Repository = this;
-                        eaConnector.ClientID = elementId;
-                        eaConnector.ClientEnd.Aggregation = (int) connector.GetAggregationKind();
-                        eaConnector.SupplierPath = connector.GetPathToSupplier();
-                        eaConnector.SupplierEnd.Role = connector.GetName();
-                        eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." +
-                                                              connector.GetUpperBound();
-                        eaConnector.Stereotype = connector.GetStereotype();
-                        foreach (TaggedValueBuilder tv in connector.GetTaggedValues())
-                        {
-                            eaConnector.AddTaggedValue(tv.Name, tv.Value);
-                        }
-                    }
                 }
                 AddPackages(eaPackage.Packages, eaPackage.PackageID, package.GetPackages());
             }
         }
 
-        private void IndexPackage(EAPackage package)
+        protected void SetConnectors(params ConnectorBuilder[] connectors)
         {
-            packagesById[package.PackageID] = package;
+            foreach (ConnectorBuilder connector in connectors)
+            {
+                var client = EARepositoryExtensions.Resolve<Element>(this, connector.GetPathToClient());
+                var supplier = EARepositoryExtensions.Resolve<Element>(this, connector.GetPathToSupplier());
+                AddConnector(connector, client.Connectors, client, supplier);
+                AddConnector(connector, supplier.Connectors, client, supplier);
+            }
         }
 
-        private void IndexElement(EAElement element)
+        private void AddConnector(ConnectorBuilder connector, Collection connectors, Element client, Element supplier)
         {
-            elementsById[element.ElementID] = element;
+            var eaConnector = (EAConnector)connectors.AddNew(connector.GetName(), "Association");
+            eaConnector.Repository = this;
+            eaConnector.ClientID = client.ElementID;
+            eaConnector.ClientEnd.Aggregation = (int)connector.GetAggregationKind();
+            eaConnector.SupplierID = supplier.ElementID;
+            eaConnector.SupplierEnd.Role = connector.GetName();
+            eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." +
+                                                  connector.GetUpperBound();
+            eaConnector.Stereotype = connector.GetStereotype();
+            foreach (TaggedValueBuilder tv in connector.GetTaggedValues())
+            {
+                eaConnector.AddTaggedValue(tv.Name, tv.Value);
+            }
         }
 
         /// <summary>
@@ -730,9 +730,9 @@ namespace VIENNAAddInUnitTests.TestRepository
         /// <param name="stereotype"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
         /// <param name="pathToSupplier"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
         /// <returns>A new <see cref="ConnectorBuilder"/>.</returns>
-        protected static ConnectorBuilder Connector(string name, string stereotype, Path pathToSupplier)
+        protected static ConnectorBuilder Connector(string name, string stereotype, Path pathToClient, Path pathToSupplier)
         {
-            return new ConnectorBuilder(name, stereotype, pathToSupplier);
+            return new ConnectorBuilder(name, stereotype, pathToClient, pathToSupplier);
         }
 
         /// <summary>
@@ -790,6 +790,57 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return new DiagramBuilder(name, diagramType);
         }
+
+        public EAPackage CreatePackage(string name, string type, int parentId)
+        {
+            int id = idFactory.NextID;
+            var package = new EAPackage(this) { Name = name, PackageID = id, ParentID = parentId};
+            packagesById[id] = package;
+            return package;
+        }
+
+        public EAConnectorTag CreateConnectorTag(string name, string type, int connectorId)
+        {
+            return new EAConnectorTag { Name = name, TagID = idFactory.NextID, ConnectorID = connectorId};
+        }
+
+        public EAAttributeTag CreateAttributeTag(string name, string type, int attributeId)
+        {
+            return new EAAttributeTag { Name = name, AttributeID = attributeId };
+        }
+
+        public EADiagramObject CreateDiagramObject(string name, string type, int diagramId)
+        {
+            return new EADiagramObject{Name = name, DiagramID = diagramId};
+        }
+
+        public IEACollectionElement CreateTaggedValue(string name, string type, int elementId)
+        {
+            return new EATaggedValue {Name = name, ElementID = elementId};
+        }
+
+        public IEACollectionElement CreateAttribute(string name, string type, int elementId)
+        {
+            return new EAAttribute(this, elementId) {Name = name};
+        }
+
+        public IEACollectionElement CreateConnector(string name, string type, int clientId)
+        {
+            return new EAConnector(this) {Name = name, Type = type, ClientID = clientId};
+        }
+
+        public IEACollectionElement CreateElement(string name, string type, int packageId)
+        {
+            int id = idFactory.NextID;
+            var element = new EAElement(this) { Name = name, Type = type, ElementID = id, PackageID = packageId};
+            elementsById[id] = element;
+            return element;
+        }
+
+        public IEACollectionElement CreateDiagram(string name, string type, int packageId)
+        {
+            return new EADiagram(this) {Name = name, Type = type, PackageID = packageId};
+        }
     }
 
     public static class EaElementExtensions
@@ -817,6 +868,19 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             var tv = (TaggedValue) connector.TaggedValues.AddNew(name, "");
             tv.Value = value;
+        }
+    }
+
+    public class IDFactory
+    {
+        private int nextID = 1;
+
+        public int NextID
+        {
+            get
+            {
+                return nextID++;
+            }
         }
     }
 }

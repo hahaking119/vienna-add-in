@@ -73,6 +73,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             var diagram = (Diagram) package.Diagrams.GetByName(Name);
             var newDiagramObject = (DiagramObject)diagram.DiagramObjects.AddNew("", "");
+            newDiagramObject.DiagramID = diagram.DiagramID;
             newDiagramObject.ElementID = libraryPackage.Element.ElementID;
             newDiagramObject.Update();
         }
