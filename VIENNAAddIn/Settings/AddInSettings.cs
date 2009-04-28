@@ -16,6 +16,9 @@ namespace VIENNAAddIn.Settings
         ///<summary>
         ///</summary>
         public static string CommonXSDPath { get; private set; }
+        ///<summary>
+        ///</summary>
+        public static string HomeDirectory { get; private set; }
 
         /// <summary>
         /// Retrieves settings from the windows registry.
@@ -28,8 +31,8 @@ namespace VIENNAAddIn.Settings
                 const string viennaAddInRegistryKey = "SOFTWARE\\VIENNAAddIn";
                 RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(viennaAddInRegistryKey) ??
                                           Registry.LocalMachine.OpenSubKey(viennaAddInRegistryKey);
-                string homeDirectory = registryKey.LoadRegistryEntry("homedir");
-                CommonXSDPath = homeDirectory + registryKey.LoadRegistryEntry("commonxsd");
+                HomeDirectory = registryKey.LoadRegistryEntry("homedir");
+                CommonXSDPath = HomeDirectory + registryKey.LoadRegistryEntry("commonxsd");
             }
             catch (RegistryAccessException)
             {
