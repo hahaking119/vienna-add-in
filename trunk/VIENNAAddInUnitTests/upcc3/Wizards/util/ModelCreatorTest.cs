@@ -1,12 +1,43 @@
 using System;
+using System.IO;
+using System.Net;
 using EA;
 using NUnit.Framework;
+using File=EA.File;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
     [TestFixture]
     public class ModelCreatorTest
     {
+        [Test]
+        public void TestXmiRetrieval()
+        {
+            string fileUri = "http://www.umm-dev.org/xmi/";
+            string fileName = "primlibrary.xmi";
+            string directoryLocation = "C:\\Temp\\retrieval\\";
+
+            // existing_primlibrary.xmi
+
+            RetrieveAndStoreXmiFromUri(fileName, directoryLocation, fileUri);
+        }
+
+        private static void RetrieveAndStoreXmiFromUri(string fileName, string directoryLocation, string fileUri)
+        {
+            using (StreamWriter writer = System.IO.File.CreateText(directoryLocation + fileName))
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string xmiContent = client.DownloadString(fileUri + fileName);
+
+                    if (!string.IsNullOrEmpty(xmiContent))
+                    {
+                        writer.Write(xmiContent);
+                    }
+                }
+            }
+        }
+
         public Repository GetFileBasedRepository(string filePath, string fileName)
         {
             string sourceRepositoryFile = filePath + fileName;
@@ -126,30 +157,6 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 
             //RetrieveAndOutlineRepositoryStructure(repository);            
             DeatailedRetrieveAndOutlineRepository(repository);
-        }
-
-            //CreateLibrary(view, "BDTLibrary", "BDTLibrary");
-            //CreateLibrary(view, "BIELibrary", "BIELibrary");
-            //CreateLibrary(view, "CCLibrary", "CCLibrary");
-            //CreateLibrary(view, "CDTLibrary", "CDTLibrary");
-            //CreateLibrary(view, "DOCLibrary", "DOCLibrary");
-            //CreateLibrary(view, "ENUMLibrary", "ENUMLibrary");
-            //CreateLibrary(view, "PRIMLibrary", "PRIMLibrary");
-
-        //private void CreateLibrary(Package mother, string name, string stereotype)
-        //{
-        //    // add new package having the appropriate stereotype (e.g. package "BDTLibrary" 
-        //    // having the stereotype "BDTLibrary")
-        //    Package libraryPackage = (Package) mother.Packages.AddNew(name, "");
-        //    libraryPackage.Update();
-        //    libraryPackage.Element.Stereotype = stereotype;
-        //    libraryPackage.Update();
-
-        //    //Console.WriteLine("Package ID: " + libraryPackage.Element.ElementID);
-
-        //    // per default add an empty class diagram to the package created above
-        //    Diagram defaultDiagram = (Diagram)libraryPackage.Diagrams.AddNew(name, "Class");
-        //    defaultDiagram.Update();
-        //}
+        }        
     }
 }

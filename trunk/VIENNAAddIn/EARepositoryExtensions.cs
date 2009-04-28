@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.Wizards.util;
 
 namespace VIENNAAddIn
 {
@@ -164,6 +165,29 @@ namespace VIENNAAddIn
             catch (COMException)
             {
                 MessageBox.Show("Please open a model first", "AddIn Error");
+            }
+        }
+
+        internal static void ImportStandardCcLibraries(this Repository repository)
+        {
+            const string warnMessage = "Importing the standard CC libraries will overwrite all existing:\n\n"
+                                     + "    - ENUM libraries named \"ENUMLibrary\",\n"
+                                     + "    - PRIM libraries named \"PRIMLibrary\",\n"
+                                     + "    - CDT libraries named \"CDTLibrary \", and \n"
+                                     + "    - CC libraries named \"CCLibrary\"\n\n"
+                                     + "Are you sure you want to proceed?";
+            const string caption = "VIENNA Add-In Warning";
+
+            DialogResult dialogResult = MessageBox.Show(warnMessage, caption, MessageBoxButtons.YesNo,
+                                                        MessageBoxIcon.Exclamation);
+
+            if (dialogResult == DialogResult.Yes)
+            {                                     
+                Cursor.Current = Cursors.WaitCursor;
+                       
+                (new ModelCreator(repository)).ImportStandardCcLibraries();
+                
+                Cursor.Current = Cursors.Default;
             }
         }
     }
