@@ -17,7 +17,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     internal class ENUM : UpccClass, IENUM
     {
-        public ENUM(CCRepository repository, Element element) : base(repository, element, "ENUM")
+        public ENUM(CCRepository repository, Element element) : base(repository, element, Stereotype.ENUM)
         {
         }
 

@@ -16,7 +16,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class ACC : UpccClass, IACC
     {
-        public ACC(CCRepository repository, Element element) : base(repository, element, "ACC")
+        public ACC(CCRepository repository, Element element) : base(repository, element, Stereotype.ACC)
         {
         }
 

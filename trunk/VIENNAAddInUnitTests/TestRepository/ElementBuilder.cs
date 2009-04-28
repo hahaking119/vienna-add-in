@@ -16,7 +16,6 @@ namespace VIENNAAddInUnitTests.TestRepository
     public class ElementBuilder : RepositoryItemBuilder<ElementBuilder>
     {
         private readonly List<AttributeBuilder> attributes = new List<AttributeBuilder>();
-        private readonly List<ConnectorBuilder> connectors = new List<ConnectorBuilder>();
 
         /// <summary>
         /// Build an element with the given <paramref name="name"/> and <paramref name="stereotype"/>.
@@ -36,17 +35,6 @@ namespace VIENNAAddInUnitTests.TestRepository
         public IEnumerable<AttributeBuilder> GetAttributes()
         {
             return attributes;
-        }
-
-        public ElementBuilder Connectors(params ConnectorBuilder[] connectors)
-        {
-            this.connectors.AddRange(connectors);
-            return this;
-        }
-
-        public IEnumerable<ConnectorBuilder> GetConnectors()
-        {
-            return connectors;
         }
     }
 }

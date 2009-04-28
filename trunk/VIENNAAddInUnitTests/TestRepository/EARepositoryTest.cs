@@ -6,8 +6,11 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using EA;
 using NUnit.Framework;
+using VIENNAAddIn.upcc3.ccts;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
@@ -131,6 +134,13 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             var tv = (TaggedValue)library.Element.TaggedValues.GetByName(tvName);
             Assert.AreEqual(tvValue, tv.Value);
+        }
+
+        [Test]
+        public void TestAsFileBasedRepository()
+        {
+            var testRepository = new EARepository1();
+            var fileBaseRepository = (Repository) new TemporaryFileBasedRepository(testRepository);
         }
     }
 }

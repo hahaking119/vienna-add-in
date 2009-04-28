@@ -13,14 +13,21 @@ namespace VIENNAAddInUnitTests.TestRepository
 {
     public class ConnectorBuilder : RepositoryItemBuilder<ConnectorBuilder>
     {
+        private readonly Path pathToClient;
         private readonly Path pathToSupplier;
         private string lowerBound = "1";
         private string upperBound = "1";
         private AggregationKind aggregationKind = VIENNAAddIn.upcc3.ccts.util.AggregationKind.None;
 
-        public ConnectorBuilder(string name, string stereotype, Path pathToSupplier) : base(name, stereotype)
+        public ConnectorBuilder(string name, string stereotype, Path pathToClient, Path pathToSupplier) : base(name, stereotype)
         {
+            this.pathToClient = pathToClient;
             this.pathToSupplier = pathToSupplier;
+        }
+
+        public Path GetPathToClient()
+        {
+            return pathToClient;
         }
 
         public Path GetPathToSupplier()

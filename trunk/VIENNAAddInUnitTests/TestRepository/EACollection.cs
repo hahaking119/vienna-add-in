@@ -13,12 +13,26 @@ using EA;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
-    public class EACollection<TCollectionElement> : Collection
-        where TCollectionElement : class, IEACollectionElement, new()
+    public abstract class EACollection : Collection
     {
-        private readonly List<TCollectionElement> elements = new List<TCollectionElement>();
+        #region Delegates
 
-        public List<TCollectionElement> Elements
+        public delegate IEACollectionElement ElementFactory(string name, string type, int containerId);
+
+        #endregion
+
+        private readonly int containerId;
+        private readonly ElementFactory elementFactory;
+        private readonly List<IEACollectionElement> elements = new List<IEACollectionElement>();
+
+        protected EACollection(ObjectType objectType, ElementFactory elementFactory, int containerId)
+        {
+            ObjectType = objectType;
+            this.elementFactory = elementFactory;
+            this.containerId = containerId;
+        }
+
+        public List<IEACollectionElement> Elements
         {
             get { return elements; }
         }
@@ -46,10 +60,10 @@ namespace VIENNAAddInUnitTests.TestRepository
             {
                 return null;
             }
-            var element = elements.Find(e => e.Name == name);
+            IEACollectionElement element = elements.Find(e => e.Name == name);
             if (element == null)
             {
-                throw new IndexOutOfRangeException(name); 
+                throw new IndexOutOfRangeException(name);
             }
             return element;
         }
@@ -61,7 +75,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public object AddNew(string Name, string Type)
         {
-            var element = new TCollectionElement {Name = Name};
+            IEACollectionElement element = elementFactory(Name, Type, containerId);
             elements.Add(element);
             return element;
         }
@@ -81,41 +95,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             get { return (short) elements.Count; }
         }
 
-        public ObjectType ObjectType
-        {
-            get
-            {
-                if (typeof (TCollectionElement) == typeof (EAAttribute))
-                {
-                    return ObjectType.otAttribute;
-                }
-                if (typeof (TCollectionElement) == typeof (EAConnector))
-                {
-                    return ObjectType.otConnector;
-                }
-                if (typeof (TCollectionElement) == typeof (EAElement))
-                {
-                    return ObjectType.otElement;
-                }
-                if (typeof (TCollectionElement) == typeof (EAPackage))
-                {
-                    return ObjectType.otPackage;
-                }
-                if (typeof (TCollectionElement) == typeof (EATaggedValue))
-                {
-                    return ObjectType.otTaggedValue;
-                }
-                if (typeof (TCollectionElement) == typeof (EAAttributeTag))
-                {
-                    return ObjectType.otAttributeTag;
-                }
-                if (typeof (TCollectionElement) == typeof (EAConnectorTag))
-                {
-                    return ObjectType.otConnectorTag;
-                }
-                return ObjectType.otNone;
-            }
-        }
+        public ObjectType ObjectType { get; set; }
 
         public IEnumerator GetEnumerator()
         {
@@ -123,6 +103,78 @@ namespace VIENNAAddInUnitTests.TestRepository
         }
 
         #endregion
+    }
+
+    internal class EATaggedValueCollection : EACollection
+    {
+        public EATaggedValueCollection(EARepository repository, EAElement element)
+            : base(ObjectType.otTaggedValue, repository.CreateTaggedValue, element.ElementID)
+        {
+        }
+    }
+
+    internal class EADiagramObjectCollection : EACollection
+    {
+        public EADiagramObjectCollection(EARepository repository, EADiagram diagram)
+            : base(ObjectType.otDiagramObject, repository.CreateDiagramObject, diagram.DiagramID)
+        {
+        }
+    }
+
+    internal class EAAttributeTagCollection : EACollection
+    {
+        public EAAttributeTagCollection(EARepository repository, EAAttribute attribute)
+            : base(ObjectType.otAttributeTag, repository.CreateAttributeTag, attribute.AttributeID)
+        {
+        }
+    }
+
+    internal class EAConnectorTagCollection : EACollection
+    {
+        public EAConnectorTagCollection(EARepository repository, EAConnector connector)
+            : base(ObjectType.otConnectorTag, repository.CreateConnectorTag, connector.ConnectorID)
+        {
+        }
+    }
+
+    internal class EAPackageCollection : EACollection
+    {
+        public EAPackageCollection(EARepository repository, EAPackage parent)
+            : base(ObjectType.otPackage, repository.CreatePackage, parent != null ? parent.PackageID : 0)
+        {
+        }
+    }
+
+    internal class EAAttributeCollection : EACollection
+    {
+        public EAAttributeCollection(EARepository repository, EAElement element)
+            : base(ObjectType.otAttribute, repository.CreateAttribute, element.ElementID)
+        {
+        }
+    }
+
+    internal class EAConnectorCollection : EACollection
+    {
+        public EAConnectorCollection(EARepository repository, EAElement element)
+            : base(ObjectType.otConnector, repository.CreateConnector, element.ElementID)
+        {
+        }
+    }
+
+    internal class EAElementCollection : EACollection
+    {
+        public EAElementCollection(EARepository repository, EAPackage package)
+            : base(ObjectType.otElement, repository.CreateElement, package.PackageID)
+        {
+        }
+    }
+
+    internal class EADiagramCollection : EACollection
+    {
+        public EADiagramCollection(EARepository repository, EAPackage package)
+            : base(ObjectType.otDiagram, repository.CreateDiagram, package.PackageID)
+        {
+        }
     }
 
     public interface IEACollectionElement

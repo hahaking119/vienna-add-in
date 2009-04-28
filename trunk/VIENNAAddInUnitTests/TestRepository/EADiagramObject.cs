@@ -3,7 +3,7 @@ using EA;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
-    internal class EADiagramObject : DiagramObject, IEACollectionElement
+    public class EADiagramObject : DiagramObject, IEACollectionElement
     {
         public bool Update()
         {
@@ -16,11 +16,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             throw new NotImplementedException();
         }
 
-        public int DiagramID
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int DiagramID { get; set; }
 
         public int ElementID { get; set; }
 

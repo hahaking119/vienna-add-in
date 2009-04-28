@@ -254,6 +254,7 @@
     <Compile Include="Utils\OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Utils\RepositoryCopier.cs" />
     <Compile Include="Utils\SortConnector.cs" />
     <Compile Include="Utils\UMMAddInLoggerWindow.cs">
       <SubType>Form</SubType>

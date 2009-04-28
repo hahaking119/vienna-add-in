@@ -16,7 +16,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     internal class PRIM : UpccClass, IPRIM
     {
-        public PRIM(CCRepository repository, Element element) : base(repository, element, "PRIM")
+        public PRIM(CCRepository repository, Element element) : base(repository, element, Stereotype.PRIM)
         {
         }
 

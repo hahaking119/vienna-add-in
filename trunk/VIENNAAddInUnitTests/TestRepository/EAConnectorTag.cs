@@ -3,7 +3,7 @@ using EA;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
-    internal class EAConnectorTag : IEACollectionElement, ConnectorTag
+    public class EAConnectorTag : IEACollectionElement, ConnectorTag
     {
         #region ConnectorTag Members
 
@@ -17,10 +17,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             throw new NotImplementedException();
         }
 
-        public int TagID
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public int TagID { get; set; }
 
         public int ConnectorID
         {

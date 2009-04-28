@@ -6,8 +6,10 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using VIENNAAddIn.upcc3.ccts;
+using System.IO;
 using VIENNAAddIn.upcc3.ccts.util;
+using Path=VIENNAAddIn.upcc3.ccts.Path;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
@@ -46,6 +48,20 @@ namespace VIENNAAddInUnitTests.TestRepository
                         Package("This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy", Stereotype.BLibrary)
                         )
                     )
+                );
+            SetConnectors(
+                Connector("basedOn", Stereotype.BasedOn, PathToBdtMeasure(), PathToMeasure()),
+                Connector("basedOn", Stereotype.BasedOn, PathToBDTCode(), PathToCode()),
+                Connector("basedOn", Stereotype.BasedOn, PathToBdtAbcCode(), PathToCode()),
+                Connector("basedOn", Stereotype.BasedOn, PathToBdtDate(), PathToDate()),
+                Connector("basedOn", Stereotype.BasedOn, PathToBDTText(), PathToText()),
+                Connector("homeAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(AggregationKind.Shared).LowerBound("0").UpperBound("*"),
+                Connector("basedOn", Stereotype.BasedOn, PathToBIEAddress(), PathToAddress()),
+                Connector("homeAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(AggregationKind.Composite).LowerBound("0").UpperBound("*"),
+                Connector("info", Stereotype.ASBIE, PathToInvoice(), PathToInvoiceInfo()).AggregationKind(AggregationKind.Shared),
+                Connector("deliveryAddress", Stereotype.ASBIE, PathToInvoiceInfo(), PathToBIEAddress()).AggregationKind(AggregationKind.Shared)
                 );
         }
 
@@ -188,9 +204,6 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Attribute("Content", Stereotype.CON, PathToDecimal()),
                 Attribute("MeasureUnit", Stereotype.SUP, PathToString()),
                 Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, PathToString()).LowerBound("1").UpperBound("*")
-                )
-                .Connectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToMeasure())
                 );
         }
 
@@ -207,9 +220,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
                 Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
                 Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("Language", Stereotype.SUP, PathToString()))
-                .Connectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToCode())
+                Attribute("Language", Stereotype.SUP, PathToString())
                 );
         }
 
@@ -226,9 +237,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
                 Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
                 Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("Language", Stereotype.SUP, PathToString()))
-                .Connectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToCode())
+                Attribute("Language", Stereotype.SUP, PathToString())
                 );
         }
 
@@ -238,9 +247,6 @@ namespace VIENNAAddInUnitTests.TestRepository
                 .Attributes(
                 Attribute("Content", Stereotype.CON, PathToString()),
                 Attribute("Format", Stereotype.SUP, PathToString())
-                )
-                .Connectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToDate())
                 );
         }
 
@@ -252,9 +258,6 @@ namespace VIENNAAddInUnitTests.TestRepository
                     .TaggedValues(TaggedValue(TaggedValues.Definition, "This is the definition of BDT Text.")),
                 Attribute("Language", Stereotype.SUP, PathToString()),
                 Attribute("Language.Locale", Stereotype.SUP, PathToString())
-                )
-                .Connectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToText())
                 );
         }
 
@@ -298,13 +301,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Attribute("FirstName", Stereotype.BCC, PathToText()),
                 Attribute("LastName", Stereotype.BCC, PathToText()),
                 Attribute("NickName", Stereotype.BCC, PathToText()).LowerBound("0").UpperBound("*")
-                )
-                .Connectors(
-                Connector("homeAddress", Stereotype.ASCC, PathToAddress()).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASCC, PathToAddress()).AggregationKind(AggregationKind.Shared).
-                    LowerBound("0").UpperBound("*")
-                )
-                ;
+                );
         }
 
         #endregion
@@ -336,9 +333,6 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Attribute("StreetName", Stereotype.BBIE, PathToBDTText()),
                 Attribute("StreetNumber", Stereotype.BBIE, PathToBDTText()),
                 Attribute("Postcode", Stereotype.BBIE, PathToBDTText()).LowerBound("0").UpperBound("*")
-                )
-                .Connectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToAddress())
                 );
         }
 
@@ -348,13 +342,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 .Attributes(
                 Attribute("FirstName", Stereotype.BBIE, PathToBDTText()),
                 Attribute("LastName", Stereotype.BBIE, PathToBDTText())
-                )
-                .Connectors(
-                Connector("homeAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(AggregationKind.Composite)
-                    .LowerBound("0").UpperBound("*")
-                )
-                ;
+                );
         }
 
         #endregion
@@ -382,9 +370,6 @@ namespace VIENNAAddInUnitTests.TestRepository
             return Element("Invoice", Stereotype.ABIE)
                 .Attributes(
                 Attribute("Amount", Stereotype.BBIE, PathToBDTText())
-                )
-                .Connectors(
-                Connector("info", Stereotype.ASBIE, PathToInvoiceInfo()).AggregationKind(AggregationKind.Shared)
                 );
         }
 
@@ -393,10 +378,6 @@ namespace VIENNAAddInUnitTests.TestRepository
             return Element("InvoiceInfo", Stereotype.ABIE)
                 .Attributes(
                 Attribute("Info", Stereotype.BBIE, PathToBDTText())
-                )
-                .Connectors(
-                Connector("deliveryAddress", Stereotype.ASBIE, PathToBIEAddress()).AggregationKind(
-                    AggregationKind.Shared)
                 );
         }
 
@@ -437,6 +418,16 @@ namespace VIENNAAddInUnitTests.TestRepository
         public static Path PathToBdtAbcCode()
         {
             return (Path) "blib1"/"bdtlib1"/"ABC_Code";
+        }
+
+        public static Path PathToBdtDate()
+        {
+            return (Path) "blib1"/"bdtlib1"/"Date";
+        }
+
+        public static Path PathToBdtMeasure()
+        {
+            return (Path) "blib1"/"bdtlib1"/"Measure";
         }
 
         public static Path PathToEnumAbcCodes()

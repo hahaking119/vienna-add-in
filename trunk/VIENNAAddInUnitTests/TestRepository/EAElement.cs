@@ -13,9 +13,16 @@ namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EAElement : Element, IEACollectionElement
     {
-        private readonly Collection taggedValues = new EACollection<EATaggedValue>();
-        private readonly Collection connectors = new EACollection<EAConnector>();
-        private readonly Collection attributes = new EACollection<EAAttribute>();
+        private readonly Collection taggedValues;
+        private readonly Collection connectors;
+        private readonly Collection attributes;
+
+        public EAElement(EARepository repository)
+        {
+            attributes = new EAAttributeCollection(repository, this);
+            connectors = new EAConnectorCollection(repository, this);
+            taggedValues = new EATaggedValueCollection(repository, this);
+        }
 
         #region Element Members
 
@@ -271,11 +278,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        string IDualElement.Type
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public string Type { get; set; }
 
         public int ClassfierID
         {
