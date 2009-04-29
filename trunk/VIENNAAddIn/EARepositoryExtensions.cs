@@ -184,8 +184,11 @@ namespace VIENNAAddIn
             if (dialogResult == DialogResult.Yes)
             {                                     
                 Cursor.Current = Cursors.WaitCursor;
-                       
-                (new ModelCreator(repository)).ImportStandardCcLibraries();
+
+                string bLibraryGuid = repository.GetTreeSelectedPackage().Element.ElementGUID;
+                Package bLibrary = repository.GetPackageByGuid(bLibraryGuid);
+
+                (new ModelCreator(repository)).ImportStandardCcLibraries(bLibrary);
                 
                 Cursor.Current = Cursors.Default;
             }

@@ -13,6 +13,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         #region Local Class Fields
 
         private string modelName = "";
+        private bool importStandardLibraries = false;
         private string primLibraryName = "";
         private string enumLibraryName = "";
         private string cdtLibraryName = "";
@@ -109,6 +110,8 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             modelName = textboxModelName.Text;
 
+            importStandardLibraries = checkboxImportStandardLibraries.Checked ? true : false;
+
             primLibraryName = checkboxPRIML.Checked ? textboxPRIMLName.Text : "";
             enumLibraryName = checkboxENUML.Checked ? textboxENUMLName.Text : "";
             cdtLibraryName = checkboxCDTL.Checked ? textboxCDTLName.Text : "";
@@ -155,7 +158,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             ModelCreator creator = new ModelCreator(repository);
 
             creator.CreateUpccModel(modelName, primLibraryName, enumLibraryName, cdtLibraryName,
-                                    ccLibraryName, bdtLibraryName, bieLibraryName, docLibraryName);
+                                    ccLibraryName, bdtLibraryName, bieLibraryName, docLibraryName, importStandardLibraries);
 
             buttonGenerate.Enabled = true;
         }
