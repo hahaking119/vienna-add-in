@@ -56,12 +56,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textboxModelName = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.checkboxImportStandardLibraries = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(70, 301);
+            this.buttonGenerate.Location = new System.Drawing.Point(70, 318);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(176, 23);
             this.buttonGenerate.TabIndex = 10;
@@ -71,7 +73,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(303, 301);
+            this.buttonClose.Location = new System.Drawing.Point(301, 317);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(62, 23);
             this.buttonClose.TabIndex = 11;
@@ -106,7 +108,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Location = new System.Drawing.Point(11, 43);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(428, 242);
+            this.groupBox1.Size = new System.Drawing.Size(428, 259);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Libraries within the Business Library";
@@ -116,14 +118,14 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(27, 22);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(355, 13);
+            this.label9.Size = new System.Drawing.Size(353, 13);
             this.label9.TabIndex = 16;
-            this.label9.Text = "Use default values for generated Libraries (e.g. Name of the PRIM Library)";
+            this.label9.Text = "Use default names for generated Libraries (e.g. name of the PRIM Library)";
             // 
             // checkboxDOCL
             // 
             this.checkboxDOCL.AutoSize = true;
-            this.checkboxDOCL.Location = new System.Drawing.Point(11, 211);
+            this.checkboxDOCL.Location = new System.Drawing.Point(11, 228);
             this.checkboxDOCL.Name = "checkboxDOCL";
             this.checkboxDOCL.Size = new System.Drawing.Size(15, 14);
             this.checkboxDOCL.TabIndex = 10;
@@ -143,7 +145,7 @@
             // checkboxENUML
             // 
             this.checkboxENUML.AutoSize = true;
-            this.checkboxENUML.Location = new System.Drawing.Point(11, 82);
+            this.checkboxENUML.Location = new System.Drawing.Point(11, 99);
             this.checkboxENUML.Name = "checkboxENUML";
             this.checkboxENUML.Size = new System.Drawing.Size(15, 14);
             this.checkboxENUML.TabIndex = 15;
@@ -153,7 +155,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(27, 212);
+            this.label5.Location = new System.Drawing.Point(27, 229);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 13);
             this.label5.TabIndex = 4;
@@ -162,7 +164,7 @@
             // checkboxBIEL
             // 
             this.checkboxBIEL.AutoSize = true;
-            this.checkboxBIEL.Location = new System.Drawing.Point(11, 186);
+            this.checkboxBIEL.Location = new System.Drawing.Point(11, 203);
             this.checkboxBIEL.Name = "checkboxBIEL";
             this.checkboxBIEL.Size = new System.Drawing.Size(15, 14);
             this.checkboxBIEL.TabIndex = 11;
@@ -172,7 +174,7 @@
             // textboxBDTLName
             // 
             this.textboxBDTLName.Enabled = false;
-            this.textboxBDTLName.Location = new System.Drawing.Point(107, 157);
+            this.textboxBDTLName.Location = new System.Drawing.Point(107, 174);
             this.textboxBDTLName.Name = "textboxBDTLName";
             this.textboxBDTLName.Size = new System.Drawing.Size(308, 20);
             this.textboxBDTLName.TabIndex = 13;
@@ -181,7 +183,7 @@
             // textboxCCLName
             // 
             this.textboxCCLName.Enabled = false;
-            this.textboxCCLName.Location = new System.Drawing.Point(107, 131);
+            this.textboxCCLName.Location = new System.Drawing.Point(107, 148);
             this.textboxCCLName.Name = "textboxCCLName";
             this.textboxCCLName.Size = new System.Drawing.Size(308, 20);
             this.textboxCCLName.TabIndex = 14;
@@ -190,7 +192,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(27, 82);
+            this.label4.Location = new System.Drawing.Point(27, 99);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(76, 13);
             this.label4.TabIndex = 3;
@@ -199,7 +201,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(27, 186);
+            this.label8.Location = new System.Drawing.Point(27, 203);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(61, 13);
             this.label8.TabIndex = 7;
@@ -208,7 +210,7 @@
             // textboxCDTLName
             // 
             this.textboxCDTLName.Enabled = false;
-            this.textboxCDTLName.Location = new System.Drawing.Point(107, 105);
+            this.textboxCDTLName.Location = new System.Drawing.Point(107, 122);
             this.textboxCDTLName.Name = "textboxCDTLName";
             this.textboxCDTLName.Size = new System.Drawing.Size(308, 20);
             this.textboxCDTLName.TabIndex = 15;
@@ -217,7 +219,7 @@
             // textboxBIELName
             // 
             this.textboxBIELName.Enabled = false;
-            this.textboxBIELName.Location = new System.Drawing.Point(107, 183);
+            this.textboxBIELName.Location = new System.Drawing.Point(107, 200);
             this.textboxBIELName.Name = "textboxBIELName";
             this.textboxBIELName.Size = new System.Drawing.Size(308, 20);
             this.textboxBIELName.TabIndex = 12;
@@ -226,7 +228,7 @@
             // checkboxBDTL
             // 
             this.checkboxBDTL.AutoSize = true;
-            this.checkboxBDTL.Location = new System.Drawing.Point(11, 160);
+            this.checkboxBDTL.Location = new System.Drawing.Point(11, 177);
             this.checkboxBDTL.Name = "checkboxBDTL";
             this.checkboxBDTL.Size = new System.Drawing.Size(15, 14);
             this.checkboxBDTL.TabIndex = 12;
@@ -236,7 +238,7 @@
             // textboxDOCLName
             // 
             this.textboxDOCLName.Enabled = false;
-            this.textboxDOCLName.Location = new System.Drawing.Point(107, 209);
+            this.textboxDOCLName.Location = new System.Drawing.Point(107, 226);
             this.textboxDOCLName.Name = "textboxDOCLName";
             this.textboxDOCLName.Size = new System.Drawing.Size(308, 20);
             this.textboxDOCLName.TabIndex = 11;
@@ -245,7 +247,7 @@
             // textboxENUMLName
             // 
             this.textboxENUMLName.Enabled = false;
-            this.textboxENUMLName.Location = new System.Drawing.Point(107, 79);
+            this.textboxENUMLName.Location = new System.Drawing.Point(107, 96);
             this.textboxENUMLName.Name = "textboxENUMLName";
             this.textboxENUMLName.Size = new System.Drawing.Size(308, 20);
             this.textboxENUMLName.TabIndex = 10;
@@ -254,7 +256,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 160);
+            this.label2.Location = new System.Drawing.Point(27, 177);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 1;
@@ -263,7 +265,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(27, 134);
+            this.label7.Location = new System.Drawing.Point(27, 151);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(58, 13);
             this.label7.TabIndex = 6;
@@ -272,7 +274,7 @@
             // textboxPRIMLName
             // 
             this.textboxPRIMLName.Enabled = false;
-            this.textboxPRIMLName.Location = new System.Drawing.Point(107, 53);
+            this.textboxPRIMLName.Location = new System.Drawing.Point(107, 70);
             this.textboxPRIMLName.Name = "textboxPRIMLName";
             this.textboxPRIMLName.Size = new System.Drawing.Size(308, 20);
             this.textboxPRIMLName.TabIndex = 3;
@@ -281,7 +283,7 @@
             // checkboxCCL
             // 
             this.checkboxCCL.AutoSize = true;
-            this.checkboxCCL.Location = new System.Drawing.Point(11, 134);
+            this.checkboxCCL.Location = new System.Drawing.Point(11, 151);
             this.checkboxCCL.Name = "checkboxCCL";
             this.checkboxCCL.Size = new System.Drawing.Size(15, 14);
             this.checkboxCCL.TabIndex = 13;
@@ -291,7 +293,7 @@
             // checkboxCDTL
             // 
             this.checkboxCDTL.AutoSize = true;
-            this.checkboxCDTL.Location = new System.Drawing.Point(11, 108);
+            this.checkboxCDTL.Location = new System.Drawing.Point(11, 125);
             this.checkboxCDTL.Name = "checkboxCDTL";
             this.checkboxCDTL.Size = new System.Drawing.Size(15, 14);
             this.checkboxCDTL.TabIndex = 14;
@@ -301,7 +303,7 @@
             // checkboxPRIML
             // 
             this.checkboxPRIML.AutoSize = true;
-            this.checkboxPRIML.Location = new System.Drawing.Point(11, 56);
+            this.checkboxPRIML.Location = new System.Drawing.Point(11, 73);
             this.checkboxPRIML.Name = "checkboxPRIML";
             this.checkboxPRIML.Size = new System.Drawing.Size(15, 14);
             this.checkboxPRIML.TabIndex = 0;
@@ -311,7 +313,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 56);
+            this.label3.Location = new System.Drawing.Point(27, 73);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 2;
@@ -320,7 +322,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(27, 108);
+            this.label6.Location = new System.Drawing.Point(27, 125);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 5;
@@ -343,11 +345,31 @@
             this.textboxModelName.TabIndex = 9;
             this.textboxModelName.TextChanged += new System.EventHandler(this.textboxModelName_TextChanged);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(38, 85);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(359, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "Import standard CC Librares (e.g. PRIM Library containing standard PRIMs)";
+            // 
+            // checkboxImportStandardLibraries
+            // 
+            this.checkboxImportStandardLibraries.AutoSize = true;
+            this.checkboxImportStandardLibraries.Location = new System.Drawing.Point(22, 85);
+            this.checkboxImportStandardLibraries.Name = "checkboxImportStandardLibraries";
+            this.checkboxImportStandardLibraries.Size = new System.Drawing.Size(15, 14);
+            this.checkboxImportStandardLibraries.TabIndex = 17;
+            this.checkboxImportStandardLibraries.UseVisualStyleBackColor = true;
+            // 
             // UpccModelWizardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(451, 334);
+            this.ClientSize = new System.Drawing.Size(451, 352);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.checkboxImportStandardLibraries);
             this.Controls.Add(this.textboxModelName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
@@ -396,5 +418,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textboxModelName;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox checkboxImportStandardLibraries;
     }
 }
