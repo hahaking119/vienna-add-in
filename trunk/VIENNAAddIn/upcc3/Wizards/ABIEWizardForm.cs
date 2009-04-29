@@ -198,17 +198,18 @@ namespace VIENNAAddIn.upcc3.Wizards
             else
             {
                 textABIEName.Text = abie.Name;
-                comboCCLs.SelectedIndex = 0;
+                comboCCLs.SelectedIndex = 0; //todo:find correct CCLibrary
                 comboCCLs_SelectionChangeCommitted(null,null);
                 comboACCs.SelectedIndex= comboACCs.FindString(abie.BasedOn.Name);
                 comboACCs_SelectionChangeCommitted(null, null);
+                //check used BCCs in modify mode
                 foreach (IBBIE BBIE in abie.BBIEs)
                 {
                     if (checkedlistboxBCCs.Items.Contains(BBIE.Name))
                     {
-                        checkedlistboxBCCs.SetItemChecked(checkedlistboxBCCs.Items.IndexOf(BBIE.Name),true);
+                        checkedlistboxBCCs.SetItemChecked(checkedlistboxBCCs.Items.IndexOf(BBIE.Name), true);
                     }
-                    
+
                 }
                 ResetForm(4);
                 buttonSave.Show();
@@ -299,7 +300,18 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName }))
                 {
-                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndCreateDefaults(repository, cache.BDTLs);                    
+                    if (editMode)
+                    {
+                        cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndCreateDefaults(repository,
+                                                                                                    cache.BDTLs);
+                    }
+
+                    //use new Method for loading BBIEs in modify mode
+                    else
+                    {
+                        cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndBBIEs(repository,
+                                                                                                    cache.BDTLs,abie);
+                    }
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
                 }
                 if (editMode)
