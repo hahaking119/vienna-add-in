@@ -341,6 +341,39 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
+        //todo: get this new Method to work as it should!
+        public void LoadBCCsAndBBIEs(CCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IABIE abie)
+        {
+            //if (BCCs.Count == 0)
+            if (!HasBCCs())
+            {
+                IACC acc = repository.GetACC(Id);
+
+                foreach (IBCC bcc in acc.BCCs)
+                {
+                    if (BCCs.ContainsKey(bcc.Name))
+                    {
+                        BCCs.Clear();
+                        throw new CacheException(CacheConstants.BCC_EXISTS);
+                    }
+
+                    BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked));
+
+                    foreach (IBBIE bbie in abie.BBIEs)
+                    {
+                        if (bbie.Name.Contains(bcc.Name))
+                        {
+                            BCCs[bcc.Name].BBIEs.Add(bbie.Name,
+                                                     new cBBIE(bbie.Name, -1, bbie.Type.Id, CheckState.Checked));
+                            BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bbie.Type.Id, bdtls);
+                        }
+                    }
+                    
+                    //BCCs[bcc.Name].BBIEs[bcc.Name].BDTs = GetRelevantBDTs(bcc.Type.Id, bdtls);
+                }
+            }
+        }
+
         public void LoadASCCs(CCRepository repository, IDictionary<string, cBIELibrary> biels)
         {
             // TODO: temporarily disabled to forace ASCCs
