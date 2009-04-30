@@ -198,19 +198,37 @@ namespace VIENNAAddIn.upcc3.Wizards
             else
             {
                 textABIEName.Text = abie.Name;
-                comboCCLs.SelectedIndex = 0; //todo:find correct CCLibrary
-                comboCCLs_SelectionChangeCommitted(null,null);
+                int correctCCL = -1;
+                bool found = false;
+                foreach (cCCLibrary ccl in cache.CCLs.Values)
+                {
+                    ICCLibrary realCCL = repository.LibraryByName<ICCLibrary>(ccl.Name);
+                    correctCCL++;  
+                    foreach (IACC acc in realCCL.ACCs)
+                    {
+                        if(acc.Name==abie.BasedOn.Name)
+                        {
+                            found = true; 
+                            break;
+                        }
+                    }
+                    if(found)
+                    {
+                        break;
+                    }
+                }
+                if(found)
+                {
+                    comboCCLs.SelectedIndex = correctCCL;
+                    comboCCLs_SelectionChangeCommitted(null, null);
+                }
+                else
+                {
+                    InformativeMessage("no corresponding CCLibrary found.");
+                    Close();
+                }
                 comboACCs.SelectedIndex= comboACCs.FindString(abie.BasedOn.Name);
                 comboACCs_SelectionChangeCommitted(null, null);
-                //check used BCCs in modify mode
-                foreach (IBBIE BBIE in abie.BBIEs)
-                {
-                    if (checkedlistboxBCCs.Items.Contains(BBIE.Name))
-                    {
-                        checkedlistboxBCCs.SetItemChecked(checkedlistboxBCCs.Items.IndexOf(BBIE.Name), true);
-                    }
-
-                }
                 ResetForm(4);
                 buttonSave.Show();
             }
@@ -644,7 +662,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             /* get the selected ACC which we as a basis to generate the new ABIE */
             IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-            ABIESpec abieSpec = createABISpec(selectedBIEL, selectedACC);
+            ABIESpec abieSpec = createABISpec(selectedACC);
             IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
             cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
             textABIEName.Text = "";
@@ -1049,9 +1067,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 foreach (cASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
                 {
-                    foreach (cABIE abie in ascc.ABIEs.Values)
+                    foreach (cABIE localAbie in ascc.ABIEs.Values)
                     {
-                        checkedlistboxASCCs.Items.Add(ascc.Name + " (" + abie.Name + ")", ascc.State);
+                        checkedlistboxASCCs.Items.Add(ascc.Name + " (" + localAbie.Name + ")", ascc.State);
                     }
                 }
             }
@@ -1072,23 +1090,12 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName, selectedBCCName }))
             {
-                if (editMode)
-                {
                     foreach (
                         cBBIE bbie in
                             cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Values)
                     {
                         checkedlistboxBBIEs.Items.Add(bbie.Name, bbie.State);
                     }
-                }
-                else
-                {
-                    foreach (IBBIE bbie in abie.BBIEs)
-                    {
-                        checkedlistboxBBIEs.Items.Add(bbie.Name, true);
-                    }
-                }
-
                 SetSafeIndex(checkedlistboxBBIEs, oldIndex);
 
                 MirrorBDTsToUI();
@@ -1174,11 +1181,21 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
+        ///<summary>
+        /// This Method is used to show the Generate new ABIE Wizard Window.
+        /// There is no initial Element to load.
+        ///</summary>
+        ///<param name="context"></param>
         public static void ShowABIEWizard(AddInContext context)
         {
             new ABIEWizardForm(context.Repository).Show();
         }
 
+        ///<summary>
+        /// This Method is used to show the Modify existing ABIE Wizard Window.
+        /// The selected ABIE has to be passed over to the ABIE Wizard.
+        ///</summary>
+        ///<param name="context"></param>
         public static void ShowModifyABIEWizard(AddInContext context)
         {
             new ABIEWizardForm(context.Repository, context.Repository.GetElementByGuid(context.SelectedItemGUID)).Show();
@@ -1191,20 +1208,20 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             /* get the selected ACC which we as a basis to generate the new ABIE */
             IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-            ABIESpec abieSpec = createABISpec(selectedBIEL,selectedACC);
+            ABIESpec abieSpec = createABISpec(selectedACC);
             IABIE newABIE = selectedBIEL.UpdateABIE(abie,abieSpec);
             //todo: find a better way to update internal cache
             cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
             cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
             textABIEName.Text = "";
             textABIEName.Text = newABIE.Name;
-            if(newABIE!=null)
+            if(newABIE.Id>-1)
             {
                 InformativeMessage("ABIE "+newABIE.Name+" update succeeded.");
             }
-            this.Close();
+            Close();
         }
-        private ABIESpec createABISpec(IBIELibrary selectedBIEL, IACC selectedACC)
+        private ABIESpec createABISpec(IACC selectedACC)
         {
             
             ABIESpec abieSpec =null;

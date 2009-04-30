@@ -356,16 +356,18 @@ namespace VIENNAAddIn.upcc3.Wizards
                         BCCs.Clear();
                         throw new CacheException(CacheConstants.BCC_EXISTS);
                     }
-
+                    
                     BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked));
-
+                    
                     foreach (IBBIE bbie in abie.BBIEs)
                     {
                         if (bbie.Name.Contains(bcc.Name))
                         {
+                            //BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Checked));
+                            BCCs[bcc.Name].State = CheckState.Checked;
                             BCCs[bcc.Name].BBIEs.Add(bbie.Name,
-                                                     new cBBIE(bbie.Name, -1, bbie.Type.Id, CheckState.Checked));
-                            BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bbie.Type.Id, bdtls);
+                                                     new cBBIE(bbie.Name, -1, bcc.Type.Id, CheckState.Checked));
+                            BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
                         }
                     }
                     
