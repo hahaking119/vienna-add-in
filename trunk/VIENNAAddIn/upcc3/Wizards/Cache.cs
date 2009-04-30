@@ -341,7 +341,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        //todo: get this new Method to work as it should!
         public void LoadBCCsAndBBIEs(CCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IABIE abie)
         {
             //if (BCCs.Count == 0)
@@ -358,7 +357,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                     }
                     
                     BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked));
-                    
+
+                    int bbieCount = 0;
                     foreach (IBBIE bbie in abie.BBIEs)
                     {
                         if (bbie.Name.Contains(bcc.Name))
@@ -368,9 +368,15 @@ namespace VIENNAAddIn.upcc3.Wizards
                             BCCs[bcc.Name].BBIEs.Add(bbie.Name,
                                                      new cBBIE(bbie.Name, -1, bcc.Type.Id, CheckState.Checked));
                             BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
+
+                            bbieCount++;
                         }
                     }
-                    
+                    if (bbieCount == 0)
+                    {
+                        BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Type.Id, CheckState.Unchecked));
+                        BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
+                    }
                     //BCCs[bcc.Name].BBIEs[bcc.Name].BDTs = GetRelevantBDTs(bcc.Type.Id, bdtls);
                 }
             }
