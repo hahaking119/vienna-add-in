@@ -200,9 +200,9 @@ Actual output file: {2}",
         {
             AddInSettings.LoadRegistryEntries();
             var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
-            var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(new GenerationContext(ccRepository, "ebInterface", "eb", true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary).RootElements)));
-            Assert.AreEqual(3, context.Schemas.Count);
-            XmlSchema schema = context.Schemas[2].Schema;
+            var context = VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(new GenerationContext(ccRepository, "ebInterface", "eb", false, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>(EARepository2.DOCLibrary).RootElements)));
+            Assert.AreEqual(1, context.Schemas.Count);
+            XmlSchema schema = context.Schemas[0].Schema;
             schema.Write(Console.Out);
 
         }
