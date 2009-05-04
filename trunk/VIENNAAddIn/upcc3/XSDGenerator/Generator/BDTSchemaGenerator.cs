@@ -19,7 +19,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
             schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
             schema.Namespaces.Add("ccts","urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
-        
+            schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
+
             foreach (IBDT bdt in bdts)
             {
                 var sups = new List<ISUP>(bdt.SUPs);
@@ -74,8 +75,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                     schema.Items.Add(complexType);
                 }
             }
-            // TODO generate correct schema file name
-            context.AddSchema(schema, "bdts.xsd");
+            context.AddSchema(schema, "BusinessDataType_" + schema.Version + ".xsd");
         }
 
         private static XmlSchemaAnnotation GetAttributeAnnotation(ISUP sup)

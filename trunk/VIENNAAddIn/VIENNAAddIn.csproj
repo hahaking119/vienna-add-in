@@ -110,6 +110,8 @@
     <Compile Include="upcc3\Wizards\ImporterWizardForm.Designer.cs">
       <DependentUpon>ImporterWizardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\XSDGenerator\Generator\CCSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\Generator\CDTSchemaGenerator.cs" />
     <Compile Include="Utils\DictionaryExtensions.cs" />
     <Compile Include="menu\MenuAction.cs" />
     <Compile Include="menu\MenuItem.cs" />
@@ -404,35 +406,6 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\IANA_CharacterSetCode_20050128.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\IANA_MIMEMediaType_20060110.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\ISO_CountryCode_20040914.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\ISO_CurrencyCode_2001.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\ISO_LanguageCode_1988.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_AgencyIdentificationCode_D05A.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_CCTS1_DocumentationAcronymCodeList_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_CCTS2_AssociationTypeCodeList_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_CCTS3_PrimitiveTypeCodeList_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_CCTS4_FormalConstraintTypeCodeList_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_CCTS5_ConditionTypeCodeList_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_CharacterSetEncodingCode_2005.xsd" />
-    <None Include="upcc3\XSDGenerator\common\codelist\standard\UNECE_MeasurementUnitCommonCode_3.xsd" />
-    <None Include="upcc3\XSDGenerator\common\data\standard\BusinessDataType_3p0.xsd" />
-    <None Include="upcc3\XSDGenerator\common\data\standard\CoreComponentType_2p0.xsd" />
-    <None Include="upcc3\XSDGenerator\common\documentation\example\CCTS_Annotation_Documentation_Example_0p1.xsd" />
-    <None Include="upcc3\XSDGenerator\common\documentation\example\Documentation.xsd" />
-    <None Include="upcc3\XSDGenerator\common\documentation\standard\Context.xsd" />
-    <None Include="upcc3\XSDGenerator\common\documentation\standard\XMLNDR_Documentation_3p0.xsd" />
-    <None Include="upcc3\XSDGenerator\common\identificationscheme\standard\UNECE_CCTS1_EntityUniqueIdentificationScheme_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\identificationscheme\standard\UNECE_CCTS2_UsageRuleUniqueIdentificationScheme_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\identificationscheme\standard\UNECE_CCTS3_SequencingKeyIdentificationScheme_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\identificationscheme\standard\UNECE_CCTS4_VersioningIdentificationScheme_08B.xsd" />
-    <None Include="upcc3\XSDGenerator\common\identificationscheme\standard\UNECE_CCTS5_DataTypeUniqueIdentificationScheme_08B.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="upcc3\XSDGenerator\common\documentation\example\DocumentationExampleInstance_0p1.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />

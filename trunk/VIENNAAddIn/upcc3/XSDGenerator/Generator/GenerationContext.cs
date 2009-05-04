@@ -21,9 +21,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<param name="outputDirectory"></param>
         ///<param name="docLibrary"></param>
         ///<param name="rootElements"></param>
-        public GenerationContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate,
+        public GenerationContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate, bool allschemas,
                                  string outputDirectory, IDOCLibrary docLibrary, IList<IABIE> rootElements)
         {
+            Allschemas = allschemas;
             Repository = repository;
             TargetNamespace = targetNamespace;
             NamespacePrefix = namespacePrefix;
@@ -31,7 +32,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             OutputDirectory = outputDirectory;
             DocLibrary = docLibrary;
             RootElements = rootElements;
-            progress = 100/(2 + (rootElements != null ? rootElements.Count : 0));
+            if(allschemas)
+                progress = 100/(4 + (rootElements != null ? rootElements.Count : 0));
+            else
+                progress = 100/(2 + (rootElements != null ? rootElements.Count : 0));
         }
 
         ///<summary>
@@ -56,6 +60,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<summary>
         ///</summary>
         public bool Annotate { get; private set; }
+
+        ///<summary>
+        ///</summary>
+        public bool Allschemas { get; private set; }
 
         ///<summary>
         ///</summary>

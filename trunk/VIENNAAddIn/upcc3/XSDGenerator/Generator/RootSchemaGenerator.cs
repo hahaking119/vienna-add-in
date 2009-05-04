@@ -30,8 +30,6 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         ///<param name="context"></param>
         public static void GenerateXSD(GenerationContext context)
         {
-            //private static string SCHEMA_LOCATION_BDT = "bdts.xsd";
-            //private static string SCHEMA_NAME_BIE = "bies.xsd";
 
             foreach (IABIE abie in context.RootElements)
             {
@@ -58,7 +56,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                                              context);
                 AddGlobalTypeDefinitions(schema, removeRootElements(context.DocLibrary.BIEs, context.DocLibrary.RootElements),
                                              context);
-                context.AddSchema(schema, abie.Name + ".xsd");
+                context.AddSchema(schema, abie.Name + "_" + schema.Version + ".xsd");
             }
         }
 

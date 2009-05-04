@@ -12,17 +12,13 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
     class CCSchemaGenerator
     {
         private const string NSPREFIX_CDT = "cdt";
-        private const string NSPREFIX_TNS = "tns";
         private const string NSPREFIX_DOC = "ccts";
 
         private const string NS_DOC = "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3";
 
-        //private const string NSPREFIX_CCTS = "ccts";
-        //private const string NS_CCTS = "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2";
         private const string NSPREFIX_XSD = "xsd";
         private const string NS_XSD = "http://www.w3.org/2001/XMLSchema";
-        private const string SCHEMA_LOCATION_CDT = "bdts.xsd";
-        private const string SCHEMA_NAME_CC = "ccs.xsd";
+   
 
         ///<summary>
         ///</summary>
@@ -33,9 +29,12 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             // Create XML schema file and prepare the XML schema header
             // R 88E2: all XML schema files must use UTF-8 encoding
             // R B387: every XML schema must have a declared target namespace
+
+
             var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
-
+            schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
+            
             // TODO: discuss R A0E5 and R A9C5 with Christian E. and Michi S. since this is something that should be added to the context
             // R A0E5: all XML schemas must contain elementFormDefault and set it to qualified     
             schema.ElementFormDefault = XmlSchemaForm.Qualified;
@@ -49,14 +48,11 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
             // add namespace to be able to utilize BDTs
             schema.Namespaces.Add(NSPREFIX_CDT, context.TargetNamespace);
-            // add namespace to be able to utilize ABIEs 
-            schema.Namespaces.Add(NSPREFIX_TNS, context.TargetNamespace);
-
 
             // R 8FE2: include BDT XML schema file
             // TODO: check with christian e. if we can retrieve the bdt schema file from the context
             XmlSchemaInclude cdtInclude = new XmlSchemaInclude();
-            cdtInclude.SchemaLocation = SCHEMA_LOCATION_CDT;
+            cdtInclude.SchemaLocation = "CoreDataType_" + schema.Version + ".xsd";
             schema.Includes.Add(cdtInclude);
 
             foreach (IACC acc in accs)
@@ -71,20 +67,16 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 //         the ABIE
                 XmlSchemaElement elementACC = new XmlSchemaElement();
                 elementACC.Name = acc.Name;
-                elementACC.SchemaTypeName = new XmlQualifiedName(NSPREFIX_TNS + ":" + acc.Name + "Type");
+                elementACC.SchemaTypeName = new XmlQualifiedName(context.NamespacePrefix + ":" + acc.Name + "Type");
                 schema.Items.Add(elementACC);
             }
 
-            // TODO generate correct schema file name
-            // Add the xml schema and a file name that the schema will be saved as
-            // to the context which will then later on be used to serialize the 
-            // xml schema to a file.
-            context.AddSchema(schema, SCHEMA_NAME_CC);
+            context.AddSchema(schema, "CoreComponent_" + schema.Version + ".xsd");
         }
 
         internal static XmlSchemaComplexType GenerateComplexTypeACC(GenerationContext context, XmlSchema schema, IACC acc)
         {
-            return GenerateComplexTypeABIE(context, schema, acc, NSPREFIX_TNS);
+            return GenerateComplexTypeABIE(context, schema, acc, context.NamespacePrefix);
         }
 
         internal static XmlSchemaComplexType GenerateComplexTypeABIE(GenerationContext context, XmlSchema schema, IACC acc, string accPrefix)
