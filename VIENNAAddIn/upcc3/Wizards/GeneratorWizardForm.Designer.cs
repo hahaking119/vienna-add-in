@@ -49,6 +49,8 @@
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.comboBIVs = new System.Windows.Forms.ComboBox();
+            this.checkboxAllschemas = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
@@ -57,7 +59,7 @@
             // 
             this.groupBox1.Controls.Add(this.progressBar);
             this.groupBox1.Controls.Add(this.richtextStatus);
-            this.groupBox1.Location = new System.Drawing.Point(9, 312);
+            this.groupBox1.Location = new System.Drawing.Point(9, 326);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(536, 153);
             this.groupBox1.TabIndex = 10;
@@ -66,14 +68,14 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(15, 126);
+            this.progressBar.Location = new System.Drawing.Point(15, 140);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(506, 13);
             this.progressBar.TabIndex = 1;
             // 
             // richtextStatus
             // 
-            this.richtextStatus.Location = new System.Drawing.Point(14, 19);
+            this.richtextStatus.Location = new System.Drawing.Point(14, 33);
             this.richtextStatus.Name = "richtextStatus";
             this.richtextStatus.Size = new System.Drawing.Size(507, 99);
             this.richtextStatus.TabIndex = 0;
@@ -83,7 +85,9 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkboxAllschemas);
             this.groupBox4.Controls.Add(this.label3);
+            this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.textOutputDirectory);
             this.groupBox4.Controls.Add(this.buttonBrowseFolders);
             this.groupBox4.Controls.Add(this.label10);
@@ -98,7 +102,7 @@
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Location = new System.Drawing.Point(9, 38);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(536, 268);
+            this.groupBox4.Size = new System.Drawing.Size(536, 282);
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Generation Settings";
@@ -106,7 +110,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(11, 239);
+            this.label3.Location = new System.Drawing.Point(11, 255);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(181, 13);
             this.label3.TabIndex = 44;
@@ -114,7 +118,7 @@
             // 
             // textOutputDirectory
             // 
-            this.textOutputDirectory.Location = new System.Drawing.Point(201, 235);
+            this.textOutputDirectory.Location = new System.Drawing.Point(201, 251);
             this.textOutputDirectory.Name = "textOutputDirectory";
             this.textOutputDirectory.Size = new System.Drawing.Size(282, 20);
             this.textOutputDirectory.TabIndex = 43;
@@ -122,7 +126,7 @@
             // 
             // buttonBrowseFolders
             // 
-            this.buttonBrowseFolders.Location = new System.Drawing.Point(489, 235);
+            this.buttonBrowseFolders.Location = new System.Drawing.Point(489, 251);
             this.buttonBrowseFolders.Name = "buttonBrowseFolders";
             this.buttonBrowseFolders.Size = new System.Drawing.Size(32, 21);
             this.buttonBrowseFolders.TabIndex = 42;
@@ -142,7 +146,7 @@
             // comboModels
             // 
             this.comboModels.FormattingEnabled = true;
-            this.comboModels.Location = new System.Drawing.Point(201, 208);
+            this.comboModels.Location = new System.Drawing.Point(201, 224);
             this.comboModels.Name = "comboModels";
             this.comboModels.Size = new System.Drawing.Size(320, 21);
             this.comboModels.TabIndex = 40;
@@ -151,7 +155,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 211);
+            this.label2.Location = new System.Drawing.Point(11, 227);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(130, 13);
             this.label2.TabIndex = 32;
@@ -225,7 +229,7 @@
             // 
             // buttonClose
             // 
-            this.buttonClose.Location = new System.Drawing.Point(369, 475);
+            this.buttonClose.Location = new System.Drawing.Point(369, 489);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 3;
@@ -235,7 +239,7 @@
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(105, 475);
+            this.buttonGenerate.Location = new System.Drawing.Point(105, 489);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(149, 23);
             this.buttonGenerate.TabIndex = 2;
@@ -261,11 +265,31 @@
             this.comboBIVs.TabIndex = 41;
             this.comboBIVs.SelectionChangeCommitted += new System.EventHandler(this.comboBIVs_SelectionChangeCommitted);
             // 
+            // checkboxAllschemas
+            // 
+            this.checkboxAllschemas.AutoSize = true;
+            this.checkboxAllschemas.Checked = true;
+            this.checkboxAllschemas.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkboxAllschemas.Location = new System.Drawing.Point(201, 206);
+            this.checkboxAllschemas.Name = "checkboxAllschemas";
+            this.checkboxAllschemas.Size = new System.Drawing.Size(15, 14);
+            this.checkboxAllschemas.TabIndex = 42;
+            this.checkboxAllschemas.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 206);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(180, 13);
+            this.label4.TabIndex = 43;
+            this.label4.Text = "Generate Core Component Schemas";
+            // 
             // GeneratorWizardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 509);
+            this.ClientSize = new System.Drawing.Size(554, 527);
             this.Controls.Add(this.comboBIVs);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.buttonClose);
@@ -309,5 +333,7 @@
         private System.Windows.Forms.TextBox textOutputDirectory;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.CheckBox checkboxAllschemas;
+        private System.Windows.Forms.Label label4;
     }
 }

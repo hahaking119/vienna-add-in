@@ -26,8 +26,12 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context));
             BIESchemaGenerator.GenerateXSD(context, CollectBIEs(context));
             RootSchemaGenerator.GenerateXSD(context);
-            CDTSchemaGenerator.GenerateXSD(context, CollectCDTs(context));
-            CCSchemaGenerator.GenerateXSD(context, CollectACCs(context));
+
+            if(context.Allschemas)
+            {
+                CDTSchemaGenerator.GenerateXSD(context, CollectCDTs(context));
+                CCSchemaGenerator.GenerateXSD(context, CollectACCs(context));
+            }
 
             if (!Directory.Exists(context.OutputDirectory))
             {

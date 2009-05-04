@@ -57,8 +57,6 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         //private const string NS_CCTS = "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2";
         private const string NSPREFIX_XSD = "xsd";
         private const string NS_XSD = "http://www.w3.org/2001/XMLSchema";
-        private const string SCHEMA_LOCATION_BDT = "bdts.xsd";
-        private const string SCHEMA_NAME_BIE = "bies.xsd";
 
         ///<summary>
         ///</summary>
@@ -71,6 +69,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             // R B387: every XML schema must have a declared target namespace
             var schema = new XmlSchema {TargetNamespace = context.TargetNamespace};
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
+            schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
 
             // TODO: discuss R A0E5 and R A9C5 with Christian E. and Michi S. since this is something that should be added to the context
             // R A0E5: all XML schemas must contain elementFormDefault and set it to qualified     
@@ -92,7 +91,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             // R 8FE2: include BDT XML schema file
             // TODO: check with christian e. if we can retrieve the bdt schema file from the context
             XmlSchemaInclude bdtInclude = new XmlSchemaInclude();
-            bdtInclude.SchemaLocation = SCHEMA_LOCATION_BDT;
+            bdtInclude.SchemaLocation = "BusinessDataType_" + schema.Version + ".xsd";
             schema.Includes.Add(bdtInclude);
 
             foreach (IABIE abie in bies)
@@ -111,11 +110,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 schema.Items.Add(elementBIE);
             }
 
-            // TODO generate correct schema file name
-            // Add the xml schema and a file name that the schema will be saved as
-            // to the context which will then later on be used to serialize the 
-            // xml schema to a file.
-            context.AddSchema(schema, SCHEMA_NAME_BIE);
+            context.AddSchema(schema, "BusinessInformationEntity_" + schema.Version + ".xsd");
         }
 
         internal static XmlSchemaComplexType GenerateComplexTypeABIE(GenerationContext context, XmlSchema schema, IABIE abie)

@@ -155,6 +155,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     textTargetNS.Enabled = false;
                     textPrefixTargetNS.Enabled = false;
                     checkboxAnnotations.Enabled = false;
+                    checkboxAllschemas.Enabled = false;
                     comboModels.Enabled = false;
                     textOutputDirectory.Enabled = false;
                     buttonBrowseFolders.Enabled = false;
@@ -168,6 +169,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     textTargetNS.Enabled = true;
                     textPrefixTargetNS.Enabled = true;
                     checkboxAnnotations.Enabled = true;
+                    checkboxAllschemas.Enabled = true;
                     comboModels.Enabled = true;
                     textOutputDirectory.Enabled = true;
                     buttonBrowseFolders.Enabled = true;
@@ -293,8 +295,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             string targetNamespace = textTargetNS.Text;
             string namespacePrefix = textPrefixTargetNS.Text;
             bool annotate = checkboxAnnotations.CheckState == CheckState.Checked ? true : false;
+            bool allschemas = checkboxAllschemas.CheckState == CheckState.Checked ? true : false;
             var generationContext = new GenerationContext(ccR, targetNamespace,
-                                                namespacePrefix, annotate,
+                                                namespacePrefix, annotate, allschemas,
                                                 outputDirectory, docl, relevantDocuments);
             generationContext.SchemaAdded += HandleSchemaAdded;
             XSDGenerator.Generator.XSDGenerator.GenerateSchemas(generationContext);
@@ -374,5 +377,6 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             new GeneratorWizardForm(context.CCRepository).Show();
         }
+
     }
 }
