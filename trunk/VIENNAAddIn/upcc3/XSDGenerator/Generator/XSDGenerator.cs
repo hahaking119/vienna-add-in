@@ -26,6 +26,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context));
             BIESchemaGenerator.GenerateXSD(context, CollectBIEs(context));
             RootSchemaGenerator.GenerateXSD(context);
+            CDTSchemaGenerator.GenerateXSD(context, CollectCDTs(context));
+            CCSchemaGenerator.GenerateXSD(context, CollectACCs(context));
 
             if (!Directory.Exists(context.OutputDirectory))
             {
@@ -98,6 +100,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             }
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="context"></param>
+        ///<returns></returns>
         public static IEnumerable<IBIE> CollectBIEs(GenerationContext context)
         {
             foreach (IBIELibrary bieLibrary in context.Repository.Libraries<IBIELibrary>())
@@ -105,6 +111,37 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 foreach (IABIE bie in bieLibrary.BIEs)
                 {
                     yield return bie;
+                }
+            }
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="context"></param>
+        ///<returns></returns>
+        public static IEnumerable<IACC> CollectACCs(GenerationContext context)
+        {
+            foreach (ICCLibrary ccLibrary in context.Repository.Libraries<ICCLibrary>())
+            {
+                foreach (IACC acc in ccLibrary.ACCs)
+                {
+                    yield return acc;
+                }
+            }
+        }
+
+
+        ///<summary>
+        ///</summary>
+        ///<param name="context"></param>
+        ///<returns></returns>
+        public static IEnumerable<ICDT> CollectCDTs(GenerationContext context)
+        {
+            foreach (ICDTLibrary cdtLibrary in context.Repository.Libraries<ICDTLibrary>())
+            {
+                foreach (ICDT cdt in cdtLibrary.CDTs)
+                {
+                    yield return cdt;
                 }
             }
         }
