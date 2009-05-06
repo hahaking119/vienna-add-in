@@ -165,10 +165,10 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             CleanUpUpccModel(bLibrary);
 
             // Finally we import the libraries contained in the XMI files to our repository. 
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + EnumFile, 1, 1);
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + PrimFile, 1, 1);
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + CdtFile, 1, 1);
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + CcFile, 1, 1);
+            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + EnumFile, 1, 0);
+            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + PrimFile, 1, 0);
+            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + CdtFile, 1, 0);
+            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + CcFile, 1, 0);
         }
 
         #endregion
