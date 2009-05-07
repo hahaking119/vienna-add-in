@@ -19,82 +19,23 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         #region Class Fields
 
         private readonly Repository repository;
-        private readonly string storageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
-        private const string DownloadUri = "http://www.umm-dev.org/xmi/";
-        private const string EnumFile = "enumlibrary.xmi";
-        private const string PrimFile = "primlibrary.xmi";
-        private const string CdtFile = "cdtlibrary.xmi";
-        private const string CcFile = "cclibrary.xmi";
+        //        private string StorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
+        //        private string DownloadUri = "http://www.umm-dev.org/xmi/";
+        //        private string[] Resources = new [] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
 
-        #endregion 
+        #endregion
 
         ///<summary>
-        /// Initializes a new instance of the ModelCreator class that operates on the specified repository.
         ///</summary>
-        ///<param name="eaRepository">An EA repository that the model creator instance operates on.</param>
+        ///<param name="eaRepository"></param>
         public ModelCreator(Repository eaRepository)
         {
             repository = eaRepository;
         }
 
+
         #region Class Methods
 
-        ///<summary>
-        /// The method retrieves a resource, such as an XMI file, located at a particular URI. 
-        /// The content of the resource is returned as a string. 
-        ///</summary>
-        ///<param name="uri">
-        /// A URI pointing to the resource to be retrieved. An example would be 
-        /// "http://www.umm-dev.org/xmi/primlibrary.xmi".
-        /// </param>
-        ///<returns>A string representation from the content located at the specified URI.</returns>
-        public string RetrieveContentFromUri(string uri)
-        {
-            using (WebClient client = new WebClient())
-            {
-                return client.DownloadString(uri);
-            }
-        }
-
-        ///<summary>
-        /// The method writes content to a particular file on a file system. The name of the output file
-        /// as well as the content to be written to the output file are specified in the parameters of the
-        /// method.
-        ///</summary>
-        ///<param name="outputFile">A path including the file name that the content is stored at. 
-        /// An example would be "c:\\temp\\output\\file.xmi". 
-        /// </param>        
-        ///<param name="content">The actual content represented as a string that is then written to
-        /// the file specified in the parameter outputFile.
-        /// </param>
-        public void CacheFileLocally(string outputFile, string content)
-        {
-            string currentFileContent = "";
-
-            // First it is checked whether the file to be written already exists on the file system. 
-            if (System.IO.File.Exists(outputFile))
-            {
-                currentFileContent = System.IO.File.ReadAllText(outputFile);
-            }
-
-            // Second it is checked whether the content to be written is empty or not. In case it is 
-            // empty the file is not written to the file system.
-            if (!string.IsNullOrEmpty(content))
-            {
-                // Third it is checked whether the content of the file equals the new content or not.
-                // If the content is different then it is actually written to the file system. 
-                if (!currentFileContent.Equals(content))
-                {
-                    // Write the content to the file located on the filesystem at the path 
-                    // specified in the parameter outputFile. 
-                    using (StreamWriter writer = System.IO.File.CreateText(outputFile))
-                    {
-                        writer.Write(content);
-                    }
-                }
-            }
-        }
-        
         ///<summary>
         /// The method creates a default model having the structure as specified in the UPCC 3 specification. 
         /// TODO: to be continued
@@ -127,7 +68,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             // After having an empty root model we can create a new bLibrary using the CCRepository's
             // CreateBLibrary method.
             IBLibrary bLibrary = ccRepository.CreateBLibrary(new LibrarySpec { Name = modelName }, model);
-            
+
             if (importStandardLibraries)
             {
                 ImportStandardCcLibraries(repository.GetPackageByID(bLibrary.Id));
@@ -143,18 +84,15 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             repository.Models.Refresh();
         }
 
-        // TODO: document
-        internal void ImportStandardCcLibraries(Package bLibrary)
+        public void ImportStandardCcLibraries(Package bLibrary)
         {
-            // As a first step it is necessary to cache the latest XMI files located
-            // on the web on the local system. 
+            string[] resources = new[] { "enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi" };
+            string downloadUri = "http://www.umm-dev.org/xmi/";
+            string storageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
 
-            // TODO: instead of calling RetreiveContentFromUri and passing the content to the CacheFileLocally
-            // I should let the method CacheFileLocally decide whether to retrieve or not. 
-            CacheFileLocally(storageDirectory + EnumFile, RetrieveContentFromUri(DownloadUri + EnumFile));
-            CacheFileLocally(storageDirectory + PrimFile, RetrieveContentFromUri(DownloadUri + PrimFile));
-            CacheFileLocally(storageDirectory + CdtFile, RetrieveContentFromUri(DownloadUri + CdtFile));
-            CacheFileLocally(storageDirectory + CcFile, RetrieveContentFromUri(DownloadUri + CcFile));
+            // As a first step it is necessary to cache the latest XMI files located
+            // on the web to the local system. 
+            new ResourceHandler(resources, downloadUri, storageDirectory).CacheResourcesLocally();
 
             // Secondly we need a project object which is needed to import XMI files
             // into the repository. 
@@ -165,10 +103,10 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             CleanUpUpccModel(bLibrary);
 
             // Finally we import the libraries contained in the XMI files to our repository. 
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + EnumFile, 1, 0);
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + PrimFile, 1, 0);
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + CdtFile, 1, 0);
-            project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + CcFile, 1, 0);
+            foreach (string xmiFile in resources)
+            {
+                project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + xmiFile, 1, 0);
+            }
         }
 
         #endregion
@@ -203,7 +141,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             // If the method didn't find an empty model and return that model it is executing
             // the following statements. The statements add an empty model to the repository, 
             // udpate the repository.
-            Package newEmptyModel = (Package) repository.Models.AddNew("Model", "");
+            Package newEmptyModel = (Package)repository.Models.AddNew("Model", "");
             newEmptyModel.Update();
             repository.Models.Refresh();
 
