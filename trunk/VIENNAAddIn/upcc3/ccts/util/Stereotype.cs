@@ -12,8 +12,12 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
+    ///<summary>
+    /// Definition of stereotype strings for UPCC elements.
+    ///</summary>
     public static class Stereotype
     {
+#pragma warning disable 1591
         public const string ABIE = "ABIE";
         public const string ACC = "ACC";
         public const string ASBIE = "ASBIE";
@@ -98,6 +102,61 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return attribute.Stereotype == SUP;
         }
 
+        private static bool PackageHasStereotype(this Package package, string stereotype)
+        {
+            return (package.Element != null) && (package.Element.Stereotype == stereotype);
+        }
+
+        public static bool IsCCLibrary(this Package package)
+        {
+            return PackageHasStereotype(package, CCLibrary);
+        }
+
+        public static bool IsCDTLibrary(this Package package)
+        {
+            return PackageHasStereotype(package, CDTLibrary);
+        }
+
+        public static bool IsBIELibrary(this Package package)
+        {
+            return PackageHasStereotype(package, BIELibrary);
+        }
+
+        public static bool IsBDTLibrary(this Package package)
+        {
+            return PackageHasStereotype(package, BDTLibrary);
+        }
+
+        public static bool IsPRIMLibrary(this Package package)
+        {
+            return PackageHasStereotype(package, PRIMLibrary);
+        }
+
+        public static bool IsENUMLibrary(this Package package)
+        {
+            return PackageHasStereotype(package, ENUMLibrary);
+        }
+
+        public static bool IsDOCLibrary(this Package package)
+        {
+            return PackageHasStereotype(package, DOCLibrary);
+        }
+
+        public static bool IsBLibrary(this Package package)
+        {
+            return PackageHasStereotype(package, BLibrary);
+        }
+
+        public static bool IsBInformationV(this Package package)
+        {
+            return PackageHasStereotype(package, BInformationV);
+        }
+#pragma warning restore 1591
+
+        ///<summary>
+        ///</summary>
+        ///<typeparam name="T"></typeparam>
+        ///<returns>The stereotype string corresponding to the type parameter.</returns>
         public static string GetStereotype<T>()
         {
             if (typeof(T) == typeof(IBLibrary))
