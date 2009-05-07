@@ -268,7 +268,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public void RefreshModelView(int PackageID)
         {
-            throw new NotImplementedException();
+            // do nothing
         }
 
         public void ActivateTab(string Name)
