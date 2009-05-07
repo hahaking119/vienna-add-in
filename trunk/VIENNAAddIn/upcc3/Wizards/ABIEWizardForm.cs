@@ -663,7 +663,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             /* get the selected ACC which we as a basis to generate the new ABIE */
             IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
             ABIESpec abieSpec = createABISpec(selectedACC);
-            IABIE newABIE = selectedBIEL.CreateABIE(abieSpec);
+            IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
             cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
             textABIEName.Text = "";
             textABIEName.Text = newABIE.Name;
@@ -1209,7 +1209,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             /* get the selected ACC which we as a basis to generate the new ABIE */
             IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
             ABIESpec abieSpec = createABISpec(selectedACC);
-            IABIE newABIE = selectedBIEL.UpdateABIE(abie,abieSpec);
+            IABIE newABIE = selectedBIEL.UpdateElement(abie,abieSpec);
             //todo: find a better way to update internal cache
             cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
             cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
@@ -1260,7 +1260,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                 /* the BDT to be used is to be created based on the CDT used in the BCC */
                                                 ICDT baseCDT = repository.GetCDT(bcc.Type);
                                                 BDTSpec bdtSpec = BDTSpec.CloneCDT(baseCDT, bdt.Name);
-                                                IBDT newBDT = selectedBDTL.CreateBDT(bdtSpec);
+                                                IBDT newBDT = selectedBDTL.CreateElement(bdtSpec);
                                                 bdtUsed = newBDT;
 
                                                 generatedBDTs.Add(newBDT.Name, new cBDT(newBDT.Name, newBDT.Id, newBDT.BasedOn.CDT.Id, CheckState.Unchecked));

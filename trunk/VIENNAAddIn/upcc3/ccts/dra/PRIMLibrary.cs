@@ -7,13 +7,11 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using System.Linq;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class PRIMLibrary : BusinessLibrary, IPRIMLibrary
+    internal class PRIMLibrary : ElementLibrary<IPRIM, PRIM, PRIMSpec>, IPRIMLibrary
     {
         public PRIMLibrary(CCRepository repository, Package package)
             : base(repository, package)
@@ -24,23 +22,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<IPRIM> PRIMs
         {
-            get
-            {
-                foreach (Element element in package.Elements)
-                {
-                    if (element.IsPRIM())
-                    {
-                        yield return new PRIM(repository, element);
-                    }
-                }
-            }
-        }
-
-        public ICCTSElement ElementByName(string name)
-        {
-            return PRIMs.First(e => e.Name == name);
+            get { return GetCCTSElements(); }
         }
 
         #endregion
+
+        protected override PRIM CreateCCTSElement(Element element)
+        {
+            return new PRIM(repository, element);
+        }
     }
 }

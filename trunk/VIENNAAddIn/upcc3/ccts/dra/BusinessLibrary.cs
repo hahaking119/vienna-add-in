@@ -14,7 +14,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     ///<summary>
     ///</summary>
-    public abstract class BusinessLibrary : IBusinessLibrary
+    public abstract class BusinessLibrary: IBusinessLibrary
     {
         protected readonly Package package;
         protected readonly CCRepository repository;
@@ -132,6 +132,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package.GetTaggedValue(key) ?? string.Empty;
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="spec"></param>
+        ///<param name="parentPackage"></param>
+        ///<param name="stereotype"></param>
+        ///<returns></returns>
         public static Package CreateLibraryPackage(LibrarySpec spec, Package parentPackage, string stereotype)
         {
             var libraryPackage = (Package) parentPackage.Packages.AddNew(spec.Name, "");

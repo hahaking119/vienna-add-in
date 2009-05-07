@@ -10,8 +10,12 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IENUMLibrary : IElementLibrary
+    ///<summary>
+    ///</summary>
+    public interface IENUMLibrary : IElementLibrary<IENUM, ENUMSpec>
     {
+        ///<summary>
+        ///</summary>
         IEnumerable<IENUM> ENUMs { get; }
     }
 }

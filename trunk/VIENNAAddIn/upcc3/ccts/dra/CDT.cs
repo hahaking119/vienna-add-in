@@ -7,12 +7,13 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using EA;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class CDT : AbstractDT, ICDT
+    public class CDT : AbstractDT<CDTSpec>, ICDT
     {
-        public CDT(CCRepository repository, Element element) : base(repository, element, "CDT")
+        public CDT(CCRepository repository, Element element) : base(repository, element, Stereotype.CDT)
         {
         }
     }

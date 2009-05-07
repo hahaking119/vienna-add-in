@@ -6,15 +6,12 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class DOCLibrary : BusinessLibrary, IDOCLibrary
+    internal class DOCLibrary : ElementLibrary<IABIE, ABIE, ABIESpec>, IDOCLibrary
     {
         public DOCLibrary(CCRepository repository, Package package)
             : base(repository, package)
@@ -25,16 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<IABIE> BIEs
         {
-            get
-            {
-                foreach (Element element in package.Elements)
-                {
-                    if (element.IsABIE())
-                    {
-                        yield return new ABIE(repository, element);
-                    }
-                }
-            }
+            get { return GetCCTSElements(); }
         }
 
         public IEnumerable<IABIE> RootElements
@@ -44,14 +32,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 var abies = new List<IABIE>(BIEs);
                 // collect ASBIES
                 var asbies = new List<IASBIE>();
-                foreach (var abie in BIEs)
+                foreach (IABIE abie in BIEs)
                 {
                     asbies.AddRange(abie.ASBIEs);
                 }
                 // remove all abies that are associated via an ASBIE
-                foreach (var asbie in asbies)
+                foreach (IASBIE asbie in asbies)
                 {
-                    var associatedABIE = asbie.AssociatedElement;
+                    IABIE associatedABIE = asbie.AssociatedElement;
                     abies.Remove(associatedABIE);
                 }
                 return abies;
@@ -60,9 +48,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        public ICCTSElement ElementByName(string name)
+        protected override ABIE CreateCCTSElement(Element element)
         {
-            return BIEs.First(e => e.Name == name);
+            return new ABIE(repository, element);
         }
     }
 }

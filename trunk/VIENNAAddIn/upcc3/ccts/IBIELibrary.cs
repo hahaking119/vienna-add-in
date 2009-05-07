@@ -10,10 +10,12 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IBIELibrary : IElementLibrary
+    ///<summary>
+    ///</summary>
+    public interface IBIELibrary : IElementLibrary<IABIE, ABIESpec>
     {
-        IEnumerable<IABIE> BIEs { get; }
-        IABIE CreateABIE(ABIESpec spec);
-        IABIE UpdateABIE(IABIE abie, ABIESpec spec);
+        ///<summary>
+        ///</summary>
+        IEnumerable<IABIE> ABIEs { get; }
     }
 }

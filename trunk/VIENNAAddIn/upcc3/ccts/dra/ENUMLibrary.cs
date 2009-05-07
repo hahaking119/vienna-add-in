@@ -14,7 +14,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ENUMLibrary : BusinessLibrary, IENUMLibrary
+    internal class ENUMLibrary : ElementLibrary<IENUM, ENUM, ENUMSpec>, IENUMLibrary
     {
         public ENUMLibrary(CCRepository repository, Package package)
             : base(repository, package)
@@ -37,11 +37,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public IENUM CreateENUM(ENUMSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IENUM UpdateENUM(IENUM @enum, ENUMSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
-        public ICCTSElement ElementByName(string name)
+        protected override ENUM CreateCCTSElement(Element element)
         {
-            return ENUMs.First(e => e.Name == name);
+            return new ENUM(repository, element);
         }
     }
 }

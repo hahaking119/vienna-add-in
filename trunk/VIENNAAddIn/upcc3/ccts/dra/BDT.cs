@@ -8,13 +8,14 @@
 // *******************************************************************************
 using System.Linq;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
     ///<summary>
     ///</summary>
-    public class BDT : AbstractDT, IBDT
+    public class BDT : AbstractDT<BDTSpec>, IBDT
     {
         ///<summary>
         ///</summary>
@@ -38,5 +39,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override void AddConnectors(BDTSpec spec)
+        {
+            if (spec.BasedOn != null)
+            {
+                element.AddDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
+            }
+        }
     }
 }

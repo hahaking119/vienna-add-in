@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface ICDTLibrary : IElementLibrary
+    public interface ICDTLibrary : IElementLibrary<ICDT, CDTSpec>
     {
         IEnumerable<ICDT> CDTs { get; }
     }

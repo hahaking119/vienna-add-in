@@ -107,8 +107,11 @@
     <Compile Include="upcc3\ccts\ASCCSpec.cs" />
     <Compile Include="upcc3\ccts\BCCSpec.cs" />
     <Compile Include="upcc3\ccts\CCSpec.cs" />
+    <Compile Include="upcc3\ccts\dra\ElementLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\IUpdateable.cs" />
     <Compile Include="upcc3\ccts\ENUMSpec.cs" />
+    <Compile Include="upcc3\ccts\IBLibrary.cs" />
+    <Compile Include="upcc3\ccts\IElementLibrary.cs" />
     <Compile Include="upcc3\ccts\PRIMSpec.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>

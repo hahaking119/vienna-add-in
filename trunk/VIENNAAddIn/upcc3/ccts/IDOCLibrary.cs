@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     ///<summary>
     ///</summary>
-    public interface IDOCLibrary : IElementLibrary
+    public interface IDOCLibrary : IElementLibrary<IABIE, ABIESpec>
     {
         ///<summary>
         /// Returns all ABIEs defined in this library.

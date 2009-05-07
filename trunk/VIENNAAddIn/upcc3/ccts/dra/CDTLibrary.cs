@@ -7,13 +7,11 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using System.Linq;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class CDTLibrary : BusinessLibrary, ICDTLibrary
+    public class CDTLibrary : ElementLibrary<ICDT, CDT, CDTSpec>, ICDTLibrary
     {
         public CDTLibrary(CCRepository repository, Package package)
             : base(repository, package)
@@ -24,23 +22,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<ICDT> CDTs
         {
-            get
-            {
-                foreach (Element element in package.Elements)
-                {
-                    if (element.IsCDT())
-                    {
-                        yield return new CDT(repository, element);
-                    }
-                }
-            }
+            get { return GetCCTSElements(); }
         }
 
         #endregion
 
-        public ICCTSElement ElementByName(string name)
+        protected override CDT CreateCCTSElement(Element element)
         {
-            return CDTs.First(e => e.Name == name);
+            return new CDT(repository, element);
         }
     }
 }

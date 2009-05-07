@@ -14,7 +14,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ABIE : UpccClass, IABIE, IUpdateable<ABIESpec>
+    internal class ABIE : UpccClass<ABIESpec>, IABIE
     {
         public ABIE(CCRepository repository, Element element) : base(repository, element, Stereotype.ABIE)
         {
@@ -78,18 +78,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        #region IUpdateable<ABIESpec> Members
-
-        public void Update(ABIESpec spec)
+        protected override void AddConnectors(ABIESpec spec)
         {
-            Update((CCTSElementSpec) spec);
-
-            for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)
-            {
-                element.Connectors.Delete(i);
-            }
-            element.Connectors.Refresh();
-
             if (spec.BasedOn != null)
             {
                 element.AddDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
@@ -108,15 +98,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                                            asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
                 }
             }
+        }
 
-            element.Connectors.Refresh();
-
-            for (var i = (short) (element.Attributes.Count - 1); i >= 0; i--)
-            {
-                element.Attributes.Delete(i);
-            }
-            element.Attributes.Refresh();
-
+        protected override void AddAttributes(ABIESpec spec)
+        {
             if (spec.BBIEs != null)
             {
                 foreach (BBIESpec bbie in spec.BBIEs)
@@ -126,13 +111,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                                          bbie.GetTaggedValues());
                 }
             }
-            element.Attributes.Refresh();
-
-            element.Update();
-            element.Refresh();
         }
-
-        #endregion
 
         private bool IsASBIE(Connector connector)
         {

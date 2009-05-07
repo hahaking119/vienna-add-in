@@ -16,18 +16,23 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public abstract class AbstractDT : UpccClass, IDT
+    ///<summary>
+    ///</summary>
+    ///<typeparam name="TSpec"></typeparam>
+    public abstract class AbstractDT<TSpec> : UpccClass<TSpec>, IDT where TSpec : DTSpec
     {
         protected AbstractDT(CCRepository repository, Element element, string stereotype)
             : base(repository, element, stereotype)
         {
         }
 
+        #region IDT Members
+
         public override string DictionaryEntryName
         {
             get
             {
-                var value = base.DictionaryEntryName;
+                string value = base.DictionaryEntryName;
                 if (string.IsNullOrEmpty(value))
                 {
                     value = Name + ". Type";
@@ -35,8 +40,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 return value;
             }
         }
-
-        #region IDT Members
 
         public IEnumerable<string> UsageRules
         {
@@ -67,5 +70,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override void AddAttributes(TSpec spec)
+        {
+            if (spec.CON != null)
+            {
+                element.AddAttribute(Stereotype.CON, "Content", spec.CON.BasicType.Name, spec.CON.BasicType.Id,
+                                     spec.CON.LowerBound, spec.CON.UpperBound, spec.CON.GetTaggedValues());
+            }
+            if (spec.SUPs != null)
+            {
+                foreach (SUPSpec sup in spec.SUPs)
+                {
+                    element.AddAttribute(Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id, sup.LowerBound,
+                                         sup.UpperBound, sup.GetTaggedValues());
+                }
+            }
+        }
     }
 }
