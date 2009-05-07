@@ -110,6 +110,7 @@
     <Compile Include="upcc3\Wizards\ImporterWizardForm.Designer.cs">
       <DependentUpon>ImporterWizardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\util\ResourceHandler.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\CCSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\Generator\CDTSchemaGenerator.cs" />
     <Compile Include="Utils\DictionaryExtensions.cs" />
