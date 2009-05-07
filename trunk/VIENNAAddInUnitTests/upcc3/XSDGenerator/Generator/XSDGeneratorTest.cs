@@ -13,6 +13,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using EA;
+using Moq;
 using NUnit.Framework;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
@@ -149,8 +150,11 @@ Actual output file: {2}",
         [Test]
         public void TestBDTSchemaGenerator()
         {
+            var docLibraryMock = new Mock<IDOCLibrary>();
+            docLibraryMock.SetupGet(l => l.VersionIdentifier).Returns("2");
+
             var ccRepository = new CCRepository(new EARepository2());
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, true, "C:\\dump\\", null, null);
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, true, "C:\\dump\\", docLibraryMock.Object, null);
             BDTSchemaGenerator.GenerateXSD(context,
                                            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBDTs(context));
             Assert.AreEqual(1, context.Schemas.Count);
@@ -162,8 +166,11 @@ Actual output file: {2}",
         [Test]
         public void TestBIESchemaGenerator()
         {
+            var docLibraryMock = new Mock<IDOCLibrary>();
+            docLibraryMock.SetupGet(l => l.VersionIdentifier).Returns("2");
+
             var ccRepository = new CCRepository(new EARepository2());
-            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, true, "C:\\dump\\", null, null);
+            var context = new GenerationContext(ccRepository, "urn:test:namespace", "test", true, true, "C:\\dump\\", docLibraryMock.Object, null);
             BIESchemaGenerator.GenerateXSD(context,
                                            VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.CollectBIEs(context));
             Assert.AreEqual(1, context.Schemas.Count);

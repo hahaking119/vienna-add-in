@@ -136,7 +136,6 @@ namespace VIENNAAddInUnitTests.TestRepository
             Assert.AreEqual(tvValue, tv.Value);
         }
 
-        [Test]
         public void TestAsFileBasedRepository()
         {
             var testRepository = new EARepository1();

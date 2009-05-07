@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -20,11 +19,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
+        #region IPRIM Members
+
         public override string DictionaryEntryName
         {
             get
             {
-                var value = base.DictionaryEntryName;
+                string value = base.DictionaryEntryName;
                 if (string.IsNullOrEmpty(value))
                 {
                     value = Name;
@@ -32,8 +33,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 return value;
             }
         }
-
-        #region IPRIM Members
 
         public string Pattern
         {
