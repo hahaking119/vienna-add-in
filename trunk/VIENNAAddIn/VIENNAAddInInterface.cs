@@ -56,9 +56,11 @@ namespace VIENNAAddIn
         void EA_GetMenuState(Repository repository, string menulocation, string menuname, string menuitem,
                              ref bool IsEnabled, ref bool IsChecked);
 
-//        bool EA_OnNotifyContextItemModified(EA.Repository repository, string GUID, EA.ObjectType ot);
+        bool EA_OnNotifyContextItemModified(EA.Repository repository, string GUID, EA.ObjectType ot);
         void EA_OnContextItemChanged(EA.Repository repository, string GUID, EA.ObjectType ot);
 //        bool EA_OnContextItemDoubleClicked(EA.Repository repository, string GUID, EA.ObjectType ot);
 
+        void EA_OnOutputItemClicked(Repository repository, string tabName, string text, int id);
+        void EA_OnOutputItemDoubleClicked(Repository repository, string tabName, string text, int id);
     }
 }

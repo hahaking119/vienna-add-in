@@ -18,6 +18,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.Wizards;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
+using VIENNAAddIn.validator.upcc3.onTheFly;
 using VIENNAAddIn.workflow;
 using MenuItem=VIENNAAddIn.menu.MenuItem;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
@@ -35,6 +36,7 @@ namespace VIENNAAddIn
         private static string SelectedItemGUID;
         private static ObjectType SelectedItemObjectType;
         private readonly MenuManager menuManager;
+        private OnTheFlyValidator onTheFlyValidator;
 
         ///<summary>
         ///</summary>
@@ -47,7 +49,8 @@ namespace VIENNAAddIn
                               DefaultChecked = Never
                           };
 
-            MenuAction createUPCCStructure = "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm);
+            MenuAction createUPCCStructure =
+                "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm);
             MenuAction createABIE = "Create new &ABIE".OnClick(ABIEWizardForm.ShowABIEWizard);
             MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
             MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
@@ -56,7 +59,9 @@ namespace VIENNAAddIn
 
             menuManager[MenuLocation.MainMenu] =
                 (AddInSettings.AddInName
-                 + "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled(Always)
+                 +
+                 "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled
+                     (Always)
                  + createUPCCStructure
                  + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
                  + _____
@@ -137,6 +142,18 @@ namespace VIENNAAddIn
             }
         }
 
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="GUID"></param>
+        ///<param name="ot"></param>
+        ///<returns></returns>
+        public bool EA_OnNotifyContextItemModified(Repository repository, string GUID, ObjectType ot)
+        {
+            onTheFlyValidator.ProcessItem(GUID, ot);
+            return true;
+        }
+
         /// <summary>
         /// Connect
         /// </summary>
@@ -175,6 +192,8 @@ namespace VIENNAAddIn
         {
             Repo = repository;
             Repo.EnableCache = true;
+            repository.CreateOutputTab(AddInSettings.AddInName);
+            onTheFlyValidator = new OnTheFlyValidatorImpl(repository);
         }
 
         /// <summary>
@@ -235,6 +254,34 @@ namespace VIENNAAddIn
         {
             SelectedItemObjectType = ot;
             SelectedItemGUID = GUID;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="tabName"></param>
+        ///<param name="text"></param>
+        ///<param name="id"></param>
+        public void EA_OnOutputItemClicked(Repository repository, string tabName, string text, int id)
+        {
+            if (tabName == AddInSettings.AddInName)
+            {
+                onTheFlyValidator.FocusIssueItem(id);
+            }
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="tabName"></param>
+        ///<param name="text"></param>
+        ///<param name="id"></param>
+        public void EA_OnOutputItemDoubleClicked(Repository repository, string tabName, string text, int id)
+        {
+            if (tabName == AddInSettings.AddInName)
+            {
+                onTheFlyValidator.ShowQuickFixes(id);
+            }
         }
 
         #endregion
