@@ -10,8 +10,12 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IPRIMLibrary : IElementLibrary
+    ///<summary>
+    ///</summary>
+    public interface IPRIMLibrary : IElementLibrary<IPRIM, PRIMSpec>
     {
+        ///<summary>
+        ///</summary>
         IEnumerable<IPRIM> PRIMs { get; }
     }
 }

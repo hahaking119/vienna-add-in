@@ -13,7 +13,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class PRIM : UpccClass, IPRIM
+    internal class PRIM : UpccClass<PRIMSpec>, IPRIM
     {
         public PRIM(CCRepository repository, Element element) : base(repository, element, Stereotype.PRIM)
         {
@@ -99,5 +99,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override void AddConnectors(PRIMSpec spec)
+        {
+            if (spec.IsEquivalentTo != null)
+            {
+                element.AddDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+            }
+        }
     }
 }

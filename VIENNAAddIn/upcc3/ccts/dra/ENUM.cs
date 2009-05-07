@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using EA;
@@ -15,17 +14,19 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ENUM : UpccClass, IENUM
+    internal class ENUM : UpccClass<ENUMSpec>, IENUM
     {
         public ENUM(CCRepository repository, Element element) : base(repository, element, Stereotype.ENUM)
         {
         }
 
+        #region IENUM Members
+
         public override string DictionaryEntryName
         {
             get
             {
-                var value = base.DictionaryEntryName;
+                string value = base.DictionaryEntryName;
                 if (string.IsNullOrEmpty(value))
                 {
                     value = Name;
@@ -33,8 +34,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 return value;
             }
         }
-
-        #region IENUM Members
 
         public string AgencyIdentifier
         {
@@ -65,7 +64,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 var values = new Dictionary<string, string>();
-                foreach (var attribute in Attributes)
+                foreach (Attribute attribute in Attributes)
                 {
                     values[attribute.Name] = attribute.Default;
                 }
@@ -74,5 +73,26 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override void AddConnectors(ENUMSpec spec)
+        {
+            if (spec.IsEquivalentTo != null)
+            {
+                element.AddDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+            }
+        }
+
+        protected override void AddAttributes(ENUMSpec spec)
+        {
+            if (spec.Values != null)
+            {
+                foreach (var value in spec.Values)
+                {
+                    var attribute = (Attribute) element.Attributes.AddNew(value.Key, "String");
+                    attribute.Default = value.Value;
+                    attribute.Update();
+                }
+            }
+        }
     }
 }

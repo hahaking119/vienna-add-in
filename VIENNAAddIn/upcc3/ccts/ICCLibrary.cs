@@ -6,13 +6,16 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface ICCLibrary : IElementLibrary
+    ///<summary>
+    ///</summary>
+    public interface ICCLibrary : IElementLibrary<IACC, ACCSpec>
     {
+        ///<summary>
+        ///</summary>
         IEnumerable<IACC> ACCs { get; }
     }
 }

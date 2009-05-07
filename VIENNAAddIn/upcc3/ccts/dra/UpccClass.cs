@@ -16,7 +16,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     ///<summary>
     ///</summary>
-    public abstract class UpccClass : ICCTSElement, IEquatable<UpccClass>
+    public abstract class UpccClass<TSpec> : ICCTSElement, IEquatable<UpccClass<TSpec>> where TSpec:CCTSElementSpec
     {
         protected readonly Element element;
         protected readonly CCRepository repository;
@@ -41,7 +41,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
-        public bool Equals(UpccClass other)
+        public bool Equals(UpccClass<TSpec> other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -52,7 +52,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj is UpccClass) return Equals((UpccClass) obj);
+            if (obj is UpccClass<TSpec>) return Equals((UpccClass<TSpec>)obj);
             return false;
         }
 
@@ -133,13 +133,42 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element.GetTaggedValue(key) ?? string.Empty;
         }
 
-        protected void Update(CCTSElementSpec spec)
+        public void Update(TSpec spec)
         {
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in spec.GetTaggedValues())
             {
                 element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
             }
+
+            for (var i = (short)(element.Connectors.Count - 1); i >= 0; i--)
+            {
+                element.Connectors.Delete(i);
+            }
+            element.Connectors.Refresh();
+            AddConnectors(spec);
+            element.Connectors.Refresh();
+
+            for (var i = (short)(element.Attributes.Count - 1); i >= 0; i--)
+            {
+                element.Attributes.Delete(i);
+            }
+            element.Attributes.Refresh();
+            AddAttributes(spec);
+            element.Attributes.Refresh();
+            
+            element.Update();
+            element.Refresh();
+        }
+
+        protected virtual void AddConnectors(TSpec spec)
+        {
+            // override in order to add connectors to the element
+        }
+
+        protected virtual void AddAttributes(TSpec spec)
+        {
+            // override in order to add connectors to the element
         }
     }
 }

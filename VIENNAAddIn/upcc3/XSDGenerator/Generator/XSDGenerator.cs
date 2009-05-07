@@ -112,7 +112,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             foreach (IBIELibrary bieLibrary in context.Repository.Libraries<IBIELibrary>())
             {
-                foreach (IABIE bie in bieLibrary.BIEs)
+                foreach (IABIE bie in bieLibrary.ABIEs)
                 {
                     yield return bie;
                 }
