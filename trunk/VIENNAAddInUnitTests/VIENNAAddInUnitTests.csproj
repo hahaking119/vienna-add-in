@@ -62,7 +62,8 @@
     <Compile Include="SynchTaggedValuesTest\SynchStereotypesTest.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
-    <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
+    <Compile Include="upcc3\Wizards\TestRepository\EARepositoryResourceHandler.cs" />
+    <Compile Include="upcc3\Wizards\util\ResourceHandlerTest.cs" />
     <Compile Include="Utils\EARepositoryCopierTest.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="upcc3\ccts\dra\DRACCRepositoryTest.cs" />
