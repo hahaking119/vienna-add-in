@@ -51,7 +51,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IABIE UpdateABIE(IABIE abie, ABIESpec spec)
         {
-            return repository.Update(abie, spec);
+            ((ABIE) abie).Update(spec);
+            return abie;
         }
 
         public ICCTSElement ElementByName(string name)

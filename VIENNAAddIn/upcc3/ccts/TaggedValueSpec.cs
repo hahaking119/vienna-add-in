@@ -29,16 +29,11 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public TaggedValues Key { get; private set; }
 
-        public string Name
-        {
-            get { return Key.AsString(); }
-        }
-
         public string Value { get; private set; }
 
         public override string ToString()
         {
-            return string.Format("[{0}: {1}]", Name, Value);
+            return string.Format("[{0}: {1}]", Key.AsString(), Value);
         }
     }
 }

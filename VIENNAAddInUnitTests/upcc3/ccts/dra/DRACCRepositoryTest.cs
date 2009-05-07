@@ -269,7 +269,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             updatedPersonSpec.RemoveBBIE("NickName");
             Assert.AreEqual(2, updatedPersonSpec.BBIEs.Count());
 
-            abiePerson = ccRepository.Update(abiePerson, updatedPersonSpec);
+            abiePerson = bieLibrary.UpdateABIE(abiePerson, updatedPersonSpec);
 
             Assert.IsNotNull(abiePerson, "ABIE is null");
             Assert.AreEqual(bieLibrary.Id, abiePerson.Library.Id);

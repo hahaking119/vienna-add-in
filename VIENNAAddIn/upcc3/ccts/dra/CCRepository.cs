@@ -71,12 +71,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             throw new Exception("path resolved to an object that's neither an element nor a package");
         }
 
-        public TItem Update<TItem, TSpec>(TItem item, TSpec spec)
-        {
-            ((IUpdateable<TSpec>) item).Update(spec);
-            return item;
-        }
-
         public IEnumerable<IBusinessLibrary> AllLibraries()
         {
             foreach (var rootBLibraryPackage in AllRootBLibraryPackages())

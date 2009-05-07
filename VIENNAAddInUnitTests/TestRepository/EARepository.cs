@@ -700,7 +700,15 @@ namespace VIENNAAddInUnitTests.TestRepository
             foreach (ConnectorBuilder connector in connectors)
             {
                 var client = EARepositoryExtensions.Resolve<Element>(this, connector.GetPathToClient());
+                if (client == null)
+                {
+                    throw new Exception("Path cannot be resolved: " + connector.GetPathToClient());
+                }
                 var supplier = EARepositoryExtensions.Resolve<Element>(this, connector.GetPathToSupplier());
+                if (supplier == null)
+                {
+                    throw new Exception("Path cannot be resolved: " + connector.GetPathToSupplier());
+                }
                 AddConnector(connector, client.Connectors, client, supplier);
                 AddConnector(connector, supplier.Connectors, client, supplier);
             }

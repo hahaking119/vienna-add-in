@@ -275,7 +275,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         private static ElementBuilder BDTCode()
         {
-            return Element(ABCCode, Stereotype.BDT)
+            return Element(Code, Stereotype.BDT)
                 .Attributes(
                 Attribute("Content", Stereotype.CON, (Path) BLibrary/ENUMLibrary/ABCCodes),
                 Attribute("Name", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),

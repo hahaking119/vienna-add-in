@@ -13,6 +13,9 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public class ABIESpec : BIESpec
     {
+        private List<ASBIESpec> asbies;
+        private List<BBIESpec> bbies;
+
         public ABIESpec(IABIE abie) : base(abie)
         {
             BBIEs = abie.BBIEs.Convert(bbie => new BBIESpec(bbie));
@@ -27,14 +30,12 @@ namespace VIENNAAddIn.upcc3.ccts
             asbies = new List<ASBIESpec>();
         }
 
-        private List<BBIESpec> bbies;
         public IEnumerable<BBIESpec> BBIEs
         {
             get { return bbies; }
             set { bbies = new List<BBIESpec>(value); }
         }
 
-        private List<ASBIESpec> asbies;
         public IEnumerable<ASBIESpec> ASBIEs
         {
             get { return asbies; }
@@ -53,6 +54,5 @@ namespace VIENNAAddIn.upcc3.ccts
         {
             bbies.RemoveAll(bbie => bbie.Name == name);
         }
-
     }
 }
