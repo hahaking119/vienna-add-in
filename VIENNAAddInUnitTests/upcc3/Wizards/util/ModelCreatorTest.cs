@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using EA;
 using NUnit.Framework;
+using VIENNAAddIn.Settings;
+using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.util;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 
@@ -10,167 +14,124 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     [TestFixture]
     public class ModelCreatorTest
     {
-        [Test]
-        public void TestXmiRetrieval()
-        {
-            Repository repository = new EARepositoryModelCreator();
-            ModelCreator creator = new ModelCreator(repository);
-            string fileUri = "http://www.umm-dev.org/xmi/";
-            string fileName = "primlibrary.xmi";
-                    
-            string xmiContent = creator.RetrieveContentFromUri(fileUri + fileName);
-
-            Assert.AreNotEqual(xmiContent, "");        
-        }
-
-        [Test]
-        public void TestXmiRetrievalAndWriteToFileSystem()
-        {
-            Repository repository = new EARepositoryModelCreator();
-            ModelCreator creator = new ModelCreator(repository);
-            string fileUri = "http://www.umm-dev.org/xmi/";
-            string fileName = "primlibrary.xmi";
-            string directoryLocation = Directory.GetCurrentDirectory() + "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\";
-
-            
-            string xmiContent = creator.RetrieveContentFromUri(fileUri + fileName);
-            Assert.AreNotEqual(xmiContent, "");
-
-            creator.CacheFileLocally(directoryLocation + fileName, xmiContent);
-            AssertXmi(directoryLocation + fileName, xmiContent);
-        }
-
-        private static void AssertXmi(string currentXmiFileLocation, string newXmiContent)
-        {
-            string currentXmiContent = System.IO.File.ReadAllText(currentXmiFileLocation);
-
-            if (!currentXmiContent.Equals(newXmiContent))
-            {
-                Assert.Fail("XMI file couldn't be updated at: {0}", currentXmiFileLocation);
-            }
-        }
-        
-        
-
-        //private Repository GetFileBasedRepository(string filePath, string fileName)
+        //[Test]
+        //public void TestXmiCaching()
         //{
-        //    string sourceRepositoryFile = filePath + fileName;
-        //    string backupRepositoryFile = filePath + fileName.Remove(fileName.Length - 4, 4) + "_tmp.eap";
-        //    System.IO.File.Delete(backupRepositoryFile); 
-        //    System.IO.File.Copy(sourceRepositoryFile, backupRepositoryFile);
+        //    Repository repository = new EARepositoryModelCreator();
+        //    string fileName = "simplified_primlibrary.xmi";
+        //    string[] resources = new []{fileName};
+        //    string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
+        //    string storageDirectory = Directory.GetCurrentDirectory() +
+        //                        "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\xmi\\download\\";
+        //    string comparisonFile = Directory.GetCurrentDirectory() +
+        //                            "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\xmi\\reference\\" +
+        //                            fileName;
 
-        //    Console.WriteLine("Original repositoy file: \"{0}\"", sourceRepositoryFile);
-        //    Console.WriteLine("Backup repository file: \"{0}\"", backupRepositoryFile);
-            
-        //    Repository repository = new Repository();
-        //    repository.OpenFile(backupRepositoryFile);
+        //    ModelCreator creator = new ModelCreator(repository, storageDirectory, downloadUri, resources);
 
-        //    return repository;
+        //    creator.CacheResourcesLocally();
+
+        //    AssertFileContent(comparisonFile, storageDirectory + fileName);
         //}
 
-        //private static void RetrieveAndOutlineRepositoryStructure(Repository repository)
+        //[Test]
+        //public void TestCreatingDefaultUpccModel()
         //{
-        //    foreach (Package model in repository.Models)
-        //    {
-        //        Console.WriteLine("Model: " + model.Name);
+        //    Repository repository = new EARepositoryModelCreator();
+        //    ModelCreator creator = new ModelCreator(repository);
 
-        //        foreach (Package businessLibrary in model.Packages)
-        //        {
-        //            Console.WriteLine("Business Library: " + businessLibrary.Name + " (Stereotype: " + businessLibrary.StereotypeEx + ")");
-                    
-        //            foreach (Package library in businessLibrary.Packages)
-        //            {
-        //                Console.WriteLine("Library: " + library.Name + " (Stereotype: " + library.StereotypeEx + ")");
-        //            }
-        //        }
-        //    }            
+        //    creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
+        //                            "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
+
+        //    AssertDefaultModel(repository);
         //}
 
-        //private static void DeatailedRetrieveAndOutlineRepository(Repository repository)
+        //[Test]
+        //public void TestCreatingUppModelWithStandardCCLibraries()
         //{
-        //    foreach (Package model in repository.Models)
+        //    Repository repository = new EARepositoryModelCreator();
+        //    string[] resources = new[] { "simplified_enumlibrary.xmi", "simplified_primlibrary.xmi", "simplified_cdtlibrary.xmi", "simplified_cclibrary.xmi" };
+        //    string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
+        //    string storageDirectory = Directory.GetCurrentDirectory() +
+        //                        "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\xmi\\download\\";
+
+        //    ModelCreator creator = new ModelCreator(repository, storageDirectory, downloadUri, resources);
+
+        //    creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
+        //                            "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
+
+        //    AssertDefaultModel(repository);
+        //}
+
+        //private static void AssertDefaultModel(Repository eaRepository)
+        //{
+        //    CCRepository repository = new CCRepository(eaRepository);
+        //    List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+
+        //    Assert.AreEqual(1, bLibs.Count,
+        //                    "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");
+
+        //    IBLibrary bLib = bLibs[0];
+            
+        //    AssertLibraryCount<IENUMLibrary>(bLib, 1);
+        //    AssertLibraryName<IENUMLibrary>(bLib, "ENUMLibraryTest");
+        //    AssertLibraryCount<IPRIMLibrary>(bLib, 1);
+        //    AssertLibraryName<IPRIMLibrary>(bLib, "PRIMLibraryTest");
+        //    AssertLibraryCount<ICDTLibrary>(bLib, 1);
+        //    AssertLibraryName<ICDTLibrary>(bLib, "CDTLibraryTest");
+        //    AssertLibraryCount<ICCLibrary>(bLib, 1);
+        //    AssertLibraryName<ICCLibrary>(bLib, "CCLibraryTest");
+        //    AssertLibraryCount<IBDTLibrary>(bLib, 1);
+        //    AssertLibraryName<IBDTLibrary>(bLib, "BDTLibraryTest");
+        //    AssertLibraryCount<IBIELibrary>(bLib, 1);
+        //    AssertLibraryName<IBIELibrary>(bLib, "BIELibraryTest");
+        //    AssertLibraryCount<IDOCLibrary>(bLib, 1);
+        //    AssertLibraryName<IDOCLibrary>(bLib, "DOCLibraryTest");
+
+        //}
+
+        //private static void AssertFileContent(string comparisonFile, string newFile)
+        //{
+        //    string comparisonContent = System.IO.File.ReadAllText(comparisonFile);
+        //    string newContent = System.IO.File.ReadAllText(newFile);
+
+        //    if (!comparisonContent.Equals(newContent))
         //    {
-        //        Console.WriteLine("Model: " + model.Name);
-
-        //        foreach (Package package in model.Packages)
-        //        {
-        //            Console.WriteLine("Package: " + package.Name + " (Stereotype: " + package.Element.Stereotype + ")");
-
-        //            foreach (Diagram diagram in package.Diagrams)
-        //            {
-        //                Console.WriteLine("Diagram: " + diagram.Name + " (ID: " + diagram.DiagramID + ", Author: " + diagram.Author + ", Stereotype: " + diagram.Stereotype + ")");
-
-        //                foreach (DiagramObject o in diagram.DiagramObjects)
-        //                {
-        //                    Console.WriteLine("Element ID: " + o.ElementID + " (attached to: " + o.DiagramID + ")");                            
-        //                }
-        //            }
-        //        }
+        //        Assert.Fail("Caching XMI file to local file system failed at: {0}", newFile);
         //    }
         //}
 
-        //[Test]
-        //public void TestFileBasedRepositoryAccess()
+        //private static void AssertLibraryCount<T>(IBLibrary bLib, short expectedCount)
         //{
-        //    Repository repository = GetFileBasedRepository("C:\\Temp\\", "cc-for-ebInterface-0.3.eap");
+        //    short libCount = 0;
 
-        //    RetrieveAndOutlineRepositoryStructure(repository);
+        //    foreach (IBusinessLibrary lib in bLib.Children)
+        //    {
+        //        if (typeof(T).IsAssignableFrom(lib.GetType()))
+        //        {
+        //            libCount++;
+        //        }
+        //    }
+
+        //    Assert.AreEqual(expectedCount, libCount, "The number of libraries of type " + libCount.GetType() + " contained in the business library didn't match the number of exptected libraries.");
         //}
 
-        //[Test]
-        //public void AddModelToRepository()
+        //private static void AssertLibraryName<T>(IBLibrary bLib, string expectedName)
         //{
-        //    Repository repository = GetFileBasedRepository("C:\\Temp\\", "cc-for-ebInterface-0.3.eap");
+        //    bool found = false;
 
-        //    // ADD NEW MODEL
-        //    // add new model to the repository named "Model"
-        //    Package model = (Package) repository.Models.AddNew("Model", "");
-        //    model.Update();
-        //    repository.Models.Refresh();
+        //    foreach (IBusinessLibrary lib in bLib.Children)
+        //    {
+        //        if (typeof(T).IsAssignableFrom(lib.GetType()) && lib.Name.Equals(expectedName))
+        //        {
+        //            found = true;
+        //        }
+        //    }
 
-        //    // ADD VIEW TO THE MODEL
-        //    // add a new view named "ebInterface Data Model" to the model created in 
-        //    // previous step 
-        //    // TODO: icon of the view is "Simple View" instead of "Class View"
-        //    Package view = (Package)model.Packages.AddNew("ebInterface Data Model", "");
-        //    view.Update();
-        //    view.Element.Stereotype = "bLibrary";
-        //    view.Update();
-            
-        //    // ADD PACKAGE DIAGRAM TO THE VIEW
-        //    // add a new package diagram named "ebInterface Data Model" to the view created in 
-        //    // previous step
-        //    Diagram packages = (Diagram)view.Diagrams.AddNew("ebInterface Data Model", "Package");
-        //    packages.Author = "Wizard";
-        //    packages.Update();
-
-        //    // ADD PACKAGE TO THE VIEW
-        //    // add new package named "BDTLibrary" to the view created in previous step
-        //    Package libraryPackage = (Package) view.Packages.AddNew("BDTLibrary", "Package");
-        //    libraryPackage.Update();
-        //    libraryPackage.Element.Stereotype = "BDTLibrary";
-        //    libraryPackage.Update();
-
-        //    // ADD TAGGED VALUE TO THE PACKAGE
-        //    TaggedValue tv = (TaggedValue) libraryPackage.Element.TaggedValues.AddNew("businessTerm", "");
-        //    tv.Update();            
-
-        //    // ADD DEFAULT CLASS DIAGRAM TO THE PACKAGE
-        //    // per default add an empty class diagram to the package created above
-        //    Diagram defaultDiagram = (Diagram)libraryPackage.Diagrams.AddNew("BDTLibrary", "Class");           
-        //    defaultDiagram.Update();
-
-        //    // ADD LIBRARY PACKAGE TO THE PACKAGE DIAGRAM
-        //    DiagramObject newDiagramObject2 = (DiagramObject)packages.DiagramObjects.AddNew("", "");
-        //    newDiagramObject2.ElementID = libraryPackage.Element.ElementID;            
-        //    newDiagramObject2.Update();
-          
-        //    repository.RefreshModelView(0); 
-                       
-        //    repository.Models.Refresh();            
-
-        //    //RetrieveAndOutlineRepositoryStructure(repository);            
-        //    DeatailedRetrieveAndOutlineRepository(repository);
-        //}        
+        //    if (!found)
+        //    {
+        //        Assert.Fail("The Business library didn't contain a library of type " + typeof(T) + " with the expected name.\n    expected:<" + expectedName + ">");
+        //    }
+        //}
     }
 }
