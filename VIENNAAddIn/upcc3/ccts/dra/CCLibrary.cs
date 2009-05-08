@@ -6,26 +6,22 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System.Collections.Generic;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
+    ///<summary>
+    ///</summary>
     public class CCLibrary : ElementLibrary<IACC, ACC, ACCSpec>, ICCLibrary
     {
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="package"></param>
         public CCLibrary(CCRepository repository, Package package)
             : base(repository, package)
         {
         }
-
-        #region ICCLibrary Members
-
-        public IEnumerable<IACC> ACCs
-        {
-            get { return GetCCTSElements(); }
-        }
-
-        #endregion
 
         protected override ACC CreateCCTSElement(Element element)
         {

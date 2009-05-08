@@ -97,7 +97,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             foreach (IBDTLibrary bdtLibrary in context.Repository.Libraries<IBDTLibrary>())
             {
-                foreach (IBDT bdt in bdtLibrary.BDTs)
+                foreach (IBDT bdt in bdtLibrary.Elements)
                 {
                     yield return bdt;
                 }
@@ -112,7 +112,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             foreach (IBIELibrary bieLibrary in context.Repository.Libraries<IBIELibrary>())
             {
-                foreach (IABIE bie in bieLibrary.ABIEs)
+                foreach (IABIE bie in bieLibrary.Elements)
                 {
                     yield return bie;
                 }
@@ -127,7 +127,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             foreach (ICCLibrary ccLibrary in context.Repository.Libraries<ICCLibrary>())
             {
-                foreach (IACC acc in ccLibrary.ACCs)
+                foreach (IACC acc in ccLibrary.Elements)
                 {
                     yield return acc;
                 }
@@ -143,7 +143,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
         {
             foreach (ICDTLibrary cdtLibrary in context.Repository.Libraries<ICDTLibrary>())
             {
-                foreach (ICDT cdt in cdtLibrary.CDTs)
+                foreach (ICDT cdt in cdtLibrary.Elements)
                 {
                     yield return cdt;
                 }

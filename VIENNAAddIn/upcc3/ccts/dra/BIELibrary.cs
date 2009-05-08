@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System.Collections.Generic;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
@@ -17,15 +16,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             : base(repository, package)
         {
         }
-
-        #region IBIELibrary Members
-
-        public IEnumerable<IABIE> ABIEs
-        {
-            get { return GetCCTSElements(); }
-        }
-
-        #endregion
 
         protected override ABIE CreateCCTSElement(Element element)
         {

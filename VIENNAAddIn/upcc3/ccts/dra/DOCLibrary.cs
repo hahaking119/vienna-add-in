@@ -20,19 +20,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IDOCLibrary Members
 
-        public IEnumerable<IABIE> BIEs
-        {
-            get { return GetCCTSElements(); }
-        }
-
         public IEnumerable<IABIE> RootElements
         {
             get
             {
-                var abies = new List<IABIE>(BIEs);
+                var abies = new List<IABIE>(Elements);
                 // collect ASBIES
                 var asbies = new List<IASBIE>();
-                foreach (IABIE abie in BIEs)
+                foreach (IABIE abie in Elements)
                 {
                     asbies.AddRange(abie.ASBIEs);
                 }
