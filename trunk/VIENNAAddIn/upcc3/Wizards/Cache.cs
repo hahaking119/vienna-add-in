@@ -161,7 +161,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 ICDTLibrary cdtl = (ICDTLibrary)repository.GetLibrary(Id);
 
-                foreach (ICDT cdt in cdtl.CDTs)
+                foreach (ICDT cdt in cdtl.Elements)
                 {
                     if (CDTs.ContainsKey(cdt.Name))
                     {
@@ -477,7 +477,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 ICCLibrary ccl = (ICCLibrary)repository.GetLibrary(Id);
 
-                foreach (IACC acc in ccl.ACCs)
+                foreach (IACC acc in ccl.Elements)
                 {
                     if (ACCs.ContainsKey(acc.Name))
                     {
@@ -764,7 +764,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 BIELs.Add(biel.Name, new cBIELibrary(biel.Name, biel.Id));
 
-                foreach (IABIE abie in biel.ABIEs)
+                foreach (IABIE abie in biel.Elements)
                 {
                     if (BIELs[biel.Name].ABIEs.ContainsKey(abie.Name))
                     {
@@ -794,7 +794,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 BDTLs.Add(bdtl.Name, new cBDTLibrary(bdtl.Name, bdtl.Id));
 
-                foreach (IBDT bdt in bdtl.BDTs)
+                foreach (IBDT bdt in bdtl.Elements)
                 {
                     if (BDTLs[bdtl.Name].BDTs.ContainsKey(bdt.Name))
                     {

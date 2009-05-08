@@ -463,7 +463,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             foreach (ICDTLibrary library in ccRepository.Libraries<ICDTLibrary>())
             {
-                IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.CDTs
+                IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.Elements
                                                                      group cdt by cdt.CON.BasicType;
                 foreach (var cdtGroup in cdtByType)
                 {
@@ -489,7 +489,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IPRIMLibrary primLib1 = ccRepository.Libraries<IPRIMLibrary>().First();
             Assert.AreEqual("primlib1", primLib1.Name);
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
-            var prims = new List<IPRIM>(primLib1.PRIMs);
+            var prims = new List<IPRIM>(primLib1.Elements);
             Assert.AreEqual(2, prims.Count);
             IPRIM stringType = prims[0];
             Assert.AreEqual("String", stringType.Name);
@@ -499,7 +499,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             ICDTLibrary cdtLib1 = ccRepository.Libraries<ICDTLibrary>().First();
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("urn:test:blib1:cdtlib1", cdtLib1.BaseURN);
-            var cdts = new List<ICDT>(cdtLib1.CDTs);
+            var cdts = new List<ICDT>(cdtLib1.Elements);
             Assert.AreEqual(4, cdts.Count);
             ICDT date = cdts[1];
             Assert.AreEqual(stringType.Id, date.CON.BasicType.Id);
@@ -510,7 +510,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
             ICCLibrary ccLib1 = ccRepository.Libraries<ICCLibrary>().First();
-            IACC accAddress = ccLib1.ACCs.First();
+            IACC accAddress = ccLib1.Elements.First();
             var accAddressBCCs = new List<IBCC>(accAddress.BCCs);
 
             IBCC bccCountryName = accAddressBCCs[0];
@@ -574,7 +574,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("abc2", enumAbcCodesValues["ABC Code 2"]);
 
             var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
-            var docLibraryABIEs = new List<IABIE>(docLibrary.BIEs);
+            var docLibraryABIEs = new List<IABIE>(docLibrary.Elements);
             Assert.AreEqual(2, docLibraryABIEs.Count);
             var docLibraryRootElements = new List<IABIE>(docLibrary.RootElements);
             Assert.AreEqual(1, docLibraryRootElements.Count);

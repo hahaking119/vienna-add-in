@@ -22,16 +22,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public TICCTSElement ElementByName(string name)
         {
-            return GetCCTSElements().First(e => ((TCCTSElement)e).Name == name);
+            return Elements.First(e => ((TCCTSElement)e).Name == name);
         }
 
-        protected IEnumerable<TICCTSElement> GetCCTSElements()
+        public IEnumerable<TICCTSElement> Elements
         {
-            foreach (Element element in package.Elements)
+            get
             {
-                if (element.IsA(ElementStereotype))
+                foreach (Element element in package.Elements)
                 {
-                    yield return CreateCCTSElement(element);
+                    if (element.IsA(ElementStereotype))
+                    {
+                        yield return CreateCCTSElement(element);
+                    }
                 }
             }
         }

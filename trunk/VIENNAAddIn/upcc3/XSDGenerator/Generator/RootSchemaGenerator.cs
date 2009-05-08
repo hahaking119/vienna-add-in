@@ -52,9 +52,9 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
                 AddRootElemntDeclaration(schema, abie, context);
                 AddRootTypeDefinition(schema, abie, context, context.DocLibrary);
 
-                AddGlobalElementDeclarations(schema, removeRootElements(context.DocLibrary.BIEs, context.DocLibrary.RootElements),
+                AddGlobalElementDeclarations(schema, removeRootElements(context.DocLibrary.Elements, context.DocLibrary.RootElements),
                                              context);
-                AddGlobalTypeDefinitions(schema, removeRootElements(context.DocLibrary.BIEs, context.DocLibrary.RootElements),
+                AddGlobalTypeDefinitions(schema, removeRootElements(context.DocLibrary.Elements, context.DocLibrary.RootElements),
                                              context);
                 context.AddSchema(schema, abie.Name + "_" + schema.Version + ".xsd");
             }
@@ -115,7 +115,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
             XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie, NSPREFIX_BIE);
             XmlSchemaElement element;
             schema.Items.Add(type);
-            IList<IABIE> temp = new List<IABIE>(docLibrary.BIEs);
+            IList<IABIE> temp = new List<IABIE>(docLibrary.Elements);
             XmlSchemaSequence sequence = type.Particle as XmlSchemaSequence;
 
             if (sequence != null)
@@ -179,7 +179,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.Generator
 
         private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IABIE abie, GenerationContext context, IDOCLibrary docLibrary)
         {
-            IList<IABIE> temp = new List<IABIE>(docLibrary.BIEs);
+            IList<IABIE> temp = new List<IABIE>(docLibrary.Elements);
 
             foreach (IASBIE asbie in abie.ASBIEs)
             {

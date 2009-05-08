@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VIENNAAddIn.upcc3.ccts
 {
     ///<summary>
@@ -6,6 +8,10 @@ namespace VIENNAAddIn.upcc3.ccts
     ///<typeparam name="TCCTSElementSpec"></typeparam>
     public interface IElementLibrary<TICCTSElement, TCCTSElementSpec> : IBusinessLibrary
     {
+        ///<summary>
+        ///</summary>
+        IEnumerable<TICCTSElement> Elements { get; }
+
         ///<summary>
         /// Retrieves an element by name.
         ///</summary>

@@ -204,7 +204,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 {
                     ICCLibrary realCCL = repository.LibraryByName<ICCLibrary>(ccl.Name);
                     correctCCL++;  
-                    foreach (IACC acc in realCCL.ACCs)
+                    foreach (IACC acc in realCCL.Elements)
                     {
                         if(acc.Name==abie.BasedOn.Name)
                         {

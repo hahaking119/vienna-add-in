@@ -15,11 +15,6 @@ namespace VIENNAAddIn.upcc3.ccts
     public interface IDOCLibrary : IElementLibrary<IABIE, ABIESpec>
     {
         ///<summary>
-        /// Returns all ABIEs defined in this library.
-        ///</summary>
-        IEnumerable<IABIE> BIEs { get; }
-
-        ///<summary>
         /// Returns the root elements of documents defined in this DOCLibrary.
         ///</summary>
         IEnumerable<IABIE> RootElements { get; }

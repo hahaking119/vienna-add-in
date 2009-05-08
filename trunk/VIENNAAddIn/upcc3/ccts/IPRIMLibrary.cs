@@ -6,16 +6,11 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System.Collections.Generic;
-
 namespace VIENNAAddIn.upcc3.ccts
 {
     ///<summary>
     ///</summary>
     public interface IPRIMLibrary : IElementLibrary<IPRIM, PRIMSpec>
     {
-        ///<summary>
-        ///</summary>
-        IEnumerable<IPRIM> PRIMs { get; }
     }
 }
