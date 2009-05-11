@@ -296,7 +296,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             string namespacePrefix = textPrefixTargetNS.Text;
             bool annotate = checkboxAnnotations.CheckState == CheckState.Checked ? true : false;
             bool allschemas = checkboxAllschemas.CheckState == CheckState.Checked ? true : false;
-            var generationContext = new GeneraterContext(ccR, targetNamespace,
+            var generationContext = new GeneratorContext(ccR, targetNamespace,
                                                 namespacePrefix, annotate, allschemas,
                                                 outputDirectory, docl, relevantDocuments);
             generationContext.SchemaAdded += HandleSchemaAdded;
