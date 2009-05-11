@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 {
     ///<summary>
     ///</summary>
-    public class GeneraterContext
+    public class GeneratorContext
     {
         private readonly int progress;
         private readonly List<SchemaInfo> schemas = new List<SchemaInfo>();
@@ -21,7 +21,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///<param name="outputDirectory"></param>
         ///<param name="docLibrary"></param>
         ///<param name="rootElements"></param>
-        public GeneraterContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate, bool allschemas,
+        public GeneratorContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate, bool allschemas,
                                  string outputDirectory, IDOCLibrary docLibrary, IList<IABIE> rootElements)
         {
             Allschemas = allschemas;

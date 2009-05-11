@@ -21,7 +21,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
     {
         ///<summary>
         ///</summary>
-        public static GeneraterContext GenerateSchemas(GeneraterContext context)
+        public static GeneratorContext GenerateSchemas(GeneratorContext context)
         {
             BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context));
             BIESchemaGenerator.GenerateXSD(context, CollectBIEs(context));
@@ -93,7 +93,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<IBDT> CollectBDTs(GeneraterContext context)
+        public static IEnumerable<IBDT> CollectBDTs(GeneratorContext context)
         {
             foreach (IBDTLibrary bdtLibrary in context.Repository.Libraries<IBDTLibrary>())
             {
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<IBIE> CollectBIEs(GeneraterContext context)
+        public static IEnumerable<IBIE> CollectBIEs(GeneratorContext context)
         {
             foreach (IBIELibrary bieLibrary in context.Repository.Libraries<IBIELibrary>())
             {
@@ -123,7 +123,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<IACC> CollectACCs(GeneraterContext context)
+        public static IEnumerable<IACC> CollectACCs(GeneratorContext context)
         {
             foreach (ICCLibrary ccLibrary in context.Repository.Libraries<ICCLibrary>())
             {
@@ -139,7 +139,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<ICDT> CollectCDTs(GeneraterContext context)
+        public static IEnumerable<ICDT> CollectCDTs(GeneratorContext context)
         {
             foreach (ICDTLibrary cdtLibrary in context.Repository.Libraries<ICDTLibrary>())
             {

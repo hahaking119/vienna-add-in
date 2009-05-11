@@ -17,7 +17,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///</summary>
         ///<param name="context"></param>
         ///<param name="cdts"></param>
-        public static void GenerateXSD(GeneraterContext context, IEnumerable<ICDT> cdts)
+        public static void GenerateXSD(GeneratorContext context, IEnumerable<ICDT> cdts)
         {
             var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);

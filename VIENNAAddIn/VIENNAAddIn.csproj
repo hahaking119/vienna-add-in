@@ -122,6 +122,7 @@
     <Compile Include="upcc3\Wizards\util\ResourceHandler.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\CCSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\CDTSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\GeneratorContext.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\BDTSchemaImporter.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\BIESchemaImporter.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\RootSchemaImporter.cs" />
@@ -256,7 +257,6 @@
     <Compile Include="upcc3\Wizards\util\ModelCreator.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\BDTSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\BIESchemaGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\ccts\GeneraterContext.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\RootSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\StringExtensions.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\ENUMLibraryGenerator.cs" />

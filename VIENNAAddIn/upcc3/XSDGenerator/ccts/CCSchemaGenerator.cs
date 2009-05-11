@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///</summary>
         ///<param name="context"></param>
         ///<param name="bies"></param>
-        public static void GenerateXSD(GeneraterContext context, IEnumerable<IACC> accs)
+        public static void GenerateXSD(GeneratorContext context, IEnumerable<IACC> accs)
         {
             // Create XML schema file and prepare the XML schema header
             // R 88E2: all XML schema files must use UTF-8 encoding
@@ -74,12 +74,12 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             context.AddSchema(schema, "CoreComponent_" + schema.Version + ".xsd");
         }
 
-        internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneraterContext context, XmlSchema schema, IACC acc)
+        internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneratorContext context, XmlSchema schema, IACC acc)
         {
             return GenerateComplexTypeABIE(context, schema, acc, context.NamespacePrefix);
         }
 
-        internal static XmlSchemaComplexType GenerateComplexTypeABIE(GeneraterContext context, XmlSchema schema, IACC acc, string accPrefix)
+        internal static XmlSchemaComplexType GenerateComplexTypeABIE(GeneratorContext context, XmlSchema schema, IACC acc, string accPrefix)
         {
             // R A4CE, R AF95: a complex type must be defined for each ABIE   
             XmlSchemaComplexType complexTypeACC = new XmlSchemaComplexType();

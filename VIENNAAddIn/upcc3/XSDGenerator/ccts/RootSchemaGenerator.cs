@@ -28,7 +28,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
-        public static void GenerateXSD(GeneraterContext context)
+        public static void GenerateXSD(GeneratorContext context)
         {
 
             foreach (IABIE abie in context.RootElements)
@@ -61,7 +61,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         }
 
         private static void AddGlobalElementDeclarations(XmlSchema schema, IEnumerable<IABIE> abies,
-                                                         GeneraterContext context)
+                                                         GeneratorContext context)
         {
             foreach (IABIE abie in abies)
             {
@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             }
         }
 
-        private static void AddGlobalTypeDefinitions(XmlSchema schema, IEnumerable<IABIE> abies, GeneraterContext context)
+        private static void AddGlobalTypeDefinitions(XmlSchema schema, IEnumerable<IABIE> abies, GeneratorContext context)
         {
             foreach (IABIE abie in abies)
             {
@@ -97,7 +97,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             return temp;
         }
 
-        private static void AddRootElemntDeclaration(XmlSchema schema, IABIE abie, GeneraterContext context)
+        private static void AddRootElemntDeclaration(XmlSchema schema, IABIE abie, GeneratorContext context)
         {
             XmlSchemaElement root = new XmlSchemaElement
                                         {
@@ -110,7 +110,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             schema.Items.Add(root);
         }
 
-        private static void AddRootTypeDefinition(XmlSchema schema, IABIE abie, GeneraterContext context, IDOCLibrary docLibrary)
+        private static void AddRootTypeDefinition(XmlSchema schema, IABIE abie, GeneratorContext context, IDOCLibrary docLibrary)
         {
             XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie, NSPREFIX_BIE);
             XmlSchemaElement element;
@@ -158,7 +158,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         }
 
 
-        private static void UpdateElementTypePrefix(XmlSchema schema, GeneraterContext context, String name)
+        private static void UpdateElementTypePrefix(XmlSchema schema, GeneratorContext context, String name)
         {
             String temp = "";
             XmlSchemaElement element;
@@ -177,7 +177,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             }
         }
 
-        private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IABIE abie, GeneraterContext context, IDOCLibrary docLibrary)
+        private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IABIE abie, GeneratorContext context, IDOCLibrary docLibrary)
         {
             IList<IABIE> temp = new List<IABIE>(docLibrary.Elements);
 
@@ -226,7 +226,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
         }
 
-        private static void AddImports(XmlSchema schema, GeneraterContext context, IDOCLibrary docLibrary)
+        private static void AddImports(XmlSchema schema, GeneratorContext context, IDOCLibrary docLibrary)
         {
             //foreach (SchemaInfo si in context.Schemas)
             // {
@@ -244,7 +244,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             // }
         }
 
-        private static void AddIncludes(XmlSchema schema, GeneraterContext context, IDOCLibrary docLibrary)
+        private static void AddIncludes(XmlSchema schema, GeneratorContext context, IDOCLibrary docLibrary)
         {
             foreach (SchemaInfo si in context.Schemas)
             {
