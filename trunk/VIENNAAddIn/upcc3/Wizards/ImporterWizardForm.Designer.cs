@@ -133,6 +133,7 @@
             this.buttonImport.TabIndex = 45;
             this.buttonImport.Text = "&Import XML Schemas ...";
             this.buttonImport.UseVisualStyleBackColor = true;
+            this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
             // 
             // buttonClose
             // 

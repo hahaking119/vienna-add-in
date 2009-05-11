@@ -61,9 +61,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchTaggedValuesTest\SynchStereotypesTest.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
+    <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryResourceHandler.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceHandlerTest.cs" />
+    <Compile Include="upcc3\XSDImporter\ccts\XSDImporterTest.cs" />
     <Compile Include="Utils\EARepositoryCopierTest.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="upcc3\ccts\dra\DRACCRepositoryTest.cs" />
@@ -71,8 +73,8 @@
     <Compile Include="upcc3\ccts\util\AggregationKindTest.cs" />
     <Compile Include="upcc3\Wizards\CacheTest.cs" />
     <Compile Include="upcc3\Wizards\util\ModelCreatorTest.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\DictionaryExtensionsTest.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\StringExtensionsTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\DictionaryExtensionsTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\StringExtensionsTest.cs" />
     <Compile Include="TestRepository\AttributeBuilder.cs" />
     <Compile Include="TestRepository\ConnectorBuilder.cs" />
     <Compile Include="TestRepository\DiagramBuilder.cs" />
@@ -94,7 +96,7 @@
     <Compile Include="TestRepository\EARepository.cs" />
     <Compile Include="TestRepository\EARepository1.cs" />
     <Compile Include="TestRepository\EARepositoryTest.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\XSDGeneratorTest.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\XSDGeneratorTest.cs" />
     <Compile Include="menu\MenuManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
