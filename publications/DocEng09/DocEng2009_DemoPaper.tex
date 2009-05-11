@@ -61,21 +61,19 @@ Christian Eis, Martina Hiesinger, Fabian Kromer, Robert Kromer, Andreas Kuntner,
 \maketitle
 \begin{abstract}
 
-
-% What is the problem
-
-Before two businesses can engage in an automated B2B collaboration an agreement on the exchange order of messages (process choreography) and on the exchanged information (business document definition) has to be made. The United Nations Center for Trade Facilitation and Electronic Business (UN/CEFACT) provides two methodologies supporting the process choreography and business document definition - UN/CEFACT's Modeling Methodology and the Core Components Technical Specification. However, up to now little to no tool support for the two methodologies is provided.
-
-In this paper we present the VIENNA Add-In, a tool supporting model driven business collaborations. A business analyst defines the process choreography and the business document definition on a conceptual level. Eventually the conceptual models are used to derive deployment artifacts for a service oriented context.
+%What is the problem
+The definition of concise and interoperable business documents has become one of the key issues in today's electronic business transactions. Usually business document definitions are defined on a conceptual level and logical level artifacts such as XML schema definitions are derived from it. Appropriate tool support and well agreed standards for such a scenario are still rather low.
+In this paper we present our tool VIENNA Add-In which supports a business document modeler in creating Core Component compliant business document model using the Unified Modeling Language (UML). The core components standard is maintained by UN/CEFACT (United Nations Center for Trade Facilitation and Electronic Business) and defines reusable building blocks for constructing business documents. 
+Our tool provides a set of powerful features such as model validation, semi-automatic generation of model artifacts, and generation of fully compliant XML schema definitions from a conceptual model representation. 
 
 
-
-% Why is it a problem
-
-% What is the solution
+%Why is it a problem
 
 
-% What is the benefit
+%What is the solution
+
+
+%What is the benefit
 
 
 \end{abstract}
@@ -89,11 +87,7 @@ In this paper we present the VIENNA Add-In, a tool supporting model driven busin
 
 
 
-\section{Introduction} by PL
-
-- explain the use case scenario of the add-in
-
-- motivate the model driven approach for SOA artifacts
+\section{Introduction}
 
 
 \begin{figure}
@@ -104,25 +98,14 @@ In this paper we present the VIENNA Add-In, a tool supporting model driven busin
 \end{figure}
 
 
-\section{UML Profile Definition} by TM
+\section{UML Profile Definition}
 
-- explain the concepts of the MDG - the dynamic loading from umm-dev.org and the quicklinker
+\section{Semi-automatic artifact generation}
 
-\section{Semi-automatic artifact generation} by CP und CE
-
-explain the ABIE wizard and BDT wizard. rather concentrate on the facilitation benefit of the wizard than on the technical details behind it
-
-\section{XML schema generation} by MS
-
-explain the XSD generator - motivate the benefit of deriving schema from conceptual models
+\section{XML schema generation}
 
 
-
-
-%Use the three references where appropriate - do not add additional references since we are short of space anyway
-\nocite{man:umm2} 
-\nocite{man:upcc} 
-\nocite{man:VIENNAAddIn}
+\cite{man:umm2} \cite{man:upcc} \cite{man:VIENNAAddIn}
 
 
 
