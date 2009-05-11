@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Net;
-using EA;
+﻿using EA;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -19,41 +17,81 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         #region Class Fields
 
         private readonly Repository repository;
-        //        private string StorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
-        //        private string DownloadUri = "http://www.umm-dev.org/xmi/";
-        //        private string[] Resources = new [] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
 
         #endregion
 
+        #region Constructor
+
         ///<summary>
+        /// The constructor of the ModelCreator requires one input parameter specifying the EA 
+        /// repository that the ModelCreator operates on. 
         ///</summary>
-        ///<param name="eaRepository"></param>
+        ///<param name="eaRepository">
+        /// An EA repository representing the repository that the ModelCreator operates on. 
+        /// </param>
         public ModelCreator(Repository eaRepository)
         {
             repository = eaRepository;
         }
 
+        #endregion
 
         #region Class Methods
 
         ///<summary>
-        /// The method creates a default model having the structure as specified in the UPCC 3 specification. 
-        /// TODO: to be continued
+        /// The method creates a default model having the structure as specified in the UPCC 3 
+        /// specification. The default structure includes per definition a PRIM library, an ENUM
+        /// library, a CDT library, a CC library, a BDT library, a BIE library and a DOC library. 
+        /// The names of the libraries created are specified through certain input paramaters of
+        /// the method. However, the method is capable of creating selected libraries only. Deciding 
+        /// whether a library is created or not is done based on the library name passed through the
+        /// parameters. In case the library name for a particular library is empty then creating the
+        /// library is omitted. Furthermore the method allows to specifiy whether in addition to 
+        /// creating the default libraries all standard CC libraries containing default CC shall be
+        /// imported. Realize that in case the method is instructed to import the default CC libraries 
+        /// it opens an internet connection and retrieves the latest set of CC libraries. 
         ///</summary>
-        ///<param name="modelName"></param>
-        ///<param name="primLibraryName"></param>
-        ///<param name="enumLibraryName"></param>
-        ///<param name="cdtLibraryName"></param>
-        ///<param name="ccLibraryName"></param>
-        ///<param name="bdtLibraryName"></param>
-        ///<param name="bieLibraryName"></param>
-        ///<param name="docLibraryName"></param>
-        ///<param name="importStandardLibraries"></param>
+        ///<param name="modelName">
+        /// A string representing the name of the root model to be created. 
+        /// An example would be "ebInterface Data Model".</param>
+        ///<param name="primLibraryName">
+        /// A string representing the name of the PRIM library to be created. Passing an empty 
+        /// string ("") to the method causes that creating the PRIM library is ommited. 
+        ///</param>
+        ///<param name="enumLibraryName">
+        /// A string representing the name of the ENUM library to be created. Passing an empty 
+        /// string ("") to the method causes that creating the ENUM library is ommited. 
+        /// </param>
+        ///<param name="cdtLibraryName">
+        /// A string representing the name of the CDT library to be created. Passing an empty 
+        /// string ("") to the method causes that creating the CDT library is ommited. 
+        /// </param>
+        ///<param name="ccLibraryName">
+        /// A string representing the name of the CC library to be created. Passing an empty 
+        /// string ("") to the method causes that creating the CC library is ommited. 
+        /// </param>
+        ///<param name="bdtLibraryName">
+        /// A string representing the name of the BDT library to be created. Passing an empty 
+        /// string ("") to the method causes that creating the BDT library is ommited. 
+        /// </param>
+        ///<param name="bieLibraryName">
+        /// A string representing the name of the BIE library to be created. Passing an empty 
+        /// string ("") to the method causes that creating the BIE library is ommited. 
+        /// </param>
+        ///<param name="docLibraryName">
+        /// A string representing the name of the DOC library to be created. Passing an empty 
+        /// string ("") to the method causes that creating the DOC library is ommited. 
+        /// </param>
+        ///<param name="importStandardLibraries">
+        /// A boolean value indicating whether to import the standard CC libraries in addition 
+        /// to creating a default model structure. Realize that setting the parameter to true
+        /// causes the method to open an internet connection and retrieving the latest set of
+        /// CC libraries. 
+        ///</param>
         public void CreateUpccModel(string modelName, string primLibraryName, string enumLibraryName,
-                                      string cdtLibraryName, string ccLibraryName, string bdtLibraryName,
-                                      string bieLibraryName, string docLibraryName, bool importStandardLibraries)
+                                    string cdtLibraryName, string ccLibraryName, string bdtLibraryName,
+                                    string bieLibraryName, string docLibraryName, bool importStandardLibraries)
         {
-
             // Before operating on the repository we need to create a CC repository since
             // the CC repository offers a lot of methods supporing the creation of new libraries
             // such as the bLibrary. 
@@ -67,26 +105,43 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
             // After having an empty root model we can create a new bLibrary using the CCRepository's
             // CreateBLibrary method.
-            IBLibrary bLibrary = ccRepository.CreateBLibrary(new LibrarySpec { Name = modelName }, model);
+            IBLibrary bLibrary = ccRepository.CreateBLibrary(new LibrarySpec {Name = modelName}, model);
 
             if (importStandardLibraries)
             {
+                // In case the caller of the method prefers to import the standard CC libraries 
+                // we import the standard CC libraries. 
                 ImportStandardCcLibraries(repository.GetPackageByID(bLibrary.Id));
             }
             else
             {
+                // Otherwise we create default (empty) CC libraries.
                 CreateCCLibraries(bLibrary, primLibraryName, enumLibraryName, cdtLibraryName, ccLibraryName);
             }
 
+            // Regardless of the CC libraries we create new and empty BIE libraries. 
             CreateBIELibraries(bLibrary, bdtLibraryName, bieLibraryName, docLibraryName);
 
             repository.RefreshModelView(0);
             repository.Models.Refresh();
         }
 
+        ///<summary>
+        /// The method's purpose is to first retrieve the latest CC libraries from the web and 
+        /// second import the downloaded libraries into an existing business library. The method
+        /// therefore has one input parameter specifying the business library that the CC libraries
+        /// are imported into. Realize that the method deletes all existing CC libraries (i.e. a PRIM
+        /// library named "PRIMLibrary", an ENUM library named "ENUMLibrary", a CDT library named
+        /// "CDTLibrary" and a CC library named "CCLibrary") from the business library passed as a 
+        /// parameter. 
+        ///</summary>
+        ///<param name="bLibrary">
+        /// A package representing the business library that the standard CC libraries should be 
+        /// imported into. 
+        /// </param>
         public void ImportStandardCcLibraries(Package bLibrary)
         {
-            string[] resources = new[] { "enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi" };
+            string[] resources = new[] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
             string downloadUri = "http://www.umm-dev.org/xmi/";
             string storageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
 
@@ -141,7 +196,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             // If the method didn't find an empty model and return that model it is executing
             // the following statements. The statements add an empty model to the repository, 
             // udpate the repository.
-            Package newEmptyModel = (Package)repository.Models.AddNew("Model", "");
+            Package newEmptyModel = (Package) repository.Models.AddNew("Model", "");
             newEmptyModel.Update();
             repository.Models.Refresh();
 
@@ -209,19 +264,20 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// The name of the DOC library created. If the parameter equals an empty string ("") then
         /// creating the library is omitted. 
         /// </param> 
-        private static void CreateBIELibraries(IBLibrary bLibrary, string bdtLibraryName, string bieLibraryName, string docLibraryName)
+        private static void CreateBIELibraries(IBLibrary bLibrary, string bdtLibraryName, string bieLibraryName,
+                                               string docLibraryName)
         {
             if (!bdtLibraryName.Equals(""))
             {
-                bLibrary.CreateBDTLibrary(new LibrarySpec { Name = bdtLibraryName });
+                bLibrary.CreateBDTLibrary(new LibrarySpec {Name = bdtLibraryName});
             }
             if (!bieLibraryName.Equals(""))
             {
-                bLibrary.CreateBIELibrary(new LibrarySpec { Name = bieLibraryName });
+                bLibrary.CreateBIELibrary(new LibrarySpec {Name = bieLibraryName});
             }
             if (!docLibraryName.Equals(""))
             {
-                bLibrary.CreateDOCLibrary(new LibrarySpec { Name = docLibraryName });
+                bLibrary.CreateDOCLibrary(new LibrarySpec {Name = docLibraryName});
             }
         }
 
@@ -250,23 +306,24 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// The name of the CC library created. If the parameter equals an empty string ("") then
         /// creating the library is omitted. 
         /// </param> 
-        private static void CreateCCLibraries(IBLibrary bLibrary, string primLibraryName, string enumLibraryName, string cdtLibraryName, string ccLibraryName)
+        private static void CreateCCLibraries(IBLibrary bLibrary, string primLibraryName, string enumLibraryName,
+                                              string cdtLibraryName, string ccLibraryName)
         {
             if (!primLibraryName.Equals(""))
             {
-                bLibrary.CreatePRIMLibrary(new LibrarySpec { Name = primLibraryName });
+                bLibrary.CreatePRIMLibrary(new LibrarySpec {Name = primLibraryName});
             }
             if (!enumLibraryName.Equals(""))
             {
-                bLibrary.CreateENUMLibrary(new LibrarySpec { Name = enumLibraryName });
+                bLibrary.CreateENUMLibrary(new LibrarySpec {Name = enumLibraryName});
             }
             if (!cdtLibraryName.Equals(""))
             {
-                bLibrary.CreateCDTLibrary(new LibrarySpec { Name = cdtLibraryName });
+                bLibrary.CreateCDTLibrary(new LibrarySpec {Name = cdtLibraryName});
             }
             if (!ccLibraryName.Equals(""))
             {
-                bLibrary.CreateCCLibrary(new LibrarySpec { Name = ccLibraryName });
+                bLibrary.CreateCCLibrary(new LibrarySpec {Name = ccLibraryName});
             }
         }
 

@@ -120,8 +120,13 @@
       <DependentUpon>ImporterWizardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\util\ResourceHandler.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\CCSchemaGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\CDTSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\CCSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\CDTSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDImporter\ccts\BDTSchemaImporter.cs" />
+    <Compile Include="upcc3\XSDImporter\ccts\BIESchemaImporter.cs" />
+    <Compile Include="upcc3\XSDImporter\ccts\RootSchemaImporter.cs" />
+    <Compile Include="upcc3\XSDImporter\ccts\XSDImporter.cs" />
+    <Compile Include="upcc3\XSDImporter\ImporterContext.cs" />
     <Compile Include="Utils\DictionaryExtensions.cs" />
     <Compile Include="menu\MenuAction.cs" />
     <Compile Include="menu\MenuItem.cs" />
@@ -249,13 +254,13 @@
       <DependentUpon>UPCCModelWizardForm.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\util\ModelCreator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\BDTSchemaGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\BIESchemaGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\GenerationContext.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\RootSchemaGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\StringExtensions.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\ENUMLibraryGenerator.cs" />
-    <Compile Include="upcc3\XSDGenerator\Generator\XSDGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\BDTSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\BIESchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\GeneraterContext.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\RootSchemaGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\StringExtensions.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\ENUMLibraryGenerator.cs" />
+    <Compile Include="upcc3\XSDGenerator\ccts\XSDGenerator.cs" />
     <Compile Include="Utils\EAElementWrapper.cs" />
     <Compile Include="Utils\FormStyles.cs" />
     <Compile Include="Utils\IssueUtil.cs" />
@@ -428,6 +433,5 @@
   <ItemGroup>
     <Folder Include="doc\" />
     <Folder Include="images\" />
-    <Folder Include="upcc3\XSDGenerator\UI\" />
   </ItemGroup>
 </Project>

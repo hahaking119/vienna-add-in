@@ -14,37 +14,18 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     [TestFixture]
     public class ModelCreatorTest
     {
-        //[Test]
-        //public void TestXmiCaching()
-        //{
-        //    Repository repository = new EARepositoryModelCreator();
-        //    string fileName = "simplified_primlibrary.xmi";
-        //    string[] resources = new []{fileName};
-        //    string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
-        //    string storageDirectory = Directory.GetCurrentDirectory() +
-        //                        "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\xmi\\download\\";
-        //    string comparisonFile = Directory.GetCurrentDirectory() +
-        //                            "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\xmi\\reference\\" +
-        //                            fileName;
+        [Test]
+        public void TestCreatingDefaultUpccModel()
+        {
+            Repository repository = new EARepositoryModelCreator();
+            ModelCreator creator = new ModelCreator(repository);
 
-        //    ModelCreator creator = new ModelCreator(repository, storageDirectory, downloadUri, resources);
+            creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
+                                    "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
+                       
 
-        //    creator.CacheResourcesLocally();
-
-        //    AssertFileContent(comparisonFile, storageDirectory + fileName);
-        //}
-
-        //[Test]
-        //public void TestCreatingDefaultUpccModel()
-        //{
-        //    Repository repository = new EARepositoryModelCreator();
-        //    ModelCreator creator = new ModelCreator(repository);
-
-        //    creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
-        //                            "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
-
-        //    AssertDefaultModel(repository);
-        //}
+            AssertDefaultModel(repository);
+        }
 
         //[Test]
         //public void TestCreatingUppModelWithStandardCCLibraries()
@@ -63,32 +44,32 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         //    AssertDefaultModel(repository);
         //}
 
-        //private static void AssertDefaultModel(Repository eaRepository)
-        //{
-        //    CCRepository repository = new CCRepository(eaRepository);
-        //    List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+        private static void AssertDefaultModel(Repository eaRepository)
+        {
+            CCRepository repository = new CCRepository(eaRepository);
+            List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
 
-        //    Assert.AreEqual(1, bLibs.Count,
-        //                    "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");
+            Assert.AreEqual(1, bLibs.Count,
+                            "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");
 
-        //    IBLibrary bLib = bLibs[0];
-            
-        //    AssertLibraryCount<IENUMLibrary>(bLib, 1);
-        //    AssertLibraryName<IENUMLibrary>(bLib, "ENUMLibraryTest");
-        //    AssertLibraryCount<IPRIMLibrary>(bLib, 1);
-        //    AssertLibraryName<IPRIMLibrary>(bLib, "PRIMLibraryTest");
-        //    AssertLibraryCount<ICDTLibrary>(bLib, 1);
-        //    AssertLibraryName<ICDTLibrary>(bLib, "CDTLibraryTest");
-        //    AssertLibraryCount<ICCLibrary>(bLib, 1);
-        //    AssertLibraryName<ICCLibrary>(bLib, "CCLibraryTest");
-        //    AssertLibraryCount<IBDTLibrary>(bLib, 1);
-        //    AssertLibraryName<IBDTLibrary>(bLib, "BDTLibraryTest");
-        //    AssertLibraryCount<IBIELibrary>(bLib, 1);
-        //    AssertLibraryName<IBIELibrary>(bLib, "BIELibraryTest");
-        //    AssertLibraryCount<IDOCLibrary>(bLib, 1);
-        //    AssertLibraryName<IDOCLibrary>(bLib, "DOCLibraryTest");
+            IBLibrary bLib = bLibs[0];
 
-        //}
+            //AssertLibraryCount<IENUMLibrary>(bLib, 1);
+            //AssertLibraryName<IENUMLibrary>(bLib, "ENUMLibraryTest");
+            //AssertLibraryCount<IPRIMLibrary>(bLib, 1);
+            //AssertLibraryName<IPRIMLibrary>(bLib, "PRIMLibraryTest");
+            //AssertLibraryCount<ICDTLibrary>(bLib, 1);
+            //AssertLibraryName<ICDTLibrary>(bLib, "CDTLibraryTest");
+            //AssertLibraryCount<ICCLibrary>(bLib, 1);
+            //AssertLibraryName<ICCLibrary>(bLib, "CCLibraryTest");
+            //AssertLibraryCount<IBDTLibrary>(bLib, 1);
+            //AssertLibraryName<IBDTLibrary>(bLib, "BDTLibraryTest");
+            //AssertLibraryCount<IBIELibrary>(bLib, 1);
+            //AssertLibraryName<IBIELibrary>(bLib, "BIELibraryTest");
+            //AssertLibraryCount<IDOCLibrary>(bLib, 1);
+            //AssertLibraryName<IDOCLibrary>(bLib, "DOCLibraryTest");
+
+        }
 
         //private static void AssertFileContent(string comparisonFile, string newFile)
         //{

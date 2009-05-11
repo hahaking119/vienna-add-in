@@ -30,5 +30,10 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             Close();
         }
+
+        private void buttonImport_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

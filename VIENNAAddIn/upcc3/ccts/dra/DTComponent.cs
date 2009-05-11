@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.XSDGenerator.Generator;
+using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra

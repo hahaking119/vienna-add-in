@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.XSDGenerator.Generator;
+using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -296,11 +296,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             string namespacePrefix = textPrefixTargetNS.Text;
             bool annotate = checkboxAnnotations.CheckState == CheckState.Checked ? true : false;
             bool allschemas = checkboxAllschemas.CheckState == CheckState.Checked ? true : false;
-            var generationContext = new GenerationContext(ccR, targetNamespace,
+            var generationContext = new GeneraterContext(ccR, targetNamespace,
                                                 namespacePrefix, annotate, allschemas,
                                                 outputDirectory, docl, relevantDocuments);
             generationContext.SchemaAdded += HandleSchemaAdded;
-            XSDGenerator.Generator.XSDGenerator.GenerateSchemas(generationContext);
+            XSDGenerator.ccts.XSDGenerator.GenerateSchemas(generationContext);
 
             //VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary,
             //                                                                                  "urn:test:namespace", "test", true,
