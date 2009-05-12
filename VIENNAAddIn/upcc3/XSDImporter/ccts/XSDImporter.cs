@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 {
-    class XSDImporter
+    public class XSDImporter
     {
         public static ImporterContext ImportSchemas (ImporterContext context)
         {

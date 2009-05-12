@@ -5,11 +5,11 @@ using System.Text;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 {
-    class RootSchemaImporter
+    public class RootSchemaImporter
     {
         public static void ImportXSD(ImporterContext context)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
