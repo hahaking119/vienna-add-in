@@ -24,39 +24,40 @@ namespace VIENNAAddIn.upcc3.ccts
         {
         }
 
-        [TaggedValue(TaggedValues.Pattern)]
+        [TaggedValue]
         public string Pattern { get; set; }
 
-        [TaggedValue(TaggedValues.FractionDigits)]
+        [TaggedValue]
         public string FractionDigits { get; set; }
 
-        [TaggedValue(TaggedValues.Length)]
+        [TaggedValue]
         public string Length { get; set; }
 
-        [TaggedValue(TaggedValues.MaxExclusive)]
+        [TaggedValue]
         public string MaxExclusive { get; set; }
 
-        [TaggedValue(TaggedValues.MaxInclusive)]
+        [TaggedValue]
         public string MaxInclusive { get; set; }
 
-        [TaggedValue(TaggedValues.MaxLength)]
+        [TaggedValue]
         public string MaxLength { get; set; }
 
-        [TaggedValue(TaggedValues.MinExclusive)]
+        [TaggedValue]
         public string MinExclusive { get; set; }
 
-        [TaggedValue(TaggedValues.MinInclusive)]
+        [TaggedValue]
         public string MinInclusive { get; set; }
 
-        [TaggedValue(TaggedValues.MinLength)]
+        [TaggedValue]
         public string MinLength { get; set; }
 
-        [TaggedValue(TaggedValues.TotalDigits)]
+        [TaggedValue]
         public string TotalDigits { get; set; }
 
-        [TaggedValue(TaggedValues.WhiteSpace)]
+        [TaggedValue]
         public string WhiteSpace { get; set; }
 
+        [Dependency]
         public IPRIM IsEquivalentTo { get; set; }
     }
 }

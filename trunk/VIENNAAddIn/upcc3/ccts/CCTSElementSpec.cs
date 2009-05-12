@@ -30,22 +30,27 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public string Name { get; set; }
 
-        [TaggedValue(TaggedValues.DictionaryEntryName)]
+        [TaggedValue]
         public string DictionaryEntryName { get; set; }
 
-        [TaggedValue(TaggedValues.Definition)]
+        [TaggedValue]
         public string Definition { get; set; }
 
-        [TaggedValue(TaggedValues.UniqueIdentifier)]
+        [TaggedValue]
         public string UniqueIdentifier { get; set; }
 
-        [TaggedValue(TaggedValues.VersionIdentifier)]
+        [TaggedValue]
         public string VersionIdentifier { get; set; }
 
-        [TaggedValue(TaggedValues.LanguageCode)]
+        [TaggedValue]
         public string LanguageCode { get; set; }
 
-        [TaggedValue(TaggedValues.BusinessTerm)]
+        [TaggedValue]
         public IEnumerable<string> BusinessTerms { get; set; }
+
+        public virtual IEnumerable<AttributeSpec> GetAttributes()
+        {
+            yield break;
+        }
     }
 }

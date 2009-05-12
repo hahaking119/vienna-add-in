@@ -6,10 +6,8 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 using EA;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -37,7 +35,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             foreach (TaggedValue tv in element.TaggedValues)
             {
-                if (tv.Name.Equals(key.AsString()))
+                if (tv.Name.Equals(key.ToString()))
                 {
                     return tv.Value;
                 }
@@ -66,7 +64,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             TaggedValue taggedValue = null;
             foreach (TaggedValue tv in element.TaggedValues)
             {
-                if (tv.Name.Equals(key.AsString()))
+                if (tv.Name.Equals(key.ToString()))
                 {
                     taggedValue = tv;
                     break;
@@ -74,7 +72,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
             if (taggedValue == null)
             {
-                taggedValue = (TaggedValue) element.TaggedValues.AddNew(key.AsString(), "");
+                taggedValue = (TaggedValue) element.TaggedValues.AddNew(key.ToString(), "");
             }
             taggedValue.Value = value;
             if (!taggedValue.Update())
@@ -87,56 +85,40 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<summary>
         ///</summary>
         ///<param name="element"></param>
-        ///<param name="connectorType">Must be one of <see cref="ConnectorTypes"/>.</param>
-        ///<param name="stereotype"></param>
-        ///<param name="supplierId"></param>
-        private static void AddConnector(this Element element, string connectorType, string stereotype, string name, int supplierId, AggregationKind aggregationKind, string lowerBound, string upperBound)
+        ///<param name="connectorSpec"></param>
+        public static void AddConnector(this Element element, ConnectorSpec connectorSpec)
         {
             var connector = (Connector) element.Connectors.AddNew("", "Association");
-            connector.Type = connectorType;
-            connector.Stereotype = stereotype;
+            connector.Type = connectorSpec.ConnectorType;
+            connector.Stereotype = connectorSpec.Stereotype;
             connector.ClientID = element.ElementID;
-            connector.ClientEnd.Aggregation = (int)aggregationKind;
-            connector.SupplierID = supplierId;
-            connector.SupplierEnd.Role = name;
-            connector.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
+            connector.ClientEnd.Aggregation = (int) connectorSpec.AggregationKind;
+            connector.SupplierID = connectorSpec.SupplierId;
+            connector.SupplierEnd.Role = connectorSpec.Name;
+            connector.SupplierEnd.Cardinality = connectorSpec.LowerBound + ".." + connectorSpec.UpperBound;
             connector.Update();
-        }
-
-        public static void AddDependency(this Element element, string stereotype, int supplierId, string lowerBound, string upperBound)
-        {
-            element.AddConnector(ConnectorTypes.Dependency, stereotype, "", supplierId, AggregationKind.None, lowerBound, upperBound);
-        }
-
-        public static void AddAggregation(this Element element, AggregationKind aggregationKind, string stereotype, string name, int supplierId, string lowerBound, string upperBound)
-        {
-            element.AddConnector(ConnectorTypes.Aggregation, stereotype, name, supplierId, aggregationKind, lowerBound, upperBound);
         }
 
         ///<summary>
         ///</summary>
         ///<param name="element"></param>
-        ///<param name="stereotype"></param>
-        ///<param name="name"></param>
-        ///<param name="typeName"></param>
-        ///<param name="classifierId"></param>
-        ///<param name="lowerBound"></param>
-        ///<param name="upperBound"></param>
-        ///<param name="taggedValueSpecs"></param>
-        public static void AddAttribute(this Element element, string stereotype, string name, string typeName,
-                                        int classifierId, string lowerBound, string upperBound,
-                                        IEnumerable<TaggedValueSpec> taggedValueSpecs)
+        ///<param name="attributeSpec"></param>
+        public static void AddAttribute(this Element element, AttributeSpec attributeSpec)
         {
-            var attribute = (Attribute) element.Attributes.AddNew(name, typeName);
-            attribute.Stereotype = stereotype;
-            attribute.ClassifierID = classifierId;
-            attribute.LowerBound = lowerBound;
-            attribute.UpperBound = upperBound;
+            var attribute = (Attribute) element.Attributes.AddNew(attributeSpec.Name, attributeSpec.TypeName);
+            attribute.Stereotype = attributeSpec.Stereotype;
+            attribute.ClassifierID = attributeSpec.ClassifierId;
+            attribute.LowerBound = attributeSpec.LowerBound;
+            attribute.UpperBound = attributeSpec.UpperBound;
+            if (attributeSpec.DefaultValue != null)
+            {
+                attribute.Default = attributeSpec.DefaultValue;
+            }
             attribute.Update();
             Collection taggedValues = attribute.TaggedValues;
-            foreach (TaggedValueSpec taggedValueSpec in taggedValueSpecs)
+            foreach (TaggedValueSpec taggedValueSpec in attributeSpec.TaggedValueSpecs)
             {
-                var taggedValue = (AttributeTag) taggedValues.AddNew(taggedValueSpec.Key.AsString(), "");
+                var taggedValue = (AttributeTag) taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
                 taggedValue.Value = taggedValueSpec.Value;
                 if (!taggedValue.Update())
                 {

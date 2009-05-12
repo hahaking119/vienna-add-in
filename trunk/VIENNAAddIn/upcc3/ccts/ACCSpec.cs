@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -40,6 +41,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
         ///<summary>
         ///</summary>
+        [Dependency]
         public IACC IsEquivalentTo { get; set; }
 
         ///<summary>
@@ -53,6 +55,31 @@ namespace VIENNAAddIn.upcc3.ccts
         public void RemoveBCC(string name)
         {
             bccs.RemoveAll(bcc => bcc.Name == name);
+        }
+
+        public override IEnumerable<ConnectorSpec> GetCustomConnectors()
+        {
+            if (ASCCs != null)
+            {
+                foreach (ASCCSpec ascc in ASCCs)
+                {
+                    yield return
+                        ConnectorSpec.CreateAggregation(AggregationKind.Shared, Stereotype.ASCC, ascc.Name,
+                                                        ascc.AssociatedACCId, ascc.LowerBound, ascc.UpperBound);
+                }
+            }
+        }
+
+        public override IEnumerable<AttributeSpec> GetAttributes()
+        {
+            if (BCCs != null)
+            {
+                foreach (BCCSpec bcc in BCCs)
+                {
+                    yield return new AttributeSpec(Stereotype.BCC, bcc.Name, bcc.Type.Name, bcc.Type.Id, bcc.LowerBound, bcc.UpperBound, bcc.GetTaggedValues());
+                }
+            }
+
         }
     }
 }

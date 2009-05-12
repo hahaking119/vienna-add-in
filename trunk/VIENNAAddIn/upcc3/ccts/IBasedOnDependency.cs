@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IBasedOnDependency : IPRIMRestrictions
     {
-        [TaggedValue(TaggedValues.ApplyTo)]
+        [TaggedValue]
         string ApplyTo { get; }
 
         ICDT CDT { get; }

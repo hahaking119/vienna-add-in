@@ -105,8 +105,10 @@
     <Compile Include="menu\AddInContext.cs" />
     <Compile Include="upcc3\ccts\ACCSpec.cs" />
     <Compile Include="upcc3\ccts\ASCCSpec.cs" />
+    <Compile Include="upcc3\ccts\AttributeSpec.cs" />
     <Compile Include="upcc3\ccts\BCCSpec.cs" />
     <Compile Include="upcc3\ccts\CCSpec.cs" />
+    <Compile Include="upcc3\ccts\ConnectorSpec.cs" />
     <Compile Include="upcc3\ccts\dra\ElementLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\IUpdateable.cs" />
     <Compile Include="upcc3\ccts\ENUMSpec.cs" />

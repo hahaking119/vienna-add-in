@@ -28,10 +28,10 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public IBasicType BasicType { get; set; }
 
-        [TaggedValue(TaggedValues.ModificationAllowedIndicator)]
+        [TaggedValue]
         public bool ModificationAllowedIndicator { get; set; }
 
-        [TaggedValue(TaggedValues.UsageRule)]
+        [TaggedValue]
         public IEnumerable<string> UsageRules { get; set; }
 
         public string UpperBound { get; set; }

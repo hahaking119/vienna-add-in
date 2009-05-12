@@ -45,7 +45,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         public IEnumerable<string> UsageRules
         {
-            get { return element.GetTaggedValues(TaggedValues.UsageRule); }
+            get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
         ///<summary>
@@ -89,35 +89,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
             }
             return false;
-        }
-
-        protected override void AddConnectors(ACCSpec spec)
-        {
-            if (spec.IsEquivalentTo != null)
-            {
-                element.AddDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
-            }
-
-            if (spec.ASCCs != null)
-            {
-                foreach (ASCCSpec ascc in spec.ASCCs)
-                {
-                    element.AddAggregation(AggregationKind.Shared, Stereotype.ASCC, ascc.Name,
-                                           ascc.AssociatedACCId, ascc.LowerBound, ascc.UpperBound);
-                }
-            }
-        }
-
-        protected override void AddAttributes(ACCSpec spec)
-        {
-            if (spec.BCCs != null)
-            {
-                foreach (BCCSpec bcc in spec.BCCs)
-                {
-                    element.AddAttribute(Stereotype.BCC, bcc.Name, bcc.Type.Name, bcc.Type.Id, bcc.LowerBound,
-                                         bcc.UpperBound, bcc.GetTaggedValues());
-                }
-            }
         }
     }
 }

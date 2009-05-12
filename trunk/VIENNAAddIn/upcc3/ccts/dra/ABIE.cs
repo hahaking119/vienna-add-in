@@ -37,7 +37,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<string> UsageRules
         {
-            get { return element.GetTaggedValues(TaggedValues.UsageRule); }
+            get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
         public IEnumerable<IBBIE> BBIEs
@@ -77,41 +77,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
-
-        protected override void AddConnectors(ABIESpec spec)
-        {
-            if (spec.BasedOn != null)
-            {
-                element.AddDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
-            }
-
-            if (spec.IsEquivalentTo != null)
-            {
-                element.AddDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
-            }
-
-            if (spec.ASBIEs != null)
-            {
-                foreach (ASBIESpec asbie in spec.ASBIEs)
-                {
-                    element.AddAggregation(AggregationKind.Composite, Stereotype.ASBIE, asbie.Name,
-                                           asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
-                }
-            }
-        }
-
-        protected override void AddAttributes(ABIESpec spec)
-        {
-            if (spec.BBIEs != null)
-            {
-                foreach (BBIESpec bbie in spec.BBIEs)
-                {
-                    element.AddAttribute(Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, bbie.LowerBound,
-                                         bbie.UpperBound,
-                                         bbie.GetTaggedValues());
-                }
-            }
-        }
 
         private bool IsASBIE(Connector connector)
         {

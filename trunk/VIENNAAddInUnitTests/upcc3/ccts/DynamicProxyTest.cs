@@ -41,7 +41,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts
 
             Element cdtDateElement = eaRepository.GetElementByID(9);
             Assert.AreEqual("Date", cdtDateElement.Name);
-            Assert.AreEqual("A Date.", cdtDateElement.GetTaggedValue(TaggedValues.Definition));
+            Assert.AreEqual("A Date.", cdtDateElement.GetTaggedValue(TaggedValues.definition));
             var cdtDate = CreateElementProxy<ICDT>(cdtDateElement);
             Assert.AreEqual("Date", cdtDate.Name);
 //            Assert.AreEqual("", cdtDate.DictionaryEntryName);
@@ -86,15 +86,15 @@ namespace VIENNAAddInUnitTests.upcc3.ccts
                 }
                 var taggedValueAttribute = ((TaggedValueAttribute) attributes[0]);
                 TaggedValues key = taggedValueAttribute.Key;
-                if (key == TaggedValues.Undefined)
+                if (key == TaggedValues.undefined)
                 {
                     if (multiValued && propertyName.EndsWith("s"))
                     {
                         propertyName = propertyName.Substring(0, propertyName.Length - 1);
                     }
-                    key = TaggedValuesExtensions.ForString(propertyName);
+                    key = (TaggedValues) Enum.Parse(typeof (TaggedValues), propertyName, true);
                 }
-                Console.WriteLine("  tagged value: {0} (multivalued: {1})", key.AsString(), multiValued);
+                Console.WriteLine("  tagged value: {0} (multivalued: {1})", key.ToString(), multiValued);
                 var interceptor = new TaggedValueInterceptor(
                     key, multiValued, element);
                 return new[] {interceptor};

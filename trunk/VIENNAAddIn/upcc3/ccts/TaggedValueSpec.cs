@@ -33,7 +33,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public override string ToString()
         {
-            return string.Format("[{0}: {1}]", Key.AsString(), Value);
+            return string.Format("[{0}: {1}]", Key.ToString(), Value);
         }
     }
 }

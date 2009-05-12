@@ -23,7 +23,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             foreach (AttributeTag tv in attribute.TaggedValues)
             {
-                if (tv.Name.Equals(key.AsString()))
+                if (tv.Name.Equals(key.ToString()))
                 {
                     return tv.Value;
                 }

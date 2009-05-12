@@ -33,31 +33,31 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public string Name { get; set; }
 
-        [TaggedValue(TaggedValues.Status)]
+        [TaggedValue]
         public string Status { get; set; }
 
-        [TaggedValue(TaggedValues.UniqueIdentifier)]
+        [TaggedValue]
         public string UniqueIdentifier { get; set; }
 
-        [TaggedValue(TaggedValues.VersionIdentifier)]
+        [TaggedValue]
         public string VersionIdentifier { get; set; }
 
-        [TaggedValue(TaggedValues.BaseURN)]
+        [TaggedValue]
         public string BaseURN { get; set; }
 
-        [TaggedValue(TaggedValues.NamespacePrefix)]
+        [TaggedValue]
         public string NamespacePrefix { get; set; }
 
-        [TaggedValue(TaggedValues.BusinessTerm)]
+        [TaggedValue]
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        [TaggedValue(TaggedValues.Copyright)]
+        [TaggedValue]
         public IEnumerable<string> Copyrights { get; set; }
 
-        [TaggedValue(TaggedValues.Owner)]
+        [TaggedValue]
         public IEnumerable<string> Owners { get; set; }
 
-        [TaggedValue(TaggedValues.Reference)]
+        [TaggedValue]
         public IEnumerable<string> References { get; set; }
     }
 }

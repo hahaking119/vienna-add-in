@@ -14,7 +14,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     {
         public TaggedValueBuilder(TaggedValues key, string value)
         {
-            Name = key.AsString();
+            Name = key.ToString();
             Value = value;
         }
 

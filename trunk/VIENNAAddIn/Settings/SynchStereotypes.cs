@@ -44,24 +44,24 @@ namespace VIENNAAddIn.Settings
 
             // check TaggedValues of current package
             var missingValues = new List<String>();
-            if (Equals(p.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                missingValues.Add(TaggedValues.VersionIdentifier.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.BaseURN), null))
-                missingValues.Add(TaggedValues.BaseURN.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                missingValues.Add(TaggedValues.BusinessTerm.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.Copyright), null))
-                missingValues.Add(TaggedValues.Copyright.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.Owner), null))
-                missingValues.Add(TaggedValues.Owner.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.Reference), null))
-                missingValues.Add(TaggedValues.Reference.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.Status), null))
-                missingValues.Add(TaggedValues.Status.AsString());
-            if (Equals(p.GetTaggedValue(TaggedValues.NamespacePrefix), null))
-                missingValues.Add(TaggedValues.NamespacePrefix.AsString());
+            if (Equals(p.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
+                missingValues.Add(TaggedValues.uniqueIdentifier.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.versionIdentifier), null))
+                missingValues.Add(TaggedValues.versionIdentifier.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.baseURN), null))
+                missingValues.Add(TaggedValues.baseURN.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.businessTerm), null))
+                missingValues.Add(TaggedValues.businessTerm.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.copyright), null))
+                missingValues.Add(TaggedValues.copyright.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.owner), null))
+                missingValues.Add(TaggedValues.owner.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.reference), null))
+                missingValues.Add(TaggedValues.reference.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.status), null))
+                missingValues.Add(TaggedValues.status.ToString());
+            if (Equals(p.GetTaggedValue(TaggedValues.namespacePrefix), null))
+                missingValues.Add(TaggedValues.namespacePrefix.ToString());
             missingValues.Insert(0, p.Name);
             missingValuesLists.Add(missingValues);
 
@@ -105,8 +105,8 @@ namespace VIENNAAddIn.Settings
                     goto case "BCC";
                 case "BCC": //finished!
                     Debug.WriteLine("Checking BCC.");
-                    if (Equals(e.GetTaggedValue(TaggedValues.SequencingKey), null))
-                        missingValues.Add(TaggedValues.SequencingKey.AsString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.sequencingKey), null))
+                        missingValues.Add(TaggedValues.sequencingKey.ToString());
                     goto default;
                 case "BCSS":
                     //not found yet!
@@ -128,86 +128,86 @@ namespace VIENNAAddIn.Settings
                     goto case "SUP";
                 case "ENUM": //finished
                     Debug.WriteLine("Checking ENUM.");
-                    if (Equals(e.GetTaggedValue(TaggedValues.AgencyIdentifier), null))
-                        missingValues.Add(TaggedValues.AgencyIdentifier.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.AgencyName), null))
-                        missingValues.Add(TaggedValues.AgencyName.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        missingValues.Add(TaggedValues.BusinessTerm.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        missingValues.Add(TaggedValues.LanguageCode.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        missingValues.Add(TaggedValues.VersionIdentifier.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.EnumerationURI), null))
-                        missingValues.Add(TaggedValues.EnumerationURI.AsString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.agencyIdentifier), null))
+                        missingValues.Add(TaggedValues.agencyIdentifier.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.agencyName), null))
+                        missingValues.Add(TaggedValues.agencyName.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.businessTerm), null))
+                        missingValues.Add(TaggedValues.businessTerm.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.languageCode), null))
+                        missingValues.Add(TaggedValues.languageCode.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
+                        missingValues.Add(TaggedValues.uniqueIdentifier.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.versionIdentifier), null))
+                        missingValues.Add(TaggedValues.versionIdentifier.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
+                        missingValues.Add(TaggedValues.dictionaryEntryName.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.enumerationURI), null))
+                        missingValues.Add(TaggedValues.enumerationURI.ToString());
                     break;
                 case "PRIM": //finished
                     Debug.WriteLine("Checking PRIM.");
-                    if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        missingValues.Add(TaggedValues.BusinessTerm.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        missingValues.Add(TaggedValues.LanguageCode.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        missingValues.Add(TaggedValues.VersionIdentifier.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.Definition), null))
-                        missingValues.Add(TaggedValues.Definition.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.Pattern), null))
-                        missingValues.Add(TaggedValues.Pattern.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        missingValues.Add(TaggedValues.FractionDigits.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.Length), null))
-                        missingValues.Add(TaggedValues.Length.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        missingValues.Add(TaggedValues.MaxExclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        missingValues.Add(TaggedValues.MaxInclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxLength), null))
-                        missingValues.Add(TaggedValues.MaxLength.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        missingValues.Add(TaggedValues.MinExclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        missingValues.Add(TaggedValues.MinInclusive.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinLength), null))
-                        missingValues.Add(TaggedValues.MinLength.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        missingValues.Add(TaggedValues.TotalDigits.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        missingValues.Add(TaggedValues.WhiteSpace.AsString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.businessTerm), null))
+                        missingValues.Add(TaggedValues.businessTerm.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.languageCode), null))
+                        missingValues.Add(TaggedValues.languageCode.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
+                        missingValues.Add(TaggedValues.uniqueIdentifier.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.versionIdentifier), null))
+                        missingValues.Add(TaggedValues.versionIdentifier.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
+                        missingValues.Add(TaggedValues.dictionaryEntryName.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.definition), null))
+                        missingValues.Add(TaggedValues.definition.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.pattern), null))
+                        missingValues.Add(TaggedValues.pattern.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.fractionDigits), null))
+                        missingValues.Add(TaggedValues.fractionDigits.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.length), null))
+                        missingValues.Add(TaggedValues.length.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.maxExclusive), null))
+                        missingValues.Add(TaggedValues.maxExclusive.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.maxInclusive), null))
+                        missingValues.Add(TaggedValues.maxInclusive.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.maxLength), null))
+                        missingValues.Add(TaggedValues.maxLength.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.minExclusive), null))
+                        missingValues.Add(TaggedValues.minExclusive.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.minInclusive), null))
+                        missingValues.Add(TaggedValues.minInclusive.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.minLength), null))
+                        missingValues.Add(TaggedValues.minLength.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.totalDigits), null))
+                        missingValues.Add(TaggedValues.totalDigits.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.whiteSpace), null))
+                        missingValues.Add(TaggedValues.whiteSpace.ToString());
                     break;
                 case "QDT":
                     //not found yet!
                     break;
                 case "SUP": //finished
                     Debug.WriteLine("Checking SUP.");
-                    if (Equals(e.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), null))
-                        missingValues.Add(TaggedValues.ModificationAllowedIndicator.AsString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.modificationAllowedIndicator), null))
+                        missingValues.Add(TaggedValues.modificationAllowedIndicator.ToString());
                     goto default;
                 case "BDT": //finished
                     Debug.WriteLine("Checking BDT.");
                     goto default;
                 default: //finished
-                    if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        missingValues.Add(TaggedValues.BusinessTerm.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.Definition), null))
-                        missingValues.Add(TaggedValues.Definition.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        missingValues.Add(TaggedValues.LanguageCode.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        missingValues.Add(TaggedValues.VersionIdentifier.AsString());
-                    if (Equals(e.GetTaggedValue(TaggedValues.UsageRule), null))
-                        missingValues.Add(TaggedValues.UsageRule.AsString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.businessTerm), null))
+                        missingValues.Add(TaggedValues.businessTerm.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.definition), null))
+                        missingValues.Add(TaggedValues.definition.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
+                        missingValues.Add(TaggedValues.dictionaryEntryName.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.languageCode), null))
+                        missingValues.Add(TaggedValues.languageCode.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
+                        missingValues.Add(TaggedValues.uniqueIdentifier.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.versionIdentifier), null))
+                        missingValues.Add(TaggedValues.versionIdentifier.ToString());
+                    if (Equals(e.GetTaggedValue(TaggedValues.usageRule), null))
+                        missingValues.Add(TaggedValues.usageRule.ToString());
                     break;
             }
             return missingValues;
@@ -226,72 +226,72 @@ namespace VIENNAAddIn.Settings
                 case "ASBIE": //finished!
                     goto case "ASCC";
                 case "ASCC": //finished!
-                    if (Equals(c.GetTaggedValue(TaggedValues.SequencingKey), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.sequencingKey), null))
                     {
                         Debug.WriteLine("Found Missing SequencingKey");
-                        missingValues.Add(TaggedValues.SequencingKey.AsString());
+                        missingValues.Add(TaggedValues.sequencingKey.ToString());
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.businessTerm), null))
                     {
-                        missingValues.Add(TaggedValues.BusinessTerm.AsString());
+                        missingValues.Add(TaggedValues.businessTerm.ToString());
                         Debug.WriteLine("Found Missing BusinessTerm");
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.Definition), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.definition), null))
                     {
-                        missingValues.Add(TaggedValues.Definition.AsString());
+                        missingValues.Add(TaggedValues.definition.ToString());
                         Debug.WriteLine("Found Missing Definition");
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
                     {
-                        missingValues.Add(TaggedValues.DictionaryEntryName.AsString());
+                        missingValues.Add(TaggedValues.dictionaryEntryName.ToString());
                         Debug.WriteLine("Found Missing DictionaryEntryName");
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.languageCode), null))
                     {
-                        missingValues.Add(TaggedValues.LanguageCode.AsString());
+                        missingValues.Add(TaggedValues.languageCode.ToString());
                         Debug.WriteLine("Found Missing LanguageCode");
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
                     {
-                        missingValues.Add(TaggedValues.UniqueIdentifier.AsString());
+                        missingValues.Add(TaggedValues.uniqueIdentifier.ToString());
                         Debug.WriteLine("Found Missing UniqueIdentifier");
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.VersionIdentifier), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.versionIdentifier), null))
                     {
-                        missingValues.Add(TaggedValues.VersionIdentifier.AsString());
+                        missingValues.Add(TaggedValues.versionIdentifier.ToString());
                         Debug.WriteLine("Found Missing VersionIdentifier");
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.UsageRule), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.usageRule), null))
                     {
-                        missingValues.Add(TaggedValues.UsageRule.AsString());
+                        missingValues.Add(TaggedValues.usageRule.ToString());
                         Debug.WriteLine("Found Missing UsageRule");
                     }
                     break;
                 case "basedOn": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), null))
-                        missingValues.Add(TaggedValues.ApplyTo.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
-                        missingValues.Add(TaggedValues.Pattern.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        missingValues.Add(TaggedValues.FractionDigits.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
-                        missingValues.Add(TaggedValues.Length.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        missingValues.Add(TaggedValues.MaxExclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        missingValues.Add(TaggedValues.MaxInclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
-                        missingValues.Add(TaggedValues.MaxLength.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        missingValues.Add(TaggedValues.MinExclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        missingValues.Add(TaggedValues.MinInclusive.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
-                        missingValues.Add(TaggedValues.MinLength.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        missingValues.Add(TaggedValues.TotalDigits.AsString());
-                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        missingValues.Add(TaggedValues.WhiteSpace.AsString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.applyTo), null))
+                        missingValues.Add(TaggedValues.applyTo.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.pattern), null))
+                        missingValues.Add(TaggedValues.pattern.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.fractionDigits), null))
+                        missingValues.Add(TaggedValues.fractionDigits.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.length), null))
+                        missingValues.Add(TaggedValues.length.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.maxExclusive), null))
+                        missingValues.Add(TaggedValues.maxExclusive.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.maxInclusive), null))
+                        missingValues.Add(TaggedValues.maxInclusive.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.maxLength), null))
+                        missingValues.Add(TaggedValues.maxLength.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.minExclusive), null))
+                        missingValues.Add(TaggedValues.minExclusive.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.minInclusive), null))
+                        missingValues.Add(TaggedValues.minInclusive.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.minLength), null))
+                        missingValues.Add(TaggedValues.minLength.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.totalDigits), null))
+                        missingValues.Add(TaggedValues.totalDigits.ToString());
+                    if (Equals(c.GetTaggedValue(TaggedValues.whiteSpace), null))
+                        missingValues.Add(TaggedValues.whiteSpace.ToString());
                     break;
                 }
             return missingValues;
@@ -313,8 +313,8 @@ namespace VIENNAAddIn.Settings
                 case "BBIE": //finished!
                     goto case "BCC";
                 case "BCC": //finished!
-                    if (Equals(e.GetTaggedValue(TaggedValues.SequencingKey), null))
-                        e.SetTaggedValue(TaggedValues.SequencingKey, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.sequencingKey), null))
+                        e.SetTaggedValue(TaggedValues.sequencingKey, "");
                     goto default;
                 case "BCSS":
                     //not found yet!
@@ -333,83 +333,83 @@ namespace VIENNAAddIn.Settings
                 case "CON": //finished
                     goto case "SUP";
                 case "ENUM": //finished
-                    if (Equals(e.GetTaggedValue(TaggedValues.AgencyIdentifier), null))
-                        e.SetTaggedValue(TaggedValues.AgencyIdentifier, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.AgencyName), null))
-                        e.SetTaggedValue(TaggedValues.AgencyName, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        e.SetTaggedValue(TaggedValues.BusinessTerm, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        e.SetTaggedValue(TaggedValues.LanguageCode, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        e.SetTaggedValue(TaggedValues.UniqueIdentifier, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        e.SetTaggedValue(TaggedValues.VersionIdentifier, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        e.SetTaggedValue(TaggedValues.DictionaryEntryName, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.EnumerationURI), null))
-                        e.SetTaggedValue(TaggedValues.EnumerationURI, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.agencyIdentifier), null))
+                        e.SetTaggedValue(TaggedValues.agencyIdentifier, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.agencyName), null))
+                        e.SetTaggedValue(TaggedValues.agencyName, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.businessTerm), null))
+                        e.SetTaggedValue(TaggedValues.businessTerm, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.languageCode), null))
+                        e.SetTaggedValue(TaggedValues.languageCode, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
+                        e.SetTaggedValue(TaggedValues.uniqueIdentifier, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.versionIdentifier), null))
+                        e.SetTaggedValue(TaggedValues.versionIdentifier, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
+                        e.SetTaggedValue(TaggedValues.dictionaryEntryName, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.enumerationURI), null))
+                        e.SetTaggedValue(TaggedValues.enumerationURI, "");
                     break;
                 case "PRIM": //finished
-                    if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        e.SetTaggedValue(TaggedValues.BusinessTerm, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        e.SetTaggedValue(TaggedValues.LanguageCode, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        e.SetTaggedValue(TaggedValues.UniqueIdentifier, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        e.SetTaggedValue(TaggedValues.VersionIdentifier, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        e.SetTaggedValue(TaggedValues.DictionaryEntryName, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.Definition), null))
-                        e.SetTaggedValue(TaggedValues.Definition, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.Pattern), null))
-                        e.SetTaggedValue(TaggedValues.Pattern, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        e.SetTaggedValue(TaggedValues.FractionDigits, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.Length), null))
-                        e.SetTaggedValue(TaggedValues.Length, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        e.SetTaggedValue(TaggedValues.MaxExclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        e.SetTaggedValue(TaggedValues.MaxInclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MaxLength), null))
-                        e.SetTaggedValue(TaggedValues.MaxLength, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        e.SetTaggedValue(TaggedValues.MinExclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        e.SetTaggedValue(TaggedValues.MinInclusive, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.MinLength), null))
-                        e.SetTaggedValue(TaggedValues.MinLength, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        e.SetTaggedValue(TaggedValues.TotalDigits, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        e.SetTaggedValue(TaggedValues.WhiteSpace, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.businessTerm), null))
+                        e.SetTaggedValue(TaggedValues.businessTerm, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.languageCode), null))
+                        e.SetTaggedValue(TaggedValues.languageCode, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
+                        e.SetTaggedValue(TaggedValues.uniqueIdentifier, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.versionIdentifier), null))
+                        e.SetTaggedValue(TaggedValues.versionIdentifier, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
+                        e.SetTaggedValue(TaggedValues.dictionaryEntryName, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.definition), null))
+                        e.SetTaggedValue(TaggedValues.definition, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.pattern), null))
+                        e.SetTaggedValue(TaggedValues.pattern, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.fractionDigits), null))
+                        e.SetTaggedValue(TaggedValues.fractionDigits, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.length), null))
+                        e.SetTaggedValue(TaggedValues.length, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.maxExclusive), null))
+                        e.SetTaggedValue(TaggedValues.maxExclusive, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.maxInclusive), null))
+                        e.SetTaggedValue(TaggedValues.maxInclusive, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.maxLength), null))
+                        e.SetTaggedValue(TaggedValues.maxLength, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.minExclusive), null))
+                        e.SetTaggedValue(TaggedValues.minExclusive, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.minInclusive), null))
+                        e.SetTaggedValue(TaggedValues.minInclusive, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.minLength), null))
+                        e.SetTaggedValue(TaggedValues.minLength, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.totalDigits), null))
+                        e.SetTaggedValue(TaggedValues.totalDigits, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.whiteSpace), null))
+                        e.SetTaggedValue(TaggedValues.whiteSpace, "");
                     break;
                 case "QDT":
                     //not found yet!
                     break;
                 case "SUP": //finished
-                    if (Equals(e.GetTaggedValue(TaggedValues.ModificationAllowedIndicator), null))
-                        e.SetTaggedValue(TaggedValues.ModificationAllowedIndicator, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.modificationAllowedIndicator), null))
+                        e.SetTaggedValue(TaggedValues.modificationAllowedIndicator, "");
                     goto default;
                 case "BDT": //finished
                     goto default;
                 default: //finished
-                    if (Equals(e.GetTaggedValue(TaggedValues.BusinessTerm), null))
-                        e.SetTaggedValue(TaggedValues.BusinessTerm, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.Definition), null))
-                        e.SetTaggedValue(TaggedValues.Definition, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
-                        e.SetTaggedValue(TaggedValues.DictionaryEntryName, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.LanguageCode), null))
-                        e.SetTaggedValue(TaggedValues.LanguageCode, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
-                        e.SetTaggedValue(TaggedValues.UniqueIdentifier, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.VersionIdentifier), null))
-                        e.SetTaggedValue(TaggedValues.VersionIdentifier, "");
-                    if (Equals(e.GetTaggedValue(TaggedValues.UsageRule), null))
-                        e.SetTaggedValue(TaggedValues.UsageRule, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.businessTerm), null))
+                        e.SetTaggedValue(TaggedValues.businessTerm, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.definition), null))
+                        e.SetTaggedValue(TaggedValues.definition, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
+                        e.SetTaggedValue(TaggedValues.dictionaryEntryName, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.languageCode), null))
+                        e.SetTaggedValue(TaggedValues.languageCode, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
+                        e.SetTaggedValue(TaggedValues.uniqueIdentifier, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.versionIdentifier), null))
+                        e.SetTaggedValue(TaggedValues.versionIdentifier, "");
+                    if (Equals(e.GetTaggedValue(TaggedValues.usageRule), null))
+                        e.SetTaggedValue(TaggedValues.usageRule, "");
                     break;
             }
         }
@@ -425,72 +425,72 @@ namespace VIENNAAddIn.Settings
                 case "ASBIE": //finisehd!
                     goto case "ASCC";
                 case "ASCC": //finished!
-                    if (Equals(c.GetTaggedValue(TaggedValues.SequencingKey), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.sequencingKey), null))
                     {
-                        c.SetTaggedValue(TaggedValues.SequencingKey, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.SequencingKey);
+                        c.SetTaggedValue(TaggedValues.sequencingKey, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.sequencingKey);
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.BusinessTerm), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.businessTerm), null))
                     {
-                        c.SetTaggedValue(TaggedValues.BusinessTerm, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.BusinessTerm);
+                        c.SetTaggedValue(TaggedValues.businessTerm, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.businessTerm);
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.Definition), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.definition), null))
                     {
-                        c.SetTaggedValue(TaggedValues.Definition, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.Definition);
+                        c.SetTaggedValue(TaggedValues.definition, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.definition);
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.DictionaryEntryName), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.dictionaryEntryName), null))
                     {
-                        c.SetTaggedValue(TaggedValues.DictionaryEntryName, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.DictionaryEntryName);
+                        c.SetTaggedValue(TaggedValues.dictionaryEntryName, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.dictionaryEntryName);
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.LanguageCode), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.languageCode), null))
                     {
-                        c.SetTaggedValue(TaggedValues.LanguageCode, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.LanguageCode);
+                        c.SetTaggedValue(TaggedValues.languageCode, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.languageCode);
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
                     {
-                        c.SetTaggedValue(TaggedValues.UniqueIdentifier, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.UniqueIdentifier);
+                        c.SetTaggedValue(TaggedValues.uniqueIdentifier, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.uniqueIdentifier);
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.VersionIdentifier), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.versionIdentifier), null))
                     {
-                        c.SetTaggedValue(TaggedValues.VersionIdentifier, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.VersionIdentifier);
+                        c.SetTaggedValue(TaggedValues.versionIdentifier, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.versionIdentifier);
                     }
-                    if (Equals(c.GetTaggedValue(TaggedValues.UsageRule), null))
+                    if (Equals(c.GetTaggedValue(TaggedValues.usageRule), null))
                     {
-                        c.SetTaggedValue(TaggedValues.UsageRule, "");
-                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.UsageRule);
+                        c.SetTaggedValue(TaggedValues.usageRule, "");
+                        Debug.WriteLine("Added new TaggedValue: " + TaggedValues.usageRule);
                     }
                     break;
                 case "basedOn": //finished
-                    if (Equals(c.GetTaggedValue(TaggedValues.ApplyTo), null))
-                        c.SetTaggedValue(TaggedValues.ApplyTo, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.Pattern), null))
-                        c.SetTaggedValue(TaggedValues.Pattern, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.FractionDigits), null))
-                        c.SetTaggedValue(TaggedValues.FractionDigits, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.Length), null))
-                        c.SetTaggedValue(TaggedValues.Length, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxExclusive), null))
-                        c.SetTaggedValue(TaggedValues.MaxExclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxInclusive), null))
-                        c.SetTaggedValue(TaggedValues.MaxInclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MaxLength), null))
-                        c.SetTaggedValue(TaggedValues.MaxLength, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinExclusive), null))
-                        c.SetTaggedValue(TaggedValues.MinExclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinInclusive), null))
-                        c.SetTaggedValue(TaggedValues.MinInclusive, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.MinLength), null))
-                        c.SetTaggedValue(TaggedValues.MinLength, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.TotalDigits), null))
-                        c.SetTaggedValue(TaggedValues.TotalDigits, "");
-                    if (Equals(c.GetTaggedValue(TaggedValues.WhiteSpace), null))
-                        c.SetTaggedValue(TaggedValues.WhiteSpace, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.applyTo), null))
+                        c.SetTaggedValue(TaggedValues.applyTo, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.pattern), null))
+                        c.SetTaggedValue(TaggedValues.pattern, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.fractionDigits), null))
+                        c.SetTaggedValue(TaggedValues.fractionDigits, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.length), null))
+                        c.SetTaggedValue(TaggedValues.length, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.maxExclusive), null))
+                        c.SetTaggedValue(TaggedValues.maxExclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.maxInclusive), null))
+                        c.SetTaggedValue(TaggedValues.maxInclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.maxLength), null))
+                        c.SetTaggedValue(TaggedValues.maxLength, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.minExclusive), null))
+                        c.SetTaggedValue(TaggedValues.minExclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.minInclusive), null))
+                        c.SetTaggedValue(TaggedValues.minInclusive, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.minLength), null))
+                        c.SetTaggedValue(TaggedValues.minLength, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.totalDigits), null))
+                        c.SetTaggedValue(TaggedValues.totalDigits, "");
+                    if (Equals(c.GetTaggedValue(TaggedValues.whiteSpace), null))
+                        c.SetTaggedValue(TaggedValues.whiteSpace, "");
                     break;
             }
         }
@@ -501,50 +501,50 @@ namespace VIENNAAddIn.Settings
         /// <param name="p">The package to fix</param>
         public void Fix(Package p)
         {
-            if (Equals(p.GetTaggedValue(TaggedValues.UniqueIdentifier), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.uniqueIdentifier), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.UniqueIdentifier.AsString());
-                p.SetTaggedValue(TaggedValues.UniqueIdentifier, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.uniqueIdentifier.ToString());
+                p.SetTaggedValue(TaggedValues.uniqueIdentifier, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.VersionIdentifier), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.versionIdentifier), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.VersionIdentifier.AsString());
-                p.SetTaggedValue(TaggedValues.VersionIdentifier, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.versionIdentifier.ToString());
+                p.SetTaggedValue(TaggedValues.versionIdentifier, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.BaseURN), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.baseURN), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.BaseURN.AsString());
-                p.SetTaggedValue(TaggedValues.BaseURN, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.baseURN.ToString());
+                p.SetTaggedValue(TaggedValues.baseURN, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.BusinessTerm), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.businessTerm), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.BusinessTerm.AsString());
-                p.SetTaggedValue(TaggedValues.BusinessTerm, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.businessTerm.ToString());
+                p.SetTaggedValue(TaggedValues.businessTerm, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.Copyright), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.copyright), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.Copyright.AsString());
-                p.SetTaggedValue(TaggedValues.Copyright, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.copyright.ToString());
+                p.SetTaggedValue(TaggedValues.copyright, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.Owner), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.owner), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.Owner.AsString());
-                p.SetTaggedValue(TaggedValues.Owner, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.owner.ToString());
+                p.SetTaggedValue(TaggedValues.owner, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.Reference), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.reference), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.Reference.AsString());
-                p.SetTaggedValue(TaggedValues.Reference, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.reference.ToString());
+                p.SetTaggedValue(TaggedValues.reference, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.Status), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.status), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.Status.AsString());
-                p.SetTaggedValue(TaggedValues.Status, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.status.ToString());
+                p.SetTaggedValue(TaggedValues.status, "");
             }
-            if (Equals(p.GetTaggedValue(TaggedValues.NamespacePrefix), null))
+            if (Equals(p.GetTaggedValue(TaggedValues.namespacePrefix), null))
             {
-                Debug.WriteLine("Added TaggedValue: " + TaggedValues.NamespacePrefix.AsString());
-                p.SetTaggedValue(TaggedValues.NamespacePrefix, "");
+                Debug.WriteLine("Added TaggedValue: " + TaggedValues.namespacePrefix.ToString());
+                p.SetTaggedValue(TaggedValues.namespacePrefix, "");
             }
             foreach (Element e in p.Elements)
             {

@@ -12,37 +12,37 @@ namespace VIENNAAddIn.upcc3.ccts
 {
     public interface IPRIMRestrictions
     {
-        [TaggedValue(TaggedValues.Pattern)]
+        [TaggedValue]
         string Pattern { get; }
 
-        [TaggedValue(TaggedValues.FractionDigits)]
+        [TaggedValue]
         string FractionDigits { get; }
 
-        [TaggedValue(TaggedValues.Length)]
+        [TaggedValue]
         string Length { get; }
 
-        [TaggedValue(TaggedValues.MaxExclusive)]
+        [TaggedValue]
         string MaxExclusive { get; }
 
-        [TaggedValue(TaggedValues.MaxInclusive)]
+        [TaggedValue]
         string MaxInclusive { get; }
 
-        [TaggedValue(TaggedValues.MaxLength)]
+        [TaggedValue]
         string MaxLength { get; }
 
-        [TaggedValue(TaggedValues.MinExclusive)]
+        [TaggedValue]
         string MinExclusive { get; }
 
-        [TaggedValue(TaggedValues.MinInclusive)]
+        [TaggedValue]
         string MinInclusive { get; }
 
-        [TaggedValue(TaggedValues.MinLength)]
+        [TaggedValue]
         string MinLength { get; }
 
-        [TaggedValue(TaggedValues.TotalDigits)]
+        [TaggedValue]
         string TotalDigits { get; }
 
-        [TaggedValue(TaggedValues.WhiteSpace)]
+        [TaggedValue]
         string WhiteSpace { get; }
     }
 }

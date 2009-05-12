@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
         ///<summary>
         ///</summary>
-        [TaggedValue(TaggedValues.SequencingKey)]
+        [TaggedValue]
         public string SequencingKey { get; set; }
 
         ///<summary>

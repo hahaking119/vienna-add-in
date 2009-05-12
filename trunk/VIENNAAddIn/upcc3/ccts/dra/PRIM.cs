@@ -36,57 +36,57 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Pattern
         {
-            get { return GetTaggedValue(TaggedValues.Pattern); }
+            get { return GetTaggedValue(TaggedValues.pattern); }
         }
 
         public string FractionDigits
         {
-            get { return GetTaggedValue(TaggedValues.FractionDigits); }
+            get { return GetTaggedValue(TaggedValues.fractionDigits); }
         }
 
         public string Length
         {
-            get { return GetTaggedValue(TaggedValues.Length); }
+            get { return GetTaggedValue(TaggedValues.length); }
         }
 
         public string MaxExclusive
         {
-            get { return GetTaggedValue(TaggedValues.MaxExclusive); }
+            get { return GetTaggedValue(TaggedValues.maxExclusive); }
         }
 
         public string MaxInclusive
         {
-            get { return GetTaggedValue(TaggedValues.MaxInclusive); }
+            get { return GetTaggedValue(TaggedValues.maxInclusive); }
         }
 
         public string MaxLength
         {
-            get { return GetTaggedValue(TaggedValues.MaxLength); }
+            get { return GetTaggedValue(TaggedValues.maxLength); }
         }
 
         public string MinExclusive
         {
-            get { return GetTaggedValue(TaggedValues.MinExclusive); }
+            get { return GetTaggedValue(TaggedValues.minExclusive); }
         }
 
         public string MinInclusive
         {
-            get { return GetTaggedValue(TaggedValues.MinInclusive); }
+            get { return GetTaggedValue(TaggedValues.minInclusive); }
         }
 
         public string MinLength
         {
-            get { return GetTaggedValue(TaggedValues.MinLength); }
+            get { return GetTaggedValue(TaggedValues.minLength); }
         }
 
         public string TotalDigits
         {
-            get { return GetTaggedValue(TaggedValues.TotalDigits); }
+            get { return GetTaggedValue(TaggedValues.totalDigits); }
         }
 
         public string WhiteSpace
         {
-            get { return GetTaggedValue(TaggedValues.WhiteSpace); }
+            get { return GetTaggedValue(TaggedValues.whiteSpace); }
         }
 
         public IPRIM IsEquivalentTo
@@ -99,13 +99,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
-
-        protected override void AddConnectors(PRIMSpec spec)
-        {
-            if (spec.IsEquivalentTo != null)
-            {
-                element.AddDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
-            }
-        }
     }
 }
