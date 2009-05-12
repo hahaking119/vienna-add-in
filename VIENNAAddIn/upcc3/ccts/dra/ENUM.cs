@@ -37,17 +37,17 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string AgencyIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.AgencyIdentifier); }
+            get { return GetTaggedValue(TaggedValues.agencyIdentifier); }
         }
 
         public string AgencyName
         {
-            get { return GetTaggedValue(TaggedValues.AgencyName); }
+            get { return GetTaggedValue(TaggedValues.agencyName); }
         }
 
         public string EnumerationURI
         {
-            get { return GetTaggedValue(TaggedValues.EnumerationURI); }
+            get { return GetTaggedValue(TaggedValues.enumerationURI); }
         }
 
         public IENUM IsEquivalentTo
@@ -73,26 +73,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
-
-        protected override void AddConnectors(ENUMSpec spec)
-        {
-            if (spec.IsEquivalentTo != null)
-            {
-                element.AddDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
-            }
-        }
-
-        protected override void AddAttributes(ENUMSpec spec)
-        {
-            if (spec.Values != null)
-            {
-                foreach (var value in spec.Values)
-                {
-                    var attribute = (Attribute) element.Attributes.AddNew(value.Key, "String");
-                    attribute.Default = value.Value;
-                    attribute.Update();
-                }
-            }
-        }
     }
 }

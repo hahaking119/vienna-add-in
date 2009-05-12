@@ -36,32 +36,32 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Definition
         {
-            get { return GetTaggedValue(TaggedValues.Definition); }
+            get { return GetTaggedValue(TaggedValues.definition); }
         }
 
         public string DictionaryEntryName
         {
-            get { return GetTaggedValue(TaggedValues.DictionaryEntryName); }
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName); }
         }
 
         public string LanguageCode
         {
-            get { return GetTaggedValue(TaggedValues.LanguageCode); }
+            get { return GetTaggedValue(TaggedValues.languageCode); }
         }
 
         public string UniqueIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.UniqueIdentifier); }
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
         }
 
         public string VersionIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.VersionIdentifier); }
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
         }
 
         public IEnumerable<string> BusinessTerms
         {
-            get { return attribute.GetTaggedValues(TaggedValues.BusinessTerm); }
+            get { return attribute.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
         public IBusinessLibrary Library
@@ -71,12 +71,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<string> UsageRules
         {
-            get { return attribute.GetTaggedValues(TaggedValues.UsageRule); }
+            get { return attribute.GetTaggedValues(TaggedValues.usageRule); }
         }
 
         public string SequencingKey
         {
-            get { return GetTaggedValue(TaggedValues.SequencingKey); }
+            get { return GetTaggedValue(TaggedValues.sequencingKey); }
         }
 
         public TContainer Container { get; private set; }

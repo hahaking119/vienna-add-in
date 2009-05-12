@@ -23,7 +23,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             foreach (ConnectorTag tv in connector.TaggedValues)
             {
-                if (tv.Name.Equals(key.AsString()))
+                if (tv.Name.Equals(key.ToString()))
                 {
                     return tv.Value;
                 }
@@ -36,7 +36,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             ConnectorTag taggedValue = null;
             foreach (ConnectorTag tv in connector.TaggedValues)
             {
-                if (tv.Name.Equals(key.AsString()))
+                if (tv.Name.Equals(key.ToString()))
                 {
                     taggedValue = tv;
                     break;
@@ -44,7 +44,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
             if (taggedValue == null)
             {
-                taggedValue = (ConnectorTag) connector.TaggedValues.AddNew(key.AsString(), "");
+                taggedValue = (ConnectorTag) connector.TaggedValues.AddNew(key.ToString(), "");
             }
             taggedValue.Value = value;
             if (!taggedValue.Update())

@@ -88,42 +88,42 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         public virtual IEnumerable<string> BusinessTerms
         {
-            get { return element.GetTaggedValues(TaggedValues.BusinessTerm); }
+            get { return element.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
         ///<summary>
         ///</summary>
         public virtual string Definition
         {
-            get { return GetTaggedValue(TaggedValues.Definition); }
+            get { return GetTaggedValue(TaggedValues.definition); }
         }
 
         ///<summary>
         ///</summary>
         public virtual string DictionaryEntryName
         {
-            get { return GetTaggedValue(TaggedValues.DictionaryEntryName); }
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName); }
         }
 
         ///<summary>
         ///</summary>
         public virtual string UniqueIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.UniqueIdentifier); }
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
         }
 
         ///<summary>
         ///</summary>
         public virtual string VersionIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.VersionIdentifier); }
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
         }
 
         ///<summary>
         ///</summary>
         public virtual string LanguageCode
         {
-            get { return GetTaggedValue(TaggedValues.LanguageCode); }
+            get { return GetTaggedValue(TaggedValues.languageCode); }
         }
 
         #endregion
@@ -146,7 +146,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 element.Connectors.Delete(i);
             }
             element.Connectors.Refresh();
-            AddConnectors(spec);
+            foreach (var connector in spec.GetConnectors())
+            {
+                element.AddConnector(connector);
+            }
             element.Connectors.Refresh();
 
             for (var i = (short)(element.Attributes.Count - 1); i >= 0; i--)
@@ -154,21 +157,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 element.Attributes.Delete(i);
             }
             element.Attributes.Refresh();
-            AddAttributes(spec);
+            foreach (var attribute in spec.GetAttributes())
+            {
+                element.AddAttribute(attribute);
+            }
             element.Attributes.Refresh();
             
             element.Update();
             element.Refresh();
-        }
-
-        protected virtual void AddConnectors(TSpec spec)
-        {
-            // override in order to add connectors to the element
-        }
-
-        protected virtual void AddAttributes(TSpec spec)
-        {
-            // override in order to add connectors to the element
         }
     }
 }

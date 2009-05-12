@@ -14,7 +14,7 @@ namespace VIENNAAddIn.upcc3.ccts
         {
         }
 
-        [TaggedValue(TaggedValues.UsageRule)]
+        [TaggedValue]
         public IEnumerable<string> UsageRules { get; set; }
     }
 }

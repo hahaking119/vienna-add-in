@@ -22,6 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts
         {
         }
 
+        [Dependency]
         public ICDT BasedOn { get; set; }
 
         public static BDTSpec CloneCDT(ICDT cdt, string name)

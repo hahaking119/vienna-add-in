@@ -42,6 +42,67 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public const string PRIM = "PRIM";
         public const string ENUM = "ENUM";
 
+        /// <summary>
+        /// Returns the correct version of a given stereotype string by fixing case. For example: Normalize("ISequIValenttO") == "isEquivalentTo". 
+        /// If the given string does not match any defined stereotype, the string is returned unmodified.
+        /// </summary>
+        /// <param name="stereotype"></param>
+        /// <returns></returns>
+        public static string Normalize(string stereotype)
+        {
+            switch (stereotype.ToLower())
+            {
+                case "abie":
+                    return ABIE;
+                case "acc":
+                    return ACC;
+                case "asbie":
+                    return ASBIE;
+                case "ascc":
+                    return ASCC;
+                case "basedon":
+                    return BasedOn;
+                case "bbie":
+                    return BBIE;
+                case "bcc":
+                    return BCC;
+                case "bdt":
+                    return BDT;
+                case "bdtlibrary":
+                    return BDTLibrary;
+                case "bielibrary":
+                    return BIELibrary;
+                case "doclibrary":
+                    return DOCLibrary;
+                case "blibrary":
+                    return BLibrary;
+                case "cclibrary":
+                    return CCLibrary;
+                case "binformationv":
+                    return BInformationV;
+                case "cdt":
+                    return CDT;
+                case "cdtlibrary":
+                    return CDTLibrary;
+                case "con":
+                    return CON;
+                case "enumlibrary":
+                    return ENUMLibrary;
+                case "isequivalentto":
+                    return IsEquivalentTo;
+                case "primlibrary":
+                    return PRIMLibrary;
+                case "sup":
+                    return SUP;
+                case "prim":
+                    return PRIM;
+                case "enum":
+                    return ENUM;
+                default:
+                    return stereotype;
+            }
+        }
+
         public static bool IsIsEquivalentTo(this Connector con)
         {
             return con.Stereotype == IsEquivalentTo;
@@ -164,83 +225,83 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<returns>The stereotype string corresponding to the type parameter.</returns>
         public static string GetStereotype<T>()
         {
-            if (typeof(T) == typeof(IBLibrary))
+            if (typeof (T) == typeof (IBLibrary))
             {
                 return BLibrary;
             }
-            if (typeof(T) == typeof(ICCLibrary))
+            if (typeof (T) == typeof (ICCLibrary))
             {
                 return CCLibrary;
             }
-            if (typeof(T) == typeof(ICDTLibrary))
+            if (typeof (T) == typeof (ICDTLibrary))
             {
                 return CDTLibrary;
             }
-            if (typeof(T) == typeof(IDOCLibrary))
+            if (typeof (T) == typeof (IDOCLibrary))
             {
                 return DOCLibrary;
             }
-            if (typeof(T) == typeof(IBIELibrary))
+            if (typeof (T) == typeof (IBIELibrary))
             {
                 return BIELibrary;
             }
-            if (typeof(T) == typeof(IBDTLibrary))
+            if (typeof (T) == typeof (IBDTLibrary))
             {
                 return BDTLibrary;
             }
-            if (typeof(T) == typeof(IPRIMLibrary))
+            if (typeof (T) == typeof (IPRIMLibrary))
             {
                 return PRIMLibrary;
             }
-            if (typeof(T) == typeof(IENUMLibrary))
+            if (typeof (T) == typeof (IENUMLibrary))
             {
                 return ENUMLibrary;
             }
-            if (typeof(T) == typeof(ICDT))
+            if (typeof (T) == typeof (ICDT))
             {
                 return CDT;
             }
-            if (typeof(T) == typeof(IACC))
+            if (typeof (T) == typeof (IACC))
             {
                 return ACC;
             }
-            if (typeof(T) == typeof(IASCC))
+            if (typeof (T) == typeof (IASCC))
             {
                 return ASCC;
             }
-            if (typeof(T) == typeof(IBCC))
+            if (typeof (T) == typeof (IBCC))
             {
                 return BCC;
             }
-            if (typeof(T) == typeof(IBDT))
+            if (typeof (T) == typeof (IBDT))
             {
                 return BDT;
             }
-            if (typeof(T) == typeof(IABIE))
+            if (typeof (T) == typeof (IABIE))
             {
                 return ABIE;
             }
-            if (typeof(T) == typeof(IBBIE))
+            if (typeof (T) == typeof (IBBIE))
             {
                 return BBIE;
             }
-            if (typeof(T) == typeof(IASBIE))
+            if (typeof (T) == typeof (IASBIE))
             {
                 return ASBIE;
             }
-            if (typeof(T) == typeof(IPRIM))
+            if (typeof (T) == typeof (IPRIM))
             {
                 return PRIM;
             }
-            if (typeof(T) == typeof(IENUM))
+            if (typeof (T) == typeof (IENUM))
             {
                 return ENUM;
             }
-            if (typeof(T) == typeof(ISUP))
+            if (typeof (T) == typeof (ISUP))
             {
                 return SUP;
             }
-            if (typeof(T) == typeof(ICON))
+            if (typeof (T) == typeof (ICON))
             {
                 return CON;
             }

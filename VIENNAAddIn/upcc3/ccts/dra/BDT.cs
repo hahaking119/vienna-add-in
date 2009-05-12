@@ -39,13 +39,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
-
-        protected override void AddConnectors(BDTSpec spec)
-        {
-            if (spec.BasedOn != null)
-            {
-                element.AddDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
-            }
-        }
     }
 }

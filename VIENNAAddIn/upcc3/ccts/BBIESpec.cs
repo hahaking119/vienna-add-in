@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3.ccts
         {
         }
 
-        [TaggedValue(TaggedValues.SequencingKey)]
+        [TaggedValue]
         public string SequencingKey { get; set; }
 
         public IBDT Type { get; set; }

@@ -41,7 +41,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                     .Packages(
                     Package(BLibrary, Stereotype.BLibrary)
                         .TaggedValues(
-                        TaggedValue(TaggedValues.BaseURN, "urn:test:blib1")
+                        TaggedValue(TaggedValues.baseURN, "urn:test:blib1")
                         )
                         .Packages(
                         BuildPrimLibrary(),
@@ -78,46 +78,46 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Package(PRIMLibrary, Stereotype.PRIMLibrary)
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:primlibrary")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:primlibrary")
                 )
                 .Elements(
                 Element(String, Stereotype.PRIM)
                     .TaggedValues(
-                    TaggedValue(TaggedValues.BusinessTerm, "String"),
-                    TaggedValue(TaggedValues.Definition, "A sequence of characters in some suitable character set."),
-                    TaggedValue(TaggedValues.DictionaryEntryName, "String")
+                    TaggedValue(TaggedValues.businessTerm, "String"),
+                    TaggedValue(TaggedValues.definition, "A sequence of characters in some suitable character set."),
+                    TaggedValue(TaggedValues.dictionaryEntryName, "String")
                     ),
                 Element(Decimal, Stereotype.PRIM)
                     .TaggedValues(
-                    TaggedValue(TaggedValues.BusinessTerm, "Decimal"),
-                    TaggedValue(TaggedValues.Definition,
+                    TaggedValue(TaggedValues.businessTerm, "Decimal"),
+                    TaggedValue(TaggedValues.definition,
                                 "A subset of the real numbers, which can be represented by decimal numerals."),
-                    TaggedValue(TaggedValues.DictionaryEntryName, "Decimal")
+                    TaggedValue(TaggedValues.dictionaryEntryName, "Decimal")
                     ),
                 Element(Binary, Stereotype.PRIM)
                     .TaggedValues(
-                    TaggedValue(TaggedValues.BusinessTerm, "Binary"),
-                    TaggedValue(TaggedValues.Definition, "A set of (in)finite-length sequences of binary digits."),
-                    TaggedValue(TaggedValues.DictionaryEntryName, "Binary")
+                    TaggedValue(TaggedValues.businessTerm, "Binary"),
+                    TaggedValue(TaggedValues.definition, "A set of (in)finite-length sequences of binary digits."),
+                    TaggedValue(TaggedValues.dictionaryEntryName, "Binary")
                     ),
                 Element(Boolean, Stereotype.PRIM)
                     .TaggedValues(
-                    TaggedValue(TaggedValues.BusinessTerm, "Boolean"),
-                    TaggedValue(TaggedValues.Definition, "A logical expression consisting of predefined values."),
-                    TaggedValue(TaggedValues.DictionaryEntryName, "Boolean")
+                    TaggedValue(TaggedValues.businessTerm, "Boolean"),
+                    TaggedValue(TaggedValues.definition, "A logical expression consisting of predefined values."),
+                    TaggedValue(TaggedValues.dictionaryEntryName, "Boolean")
                     ),
                 Element(Date, Stereotype.PRIM)
                     .TaggedValues(
-                    TaggedValue(TaggedValues.BusinessTerm, "Date"),
-                    TaggedValue(TaggedValues.Definition,
+                    TaggedValue(TaggedValues.businessTerm, "Date"),
+                    TaggedValue(TaggedValues.definition,
                                 "A point in time to a common resolution (year, month, day, hour,...)."),
-                    TaggedValue(TaggedValues.DictionaryEntryName, "Date")
+                    TaggedValue(TaggedValues.dictionaryEntryName, "Date")
                     ),
                 Element(Integer, Stereotype.PRIM)
                     .TaggedValues(
-                    TaggedValue(TaggedValues.BusinessTerm, "Integer"),
-                    TaggedValue(TaggedValues.Definition, "An element in the infinite set (...-2,-1,0,1,...)."),
-                    TaggedValue(TaggedValues.DictionaryEntryName, "Integer")
+                    TaggedValue(TaggedValues.businessTerm, "Integer"),
+                    TaggedValue(TaggedValues.definition, "An element in the infinite set (...-2,-1,0,1,...)."),
+                    TaggedValue(TaggedValues.dictionaryEntryName, "Integer")
                     )
                 );
         }
@@ -147,7 +147,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Package(CDTLibrary, Stereotype.CDTLibrary)
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cdtlib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:cdtlib1")
                 )
                 .Elements(
                 CDTSimpleString(),
@@ -208,7 +208,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Date, Stereotype.CDT)
                 .TaggedValues(
-                TaggedValue(TaggedValues.Definition, "A Date."))
+                TaggedValue(TaggedValues.definition, "A Date."))
                 .Attributes(
                 Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String),
                 Attribute("Format", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
@@ -233,7 +233,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Package(BDTLibrary, Stereotype.BDTLibrary)
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bdtlib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bdtlib1")
                 )
                 .Elements(
                 BDTSimpleString(),
@@ -303,10 +303,10 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Text, Stereotype.BDT)
                 .TaggedValues(
-                TaggedValue(TaggedValues.UniqueIdentifier, "234235235"),
-                TaggedValue(TaggedValues.VersionIdentifier, "1.0"),
-                TaggedValue(TaggedValues.Definition, "This is the definition of BDT Text."),
-                TaggedValue(TaggedValues.BusinessTerm, "business term 1|business term 2")
+                TaggedValue(TaggedValues.uniqueIdentifier, "234235235"),
+                TaggedValue(TaggedValues.versionIdentifier, "1.0"),
+                TaggedValue(TaggedValues.definition, "This is the definition of BDT Text."),
+                TaggedValue(TaggedValues.businessTerm, "business term 1|business term 2")
                 ).Attributes(
                 Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String),
                 Attribute("Language", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
@@ -322,7 +322,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Package(CCLibrary, Stereotype.CCLibrary)
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cclib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:cclib1")
                 )
                 .Elements(
                 ACCAddress(),
@@ -361,7 +361,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Package(BIELibrary, Stereotype.BIELibrary)
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bielib1")
                 )
                 .Elements(
                 BIEAddress(),
@@ -398,7 +398,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Package(DOCLibrary, Stereotype.DOCLibrary)
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bielib1")
                 )
                 .Elements(
                 BIEInvoice(),

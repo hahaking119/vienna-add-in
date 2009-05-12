@@ -60,69 +60,69 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         public string Status
         {
-            get { return GetTaggedValue(TaggedValues.Status); }
-            set { package.SetTaggedValue(TaggedValues.Status, value); }
+            get { return GetTaggedValue(TaggedValues.status); }
+            set { package.SetTaggedValue(TaggedValues.status, value); }
         }
 
         ///<summary>
         ///</summary>
         public string UniqueIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.UniqueIdentifier); }
-            set { package.SetTaggedValue(TaggedValues.UniqueIdentifier, value); }
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
+            set { package.SetTaggedValue(TaggedValues.uniqueIdentifier, value); }
         }
 
         ///<summary>
         ///</summary>
         public string VersionIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.VersionIdentifier); }
-            set { package.SetTaggedValue(TaggedValues.VersionIdentifier, value); }
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
+            set { package.SetTaggedValue(TaggedValues.versionIdentifier, value); }
         }
 
         ///<summary>
         ///</summary>
         public string BaseURN
         {
-            get { return GetTaggedValue(TaggedValues.BaseURN); }
-            set { package.SetTaggedValue(TaggedValues.BaseURN, value); }
+            get { return GetTaggedValue(TaggedValues.baseURN); }
+            set { package.SetTaggedValue(TaggedValues.baseURN, value); }
         }
 
         ///<summary>
         ///</summary>
         public string NamespacePrefix
         {
-            get { return GetTaggedValue(TaggedValues.NamespacePrefix); }
-            set { package.SetTaggedValue(TaggedValues.NamespacePrefix, value); }
+            get { return GetTaggedValue(TaggedValues.namespacePrefix); }
+            set { package.SetTaggedValue(TaggedValues.namespacePrefix, value); }
         }
 
         ///<summary>
         ///</summary>
         public IEnumerable<string> BusinessTerms
         {
-            get { return package.GetTaggedValues(TaggedValues.BusinessTerm); }
-            set { package.SetTaggedValues(TaggedValues.BusinessTerm, value); }
+            get { return package.GetTaggedValues(TaggedValues.businessTerm); }
+            set { package.SetTaggedValues(TaggedValues.businessTerm, value); }
         }
 
         ///<summary>
         ///</summary>
         public IEnumerable<string> Copyrights
         {
-            get { return package.GetTaggedValues(TaggedValues.Copyright); }
+            get { return package.GetTaggedValues(TaggedValues.copyright); }
         }
 
         ///<summary>
         ///</summary>
         public IEnumerable<string> Owners
         {
-            get { return package.GetTaggedValues(TaggedValues.Owner); }
+            get { return package.GetTaggedValues(TaggedValues.owner); }
         }
 
         ///<summary>
         ///</summary>
         public IEnumerable<string> References
         {
-            get { return package.GetTaggedValues(TaggedValues.Reference); }
+            get { return package.GetTaggedValues(TaggedValues.reference); }
         }
 
         #endregion
@@ -145,15 +145,15 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = parentPackage.PackageID;
             libraryPackage.Element.Stereotype = stereotype;
 
-            libraryPackage.Element.SetTaggedValue(TaggedValues.BaseURN, spec.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.BusinessTerm, spec.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.Copyright, spec.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.NamespacePrefix, spec.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.Owner, spec.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.Reference, spec.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.Status, spec.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.UniqueIdentifier, spec.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.VersionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
             libraryPackage.Update();
 
             if (util.Stereotype.BLibrary == stereotype)

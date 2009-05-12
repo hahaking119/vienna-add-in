@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -24,7 +25,7 @@ namespace VIENNAAddIn.upcc3.ccts
         {
         }
 
-        [TaggedValue(TaggedValues.UsageRule)]
+        [TaggedValue]
         public IEnumerable<string> UsageRules { get; set; }
 
         public List<SUPSpec> SUPs { get; set; }
@@ -33,6 +34,22 @@ namespace VIENNAAddIn.upcc3.ccts
         public void RemoveSUP(string name)
         {
             SUPs.RemoveAll(sup => sup.Name == name);
+        }
+
+        public override IEnumerable<AttributeSpec> GetAttributes()
+        {
+            if (CON != null)
+            {
+                yield return new AttributeSpec(Stereotype.CON, "Content", CON.BasicType.Name, CON.BasicType.Id, CON.LowerBound, CON.UpperBound, CON.GetTaggedValues());
+            }
+            if (SUPs != null)
+            {
+                foreach (SUPSpec sup in SUPs)
+                {
+                    yield return new AttributeSpec(Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id, sup.LowerBound, sup.UpperBound, sup.GetTaggedValues());
+                }
+            }
+
         }
     }
 }

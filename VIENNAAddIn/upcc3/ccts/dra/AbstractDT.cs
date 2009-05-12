@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<string> UsageRules
         {
-            get { return element.GetTaggedValues(TaggedValues.UsageRule); }
+            get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
         public IEnumerable<ISUP> SUPs
@@ -70,22 +70,5 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
-
-        protected override void AddAttributes(TSpec spec)
-        {
-            if (spec.CON != null)
-            {
-                element.AddAttribute(Stereotype.CON, "Content", spec.CON.BasicType.Name, spec.CON.BasicType.Id,
-                                     spec.CON.LowerBound, spec.CON.UpperBound, spec.CON.GetTaggedValues());
-            }
-            if (spec.SUPs != null)
-            {
-                foreach (SUPSpec sup in spec.SUPs)
-                {
-                    element.AddAttribute(Stereotype.SUP, sup.Name, sup.BasicType.Name, sup.BasicType.Id, sup.LowerBound,
-                                         sup.UpperBound, sup.GetTaggedValues());
-                }
-            }
-        }
     }
 }

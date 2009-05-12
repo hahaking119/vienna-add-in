@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get
             {
-                var value = GetTaggedValue(TaggedValues.DictionaryEntryName);
+                var value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {
                     value = DT.Name + ". " + Name + ". " + BasicType.Name;

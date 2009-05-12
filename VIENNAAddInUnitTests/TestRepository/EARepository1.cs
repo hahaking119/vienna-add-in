@@ -25,7 +25,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                         Diagram("blib1", "Package")
                         )
                         .TaggedValues(
-                        TaggedValue(TaggedValues.BaseURN, "urn:test:blib1")
+                        TaggedValue(TaggedValues.baseURN, "urn:test:blib1")
                         )
                         .Packages(
                         PRIMLib1(),
@@ -69,7 +69,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Package("enumlib1", Stereotype.ENUMLibrary)
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:enumlib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:enumlib1")
                 )
                 .Elements(
                 Element("ABC_Codes", Stereotype.ENUM)
@@ -95,7 +95,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Diagram("primlib1", "Class")
                 )
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:primlib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:primlib1")
                 )
                 .Elements(
                 Element("String", Stereotype.PRIM),
@@ -115,7 +115,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Diagram("cdtlib1", "Class")
                 )
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cdtlib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:cdtlib1")
                 )
                 .Elements(
                 CDTText(),
@@ -157,7 +157,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element("Date", Stereotype.CDT)
                 .TaggedValues(
-                TaggedValue(TaggedValues.Definition, "A Date."))
+                TaggedValue(TaggedValues.definition, "A Date."))
                 .Attributes(
                 Attribute("Content", Stereotype.CON, PathToString()),
                 Attribute("Format", Stereotype.SUP, PathToString())
@@ -185,7 +185,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Diagram("bdtlib1", "Class")
                 )
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bdtlib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bdtlib1")
                 )
                 .Elements(
                 BDTText(),
@@ -255,7 +255,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             return Element("Text", Stereotype.BDT)
                 .Attributes(
                 Attribute("Content", Stereotype.CON, PathToString())
-                    .TaggedValues(TaggedValue(TaggedValues.Definition, "This is the definition of BDT Text.")),
+                    .TaggedValues(TaggedValue(TaggedValues.definition, "This is the definition of BDT Text.")),
                 Attribute("Language", Stereotype.SUP, PathToString()),
                 Attribute("Language.Locale", Stereotype.SUP, PathToString())
                 );
@@ -272,7 +272,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Diagram("cclib1", "Class")
                 )
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:cclib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:cclib1")
                 )
                 .Elements(
                 ACCAddress(),
@@ -315,7 +315,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Diagram("bielib1", "Class")
                 )
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bielib1")
                 )
                 .Elements(
                 BIEAddress(),
@@ -356,7 +356,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Diagram("DOCLibrary", "Class")
                 )
                 .TaggedValues(
-                TaggedValue(TaggedValues.BaseURN, "urn:test:blib1:bielib1")
+                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bielib1")
                 )
                 .Elements(
                 Invoice(),
