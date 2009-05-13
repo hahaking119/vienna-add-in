@@ -53,7 +53,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.ccts
             var xmlWriterSettings = new XmlWriterSettings
                                     {
                                         Indent = true,
-//                               NewLineOnAttributes = true,
                                         Encoding = Encoding.UTF8,
                                     };
             if (!File.Exists(expectedPath))
@@ -159,7 +158,7 @@ Actual output file: {2}",
                                            VIENNAAddIn.upcc3.XSDGenerator.ccts.XSDGenerator.CollectBDTs(context));
             Assert.AreEqual(1, context.Schemas.Count);
             XmlSchema schema = context.Schemas[0].Schema;
-            schema.Write(Console.Out);
+//            schema.Write(Console.Out);
             AssertSchema("bdts.xsd", schema);
         }
 
@@ -175,7 +174,7 @@ Actual output file: {2}",
                                            VIENNAAddIn.upcc3.XSDGenerator.ccts.XSDGenerator.CollectBIEs(context));
             Assert.AreEqual(1, context.Schemas.Count);
             XmlSchema schema = context.Schemas[0].Schema;
-            schema.Write(Console.Out);
+//            schema.Write(Console.Out);
             AssertSchema("bies.xsd", schema);
         }
 
