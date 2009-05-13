@@ -7,7 +7,10 @@ using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.util;
+using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
+using Path=VIENNAAddIn.upcc3.ccts.Path;
+using VIENNAAddIn;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
@@ -15,17 +18,28 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     public class ModelCreatorTest
     {
         [Test]
-        public void TestCreatingDefaultUpccModel()
+        public void TestImportStandardCcLibraries()
         {
-            Repository repository = new EARepositoryModelCreator();
-            ModelCreator creator = new ModelCreator(repository);
+            AddInSettings.LoadRegistryEntries();
 
-            creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
-                                    "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
+            Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
+            ModelCreator creator = new ModelCreator(eaRepository);
+
+            Package bLibrary = eaRepository.Resolve<Package>((Path) "Test Model 1"/"bLibrary");
+            
+            creator.ImportStandardCcLibraries(bLibrary);            
+        }
+        //public void TestCreatingDefaultUpccModel()
+        //{
+        //    Repository repository = new EARepositoryModelCreator();
+        //    ModelCreator creator = new ModelCreator(repository);
+
+        //    creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
+        //                            "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
                        
 
-            AssertDefaultModel(repository);
-        }
+        //    AssertDefaultModel(repository);
+        //}
 
         //[Test]
         //public void TestCreatingUppModelWithStandardCCLibraries()
@@ -44,15 +58,15 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         //    AssertDefaultModel(repository);
         //}
 
-        private static void AssertDefaultModel(Repository eaRepository)
-        {
-            CCRepository repository = new CCRepository(eaRepository);
-            List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+        //private static void AssertDefaultModel(Repository eaRepository)
+        //{
+        //    CCRepository repository = new CCRepository(eaRepository);
+        //    List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
 
-            Assert.AreEqual(1, bLibs.Count,
-                            "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");
+        //    Assert.AreEqual(1, bLibs.Count,
+        //                    "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");
 
-            IBLibrary bLib = bLibs[0];
+        //    IBLibrary bLib = bLibs[0];
 
             //AssertLibraryCount<IENUMLibrary>(bLib, 1);
             //AssertLibraryName<IENUMLibrary>(bLib, "ENUMLibraryTest");
@@ -69,7 +83,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
             //AssertLibraryCount<IDOCLibrary>(bLib, 1);
             //AssertLibraryName<IDOCLibrary>(bLib, "DOCLibraryTest");
 
-        }
+        //}
 
         //private static void AssertFileContent(string comparisonFile, string newFile)
         //{

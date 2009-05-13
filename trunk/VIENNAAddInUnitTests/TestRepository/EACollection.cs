@@ -99,7 +99,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public IEnumerator GetEnumerator()
         {
-            return elements.GetEnumerator();
+            return new List<IEACollectionElement>(elements).GetEnumerator();
         }
 
         #endregion
