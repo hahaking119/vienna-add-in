@@ -18,12 +18,9 @@ namespace VIENNAAddIn
             }
             foreach (Package model in repository.Models)
             {
-                foreach (Package package in model.Packages)
+                if (model.Name == path.FirstPart)
                 {
-                    if (package.Name == path.FirstPart)
-                    {
-                        return Resolve<T>(package, path.Rest);
-                    }
+                    return Resolve<T>(model, path.Rest);
                 }
             }
             return default(T);

@@ -71,8 +71,8 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public string PackageGUID
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return PackageID.ToString(); }
+            set { }
         }
 
         public int ParentID { get; set; }
