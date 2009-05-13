@@ -31,13 +31,14 @@ namespace VIENNAAddInUnitTests.TestRepository
         public const string PRIMLibrary = "PRIMLibrary";
         public const string SimpleString = "SimpleString";
         public const string String = "String";
+        public const string TestModel = "test model";
         public const string Text = "Text";
 // ReSharper restore MemberCanBePrivate.Global
 
         public EARepository2()
         {
             SetContent(
-                Package("test model", "")
+                Package(TestModel, "")
                     .Packages(
                     Package(BLibrary, Stereotype.BLibrary)
                         .TaggedValues(
@@ -55,20 +56,35 @@ namespace VIENNAAddInUnitTests.TestRepository
                     )
                 );
             SetConnectors(
-                Connector("basedOn", Stereotype.BasedOn, (Path)BLibrary/BDTLibrary/SimpleString, (Path)BLibrary / CDTLibrary / SimpleString),
-                Connector("basedOn", Stereotype.BasedOn, (Path)BLibrary / BDTLibrary / Currency, (Path)BLibrary / CDTLibrary / Currency),
-                Connector("basedOn", Stereotype.BasedOn, (Path)BLibrary / BDTLibrary / Measure, (Path)BLibrary / CDTLibrary / Measure),
-                Connector("basedOn", Stereotype.BasedOn, (Path)BLibrary / BDTLibrary / Code, (Path)BLibrary / CDTLibrary / Code),
-                Connector("basedOn", Stereotype.BasedOn, (Path)BLibrary / BDTLibrary / Date, (Path)BLibrary / CDTLibrary / Date),
-                Connector("basedOn", Stereotype.BasedOn, (Path)BLibrary / BDTLibrary / Text, (Path)BLibrary / CDTLibrary / Text),
-                Connector("homeAddress", Stereotype.ASCC, (Path)BLibrary / CCLibrary / Person, (Path)BLibrary / CCLibrary / Address).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASCC, (Path)BLibrary / CCLibrary / Person, (Path)BLibrary / CCLibrary / Address).AggregationKind(AggregationKind.Composite).LowerBound("0").UpperBound(
+                Connector("basedOn", Stereotype.BasedOn, (Path) TestModel/BLibrary/BDTLibrary/SimpleString,
+                          (Path) TestModel/BLibrary/CDTLibrary/SimpleString),
+                Connector("basedOn", Stereotype.BasedOn, (Path) TestModel/BLibrary/BDTLibrary/Currency,
+                          (Path) TestModel/BLibrary/CDTLibrary/Currency),
+                Connector("basedOn", Stereotype.BasedOn, (Path) TestModel/BLibrary/BDTLibrary/Measure,
+                          (Path) TestModel/BLibrary/CDTLibrary/Measure),
+                Connector("basedOn", Stereotype.BasedOn, (Path) TestModel/BLibrary/BDTLibrary/Code,
+                          (Path) TestModel/BLibrary/CDTLibrary/Code),
+                Connector("basedOn", Stereotype.BasedOn, (Path) TestModel/BLibrary/BDTLibrary/Date,
+                          (Path) TestModel/BLibrary/CDTLibrary/Date),
+                Connector("basedOn", Stereotype.BasedOn, (Path) TestModel/BLibrary/BDTLibrary/Text,
+                          (Path) TestModel/BLibrary/CDTLibrary/Text),
+                Connector("homeAddress", Stereotype.ASCC, (Path) TestModel/BLibrary/CCLibrary/Person,
+                          (Path) TestModel/BLibrary/CCLibrary/Address).AggregationKind(AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASCC, (Path) TestModel/BLibrary/CCLibrary/Person,
+                          (Path) TestModel/BLibrary/CCLibrary/Address).AggregationKind(AggregationKind.Composite).
+                    LowerBound("0").UpperBound(
                     "*"),
-                Connector("basedOn", Stereotype.BasedOn, (Path)BLibrary / BIELibrary / Address, (Path)BLibrary / CCLibrary / Address),
-                Connector("homeAddress", Stereotype.ASBIE, (Path)BLibrary / BIELibrary / Person, (Path)BLibrary / BIELibrary / Address).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASBIE, (Path)BLibrary / BIELibrary / Person, (Path)BLibrary / BIELibrary / Address).AggregationKind(AggregationKind.Composite).LowerBound("0").UpperBound("*"),
-                Connector("Info", Stereotype.ASBIE, (Path)BLibrary / DOCLibrary / Invoice, (Path)BLibrary / DOCLibrary / InvoiceInfo).AggregationKind(AggregationKind.Shared),
-                Connector("deliveryAddress", Stereotype.ASBIE, (Path)BLibrary / DOCLibrary / InvoiceInfo, (Path)BLibrary / BIELibrary / Address).AggregationKind(AggregationKind.Shared)
+                Connector("basedOn", Stereotype.BasedOn, (Path) TestModel/BLibrary/BIELibrary/Address,
+                          (Path) TestModel/BLibrary/CCLibrary/Address),
+                Connector("homeAddress", Stereotype.ASBIE, (Path) TestModel/BLibrary/BIELibrary/Person,
+                          (Path) TestModel/BLibrary/BIELibrary/Address).AggregationKind(AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASBIE, (Path) TestModel/BLibrary/BIELibrary/Person,
+                          (Path) TestModel/BLibrary/BIELibrary/Address).AggregationKind(AggregationKind.Composite).
+                    LowerBound("0").UpperBound("*"),
+                Connector("Info", Stereotype.ASBIE, (Path) TestModel/BLibrary/DOCLibrary/Invoice,
+                          (Path) TestModel/BLibrary/DOCLibrary/InvoiceInfo).AggregationKind(AggregationKind.Shared),
+                Connector("deliveryAddress", Stereotype.ASBIE, (Path) TestModel/BLibrary/DOCLibrary/InvoiceInfo,
+                          (Path) TestModel/BLibrary/BIELibrary/Address).AggregationKind(AggregationKind.Shared)
                 );
         }
 
@@ -132,9 +148,9 @@ namespace VIENNAAddInUnitTests.TestRepository
                 .Elements(
                 Element(ABCCodes, Stereotype.ENUM)
                     .Attributes(
-                    Attribute("ABC Code 1", "", (Path) BLibrary/PRIMLibrary/String).DefaultValue("abc1"),
-                    Attribute("ABC Code 2", "", (Path) BLibrary/PRIMLibrary/String).DefaultValue("abc2"),
-                    Attribute("ABC Code 3", "", (Path) BLibrary/PRIMLibrary/String).DefaultValue("abc3")
+                    Attribute("ABC Code 1", "", (Path) TestModel/BLibrary/PRIMLibrary/String).DefaultValue("abc1"),
+                    Attribute("ABC Code 2", "", (Path) TestModel/BLibrary/PRIMLibrary/String).DefaultValue("abc2"),
+                    Attribute("ABC Code 3", "", (Path) TestModel/BLibrary/PRIMLibrary/String).DefaultValue("abc3")
                     )
                 );
         }
@@ -163,7 +179,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(SimpleString, Stereotype.CDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -171,8 +187,8 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Currency, Stereotype.CDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/Decimal),
-                Attribute("CurrencyCode", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/Decimal),
+                Attribute("CurrencyCode", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -180,9 +196,10 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Measure, Stereotype.CDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/Decimal),
-                Attribute("MeasureUnit", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String).LowerBound(
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/Decimal),
+                Attribute("MeasureUnit", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String).
+                    LowerBound(
                     "1").UpperBound("*")
                 );
         }
@@ -191,16 +208,18 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Code, Stereotype.CDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Name", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.Agency", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.AgencyName", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.Name", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.Version", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Language", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Name", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.Agency", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.AgencyName", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.Name", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP,
+                          (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.Version", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP,
+                          (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Language", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -210,8 +229,8 @@ namespace VIENNAAddInUnitTests.TestRepository
                 .TaggedValues(
                 TaggedValue(TaggedValues.definition, "A Date."))
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Format", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Format", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -219,9 +238,9 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Text, Stereotype.CDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Language", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Language.Locale", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Language", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Language.Locale", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -249,7 +268,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(SimpleString, Stereotype.BDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -257,8 +276,8 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Currency, Stereotype.BDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/Decimal),
-                Attribute("CurrencyCode", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/Decimal),
+                Attribute("CurrencyCode", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -266,9 +285,10 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Measure, Stereotype.BDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/Decimal),
-                Attribute("MeasureUnit", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String).LowerBound(
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/Decimal),
+                Attribute("MeasureUnit", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String).
+                    LowerBound(
                     "1").UpperBound("*")
                 );
         }
@@ -277,16 +297,18 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Code, Stereotype.BDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/ENUMLibrary/ABCCodes),
-                Attribute("Name", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.Agency", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.AgencyName", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.Name", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeList.Version", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Language", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/ENUMLibrary/ABCCodes),
+                Attribute("Name", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.Agency", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.AgencyName", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.Name", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP,
+                          (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeList.Version", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP,
+                          (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Language", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -294,8 +316,8 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Date, Stereotype.BDT)
                 .Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Format", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Format", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -308,9 +330,9 @@ namespace VIENNAAddInUnitTests.TestRepository
                 TaggedValue(TaggedValues.definition, "This is the definition of BDT Text."),
                 TaggedValue(TaggedValues.businessTerm, "business term 1|business term 2")
                 ).Attributes(
-                Attribute("Content", Stereotype.CON, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Language", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String),
-                Attribute("Language.Locale", Stereotype.SUP, (Path) BLibrary/PRIMLibrary/String)
+                Attribute("Content", Stereotype.CON, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Language", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String),
+                Attribute("Language.Locale", Stereotype.SUP, (Path) TestModel/BLibrary/PRIMLibrary/String)
                 );
         }
 
@@ -334,11 +356,11 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Address, Stereotype.ACC)
                 .Attributes(
-                Attribute("CountryName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
-                Attribute("CityName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
-                Attribute("StreetName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
-                Attribute("StreetNumber", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
-                Attribute("Postcode", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text)
+                Attribute("CountryName", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text),
+                Attribute("CityName", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text),
+                Attribute("StreetName", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text),
+                Attribute("StreetNumber", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text),
+                Attribute("Postcode", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text)
                 )
                 ;
         }
@@ -347,9 +369,10 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Person, Stereotype.ACC)
                 .Attributes(
-                Attribute("FirstName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
-                Attribute("LastName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text),
-                Attribute("NickName", Stereotype.BCC, (Path) BLibrary/CDTLibrary/Text).LowerBound("0").UpperBound("*")
+                Attribute("FirstName", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text),
+                Attribute("LastName", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text),
+                Attribute("NickName", Stereotype.BCC, (Path) TestModel/BLibrary/CDTLibrary/Text).LowerBound("0").
+                    UpperBound("*")
                 );
         }
 
@@ -373,11 +396,11 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Address, Stereotype.ABIE)
                 .Attributes(
-                Attribute("CountryName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
-                Attribute("CityName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
-                Attribute("StreetName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
-                Attribute("StreetNumber", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
-                Attribute("Postcode", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text)
+                Attribute("CountryName", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text),
+                Attribute("CityName", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text),
+                Attribute("StreetName", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text),
+                Attribute("StreetNumber", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text),
+                Attribute("Postcode", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text)
                 );
         }
 
@@ -385,8 +408,8 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element(Person, Stereotype.ABIE)
                 .Attributes(
-                Attribute("FirstName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text),
-                Attribute("LastName", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text)
+                Attribute("FirstName", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text),
+                Attribute("LastName", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text)
                 );
         }
 
@@ -410,7 +433,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element("Invoice", Stereotype.ABIE)
                 .Attributes(
-                Attribute("Amount", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Currency)
+                Attribute("Amount", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Currency)
                 );
         }
 
@@ -418,7 +441,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return Element("InvoiceInfo", Stereotype.ABIE)
                 .Attributes(
-                Attribute("Info", Stereotype.BBIE, (Path) BLibrary/BDTLibrary/Text)
+                Attribute("Info", Stereotype.BBIE, (Path) TestModel/BLibrary/BDTLibrary/Text)
                 );
         }
 
