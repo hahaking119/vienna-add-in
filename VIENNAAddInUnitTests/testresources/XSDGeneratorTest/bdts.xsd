@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:test="urn:test:namespace" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3" targetNamespace="urn:test:namespace" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:test="urn:test:namespace" xmlns:ccts="urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3" targetNamespace="urn:test:namespace" version="2" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <xsd:simpleType name="SimpleStringStringType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
@@ -80,11 +80,11 @@
       </xsd:extension>
     </xsd:simpleContent>
   </xsd:complexType>
-  <xsd:complexType name="ABCCodeABCCodesType">
+  <xsd:complexType name="CodeABCCodesType">
     <xsd:annotation>
       <xsd:documentation xml:lang="en">
-        <ccts:DictionaryEntryName>ABCCode. Type</ccts:DictionaryEntryName>
-        <ccts:PropertyTermName>ABCCode</ccts:PropertyTermName>
+        <ccts:DictionaryEntryName>Code. Type</ccts:DictionaryEntryName>
+        <ccts:PropertyTermName>Code</ccts:PropertyTermName>
         <ccts:AcronymCode>BDT</ccts:AcronymCode>
       </xsd:documentation>
     </xsd:annotation>
@@ -96,8 +96,8 @@
               <ccts:PropertyTermName>Name</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. Name. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. Name. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -109,8 +109,8 @@
               <ccts:PropertyTermName>CodeList.Agency</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. CodeList.Agency. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. CodeList.Agency. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -122,8 +122,8 @@
               <ccts:PropertyTermName>CodeList.AgencyName</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. CodeList.AgencyName. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. CodeList.AgencyName. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -135,8 +135,8 @@
               <ccts:PropertyTermName>CodeList</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. CodeList. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. CodeList. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -148,8 +148,8 @@
               <ccts:PropertyTermName>CodeList.Name</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. CodeList.Name. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. CodeList.Name. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -161,8 +161,8 @@
               <ccts:PropertyTermName>CodeList.UniformResourceIdentifier</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. CodeList.UniformResourceIdentifier. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. CodeList.UniformResourceIdentifier. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -174,8 +174,8 @@
               <ccts:PropertyTermName>CodeList.Version</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. CodeList.Version. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. CodeList.Version. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -187,8 +187,8 @@
               <ccts:PropertyTermName>CodeListScheme.UniformResourceIdentifier</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. CodeListScheme.UniformResourceIdentifier. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. CodeListScheme.UniformResourceIdentifier. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
@@ -200,8 +200,8 @@
               <ccts:PropertyTermName>Language</ccts:PropertyTermName>
               <ccts:RepresentationTermName>String</ccts:RepresentationTermName>
               <ccts:PrimitiveTypeName>String</ccts:PrimitiveTypeName>
-              <ccts:DataTypeName>ABCCode</ccts:DataTypeName>
-              <ccts:DictionaryEntryName>ABCCode. Language. String</ccts:DictionaryEntryName>
+              <ccts:DataTypeName>Code</ccts:DataTypeName>
+              <ccts:DictionaryEntryName>Code. Language. String</ccts:DictionaryEntryName>
               <ccts:ModificationAllowedIndicator>true</ccts:ModificationAllowedIndicator>
               <ccts:AcronymCode>SUP</ccts:AcronymCode>
             </xsd:documentation>
