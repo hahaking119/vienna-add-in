@@ -6,10 +6,8 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System.IO;
+using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
-using Path=VIENNAAddIn.upcc3.ccts.Path;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
@@ -45,7 +43,9 @@ namespace VIENNAAddInUnitTests.TestRepository
                         ),
                     Package("A package with an arbitrary stereotype", "Some arbitrary stereotype")
                         .Packages(
-                        Package("This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy", Stereotype.BLibrary)
+                        Package(
+                            "This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy",
+                            Stereotype.BLibrary)
                         )
                     )
                 );
@@ -55,13 +55,19 @@ namespace VIENNAAddInUnitTests.TestRepository
                 Connector("basedOn", Stereotype.BasedOn, PathToBdtAbcCode(), PathToCode()),
                 Connector("basedOn", Stereotype.BasedOn, PathToBdtDate(), PathToDate()),
                 Connector("basedOn", Stereotype.BasedOn, PathToBDTText(), PathToText()),
-                Connector("homeAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(AggregationKind.Shared).LowerBound("0").UpperBound("*"),
+                Connector("homeAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(
+                    AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(
+                    AggregationKind.Shared).LowerBound("0").UpperBound("*"),
                 Connector("basedOn", Stereotype.BasedOn, PathToBIEAddress(), PathToAddress()),
-                Connector("homeAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(AggregationKind.Composite).LowerBound("0").UpperBound("*"),
-                Connector("info", Stereotype.ASBIE, PathToInvoice(), PathToInvoiceInfo()).AggregationKind(AggregationKind.Shared),
-                Connector("deliveryAddress", Stereotype.ASBIE, PathToInvoiceInfo(), PathToBIEAddress()).AggregationKind(AggregationKind.Shared)
+                Connector("homeAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(
+                    AggregationKind.Shared),
+                Connector("workAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(
+                    AggregationKind.Composite).LowerBound("0").UpperBound("*"),
+                Connector("info", Stereotype.ASBIE, PathToInvoice(), PathToInvoiceInfo()).AggregationKind(
+                    AggregationKind.Shared),
+                Connector("deliveryAddress", Stereotype.ASBIE, PathToInvoiceInfo(), PathToBIEAddress()).AggregationKind(
+                    AggregationKind.Shared)
                 );
         }
 
@@ -387,92 +393,92 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         private static Path PathToMeasure()
         {
-            return (Path) "blib1"/"cdtlib1"/"Measure";
+            return (Path) "test model"/"blib1"/"cdtlib1"/"Measure";
         }
 
         public static Path PathToDate()
         {
-            return (Path) "blib1"/"cdtlib1"/"Date";
+            return (Path) "test model"/"blib1"/"cdtlib1"/"Date";
         }
 
         public static Path PathToCode()
         {
-            return (Path) "blib1"/"cdtlib1"/"Code";
+            return (Path) "test model"/"blib1"/"cdtlib1"/"Code";
         }
 
         public static Path PathToText()
         {
-            return (Path) "blib1"/"cdtlib1"/"Text";
+            return (Path) "test model"/"blib1"/"cdtlib1"/"Text";
         }
 
         public static Path PathToBDTText()
         {
-            return (Path) "blib1"/"bdtlib1"/"Text";
+            return (Path) "test model"/"blib1"/"bdtlib1"/"Text";
         }
 
         public static Path PathToBDTCode()
         {
-            return (Path) "blib1"/"bdtlib1"/"Code";
+            return (Path) "test model"/"blib1"/"bdtlib1"/"Code";
         }
 
         public static Path PathToBdtAbcCode()
         {
-            return (Path) "blib1"/"bdtlib1"/"ABC_Code";
+            return (Path) "test model"/"blib1"/"bdtlib1"/"ABC_Code";
         }
 
         public static Path PathToBdtDate()
         {
-            return (Path) "blib1"/"bdtlib1"/"Date";
+            return (Path) "test model"/"blib1"/"bdtlib1"/"Date";
         }
 
         public static Path PathToBdtMeasure()
         {
-            return (Path) "blib1"/"bdtlib1"/"Measure";
+            return (Path) "test model"/"blib1"/"bdtlib1"/"Measure";
         }
 
         public static Path PathToEnumAbcCodes()
         {
-            return (Path) "blib1"/"enumlib1"/"ABC_Codes";
+            return (Path) "test model"/"blib1"/"enumlib1"/"ABC_Codes";
         }
 
         private static Path PathToDecimal()
         {
-            return (Path) "blib1"/"primlib1"/"Decimal";
+            return (Path) "test model"/"blib1"/"primlib1"/"Decimal";
         }
 
         public static Path PathToString()
         {
-            return (Path) "blib1"/"primlib1"/"String";
+            return (Path) "test model"/"blib1"/"primlib1"/"String";
         }
 
         public static Path PathToAddress()
         {
-            return (Path) "blib1"/"cclib1"/"Address";
+            return (Path) "test model"/"blib1"/"cclib1"/"Address";
         }
 
         public static Path PathToACCPerson()
         {
-            return (Path) "blib1"/"cclib1"/"Person";
+            return (Path) "test model"/"blib1"/"cclib1"/"Person";
         }
 
         public static Path PathToBIEAddress()
         {
-            return (Path) "blib1"/"bielib1"/"MyAddress";
+            return (Path) "test model"/"blib1"/"bielib1"/"MyAddress";
         }
 
         public static Path PathToBIEPerson()
         {
-            return (Path) "blib1"/"bielib1"/"MyPerson";
+            return (Path) "test model"/"blib1"/"bielib1"/"MyPerson";
         }
 
         public static Path PathToInvoice()
         {
-            return (Path) "blib1"/"DOCLibrary"/"Invoice";
+            return (Path) "test model"/"blib1"/"DOCLibrary"/"Invoice";
         }
 
         public static Path PathToInvoiceInfo()
         {
-            return (Path) "blib1"/"DOCLibrary"/"InvoiceInfo";
+            return (Path) "test model"/"blib1"/"DOCLibrary"/"InvoiceInfo";
         }
 
         #endregion

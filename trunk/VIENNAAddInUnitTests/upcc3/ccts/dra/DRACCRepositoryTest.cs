@@ -176,7 +176,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestABIEEquals()
         {
-            Assert.AreEqual(ccRepository.FindByPath(EARepository1.PathToBIEAddress()), ccRepository.FindByPath(EARepository1.PathToBIEAddress()));
+            var abie1 = ccRepository.FindByPath(EARepository1.PathToBIEAddress());
+            Assert.IsNotNull(abie1);
+            var abie2 = ccRepository.FindByPath(EARepository1.PathToBIEAddress());
+            Assert.IsNotNull(abie2);
+            Assert.AreEqual(abie1, abie2);
         }
 
         [Test]
