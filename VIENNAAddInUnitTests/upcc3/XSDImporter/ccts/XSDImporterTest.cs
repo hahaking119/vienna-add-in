@@ -25,15 +25,30 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
     {
         #region Test Preparation
 
+        private static string BackupFileBasedRepository(string directory, string file)
+        {
+            string originalRepositoryFile = directory + file;
+            string backupRepositoryFile = directory + "_" + file;
+
+            Console.WriteLine("Creating backup of file-based repository: \"{0}\"", backupRepositoryFile);
+
+            System.IO.File.Copy(originalRepositoryFile, backupRepositoryFile, true);
+
+            return backupRepositoryFile;
+        }
+
         private static CCRepository GetFileBasedTestRepository()
         {
-            string repositoryFile = Directory.GetCurrentDirectory() +
-                                    "\\..\\..\\testresources\\XSDImporterTest\\ccts\\simpleXSDs\\import_repository.eap";
+            string repositoryDirectory = Directory.GetCurrentDirectory() +
+                                    "\\..\\..\\testresources\\XSDImporterTest\\ccts\\simpleXSDs\\";
+            string repositoryFile = "import_repository.eap";
 
-            Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
-            
+            Console.WriteLine("Repository file: \"{0}\"", repositoryDirectory + repositoryFile);
+
+            string backupFile = BackupFileBasedRepository(repositoryDirectory, repositoryFile);
+
             Repository eaRepository = (new Repository());
-            eaRepository.OpenFile(repositoryFile);
+            eaRepository.OpenFile(backupFile);
 
             return new CCRepository(eaRepository);
         }
