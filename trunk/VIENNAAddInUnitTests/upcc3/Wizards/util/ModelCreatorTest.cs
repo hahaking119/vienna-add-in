@@ -11,122 +11,172 @@ using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 using Path=VIENNAAddIn.upcc3.ccts.Path;
 using VIENNAAddIn;
+using File=EA.File;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
     [TestFixture]
     public class ModelCreatorTest
     {
+        #region Test Settings
+
+        readonly string[] resources = new[] { "simplified_enumlibrary.xmi", "simplified_primlibrary.xmi", "simplified_cdtlibrary.xmi", "simplified_cclibrary.xmi" };
+        readonly string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
+        readonly string storageDirectory = Directory.GetCurrentDirectory() +
+                                  "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\";
+        readonly string testRepositoryDirectory = Directory.GetCurrentDirectory() +
+                                  "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\";
+        #endregion
+
         [Test]
-        public void TestImportStandardCcLibraries()
+        public void ChristianTest()
         {
-            AddInSettings.LoadRegistryEntries();
-
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
-            ModelCreator creator = new ModelCreator(eaRepository);
 
-            Package bLibrary = eaRepository.Resolve<Package>((Path) "Test Model 1"/"bLibrary");
-            
-            creator.ImportStandardCcLibraries(bLibrary);            
+            ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
+
+            Package bLibrary = eaRepository.Resolve<Package>((Path)"Test Model 1" / "bLibrary");
+
+            creator.ImportStandardCcLibraries(bLibrary);
+
+            //AssertCcLibrariesInRepository(eaRepository, "Test Model 1");
+            //AssertCcLibrariesContentInRepository(eaRepository, "Test Model 1");
         }
-        //public void TestCreatingDefaultUpccModel()
-        //{
-        //    Repository repository = new EARepositoryModelCreator();
-        //    ModelCreator creator = new ModelCreator(repository);
-
-        //    creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
-        //                            "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
-                       
-
-        //    AssertDefaultModel(repository);
-        //}
 
         //[Test]
-        //public void TestCreatingUppModelWithStandardCCLibraries()
+        //public void TestCreatingEmptyLibrariesWithinParticularEmptyModelWhichIsTheOnlyModel()
         //{
-        //    Repository repository = new EARepositoryModelCreator();
-        //    string[] resources = new[] { "simplified_enumlibrary.xmi", "simplified_primlibrary.xmi", "simplified_cdtlibrary.xmi", "simplified_cclibrary.xmi" };
-        //    string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
-        //    string storageDirectory = Directory.GetCurrentDirectory() +
-        //                        "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\xmi\\download\\";
+        //    Repository eaRepository = new Repository();
 
-        //    ModelCreator creator = new ModelCreator(repository, storageDirectory, downloadUri, resources);
+        //    eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel1.eap"));
 
-        //    creator.CreateUpccModel("Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest",
-        //                            "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
+        //    ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
+        //    creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
 
-        //    AssertDefaultModel(repository);
+        //    AssertBusinessLibraryCount(eaRepository, 2);
+        //    AssertEmptyDefaultModel(eaRepository, 1);
+
+
+
+        //    AssertContent(eaRepository, 1);
         //}
 
-        //private static void AssertDefaultModel(Repository eaRepository)
-        //{
-        //    CCRepository repository = new CCRepository(eaRepository);
-        //    List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+    //    [Test]
+    //    public void TestCreatingEmptyLibrariesWithinParticularEmptyModelAmongSeveralModels()
+    //    {
+    //        Repository eaRepository = new Repository();
 
-        //    Assert.AreEqual(1, bLibs.Count,
-        //                    "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");
+    //        eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel2.eap"));
 
-        //    IBLibrary bLib = bLibs[0];
+    //        ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
+    //        creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
 
-            //AssertLibraryCount<IENUMLibrary>(bLib, 1);
-            //AssertLibraryName<IENUMLibrary>(bLib, "ENUMLibraryTest");
-            //AssertLibraryCount<IPRIMLibrary>(bLib, 1);
-            //AssertLibraryName<IPRIMLibrary>(bLib, "PRIMLibraryTest");
-            //AssertLibraryCount<ICDTLibrary>(bLib, 1);
-            //AssertLibraryName<ICDTLibrary>(bLib, "CDTLibraryTest");
-            //AssertLibraryCount<ICCLibrary>(bLib, 1);
-            //AssertLibraryName<ICCLibrary>(bLib, "CCLibraryTest");
-            //AssertLibraryCount<IBDTLibrary>(bLib, 1);
-            //AssertLibraryName<IBDTLibrary>(bLib, "BDTLibraryTest");
-            //AssertLibraryCount<IBIELibrary>(bLib, 1);
-            //AssertLibraryName<IBIELibrary>(bLib, "BIELibraryTest");
-            //AssertLibraryCount<IDOCLibrary>(bLib, 1);
-            //AssertLibraryName<IDOCLibrary>(bLib, "DOCLibraryTest");
+    //        AssertBusinessLibraryCount(eaRepository, 1);
+    //        AssertEmptyDefaultModel(eaRepository, 0);
+    //    }
 
-        //}
+    //    [Test]
+    //    public void TestCreatingEmptyLibrariesWhileCreatingNewEmptyModel()
+    //    {
+    //        Repository eaRepository = new Repository();
 
-        //private static void AssertFileContent(string comparisonFile, string newFile)
-        //{
-        //    string comparisonContent = System.IO.File.ReadAllText(comparisonFile);
-        //    string newContent = System.IO.File.ReadAllText(newFile);
+    //        eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel3.eap"));
 
-        //    if (!comparisonContent.Equals(newContent))
-        //    {
-        //        Assert.Fail("Caching XMI file to local file system failed at: {0}", newFile);
-        //    }
-        //}
+    //        ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
+    //        creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
 
-        //private static void AssertLibraryCount<T>(IBLibrary bLib, short expectedCount)
-        //{
-        //    short libCount = 0;
+    //        AssertBusinessLibraryCount(eaRepository, 2);
+    //        AssertEmptyDefaultModel(eaRepository, 1);
+    //    }
 
-        //    foreach (IBusinessLibrary lib in bLib.Children)
-        //    {
-        //        if (typeof(T).IsAssignableFrom(lib.GetType()))
-        //        {
-        //            libCount++;
-        //        }
-        //    }
+    //    [Test]
+    //    public void TestCreatingLibrariesAndImportingStandardLibrariesWhileCreatingNewEmptyModel()
+    //    {
+    //        Repository eaRepository = new Repository();
 
-        //    Assert.AreEqual(expectedCount, libCount, "The number of libraries of type " + libCount.GetType() + " contained in the business library didn't match the number of exptected libraries.");
-        //}
+    //        eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel4.eap"));
 
-        //private static void AssertLibraryName<T>(IBLibrary bLib, string expectedName)
-        //{
-        //    bool found = false;
+    //        ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
+    //        creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
 
-        //    foreach (IBusinessLibrary lib in bLib.Children)
-        //    {
-        //        if (typeof(T).IsAssignableFrom(lib.GetType()) && lib.Name.Equals(expectedName))
-        //        {
-        //            found = true;
-        //        }
-        //    }
+    //        AssertBusinessLibraryCount(eaRepository, 2);
+    //        AssertEmptyDefaultModel(eaRepository, 1);
+    //    }
+        
+        private static string BackupFileBasedRepository(string directory, string file)
+        {
+            string originalRepositoryFile = directory + file;
+            string backupRepositoryFile = directory + "_" + file;
+            
+            Console.WriteLine("Creating backup of file-based repository: \"{0}\"", backupRepositoryFile);
+            
+            System.IO.File.Copy(originalRepositoryFile, backupRepositoryFile, true);
 
-        //    if (!found)
-        //    {
-        //        Assert.Fail("The Business library didn't contain a library of type " + typeof(T) + " with the expected name.\n    expected:<" + expectedName + ">");
-        //    }
-        //}
+            return backupRepositoryFile;
+        }
+
+    //    private static void AssertLibraryCount<T>(IBLibrary bLib, short expectedCount)
+    //    {
+    //        short libCount = 0;
+
+    //        foreach (IBusinessLibrary lib in bLib.Children)
+    //        {
+    //            if (typeof(T).IsAssignableFrom(lib.GetType()))
+    //            {
+    //                libCount++;
+    //            }
+    //        }
+
+    //        Assert.AreEqual(expectedCount, libCount, "The number of libraries of type " + libCount.GetType() + " contained in the business library didn't match the number of exptected libraries.");
+    //    }
+
+    //    private static void AssertLibraryName<T>(IBLibrary bLib, string expectedName)
+    //    {
+    //        bool found = false;
+
+    //        foreach (IBusinessLibrary lib in bLib.Children)
+    //        {
+    //            if (typeof(T).IsAssignableFrom(lib.GetType()) && lib.Name.Equals(expectedName))
+    //            {
+    //                found = true;
+    //            }
+    //        }
+
+    //        if (!found)
+    //        {
+    //            Assert.Fail("The Business library didn't contain a library of type " + typeof(T) + " with the expected name.\n    expected:<" + expectedName + ">");
+    //        }
+    //    }
+
+    //    private static void AssertBusinessLibraryCount(Repository eaRepository, int expectedBusinessLibraryCount)
+    //    {
+    //        CCRepository repository = new CCRepository(eaRepository);
+    //        List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+
+    //        Assert.AreEqual(expectedBusinessLibraryCount, bLibs.Count, "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");            
+    //    }
+
+    //    private static void AssertEmptyDefaultModel(Repository eaRepository, int libraryIndex)
+    //    {
+    //        CCRepository repository = new CCRepository(eaRepository);
+    //        List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+
+    //        IBLibrary bLib = bLibs[libraryIndex];
+
+    //        AssertLibraryCount<IENUMLibrary>(bLib, 1);
+    //        AssertLibraryName<IENUMLibrary>(bLib, "ENUMLibraryTest");
+    //        AssertLibraryCount<IPRIMLibrary>(bLib, 1);
+    //        AssertLibraryName<IPRIMLibrary>(bLib, "PRIMLibraryTest");
+    //        AssertLibraryCount<ICDTLibrary>(bLib, 1);
+    //        AssertLibraryName<ICDTLibrary>(bLib, "CDTLibraryTest");
+    //        AssertLibraryCount<ICCLibrary>(bLib, 1);
+    //        AssertLibraryName<ICCLibrary>(bLib, "CCLibraryTest");
+    //        AssertLibraryCount<IBDTLibrary>(bLib, 1);
+    //        AssertLibraryName<IBDTLibrary>(bLib, "BDTLibraryTest");
+    //        AssertLibraryCount<IBIELibrary>(bLib, 1);
+    //        AssertLibraryName<IBIELibrary>(bLib, "BIELibraryTest");
+    //        AssertLibraryCount<IDOCLibrary>(bLib, 1);
+    //        AssertLibraryName<IDOCLibrary>(bLib, "DOCLibraryTest");
+    //    }
     }
 }
