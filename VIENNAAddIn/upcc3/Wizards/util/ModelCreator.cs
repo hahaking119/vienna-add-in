@@ -17,6 +17,9 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         #region Class Fields
 
         private readonly Repository repository;
+        private readonly string[] resources;
+        private readonly string downloadUri;
+        private readonly string storageDirectory;
 
         #endregion
 
@@ -24,7 +27,9 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         ///<summary>
         /// The constructor of the ModelCreator requires one input parameter specifying the EA 
-        /// repository that the ModelCreator operates on. 
+        /// repository that the ModelCreator operates on. Furthermore, the constructor sets default
+        /// values for the resources to be downloaded, the URI where the resources are to be retrieved
+        /// from and the the storage directory where the downloaded resources are to be stored. 
         ///</summary>
         ///<param name="eaRepository">
         /// An EA repository representing the repository that the ModelCreator operates on. 
@@ -32,6 +37,17 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         public ModelCreator(Repository eaRepository)
         {
             repository = eaRepository;
+            resources = new[] { "enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi" };
+            downloadUri = "http://www.umm-dev.org/xmi/";
+            storageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
+        }
+
+        public ModelCreator(Repository eaRepository, string[] resources, string downloadUri, string storageDirectory)
+        {
+            repository = eaRepository;
+            this.resources = resources;
+            this.downloadUri = downloadUri;
+            this.storageDirectory = storageDirectory;
         }
 
         #endregion
@@ -141,10 +157,6 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// </param>
         public void ImportStandardCcLibraries(Package bLibrary)
         {
-            string[] resources = new[] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
-            string downloadUri = "http://www.umm-dev.org/xmi/";
-            string storageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
-
             // As a first step it is necessary to cache the latest XMI files located
             // on the web to the local system. 
             new ResourceHandler(resources, downloadUri, storageDirectory).CacheResourcesLocally();

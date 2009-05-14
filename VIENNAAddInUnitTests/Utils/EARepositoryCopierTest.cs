@@ -56,6 +56,9 @@ namespace VIENNAAddInUnitTests.Utils
                 Assert.IsNotNull(actualElement, "Target element for " + expectedElement.Name + " is null at " + path);
                 Assert.AreEqual(expectedElement.Name, actualElement.Name, "Different element names in " + path);
                 Path elementPath = path/expectedElement.Name;
+
+                Assert.AreEqual(expectedElement.Stereotype, actualElement.Stereotype, "Different Stereotype in element " + path);
+                Assert.AreEqual(expectedElement.StereotypeEx, actualElement.StereotypeEx, "Different StereotypeEx in element " + path);
                 AssertCollectionsAreEqual<Attribute>(expectedElement.Attributes, actualElement.Attributes, elementPath, AssertAttributesAreEqual);
                 AssertCollectionsAreEqual<Connector>(expectedElement.Connectors, actualElement.Connectors, elementPath, AssertConnectorsAreEqual);
                 AssertCollectionsAreEqual<TaggedValue>(expectedElement.TaggedValues, actualElement.TaggedValues, elementPath, AssertTaggedValuesAreEqual);

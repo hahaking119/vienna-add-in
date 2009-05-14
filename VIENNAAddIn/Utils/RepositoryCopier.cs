@@ -117,7 +117,10 @@ namespace VIENNAAddIn.Utils
 
         private void CopyElementContents(Element sourceElement, Element targetElement)
         {
-            targetElement.Name = sourceElement.Name;
+            //targetElement.Name = sourceElement.Name;
+            targetElement.Stereotype = sourceElement.Stereotype;
+            targetElement.StereotypeEx = sourceElement.StereotypeEx;
+            targetElement.Update();
             CopyCollection<TaggedValue>(sourceElement.TaggedValues, targetElement.TaggedValues, CopyTaggedValue,
                                         targetElement.ElementID);
             CopyCollection<Attribute>(sourceElement.Attributes, targetElement.Attributes, CopyAttribute,

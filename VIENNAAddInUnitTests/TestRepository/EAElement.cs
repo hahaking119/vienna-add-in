@@ -16,6 +16,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         private readonly Collection taggedValues;
         private readonly Collection connectors;
         private readonly Collection attributes;
+        private string stereotypeEx;
 
         public EAElement(EARepository repository)
         {
@@ -472,8 +473,8 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public string StereotypeEx
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return stereotypeEx ?? Stereotype; }
+            set { stereotypeEx = value; }
         }
 
         public int PropertyType
