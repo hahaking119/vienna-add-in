@@ -121,6 +121,7 @@
     <Compile Include="upcc3\Wizards\ImporterWizardForm.Designer.cs">
       <DependentUpon>ImporterWizardForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\util\DatabaseHandler.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceHandler.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\CCSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\CDTSchemaGenerator.cs" />
