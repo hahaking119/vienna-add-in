@@ -23,6 +23,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
         protected DTSpec()
         {
+            SUPs = new List<SUPSpec>();
         }
 
         [TaggedValue]
