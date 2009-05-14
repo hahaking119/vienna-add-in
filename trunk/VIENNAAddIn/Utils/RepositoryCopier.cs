@@ -146,7 +146,12 @@ namespace VIENNAAddIn.Utils
         private void CopyAttribute(Attribute sourceAttribute, Collection targetCollection, int targetElementId)
         {
             var targetAttribute = (Attribute) targetCollection.AddNew(sourceAttribute.Name, sourceAttribute.Type);
+            targetAttribute.Default = sourceAttribute.Default;
+            targetAttribute.LowerBound = sourceAttribute.LowerBound;
+            targetAttribute.UpperBound = sourceAttribute.UpperBound;
             targetAttribute.Update();
+            CopyCollection<AttributeTag>(sourceAttribute.TaggedValues, targetAttribute.TaggedValues, CopyAttributeTag,
+                                        targetAttribute.AttributeID);
         }
 
         private void CopyTaggedValue(TaggedValue sourceTaggedValue, Collection targetCollection, int targetElementId)
@@ -155,6 +160,14 @@ namespace VIENNAAddIn.Utils
             targetTaggedValue.ElementID = targetElementId;
             targetTaggedValue.Value = sourceTaggedValue.Value;
             targetTaggedValue.Update();
+        }
+
+        private void CopyAttributeTag(AttributeTag sourceTag, Collection targetCollection, int targetAttributeId)
+        {
+            var targetTag = (AttributeTag)targetCollection.AddNew(sourceTag.Name, "");
+            targetTag.AttributeID = targetAttributeId;
+            targetTag.Value = sourceTag.Value;
+            targetTag.Update();
         }
 
         #region Nested type: CopyToCollection
