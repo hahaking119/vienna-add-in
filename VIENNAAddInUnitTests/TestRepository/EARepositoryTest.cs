@@ -138,8 +138,10 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public void TestAsFileBasedRepository()
         {
-            var testRepository = new EARepository1();
-            var fileBaseRepository = (Repository) new TemporaryFileBasedRepository(testRepository);
+            using (var fileBaseRepository = new TemporaryFileBasedRepository(new EARepository1()))
+            {
+                
+            }
         }
     }
 }
