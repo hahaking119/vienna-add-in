@@ -1,3 +1,12 @@
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.IO;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.Wizards.util;
@@ -7,6 +16,9 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     [TestFixture]
     public class ResourceHandlerTest
     {
+        // Purpose: The test retrieves a set of test resources from a particular URI, stores the resources
+        // retrieved on the local file system and compares the files retrieved with a set of files already
+        // available on the local system to ensure correct content retrieval. 
         [Test]
         public void TestResourceCachingToFileSystem()
         {
@@ -36,6 +48,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
             }
         }
 
+        #region Private Class Methods
+
         private static void AssertDownloadedFileExists(string downloadedFile)
         {
             if (!File.Exists(downloadedFile))
@@ -56,5 +70,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
                     comparisonFile, newFile);
             }
         }
+
+        #endregion
     }
 }

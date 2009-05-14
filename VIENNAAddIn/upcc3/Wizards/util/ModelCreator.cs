@@ -1,4 +1,13 @@
-﻿using EA;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
+using EA;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -42,6 +51,24 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             storageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
         }
 
+        ///<summary>
+        /// The constructor of the ModelCreator which allows to specify details about the resources
+        /// to be cashed. The details are specified through the parameters of the constructor.  
+        ///</summary>
+        ///<param name="eaRepository">
+        /// An EA repository representing the repository that the ModelCreator operates on.
+        ///</param>
+        ///<param name="resources">
+        /// An array of strings specifying the names of the resources to be retrieved (e.g. 
+        /// "enumlibrary.xmi").
+        /// </param>
+        ///<param name="downloadUri">
+        /// A string representing the URI where the resources are to be retrieved from. 
+        ///</param>
+        ///<param name="storageDirectory">
+        /// A string representing a directory location where the resources retrieved from the
+        /// URI are to be retrieved from. 
+        ///</param>
         public ModelCreator(Repository eaRepository, string[] resources, string downloadUri, string storageDirectory)
         {
             repository = eaRepository;

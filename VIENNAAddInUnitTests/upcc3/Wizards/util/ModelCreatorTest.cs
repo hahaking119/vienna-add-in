@@ -1,17 +1,20 @@
-using System;
-using System.Collections.Generic;
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.IO;
 using EA;
 using NUnit.Framework;
-using VIENNAAddIn.Settings;
-using VIENNAAddIn.upcc3.ccts;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.util;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 using Path=VIENNAAddIn.upcc3.ccts.Path;
 using VIENNAAddIn;
-using File=EA.File;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
@@ -20,163 +23,160 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     {
         #region Test Settings
 
-        readonly string[] resources = new[] { "simplified_enumlibrary.xmi", "simplified_primlibrary.xmi", "simplified_cdtlibrary.xmi", "simplified_cclibrary.xmi" };
-        readonly string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
-        readonly string storageDirectory = Directory.GetCurrentDirectory() +
-                                  "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\";
-        readonly string testRepositoryDirectory = Directory.GetCurrentDirectory() +
-                                  "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\";
+        private readonly string[] resources = new[]
+                                                  {
+                                                      "simplified_enumlibrary.xmi", "simplified_primlibrary.xmi",
+                                                      "simplified_cdtlibrary.xmi", "simplified_cclibrary.xmi"
+                                                  };
+
+        private readonly string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
+
+        private readonly string storageDirectory = Directory.GetCurrentDirectory() +
+                                                   "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\";
+
         #endregion
 
+        // Purpose: Test the import capability of the model creator to import the standard CC libraries
+        // into a particular model which contains an empty business library named bLibrary. 
         [Test]
-        public void ChristianTest()
+        public void TestImportStandardCcLibrariesIntoEmptyBusinessLibrary()
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
             ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
 
-            Package bLibrary = eaRepository.Resolve<Package>((Path)"Test Model 1" / "bLibrary");
+            Package bLibrary = eaRepository.Resolve<Package>((Path) "Test Model 1"/"bLibrary");
 
             creator.ImportStandardCcLibraries(bLibrary);
 
-            //AssertCcLibrariesInRepository(eaRepository, "Test Model 1");
-            //AssertCcLibrariesContentInRepository(eaRepository, "Test Model 1");
+            AssertEmptyStandardCcLibrariesInBusinessLibrary(eaRepository, "Test Model 1", "bLibrary");
+            AssertStandardCcLibrariesContentInBusinessLibrary(eaRepository, "Test Model 1", "bLibrary");
+            AssertNonExistenceOfBieLibrariesinBusinessLibrary(eaRepository, "Test Model 1", "bLibrary");
         }
 
-        //[Test]
-        //public void TestCreatingEmptyLibrariesWithinParticularEmptyModelWhichIsTheOnlyModel()
-        //{
-        //    Repository eaRepository = new Repository();
-
-        //    eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel1.eap"));
-
-        //    ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
-        //    creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
-
-        //    AssertBusinessLibraryCount(eaRepository, 2);
-        //    AssertEmptyDefaultModel(eaRepository, 1);
-
-
-
-        //    AssertContent(eaRepository, 1);
-        //}
-
-    //    [Test]
-    //    public void TestCreatingEmptyLibrariesWithinParticularEmptyModelAmongSeveralModels()
-    //    {
-    //        Repository eaRepository = new Repository();
-
-    //        eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel2.eap"));
-
-    //        ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
-    //        creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
-
-    //        AssertBusinessLibraryCount(eaRepository, 1);
-    //        AssertEmptyDefaultModel(eaRepository, 0);
-    //    }
-
-    //    [Test]
-    //    public void TestCreatingEmptyLibrariesWhileCreatingNewEmptyModel()
-    //    {
-    //        Repository eaRepository = new Repository();
-
-    //        eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel3.eap"));
-
-    //        ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
-    //        creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
-
-    //        AssertBusinessLibraryCount(eaRepository, 2);
-    //        AssertEmptyDefaultModel(eaRepository, 1);
-    //    }
-
-    //    [Test]
-    //    public void TestCreatingLibrariesAndImportingStandardLibrariesWhileCreatingNewEmptyModel()
-    //    {
-    //        Repository eaRepository = new Repository();
-
-    //        eaRepository.OpenFile(BackupFileBasedRepository(testRepositoryDirectory, "testmodel4.eap"));
-
-    //        ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
-    //        creator.CreateUpccModel("New Test Model", "PRIMLibraryTest", "ENUMLibraryTest", "CDTLibraryTest", "CCLibraryTest", "BDTLibraryTest", "BIELibraryTest", "DOCLibraryTest", false);
-
-    //        AssertBusinessLibraryCount(eaRepository, 2);
-    //        AssertEmptyDefaultModel(eaRepository, 1);
-    //    }
-        
-        private static string BackupFileBasedRepository(string directory, string file)
+        // Purpose: Test the import capability of the model creator to import the standard CC libraries
+        // into a particular model which already contains CC libraries. The test therefore checks if the 
+        // existing CC libraries are deleted/replaced by the standard CC libraries. 
+        [Test]
+        public void TestImportStandardCcLibrariesIntoFullBusinessLibrary()
         {
-            string originalRepositoryFile = directory + file;
-            string backupRepositoryFile = directory + "_" + file;
-            
-            Console.WriteLine("Creating backup of file-based repository: \"{0}\"", backupRepositoryFile);
-            
-            System.IO.File.Copy(originalRepositoryFile, backupRepositoryFile, true);
+            Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
-            return backupRepositoryFile;
+            ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
+
+            Package bLibrary = eaRepository.Resolve<Package>((Path) "Test Model 2"/"bLibrary");
+
+            creator.ImportStandardCcLibraries(bLibrary);
+
+            AssertEmptyStandardCcLibrariesInBusinessLibrary(eaRepository, "Test Model 2", "bLibrary");
+            AssertStandardCcLibrariesContentInBusinessLibrary(eaRepository, "Test Model 2", "bLibrary");
+            AssertEmptyBieLibrariesinBusinessLibrary(eaRepository, "Test Model 2", "bLibrary");
         }
 
-    //    private static void AssertLibraryCount<T>(IBLibrary bLib, short expectedCount)
-    //    {
-    //        short libCount = 0;
+        // Purpose: The test evaluates the default model creator capabilites in regards of creating
+        // an empty UPCC model containg all necessary (empty) libraries. 
+        [Test]
+        public void TestCreatingEmptyLibrariesWithinParticularEmptyModelAmongSeveralModels()
+        {
+            Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
-    //        foreach (IBusinessLibrary lib in bLib.Children)
-    //        {
-    //            if (typeof(T).IsAssignableFrom(lib.GetType()))
-    //            {
-    //                libCount++;
-    //            }
-    //        }
+            ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
 
-    //        Assert.AreEqual(expectedCount, libCount, "The number of libraries of type " + libCount.GetType() + " contained in the business library didn't match the number of exptected libraries.");
-    //    }
+            creator.CreateUpccModel("New Test Model", "PRIMLibrary", "ENUMLibrary", "CDTLibrary", "CCLibrary",
+                                    "BDTLibrary", "BIELibrary", "DOCLibrary", false);
 
-    //    private static void AssertLibraryName<T>(IBLibrary bLib, string expectedName)
-    //    {
-    //        bool found = false;
+            AssertEmptyStandardCcLibrariesInBusinessLibrary(eaRepository, "Test Model 3", "New Test Model");
+            AssertEmptyBieLibrariesinBusinessLibrary(eaRepository, "Test Model 3", "New Test Model");
+        }
 
-    //        foreach (IBusinessLibrary lib in bLib.Children)
-    //        {
-    //            if (typeof(T).IsAssignableFrom(lib.GetType()) && lib.Name.Equals(expectedName))
-    //            {
-    //                found = true;
-    //            }
-    //        }
+        // Purpose: The test evaluates the default model creator capabilities in regards of creating
+        // an initial UPCC model containing all necessary (empty) libraries as well as importing the
+        // standard CC libraries into the model created. 
+        [Test]
+        public void TestCreatingLibrariesAndImportingStandardLibrariesWithinParticularEmptyModelAmongSeveralModels()
+        {
+            Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
-    //        if (!found)
-    //        {
-    //            Assert.Fail("The Business library didn't contain a library of type " + typeof(T) + " with the expected name.\n    expected:<" + expectedName + ">");
-    //        }
-    //    }
+            ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
 
-    //    private static void AssertBusinessLibraryCount(Repository eaRepository, int expectedBusinessLibraryCount)
-    //    {
-    //        CCRepository repository = new CCRepository(eaRepository);
-    //        List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+            creator.CreateUpccModel("New Test Model", "PRIMLibrary", "ENUMLibrary", "CDTLibrary", "CCLibrary",
+                                    "BDTLibrary", "BIELibrary", "DOCLibrary", true);
 
-    //        Assert.AreEqual(expectedBusinessLibraryCount, bLibs.Count, "The number of Business libraries (having stereotype \"bLibrary\") contained in the repository didn't match the expected number of Business libraries.");            
-    //    }
+            AssertEmptyStandardCcLibrariesInBusinessLibrary(eaRepository, "Test Model 3", "New Test Model");
+            AssertStandardCcLibrariesContentInBusinessLibrary(eaRepository, "Test Model 3", "New Test Model");
+            AssertEmptyBieLibrariesinBusinessLibrary(eaRepository, "Test Model 3", "New Test Model");
+        }
 
-    //    private static void AssertEmptyDefaultModel(Repository eaRepository, int libraryIndex)
-    //    {
-    //        CCRepository repository = new CCRepository(eaRepository);
-    //        List<IBLibrary> bLibs = new List<IBLibrary>(repository.Libraries<IBLibrary>());
+        # region Private Class Methods
 
-    //        IBLibrary bLib = bLibs[libraryIndex];
+        private static void AssertEmptyStandardCcLibrariesInBusinessLibrary(Repository repository, string modelName,
+                                                                            string bLibraryName)
+        {
+            Assert.IsNotNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"ENUMLibrary"),
+                             "The business library \"{0}\" is missing an ENUM library named \"ENUMLibrary\".",
+                             bLibraryName);
+            Assert.IsNotNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"PRIMLibrary"),
+                             "The business library \"{0}\" is missing a PRIM library named \"PRIMLibrary\".",
+                             bLibraryName);
+            Assert.IsNotNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"CDTLibrary"),
+                             "The business library \"{0}\" is missing a CDT library named \"CDTLibrary\".", bLibraryName);
+            Assert.IsNotNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"CCLibrary"),
+                             "The business library \"{0}\" is missing an CC library named \"CCLibrary\".", bLibraryName);
+        }
 
-    //        AssertLibraryCount<IENUMLibrary>(bLib, 1);
-    //        AssertLibraryName<IENUMLibrary>(bLib, "ENUMLibraryTest");
-    //        AssertLibraryCount<IPRIMLibrary>(bLib, 1);
-    //        AssertLibraryName<IPRIMLibrary>(bLib, "PRIMLibraryTest");
-    //        AssertLibraryCount<ICDTLibrary>(bLib, 1);
-    //        AssertLibraryName<ICDTLibrary>(bLib, "CDTLibraryTest");
-    //        AssertLibraryCount<ICCLibrary>(bLib, 1);
-    //        AssertLibraryName<ICCLibrary>(bLib, "CCLibraryTest");
-    //        AssertLibraryCount<IBDTLibrary>(bLib, 1);
-    //        AssertLibraryName<IBDTLibrary>(bLib, "BDTLibraryTest");
-    //        AssertLibraryCount<IBIELibrary>(bLib, 1);
-    //        AssertLibraryName<IBIELibrary>(bLib, "BIELibraryTest");
-    //        AssertLibraryCount<IDOCLibrary>(bLib, 1);
-    //        AssertLibraryName<IDOCLibrary>(bLib, "DOCLibraryTest");
-    //    }
+        private static void AssertStandardCcLibrariesContentInBusinessLibrary(Repository repository, string modelName,
+                                                                              string bLibraryName)
+        {
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"PRIMLibrary"/"Boolean"),
+                             "The PRIM library \"PRIMLibrary\" is missing a primitive type named \"Boolean\".");
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"PRIMLibrary"/"Date"),
+                             "The PRIM library \"PRIMLibrary\" is missing a primitive type named \"Date\".");
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"PRIMLibrary"/"Decimal"),
+                             "The PRIM library \"PRIMLibrary\" is missing a primitive type named \"Decimal\".");
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"PRIMLibrary"/"String"),
+                             "The PRIM library \"PRIMLibrary\" is missing a primitive type named \"String\".");
+
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"CDTLibrary"/"DateTime"),
+                             "The CDT library \"CDTLibrary\" is missing a primitive type named \"DateTime\".");
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"CDTLibrary"/"Name"),
+                             "The CDT library \"CDTLibrary\" is missing a primitive type named \"Name\".");
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"CDTLibrary"/"Text"),
+                             "The CDT library \"CDTLibrary\" is missing a primitive type named \"Text\".");
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"CDTLibrary"/"Time"),
+                             "The CDT library \"CDTLibrary\" is missing a primitive type named \"Time\".");
+
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"CCLibrary"/"Address"),
+                             "The CC library \"CCLibrary\" is missing a primitive type named \"Address\".");
+            Assert.IsNotNull(repository.Resolve<Element>((Path) modelName/bLibraryName/"CCLibrary"/"Person"),
+                             "The CC library \"CCLibrary\" is missing a primitive type named \"Person\".");
+        }
+
+        private static void AssertNonExistenceOfBieLibrariesinBusinessLibrary(Repository repository, string modelName,
+                                                                              string bLibraryName)
+        {
+            Assert.IsNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"BDTLibrary"),
+                          "The business library \"{0}\" contains a BDT library named \"BDTLibrary\" which is not supposed to be part of the business library.",
+                          bLibraryName);
+            Assert.IsNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"BIELibrary"),
+                          "The business library \"{0}\" contains a BIE library named \"BIELibrary\" which is not supposed to be part of the business library.",
+                          bLibraryName);
+            Assert.IsNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"DOCLibrary"),
+                          "The business library \"{0}\" contains a DOC library named \"DOCLibrary\" which is not supposed to be part of the business library.",
+                          bLibraryName);
+        }
+
+        private static void AssertEmptyBieLibrariesinBusinessLibrary(Repository repository, string modelName,
+                                                                     string bLibraryName)
+        {
+            Assert.IsNotNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"BDTLibrary"),
+                             "The business library \"{0}\" is missing an BDT library named \"BDTLibrary\".",
+                             bLibraryName);
+            Assert.IsNotNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"BIELibrary"),
+                             "The business library \"{0}\" is missing a BIE library named \"BIELibrary\".", bLibraryName);
+            Assert.IsNotNull(repository.Resolve<Package>((Path) modelName/bLibraryName/"DOCLibrary"),
+                             "The business library \"{0}\" is missing a DOC library named \"DOCLibrary\".", bLibraryName);
+        }
+        
+        #endregion
     }
 }
