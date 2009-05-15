@@ -520,6 +520,26 @@ namespace VIENNAAddIn.menu
         ///<returns></returns>
         public string[] GetMenuItems(AddInContext context)
         {
+            // Workaround to fix problem in Enterprise Architect:
+            // The "EA_OnContextItemChanged" method is not invoked in case the user
+            // selects a model in the tree view which causes "SelectedItemObjectType"
+            // and "SelectedItemGUID" to contain invalid values. Therefore we override
+            // the values of the variables whenever the user selects an packge in the 
+            // tree view. 
+            // -- Begin Workaround
+            if (context.MenuLocation == MenuLocation.TreeView)
+            {
+                object item;
+                ObjectType objectType = context.Repository.GetTreeSelectedItem(out item);
+
+                if (objectType == ObjectType.otPackage)
+                {
+                    context.SelectedItemObjectType = objectType;
+                    context.SelectedItemGUID = ((Package)item).PackageGUID;
+                }
+            }
+            // -- End Workaround
+            
             foreach (MenuItems items in menuItems)
             {
                 if (items.Matches(context))
