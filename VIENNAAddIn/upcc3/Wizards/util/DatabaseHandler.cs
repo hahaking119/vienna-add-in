@@ -7,14 +7,13 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using IBM.Data.DB2;
+
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
     public class DatabaseHandler
     {
         ///<summary>
         ///</summary>
-        public void ConnectToDatabase()
-        {
-        }
     }
 }
