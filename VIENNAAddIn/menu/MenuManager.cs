@@ -526,7 +526,7 @@ namespace VIENNAAddIn.menu
             // and "SelectedItemGUID" to contain invalid values. Therefore we override
             // the values of the variables whenever the user selects an packge in the 
             // tree view. 
-            // -- Begin Workaround
+            // --- Begin Workaround
             if (context.MenuLocation == MenuLocation.TreeView)
             {
                 object item;
@@ -538,7 +538,7 @@ namespace VIENNAAddIn.menu
                     context.SelectedItemGUID = ((Package)item).PackageGUID;
                 }
             }
-            // -- End Workaround
+            // --- End Workaround
             
             foreach (MenuItems items in menuItems)
             {
