@@ -4,6 +4,8 @@ using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 
 namespace VIENNAAddIn.upcc3.XSDImporter
 {
+    ///<summary>
+    ///</summary>
     public class ImporterContext
     {
         #region Fields
@@ -14,6 +16,10 @@ namespace VIENNAAddIn.upcc3.XSDImporter
 
         #region Constructor
 
+        ///<summary>
+        ///</summary>
+        ///<param name="ccRepository"></param>
+        ///<param name="schemaFiles"></param>
         public ImporterContext(ICCRepository ccRepository, List<SchemaInfo> schemaFiles)
         {
             Repository = ccRepository;
