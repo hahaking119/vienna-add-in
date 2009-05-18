@@ -28,32 +28,32 @@ namespace VIENNAAddInUnitTests.TestRepository
             Assert.IsNull(model.Element);
             Assert.AreEqual(0, model.ParentID);
 
-            var bLib1 = AssertLibrary(model, 0, "bLibrary", "blib1", "urn:test:blib1", 7, 0);
+            var bLib1 = AssertLibrary(model, 1, "bLibrary", "blib1", "urn:test:blib1", 7, 0);
 
-            var primLib1 = AssertLibrary(bLib1, 0, "PRIMLibrary", "primlib1", "urn:test:blib1:primlib1", 0, 3);
-            var stringType = AssertPRIM(primLib1, 0, "String");
-            var decimalType = AssertPRIM(primLib1, 1, "Decimal");
+            var primLib1 = AssertLibrary(bLib1, 6, "PRIMLibrary", "primlib1", "urn:test:blib1:primlib1", 0, 3);
+            var stringType = AssertPRIM(primLib1, 2, "String");
+            var decimalType = AssertPRIM(primLib1, 0, "Decimal");
 
-            AssertLibrary(bLib1, 1, "ENUMLibrary", "enumlib1", "urn:test:blib1:enumlib1", 0, 2);
+            AssertLibrary(bLib1, 5, "ENUMLibrary", "enumlib1", "urn:test:blib1:enumlib1", 0, 2);
 
-            var cdtLib1 = AssertLibrary(bLib1, 2, "CDTLibrary", "cdtlib1", "urn:test:blib1:cdtlib1", 0, 5);
-            AssertCDT(cdtLib1, 0, "Text", stringType, 2);
-            var cdtDate = AssertCDT(cdtLib1, 1, "Date", stringType, 1);
+            var cdtLib1 = AssertLibrary(bLib1, 3, "CDTLibrary", "cdtlib1", "urn:test:blib1:cdtlib1", 0, 5);
+            AssertCDT(cdtLib1, 4, "Text", stringType, 2, 0);
+            var cdtDate = AssertCDT(cdtLib1, 1, "Date", stringType, 1, 0);
             AssertSUP(cdtDate, 1, "Format", stringType, "1", "1");
-            AssertCDT(cdtLib1, 2, "Code", stringType, 9);
-            var cdtMeasure = AssertCDT(cdtLib1, 3, "Measure", decimalType, 2);
+            AssertCDT(cdtLib1, 0, "Code", stringType, 9, 7);
+            var cdtMeasure = AssertCDT(cdtLib1, 3, "Measure", decimalType, 2, 0);
             AssertSUP(cdtMeasure, 1, "MeasureUnit", stringType, "1", "1");
             AssertSUP(cdtMeasure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
 
-            var bdtLib1 = AssertLibrary(bLib1, 3, "BDTLibrary", "bdtlib1", "urn:test:blib1:bdtlib1", 0, 6);
-            var bdtDate = AssertBDT(bdtLib1, 1, "Date", stringType, 1, cdtDate);
+            var bdtLib1 = AssertLibrary(bLib1, 0, "BDTLibrary", "bdtlib1", "urn:test:blib1:bdtlib1", 0, 6);
+            var bdtDate = AssertBDT(bdtLib1, 2, "Date", stringType, 1, cdtDate, 0);
             AssertSUP(bdtDate, 1, "Format", stringType, "1", "1");
-            var bdtMeasure = AssertBDT(bdtLib1, 4, "Measure", decimalType, 2, cdtMeasure);
+            var bdtMeasure = AssertBDT(bdtLib1, 4, "Measure", decimalType, 2, cdtMeasure, 0);
             AssertSUP(bdtMeasure, 1, "MeasureUnit", stringType, "1", "1");
             AssertSUP(bdtMeasure, 2, "MeasureUnit.CodeListVersion", stringType, "1", "*");
 
-            AssertLibrary(bLib1, 4, "CCLibrary", "cclib1", "urn:test:blib1:cclib1", 0, 3);
-            AssertLibrary(bLib1, 5, "BIELibrary", "bielib1", "urn:test:blib1:bielib1", 0, 3);
+            AssertLibrary(bLib1, 2, "CCLibrary", "cclib1", "urn:test:blib1:cclib1", 0, 3);
+            AssertLibrary(bLib1, 1, "BIELibrary", "bielib1", "urn:test:blib1:bielib1", 0, 3);
         }
 
         private static Element AssertPRIM(Package library, short index, string name)
@@ -64,23 +64,23 @@ namespace VIENNAAddInUnitTests.TestRepository
             return prim;
         }
 
-        private static Element AssertCDT(Package library, short index, string name, Element contentType, int numberOfSUPs)
+        private static Element AssertCDT(Package library, short index, string name, Element contentType, int numberOfSUPs, short conIndex)
         {
             var cdt = (Element)library.Elements.GetAt(index);
             Assert.AreEqual("CDT", cdt.Stereotype);
             Assert.AreEqual(name, cdt.Name);
             Assert.AreEqual(numberOfSUPs, cdt.Attributes.Count - 1);
-            AssertCON(cdt, contentType);
+            AssertCON(cdt, contentType, conIndex);
             return cdt;
         }
 
-        private static Element AssertBDT(Package library, short index, string name, Element contentType, int numberOfSUPs, Element basedOnType)
+        private static Element AssertBDT(Package library, short index, string name, Element contentType, int numberOfSUPs, Element basedOnType, short conIndex)
         {
             var bdt = (Element)library.Elements.GetAt(index);
             Assert.AreEqual("BDT", bdt.Stereotype);
             Assert.AreEqual(name, bdt.Name);
             Assert.AreEqual(numberOfSUPs + 1, bdt.Attributes.Count);
-            AssertCON(bdt, contentType);
+            AssertCON(bdt, contentType, conIndex);
             AssertBasedOn(basedOnType, bdt);
             return bdt;
         }
@@ -103,9 +103,9 @@ namespace VIENNAAddInUnitTests.TestRepository
             AssertDataTypeComponent(dataType, index, "SUP", name, type, lowerBound, upperBound);
         }
 
-        private static void AssertCON(Element dataType, Element type)
+        private static void AssertCON(Element dataType, Element type, short conIndex)
         {
-            AssertDataTypeComponent(dataType, 0, "CON", "Content", type, "1", "1");
+            AssertDataTypeComponent(dataType, conIndex, "CON", "Content", type, "1", "1");
         }
 
         private static void AssertDataTypeComponent(Element dataType, short index, string stereotype, string name, Element type, string lowerBound, string upperBound)

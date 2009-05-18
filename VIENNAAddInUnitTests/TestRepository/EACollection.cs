@@ -21,14 +21,14 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         #endregion
 
-        private readonly int containerId;
-        private readonly ElementFactory elementFactory;
+        protected readonly int containerId;
+        protected readonly ElementFactory createElement;
         private readonly List<IEACollectionElement> elements = new List<IEACollectionElement>();
 
         protected EACollection(ObjectType objectType, ElementFactory elementFactory, int containerId)
         {
             ObjectType = objectType;
-            this.elementFactory = elementFactory;
+            this.createElement = elementFactory;
             this.containerId = containerId;
         }
 
@@ -41,12 +41,12 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public object GetAt(short index)
         {
-            return elements[index];
+            return Elements[index];
         }
 
         public void DeleteAt(short index, bool Refresh)
         {
-            throw new NotImplementedException();
+            Delete(index);
         }
 
         public string GetLastError()
@@ -56,11 +56,11 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public object GetByName(string name)
         {
-            if (elements.Count == 0)
+            if (Elements.Count == 0)
             {
                 return null;
             }
-            IEACollectionElement element = elements.Find(e => e.Name == name);
+            IEACollectionElement element = Elements.Find(e => e.Name == name);
             if (element == null)
             {
                 throw new IndexOutOfRangeException(name);
@@ -73,16 +73,22 @@ namespace VIENNAAddInUnitTests.TestRepository
             // do nothing
         }
 
-        public object AddNew(string Name, string Type)
+        public virtual object AddNew(string Name, string Type)
         {
-            IEACollectionElement element = elementFactory(Name, Type, containerId);
-            elements.Add(element);
+            IEACollectionElement element = createElement(Name, Type, containerId);
+            Elements.Add(element);
+            Elements.Sort(CompareElementsByName);
             return element;
         }
 
-        public void Delete(short index)
+        private int CompareElementsByName(IEACollectionElement e1, IEACollectionElement e2)
         {
-            elements.RemoveAt(index);
+            return String.Compare(e1.Name, e2.Name);
+        }
+
+        public virtual void Delete(short index)
+        {
+            Elements.RemoveAt(index);
         }
 
         IEnumerator IDualCollection.GetEnumerator()
@@ -92,14 +98,14 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public short Count
         {
-            get { return (short) elements.Count; }
+            get { return (short) Elements.Count; }
         }
 
         public ObjectType ObjectType { get; set; }
 
         public IEnumerator GetEnumerator()
         {
-            return new List<IEACollectionElement>(elements).GetEnumerator();
+            return new List<IEACollectionElement>(Elements).GetEnumerator();
         }
 
         #endregion
@@ -155,9 +161,25 @@ namespace VIENNAAddInUnitTests.TestRepository
 
     internal class EAConnectorCollection : EACollection
     {
+        private readonly EARepository repository;
+
         public EAConnectorCollection(EARepository repository, EAElement element)
             : base(ObjectType.otConnector, repository.CreateConnector, element.ElementID)
         {
+            this.repository = repository;
+        }
+
+        public override object AddNew(string Name, string Type)
+        {
+            var connector = (EAConnector) createElement(Name, Type, containerId);
+            repository.AddConnector(connector);
+            return connector;
+        }
+
+        public override void Delete(short index)
+        {
+            var connector = (EAConnector) Elements[index];
+            repository.RemoveConnector(connector);
         }
     }
 

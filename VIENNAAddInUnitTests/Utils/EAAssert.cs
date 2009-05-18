@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 using EA;
 using NUnit.Framework;
@@ -10,6 +11,48 @@ namespace VIENNAAddInUnitTests.Utils
 {
     public static class EAAssert
     {
+        private static readonly PropertyAssertion<AttributeTag> attributeTagPropertiesAreEqual = new PropertyAssertion<AttributeTag>(o => new[]
+                                                                                         {
+                                                                                             o.Name,
+                                                                                             o.Value,
+                                                                                         }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Connector> connectorPropertiesAreEqual = new PropertyAssertion<Connector>(o => new[]
+                                                                                         {
+                                                                                             o.Name,
+                                                                                         }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<ConnectorEnd> connectorEndPropertiesAreEqual = new PropertyAssertion<ConnectorEnd>(o => new[]
+                                                                                         {
+                                                                                             o.Role,
+                                                                                         }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Attribute> attributePropertiesAreEqual = new PropertyAssertion<Attribute>(o => new[]
+                                                                                    {
+                                                                                        o.Name,
+                                                                                        o.Default,
+                                                                                        o.LowerBound,
+                                                                                        o.UpperBound,
+                                                                                    }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Package> packagePropertiesAreEqual = new PropertyAssertion<Package>(o => new[]
+                                                                            {
+                                                                                o.Name,
+                                                                            }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Element> elementPropertiesAreEqual = new PropertyAssertion<Element>(o => new[]
+                                                                                {
+                                                                                    o.Name,
+                                                                                    o.Stereotype,
+                                                                                    o.StereotypeEx,
+                                                                                }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<TaggedValue> taggedValuePropertiesAreEqual = new PropertyAssertion<TaggedValue>(o => new[]
+                                                                                        {
+                                                                                            o.Name,
+                                                                                            o.Value,
+                                                                                        }, Assert.AreEqual, "should be equal");
+
         #region Delegates
 
         public delegate void AssertAreEqual<T>(T expected, T actual, Path path);
@@ -20,7 +63,7 @@ namespace VIENNAAddInUnitTests.Utils
                                                         Path path, AssertAreEqual<T> assertAreEqual)
         {
             Assert.AreEqual(expectedElements.Count, actualElements.Count,
-                            "Different number of " + typeof (T).Name + "s in " + path);
+                            "Different number of " + typeof (T).Name + "s at /" + path);
             IEnumerator actualElementsEnumerator = actualElements.GetEnumerator();
             foreach (T expectedElement in expectedElements)
             {
@@ -37,8 +80,8 @@ namespace VIENNAAddInUnitTests.Utils
 
         public static void PackagesAreEqual(Package expectedPackage, Package actualPackage, Path path)
         {
-            Assert.AreEqual(expectedPackage.Name, actualPackage.Name);
-            Path packagePath = path/expectedPackage.Name;
+            Path packagePath = path / expectedPackage.Name;
+            packagePropertiesAreEqual.AssertFor(expectedPackage, actualPackage, packagePath);
             ElementsAreEqual(expectedPackage.Element, actualPackage.Element, packagePath);
             AssertCollectionsAreEqual<Package>(expectedPackage.Packages, actualPackage.Packages, packagePath,
                                                PackagesAreEqual);
@@ -61,14 +104,9 @@ namespace VIENNAAddInUnitTests.Utils
             }
             else
             {
-                Assert.IsNotNull(actualElement, "Target element for " + expectedElement.Name + " is null at " + path);
+                Assert.IsNotNull(actualElement, "Target element for " + expectedElement.Name + " is null at /" + path);
                 Path elementPath = path/expectedElement.Name;
-                AssertPropertiesAreEqual(expectedElement, actualElement, elementPath, o => new[]
-                                                                                           {
-                                                                                               o.Name,
-                                                                                               o.Stereotype,
-                                                                                               o.StereotypeEx,
-                                                                                           });
+                elementPropertiesAreEqual.AssertFor(expectedElement, actualElement, elementPath);
                 AssertCollectionsAreEqual<Attribute>(expectedElement.Attributes, actualElement.Attributes, elementPath,
                                                      AttributesAreEqual);
                 AssertCollectionsAreEqual<Connector>(expectedElement.Connectors, actualElement.Connectors, elementPath,
@@ -86,12 +124,9 @@ namespace VIENNAAddInUnitTests.Utils
             }
             else
             {
-                Assert.IsNotNull(actualTag, "Target tagged value for " + expectedTag.Name + " is null at " + path);
-                AssertPropertiesAreEqual(expectedTag, actualTag, path / expectedTag.Name, o => new[]
-                                                                                               {
-                                                                                                   o.Name,
-                                                                                                   o.Value,
-                                                                                               });
+                Assert.IsNotNull(actualTag, "Target tagged value for " + expectedTag.Name + " is null at /" + path);
+                var tagPath = path / expectedTag.Name;
+                taggedValuePropertiesAreEqual.AssertFor(expectedTag, actualTag, tagPath);
             }
         }
 
@@ -103,24 +138,40 @@ namespace VIENNAAddInUnitTests.Utils
             }
             else
             {
-                Assert.IsNotNull(actualTag, "Target attribute tag for " + expectedTag.Name + " is null at " + path);
-                AssertPropertiesAreEqual(expectedTag, actualTag, path/expectedTag.Name, o => new[]
-                                                                                             {
-                                                                                                 o.Name,
-                                                                                                 o.Value,
-                                                                                             });
+                Assert.IsNotNull(actualTag, "Target attribute tag for " + expectedTag.Name + " is null at /" + path);
+                var tagPath = path / expectedTag.Name;
+                attributeTagPropertiesAreEqual.AssertFor(expectedTag, actualTag, tagPath);
             }
-        }
-
-        private static void AssertPropertiesAreEqual<T>(T expected, T actual, Path path,
-                                                        Func<T, object> invokeProperties)
-        {
-            invokeProperties((T)new ProxyGenerator().CreateInterfaceProxyWithTargetInterface(typeof(T), expected, new AssertPropertiesAreEqualInterceptor<T>(expected, actual, path)));
         }
 
         public static void ConnectorsAreEqual(Connector expected, Connector actual, Path path)
         {
-            // TODO
+            if (expected == null)
+            {
+                Assert.IsNull(actual);
+            }
+            else
+            {
+                Assert.IsNotNull(actual, "Target connector for " + expected.Name + " is null at /" + path);
+                var connectorPath = path / expected.Name;
+                connectorPropertiesAreEqual.AssertFor(expected, actual, connectorPath);
+                AssertConnectorEndsAreEqual(expected.ClientEnd, actual.ClientEnd, connectorPath);
+                AssertConnectorEndsAreEqual(expected.SupplierEnd, actual.SupplierEnd, connectorPath);
+            }
+        }
+
+        private static void AssertConnectorEndsAreEqual(ConnectorEnd expected, ConnectorEnd actual, Path path)
+        {
+            if (expected == null)
+            {
+                Assert.IsNull(actual);
+            }
+            else
+            {
+                Assert.IsNotNull(actual, "Target connector end for " + expected.Role + " is null at /" + path);
+                var connectorEndPath = path / expected.Role;
+                connectorEndPropertiesAreEqual.AssertFor(expected, actual, connectorEndPath);
+            }
         }
 
         public static void AttributesAreEqual(Attribute expectedAttribute, Attribute actualAttribute, Path path)
@@ -132,18 +183,68 @@ namespace VIENNAAddInUnitTests.Utils
             else
             {
                 Assert.IsNotNull(actualAttribute,
-                                 "Target attribute for " + expectedAttribute.Name + " is null at " + path);
+                                 "Target attribute for " + expectedAttribute.Name + " is null at /" + path);
                 Path attributePath = path/expectedAttribute.Name;
-                AssertPropertiesAreEqual(expectedAttribute, actualAttribute, attributePath,o => new[]
-                                                                                                {
-                                                                                                    o.Name,
-                                                                                                    o.Default,
-                                                                                                    o.LowerBound,
-                                                                                                    o.UpperBound,
-                                                                                                });
+                attributePropertiesAreEqual.AssertFor(expectedAttribute, actualAttribute, attributePath);
                 AssertCollectionsAreEqual<AttributeTag>(expectedAttribute.TaggedValues, actualAttribute.TaggedValues,
                                                         attributePath, AttributeTagsAreEqual);
             }
         }
     }
+
+    internal class PropertyAssertion<T>
+    {
+        private readonly Func<T, object> invokeProperties;
+        private readonly T proxy;
+        private readonly PropertyAssertionInterceptor interceptor;
+
+        internal delegate void Assertion(object expected, object actual, string message);
+
+        public PropertyAssertion(Func<T, object> invokeProperties, Assertion assert, string assertionDescription)
+        {
+            this.invokeProperties = invokeProperties;
+            interceptor = new PropertyAssertionInterceptor(assert, assertionDescription);
+            proxy = new ProxyGenerator().CreateInterfaceProxyWithoutTarget<T>(interceptor);
+        }
+
+        public void AssertFor(T expected, T actual, Path path)
+        {
+            interceptor.Expected = expected;
+            interceptor.Actual = actual;
+            interceptor.Path = path;
+            invokeProperties(proxy);
+        }
+
+        private class PropertyAssertionInterceptor: IInterceptor
+        {
+            private readonly Assertion assert;
+            private readonly string assertionDescription;
+
+            public PropertyAssertionInterceptor(Assertion assert, string assertionDescription)
+            {
+                this.assert = assert;
+                this.assertionDescription = assertionDescription;
+            }
+
+            public T Actual { get; set; }
+            public T Expected { get; set; }
+            public Path Path { get; set; }
+
+            #region IInterceptor Members
+
+            public void Intercept(IInvocation invocation)
+            {
+                object expectedValue = invocation.Method.Invoke(Expected, invocation.Arguments);
+                object actualValue = invocation.Method.Invoke(Actual, invocation.Arguments);
+                invocation.ReturnValue = expectedValue;
+                assert(expectedValue, actualValue,
+                                "The property " + typeof(T).Name + "." +
+                                invocation.Method.Name.Substring(4) +
+                                " of " + Path + " " + assertionDescription + ".");
+            }
+
+            #endregion
+        }
+    }
+
 }

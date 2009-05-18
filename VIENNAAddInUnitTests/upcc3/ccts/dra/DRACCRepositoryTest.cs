@@ -495,9 +495,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
             var prims = new List<IPRIM>(primLib1.Elements);
             Assert.AreEqual(2, prims.Count);
-            IPRIM stringType = prims[0];
+            IPRIM stringType = prims[1];
             Assert.AreEqual("String", stringType.Name);
-            IPRIM decimalType = prims[1];
+            IPRIM decimalType = prims[0];
             Assert.AreEqual("Decimal", decimalType.Name);
 
             ICDTLibrary cdtLib1 = ccRepository.Libraries<ICDTLibrary>().First();
@@ -517,13 +517,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IACC accAddress = ccLib1.Elements.First();
             var accAddressBCCs = new List<IBCC>(accAddress.BCCs);
 
-            IBCC bccCountryName = accAddressBCCs[0];
+            IBCC bccCountryName = accAddressBCCs[1];
             Assert.AreSame(accAddress, bccCountryName.Container);
             Assert.AreEqual("CountryName", bccCountryName.Name);
             Assert.AreEqual("1", bccCountryName.LowerBound);
             Assert.AreEqual("1", bccCountryName.UpperBound);
 
-            IBCC bccPostcode = accAddressBCCs[4];
+            IBCC bccPostcode = accAddressBCCs[2];
             Assert.AreEqual("Postcode", bccPostcode.Name);
             Assert.AreEqual("0", bccPostcode.LowerBound);
             Assert.AreEqual("*", bccPostcode.UpperBound);
@@ -546,14 +546,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.IsNotNull(abieAddress);
             var abieAddressBBIEs = new List<IBBIE>(abieAddress.BBIEs);
 
-            IBBIE bbieCountryName = abieAddressBBIEs[0];
+            IBBIE bbieCountryName = abieAddressBBIEs[1];
             Assert.AreSame(abieAddress, bbieCountryName.Container);
             Assert.AreEqual("CountryName", bbieCountryName.Name);
             Assert.AreEqual("1", bbieCountryName.LowerBound);
             Assert.AreEqual("1", bbieCountryName.UpperBound);
             Assert.AreEqual(bdtText.Id, bbieCountryName.Type.Id);
 
-            IBCC bbiePostcode = accAddressBCCs[4];
+            IBCC bbiePostcode = accAddressBCCs[2];
             Assert.AreEqual("Postcode", bbiePostcode.Name);
             Assert.AreEqual("0", bbiePostcode.LowerBound);
             Assert.AreEqual("*", bbiePostcode.UpperBound);
