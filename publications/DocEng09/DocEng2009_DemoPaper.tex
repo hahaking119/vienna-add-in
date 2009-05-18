@@ -106,7 +106,21 @@ Especially deriving artifacts on the business information entity level involves 
 %
 %abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg abcdefg.
 
-\section{XML schema generation}
+\section{XML Schema generation}
+In order to use the CCTS models composed with UPCC in a business process we provide the VIENNA Add-In with an XML Schema generator.  The serialization of the XML Schema files is driven by the general Naming and Design Rules provided by the UN/CEFACT \cite{CEFACT:NDR}. These Naming and Design Rules constitute a mapping between the conceptual model of CCTS and the XML Schema language. By doing so we ensure that CCTS models conforming to these rules are interchangeable across platforms and applications. For every business document to be serialized a bunch of XML Schema files is created reflecting the library structure of a standard UPCC project. For example, for an assembled business document in a DOCLibrary, the whole BIELibraries and BDTLibraries are also serialized as separate files. Following the specification in \cite{CEFACT:NDR} also element annotations containing meaningful documentation are generated from the tagged values of the conceptual model. 
+
+Until now the VIENNA Add-In supports only generation of XML Schema conforming to CCTS. However, it is desirable to have schema generators for other languages and other syntax, too. The support of new document models that are not based on CCTS involves the mostly manual mapping from a domain model to CCTS. Automation techniques such as matching may be also considered. Also, we work on the implementation of generators for business process deployment artifacts such as BPEL files.
+
+
+%2. outlook what should be supported
+
+%\begin{enumerate}
+%\item \emph{Serialize CCTS model.} This use case may most likely occur after modeling an arbitrary business document from scratch. The serialization of the XML Schema is driven by the general Naming and Design Rules provided by the UN/CEFACT \cite{CEFACT:NDR}. By doing so we ensure that CCTS models conforming to these rules are interchangeable across platforms and applications. 
+%\item \emph{Serialize some model.} This use case is triggered at the end of step two during the transformation of say document model $M_A$ into document model $M_B$. The serialization of the XML Schema of model $M_B$ must adhere to the custom naming and design rules of the original document model on which the mapping from $M_B$ to CCTS $M_P$ was defined.  The generated schema will in most cases only cover a subset of the original model $M_B$, otherwise the transformation becomes obsolete.
+%\item \emph{Serialize subset of some model.} After a particular subsetting of model $M_A$ to model $M_{A'}$  the generation of the schema follows specific naming and design rules as explained in the previous subtask. Furthermore, it has to be ensured that model $M_{A'}$ is strictly a subset of $M_A$ and does not contain any extensions. Otherwise instances $o_{A'}$ conforming to $M_{A'}$ will no longer be conforming to $M_A$ leading to further interoperability problems.
+%\end{enumerate}
+%Finally, in support of the schema generation use case, as well as the document subsetting use case, the Add-In provides functionality to serialize CCTS models as XML schema documents, according to the UN/CEFACT Naming and Design Rules. Generation of other XML schema documents, adhering to some arbitrary naming and design rules, is currently being worked on, as well as the use of Map Force mapping definitions for document transformations and round-trip engineering.
+
 
 
 
