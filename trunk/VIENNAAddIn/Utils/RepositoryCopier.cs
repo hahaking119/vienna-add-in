@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using EA;
 using Attribute=EA.Attribute;
 
@@ -42,9 +43,25 @@ namespace VIENNAAddIn.Utils
 
         private void Copy()
         {
+            RemoveContentFromTargetRepository();
             CopyPackageCollection(sourceRepository.Models, targetRepository.Models, 0);
             CopyConnectors();
             // TODO copy diagrams
+        }
+
+        /// <summary>
+        /// Removes all content from the target repository.
+        /// </summary>
+        private void RemoveContentFromTargetRepository()
+        {
+            var models = targetRepository.Models;
+            Debug.WriteLine("number of models: " + models.Count);
+            for (short i = 0; i < models.Count; i++)
+            {
+                models.Delete(i);
+            }
+            models.Refresh();
+            Debug.WriteLine("number of models: " + models.Count);
         }
 
         private void CopyConnectors()
@@ -55,8 +72,6 @@ namespace VIENNAAddIn.Utils
                 var targetSupplier = targetRepository.GetElementByID(elementMapping[sourceConnector.SupplierID]);
                 CopyConnector(sourceConnector, targetClient.Connectors, targetClient.ElementID, targetSupplier.ElementID);
                 targetClient.Connectors.Refresh();
-                CopyConnector(sourceConnector, targetSupplier.Connectors, targetClient.ElementID, targetSupplier.ElementID);
-                targetSupplier.Connectors.Refresh();
             }
         }
 
@@ -76,6 +91,7 @@ namespace VIENNAAddIn.Utils
 
         private void CopyConnectorEnd(ConnectorEnd sourceEnd, ConnectorEnd targetEnd)
         {
+            targetEnd.Role = sourceEnd.Role;
             targetEnd.Aggregation = sourceEnd.Aggregation;
             targetEnd.Cardinality = sourceEnd.Cardinality;
             targetEnd.Containment = sourceEnd.Containment;

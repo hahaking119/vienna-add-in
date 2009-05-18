@@ -7,21 +7,22 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
+using System.Linq;
 using EA;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EAElement : Element, IEACollectionElement
     {
+        private readonly EARepository repository;
         private readonly Collection taggedValues;
-        private readonly Collection connectors;
         private readonly Collection attributes;
         private string stereotypeEx;
 
         public EAElement(EARepository repository)
         {
+            this.repository = repository;
             attributes = new EAAttributeCollection(repository, this);
-            connectors = new EAConnectorCollection(repository, this);
             taggedValues = new EATaggedValueCollection(repository, this);
         }
 
@@ -143,7 +144,12 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public Collection Connectors
         {
-            get { return connectors; }
+            get
+            {
+                var myConnectors = new EAConnectorCollection(repository, this);
+                myConnectors.Elements.AddRange(from c1 in repository.Connectors where c1.ClientID == ElementID || c1.SupplierID == ElementID orderby c1.Name select c1 as IEACollectionElement);
+                return myConnectors;
+            }
         }
 
         public string Notes

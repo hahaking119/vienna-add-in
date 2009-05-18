@@ -21,6 +21,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             string emptyRepositoryFileName = TestUtils.PathToTestResource("empty-repository.eap");
             tempFileName = Path.GetTempFileName();
+            tempFileName = tempFileName.Substring(0, tempFileName.Length - Path.GetExtension(tempFileName).Length - 1) + ".eap";
             Console.WriteLine("Creating temporary file-based repository: \"{0}\"", tempFileName);
             File.Copy(emptyRepositoryFileName, tempFileName, true);
             repo.OpenFile(tempFileName);

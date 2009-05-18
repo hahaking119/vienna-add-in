@@ -13,10 +13,10 @@ namespace VIENNAAddInUnitTests.TestRepository
 {
     public class EAPackage : Package, IEACollectionElement
     {
-        private readonly Collection packages;
-        private readonly Collection elements;
         private readonly Collection diagrams;
         private readonly Element element;
+        private readonly Collection elements;
+        private readonly Collection packages;
 
         public EAPackage(EARepository repository)
         {
@@ -38,7 +38,11 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         #region Package Members
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return element.Name; }
+            set { element.Name = value; }
+        }
 
         public Collection Packages
         {

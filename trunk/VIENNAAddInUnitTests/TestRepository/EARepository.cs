@@ -43,7 +43,8 @@ namespace VIENNAAddInUnitTests.TestRepository
         private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
         private readonly EACollection models;
         private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
-        private Project project = new EAProject();
+        private readonly Project project = new EAProject();
+        private readonly List<EAConnector> connectors = new List<EAConnector>();
 
         public EARepository()
         {
@@ -624,6 +625,11 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
+        internal IEnumerable<EAConnector> Connectors
+        {
+            get { return connectors; }
+        }
+
         #endregion
 
         /// <summary>
@@ -710,14 +716,15 @@ namespace VIENNAAddInUnitTests.TestRepository
                 {
                     throw new Exception("Path cannot be resolved: " + connector.GetPathToSupplier());
                 }
-                AddConnector(connector, client.Connectors, client, supplier);
-                AddConnector(connector, supplier.Connectors, client, supplier);
+                AddConnector(CreateConnector(connector, client.Connectors, client, supplier));
+//                CreateConnector(connector, supplier.Connectors, client, supplier);
             }
         }
 
-        private void AddConnector(ConnectorBuilder connector, Collection connectors, Element client, Element supplier)
+        private EAConnector CreateConnector(ConnectorBuilder connector, Collection connectors, Element client, Element supplier)
         {
-            var eaConnector = (EAConnector)connectors.AddNew(connector.GetName(), "Association");
+            var eaConnector = (EAConnector) CreateConnector(connector.GetName(), "Association", client.ElementID);
+                //(EAConnector)connectors.AddNew(connector.GetName(), "Association");
             eaConnector.Repository = this;
             eaConnector.ClientID = client.ElementID;
             eaConnector.ClientEnd.Aggregation = (int)connector.GetAggregationKind();
@@ -730,6 +737,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             {
                 eaConnector.AddTaggedValue(tv.Name, tv.Value);
             }
+            return eaConnector;
         }
 
         /// <summary>
@@ -849,6 +857,16 @@ namespace VIENNAAddInUnitTests.TestRepository
         public IEACollectionElement CreateDiagram(string name, string type, int packageId)
         {
             return new EADiagram(this) {Name = name, Type = type, PackageID = packageId};
+        }
+
+        internal void AddConnector(EAConnector connector)
+        {
+            connectors.Add(connector);
+        }
+
+        internal void RemoveConnector(EAConnector connector)
+        {
+            connectors.Remove(connector);
         }
     }
 
