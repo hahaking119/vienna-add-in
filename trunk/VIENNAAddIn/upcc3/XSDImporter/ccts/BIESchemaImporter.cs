@@ -103,9 +103,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
         {
             Node root = new Node();
           
-
-            
-
             Console.WriteLine("-------------");            
             XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces(schema.Namespaces);
             XmlQualifiedName[] qualifiedNames = namespaces.ToArray();
@@ -116,11 +113,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             }
 
             Console.WriteLine("-------------");
-
-
-
-
-
 
             foreach (XmlSchemaObject item in schema.Items)
             {

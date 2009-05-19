@@ -135,6 +135,7 @@
     <Compile Include="upcc3\XSDImporter\ccts\RootSchemaImporter.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\XSDImporter.cs" />
     <Compile Include="upcc3\XSDImporter\ImporterContext.cs" />
+    <Compile Include="upcc3\XSDImporter\util\CustomSchemaReader.cs" />
     <Compile Include="Utils\DictionaryExtensions.cs" />
     <Compile Include="menu\MenuAction.cs" />
     <Compile Include="menu\MenuItem.cs" />
