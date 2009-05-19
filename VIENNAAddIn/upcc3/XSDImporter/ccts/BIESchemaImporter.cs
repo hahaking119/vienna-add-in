@@ -31,6 +31,42 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
         }
     }
 
+    //internal class Node
+    //{
+    //    internal Node()
+    //    {
+            
+    //    }
+
+    //    internal ABIESpec ABIESpec { get; private set; }
+    //    internal List<Node> Children { get; private set; }
+    //    internal Node Parent { get; private set; }
+    //}
+
+    //internal class RootNode
+    //{
+    //    private readonly List<Node> children;
+    //    private Node currentChild;
+        
+    //    internal RootNode()
+    //    {
+    //        children = new List<Node>();
+    //    }
+
+    //    internal void AddChild(Node newChild)
+    //    {
+    //        children.Add(newChild);
+    //    }
+
+    //    internal Node GetNextChild()
+    //    {
+    //        if (currentChild == null)
+    //        {
+    //            currentChild = 
+    //        }
+    //    }
+    //}
+
     ///<summary>
     ///</summary>
     public class BIESchemaImporter
