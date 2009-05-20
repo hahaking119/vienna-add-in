@@ -37,6 +37,8 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
     {
         public string Name { get; set; }
 
+        // TODO: add capability that complextypes can have child elements
+
         public ComplexType()
         {
             Name = "";
