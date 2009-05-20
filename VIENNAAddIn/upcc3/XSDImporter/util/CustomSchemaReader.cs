@@ -14,7 +14,10 @@ using System.Text;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.util
 {
-    class CustomSchemaReader
+    
+    ///<summary>
+    ///</summary>
+    public class CustomSchemaReader
     {
     }
 }
