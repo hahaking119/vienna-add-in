@@ -72,6 +72,7 @@
     <Compile Include="upcc3\Wizards\util\DatabaseHandlerTest.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceHandlerTest.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\XSDImporterTest.cs" />
+    <Compile Include="upcc3\XSDImporter\util\CustomSchemaReaderTest.cs" />
     <Compile Include="Utils\EAAssert.cs" />
     <Compile Include="Utils\PropertyEqualityAssertion.cs" />
     <Compile Include="Utils\PropertyEqualityAssertionTest.cs" />
