@@ -8,6 +8,7 @@
 // *******************************************************************************
 
 using NUnit.Framework;
+using VIENNAAddIn;
 using VIENNAAddInUnitTests.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.TestRepository
@@ -18,7 +19,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.TestRepository
         [Test]
         public void Test1()
         {
-            SetContent(Package("Test Model", ""));
+            this.AddModel("Test Model", m => { });
         }
     }
 }

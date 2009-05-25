@@ -21,11 +21,11 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         #endregion
 
-        protected readonly int containerId;
+        protected readonly Func<int> containerId;
         protected readonly ElementFactory createElement;
         private readonly List<IEACollectionElement> elements = new List<IEACollectionElement>();
 
-        protected EACollection(ObjectType objectType, ElementFactory elementFactory, int containerId)
+        protected EACollection(ObjectType objectType, ElementFactory elementFactory, Func<int> containerId)
         {
             ObjectType = objectType;
             this.createElement = elementFactory;
@@ -75,7 +75,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public virtual object AddNew(string Name, string Type)
         {
-            IEACollectionElement element = createElement(Name, Type, containerId);
+            IEACollectionElement element = createElement(Name, Type, containerId());
             Elements.Add(element);
             Elements.Sort(CompareElementsByName);
             return element;
@@ -114,7 +114,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EATaggedValueCollection : EACollection
     {
         public EATaggedValueCollection(EARepository repository, EAElement element)
-            : base(ObjectType.otTaggedValue, repository.CreateTaggedValue, element.ElementID)
+            : base(ObjectType.otTaggedValue, EARepository.CreateTaggedValue, () => element.ElementID)
         {
         }
     }
@@ -122,7 +122,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EADiagramObjectCollection : EACollection
     {
         public EADiagramObjectCollection(EARepository repository, EADiagram diagram)
-            : base(ObjectType.otDiagramObject, repository.CreateDiagramObject, diagram.DiagramID)
+            : base(ObjectType.otDiagramObject, EARepository.CreateDiagramObject, () => diagram.DiagramID)
         {
         }
     }
@@ -130,7 +130,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EAAttributeTagCollection : EACollection
     {
         public EAAttributeTagCollection(EARepository repository, EAAttribute attribute)
-            : base(ObjectType.otAttributeTag, repository.CreateAttributeTag, attribute.AttributeID)
+            : base(ObjectType.otAttributeTag, EARepository.CreateAttributeTag, () => attribute.AttributeID)
         {
         }
     }
@@ -138,7 +138,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EAConnectorTagCollection : EACollection
     {
         public EAConnectorTagCollection(EARepository repository, EAConnector connector)
-            : base(ObjectType.otConnectorTag, repository.CreateConnectorTag, connector.ConnectorID)
+            : base(ObjectType.otConnectorTag, repository.CreateConnectorTag, () => connector.ConnectorID)
         {
         }
     }
@@ -146,7 +146,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EAPackageCollection : EACollection
     {
         public EAPackageCollection(EARepository repository, EAPackage parent)
-            : base(ObjectType.otPackage, repository.CreatePackage, parent != null ? parent.PackageID : 0)
+            : base(ObjectType.otPackage, repository.CreatePackage, () => parent != null ? parent.PackageID : 0)
         {
         }
     }
@@ -154,7 +154,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EAAttributeCollection : EACollection
     {
         public EAAttributeCollection(EARepository repository, EAElement element)
-            : base(ObjectType.otAttribute, repository.CreateAttribute, element.ElementID)
+            : base(ObjectType.otAttribute, repository.CreateAttribute, () => element.ElementID)
         {
         }
     }
@@ -164,14 +164,14 @@ namespace VIENNAAddInUnitTests.TestRepository
         private readonly EARepository repository;
 
         public EAConnectorCollection(EARepository repository, EAElement element)
-            : base(ObjectType.otConnector, repository.CreateConnector, element.ElementID)
+            : base(ObjectType.otConnector, repository.CreateConnector, () => element.ElementID)
         {
             this.repository = repository;
         }
 
         public override object AddNew(string Name, string Type)
         {
-            var connector = (EAConnector) createElement(Name, Type, containerId);
+            var connector = (EAConnector) createElement(Name, Type, containerId());
             repository.AddConnector(connector);
             return connector;
         }
@@ -186,7 +186,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EAElementCollection : EACollection
     {
         public EAElementCollection(EARepository repository, EAPackage package)
-            : base(ObjectType.otElement, repository.CreateElement, package.PackageID)
+            : base(ObjectType.otElement, repository.CreateElement, () => package.PackageID)
         {
         }
     }
@@ -194,7 +194,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     internal class EADiagramCollection : EACollection
     {
         public EADiagramCollection(EARepository repository, EAPackage package)
-            : base(ObjectType.otDiagram, repository.CreateDiagram, package.PackageID)
+            : base(ObjectType.otDiagram, repository.CreateDiagram, () => package.PackageID)
         {
         }
     }

@@ -10,6 +10,15 @@ namespace VIENNAAddIn
 {
     public static class EARepositoryExtensions
     {
+        public static Package AddModel(this Repository repository, string name, Action<Package> initModel)
+        {
+            var model = (Package) repository.Models.AddNew(name, "Package");
+            model.Update();
+            initModel(model);
+            model.Update();
+            return model;
+        }
+
         public static T Resolve<T>(this Repository repository, Path path) where T : class
         {
             if (path.Length == 0)
@@ -168,25 +177,25 @@ namespace VIENNAAddIn
         internal static void ImportStandardCcLibraries(this Repository repository)
         {
             const string warnMessage = "Importing the standard CC libraries will overwrite all existing:\n\n"
-                                     + "    - ENUM libraries named \"ENUMLibrary\",\n"
-                                     + "    - PRIM libraries named \"PRIMLibrary\",\n"
-                                     + "    - CDT libraries named \"CDTLibrary \", and \n"
-                                     + "    - CC libraries named \"CCLibrary\"\n\n"
-                                     + "Are you sure you want to proceed?";
+                                       + "    - ENUM libraries named \"ENUMLibrary\",\n"
+                                       + "    - PRIM libraries named \"PRIMLibrary\",\n"
+                                       + "    - CDT libraries named \"CDTLibrary \", and \n"
+                                       + "    - CC libraries named \"CCLibrary\"\n\n"
+                                       + "Are you sure you want to proceed?";
             const string caption = "VIENNA Add-In Warning";
 
             DialogResult dialogResult = MessageBox.Show(warnMessage, caption, MessageBoxButtons.YesNo,
                                                         MessageBoxIcon.Exclamation);
 
             if (dialogResult == DialogResult.Yes)
-            {                                     
+            {
                 Cursor.Current = Cursors.WaitCursor;
 
                 string bLibraryGuid = repository.GetTreeSelectedPackage().Element.ElementGUID;
                 Package bLibrary = repository.GetPackageByGuid(bLibraryGuid);
 
                 (new ModelCreator(repository)).ImportStandardCcLibraries(bLibrary);
-                
+
                 Cursor.Current = Cursors.Default;
             }
         }

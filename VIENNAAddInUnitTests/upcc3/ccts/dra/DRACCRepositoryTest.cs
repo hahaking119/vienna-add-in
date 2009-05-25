@@ -540,10 +540,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("*", accPersonASCCs[1].UpperBound);
 
             var bdtText = (IBDT) ccRepository.FindByPath(EARepository1.PathToBDTText());
-            Assert.AreEqual("This is the definition of BDT Text.", bdtText.CON.Definition);
+            Assert.AreEqual("This is the definition of BDT Text.", bdtText.Definition);
 
             var abieAddress = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEAddress());
             Assert.IsNotNull(abieAddress);
+            Assert.AreEqual(accAddress.Id, abieAddress.BasedOn.Id);
             var abieAddressBBIEs = new List<IBBIE>(abieAddress.BBIEs);
 
             IBBIE bbieCountryName = abieAddressBBIEs[1];

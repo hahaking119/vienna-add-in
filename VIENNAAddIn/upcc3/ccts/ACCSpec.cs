@@ -64,7 +64,7 @@ namespace VIENNAAddIn.upcc3.ccts
                 foreach (ASCCSpec ascc in ASCCs)
                 {
                     yield return
-                        ConnectorSpec.CreateAggregation(AggregationKind.Shared, Stereotype.ASCC, ascc.Name,
+                        ConnectorSpec.CreateAggregation(EAAggregationKind.Shared, Stereotype.ASCC, ascc.Name,
                                                         ascc.AssociatedACCId, ascc.LowerBound, ascc.UpperBound);
                 }
             }

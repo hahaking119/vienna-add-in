@@ -93,7 +93,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private string GetTaggedValue(TaggedValues key)
         {
-            return connector.GetTaggedValue(key) ?? string.Empty;
+            return EAConnectorExtensions.GetTaggedValue(connector, key.ToString()) ?? string.Empty;
         }
     }
 }

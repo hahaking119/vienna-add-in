@@ -178,7 +178,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                     elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
                 }
 
-                if (asbie.AggregationKind == AggregationKind.Shared)
+                if (asbie.AggregationKind == EAAggregationKind.Shared)
                 {
                     // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
                     XmlSchemaElement refASBIE = new XmlSchemaElement();

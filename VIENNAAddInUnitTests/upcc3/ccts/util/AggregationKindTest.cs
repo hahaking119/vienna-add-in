@@ -10,19 +10,19 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.util
         [Test]
         public void TestEnumFromInt()
         {
-            Assert.AreEqual(AggregationKind.None, (AggregationKind)Enum.ToObject(typeof(AggregationKind), 0));
-            Assert.AreEqual(AggregationKind.Shared, Enum.ToObject(typeof(AggregationKind), 1));
-            Assert.AreEqual(AggregationKind.Composite, Enum.ToObject(typeof(AggregationKind), 2));
-            Assert.AreEqual(false, Enum.IsDefined(typeof (AggregationKind), -1));
-            Assert.AreEqual(false, Enum.IsDefined(typeof (AggregationKind), 3));
+            Assert.AreEqual(EAAggregationKind.None, (EAAggregationKind)Enum.ToObject(typeof(EAAggregationKind), 0));
+            Assert.AreEqual(EAAggregationKind.Shared, Enum.ToObject(typeof(EAAggregationKind), 1));
+            Assert.AreEqual(EAAggregationKind.Composite, Enum.ToObject(typeof(EAAggregationKind), 2));
+            Assert.AreEqual(false, Enum.IsDefined(typeof (EAAggregationKind), -1));
+            Assert.AreEqual(false, Enum.IsDefined(typeof (EAAggregationKind), 3));
         }
 
         [Test]
         public void TestEnumToInt()
         {
-            Assert.AreEqual(0, (int) AggregationKind.None);
-            Assert.AreEqual(1, (int) AggregationKind.Shared);
-            Assert.AreEqual(2, (int) AggregationKind.Composite);
+            Assert.AreEqual(0, (int) EAAggregationKind.None);
+            Assert.AreEqual(1, (int) EAAggregationKind.Shared);
+            Assert.AreEqual(2, (int) EAAggregationKind.Composite);
         }
     }
 }

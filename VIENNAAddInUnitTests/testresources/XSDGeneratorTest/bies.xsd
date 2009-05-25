@@ -15,6 +15,22 @@
       </xsd:documentation>
     </xsd:annotation>
     <xsd:sequence>
+      <xsd:element minOccurs="1" maxOccurs="1" name="CityName" type="bdt:TextStringType">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">
+            <ccts:UniqueID></ccts:UniqueID>
+            <ccts:VersionID></ccts:VersionID>
+            <ccts:Cardinality>1..1</ccts:Cardinality>
+            <ccts:SequencingKey></ccts:SequencingKey>
+            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:Definition></ccts:Definition>
+            <ccts:BusinessTermName></ccts:BusinessTermName>
+            <ccts:PropertyTermName>CityName</ccts:PropertyTermName>
+            <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
+            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
       <xsd:element minOccurs="1" maxOccurs="1" name="CountryName" type="bdt:TextStringType">
         <xsd:annotation>
           <xsd:documentation xml:lang="en">
@@ -31,7 +47,7 @@
           </xsd:documentation>
         </xsd:annotation>
       </xsd:element>
-      <xsd:element minOccurs="1" maxOccurs="1" name="CityName" type="bdt:TextStringType">
+      <xsd:element minOccurs="1" maxOccurs="1" name="Postcode" type="bdt:TextStringType">
         <xsd:annotation>
           <xsd:documentation xml:lang="en">
             <ccts:UniqueID></ccts:UniqueID>
@@ -41,7 +57,7 @@
             <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
-            <ccts:PropertyTermName>CityName</ccts:PropertyTermName>
+            <ccts:PropertyTermName>Postcode</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
             <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>
@@ -74,22 +90,6 @@
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>StreetNumber</ccts:PropertyTermName>
-            <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
-            <ccts:AcronymCode>BBIE</ccts:AcronymCode>
-          </xsd:documentation>
-        </xsd:annotation>
-      </xsd:element>
-      <xsd:element minOccurs="1" maxOccurs="1" name="Postcode" type="bdt:TextStringType">
-        <xsd:annotation>
-          <xsd:documentation xml:lang="en">
-            <ccts:UniqueID></ccts:UniqueID>
-            <ccts:VersionID></ccts:VersionID>
-            <ccts:Cardinality>1..1</ccts:Cardinality>
-            <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
-            <ccts:Definition></ccts:Definition>
-            <ccts:BusinessTermName></ccts:BusinessTermName>
-            <ccts:PropertyTermName>Postcode</ccts:PropertyTermName>
             <ccts:RepresentationTermName>Text</ccts:RepresentationTermName>
             <ccts:AcronymCode>BBIE</ccts:AcronymCode>
           </xsd:documentation>

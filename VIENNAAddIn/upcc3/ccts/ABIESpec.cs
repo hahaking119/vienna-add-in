@@ -66,7 +66,7 @@ namespace VIENNAAddIn.upcc3.ccts
                 foreach (ASBIESpec asbie in ASBIEs)
                 {
                     yield return
-                        ConnectorSpec.CreateAggregation(AggregationKind.Composite, Stereotype.ASBIE, asbie.Name,
+                        ConnectorSpec.CreateAggregation(EAAggregationKind.Composite, Stereotype.ASBIE, asbie.Name,
                                                         asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
                 }
             }

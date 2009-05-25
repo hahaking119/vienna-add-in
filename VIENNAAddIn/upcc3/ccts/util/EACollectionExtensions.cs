@@ -14,7 +14,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
     ///<summary>
     /// Extension methods for EA.<see cref="Collection"/>.
     ///</summary>
-    public static class CollectionExtensions
+    public static class EACollectionExtensions
     {
         ///<summary>
         /// Access the collection's contents via <see cref="IEnumerable{T}"/>.
