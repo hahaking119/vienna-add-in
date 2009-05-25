@@ -74,6 +74,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.util
                     Console.WriteLine("Complex Type\n"
                                       + "   Name: " + ct.Name
                                       + "\n");
+                    foreach (object i in ct.Items)
+                    {
+                        Element element = (Element)i;
+                        Console.WriteLine(element.Name);
+                    }
                 }
 
                 if (item is Element)
