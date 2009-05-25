@@ -36,11 +36,14 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
     public class ComplexType
     {
         public string Name { get; set; }
+        public IList<object> Items { get; private set; }
+
 
         // TODO: add capability that complextypes can have child elements
 
         public ComplexType()
         {
+            Items = new List<object>();
             Name = "";
         }
 
@@ -94,6 +97,21 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
         {
             ComplexType newComplexType = new ComplexType();
 
+            XmlReader subtree = reader.ReadSubtree();
+            while (subtree.Read())
+            {
+                if (subtree.NodeType == XmlNodeType.Element)
+                {
+                    if (subtree.Name.Equals("xsd:element"))
+                    {
+                        
+                        Element element = subtree.ParseElement();
+                        newComplexType.Items.Add(element);
+                        Console.WriteLine(element.Name);
+                    }
+                }
+            }
+
             if (reader.MoveToAttribute("name"))
             {
                 newComplexType.Name = reader.ReadContentAsString();
@@ -102,7 +120,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
             return newComplexType;
         }
         
-        public static Element ParseElement(this XmlNodeReader reader)
+        public static Element ParseElement(this XmlReader reader)
         {
             Element element = new Element();
 
@@ -179,7 +197,28 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
         public IDictionary<string, string> NamespaceTable { get; private set; }
         public IList<object> Items { get; private set; }
         public IList<Include> Includes { get; private set; }
+
+        private Boolean Skip = false;
         
+
+        private Boolean CheckToSkip(XmlReader reader)
+        {
+            if(Skip)
+            {
+                this.Skip = false;
+                reader.Skip();
+                if (reader.EOF)
+                    return false;
+                else
+                    return true;
+ 
+            } else
+                return reader.Read();  
+        }        
+
+        ///<summary>
+        ///</summary>
+        ///<param name="xmlDocument"></param>
         public CustomSchemaReader(XmlDocument xmlDocument)
         {
             Items = new List<object>();
@@ -191,7 +230,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
 
             NamespaceTable = reader.ParseSchemaHeader();
 
-            while (reader.Read())
+            while (CheckToSkip(reader))
             {
                 if (reader.NodeType == XmlNodeType.Element)
                 {
@@ -210,7 +249,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
                                 ComplexType newComplexType = reader.ParseComplexType();
 
                                 Items.Add(newComplexType);
-
+                                this.Skip = true;
                                 break;
                             }
                         case "xsd:include":
