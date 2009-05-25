@@ -48,6 +48,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return element;
         }
 
+        public static Element AddClass(this Package package, string name)
+        {
+            return package.AddElement(name, "Class");
+        }
+
         public static TaggedValue AddTaggedValue(this Package package, string name)
         {
             return package.Element.AddTaggedValue(name);
