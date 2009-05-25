@@ -15,9 +15,12 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return tag;
         }
 
-        public static Attribute With(this Attribute attribute, Action<Attribute> doSomethingWith)
+        public static Attribute With(this Attribute attribute, params Action<Attribute>[] doSomethingWith)
         {
-            doSomethingWith(attribute);
+            foreach (var action in doSomethingWith)
+            {
+                action(attribute);
+            }
             attribute.Update();
             return attribute;
         }

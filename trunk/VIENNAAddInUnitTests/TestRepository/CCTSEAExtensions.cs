@@ -1,0 +1,144 @@
+using EA;
+using VIENNAAddIn.upcc3.ccts.util;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+
+namespace VIENNAAddInUnitTests.TestRepository
+{
+    /// <summary>
+    /// CCTS specific extension methods for EA repository classes.
+    /// </summary>
+    public static class CCTSEAExtensions
+    {
+        public static Attribute AddCON(this Element e, Element type)
+        {
+            return e.AddAttribute("Content", type).With(EARepository.AttributeStereotype(Stereotype.CON));
+        }
+
+        public static Attribute AddSUP(this Element e, Element type, string name)
+        {
+            return e.AddAttribute(name, type).With(EARepository.AttributeStereotype(Stereotype.SUP));
+        }
+
+        public static void AddSUPs(this Element e, Element type, params string[] names)
+        {
+            foreach (string name in names)
+            {
+                AddSUP(e, type, name);
+            }
+        }
+
+        public static void AddBCCs(this Element e, Element type, params string[] names)
+        {
+            foreach (string name in names)
+            {
+                AddBCC(e, type, name);
+            }
+        }
+
+        public static Attribute AddBCC(this Element e, Element type, string name)
+        {
+            return e.AddAttribute(name, type).With(EARepository.AttributeStereotype(Stereotype.BCC));
+        }
+
+        public static void AddBBIEs(this Element e, Element type, params string[] names)
+        {
+            foreach (string name in names)
+            {
+                AddBBIE(e, type, name);
+            }
+        }
+
+        public static Attribute AddBBIE(this Element e, Element type, string name)
+        {
+            return e.AddAttribute(name, type).With(EARepository.AttributeStereotype(Stereotype.BBIE));
+        }
+
+        public static Element AddPRIM(this Package primLib1, string name)
+        {
+            return primLib1.AddClass(name).With(EARepository.ElementStereotype(Stereotype.PRIM));
+        }
+
+        public static Element AddENUM(this Package enumLib1, string name, Element type, params string[] values)
+        {
+            return enumLib1.AddClass(name).With(EARepository.ElementStereotype(Stereotype.ENUM),
+                                                e =>
+                                                {
+                                                    for (int i = 0; i < values.Length; i += 2)
+                                                    {
+                                                        AddENUMValue(e, values[i], values[i + 1], type);
+                                                    }
+                                                });
+        }
+
+        public static void AddENUMValue(this Element e, string name, string value, Element type)
+        {
+            e.AddAttribute(name, type).With(a => { a.Default = value; });
+        }
+
+        public static void AddASCC(this Element client, Element supplier, string name)
+        {
+            AddASCC(client, supplier, name, "1", "1");
+        }
+
+        public static void AddASCC(this Element client, Element supplier, string name, string lowerBound, string upperBound)
+        {
+            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
+                                                                               {
+                                                                                   c.Stereotype = Stereotype.ASCC;
+                                                                                   c.ClientEnd.Aggregation = (int) EAAggregationKind.Shared;
+                                                                                   c.SupplierID = supplier.ElementID;
+                                                                                   c.SupplierEnd.Role = name;
+                                                                                   c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
+                                                                               });
+        }
+
+        public static void AddASBIE(this Element client, Element supplier, string name, EAAggregationKind aggregationKind)
+        {
+            AddASBIE(client, supplier, name, aggregationKind, "1", "1");
+        }
+
+        public static void AddASBIE(this Element client, Element supplier, string name, EAAggregationKind aggregationKind, string lowerBound, string upperBound)
+        {
+            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
+                                                                               {
+                                                                                   c.Stereotype = Stereotype.ASBIE;
+                                                                                   c.ClientEnd.Aggregation = (int) aggregationKind;
+                                                                                   c.SupplierID = supplier.ElementID;
+                                                                                   c.SupplierEnd.Role = name;
+                                                                                   c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
+                                                                               });
+        }
+
+        public static void AddBasedOnDependency(this Element client, Element supplier)
+        {
+            client.AddConnector("basedOn", EAConnectorTypes.Dependency.ToString(), c =>
+                                                                                   {
+                                                                                       c.Stereotype = Stereotype.BasedOn;
+                                                                                       c.ClientEnd.Aggregation = (int) EAAggregationKind.None;
+                                                                                       c.SupplierID = supplier.ElementID;
+                                                                                       c.SupplierEnd.Role = "basedOn";
+                                                                                       c.SupplierEnd.Cardinality = "1";
+                                                                                   });
+        }
+
+        public static Element AddACC(this Package package, string name)
+        {
+            return package.AddClass(name).With(EARepository.ElementStereotype(Stereotype.ACC));
+        }
+
+        public static Element AddABIE(this Package package, string name)
+        {
+            return package.AddClass(name).With(EARepository.ElementStereotype(Stereotype.ABIE));
+        }
+
+        public static Element AddBDT(this Package package, string name)
+        {
+            return package.AddClass(name).With(EARepository.ElementStereotype(Stereotype.BDT));
+        }
+
+        public static Element AddCDT(this Package package, string name)
+        {
+            return package.AddClass(name).With(EARepository.ElementStereotype(Stereotype.CDT));
+        }
+    }
+}

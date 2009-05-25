@@ -9,11 +9,8 @@
 using System;
 using System.Collections.Generic;
 using EA;
-using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
-using EARepositoryExtensions=VIENNAAddIn.EARepositoryExtensions;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
@@ -31,20 +28,26 @@ namespace VIENNAAddInUnitTests.TestRepository
     /// </summary>
     public class EARepository : Repository
     {
+        private readonly List<EAConnector> connectors = new List<EAConnector>();
+        private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
+
         /// <summary>
         /// Counter for unique repository element IDs.
         /// </summary>
         private readonly IDFactory idFactory = new IDFactory();
 
-        private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
         protected readonly EACollection models;
         private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
         private readonly Project project = new EAProject();
-        private readonly List<EAConnector> connectors = new List<EAConnector>();
 
         public EARepository()
         {
             models = new EAPackageCollection(this, null);
+        }
+
+        internal IEnumerable<EAConnector> Connectors
+        {
+            get { return connectors; }
         }
 
         #region Repository Members
@@ -621,34 +624,29 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        internal IEnumerable<EAConnector> Connectors
-        {
-            get { return connectors; }
-        }
-
         #endregion
 
         public EAPackage CreatePackage(string name, string type, int parentId)
         {
             int id = idFactory.NextID;
-            var package = new EAPackage(this) { Name = name, PackageID = id, ParentID = parentId};
+            var package = new EAPackage(this) {Name = name, PackageID = id, ParentID = parentId};
             packagesById[id] = package;
             return package;
         }
 
         public EAConnectorTag CreateConnectorTag(string name, string type, int connectorId)
         {
-            return new EAConnectorTag { Name = name, TagID = idFactory.NextID, ConnectorID = connectorId};
+            return new EAConnectorTag {Name = name, TagID = idFactory.NextID, ConnectorID = connectorId};
         }
 
         public static EAAttributeTag CreateAttributeTag(string name, string type, int attributeId)
         {
-            return new EAAttributeTag { Name = name, AttributeID = attributeId };
+            return new EAAttributeTag {Name = name, AttributeID = attributeId};
         }
 
         public static EADiagramObject CreateDiagramObject(string name, string type, int diagramId)
         {
-            return new EADiagramObject{Name = name, DiagramID = diagramId};
+            return new EADiagramObject {Name = name, DiagramID = diagramId};
         }
 
         public static IEACollectionElement CreateTaggedValue(string name, string type, int elementId)
@@ -669,7 +667,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         public IEACollectionElement CreateElement(string name, string type, int packageId)
         {
             int id = idFactory.NextID;
-            var element = new EAElement(this) { Name = name, Type = type, ElementID = id, PackageID = packageId};
+            var element = new EAElement(this) {Name = name, Type = type, ElementID = id, PackageID = packageId};
             elementsById[id] = element;
             return element;
         }
@@ -689,474 +687,39 @@ namespace VIENNAAddInUnitTests.TestRepository
             connectors.Remove(connector);
         }
 
-        protected static Attribute AddCON(Element e, Element type)
+        public static Action<Element> ElementStereotype(string stereotype)
         {
-            return AddAttribute(e, "Content", type, Stereotype.CON);
+            return element => { element.Stereotype = stereotype; };
         }
 
-        protected static Attribute AddSUP(Element e, Element type, string name)
+        protected static Action<Element> BCCs(Element type, params string[] names)
         {
-            return AddAttribute(e, name, type, Stereotype.SUP);
+            return element => element.AddBCCs(type, names);
         }
 
-        protected static void AddSUPs(Element e, Element type, params string[] names)
+        protected static Action<Element> BBIEs(Element type, params string[] names)
         {
-            foreach (var name in names)
-            {
-                AddAttribute(e, name, type, Stereotype.SUP);
-            }
+            return element => element.AddBBIEs(type, names);
         }
 
-        protected static Attribute AddAttribute(Element e, string name, Element type, string stereotype)
+        protected static Action<Element> CON(Element type)
         {
-            return AddAttribute(e, name, type, stereotype, a => { });
+            return element => element.AddCON(type);
         }
 
-        protected static Action<Attribute> SetAttributeStereotype(string stereotype)
+        protected static Action<Element> SUPs(Element type, params string[] names)
         {
-            return attribute => attribute.Stereotype = stereotype;
+            return element => element.AddSUPs(type, names);
         }
 
-        protected static Attribute AddAttribute(Element element, string name, Element type, params Action<Attribute>[] attributeManipulations)
+        protected static Action<Element> TaggedValue(TaggedValues key, string value)
         {
-            return element.AddAttribute(name, type).With(attribute =>
-            {
-                foreach (var manipulate in attributeManipulations)
-                {
-                    manipulate(attribute);
-                }
-            });
+            return element => element.AddTaggedValue(key.ToString()).WithValue(value);
         }
 
-        protected static Attribute AddAttribute(Element element, string name, Element type, string stereotype, Action<Attribute> initAttribute)
+        public static Action<Attribute> AttributeStereotype(string stereotype)
         {
-            return element.AddAttribute(name, type).With(attribute =>
-                                                         {
-                                                             attribute.Stereotype = stereotype.ToString();
-                                                             initAttribute(attribute);
-                                                         });
-        }
-
-        protected static Element AddPRIM(Package primLib1, string name)
-        {
-            return primLib1.AddElement(name, "Class").With(e => { e.Stereotype = Stereotype.PRIM; });
-        }
-
-        protected static Element AddENUM(Package enumLib1, string name, Element type, params string[] values)
-        {
-            return enumLib1.AddElement(name, "Class").With(ElementStereotype(Stereotype.ENUM),
-                                                           e =>
-                                                           {
-                                                               for (int i = 0; i < values.Length; i += 2)
-                                                               {
-                                                                   AddENUMValue(e, values[i], values[i + 1], type);
-                                                               }
-                                                           });
-        }
-
-        private static Action<Element> ElementStereotype(string stereotype)
-        {
-            return e =>
-                   {
-                       e.Stereotype = stereotype;
-                   };
-        }
-
-        private static void AddENUMValue(Element e, string name, string value, Element type)
-        {
-            EAElementExtensions.AddAttribute(e, name, type).With(a => { a.Default = value; });
-        }
-
-        protected static void AddASCC(Element client, Element supplier, string name)
-        {
-            AddASCC(client, supplier, name, "1", "1");
-        }
-
-        protected static void AddASCC(Element client, Element supplier, string name, string lowerBound, string upperBound)
-        {
-            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
-                                                                  {
-                                                                      c.Stereotype = Stereotype.ASCC;
-                                                                      c.ClientEnd.Aggregation = (int) EAAggregationKind.Shared;
-                                                                      c.SupplierID = supplier.ElementID;
-                                                                      c.SupplierEnd.Role = name;
-                                                                      c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
-                                                                  });
-        }
-
-        protected static void AddASBIE(Element client, Element supplier, string name, EAAggregationKind aggregationKind)
-        {
-            AddASBIE(client, supplier, name, aggregationKind, "1", "1");
-        }
-
-        protected static void AddASBIE(Element client, Element supplier, string name, EAAggregationKind aggregationKind, string lowerBound, string upperBound)
-        {
-            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
-                                                                  {
-                                                                      c.Stereotype = Stereotype.ASBIE;
-                                                                      c.ClientEnd.Aggregation = (int) aggregationKind;
-                                                                      c.SupplierID = supplier.ElementID;
-                                                                      c.SupplierEnd.Role = name;
-                                                                      c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
-                                                                  });
-        }
-
-        protected static void AddBasedOnDependency(Element client, Element supplier)
-        {
-            client.AddConnector("basedOn", EAConnectorTypes.Dependency.ToString(), c =>
-                                                                      {
-                                                                          c.Stereotype = Stereotype.BasedOn;
-                                                                          c.ClientEnd.Aggregation = (int) EAAggregationKind.None;
-                                                                          c.SupplierID = supplier.ElementID;
-                                                                          c.SupplierEnd.Role = "basedOn";
-                                                                          c.SupplierEnd.Cardinality = "1";
-                                                                      });
-        }
-    }
-
-    internal class EAProject : Project
-    {
-        public bool LoadProject(string FileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ReloadProject()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool LoadDiagram(string DiagramGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SaveDiagramImageToFile(string FileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElement(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumViews()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumPackages(string PackageGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumElements(string PackageGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumLinks(string PackageID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumDiagrams(string PackageGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumDiagramElements(string DiagramGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumDiagramLinks(string DiagramID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetLink(string LinkGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetDiagram(string DiagramGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementConstraints(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementEffort(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementMetrics(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementFiles(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementRequirements(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementProblems(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementResources(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementRisks(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementScenarios(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementTests(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ShowWindow(int Show)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Exit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool PutDiagramImageOnClipboard(string DiagramGUID, int Type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool PutDiagramImageToFile(string DiagramGUID, string FilePath, int Type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string ExportPackageXMI(string PackageGUID, EnumXMIType XMIType, int DiagramXML, int DiagramImage, int FormatXML, int UseDTD, string FileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumProjects()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string EnumViewEx(string ProjectGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RunReport(string PackageGUID, string TemplateName, string FileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetLastError()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetElementProperties(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GUIDtoXML(string GUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string XMLtoGUID(string GUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RunHTMLReport(string PackageGUID, string ExportPath, string ImageFormat, string Style, string Extension)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string ImportPackageXMI(string PackageGUID, string FileName, int ImportDiagrams, int StripGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SaveControlledPackage(string PackageGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string LoadControlledPackage(string PackageGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool LayoutDiagram(string DiagramGUID, int LayoutStyle)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool GenerateXSD(string PackageGUID, string FileName, string Encoding, string Options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool LayoutDiagramEx(string DiagramGUID, int LayoutStyle, int Iterations, int LayerSpacing, int ColumnSpacing, bool SavetoDiagram)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string DefineRule(string CategoryID, EnumMVErrorType Severity, string ErrorMsg)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string DefineRuleCategory(string Description)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool PublishResult(string RuleID, EnumMVErrorType Severity, string ErrorMsg)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidateElement(string ElementGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidatePackage(string PackageGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidateDiagram(string DiagramGUID)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsValidating()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CanValidate()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CancelValidation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RunModelSearch(string QueryName, string SearchTerm, bool ShowInEA)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool GenerateClass(string ElementGUID, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool GeneratePackage(string PackageGUID, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool TransformElement(string transformName, string ElementGUID, string TargetPackageGUID, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool TransformPackage(string transformName, string SourcePackageGUID, string TargetPackageGUID, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SynchronizeClass(string ElementGUID, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SynchronizePackage(string PackageGUID, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ImportDirectory(string PackageGUID, string Language, string DirectoryPath, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ImportFile(string PackageGUID, string Language, string FileName, string ExtraOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string DoBaselineCompare(string PackageGUID, string Baseline, string ConnectString)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string DoBaselineMerge(string PackageGUID, string Baseline, string MergeInstructions, string ConnectString)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetBaselines(string PackageGUID, string ConnectString)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CreateBaseline(string PackageGUID, string Version, string Notes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ObjectType ObjectType
-        {
-            get { throw new NotImplementedException(); }
-        }
-    }
-
-    public class IDFactory
-    {
-        private int nextID = 1;
-
-        public int NextID
-        {
-            get
-            {
-                return nextID++;
-            }
+            return attribute => { attribute.Stereotype = stereotype; };
         }
     }
 }

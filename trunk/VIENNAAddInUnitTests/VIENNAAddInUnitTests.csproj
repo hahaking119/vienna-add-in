@@ -64,7 +64,10 @@
     <Compile Include="EARepositoryExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SynchTaggedValuesTest\SynchStereotypesTest.cs" />
+    <Compile Include="TestRepository\CCTSEAExtensions.cs" />
+    <Compile Include="TestRepository\EAProject.cs" />
     <Compile Include="TestRepository\EmptyEARepository.cs" />
+    <Compile Include="TestRepository\IDFactory.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
