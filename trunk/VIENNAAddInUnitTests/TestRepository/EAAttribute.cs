@@ -80,9 +80,19 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public string LowerBound { get; set; }
+        private string lowerBound = "1";
+        public string LowerBound
+        {
+            get { return lowerBound; }
+            set { lowerBound = value; }
+        }
 
-        public string UpperBound { get; set; }
+        private string upperBound = "1";
+        public string UpperBound
+        {
+            get { return upperBound; }
+            set { upperBound = value; }
+        }
 
         public string Container
         {
@@ -140,19 +150,19 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int ClassifierID
-        {
-            get { return (ClassifierPath != null ? Repository.Resolve<Element>(ClassifierPath).ElementID : classifierId); }
-            set { classifierId = value; }
-        }
+        public int ClassifierID { get; set; }
+//        {
+//            get { return (ClassifierPath != null ? Repository.Resolve<Element>(ClassifierPath).ElementID : classifierId); }
+//            set { classifierId = value; }
+//        }
 
         public string Default { get; set; }
 
-        public string Type
-        {
-            get { return Repository.Resolve<Element>(ClassifierPath).Name; }
-            set { }
-        }
+        public string Type { get; set; }
+//        {
+//            get { return Repository.Resolve<Element>(ClassifierPath).Name; }
+//            set { }
+//        }
 
         public Collection Constraints
         {

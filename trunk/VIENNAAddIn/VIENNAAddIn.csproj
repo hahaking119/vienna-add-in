@@ -119,6 +119,11 @@
     <Compile Include="upcc3\ccts\IBLibrary.cs" />
     <Compile Include="upcc3\ccts\IElementLibrary.cs" />
     <Compile Include="upcc3\ccts\PRIMSpec.cs" />
+    <Compile Include="upcc3\ccts\util\EAAttributeExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EAConnectorExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EADiagramExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -222,15 +227,12 @@
     <Compile Include="upcc3\ccts\Path.cs" />
     <Compile Include="upcc3\ccts\SUPSpec.cs" />
     <Compile Include="upcc3\ccts\TaggedValueSpec.cs" />
-    <Compile Include="upcc3\ccts\util\AggregationKind.cs" />
-    <Compile Include="upcc3\ccts\util\AttributeExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\CollectionExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\ConnectorExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\ConnectorTypes.cs" />
+    <Compile Include="upcc3\ccts\util\EAAggregationKind.cs" />
+    <Compile Include="upcc3\ccts\util\EACollectionExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EAConnectorTypes.cs" />
     <Compile Include="upcc3\ccts\util\EAException.cs" />
-    <Compile Include="upcc3\ccts\util\ElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
-    <Compile Include="upcc3\ccts\util\PackageExtensions.cs" />
+    <Compile Include="upcc3\ccts\util\EAPackageExtensions.cs" />
     <Compile Include="upcc3\ccts\util\Stereotype.cs" />
     <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
     <Compile Include="upcc3\ccts\IBusinessLibrary.cs" />

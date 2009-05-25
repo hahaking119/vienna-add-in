@@ -14,6 +14,6 @@ namespace VIENNAAddIn.upcc3.ccts
     {
         IACC AssociatingElement { get; }
         IACC AssociatedElement { get; }
-        AggregationKind AggregationKind { get; }
+        EAAggregationKind AggregationKind { get; }
     }
 }

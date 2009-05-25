@@ -26,12 +26,10 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         {
             repo = new Repository();
             File.Copy(
-                Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) +
-                "\\SynchTaggedValuesTest\\test.eap"
-                ,
-                Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) +
-                "\\SynchTaggedValuesTest\\test_temp.eap", true);
-            repo.OpenFile("C:\\VIENNAAddIn\\VIENNAAddInUnitTests\\SynchTaggedValuesTest\\test_temp.eap");
+                TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test.eap"),
+                TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test_temp.eap"),
+                true);
+            repo.OpenFile(TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test_temp.eap"));
         }
 
         [TearDown]
@@ -39,8 +37,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         public void Clean()
         {
             repo.CloseFile();
-            File.Delete(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()) +
-                        "\\SynchTaggedValuesTest\\test_temp.eap");
+            File.Delete(TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test_temp.eap"));
         }
 
         #endregion
@@ -151,15 +148,18 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         {
             var testpackage = (Package) repo.Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
-            int count1 = new SynchStereotypes().Check(testpackage).Count;
+            Debug.WriteLine(testpackage.Element.Stereotype);
+            var checkResult = new SynchStereotypes().Check(testpackage);
+            int count1 = checkResult.Count;
             Debug.WriteLine("Checking package '" + testpackage.Element.Name + "': it is missing " + count1 +
                             " TaggedValues.");
             new SynchStereotypes().Fix(testpackage);
             repo.RefreshOpenDiagrams(true);
-            int count2 = new SynchStereotypes().Check(testpackage).Count;
+            var checkResult2 = new SynchStereotypes().Check(testpackage);
+            int count2 = checkResult2.Count;
             Debug.WriteLine("After the fix package '" + testpackage.Element.Name + "' is missing " + count2 +
                             " TaggedValues.");
-            Assert.AreNotEqual(count2, count1);
+            Assert.AreEqual(0, count2);
         }
 
         /// <summary>

@@ -1,8 +1,10 @@
-﻿using EA;
+﻿using System;
+using EA;
 using NUnit.Framework;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddInUnitTests.TestRepository;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests
 {
@@ -76,22 +78,12 @@ namespace VIENNAAddInUnitTests
     {
         public MyEARepository()
         {
-            SetContent(
-                Package("m1", "")
-                    .Packages(
-                    Package("m1p1", "")
-                        .Packages(
-                        Package("m1p1p1", "")
-                        )
-                        .Elements(
-                        Element("m1p1e1", "")
-                        )
-                    ),
-                Package("m2", "")
-                    .Packages(
-                    Package("m2p1", "")
-                    )
-                );
+            this.AddModel("m1", m1 => m1.AddPackage("m1p1", m1p1 =>
+                                                            {
+                                                                m1p1.AddPackage("m1p1p1", m1p1p1 => { });
+                                                                m1p1.AddElement("m1p1e1", "Class");
+                                                            }));
+            this.AddModel("m2", m2 => m2.AddPackage("m2p1", m2p1 => {}));
         }
     }
 }

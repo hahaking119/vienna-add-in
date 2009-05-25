@@ -1,6 +1,6 @@
 namespace VIENNAAddIn.upcc3.ccts.util
 {
-    public enum AggregationKind
+    public enum EAAggregationKind
     {
         None,
         Shared,

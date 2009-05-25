@@ -13,6 +13,7 @@ using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 using EARepositoryExtensions=VIENNAAddIn.EARepositoryExtensions;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
@@ -22,11 +23,6 @@ namespace VIENNAAddInUnitTests.TestRepository
     /// <para>Even though it is possible to implement unit tests by loading an <c>EA.Repository</c> from a file, 
     /// this process is to slow for efficient unit testing. Therefore, this class offers an efficient 
     /// alternative for testing algorithms operating an <c>EA.Repository</c>.</para>
-    /// 
-    /// <para>In order to create your own test repository, implement a subclass of <c>EARepository</c> 
-    /// and call <see cref="SetContent"/> in the constructor. The content is created using the factory methods defined 
-    /// in this class (<see cref="Package"/>, <see cref="Element"/>, <see cref="Attribute"/>, <see cref="Connector"/>, 
-    /// <see cref="TaggedValue"/>). See <see cref="EARepository1"/> for an example test repository.</para>
     /// 
     /// <remarks>
     /// Note that this implementation is by no means complete. Instead, it reflects the demands of our unit tests 
@@ -41,7 +37,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         private readonly IDFactory idFactory = new IDFactory();
 
         private readonly Dictionary<int, EAElement> elementsById = new Dictionary<int, EAElement>();
-        private readonly EACollection models;
+        protected readonly EACollection models;
         private readonly Dictionary<int, EAPackage> packagesById = new Dictionary<int, EAPackage>();
         private readonly Project project = new EAProject();
         private readonly List<EAConnector> connectors = new List<EAConnector>();
@@ -632,182 +628,6 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         #endregion
 
-        /// <summary>
-        /// Set the content of this repository.
-        /// </summary>
-        /// <param name="models">The models contained in the repository.</param>
-        protected void SetContent(params PackageBuilder[] models)
-        {
-            foreach (PackageBuilder model in models)
-            {
-                var eaPackage = (EAPackage) this.models.AddNew(model.GetName(), "Package");
-                foreach (TaggedValueBuilder tv in model.GetTaggedValues())
-                {
-                    eaPackage.Element.AddTaggedValue(tv.Name, tv.Value);
-                }
-                AddPackages(eaPackage.Packages, eaPackage.PackageID, model.GetPackages());
-            }
-        }
-
-        /// <summary>
-        /// Recursively adds the given <paramref name="packages"/> and all their elements to the repository's contents.
-        /// </summary>
-        /// <param name="packageCollection">An EA.Collection of EA.Package.</param>
-        /// <param name="parentId">The ID of the parent package.</param>
-        /// <param name="packages">The packages to be added to the collection.</param>
-        private void AddPackages(Collection packageCollection, int parentId, IEnumerable<PackageBuilder> packages)
-        {
-            foreach (PackageBuilder package in packages)
-            {
-                var eaPackage = (EAPackage) packageCollection.AddNew(package.GetName(), "Package");
-                eaPackage.ParentID = parentId;
-                eaPackage.Element.Stereotype = package.GetStereotype();
-
-                foreach (DiagramBuilder diagram in package.GetDiagrams())
-                {
-                    eaPackage.Diagrams.AddNew(diagram.GetName(), diagram.GetDiagramType());
-                }
-
-                foreach (TaggedValueBuilder tv in package.GetTaggedValues())
-                {
-                    eaPackage.Element.AddTaggedValue(tv.Name, tv.Value);
-                }
-
-                foreach (ElementBuilder element in package.GetElements())
-                {
-                    var eaElement = (EAElement) eaPackage.Elements.AddNew(element.GetName(), "Class");
-                    eaElement.PackageID = eaPackage.PackageID;
-                    eaElement.Stereotype = element.GetStereotype();
-                    foreach (TaggedValueBuilder tv in element.GetTaggedValues())
-                    {
-                        eaElement.AddTaggedValue(tv.Name, tv.Value);
-                    }
-                    Collection attributes = eaElement.Attributes;
-                    foreach (AttributeBuilder attribute in element.GetAttributes())
-                    {
-                        var eaAttribute = (EAAttribute) attributes.AddNew(attribute.GetName(), null);
-                        eaAttribute.Repository = this;
-                        eaAttribute.ClassifierPath = attribute.GetPathToType();
-                        eaAttribute.Stereotype = attribute.GetStereotype();
-                        eaAttribute.LowerBound = attribute.GetLowerBound();
-                        eaAttribute.UpperBound = attribute.GetUpperBound();
-                        eaAttribute.Default = attribute.GetDefaultValue();
-                        foreach (TaggedValueBuilder tv in attribute.GetTaggedValues())
-                        {
-                            eaAttribute.AddTaggedValue(tv.Name, tv.Value);
-                        }
-                    }
-                }
-                AddPackages(eaPackage.Packages, eaPackage.PackageID, package.GetPackages());
-            }
-        }
-
-        protected void SetConnectors(params ConnectorBuilder[] connectors)
-        {
-            foreach (ConnectorBuilder connector in connectors)
-            {
-                var client = EARepositoryExtensions.Resolve<Element>(this, connector.GetPathToClient());
-                if (client == null)
-                {
-                    throw new Exception("Path cannot be resolved: " + connector.GetPathToClient());
-                }
-                var supplier = EARepositoryExtensions.Resolve<Element>(this, connector.GetPathToSupplier());
-                if (supplier == null)
-                {
-                    throw new Exception("Path cannot be resolved: " + connector.GetPathToSupplier());
-                }
-                AddConnector(CreateConnector(connector, client.Connectors, client, supplier));
-//                CreateConnector(connector, supplier.Connectors, client, supplier);
-            }
-        }
-
-        private EAConnector CreateConnector(ConnectorBuilder connector, Collection connectors, Element client, Element supplier)
-        {
-            var eaConnector = (EAConnector) CreateConnector(connector.GetName(), "Association", client.ElementID);
-                //(EAConnector)connectors.AddNew(connector.GetName(), "Association");
-            eaConnector.Repository = this;
-            eaConnector.ClientID = client.ElementID;
-            eaConnector.ClientEnd.Aggregation = (int)connector.GetAggregationKind();
-            eaConnector.SupplierID = supplier.ElementID;
-            eaConnector.SupplierEnd.Role = connector.GetName();
-            eaConnector.SupplierEnd.Cardinality = connector.GetLowerBound() + ".." +
-                                                  connector.GetUpperBound();
-            eaConnector.Stereotype = connector.GetStereotype();
-            foreach (TaggedValueBuilder tv in connector.GetTaggedValues())
-            {
-                eaConnector.AddTaggedValue(tv.Name, tv.Value);
-            }
-            return eaConnector;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="ConnectorBuilder"/>.
-        /// </summary>
-        /// <param name="name"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
-        /// <param name="stereotype"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
-        /// <param name="pathToSupplier"><see cref="ConnectorBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
-        /// <returns>A new <see cref="ConnectorBuilder"/>.</returns>
-        protected static ConnectorBuilder Connector(string name, string stereotype, Path pathToClient, Path pathToSupplier)
-        {
-            return new ConnectorBuilder(name, stereotype, pathToClient, pathToSupplier);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="AttributeBuilder"/>.
-        /// </summary>
-        /// <param name="name"><see cref="AttributeBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
-        /// <param name="stereotype"><see cref="AttributeBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
-        /// <param name="pathToType"><see cref="AttributeBuilder(string,string,VIENNAAddIn.upcc3.ccts.Path)"/></param>
-        /// <returns>A new <see cref="AttributeBuilder"/>.</returns>
-        protected static AttributeBuilder Attribute(string name, string stereotype, Path pathToType)
-        {
-            return new AttributeBuilder(name, stereotype, pathToType);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="TaggedValueBuilder"/>.
-        /// </summary>
-        /// <param name="key"><see cref="TaggedValueBuilder(VIENNAAddIn.upcc3.ccts.util.TaggedValues,string)"/></param>
-        /// <param name="value"><see cref="TaggedValueBuilder(VIENNAAddIn.upcc3.ccts.util.TaggedValues,string)"/></param>
-        /// <returns>A new <see cref="TaggedValueBuilder"/>.</returns>
-        protected static TaggedValueBuilder TaggedValue(TaggedValues key, string value)
-        {
-            return new TaggedValueBuilder(key, value);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="ElementBuilder"/>.
-        /// </summary>
-        /// <param name="name"><see cref="ElementBuilder(string,string)"/></param>
-        /// <param name="stereotype"><see cref="PackageBuilder(string,string)"/></param>
-        /// <returns>A new <see cref="ElementBuilder"/>.</returns>
-        protected static ElementBuilder Element(string name, string stereotype)
-        {
-            return new ElementBuilder(name, stereotype);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="PackageBuilder"/>.
-        /// </summary>
-        /// <param name="name"><see cref="PackageBuilder(string,string)"/></param>
-        /// <param name="stereotype"><see cref="PackageBuilder(string,string)"/></param>
-        /// <returns>A new <see cref="PackageBuilder"/>.</returns>
-        protected static PackageBuilder Package(string name, string stereotype)
-        {
-            return new PackageBuilder(name, stereotype);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="DiagramBuilder"/>.
-        /// </summary>
-        /// <param name="name"><see cref="DiagramBuilder"/></param>
-        /// <param name="diagramType"></param>
-        /// <returns>A new <see cref="DiagramBuilder"/>.</returns>
-        protected static DiagramBuilder Diagram(string name, string diagramType)
-        {
-            return new DiagramBuilder(name, diagramType);
-        }
-
         public EAPackage CreatePackage(string name, string type, int parentId)
         {
             int id = idFactory.NextID;
@@ -821,17 +641,17 @@ namespace VIENNAAddInUnitTests.TestRepository
             return new EAConnectorTag { Name = name, TagID = idFactory.NextID, ConnectorID = connectorId};
         }
 
-        public EAAttributeTag CreateAttributeTag(string name, string type, int attributeId)
+        public static EAAttributeTag CreateAttributeTag(string name, string type, int attributeId)
         {
             return new EAAttributeTag { Name = name, AttributeID = attributeId };
         }
 
-        public EADiagramObject CreateDiagramObject(string name, string type, int diagramId)
+        public static EADiagramObject CreateDiagramObject(string name, string type, int diagramId)
         {
             return new EADiagramObject{Name = name, DiagramID = diagramId};
         }
 
-        public IEACollectionElement CreateTaggedValue(string name, string type, int elementId)
+        public static IEACollectionElement CreateTaggedValue(string name, string type, int elementId)
         {
             return new EATaggedValue {Name = name, ElementID = elementId};
         }
@@ -867,6 +687,130 @@ namespace VIENNAAddInUnitTests.TestRepository
         internal void RemoveConnector(EAConnector connector)
         {
             connectors.Remove(connector);
+        }
+
+        protected static Attribute AddCON(Element e, Element type)
+        {
+            return AddAttribute(e, "Content", type, Stereotype.CON);
+        }
+
+        protected static Attribute AddSUP(Element e, Element type, string name)
+        {
+            return AddAttribute(e, name, type, Stereotype.SUP);
+        }
+
+        protected static void AddSUPs(Element e, Element type, params string[] names)
+        {
+            foreach (var name in names)
+            {
+                AddAttribute(e, name, type, Stereotype.SUP);
+            }
+        }
+
+        protected static Attribute AddAttribute(Element e, string name, Element type, string stereotype)
+        {
+            return AddAttribute(e, name, type, stereotype, a => { });
+        }
+
+        protected static Action<Attribute> SetAttributeStereotype(string stereotype)
+        {
+            return attribute => attribute.Stereotype = stereotype;
+        }
+
+        protected static Attribute AddAttribute(Element element, string name, Element type, params Action<Attribute>[] attributeManipulations)
+        {
+            return element.AddAttribute(name, type).With(attribute =>
+            {
+                foreach (var manipulate in attributeManipulations)
+                {
+                    manipulate(attribute);
+                }
+            });
+        }
+
+        protected static Attribute AddAttribute(Element element, string name, Element type, string stereotype, Action<Attribute> initAttribute)
+        {
+            return element.AddAttribute(name, type).With(attribute =>
+                                                         {
+                                                             attribute.Stereotype = stereotype.ToString();
+                                                             initAttribute(attribute);
+                                                         });
+        }
+
+        protected static Element AddPRIM(Package primLib1, string name)
+        {
+            return primLib1.AddElement(name, "Class").With(e => { e.Stereotype = Stereotype.PRIM; });
+        }
+
+        protected static Element AddENUM(Package enumLib1, string name, Element type, params string[] values)
+        {
+            return enumLib1.AddElement(name, "Class").With(ElementStereotype(Stereotype.ENUM),
+                                                           e =>
+                                                           {
+                                                               for (int i = 0; i < values.Length; i += 2)
+                                                               {
+                                                                   AddENUMValue(e, values[i], values[i + 1], type);
+                                                               }
+                                                           });
+        }
+
+        private static Action<Element> ElementStereotype(string stereotype)
+        {
+            return e =>
+                   {
+                       e.Stereotype = stereotype;
+                   };
+        }
+
+        private static void AddENUMValue(Element e, string name, string value, Element type)
+        {
+            EAElementExtensions.AddAttribute(e, name, type).With(a => { a.Default = value; });
+        }
+
+        protected static void AddASCC(Element client, Element supplier, string name)
+        {
+            AddASCC(client, supplier, name, "1", "1");
+        }
+
+        protected static void AddASCC(Element client, Element supplier, string name, string lowerBound, string upperBound)
+        {
+            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
+                                                                  {
+                                                                      c.Stereotype = Stereotype.ASCC;
+                                                                      c.ClientEnd.Aggregation = (int) EAAggregationKind.Shared;
+                                                                      c.SupplierID = supplier.ElementID;
+                                                                      c.SupplierEnd.Role = name;
+                                                                      c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
+                                                                  });
+        }
+
+        protected static void AddASBIE(Element client, Element supplier, string name, EAAggregationKind aggregationKind)
+        {
+            AddASBIE(client, supplier, name, aggregationKind, "1", "1");
+        }
+
+        protected static void AddASBIE(Element client, Element supplier, string name, EAAggregationKind aggregationKind, string lowerBound, string upperBound)
+        {
+            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
+                                                                  {
+                                                                      c.Stereotype = Stereotype.ASBIE;
+                                                                      c.ClientEnd.Aggregation = (int) aggregationKind;
+                                                                      c.SupplierID = supplier.ElementID;
+                                                                      c.SupplierEnd.Role = name;
+                                                                      c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
+                                                                  });
+        }
+
+        protected static void AddBasedOnDependency(Element client, Element supplier)
+        {
+            client.AddConnector("basedOn", EAConnectorTypes.Dependency.ToString(), c =>
+                                                                      {
+                                                                          c.Stereotype = Stereotype.BasedOn;
+                                                                          c.ClientEnd.Aggregation = (int) EAAggregationKind.None;
+                                                                          c.SupplierID = supplier.ElementID;
+                                                                          c.SupplierEnd.Role = "basedOn";
+                                                                          c.SupplierEnd.Cardinality = "1";
+                                                                      });
         }
     }
 
@@ -1200,34 +1144,6 @@ namespace VIENNAAddInUnitTests.TestRepository
         public ObjectType ObjectType
         {
             get { throw new NotImplementedException(); }
-        }
-    }
-
-    public static class EaElementExtensions
-    {
-        public static void AddTaggedValue(this Element element, string name, string value)
-        {
-            Collection taggedValues = element.TaggedValues;
-            var tv = (TaggedValue) taggedValues.AddNew(name, "");
-            tv.Value = value;
-        }
-    }
-
-    public static class EaAttributeExtensions
-    {
-        public static void AddTaggedValue(this Attribute attribute, string name, string value)
-        {
-            var tv = (AttributeTag) attribute.TaggedValues.AddNew(name, "");
-            tv.Value = value;
-        }
-    }
-
-    public static class EaConnectorExtensions
-    {
-        public static void AddTaggedValue(this Connector connector, string name, string value)
-        {
-            var tv = (TaggedValue) connector.TaggedValues.AddNew(name, "");
-            tv.Value = value;
         }
     }
 

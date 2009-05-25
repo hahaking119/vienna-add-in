@@ -6,395 +6,312 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using EA;
+using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EARepository1 : EARepository
     {
+        private Element accAddress;
+        private Element accPerson;
+        private Element bdtABCCode;
+        private Element bdtCode;
+        private Element bdtDate;
+        private Element bdtMeasure;
+        private Element bdtText;
+        private Element bieInvoice;
+        private Element bieInvoiceInfo;
+        private Element bieMyAddress;
+        private Element bieMyPerson;
+        private Element cdtCode;
+        private Element cdtDate;
+        private Element cdtMeasure;
+        private Element cdtText;
+        private Element primDecimal;
+        private Element primString;
+
         public EARepository1()
         {
-            SetContent(
-                Package("test model", "")
-                    .Packages(
-                    Package("blib1", Stereotype.BLibrary)
-                        .Diagrams(
-                        Diagram("blib1", "Package")
-                        )
-                        .TaggedValues(
-                        TaggedValue(TaggedValues.baseURN, "urn:test:blib1")
-                        )
-                        .Packages(
-                        PRIMLib1(),
-                        ENUMLib1(),
-                        CDTLib1(),
-                        BDTLib1(),
-                        CCLib1(),
-                        BIELib1(),
-                        DOCLibrary()
-                        ),
-                    Package("Business Information View", Stereotype.BInformationV)
-                        .Packages(
-                        Package("A bLibrary nested in a bInformationV", Stereotype.BLibrary)
-                            .Packages(
-                            Package("Another PRIMLibrary", Stereotype.PRIMLibrary)
-                            )
-                        ),
-                    Package("A package with an arbitrary stereotype", "Some arbitrary stereotype")
-                        .Packages(
-                        Package(
-                            "This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy",
-                            Stereotype.BLibrary)
-                        )
-                    )
-                );
-            SetConnectors(
-                Connector("basedOn", Stereotype.BasedOn, PathToBdtMeasure(), PathToMeasure()),
-                Connector("basedOn", Stereotype.BasedOn, PathToBDTCode(), PathToCode()),
-                Connector("basedOn", Stereotype.BasedOn, PathToBdtAbcCode(), PathToCode()),
-                Connector("basedOn", Stereotype.BasedOn, PathToBdtDate(), PathToDate()),
-                Connector("basedOn", Stereotype.BasedOn, PathToBDTText(), PathToText()),
-                Connector("homeAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(
-                    AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASCC, PathToACCPerson(), PathToAddress()).AggregationKind(
-                    AggregationKind.Shared).LowerBound("0").UpperBound("*"),
-                Connector("basedOn", Stereotype.BasedOn, PathToBIEAddress(), PathToAddress()),
-                Connector("homeAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(
-                    AggregationKind.Shared),
-                Connector("workAddress", Stereotype.ASBIE, PathToBIEPerson(), PathToBIEAddress()).AggregationKind(
-                    AggregationKind.Composite).LowerBound("0").UpperBound("*"),
-                Connector("info", Stereotype.ASBIE, PathToInvoice(), PathToInvoiceInfo()).AggregationKind(
-                    AggregationKind.Shared),
-                Connector("deliveryAddress", Stereotype.ASBIE, PathToInvoiceInfo(), PathToBIEAddress()).AggregationKind(
-                    AggregationKind.Shared)
-                );
+            this.AddModel("test model", InitTestModel);
+
+            AddBasedOnDependency(bdtMeasure, cdtMeasure);
+            AddBasedOnDependency(bdtCode, cdtCode);
+            AddBasedOnDependency(bdtABCCode, cdtCode);
+            AddBasedOnDependency(bdtDate, cdtDate);
+            AddBasedOnDependency(bdtText, cdtText);
+            AddBasedOnDependency(bieMyAddress, accAddress);
+
+            AddASCC(accPerson, accAddress, "homeAddress");
+            AddASCC(accPerson, accAddress, "workAddress", "0", "*");
+
+            AddASBIE(bieMyPerson, bieMyAddress, "homeAddress", EAAggregationKind.Shared);
+            AddASBIE(bieMyPerson, bieMyAddress, "workAddress", EAAggregationKind.Composite, "0", "*");
+            AddASBIE(bieInvoice, bieInvoiceInfo, "info", EAAggregationKind.Shared);
+            AddASBIE(bieInvoiceInfo, bieMyAddress, "deliveryAddress", EAAggregationKind.Shared);
         }
 
-        private static PackageBuilder ENUMLib1()
+        private void InitTestModel(Package m)
         {
-            return Package("enumlib1", Stereotype.ENUMLibrary)
-                .TaggedValues(
-                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:enumlib1")
-                )
-                .Elements(
-                Element("ABC_Codes", Stereotype.ENUM)
-                    .Attributes(
-                    Attribute("ABC Code 1", "", PathToString()).DefaultValue("abc1"),
-                    Attribute("ABC Code 2", "", PathToString()).DefaultValue("abc2")
-                    ),
-                InvalidElement()
-                );
+            m.AddPackage("blib1", InitBLib1);
+            m.AddPackage("Business Information View", InitBusinessInformationView);
+            m.AddPackage("A package with an arbitrary stereotype",
+                         p =>
+                         {
+                             p.Element.Stereotype = "Some arbitrary stereotype";
+                             p.AddPackage("This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy",
+                                          p1 => { p1.Element.Stereotype = Stereotype.BLibrary; });
+                         });
         }
 
-        private static ElementBuilder InvalidElement()
+        private static void InitBusinessInformationView(Package p)
         {
-            return Element("InvalidElement", "InvalidStereotype");
+            p.Element.Stereotype = Stereotype.BInformationV;
+            p.AddPackage(
+                "A bLibrary nested in a bInformationV",
+                bLibrary =>
+                {
+                    bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                    bLibrary.AddPackage("Another PRIMLibrary",
+                                        primLibrary =>
+                                        {
+                                            primLibrary.Element.Stereotype =
+                                                Stereotype.PRIMLibrary;
+                                        });
+                });
         }
 
-        #region PRIMLib1
-
-        private static PackageBuilder PRIMLib1()
+        private void InitBLib1(Package bLib1)
         {
-            return Package("primlib1", Stereotype.PRIMLibrary)
-                .Diagrams(
-                Diagram("primlib1", "Class")
-                )
-                .TaggedValues(
-                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:primlib1")
-                )
-                .Elements(
-                Element("String", Stereotype.PRIM),
-                Element("Decimal", Stereotype.PRIM),
-                InvalidElement()
-                );
+            bLib1.Element.Stereotype = Stereotype.BLibrary;
+            bLib1.AddDiagram("blib1", "Package");
+            bLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1");
+            bLib1.AddPackage("primlib1", InitPRIMLib1);
+            bLib1.AddPackage("enumlib1", InitENUMLib1);
+            bLib1.AddPackage("cdtlib1", InitCDTLib1);
+            bLib1.AddPackage("bdtlib1", InitBDTLib1);
+            bLib1.AddPackage("cclib1", InitCCLib1);
+            bLib1.AddPackage("bielib1", InitBIELib1);
+            bLib1.AddPackage("DOCLibrary", InitDOCLibrary);
         }
 
-        #endregion
-
-        #region CDTLib1
-
-        private static PackageBuilder CDTLib1()
+        private void InitPRIMLib1(Package primLib1)
         {
-            return Package("cdtlib1", Stereotype.CDTLibrary)
-                .Diagrams(
-                Diagram("cdtlib1", "Class")
-                )
-                .TaggedValues(
-                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:cdtlib1")
-                )
-                .Elements(
-                CDTText(),
-                CDTDate(),
-                CDTCode(),
-                CDTMeasure(),
-                InvalidElement()
-                );
+            primLib1.Element.Stereotype = Stereotype.PRIMLibrary;
+            primLib1.AddDiagram("primlib1", "Class");
+            primLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:primlib1");
+            primString = AddPRIM(primLib1, "String");
+            primDecimal = AddPRIM(primLib1, "Decimal");
+            AddInvalidElement(primLib1);
         }
 
-        private static ElementBuilder CDTMeasure()
+        private void InitENUMLib1(Package enumLib1)
         {
-            return Element("Measure", Stereotype.CDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToDecimal()),
-                Attribute("MeasureUnit", Stereotype.SUP, PathToString()),
-                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, PathToString()).LowerBound("1").UpperBound("*")
-                );
+            enumLib1.Element.Stereotype = Stereotype.ENUMLibrary;
+            enumLib1.AddDiagram("enumlib1", "Class");
+            enumLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:enumlib1");
+            AddENUM(enumLib1, "ABC_Codes", primString, "ABC Code 1", "abc1",
+                    "ABC Code 2", "abc2");
+            AddInvalidElement(enumLib1);
         }
 
-        private static ElementBuilder CDTCode()
+        private void InitCDTLib1(Package cdtLib1)
         {
-            return Element("Code", Stereotype.CDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToString()),
-                Attribute("Name", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Agency", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.AgencyName", Stereotype.SUP, PathToString()),
-                Attribute("CodeList", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Name", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
-                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("Language", Stereotype.SUP, PathToString())
-                );
+            cdtLib1.Element.Stereotype = Stereotype.CDTLibrary;
+            cdtLib1.AddDiagram("cdtlib1", "Class");
+            cdtLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:cdtlib1");
+            cdtMeasure = cdtLib1.AddElement("Measure", "Class").With(e =>
+                                                                     {
+                                                                         e.Stereotype = Stereotype.CDT;
+                                                                         AddCON(e, primDecimal);
+                                                                         AddSUP(e, primString, "MeasureUnit");
+                                                                         AddAttribute(e, "MeasureUnit.CodeListVersion", primString, Stereotype.SUP,
+                                                                                      a =>
+                                                                                      {
+                                                                                          a.LowerBound = "1";
+                                                                                          a.UpperBound = "*";
+                                                                                      });
+                                                                     });
+            cdtCode = cdtLib1.AddElement("Code", "Class").With(e =>
+                                                               {
+                                                                   e.Stereotype = Stereotype.CDT;
+                                                                   AddCON(e, primString);
+                                                                   AddSUPs(e, primString,
+                                                                           "Name",
+                                                                           "CodeList.Agency",
+                                                                           "CodeList.AgencyName",
+                                                                           "CodeList",
+                                                                           "CodeList.Name",
+                                                                           "CodeList.UniformResourceIdentifier",
+                                                                           "CodeList.Version",
+                                                                           "CodeListScheme.UniformResourceIdentifier",
+                                                                           "Language");
+                                                               });
+            cdtDate = cdtLib1.AddElement("Date", "Class").With(e =>
+                                                               {
+                                                                   e.Stereotype = Stereotype.CDT;
+                                                                   e.AddTaggedValue(TaggedValues.definition.ToString()).WithValue("A Date.");
+                                                                   AddCON(e, primString);
+                                                                   AddSUPs(e, primString, "Format");
+                                                               });
+            cdtText = cdtLib1.AddElement("Text", "Class").With(e =>
+                                                               {
+                                                                   e.Stereotype = Stereotype.CDT;
+                                                                   AddCON(e, primString);
+                                                                   AddSUPs(e, primString, "Language", "Language.Locale");
+                                                               });
+            AddInvalidElement(cdtLib1);
         }
 
-        private static ElementBuilder CDTDate()
+        private void InitBDTLib1(Package bdtLib1)
         {
-            return Element("Date", Stereotype.CDT)
-                .TaggedValues(
-                TaggedValue(TaggedValues.definition, "A Date."))
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToString()),
-                Attribute("Format", Stereotype.SUP, PathToString())
-                );
+            bdtLib1.Element.Stereotype = Stereotype.BDTLibrary;
+            bdtLib1.AddDiagram("bdtlib1", "Class");
+            bdtLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:bdtlib1");
+            bdtMeasure = bdtLib1.AddElement("Measure", "Class").With(e =>
+                                                                     {
+                                                                         e.Stereotype = Stereotype.BDT;
+                                                                         AddCON(e, primDecimal);
+                                                                         AddSUP(e, primString, "MeasureUnit");
+                                                                         AddAttribute(e, "MeasureUnit.CodeListVersion", primString, Stereotype.SUP,
+                                                                                      a =>
+                                                                                      {
+                                                                                          a.LowerBound = "1";
+                                                                                          a.UpperBound = "*";
+                                                                                      });
+                                                                     });
+            bdtCode = bdtLib1.AddElement("Code", "Class").With(e =>
+                                                               {
+                                                                   e.Stereotype = Stereotype.BDT;
+                                                                   AddCON(e, primString);
+                                                                   AddSUPs(e, primString,
+                                                                           "Name",
+                                                                           "CodeList.Agency",
+                                                                           "CodeList.AgencyName",
+                                                                           "CodeList",
+                                                                           "CodeList.Name",
+                                                                           "CodeList.UniformResourceIdentifier",
+                                                                           "CodeList.Version",
+                                                                           "CodeListScheme.UniformResourceIdentifier",
+                                                                           "Language");
+                                                               });
+            bdtABCCode = bdtLib1.AddElement("ABC_Code", "Class").With(e =>
+                                                                      {
+                                                                          e.Stereotype = Stereotype.BDT;
+                                                                          AddCON(e, primString);
+                                                                          AddSUPs(e, primString,
+                                                                                  "Name",
+                                                                                  "CodeList.Agency",
+                                                                                  "CodeList.AgencyName",
+                                                                                  "CodeList",
+                                                                                  "CodeList.Name",
+                                                                                  "CodeList.UniformResourceIdentifier",
+                                                                                  "CodeList.Version",
+                                                                                  "CodeListScheme.UniformResourceIdentifier",
+                                                                                  "Language");
+                                                                      });
+            bdtDate = bdtLib1.AddElement("Date", "Class").With(e =>
+                                                               {
+                                                                   e.Stereotype = Stereotype.BDT;
+                                                                   AddCON(e, primString);
+                                                                   AddSUPs(e, primString, "Format");
+                                                               });
+            bdtText = bdtLib1.AddElement("Text", "Class").With(e =>
+                                                               {
+                                                                   e.Stereotype = Stereotype.BDT;
+                                                                   e.AddTaggedValue(TaggedValues.definition.ToString()).WithValue("This is the definition of BDT Text.");
+                                                                   AddCON(e, primString);
+                                                                   AddSUPs(e, primString, "Language", "Language.Locale");
+                                                               });
+            AddInvalidElement(bdtLib1);
         }
 
-        private static ElementBuilder CDTText()
+        private void InitCCLib1(Package ccLib1)
         {
-            return Element("Text", Stereotype.CDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToString()),
-                Attribute("Language", Stereotype.SUP, PathToString()),
-                Attribute("Language.Locale", Stereotype.SUP, PathToString())
-                );
+            ccLib1.Element.Stereotype = Stereotype.CCLibrary;
+            ccLib1.AddDiagram("cclib1", "Class");
+            ccLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:cclib1");
+            accAddress = ccLib1.AddElement("Address", "Class").With(e =>
+                                                                    {
+                                                                        e.Stereotype = Stereotype.ACC;
+                                                                        AddAttribute(e, "CountryName", cdtText, Stereotype.BCC);
+                                                                        AddAttribute(e, "CityName", cdtText, Stereotype.BCC);
+                                                                        AddAttribute(e, "StreetName", cdtText, Stereotype.BCC);
+                                                                        AddAttribute(e, "StreetNumber", cdtText, Stereotype.BCC);
+                                                                        AddAttribute(e, "Postcode", cdtText, Stereotype.BCC, postcode =>
+                                                                                                                             {
+                                                                                                                                 postcode.LowerBound = "0";
+                                                                                                                                 postcode.UpperBound = "*";
+                                                                                                                             });
+                                                                    });
+            accPerson = ccLib1.AddElement("Person", "Class").With(e =>
+                                                                  {
+                                                                      e.Stereotype = Stereotype.ACC;
+                                                                      AddAttribute(e, "FirstName", cdtText, Stereotype.BCC);
+                                                                      AddAttribute(e, "LastName", cdtText, Stereotype.BCC);
+                                                                      AddAttribute(e, "NickName", cdtText, Stereotype.BCC, nickName =>
+                                                                                                                           {
+                                                                                                                               nickName.LowerBound = "0";
+                                                                                                                               nickName.UpperBound = "*";
+                                                                                                                           });
+                                                                  });
+            AddInvalidElement(ccLib1);
         }
 
-        #endregion
-
-        #region BDTLib1
-
-        private static PackageBuilder BDTLib1()
+        private void InitBIELib1(Package bieLib1)
         {
-            return Package("bdtlib1", Stereotype.BDTLibrary)
-                .Diagrams(
-                Diagram("bdtlib1", "Class")
-                )
-                .TaggedValues(
-                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bdtlib1")
-                )
-                .Elements(
-                BDTText(),
-                BDTDate(),
-                BDTCode(),
-                BdtAbcCode(),
-                BDTMeasure(),
-                InvalidElement()
-                );
+            bieLib1.Element.Stereotype = Stereotype.BIELibrary;
+            bieLib1.AddDiagram("bielib1", "Class");
+            bieLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:bielib1");
+            bieMyAddress = bieLib1.AddElement("MyAddress", "Class").With(e =>
+                                                                         {
+                                                                             e.Stereotype = Stereotype.ABIE;
+                                                                             AddAttribute(e, "CountryName", bdtText, Stereotype.BBIE);
+                                                                             AddAttribute(e, "CityName", bdtText, Stereotype.BBIE);
+                                                                             AddAttribute(e, "StreetName", bdtText, Stereotype.BBIE);
+                                                                             AddAttribute(e, "StreetNumber", bdtText, Stereotype.BBIE);
+                                                                             AddAttribute(e, "Postcode", bdtText, Stereotype.BBIE, postcode =>
+                                                                                                                                   {
+                                                                                                                                       postcode.LowerBound = "0";
+                                                                                                                                       postcode.UpperBound = "*";
+                                                                                                                                   });
+                                                                         });
+            bieMyPerson = bieLib1.AddElement("MyPerson", "Class").With(e =>
+                                                                       {
+                                                                           e.Stereotype = Stereotype.ABIE;
+                                                                           AddAttribute(e, "FirstName", bdtText, Stereotype.BBIE);
+                                                                           AddAttribute(e, "LastName", bdtText, Stereotype.BBIE);
+                                                                       });
+            AddInvalidElement(bieLib1);
         }
 
-        private static ElementBuilder BDTMeasure()
+        private void InitDOCLibrary(Package docLibrary)
         {
-            return Element("Measure", Stereotype.BDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToDecimal()),
-                Attribute("MeasureUnit", Stereotype.SUP, PathToString()),
-                Attribute("MeasureUnit.CodeListVersion", Stereotype.SUP, PathToString()).LowerBound("1").UpperBound("*")
-                );
+            docLibrary.Element.Stereotype = Stereotype.DOCLibrary;
+            docLibrary.AddDiagram("DOCLibrary", "Class");
+            docLibrary.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:doclibrary");
+            bieInvoice = docLibrary.AddElement("Invoice", "Class").With(e =>
+                                                                        {
+                                                                            e.Stereotype = Stereotype.ABIE;
+                                                                            AddAttribute(e, "Amount", bdtText, Stereotype.BBIE);
+                                                                        });
+            bieInvoiceInfo = docLibrary.AddElement("InvoiceInfo", "Class").With(e =>
+                                                                                {
+                                                                                    e.Stereotype = Stereotype.ABIE;
+                                                                                    AddAttribute(e, "Info", bdtText, Stereotype.BBIE);
+                                                                                });
+            AddInvalidElement(docLibrary);
         }
 
-        private static ElementBuilder BDTCode()
+        private static void AddInvalidElement(Package package)
         {
-            return Element("Code", Stereotype.BDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToString()),
-                Attribute("Name", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Agency", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.AgencyName", Stereotype.SUP, PathToString()),
-                Attribute("CodeList", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Name", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
-                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("Language", Stereotype.SUP, PathToString())
-                );
+            package.AddElement("InvalidElement", "Class").With(e => { e.Stereotype = "InvalidStereotype"; });
         }
-
-        private static ElementBuilder BdtAbcCode()
-        {
-            return Element("ABC_Code", Stereotype.BDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToEnumAbcCodes()),
-                Attribute("Name", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Agency", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.AgencyName", Stereotype.SUP, PathToString()),
-                Attribute("CodeList", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Name", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("CodeList.Version", Stereotype.SUP, PathToString()),
-                Attribute("CodeListScheme.UniformResourceIdentifier", Stereotype.SUP, PathToString()),
-                Attribute("Language", Stereotype.SUP, PathToString())
-                );
-        }
-
-        private static ElementBuilder BDTDate()
-        {
-            return Element("Date", Stereotype.BDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToString()),
-                Attribute("Format", Stereotype.SUP, PathToString())
-                );
-        }
-
-        private static ElementBuilder BDTText()
-        {
-            return Element("Text", Stereotype.BDT)
-                .Attributes(
-                Attribute("Content", Stereotype.CON, PathToString())
-                    .TaggedValues(TaggedValue(TaggedValues.definition, "This is the definition of BDT Text.")),
-                Attribute("Language", Stereotype.SUP, PathToString()),
-                Attribute("Language.Locale", Stereotype.SUP, PathToString())
-                );
-        }
-
-        #endregion
-
-        #region CCLib1
-
-        private static PackageBuilder CCLib1()
-        {
-            return Package("cclib1", Stereotype.CCLibrary)
-                .Diagrams(
-                Diagram("cclib1", "Class")
-                )
-                .TaggedValues(
-                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:cclib1")
-                )
-                .Elements(
-                ACCAddress(),
-                ACCPerson(),
-                InvalidElement()
-                );
-        }
-
-        private static ElementBuilder ACCAddress()
-        {
-            return Element("Address", Stereotype.ACC)
-                .Attributes(
-                Attribute("CountryName", Stereotype.BCC, PathToText()),
-                Attribute("CityName", Stereotype.BCC, PathToText()),
-                Attribute("StreetName", Stereotype.BCC, PathToText()),
-                Attribute("StreetNumber", Stereotype.BCC, PathToText()),
-                Attribute("Postcode", Stereotype.BCC, PathToText()).LowerBound("0").UpperBound("*")
-                )
-                ;
-        }
-
-        private static ElementBuilder ACCPerson()
-        {
-            return Element("Person", Stereotype.ACC)
-                .Attributes(
-                Attribute("FirstName", Stereotype.BCC, PathToText()),
-                Attribute("LastName", Stereotype.BCC, PathToText()),
-                Attribute("NickName", Stereotype.BCC, PathToText()).LowerBound("0").UpperBound("*")
-                );
-        }
-
-        #endregion
-
-        #region BIELib1
-
-        private static PackageBuilder BIELib1()
-        {
-            return Package("bielib1", Stereotype.BIELibrary)
-                .Diagrams(
-                Diagram("bielib1", "Class")
-                )
-                .TaggedValues(
-                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bielib1")
-                )
-                .Elements(
-                BIEAddress(),
-                BIEPerson(),
-                InvalidElement()
-                );
-        }
-
-        private static ElementBuilder BIEAddress()
-        {
-            return Element("MyAddress", Stereotype.ABIE)
-                .Attributes(
-                Attribute("CountryName", Stereotype.BBIE, PathToBDTText()),
-                Attribute("CityName", Stereotype.BBIE, PathToBDTText()),
-                Attribute("StreetName", Stereotype.BBIE, PathToBDTText()),
-                Attribute("StreetNumber", Stereotype.BBIE, PathToBDTText()),
-                Attribute("Postcode", Stereotype.BBIE, PathToBDTText()).LowerBound("0").UpperBound("*")
-                );
-        }
-
-        private static ElementBuilder BIEPerson()
-        {
-            return Element("MyPerson", Stereotype.ABIE)
-                .Attributes(
-                Attribute("FirstName", Stereotype.BBIE, PathToBDTText()),
-                Attribute("LastName", Stereotype.BBIE, PathToBDTText())
-                );
-        }
-
-        #endregion
-
-        #region DOCLibrary
-
-        private static PackageBuilder DOCLibrary()
-        {
-            return Package("DOCLibrary", Stereotype.DOCLibrary)
-                .Diagrams(
-                Diagram("DOCLibrary", "Class")
-                )
-                .TaggedValues(
-                TaggedValue(TaggedValues.baseURN, "urn:test:blib1:bielib1")
-                )
-                .Elements(
-                Invoice(),
-                InvoiceInfo(),
-                InvalidElement()
-                );
-        }
-
-        private static ElementBuilder Invoice()
-        {
-            return Element("Invoice", Stereotype.ABIE)
-                .Attributes(
-                Attribute("Amount", Stereotype.BBIE, PathToBDTText())
-                );
-        }
-
-        private static ElementBuilder InvoiceInfo()
-        {
-            return Element("InvoiceInfo", Stereotype.ABIE)
-                .Attributes(
-                Attribute("Info", Stereotype.BBIE, PathToBDTText())
-                );
-        }
-
-        #endregion
 
         #region Paths
-
-        private static Path PathToMeasure()
-        {
-            return (Path) "test model"/"blib1"/"cdtlib1"/"Measure";
-        }
 
         public static Path PathToDate()
         {
@@ -441,7 +358,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             return (Path) "test model"/"blib1"/"enumlib1"/"ABC_Codes";
         }
 
-        private static Path PathToDecimal()
+        public static Path PathToDecimal()
         {
             return (Path) "test model"/"blib1"/"primlib1"/"Decimal";
         }

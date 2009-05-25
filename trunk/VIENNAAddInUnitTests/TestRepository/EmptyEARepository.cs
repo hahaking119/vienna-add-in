@@ -1,3 +1,5 @@
+using VIENNAAddIn;
+
 namespace VIENNAAddInUnitTests.TestRepository
 {
     /// <summary>
@@ -7,7 +9,7 @@ namespace VIENNAAddInUnitTests.TestRepository
     {
         public EmptyEARepository()
         {
-            SetContent(Package("Model", ""));
+            this.AddModel("Model", m => { });
         }
     }
 }

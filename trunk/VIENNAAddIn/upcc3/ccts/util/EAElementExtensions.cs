@@ -1,20 +1,44 @@
-// *******************************************************************************
-// This file is part of the VIENNAAddIn project
-// 
-// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
-// 
-// For further information on the VIENNAAddIn project please visit 
-// http://vienna-add-in.googlecode.com
-// *******************************************************************************
+using System;
 using System.Collections.Generic;
 using EA;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
-    ///<summary>
-    ///</summary>
-    public static class ElementExtensions
+    public static class EAElementExtensions
     {
+        public static Element With(this Element element, params Action<Element>[] doSomethingWith)
+        {
+            foreach (var action in doSomethingWith)
+            {
+                action(element);
+            }
+            element.Update();
+            return element;
+        }
+
+        public static Attribute AddAttribute(this Element element, string name, Element type)
+        {
+            var attribute = (Attribute) element.Attributes.AddNew(name, type.Name);
+            attribute.ClassifierID = type.ElementID;
+            attribute.Update();
+            return attribute;
+        }
+
+        public static TaggedValue AddTaggedValue(this Element element, string name)
+        {
+            var taggedValue = (TaggedValue) element.TaggedValues.AddNew(name, "");
+            taggedValue.Value = "";
+            taggedValue.Update();
+            return taggedValue;
+        }
+
+        public static Path GetPath(this Element element, Repository repository)
+        {
+            Package package = repository.GetPackageByID(element.PackageID);
+            return package.GetPath(repository)/element.Name;
+        }
+
         ///<summary>
         ///</summary>
         ///<param name="element"></param>
@@ -23,7 +47,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static IEnumerable<string> GetTaggedValues(this Element element, TaggedValues key)
         {
             string value = element.GetTaggedValue(key);
-            return string.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
+            return String.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
         }
 
         ///<summary>
@@ -89,7 +113,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static void AddConnector(this Element element, ConnectorSpec connectorSpec)
         {
             var connector = (Connector) element.Connectors.AddNew("", "Association");
-            connector.Type = connectorSpec.ConnectorType;
+            connector.Type = connectorSpec.ConnectorType.ToString();
             connector.Stereotype = connectorSpec.Stereotype;
             connector.ClientID = element.ElementID;
             connector.ClientEnd.Aggregation = (int) connectorSpec.AggregationKind;
@@ -97,6 +121,15 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.SupplierEnd.Role = connectorSpec.Name;
             connector.SupplierEnd.Cardinality = connectorSpec.LowerBound + ".." + connectorSpec.UpperBound;
             connector.Update();
+        }
+
+        public static Connector AddConnector(this Element client, string name, string type, Action<Connector> initConnector)
+        {
+            var connector = (Connector) client.Connectors.AddNew(name, type);
+            connector.Update();
+            initConnector(connector);
+            connector.Update();
+            return connector;
         }
 
         ///<summary>
@@ -127,5 +160,23 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
             taggedValues.Refresh();
         }
+
+        private static TaggedValue GetTaggedValueByName(this Element element, string name)
+        {
+            foreach (TaggedValue tv in element.TaggedValues)
+            {
+                if (tv.Name == name)
+                {
+                    return tv;
+                }
+            }
+            return null;
+        }
+
+        public static bool HasTaggedValue(this Element element, string name)
+        {
+            return element.GetTaggedValueByName(name) != null;
+        }
+
     }
 }

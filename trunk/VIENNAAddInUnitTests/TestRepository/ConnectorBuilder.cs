@@ -17,7 +17,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         private readonly Path pathToSupplier;
         private string lowerBound = "1";
         private string upperBound = "1";
-        private AggregationKind aggregationKind = VIENNAAddIn.upcc3.ccts.util.AggregationKind.None;
+        private EAAggregationKind aggregationKind = VIENNAAddIn.upcc3.ccts.util.EAAggregationKind.None;
 
         public ConnectorBuilder(string name, string stereotype, Path pathToClient, Path pathToSupplier) : base(name, stereotype)
         {
@@ -57,13 +57,13 @@ namespace VIENNAAddInUnitTests.TestRepository
             return upperBound;
         }
 
-        public ConnectorBuilder AggregationKind(AggregationKind aggregationKind)
+        public ConnectorBuilder AggregationKind(EAAggregationKind aggregationKind)
         {
             this.aggregationKind = aggregationKind;
             return this;
         }
 
-        public AggregationKind GetAggregationKind()
+        public EAAggregationKind GetAggregationKind()
         {
             return aggregationKind;
         }

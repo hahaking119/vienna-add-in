@@ -26,16 +26,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return repository.GetACC(connector.SupplierID); }
         }
 
-        public AggregationKind AggregationKind
+        public EAAggregationKind AggregationKind
         {
             get
             {
                 var value = connector.ClientEnd.Aggregation;
-                if (Enum.IsDefined(typeof(AggregationKind), value))
+                if (Enum.IsDefined(typeof(EAAggregationKind), value))
                 {
-                    return (AggregationKind)Enum.ToObject(typeof(AggregationKind), value);
+                    return (EAAggregationKind)Enum.ToObject(typeof(EAAggregationKind), value);
                 }
-                return AggregationKind.None;
+                return EAAggregationKind.None;
             }
         }
 

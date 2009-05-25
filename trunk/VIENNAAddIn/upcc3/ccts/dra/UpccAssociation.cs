@@ -44,7 +44,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get
             {
-                return connector.ClientEnd.Aggregation == (int) AggregationKind.None
+                return connector.ClientEnd.Aggregation == (int) EAAggregationKind.None
                            ? connector.ClientEnd.Role
                            : connector.SupplierEnd.Role;
             }
@@ -147,7 +147,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private string GetTaggedValue(TaggedValues key)
         {
-            return connector.GetTaggedValue(key);
+            return EAConnectorExtensions.GetTaggedValue(connector, key.ToString());
         }
     }
 }
