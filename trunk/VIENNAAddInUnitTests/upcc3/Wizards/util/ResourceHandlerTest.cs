@@ -14,6 +14,7 @@ using VIENNAAddIn.upcc3.Wizards.util;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
     [TestFixture]
+    [Category(TestCategories.FileBased)]
     public class ResourceHandlerTest
     {
         // Purpose: The test retrieves a set of test resources from a particular URI, stores the resources

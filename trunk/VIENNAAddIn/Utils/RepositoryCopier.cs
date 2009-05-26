@@ -55,13 +55,11 @@ namespace VIENNAAddIn.Utils
         private void RemoveContentFromTargetRepository()
         {
             var models = targetRepository.Models;
-            Debug.WriteLine("number of models: " + models.Count);
             for (short i = 0; i < models.Count; i++)
             {
                 models.Delete(i);
             }
             models.Refresh();
-            Debug.WriteLine("number of models: " + models.Count);
         }
 
         private void CopyConnectors()

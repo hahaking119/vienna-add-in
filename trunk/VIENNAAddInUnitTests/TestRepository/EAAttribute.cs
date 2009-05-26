@@ -8,24 +8,19 @@
 // *******************************************************************************
 using System;
 using EA;
-using VIENNAAddIn;
-using VIENNAAddIn.upcc3.ccts;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {
     internal class EAAttribute : Attribute, IEACollectionElement
     {
-        private readonly Collection taggedValues;
-        private int classifierId;
-        public Repository Repository { get; set; }
-        public Path ClassifierPath { get; set; }
-
         public EAAttribute(EARepository repository, int elementId)
         {
-            taggedValues = new EAAttributeTagCollection(repository, this);
-            Repository = repository;
+            TaggedValues = new EAAttributeTagCollection(repository, this);
             ParentID = elementId;
+            Default = "";
+            UpperBound = "1";
+            LowerBound = "1";
         }
 
         #region Attribute Members
@@ -80,19 +75,9 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        private string lowerBound = "1";
-        public string LowerBound
-        {
-            get { return lowerBound; }
-            set { lowerBound = value; }
-        }
+        public string LowerBound { get; set; }
 
-        private string upperBound = "1";
-        public string UpperBound
-        {
-            get { return upperBound; }
-            set { upperBound = value; }
-        }
+        public string UpperBound { get; set; }
 
         public string Container
         {
@@ -112,7 +97,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public int AttributeID { get; set;}
+        public int AttributeID { get; set; }
 
         public int Pos
         {
@@ -169,10 +154,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             get { throw new NotImplementedException(); }
         }
 
-        public Collection TaggedValues
-        {
-            get { return taggedValues; }
-        }
+        public Collection TaggedValues { get; private set; }
 
         public string AttributeGUID
         {

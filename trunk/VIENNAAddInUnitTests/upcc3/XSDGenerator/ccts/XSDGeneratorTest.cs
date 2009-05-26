@@ -12,7 +12,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
-using EA;
 using Moq;
 using NUnit.Framework;
 using VIENNAAddIn.Settings;
@@ -27,21 +26,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.ccts
     [TestFixture]
     public class XSDGeneratorTest
     {
-
-        /// <summary>
-        /// Load a repository file for testing.
-        /// </summary>
-        /// <param name="relativePath">Path to repository file, relative to the "testresources" directory, e.g. "XSDGeneratorTest.eap".</param>
-        /// <returns></returns>
-        private static Repository GetFileBasedEARepository(string relativePath)
-        {
-            string repositoryFile = PathToTestResource(relativePath);
-            Console.WriteLine("Repository file: \"{0}\"", repositoryFile);
-            var repo = new Repository();
-            repo.OpenFile(repositoryFile);
-            return repo;
-        }
-
         private static string PathToTestResource(string relativePath)
         {
             return Directory.GetCurrentDirectory() + @"\..\..\testresources\" + relativePath;
@@ -190,27 +174,34 @@ Actual output file: {2}",
         }
 
         [Test]
+        [Category(TestCategories.FileBased)]
         public void TestRootSchemaGenerator()
         {
-            var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
-            var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary"), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary").RootElements));
-            RootSchemaGenerator.GenerateXSD(context);
-            Assert.AreEqual(1, context.Schemas.Count);
-            XmlSchema schema = context.Schemas[0].Schema;
-            schema.Write(Console.Out);
-            //AssertSchema("root.xsd", schema);
+            using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
+            {
+                var ccRepository = new CCRepository(tempFileBasedRepository);
+                var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary"), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary").RootElements));
+                RootSchemaGenerator.GenerateXSD(context);
+                Assert.AreEqual(1, context.Schemas.Count);
+                XmlSchema schema = context.Schemas[0].Schema;
+                schema.Write(Console.Out);
+                //AssertSchema("root.xsd", schema);
+            }
         }
 
         [Test]
+        [Category(TestCategories.FileBased)]
         public void TestSchemaGenerator()
         {
-            AddInSettings.LoadRegistryEntries();
-            var ccRepository = new CCRepository(GetFileBasedEARepository("cc-for-ebInterface-0.5.eap"));
-            var context = VIENNAAddIn.upcc3.XSDGenerator.ccts.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary"), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary").RootElements)));
-            Assert.AreEqual(5, context.Schemas.Count);
-            XmlSchema schema = context.Schemas[1].Schema;
-            schema.Write(Console.Out);
-
+            using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
+            {
+                var ccRepository = new CCRepository(tempFileBasedRepository);
+                AddInSettings.LoadRegistryEntries();
+                var context = VIENNAAddIn.upcc3.XSDGenerator.ccts.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary"), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary").RootElements)));
+                Assert.AreEqual(5, context.Schemas.Count);
+                XmlSchema schema = context.Schemas[1].Schema;
+                schema.Write(Console.Out);
+            }
         }
 
         [Test]

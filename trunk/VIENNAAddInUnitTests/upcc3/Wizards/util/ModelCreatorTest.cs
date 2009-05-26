@@ -19,6 +19,7 @@ using VIENNAAddIn;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
     [TestFixture]
+    [Category(TestCategories.FileBased)]
     public class ModelCreatorTest
     {
         #region Test Settings
