@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using EA;
 using NUnit.Framework;
 using VIENNAAddIn.Settings;
+using VIENNAAddInUnitTests.TestRepository;
 using Assert=Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using File=System.IO.File;
 using TestContext=Microsoft.VisualStudio.TestTools.UnitTesting.TestContext;
 
 namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
@@ -16,6 +13,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
     ///to contain all SynchStereotypesTest Unit Tests
     ///</summary>
     [TestFixture]
+    [Category(TestCategories.FileBased)]
     public class SynchStereotypesTest
     {
         #region Setup/Teardown
@@ -24,25 +22,19 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         // Create new Repository, copy the original testsetting to temporary file and load it into repository.
         public void Init()
         {
-            repo = new Repository();
-            File.Copy(
-                TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test.eap"),
-                TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test_temp.eap"),
-                true);
-            repo.OpenFile(TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test_temp.eap"));
+            repo = new TemporaryFileBasedRepository(TestUtils.PathToTestResource(@"SynchTaggedValuesTest\test.eap"));
         }
 
         [TearDown]
         // Close the repository and delete the temporary file.
         public void Clean()
         {
-            repo.CloseFile();
-            File.Delete(TestUtils.PathToTestResource("\\SynchTaggedValuesTest\\test_temp.eap"));
+            repo.Dispose();
         }
 
         #endregion
 
-        public Repository repo;
+        public TemporaryFileBasedRepository repo;
 
         /// <summary>
         ///Gets or sets the test context which provides

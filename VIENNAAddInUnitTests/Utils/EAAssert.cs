@@ -73,9 +73,9 @@ namespace VIENNAAddInUnitTests.Utils
             }
         }
 
-        public static void RepositoriesAreEqual(Repository expected, Repository actual, Path path)
+        public static void RepositoriesAreEqual(Repository expected, Repository actual)
         {
-            AssertCollectionsAreEqual<Package>(expected.Models, actual.Models, path, PackagesAreEqual);
+            AssertCollectionsAreEqual<Package>(expected.Models, actual.Models, Path.EmptyPath, PackagesAreEqual);
         }
 
         public static void PackagesAreEqual(Package expectedPackage, Package actualPackage, Path path)

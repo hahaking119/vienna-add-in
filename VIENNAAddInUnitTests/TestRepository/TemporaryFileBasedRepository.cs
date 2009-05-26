@@ -10,29 +10,60 @@ namespace VIENNAAddInUnitTests.TestRepository
     public class TemporaryFileBasedRepository : Repository, IDisposable
     {
         private readonly Repository repo = new Repository();
-        private readonly string tempFileName;
+        private string tempFileName;
 
+        /// <summary>
+        /// Copy the contents of the given repository to a new temporary file-based repository.
+        /// </summary>
+        /// <param name="repository"></param>
         public TemporaryFileBasedRepository(Repository repository) : this()
         {
             RepositoryCopier.CopyRepository(repository, repo);
         }
 
+        /// <summary>
+        /// Create an empty temporary file-based repository.
+        /// </summary>
         public TemporaryFileBasedRepository()
         {
-            string emptyRepositoryFileName = TestUtils.PathToTestResource("empty-repository.eap");
-            tempFileName = Path.GetTempFileName();
-            tempFileName = tempFileName.Substring(0, tempFileName.Length - Path.GetExtension(tempFileName).Length - 1) + ".eap";
-            Console.WriteLine("Creating temporary file-based repository: \"{0}\"", tempFileName);
-            File.Copy(emptyRepositoryFileName, tempFileName, true);
-            repo.OpenFile(tempFileName);
+            Console.WriteLine("Creating temporary file-based repository: \"{0}\"", TempFileName);
+            repo.CreateModel(CreateModelType.cmEAPFromBase, TempFileName, 0);
+            repo.OpenFile(TempFileName);
+        }
+
+        /// <summary>
+        /// Copy the given repository file to a temporary file and open it.
+        /// </summary>
+        /// <param name="repositoryFilePath"></param>
+        public TemporaryFileBasedRepository(string repositoryFilePath)
+        {
+            Console.WriteLine("Creating temporary file-based repository: \"{0}\"", TempFileName);
+            File.Copy(repositoryFilePath, TempFileName, true);
+            repo.OpenFile(TempFileName);
+        }
+
+        private string TempFileName
+        {
+            get
+            {
+                if (tempFileName == null)
+                {
+                    tempFileName = Path.GetTempFileName();
+                    tempFileName = TempFileName.Substring(0, TempFileName.Length - Path.GetExtension(TempFileName).Length - 1) + ".eap";
+                }
+                return tempFileName;
+            }
         }
 
         #region IDisposable Members
 
+        /// <summary>
+        /// Close the repository and delete the temporary file.
+        /// </summary>
         public void Dispose()
         {
             repo.CloseFile();
-            File.Delete(tempFileName);
+            File.Delete(TempFileName);
         }
 
         #endregion

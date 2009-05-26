@@ -147,7 +147,8 @@ namespace VIENNAAddInUnitTests.TestRepository
             get
             {
                 var myConnectors = new EAConnectorCollection(repository, this);
-                myConnectors.Elements.AddRange(from c1 in repository.Connectors where c1.ClientID == ElementID || c1.SupplierID == ElementID orderby c1.Name select c1 as IEACollectionElement);
+                myConnectors.Elements.AddRange(from c1 in repository.Connectors where c1.ClientID == ElementID || c1.SupplierID == ElementID select c1 as IEACollectionElement);
+//                myConnectors.Elements.AddRange(from c1 in repository.Connectors where c1.ClientID == ElementID || c1.SupplierID == ElementID orderby c1.Name select c1 as IEACollectionElement);
                 return myConnectors;
             }
         }
