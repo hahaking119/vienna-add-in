@@ -66,11 +66,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
 
             foreach (string schemaFile in schemaFiles)
             {
-                //XmlTextReader reader = new XmlTextReader(schemaDirectory + schemaFile);
-                //XmlSchema schema = XmlSchema.Read(reader, null);
-
-                // Create the XmlParserContext.
-                
                 XmlReaderSettings settings = new XmlReaderSettings();
                 settings.ConformanceLevel = ConformanceLevel.Document;
                 XmlReader reader = XmlReader.Create(schemaDirectory + schemaFile, settings);
@@ -81,53 +76,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
                 reader.Close();
             }
             
-            return new ImporterContext(ccRepository, schemas);
-        }
-
-        private static ImporterContext PrepareVerySimpleTestContext()
-        {
-            CCRepository ccRepository = GetFileBasedTestRepository();
-            List<SchemaInfo> schemas = new List<SchemaInfo>();
-
-            string schemaDirectory = Directory.GetCurrentDirectory() +
-                                    "\\..\\..\\testresources\\XSDImporterTest\\ccts\\verysimpleXSDs\\";
-            string[] schemaFiles = new[] { "bdts.xsd", "bies.xsd", "root.xsd" };
-
-            foreach (string schemaFile in schemaFiles)
-            {
-                //XmlTextReader reader = new XmlTextReader(schemaDirectory + schemaFile);
-                //XmlSchema schema = XmlSchema.Read(reader, null);
-
-                //Stream stream = new Stream();
-                FileStream fs = System.IO.File.OpenRead(schemaDirectory + schemaFile);
-
-                XmlSchema schema = XmlSchema.Read(fs, null);
-
-                schemas.Add(new SchemaInfo(schema, schemaFile));
-
-                fs.Close();
-
-                foreach (XmlSchemaObject obj in schema.Items)
-                {
-                    if (obj is XmlSchemaElement)
-                    {
-                        int i = 1;
-                    }                        
-                }
-
-                
-
-                //XmlReaderSettings settings = new XmlReaderSettings();
-                //settings.ConformanceLevel = ConformanceLevel.Document;
-                ////settings.IgnoreProcessingInstructions = true;
-                //XmlReader reader = XmlReader.Create(schemaDirectory + schemaFile, settings);
-                //XmlSchema schema = XmlSchema.Read(reader, null);
-
-                //schemas.Add(new SchemaInfo(schema, schemaFile));
-
-                //reader.Close();
-            }
-
             return new ImporterContext(ccRepository, schemas);
         }
 
@@ -144,67 +92,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
         [Test]
         public void TestBIESchemaImporter()
         {
-            
-            //ImporterContext context = PrepareTestContext();                       
-            //BIESchemaImporter.ImportXSD(context);
+            BIESchemaImporter.ImportXSD(PrepareTestContext());
 
-            //ImporterContext context = PrepareVerySimpleTestContext();
-
-            //SerializeSchema(context);
-
-            string schemaDirectory = Directory.GetCurrentDirectory() +
-                        "\\..\\..\\testresources\\XSDImporterTest\\ccts\\simpleXSDs\\";
-
-            //XmlTextReader reader = new XmlTextReader(schemaDirectory + "BusinessInformationEntity_1.xsd");
-            //XmlSchema schema = XmlSchema.Read(reader, null);
-
-            // Create the XmlParserContext.
-            
-            XmlDocument doc = new XmlDocument();
-            doc.Load(schemaDirectory + "BusinessInformationEntity_1.xsd");
-            XmlNodeReader reader = new XmlNodeReader(doc);
-
-            while (reader.Read())
-            {
-                Console.WriteLine(reader.Name);
-                Console.WriteLine(reader.NamespaceURI);
-
-                //// we've found a sequence
-                //if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "xsd:sequence"))
-                //{
-                //    //Console.WriteLine("Element: " + reader.Name);
-
-                //    while (reader.Read())
-                //    {
-                //        if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "xsd:element"))
-                //        {
-                //            Console.WriteLine("found element in xsd:sequence!");
-                //            Console.WriteLine("attribute count: " + reader.AttributeCount);
-
-                //            reader.MoveToAttribute("type");
-                            
-                //            string type = reader.ReadContentAsString();
-                //            Console.WriteLine("type: " + type);
-                //            Console.WriteLine("");
-
-                //            int endPrefix = type.IndexOf(':');
-
-                //            Console.WriteLine("PREFIX: {0}", type.Substring(0, endPrefix));
-
-                            
-
-                //            break;
-                //        }
-                //    }
-                //    break;
-                    
-                //}
-            }
-
-            
-
-
-            
             //Assert.Fail("Unit Test needs to be implemented as well ...");
         }
 
@@ -243,7 +132,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
 
         [Test]
         public void TestRootSchemaImporter()
-        {           
+        {
             RootSchemaImporter.ImportXSD(PrepareTestContext());
 
             Assert.Fail("Unit Test needs to be implemented as well ...");
