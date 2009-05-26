@@ -20,6 +20,10 @@ namespace VIENNAAddIn.upcc3.ccts
 
         ///<summary>
         ///</summary>
+        string GUID { get; }
+
+        ///<summary>
+        ///</summary>
         string Name { get; }
 
         ///<summary>

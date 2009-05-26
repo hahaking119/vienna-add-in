@@ -62,5 +62,7 @@ namespace VIENNAAddIn
 
         void EA_OnOutputItemClicked(Repository repository, string tabName, string text, int id);
         void EA_OnOutputItemDoubleClicked(Repository repository, string tabName, string text, int id);
+
+        bool EA_OnPostNewElement(Repository repository, EventProperties info);
     }
 }

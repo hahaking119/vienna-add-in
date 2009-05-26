@@ -40,6 +40,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return connector.ConnectorID; }
         }
 
+        public string GUID
+        {
+            get { return connector.ConnectorGUID; }
+        }
+
         public string Name
         {
             get

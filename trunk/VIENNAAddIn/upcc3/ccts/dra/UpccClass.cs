@@ -70,6 +70,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.ElementID; }
         }
 
+        public string GUID
+        {
+            get { return element.ElementGUID; }
+        }
+
         ///<summary>
         ///</summary>
         public virtual string Name

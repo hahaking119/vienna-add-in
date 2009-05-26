@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using EA;
 
 namespace VIENNAAddIn.validator.upcc3.onTheFly
 {
-    public class ValidationIssue
+    public abstract class ValidationIssue
     {
         private static int nextId;
 
@@ -26,5 +27,7 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
         }
 
         public string GUID { get; private set; }
+
+        public abstract object GetItem(Repository repository);
     }
 }
