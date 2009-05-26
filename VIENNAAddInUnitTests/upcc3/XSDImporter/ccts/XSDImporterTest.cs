@@ -76,7 +76,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
                 reader.Close();
             }
             
-            return new ImporterContext(ccRepository, schemas);
+            return new ImporterContext(ccRepository, schemaDirectory, schemas);
         }
 
         #endregion

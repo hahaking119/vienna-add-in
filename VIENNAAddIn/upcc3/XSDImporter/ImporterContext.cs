@@ -19,10 +19,12 @@ namespace VIENNAAddIn.upcc3.XSDImporter
         ///<summary>
         ///</summary>
         ///<param name="ccRepository"></param>
+        ///<param name="inputDirectory"></param>
         ///<param name="schemaFiles"></param>
-        public ImporterContext(ICCRepository ccRepository, List<SchemaInfo> schemaFiles)
+        public ImporterContext(ICCRepository ccRepository, string inputDirectory, List<SchemaInfo> schemaFiles)
         {
             Repository = ccRepository;
+            InputDirectory = inputDirectory;
             schemas = schemaFiles;
         }
 
@@ -33,6 +35,10 @@ namespace VIENNAAddIn.upcc3.XSDImporter
         ///<summary>
         ///</summary>
         public ICCRepository Repository { get; private set; }
+
+        ///<summary>
+        ///</summary>
+        public string InputDirectory { get; private set; }
 
         ///<summary>
         ///</summary>
