@@ -150,7 +150,7 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public bool EA_OnNotifyContextItemModified(Repository repository, string GUID, ObjectType ot)
         {
-            onTheFlyValidator.ProcessItem(GUID, ot);
+            onTheFlyValidator.ProcessItemModified(GUID, ot);
             return true;
         }
 
@@ -282,6 +282,25 @@ namespace VIENNAAddIn
             {
                 onTheFlyValidator.ShowQuickFixes(id);
             }
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="info"></param>
+        ///<returns></returns>
+        public bool EA_OnPostNewElement(Repository repository, EventProperties info)
+        {
+            foreach (EventProperty eventProperty in info)
+            {
+                if (eventProperty.Name == "ElementID")
+                {
+                    int elementId = int.Parse(eventProperty.Value.ToString());
+                    onTheFlyValidator.ProcessElementCreated(elementId);
+                    return false;
+                }
+            }
+            return false;
         }
 
         #endregion

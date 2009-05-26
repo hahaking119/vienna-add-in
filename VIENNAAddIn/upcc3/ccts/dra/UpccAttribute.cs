@@ -29,6 +29,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.AttributeID; }
         }
 
+        public string GUID
+        {
+            get { return attribute.AttributeGUID; }
+        }
+
         public string Name
         {
             get { return attribute.Name; }
