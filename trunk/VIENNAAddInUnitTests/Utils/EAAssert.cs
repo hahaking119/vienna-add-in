@@ -9,55 +9,66 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.Utils
 {
+    /// <summary>
+    /// <para>Assertion methods for EA repository classes.</para>
+    /// 
+    /// <para><b>Attention:</b> This implementation is not complete and must be extended as the need arises. A complete implementation is out of scope for the moment.</para>
+    /// </summary>
     public static class EAAssert
     {
-        private static readonly PropertyAssertion<AttributeTag> attributeTagPropertiesAreEqual = new PropertyAssertion<AttributeTag>(o => new[]
-                                                                                         {
-                                                                                             o.Name,
-                                                                                             o.Value,
-                                                                                         }, Assert.AreEqual, "should be equal");
-
-        private static readonly PropertyAssertion<Connector> connectorPropertiesAreEqual = new PropertyAssertion<Connector>(o => new[]
-                                                                                         {
-                                                                                             o.Name,
-                                                                                         }, Assert.AreEqual, "should be equal");
-
-        private static readonly PropertyAssertion<ConnectorEnd> connectorEndPropertiesAreEqual = new PropertyAssertion<ConnectorEnd>(o => new[]
-                                                                                         {
-                                                                                             o.Role,
-                                                                                         }, Assert.AreEqual, "should be equal");
-
-        private static readonly PropertyAssertion<Attribute> attributePropertiesAreEqual = new PropertyAssertion<Attribute>(o => new[]
-                                                                                    {
-                                                                                        o.Name,
-                                                                                        o.Default,
-                                                                                        o.LowerBound,
-                                                                                        o.UpperBound,
-                                                                                    }, Assert.AreEqual, "should be equal");
-
-        private static readonly PropertyAssertion<Package> packagePropertiesAreEqual = new PropertyAssertion<Package>(o => new[]
-                                                                            {
-                                                                                o.Name,
-                                                                            }, Assert.AreEqual, "should be equal");
-
-        private static readonly PropertyAssertion<Element> elementPropertiesAreEqual = new PropertyAssertion<Element>(o => new[]
-                                                                                {
-                                                                                    o.Name,
-                                                                                    o.Stereotype,
-                                                                                    o.StereotypeEx,
-                                                                                }, Assert.AreEqual, "should be equal");
-
-        private static readonly PropertyAssertion<TaggedValue> taggedValuePropertiesAreEqual = new PropertyAssertion<TaggedValue>(o => new[]
-                                                                                        {
-                                                                                            o.Name,
-                                                                                            o.Value,
-                                                                                        }, Assert.AreEqual, "should be equal");
-
         #region Delegates
 
         public delegate void AssertAreEqual<T>(T expected, T actual, Path path);
 
         #endregion
+
+        private static readonly PropertyAssertion<Attribute> attributePropertiesAreEqual = new PropertyAssertion<Attribute>(o => new[]
+                                                                                                                                 {
+                                                                                                                                     o.Name,
+                                                                                                                                     o.Default,
+                                                                                                                                     o.LowerBound,
+                                                                                                                                     o.UpperBound,
+                                                                                                                                 }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<AttributeTag> attributeTagPropertiesAreEqual = new PropertyAssertion<AttributeTag>(o => new[]
+                                                                                                                                          {
+                                                                                                                                              o.Name,
+                                                                                                                                              o.Value,
+                                                                                                                                          }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<ConnectorEnd> connectorEndPropertiesAreEqual = new PropertyAssertion<ConnectorEnd>(o => new[]
+                                                                                                                                          {
+                                                                                                                                              o.Role,
+                                                                                                                                          }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Connector> connectorPropertiesAreEqual = new PropertyAssertion<Connector>(o => new[]
+                                                                                                                                 {
+                                                                                                                                     o.Name,
+                                                                                                                                 }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Diagram> diagramPropertiesAreEqual = new PropertyAssertion<Diagram>(o => new[]
+                                                                                                                           {
+                                                                                                                               o.Name,
+                                                                                                                               o.Type,
+                                                                                                                           }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Element> elementPropertiesAreEqual = new PropertyAssertion<Element>(o => new[]
+                                                                                                                           {
+                                                                                                                               o.Name,
+                                                                                                                               o.Stereotype,
+                                                                                                                               o.StereotypeEx,
+                                                                                                                           }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<Package> packagePropertiesAreEqual = new PropertyAssertion<Package>(o => new[]
+                                                                                                                           {
+                                                                                                                               o.Name,
+                                                                                                                           }, Assert.AreEqual, "should be equal");
+
+        private static readonly PropertyAssertion<TaggedValue> taggedValuePropertiesAreEqual = new PropertyAssertion<TaggedValue>(o => new[]
+                                                                                                                                       {
+                                                                                                                                           o.Name,
+                                                                                                                                           o.Value,
+                                                                                                                                       }, Assert.AreEqual, "should be equal");
 
         public static void AssertCollectionsAreEqual<T>(Collection expectedElements, Collection actualElements,
                                                         Path path, AssertAreEqual<T> assertAreEqual)
@@ -80,7 +91,7 @@ namespace VIENNAAddInUnitTests.Utils
 
         public static void PackagesAreEqual(Package expectedPackage, Package actualPackage, Path path)
         {
-            Path packagePath = path / expectedPackage.Name;
+            Path packagePath = path/expectedPackage.Name;
             packagePropertiesAreEqual.AssertFor(expectedPackage, actualPackage, packagePath);
             ElementsAreEqual(expectedPackage.Element, actualPackage.Element, packagePath);
             AssertCollectionsAreEqual<Package>(expectedPackage.Packages, actualPackage.Packages, packagePath,
@@ -93,7 +104,16 @@ namespace VIENNAAddInUnitTests.Utils
 
         public static void DiagramsAreEqual(Diagram expectedDiagram, Diagram actualDiagram, Path path)
         {
-            // TODO
+            if (expectedDiagram == null)
+            {
+                Assert.IsNull(actualDiagram);
+            }
+            else
+            {
+                Assert.IsNotNull(actualDiagram, "Target diagram for " + expectedDiagram.Name + " is null at /" + path);
+                Path diagramPath = path/expectedDiagram.Name;
+                diagramPropertiesAreEqual.AssertFor(expectedDiagram, actualDiagram, diagramPath);
+            }
         }
 
         public static void ElementsAreEqual(Element expectedElement, Element actualElement, Path path)
@@ -125,7 +145,7 @@ namespace VIENNAAddInUnitTests.Utils
             else
             {
                 Assert.IsNotNull(actualTag, "Target tagged value for " + expectedTag.Name + " is null at /" + path);
-                var tagPath = path / expectedTag.Name;
+                Path tagPath = path/expectedTag.Name;
                 taggedValuePropertiesAreEqual.AssertFor(expectedTag, actualTag, tagPath);
             }
         }
@@ -139,7 +159,7 @@ namespace VIENNAAddInUnitTests.Utils
             else
             {
                 Assert.IsNotNull(actualTag, "Target attribute tag for " + expectedTag.Name + " is null at /" + path);
-                var tagPath = path / expectedTag.Name;
+                Path tagPath = path/expectedTag.Name;
                 attributeTagPropertiesAreEqual.AssertFor(expectedTag, actualTag, tagPath);
             }
         }
@@ -153,7 +173,7 @@ namespace VIENNAAddInUnitTests.Utils
             else
             {
                 Assert.IsNotNull(actual, "Target connector for " + expected.Name + " is null at /" + path);
-                var connectorPath = path / expected.Name;
+                Path connectorPath = path/expected.Name;
                 connectorPropertiesAreEqual.AssertFor(expected, actual, connectorPath);
                 AssertConnectorEndsAreEqual(expected.ClientEnd, actual.ClientEnd, connectorPath);
                 AssertConnectorEndsAreEqual(expected.SupplierEnd, actual.SupplierEnd, connectorPath);
@@ -169,7 +189,7 @@ namespace VIENNAAddInUnitTests.Utils
             else
             {
                 Assert.IsNotNull(actual, "Target connector end for " + expected.Role + " is null at /" + path);
-                var connectorEndPath = path / expected.Role;
+                Path connectorEndPath = path/expected.Role;
                 connectorEndPropertiesAreEqual.AssertFor(expected, actual, connectorEndPath);
             }
         }
@@ -194,11 +214,9 @@ namespace VIENNAAddInUnitTests.Utils
 
     internal class PropertyAssertion<T>
     {
+        private readonly PropertyAssertionInterceptor interceptor;
         private readonly Func<T, object> invokeProperties;
         private readonly T proxy;
-        private readonly PropertyAssertionInterceptor interceptor;
-
-        internal delegate void Assertion(object expected, object actual, string message);
 
         public PropertyAssertion(Func<T, object> invokeProperties, Assertion assert, string assertionDescription)
         {
@@ -215,7 +233,15 @@ namespace VIENNAAddInUnitTests.Utils
             invokeProperties(proxy);
         }
 
-        private class PropertyAssertionInterceptor: IInterceptor
+        #region Nested type: Assertion
+
+        internal delegate void Assertion(object expected, object actual, string message);
+
+        #endregion
+
+        #region Nested type: PropertyAssertionInterceptor
+
+        private class PropertyAssertionInterceptor : IInterceptor
         {
             private readonly Assertion assert;
             private readonly string assertionDescription;
@@ -226,9 +252,9 @@ namespace VIENNAAddInUnitTests.Utils
                 this.assertionDescription = assertionDescription;
             }
 
-            public T Actual { get; set; }
-            public T Expected { get; set; }
-            public Path Path { get; set; }
+            public T Actual { private get; set; }
+            public T Expected { private get; set; }
+            public Path Path { private get; set; }
 
             #region IInterceptor Members
 
@@ -238,13 +264,14 @@ namespace VIENNAAddInUnitTests.Utils
                 object actualValue = invocation.Method.Invoke(Actual, invocation.Arguments);
                 invocation.ReturnValue = expectedValue;
                 assert(expectedValue, actualValue,
-                                "The property " + typeof(T).Name + "." +
-                                invocation.Method.Name.Substring(4) +
-                                " of " + Path + " " + assertionDescription + ".");
+                       "The property " + typeof (T).Name + "." +
+                       invocation.Method.Name.Substring(4) +
+                       " of " + Path + " " + assertionDescription + ".");
             }
 
             #endregion
         }
-    }
 
+        #endregion
+    }
 }
