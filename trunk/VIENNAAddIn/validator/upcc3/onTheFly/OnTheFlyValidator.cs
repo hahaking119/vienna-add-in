@@ -2,7 +2,7 @@ using EA;
 
 namespace VIENNAAddIn.validator.upcc3.onTheFly
 {
-    internal interface OnTheFlyValidator
+    public interface OnTheFlyValidator
     {
         void ProcessItem(string guid, ObjectType objectType);
         void FocusIssueItem(int issueId);
