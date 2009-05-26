@@ -8,10 +8,7 @@
 // *******************************************************************************
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.util
@@ -38,19 +35,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
         public string Name { get; set; }
         public IList<object> Items { get; private set; }
 
-
-        // TODO: add capability that complextypes can have child elements
-
         public ComplexType()
         {
             Items = new List<object>();
             Name = "";
         }
-
-        //public ComplexType(string name)
-        //{
-        //    Name = name;
-        //}
     }
 
     public class Element
@@ -69,14 +58,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
             MinOccurs = "";
             MaxOccurs = "";
         }
-
-        //public Element(string name, QualifiedName type, string minOccurs, string maxOccurs)
-        //{
-        //    Name = name;
-        //    Type = type;
-        //    MinOccurs = minOccurs;
-        //    MaxOccurs = maxOccurs;
-        //}
     }
 
     public static class ExtensionMethods
@@ -107,7 +88,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
                         
                         Element element = subtree.ParseElement();
                         newComplexType.Items.Add(element);
-                        Console.WriteLine(element.Name);
+                        //Console.WriteLine(element.Name);
                     }
                 }
             }
@@ -216,9 +197,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
                 return reader.Read();  
         }        
 
-        ///<summary>
-        ///</summary>
-        ///<param name="xmlDocument"></param>
         public CustomSchemaReader(XmlDocument xmlDocument)
         {
             Items = new List<object>();
