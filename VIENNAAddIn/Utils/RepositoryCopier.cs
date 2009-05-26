@@ -1,19 +1,19 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using EA;
-using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.Utils
 {
     ///<summary>
+    /// <para>Provides functionality to copy the contents of one repository to another repository (all existing content is removed from the target repository before).</para>
+    /// 
+    /// <para><b>Attention:</b> This implementation is not complete and must be extended as the need arises. A complete implementation is out of scope for the moment.</para>
     ///</summary>
     public class RepositoryCopier
     {
-        private readonly Repository sourceRepository;
-        private readonly Repository targetRepository;
         private readonly List<Connector> connectors = new List<Connector>();
         private readonly Dictionary<int, int> elementMapping = new Dictionary<int, int>();
+        private readonly Repository sourceRepository;
+        private readonly Repository targetRepository;
 
         private RepositoryCopier(Repository sourceRepository, Repository targetRepository)
         {
@@ -46,7 +46,6 @@ namespace VIENNAAddIn.Utils
             RemoveContentFromTargetRepository();
             CopyPackageCollection(sourceRepository.Models, targetRepository.Models, 0);
             CopyConnectors();
-            // TODO copy diagrams
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace VIENNAAddIn.Utils
         /// </summary>
         private void RemoveContentFromTargetRepository()
         {
-            var models = targetRepository.Models;
+            Collection models = targetRepository.Models;
             for (short i = 0; i < models.Count; i++)
             {
                 models.Delete(i);
@@ -64,10 +63,10 @@ namespace VIENNAAddIn.Utils
 
         private void CopyConnectors()
         {
-            foreach (var sourceConnector in connectors)
+            foreach (Connector sourceConnector in connectors)
             {
-                var targetClient = targetRepository.GetElementByID(elementMapping[sourceConnector.ClientID]);
-                var targetSupplier = targetRepository.GetElementByID(elementMapping[sourceConnector.SupplierID]);
+                Element targetClient = targetRepository.GetElementByID(elementMapping[sourceConnector.ClientID]);
+                Element targetSupplier = targetRepository.GetElementByID(elementMapping[sourceConnector.SupplierID]);
                 CopyConnector(sourceConnector, targetClient.Connectors, targetClient.ElementID, targetSupplier.ElementID);
                 targetClient.Connectors.Refresh();
             }
@@ -165,7 +164,7 @@ namespace VIENNAAddIn.Utils
             targetAttribute.UpperBound = sourceAttribute.UpperBound;
             targetAttribute.Update();
             CopyCollection<AttributeTag>(sourceAttribute.TaggedValues, targetAttribute.TaggedValues, CopyAttributeTag,
-                                        targetAttribute.AttributeID);
+                                         targetAttribute.AttributeID);
         }
 
         private void CopyTaggedValue(TaggedValue sourceTaggedValue, Collection targetCollection, int targetElementId)
@@ -178,7 +177,7 @@ namespace VIENNAAddIn.Utils
 
         private void CopyAttributeTag(AttributeTag sourceTag, Collection targetCollection, int targetAttributeId)
         {
-            var targetTag = (AttributeTag)targetCollection.AddNew(sourceTag.Name, "");
+            var targetTag = (AttributeTag) targetCollection.AddNew(sourceTag.Name, "");
             targetTag.AttributeID = targetAttributeId;
             targetTag.Value = sourceTag.Value;
             targetTag.Update();
