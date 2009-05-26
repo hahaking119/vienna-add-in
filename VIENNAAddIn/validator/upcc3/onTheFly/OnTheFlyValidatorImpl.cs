@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EA;
@@ -7,10 +8,12 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.validator.upcc3.onTheFly
 {
-    internal class OnTheFlyValidatorImpl : OnTheFlyValidator
+    public class OnTheFlyValidatorImpl : OnTheFlyValidator
     {
         private readonly Repository repository;
         private readonly Dictionary<int, ValidationIssue> validationIssues = new Dictionary<int, ValidationIssue>();
+
+        private readonly Dictionary<int, IValidatingBusinessLibrary> libraries = new Dictionary<int, IValidatingBusinessLibrary>();
 
         public OnTheFlyValidatorImpl(Repository repository)
         {
@@ -27,20 +30,39 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
                     {
                         Element element = repository.GetElementByGuid(guid);
                         int packageId = element.PackageID;
-                        Package package = repository.GetPackageByID(packageId);
-                        if (package.IsCCLibrary())
+                        var library = GetLibrary(packageId);
+                        if (library != null)
                         {
-                            if (!element.IsACC())
-                            {
-                                var issue = new InvalidStereotype(repository, guid, objectType, Stereotype.ACC);
-                                validationIssues[issue.Id] = issue;
-                                repository.EnsureOutputVisible(AddInSettings.AddInName);
-                                repository.WriteOutput(AddInSettings.AddInName, issue.Message, issue.Id);
-                            }
+                            library.AddElement(element);
                         }
+                        // TODO else package is not a UPCC library => if element has a valid UPCC stereotype, show error/quickfix for package
+//                        Package package = repository.GetPackageByID(packageId);
+//                        if (package.IsCCLibrary())
+//                        {
+//                            if (!element.IsACC())
+//                            {
+//                                var issue = new InvalidStereotype(repository, guid, objectType, Stereotype.ACC);
+//                                validationIssues[issue.Id] = issue;
+//                                repository.EnsureOutputVisible(AddInSettings.AddInName);
+//                                repository.WriteOutput(AddInSettings.AddInName, issue.Message, issue.Id);
+//                            }
+//                        } else if (package.IsPRIMLibrary())
+//                        {
+//
+//                        }
                         break;
                     }
             }
+        }
+
+        private IValidatingBusinessLibrary GetLibrary(int id)
+        {
+            IValidatingBusinessLibrary library;
+            if (libraries.TryGetValue(id, out library))
+            {
+                return library;
+            }
+            return null;
         }
 
         public void FocusIssueItem(int issueId)
@@ -48,7 +70,7 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
             ValidationIssue issue;
             if (validationIssues.TryGetValue(issueId, out issue))
             {
-                repository.ShowInProjectView(issue.Item);
+//                repository.ShowInProjectView(issue.Item);
             }
         }
 
@@ -57,11 +79,16 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
             ValidationIssue issue;
             if (validationIssues.TryGetValue(issueId, out issue))
             {
-                repository.ShowInProjectView(issue.Item);
-                issue.QuickFixes.First().Execute(repository, issue.GUID, issue.ObjectType);
+//                repository.ShowInProjectView(issue.Item);
+//                issue.QuickFixes.First().Execute(repository, issue.GUID, issue.ObjectType);
             }
         }
 
         #endregion
+    }
+
+    internal interface IValidatingBusinessLibrary
+    {
+        void AddElement(Element element);
     }
 }
