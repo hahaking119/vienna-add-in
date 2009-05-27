@@ -179,8 +179,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
         public IList<object> Items { get; private set; }
         public IList<Include> Includes { get; private set; }
 
-        private Boolean Skip = false;
-        
+        private Boolean Skip = false;      
 
         private Boolean CheckToSkip(XmlReader reader)
         {
@@ -195,13 +194,13 @@ namespace VIENNAAddIn.upcc3.XSDImporter.util
  
             } else
                 return reader.Read();  
-        }        
-
+        }      
+  
         public CustomSchemaReader(XmlDocument xmlDocument)
         {
             Items = new List<object>();
-            Includes = new List<Include>();
-
+            Includes = new List<Include>();         
+ 
             reader = new XmlNodeReader(xmlDocument);
 
             reader.MoveToSchemaRoot();
