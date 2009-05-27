@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.textboxRootSchema = new System.Windows.Forms.TextBox();
+            this.buttonBrowseFolders = new System.Windows.Forms.Button();
             this.comboModels = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -52,25 +52,28 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Select root XML schema:";
             // 
-            // textBox1
+            // textboxRootSchema
             // 
-            this.textBox1.Location = new System.Drawing.Point(207, 17);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(207, 20);
-            this.textBox1.TabIndex = 5;
+            this.textboxRootSchema.Location = new System.Drawing.Point(207, 17);
+            this.textboxRootSchema.Name = "textboxRootSchema";
+            this.textboxRootSchema.Size = new System.Drawing.Size(207, 20);
+            this.textboxRootSchema.TabIndex = 5;
             // 
-            // button1
+            // buttonBrowseFolders
             // 
-            this.button1.Location = new System.Drawing.Point(420, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(24, 20);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonBrowseFolders.Location = new System.Drawing.Point(420, 17);
+            this.buttonBrowseFolders.Name = "buttonBrowseFolders";
+            this.buttonBrowseFolders.Size = new System.Drawing.Size(24, 20);
+            this.buttonBrowseFolders.TabIndex = 6;
+            this.buttonBrowseFolders.Text = "...";
+            this.buttonBrowseFolders.UseVisualStyleBackColor = true;
+            this.buttonBrowseFolders.Click += new System.EventHandler(this.buttonBrowseFolders_Click);
             // 
             // comboModels
             // 
             this.comboModels.FormattingEnabled = true;
+            this.comboModels.Items.AddRange(new object[] {
+            "CCTS"});
             this.comboModels.Location = new System.Drawing.Point(207, 43);
             this.comboModels.Name = "comboModels";
             this.comboModels.Size = new System.Drawing.Size(237, 21);
@@ -115,9 +118,9 @@
             // 
             this.groupBox2.Controls.Add(this.comboModels);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.buttonBrowseFolders);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.textboxRootSchema);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(458, 78);
@@ -149,7 +152,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(481, 297);
+            this.ClientSize = new System.Drawing.Size(481, 298);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonImport);
             this.Controls.Add(this.groupBox2);
@@ -170,8 +173,8 @@
         #endregion
 
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textboxRootSchema;
+        private System.Windows.Forms.Button buttonBrowseFolders;
         private System.Windows.Forms.ComboBox comboModels;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox1;

@@ -1,4 +1,5 @@
 ﻿// TODO: remove all Console.WriteLine statements once implementation is complete
+// TODO: complete the documentation of the entire BIE importer class
 
 using System;
 using System.Collections.Generic;
@@ -10,31 +11,20 @@ using VIENNAAddIn.upcc3.XSDImporter.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 {
-    ///<summary>
-    ///</summary>
     public static class BIESchemaImporter
     {
-        ///<summary>
-        ///</summary>
-        ///<param name="context"></param>
+        private static ICCLibrary existingAccs;
+        private static IBDTLibrary existingBdts;
+        private static IBIELibrary bieLibrary;
+
         public static void ImportXSD(ImporterContext context)
         {
             #region Import Preparation
 
             // TODO: ACC, BDT and BIE library should be configurable through the ImporterContext
-
-            // Retrieve all ACCs stored in the ACC library that all ABIEs are based on and
-            // cache them in a local dictionary. 
-            ICCLibrary accLibrary = GetAccLibrary(context.Repository);
-            IDictionary<string, IACC> existingAccs = CreateDictionaryFromAccLibrary(accLibrary);
-
-            // Retrieve all BDTs stored in the BDT library that all ABIEs utilize to typify
-            // the BBIEs contained in the ABIE. 
-            IBDTLibrary bdtLibrary = GetBdtLibrary(context.Repository);
-            IDictionary<string, IBDT> existingBdts = CreateDictionaryFromBdtLibrary(bdtLibrary);
-
-            // Retrieve the BIE library that all ABIEs will be imported into. 
-            IBIELibrary bieLibrary = GetTargetBieLibrary(context.Repository);
+            existingAccs = context.Repository.Libraries<ICCLibrary>().ElementAt(0);
+            existingBdts = context.Repository.Libraries<IBDTLibrary>().ElementAt(0);
+            bieLibrary = context.Repository.Libraries<IBIELibrary>().ElementAt(0);
             
             // Even though the XML schema is stored in the importer context we need to re-read
             // the XML schema. The reason for doing so is that the impoter context pre-read the
@@ -45,36 +35,57 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             // on the file name and directory location as specified in the importer context.
             XmlDocument bieSchemaDocument = GetBieSchemaDocument(context);
 
-            #endregion
-
-            // Create two dictionaries: The first one contains all ABIE specs of the ABIEs 
-            // that are about to be created. Reason for storing the ABIE specs is that the
-            // ABIEs are updated in a second processing steps with their respective ASBIEs. 
-            // Besides cumulating all ABIEs contained in the XML schema we also cumulate all
-            // element definitions on the complex type level of the XML schema since these
-            // element definitions may be ASBIE element declarations. These element declarations
-            // are then needed in the second processing step.            
-            IDictionary<string, ABIESpec> allAbieSpecs = new Dictionary<string, ABIESpec>();
-            IDictionary<string, string> elementDefinitions = new Dictionary<string, string>();
-
-            // Create a set of ABIESpecs from the BIE XML schema.    
-            CumulateAbieSpecsFromSchema(bieSchemaDocument, existingAccs, existingBdts, allAbieSpecs, elementDefinitions);
-
-            // After cumulating all ABIESpecs we'll write each one of them into 
-            // the BIE library.
-            WriteAbieSpecsToLibrary(allAbieSpecs, bieLibrary);
-
-
-            // After cumulating all ABIESpecs from the XML schema and writing the ABIEs to the
-            // target BIE library we can process the XML schema again and update all ABIEs
-            // with their ASBIEs. 
-
-            #region Step 2: Update all ABIEs with their ASBIEs
-
             // Create a new CustomSchemaReader class that allows us to process the BIE XML
             // schema. 
             CustomSchemaReader reader = new CustomSchemaReader(bieSchemaDocument);
 
+            #endregion
+                   
+            IDictionary<string, string> allElementDefinitions = new Dictionary<string, string>();
+
+            #region Processing Step 1: Cumulate all ABIEs and create them in the BIE library
+
+            // Iterate through all the items contained in the XML schema contained in the 
+            // Items property of the reader object. 
+            foreach (object item in reader.Items)
+            {
+                // In case the current Item returned by the CustomSchemaReader is a
+                // complex type we know that we encountered an ABIE definition. 
+                if (item is ComplexType)
+                {
+                    ComplexType abieComplexType = (ComplexType)item;
+
+                    // Therefore we create an ABIESpec based on the complex type 
+                    // definition.
+                    ABIESpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType);
+
+                    // Having an ABIESpec representing the complex type currently 
+                    // processed we can create the corresponding ABIE in the BIE library. 
+
+                    Console.Write("Attempting to <<write>> ABIE: {0}", singleAbieSpec.Name);
+                    bieLibrary.CreateElement(singleAbieSpec);
+                    Console.WriteLine("  ->  Success");
+
+                }
+
+                // In case the element was not a complex type we can check if we
+                // encountered an element definition on the complex type level. These
+                // either include element definitions for ABIEs or global element defintions
+                // for ASBIEs. Regardless, we'll cache the element definitions for further 
+                // processing of the ASBIEs. 
+                if (item is Element)
+                {
+                    Element element = (Element)item;
+                    allElementDefinitions.Add(element.Name, element.Type.Name);
+                }
+            }
+
+            #endregion
+
+            #region Processing Step 2: Update all ABIEs with their ASBIEs
+
+            // Iterate through all the items contained in the XML schema contained in the 
+            // Items property of the reader object. 
             foreach (object item in reader.Items)
             {
                 // In case the current Item returned by the CustomSchemaReader is a
@@ -87,144 +98,57 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
                     // the ASBIE in. First we truncate the suffix "Type" from the ABIE's name. 
                     string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
-                    // Then we read the current ABIE's specification from the dictionary. The 
-                    // specification 
-                    ABIESpec abieSpecToBeUpdated = allAbieSpecs[abieName];
-
-                    // Also we do not only need to the ABIE's specification but also the ABIE
-                    // itself. We therefore retrieve the ABIE from the BIE library where we 
-                    // previously created the ABIE in. 
+                    // For updating an existing ABIE in the library utilizing the library's UpdateElement
+                    // method we need to provide the original ABIE as well as the ABIESpec of the updated
+                    // ABIE. Therefore we first read the ABIE from the library and then create the ABIESpec
+                    // for the ABIE read. 
                     IABIE abieToBeUpdated = bieLibrary.ElementByName(abieName);
+                    ABIESpec updatedAbieSpec = new ABIESpec(abieToBeUpdated);
 
-                    IList<ASBIESpec> asbieSpecs = new List<ASBIESpec>();
+                    // Create a list of ASBIESpecs based on the complex type definition of the ABIE
+                    IList<ASBIESpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
 
-                    foreach (Element element in abieComplexType.Items)
+                    // NOTE: Begin temporary work-around
+                    #region temporary work-around
+                    bool interruptor = false;
+
+                    IList<ASBIESpec> updatedAsbieSpecs = new List<ASBIESpec>(updatedAbieSpec.ASBIEs);
+
+                    if (newAsbieSpecs.Count > 0)
                     {
-                        // Within the complex type definition we are interested in all ASBIE definitions
-                        // which are typically encoded using the ref attribute of an element definition. 
-                        if (!(element.Ref.Name.Equals("")))
-                        {                           
-                            // In case we encountered an ASBIE definition we need to resolve the ASBIE 
-                            // definition. The ref attribute typically points to a global element declaration.
-                            // Remember that we cached all global element declarations we encountered on 
-                            // the complex type level in the dictionary named "elementDefinitions". 
-
-                            // As a next step we need to get the associated ABIE. Therefore we first
-                            // resolve the associated ABIE's name. This is achieved by taking the name
-                            // referenced in the element declaration. The name is then used to lookup the 
-                            // associated ABIEs name in the element declarations previously cached in the
-                            // dictionary named "elementDefinitions". 
-                            string associatedABIEName = elementDefinitions[element.Ref.Name];
-                            associatedABIEName = associatedABIEName.Substring(0, associatedABIEName.Length - 4);
-                            
-                            // After resolving the associated ABIE's name we retrieve the associated ABIE
-                            // from the BIE library. 
-                            IABIE associatedAbie = bieLibrary.ElementByName(associatedABIEName);
-
-                            // ASBIEs are typically based on ASCCs. However it is also possible that ASBIEs
-                            // are not based on ASCCs. Therefore, we first try to find an existing ASCC on the
-                            // core component level. If that works out, we'll clone the ASCC and create an 
-                            // ASBIE off of it. Otherwise we create a new ASBIE from scratch. 
-
-                            // Therefore, we first truncate the associated ABIEs name from the ASBIE name. 
-                            string asbieName = (element.Ref.Name).Substring(0, (element.Ref.Name).Length - associatedABIEName.Length);
-
-                            // Now we try to match an the ASBIE to an ASCC that the ACC, which the ABIE
-                            // is based on, has.
-                            ASBIESpec asbieSpec = MatchAsbieToAscc(existingAccs[abieName], asbieName, associatedAbie.Id);
-
-                            // In case the ASBIE couldn't be matched to an existing ASCC we create a new ASBIE.
-                            if (asbieSpec == null)
-                            {
-                                asbieSpec = new ASBIESpec();
-                                asbieSpec.AssociatedABIEId = associatedAbie.Id;
-                                asbieSpec.Name = asbieName;                                
-                            }
-                            asbieSpecs.Add(asbieSpec);
-                        }
+                        interruptor = true;
                     }
 
-                    // Regardless whether we created a new ASBIE or based the ASBIE on an ACC we add
-                    // the ASBIESpec to the ABIESpec. 
-                    abieSpecToBeUpdated.ASBIEs = asbieSpecs;
+                    foreach (ASBIESpec newAsbieSpec in newAsbieSpecs)
+                    {
+                        updatedAsbieSpecs.Add(newAsbieSpec);
+                    }
 
-                    // After we have successfully gathered all artifacts we need we can update the 
-                    // ABIE in the repository. 
-                    bieLibrary.UpdateElement(abieToBeUpdated, abieSpecToBeUpdated);
+                    #endregion temporary work-around
+                    // NOTE: End temporary work-around
 
-                }                
+                    // After resolving all ASBIE declarations for the current ABIE we assign the 
+                    // new ASBIEs to the ABIE and update the ABIE accordingly utilizing the
+                    // updated ABIESpec. 
+                    updatedAbieSpec.ASBIEs = updatedAsbieSpecs;
+
+                    // NOTE: Begin temporary work-around
+                    if (interruptor)
+                    {
+                        interruptor = false;
+                    // NOTE: End temporary work-around
+                        Console.Write("Attempting to <<update>> ABIE: {0}", abieToBeUpdated.Name);
+                        bieLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
+                        Console.WriteLine("  ->  Success");
+                    }
+                }
             }
 
             #endregion
-
         }
 
         #region Public Class Methods
 
-        ///<summary>
-        ///</summary>
-        ///<param name="abieSpecs"></param>
-        ///<param name="targetBieLibrary"></param>
-        public static void WriteAbieSpecsToLibrary(IDictionary<string, ABIESpec> abieSpecs, IBIELibrary targetBieLibrary)
-        {
-            foreach (ABIESpec abieSpec in abieSpecs.Values)
-            {
-                Console.Write("Attempting to write ABIE: {0}", abieSpec.Name);
-                targetBieLibrary.CreateElement(abieSpec);
-                Console.WriteLine(" - Success :-)");
-            }
-        }
-
-        public static ABIESpec CumulateAbieSpecFromComplexType(ComplexType abieComplexType, IDictionary<string, IACC> existingAccs, IDictionary<string, IBDT> existingBdts)
-        {
-            ABIESpec singleAbieSpec = new ABIESpec();
-
-            string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
-
-            singleAbieSpec.Name = abieName;
-            singleAbieSpec.BasedOn = existingAccs[abieName];
-
-            List<BBIESpec> bbieSpecs = new List<BBIESpec>();
-
-            foreach (object ctItem in abieComplexType.Items)
-            {
-                if (ctItem is Element)
-                {
-                    Element element = (Element)ctItem;
-
-                    if (element.Ref.Name.Equals(""))
-                    {
-                        BBIESpec bbieSpec = new BBIESpec();
-
-                        bbieSpec.Name = element.Name;
-                        bbieSpec.LowerBound = ResolveMinOccurs(element.MinOccurs);
-                        bbieSpec.UpperBound = ResolveMaxOccurs(element.MaxOccurs);
-
-                        string bdtName = element.Type.Name.Substring(0, element.Type.Name.Length - 4);
-
-                        foreach (IBDT bdt in existingBdts.Values)
-                        {
-                            if ((bdt.Name + bdt.CON.BasicType.DictionaryEntryName).Equals(bdtName))
-                            {
-                                bbieSpec.Type = bdt;
-                                break;
-                            }
-                        }
-
-                        bbieSpecs.Add(bbieSpec);
-                    }
-                }
-            }
-            singleAbieSpec.BBIEs = bbieSpecs;
-
-            return singleAbieSpec;
-        }
-
-        // TODO: document
-        ///<summary>
-        ///</summary>
-        ///<param name="maxOccurs"></param>
-        ///<returns></returns>
         public static string ResolveMaxOccurs(string maxOccurs)
         {
             string resolvedMaxOccurs;
@@ -248,11 +172,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return resolvedMaxOccurs;
         }
 
-        // TODO: document
-        ///<summary>
-        ///</summary>
-        ///<param name="minOccurs"></param>
-        ///<returns></returns>
         public static string ResolveMinOccurs(string minOccurs)
         {
             string resolvedMinOccurs;
@@ -273,46 +192,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return resolvedMinOccurs;
         }
 
-        #endregion
-
-        #region Private Class Methods
-        
-        // TODO: document
-        private static void CumulateAbieSpecsFromSchema(XmlDocument bieSchemaDocument, IDictionary<string, IACC> existingAccs, IDictionary<string, IBDT> existingBdts, IDictionary<string, ABIESpec> allAbieSpecs, IDictionary<string, string> elementDefinitions)
-        {
-            // Create a new CustomSchemaReader class that allows us to process the BIE XML
-            // schema. 
-            CustomSchemaReader reader = new CustomSchemaReader(bieSchemaDocument);
-
-            foreach (object item in reader.Items)
-            {
-                // In case the current Item returned by the CustomSchemaReader is a
-                // complex type we know that we encountered an ABIE definition. 
-                if (item is ComplexType)
-                {
-                    ComplexType abieComplexType = (ComplexType)item;
-
-                    // Therefore we create an ABIESpec based on the complex type 
-                    // definition.
-                    ABIESpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType, existingAccs, existingBdts);
-
-                    allAbieSpecs.Add(singleAbieSpec.Name, singleAbieSpec);
-                }
-
-                // Otherwise we can check if we encountered an element on the complex type 
-                // level. If that's the case then we'll cache the element name and it's type
-                // in our dictionary. 
-
-                if (item is Element)
-                {
-                    Element element = (Element)item;
-                    elementDefinitions.Add(element.Name, element.Type.Name);
-                }
-            }
-        }
-
-        // TODO: document
-        private static ASBIESpec MatchAsbieToAscc(IACC acc, string asbieName, int associatedAbie)
+        public static ASBIESpec MatchAsbieToAscc(IACC acc, string asbieName, int associatedAbie)
         {
             foreach (IASCC ascc in acc.ASCCs)
             {
@@ -326,51 +206,123 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return null;
         }
 
-        // TODO: document
-        private static ICCLibrary GetAccLibrary(ICCRepository repository)
+        public static ABIESpec CumulateAbieSpecFromComplexType(ComplexType abieComplexType)
         {
-            return repository.Libraries<ICCLibrary>().ElementAt(0);
+            ABIESpec singleAbieSpec = new ABIESpec();
+
+            string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
+
+            singleAbieSpec.Name = abieName;
+            singleAbieSpec.BasedOn = existingAccs.ElementByName(abieName);
+
+            List<BBIESpec> bbieSpecs = new List<BBIESpec>();
+
+            foreach (object ctItem in abieComplexType.Items)
+            {
+                if (ctItem is Element)
+                {
+                    Element element = (Element)ctItem;
+
+                    if (element.Ref.Name.Equals(""))
+                    {
+                        if (element.Type.Prefix.Equals("bdt"))
+                        {
+                            BBIESpec bbieSpec = new BBIESpec();
+
+                            bbieSpec.Name = element.Name;
+                            bbieSpec.LowerBound = ResolveMinOccurs(element.MinOccurs);
+                            bbieSpec.UpperBound = ResolveMaxOccurs(element.MaxOccurs);
+
+                            string bdtName = element.Type.Name.Substring(0, element.Type.Name.Length - 4);
+
+                            foreach (IBDT bdt in existingBdts.Elements)
+                            {
+                                if ((bdt.Name + bdt.CON.BasicType.DictionaryEntryName).Equals(bdtName))
+                                {
+                                    bbieSpec.Type = bdt;
+                                    break;
+                                }
+                            }
+
+                            bbieSpecs.Add(bbieSpec);
+                        }
+                        else
+                        {
+                            // TODO: we need to handle local ASBIE declarations
+                        }
+                    }
+                }
+            }
+            singleAbieSpec.BBIEs = bbieSpecs;
+
+            return singleAbieSpec;
         }
 
-        // TODO: document
-        private static IDictionary<string, IACC> CreateDictionaryFromAccLibrary(ICCLibrary accLibrary)
+        private static IList<ASBIESpec> CumulateAbiesSpecsFromComplexType(ComplexType abieComplexType, IDictionary<string, string> allElementDefinitions)
         {
-            IDictionary<string, IACC> accs = new Dictionary<string, IACC>();
+            IList<ASBIESpec> newAsbieSpecs = new List<ASBIESpec>();
 
-            foreach (IACC acc in accLibrary.Elements)
+            // As a first step we need to resolve the name of the ABIE that the we encountered 
+            // the ASBIE in. First we truncate the suffix "Type" from the ABIE's name. 
+            string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
+
+            foreach (Element element in abieComplexType.Items)
             {
-                accs.Add(acc.Name, acc);
+                // Within the complex type definition we are interested in all ASBIE definitions.
+                // The "Ref" attritbute of the element tells us whether we are dealing with an
+                // ASBIE or not. In case the "Ref" attribute is not empty we can be certain
+                // that the element represents an ASBIE utilizing a global ASBIE element declaration.
+                if (!(element.Ref.Name.Equals("")))
+                {
+                    // As a next step we need to get the associated ABIE. Therefore we first
+                    // resolve the associated ABIE's name. This is achieved by taking the name
+                    // referenced in the element declaration. The name is then used to lookup the 
+                    // associated ABIEs name in the element declarations previously cached in the
+                    // dictionary named "elementDefinitions". 
+                    string associatedABIEName = allElementDefinitions[element.Ref.Name];
+                    associatedABIEName = associatedABIEName.Substring(0, associatedABIEName.Length - 4);
+
+                    // After resolving the associated ABIE's name we retrieve the associated ABIE
+                    // from the BIE library. 
+                    IABIE associatedAbie = bieLibrary.ElementByName(associatedABIEName);
+
+                    // Next we we truncate the associated ABIE's name from the ASBIE element 
+                    // declaration in order to get the name of the ASBIE
+                    string asbieName = (element.Ref.Name).Substring(0,
+                                                                    (element.Ref.Name).Length -
+                                                                    associatedABIEName.Length);
+
+                    // ASBIEs are typically based on ASCCs. However it is also possible that ASBIEs
+                    // are not based on ASCCs. Therefore, we first try to find an existing ASCC on the
+                    // core component level. If that works out, we'll clone the ASCC and create an 
+                    // ASBIE off of it. Otherwise we create a new ASBIE from scratch. 
+                    ASBIESpec asbieSpec = MatchAsbieToAscc(existingAccs.ElementByName(abieName), asbieName,
+                                                           associatedAbie.Id);
+
+                    // In case no matching ASCC was found we create a new ASBIE ourselves. 
+                    if (asbieSpec == null)
+                    {
+                        asbieSpec = new ASBIESpec();
+                        asbieSpec.AssociatedABIEId = associatedAbie.Id;
+                        asbieSpec.Name = asbieName;
+                        asbieSpec.LowerBound = ResolveMinOccurs(element.MinOccurs);
+                        asbieSpec.UpperBound = ResolveMaxOccurs(element.MaxOccurs);
+                    }
+
+                    // Finally we add our new ASBIE to the list of new ASBIEs for our current ABIE. 
+                    newAsbieSpecs.Add(asbieSpec);
+                }
+
             }
 
-            return accs;
+            return newAsbieSpecs;
         }
 
-        // TODO: document
-        private static IBDTLibrary GetBdtLibrary(ICCRepository repository)
-        {
-            return repository.Libraries<IBDTLibrary>().ElementAt(0);         
-        }
+        
+        #endregion
 
-        // TODO: document
-        private static IDictionary<string, IBDT> CreateDictionaryFromBdtLibrary(IBDTLibrary bdtLibrary)
-        {
-            IDictionary<string, IBDT> bdts = new Dictionary<string, IBDT>();
+        #region Private Class Methods       
 
-            foreach (IBDT bdt in bdtLibrary.Elements)
-            {
-                bdts.Add(bdt.Name, bdt);
-            }
-
-            return bdts;
-        }
-
-        // The method returns the first BIE library found in the repository.
-        private static IBIELibrary GetTargetBieLibrary(ICCRepository repository)
-        {
-            return repository.Libraries<IBIELibrary>().ElementAt(0);
-        }
-
-        // TODO: document
         private static XmlDocument GetBieSchemaDocument(ImporterContext context)
         {
             XmlDocument bieSchemaDocument = new XmlDocument();

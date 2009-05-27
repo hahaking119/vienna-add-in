@@ -62,7 +62,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
 
             string schemaDirectory = Directory.GetCurrentDirectory() +
                                     "\\..\\..\\testresources\\XSDImporterTest\\ccts\\simpleXSDs\\";
-            string[] schemaFiles = new[] { "BusinessDataType_1.xsd", "BusinessInformationEntity_1_simplified.xsd", "Invoice_1.xsd" };
+            string[] schemaFiles = new[] { "BusinessDataType_1.xsd", "BusinessInformationEntity_1.xsd", "Invoice_1.xsd" };
 
             foreach (string schemaFile in schemaFiles)
             {

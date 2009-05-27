@@ -9,7 +9,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
     {
         public static void ImportXSD(ImporterContext context)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
