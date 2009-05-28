@@ -26,6 +26,14 @@ namespace VIENNAAddIn.upcc3.XSDImporter
             Repository = ccRepository;
             InputDirectory = inputDirectory;
             schemas = schemaFiles;
+            Root = null;
+        }
+
+        public ImporterContext(ICCRepository ccRepository, List<SchemaInfo> schemaFiles, SchemaInfo root)
+        {
+            Repository = ccRepository;
+            schemas = schemaFiles;
+            Root = root;
         }
 
         #endregion
@@ -46,6 +54,8 @@ namespace VIENNAAddIn.upcc3.XSDImporter
         {
             get { return schemas; }
         }
+
+        public SchemaInfo Root { get; private set; }
 
         #endregion
     }
