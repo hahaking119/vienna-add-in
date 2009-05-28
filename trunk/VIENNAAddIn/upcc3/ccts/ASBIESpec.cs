@@ -11,6 +11,7 @@ namespace VIENNAAddIn.upcc3.ccts
             AssociatedABIEId = asbie.AssociatedElement.Id;
             LowerBound = asbie.LowerBound;
             UpperBound = asbie.UpperBound;
+            AggregationKind = asbie.AggregationKind;
         }
 
         public ASBIESpec()
@@ -24,6 +25,13 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
+
+        private EAAggregationKind aggregationKind = EAAggregationKind.Composite;
+        public EAAggregationKind AggregationKind
+        {
+            get { return aggregationKind; }
+            set { aggregationKind = value; }
+        }
 
         public static ASBIESpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
         {
@@ -41,6 +49,7 @@ namespace VIENNAAddIn.upcc3.ccts
                        AssociatedABIEId = associatedABIEId,
                        LowerBound = ascc.LowerBound,
                        UpperBound = ascc.UpperBound,
+                       AggregationKind = ascc.AggregationKind,
                    };
         }
     }
