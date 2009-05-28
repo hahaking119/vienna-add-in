@@ -21,11 +21,37 @@ namespace VIENNAAddIn.upcc3.Wizards
             InitializeComponent();
         }
 
+        private static void SetSafeIndex(ComboBox box, int indexToBeSet)
+        {
+            if (box.Items.Count > 0)
+            {
+                if (indexToBeSet < box.Items.Count)
+                {
+                    box.SelectedIndex = indexToBeSet;
+                }
+                else
+                {
+                    box.SelectedIndex = 0;
+                }
+            }
+        }
+
+        private void MirrorModelsToUI()
+        {
+            comboModels.Items.Add("CCTS");
+        }
+
         public ImporterWizardForm(EA.Repository eaRepository)
         {
             InitializeComponent();
 
             CcRepository = new CCRepository(eaRepository);
+
+            comboModels.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            MirrorModelsToUI();
+            SetSafeIndex(comboModels, 0);
+
         }
 
         public static void ShowImporterWizard(AddInContext context)
@@ -45,6 +71,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void buttonImport_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             List <SchemaInfo> schemas = new List<SchemaInfo>();
 
             XmlReader reader = XmlReader.Create(InputDirectory + FileName);
@@ -70,7 +98,11 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             progressBar.Minimum = 0;
             progressBar.Maximum = 100;
-            progressBar.Value = 100;            
+            progressBar.Value = 100;
+
+            richtextStatus.Text += "\nImporting the XML schema named \"" + FileName + "\" completed!";
+
+            Cursor.Current = Cursors.Default;
         }
 
         private void buttonBrowseFolders_Click(object sender, EventArgs e)

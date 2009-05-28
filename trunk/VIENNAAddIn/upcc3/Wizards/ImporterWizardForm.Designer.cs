@@ -49,7 +49,7 @@
             this.label3.Location = new System.Drawing.Point(12, 20);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(126, 13);
-            this.label3.TabIndex = 4;
+            this.label3.TabIndex = 1;
             this.label3.Text = "Select root XML schema:";
             // 
             // textboxRootSchema
@@ -57,14 +57,14 @@
             this.textboxRootSchema.Location = new System.Drawing.Point(207, 17);
             this.textboxRootSchema.Name = "textboxRootSchema";
             this.textboxRootSchema.Size = new System.Drawing.Size(207, 20);
-            this.textboxRootSchema.TabIndex = 5;
+            this.textboxRootSchema.TabIndex = 3;
             // 
             // buttonBrowseFolders
             // 
             this.buttonBrowseFolders.Location = new System.Drawing.Point(420, 17);
             this.buttonBrowseFolders.Name = "buttonBrowseFolders";
             this.buttonBrowseFolders.Size = new System.Drawing.Size(24, 20);
-            this.buttonBrowseFolders.TabIndex = 6;
+            this.buttonBrowseFolders.TabIndex = 0;
             this.buttonBrowseFolders.Text = "...";
             this.buttonBrowseFolders.UseVisualStyleBackColor = true;
             this.buttonBrowseFolders.Click += new System.EventHandler(this.buttonBrowseFolders_Click);
@@ -72,12 +72,10 @@
             // comboModels
             // 
             this.comboModels.FormattingEnabled = true;
-            this.comboModels.Items.AddRange(new object[] {
-            "CCTS"});
             this.comboModels.Location = new System.Drawing.Point(207, 43);
             this.comboModels.Name = "comboModels";
             this.comboModels.Size = new System.Drawing.Size(237, 21);
-            this.comboModels.TabIndex = 42;
+            this.comboModels.TabIndex = 2;
             // 
             // label4
             // 
@@ -85,7 +83,7 @@
             this.label4.Location = new System.Drawing.Point(12, 46);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(130, 13);
-            this.label4.TabIndex = 41;
+            this.label4.TabIndex = 1;
             this.label4.Text = "Choose Document Model:";
             // 
             // groupBox1
@@ -95,7 +93,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 96);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(458, 153);
-            this.groupBox1.TabIndex = 43;
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Status";
             // 
@@ -124,7 +122,7 @@
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(458, 78);
-            this.groupBox2.TabIndex = 44;
+            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Import Settings";
             // 
@@ -133,7 +131,7 @@
             this.buttonImport.Location = new System.Drawing.Point(69, 265);
             this.buttonImport.Name = "buttonImport";
             this.buttonImport.Size = new System.Drawing.Size(158, 23);
-            this.buttonImport.TabIndex = 45;
+            this.buttonImport.TabIndex = 3;
             this.buttonImport.Text = "&Import XML Schemas ...";
             this.buttonImport.UseVisualStyleBackColor = true;
             this.buttonImport.Click += new System.EventHandler(this.buttonImport_Click);
@@ -143,7 +141,7 @@
             this.buttonClose.Location = new System.Drawing.Point(314, 265);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
-            this.buttonClose.TabIndex = 46;
+            this.buttonClose.TabIndex = 0;
             this.buttonClose.Text = "&Close";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -161,7 +159,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ImporterWizardForm";
-            this.Text = "ImporterWizardForm";
+            this.Text = "Import CCTS model from XML schemas";
             this.Load += new System.EventHandler(this.ImporterWizardForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);

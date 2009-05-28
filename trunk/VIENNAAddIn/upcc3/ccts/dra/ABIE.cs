@@ -38,7 +38,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         protected override bool DeleteConnectorOnUpdate(Connector connector)
         {
-            return connector.IsBasedOn() || connector.IsIsEquivalentTo() || connector.IsASBIE();
+            return connector.IsBasedOn() || connector.IsIsEquivalentTo() || IsASBIE(connector);
         }
 
         public IEnumerable<string> UsageRules
