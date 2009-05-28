@@ -79,7 +79,6 @@ namespace VIENNAAddIn.upcc3.ccts
                     yield return new AttributeSpec(Stereotype.BCC, bcc.Name, bcc.Type.Name, bcc.Type.Id, bcc.LowerBound, bcc.UpperBound, bcc.GetTaggedValues());
                 }
             }
-
         }
     }
 }

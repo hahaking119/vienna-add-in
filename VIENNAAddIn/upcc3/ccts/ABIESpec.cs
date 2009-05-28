@@ -49,6 +49,11 @@ namespace VIENNAAddIn.upcc3.ccts
         [Dependency]
         public IACC BasedOn { get; set; }
 
+        public void AddASBIE(ASBIESpec spec)
+        {
+            asbies.Add(spec);
+        }
+
         public void RemoveASBIE(string name)
         {
             asbies.RemoveAll(asbie => asbie.Name == name);
@@ -66,7 +71,7 @@ namespace VIENNAAddIn.upcc3.ccts
                 foreach (ASBIESpec asbie in ASBIEs)
                 {
                     yield return
-                        ConnectorSpec.CreateAggregation(EAAggregationKind.Composite, Stereotype.ASBIE, asbie.Name,
+                        ConnectorSpec.CreateAggregation(asbie.AggregationKind, Stereotype.ASBIE, asbie.Name,
                                                         asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
                 }
             }
