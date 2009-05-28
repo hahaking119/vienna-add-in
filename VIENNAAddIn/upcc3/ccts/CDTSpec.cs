@@ -17,5 +17,8 @@ namespace VIENNAAddIn.upcc3.ccts
         public CDTSpec()
         {
         }
+
+        [Dependency]
+        public ICDT IsEquivalentTo { get; set; }
     }
 }

@@ -6,7 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
+using System.Linq;
 using EA;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
@@ -17,6 +17,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public CDT(CCRepository repository, Element element) : base(repository, element, Stereotype.CDT)
         {
         }
+
+        #region ICDT Members
+
+        public ICDT IsEquivalentTo
+        {
+            get
+            {
+                Connector connector = Connectors.FirstOrDefault(Stereotype.IsIsEquivalentTo);
+                return connector != null ? repository.GetCDT(connector.SupplierID) : null;
+            }
+        }
+
+        #endregion
 
         protected override bool DeleteConnectorOnUpdate(Connector connector)
         {

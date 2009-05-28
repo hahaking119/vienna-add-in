@@ -28,6 +28,15 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IBDT Members
 
+        public IBDT IsEquivalentTo
+        {
+            get
+            {
+                Connector connector = Connectors.FirstOrDefault(Stereotype.IsIsEquivalentTo);
+                return connector != null ? repository.GetBDT(connector.SupplierID) : null;
+            }
+        }
+
         ///<summary>
         ///</summary>
         public IBasedOnDependency BasedOn
