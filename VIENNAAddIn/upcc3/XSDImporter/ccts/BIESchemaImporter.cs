@@ -1,7 +1,12 @@
-﻿// TODO: remove all Console.WriteLine statements once implementation is complete
-// TODO: complete the documentation of the entire BIE importer class
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -12,20 +17,42 @@ using VIENNAAddIn.upcc3.XSDImporter.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 {
+    ///<summary>
+    /// The purpose of the static class BIESchemaImporter is to import an XML schema, 
+    /// complying with CCTS and UN/CEFACT's NDRs, into an existing BIE library. The 
+    /// importer is invoked using the static method "ImportXSD". For more information
+    /// on the method "ImportXSD" please refer to the documentation of the method
+    /// itself. Furthermore, the class provides a set of methods allowing to cumulate
+    /// different artifacts in the CCTS XML schema such as cumulating an ABIE from 
+    /// a complex type in the XML schema. 
+    ///</summary>
     public static class BIESchemaImporter
     {
-        private static ICCLibrary existingAccs;
-        private static IBDTLibrary existingBdts;
-        private static IBIELibrary bieLibrary;
-
+        private static ICCLibrary ExistingAccs;
+        private static IBDTLibrary ExistingBdts;
+        private static IBIELibrary BieLibrary;
+        
+        ///<summary>
+        /// The static method imports an XML schema containing Business Information 
+        /// Entities into an existing BIE library. The method has one input parameter
+        /// of type ImporterContext specifying different settings utilized while 
+        /// importing the XML schema.
+        ///</summary>
+        ///<param name="context">
+        /// The parameter provides the necessary context information required by the
+        /// BIE XML schema importer. An example would be the directory location where
+        /// all XML schemas to be imported are located, and the repository which contains
+        /// the BIE library that all ABIEs should be imported into. Fore more information
+        /// plese refer to the documentation of the ImporterContext class. 
+        /// </param>
         public static void ImportXSD(ImporterContext context)
         {
             #region Import Preparation
 
             // TODO: ACC, BDT and BIE library should be configurable through the ImporterContext
-            existingAccs = context.Repository.Libraries<ICCLibrary>().ElementAt(0);
-            existingBdts = context.Repository.Libraries<IBDTLibrary>().ElementAt(0);
-            bieLibrary = context.Repository.Libraries<IBIELibrary>().ElementAt(0);
+            ExistingAccs = context.Repository.Libraries<ICCLibrary>().ElementAt(0);
+            ExistingBdts = context.Repository.Libraries<IBDTLibrary>().ElementAt(0);
+            BieLibrary = context.Repository.Libraries<IBIELibrary>().ElementAt(0);
             
             // Even though the XML schema is stored in the importer context we need to re-read
             // the XML schema. The reason for doing so is that the impoter context pre-read the
@@ -36,8 +63,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             // on the file name and directory location as specified in the importer context.
             XmlDocument bieSchemaDocument = GetBieSchemaDocument(context);
 
-            // Create a new CustomSchemaReader class that allows us to process the BIE XML
-            // schema. 
             CustomSchemaReader reader = new CustomSchemaReader(bieSchemaDocument);
 
             #endregion
@@ -46,34 +71,17 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
             #region Processing Step 1: Cumulate all ABIEs and create them in the BIE library
 
-            // Iterate through all the items contained in the XML schema contained in the 
-            // Items property of the reader object. 
             foreach (object item in reader.Items)
             {
-                // In case the current Item returned by the CustomSchemaReader is a
-                // complex type we know that we encountered an ABIE definition. 
                 if (item is ComplexType)
                 {
                     ComplexType abieComplexType = (ComplexType)item;
 
-                    // Therefore we create an ABIESpec based on the complex type 
-                    // definition.
                     ABIESpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType);
 
-                    // Having an ABIESpec representing the complex type currently 
-                    // processed we can create the corresponding ABIE in the BIE library. 
-
-                    //Console.Write("Attempting to <<write>> ABIE: {0}", singleAbieSpec.Name);
-                    bieLibrary.CreateElement(singleAbieSpec);
-                    //Console.WriteLine("  ->  Success");
-
+                    BieLibrary.CreateElement(singleAbieSpec);
                 }
 
-                // In case the element was not a complex type we can check if we
-                // encountered an element definition on the complex type level. These
-                // either include element definitions for ABIEs or global element defintions
-                // for ASBIEs. Regardless, we'll cache the element definitions for further 
-                // processing of the ASBIEs. 
                 if (item is Element)
                 {
                     Element element = (Element)item;
@@ -85,42 +93,25 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
             #region Processing Step 2: Update all ABIEs with their ASBIEs
 
-            // Iterate through all the items contained in the XML schema contained in the 
-            // Items property of the reader object. 
             foreach (object item in reader.Items)
             {
-                // In case the current Item returned by the CustomSchemaReader is a
-                // complex type we know that we encountered an ABIE definition. 
                 if (item is ComplexType)
                 {
                     ComplexType abieComplexType = (ComplexType) item;
 
-                    // As a first step we need to resolve the name of the ABIE that the we encountered 
-                    // the ASBIE in. First we truncate the suffix "Type" from the ABIE's name. 
                     string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
-                    // For updating an existing ABIE in the library utilizing the library's UpdateElement
-                    // method we need to provide the original ABIE as well as the ABIESpec of the updated
-                    // ABIE. Therefore we first read the ABIE from the library and then create the ABIESpec
-                    // for the ABIE read. 
-                    IABIE abieToBeUpdated = bieLibrary.ElementByName(abieName);
+                    IABIE abieToBeUpdated = BieLibrary.ElementByName(abieName);
                     ABIESpec updatedAbieSpec = new ABIESpec(abieToBeUpdated);
 
-                    // Create a list of ASBIESpecs based on the complex type definition of the ABIE
                     IList<ASBIESpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
 
-                    // After resolving all ASBIE declarations for the current ABIE we assign the 
-                    // new ASBIEs to the ABIE and update the ABIE accordingly utilizing the
-                    // updated ABIESpec. 
                     foreach (ASBIESpec newAsbieSpec in newAsbieSpecs)
                     {
-                        updatedAbieSpec.AddASBIE(newAsbieSpec);
-                        
+                        updatedAbieSpec.AddASBIE(newAsbieSpec);                        
                     }
 
-                    //Console.Write("Attempting to <<update>> ABIE: {0}", abieToBeUpdated.Name);
-                    bieLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
-                    //Console.WriteLine("  ->  Success");
+                    BieLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
                 }
             }
 
@@ -129,6 +120,20 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
         #region Public Class Methods
 
+        ///<summary>
+        /// The methods resolves the cardinality expressed in XML schema terms, such as 
+        /// "1" and "unbounded", and returns a CCTS compliant representation of the
+        /// cardinality. 
+        ///</summary>
+        ///<param name="maxOccurs">
+        /// The input parameter specifys the cardinality to be resolved whereas the cardinality
+        /// is specified in XML schema terms. Examples include "1" and "unbounded".
+        ///</param>
+        ///<returns>
+        /// The method returns a CCTS compliant representation of the cardinality. In particular 
+        /// the method returns "0" for "0", "1" for "1", "*" for "unbounded" and "1" for all other
+        /// cardinalities including an empty cardinality. 
+        ///</returns>
         public static string ResolveMaxOccurs(string maxOccurs)
         {
             string resolvedMaxOccurs;
@@ -152,6 +157,20 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return resolvedMaxOccurs;
         }
 
+        ///<summary>
+        /// The methods resolves the cardinality expressed in XML schema terms, such as 
+        /// "1", and returns a CCTS compliant representation of the
+        /// cardinality. 
+        ///</summary>
+        ///<param name="minOccurs">
+        /// The input parameter specifys the cardinality to be resolved whereas the cardinality
+        /// is specified in XML schema terms. Examples include "0" and "1".
+        ///</param>
+        ///<returns>
+        /// The method returns a CCTS compliant representation of the cardinality. In particular 
+        /// the method returns "0" for "0", "1" for "1", and "1" for all other
+        /// cardinalities including an empty cardinality. 
+        ///</returns>
         public static string ResolveMinOccurs(string minOccurs)
         {
             string resolvedMinOccurs;
@@ -172,20 +191,36 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return resolvedMinOccurs;
         }
 
-        public static ASBIESpec MatchAsbieToAscc(IACC acc, string asbieName, int associatedAbie)
-        {
-            foreach (IASCC ascc in acc.ASCCs)
-            {
-                // we've found the matching ASCC
-                if (ascc.Name.Equals(asbieName))
-                {
-                    return ASBIESpec.CloneASCC(ascc, asbieName, associatedAbie);
-                }
-            }
-
-            return null;
-        }
-
+        ///<summary>
+        /// The method creates an ABIESpec based on the complex type definition of an ABIE
+        /// as it occurs in an XML schema. Therefore, the method requires on input parameter
+        /// containing the complex type definition. A corresponding ABIESpec of the complex
+        /// type definition is then returned through the return parameter. Realize that the 
+        /// method does not process any ASBIE declarations. Therefore, only element declarations
+        /// representing BBIEs within the ABIE are processed. To distinguish between ASBIEs and 
+        /// BBIEs the prefix of the type in the element declaration is used. The prefix of the type
+        /// used in BBIE element delcarations is assumed to be "bdt". Hence an element declaration
+        /// for a BBIE must use the prefix "bdt" in order to be processed properly. Realize that for 
+        /// processing ASBIEs within a complex type the method CumulateAbiesSpecsFromComplexType
+        /// must be used. 
+        ///</summary>
+        ///<param name="abieComplexType">
+        /// The input parameter contains the complex type declaration of the ABIE to be processed. An 
+        /// example of a complex type definition is illustrated in the following.
+        /// <code>
+        ///   &lt;xsd:complexType name="AddressType"&gt;
+		///     &lt;xsd:sequence&gt;
+        ///       &lt;xsd:element name="StreetName" type="bdt:TextStringType" minOccurs="0" maxOccurs="unbounded"/&gt;
+        ///       &lt;xsd:element name="ZIP_PostcodeCode" type="bdt:CodeStringType" minOccurs="0" maxOccurs="unbounded"/&gt;
+        ///       &lt;xsd:element ref="tns:Included_PersonPerson"/&gt;
+        ///     &lt;/xsd:sequence&gt;
+        ///   &lt;/xsd:complexType&gt;
+        /// </code>
+        ///</param>
+        ///<returns>
+        /// The method returns an ABIESpec for the complex type passed to the method through the 
+        /// parameter <paramref name="abieComplexType"/>
+        ///</returns>
         public static ABIESpec CumulateAbieSpecFromComplexType(ComplexType abieComplexType)
         {
             ABIESpec singleAbieSpec = new ABIESpec();
@@ -193,7 +228,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
             singleAbieSpec.Name = abieName;
-            singleAbieSpec.BasedOn = existingAccs.ElementByName(abieName);
+            singleAbieSpec.BasedOn = ExistingAccs.ElementByName(abieName);
 
             List<BBIESpec> bbieSpecs = new List<BBIESpec>();
 
@@ -215,7 +250,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
                             string bdtName = element.Type.Name.Substring(0, element.Type.Name.Length - 4);
 
-                            foreach (IBDT bdt in existingBdts.Elements)
+                            foreach (IBDT bdt in ExistingBdts.Elements)
                             {
                                 if ((bdt.Name + bdt.CON.BasicType.DictionaryEntryName).Equals(bdtName))
                                 {
@@ -226,10 +261,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
                             bbieSpecs.Add(bbieSpec);
                         }
-                        else
-                        {
-                            // TODO: we need to handle local ASBIE declarations
-                        }
                     }
                 }
             }
@@ -238,72 +269,107 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return singleAbieSpec;
         }
 
-        private static IList<ASBIESpec> CumulateAbiesSpecsFromComplexType(ComplexType abieComplexType, IDictionary<string, string> allElementDefinitions)
+        ///<summary>
+        ///</summary>
+        ///<param name="abieComplexType">
+        ///</param>
+        ///<param name="allElementDefinitions">
+        ///</param>
+        ///<returns>
+        ///</returns>
+        public static IList<ASBIESpec> CumulateAbiesSpecsFromComplexType(ComplexType abieComplexType, IDictionary<string, string> allElementDefinitions)
         {
             IList<ASBIESpec> newAsbieSpecs = new List<ASBIESpec>();
 
-            // As a first step we need to resolve the name of the ABIE that the we encountered 
-            // the ASBIE in. First we truncate the suffix "Type" from the ABIE's name. 
             string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
             foreach (Element element in abieComplexType.Items)
             {
-                // Within the complex type definition we are interested in all ASBIE definitions.
-                // The "Ref" attritbute of the element tells us whether we are dealing with an
-                // ASBIE or not. In case the "Ref" attribute is not empty we can be certain
-                // that the element represents an ASBIE utilizing a global ASBIE element declaration.
                 if (!(element.Ref.Name.Equals("")))
                 {
-                    // As a next step we need to get the associated ABIE. Therefore we first
-                    // resolve the associated ABIE's name. This is achieved by taking the name
-                    // referenced in the element declaration. The name is then used to lookup the 
-                    // associated ABIEs name in the element declarations previously cached in the
-                    // dictionary named "elementDefinitions". 
                     string associatedABIEName = allElementDefinitions[element.Ref.Name];
                     associatedABIEName = associatedABIEName.Substring(0, associatedABIEName.Length - 4);
 
-                    // After resolving the associated ABIE's name we retrieve the associated ABIE
-                    // from the BIE library. 
-                    IABIE associatedAbie = bieLibrary.ElementByName(associatedABIEName);
+                    IABIE associatedAbie = BieLibrary.ElementByName(associatedABIEName);
 
-                    // Next we we truncate the associated ABIE's name from the ASBIE element 
-                    // declaration in order to get the name of the ASBIE
                     string asbieName = (element.Ref.Name).Substring(0,
                                                                     (element.Ref.Name).Length -
                                                                     associatedABIEName.Length);
 
-                    // ASBIEs are typically based on ASCCs. However it is also possible that ASBIEs
-                    // are not based on ASCCs. Therefore, we first try to find an existing ASCC on the
-                    // core component level. If that works out, we'll clone the ASCC and create an 
-                    // ASBIE off of it. Otherwise we create a new ASBIE from scratch. 
-                    ASBIESpec asbieSpec = MatchAsbieToAscc(existingAccs.ElementByName(abieName), asbieName,
+                    ASBIESpec asbieSpec = MatchAsbieToAscc(ExistingAccs.ElementByName(abieName), asbieName,
                                                            associatedAbie.Id);
 
-                    // In case no matching ASCC was found we create a new ASBIE ourselves. 
                     if (asbieSpec == null)
                     {
-                        asbieSpec = new ASBIESpec();
-                        asbieSpec.AssociatedABIEId = associatedAbie.Id;
-                        asbieSpec.Name = asbieName;
-                        asbieSpec.LowerBound = ResolveMinOccurs(element.MinOccurs);
-                        asbieSpec.UpperBound = ResolveMaxOccurs(element.MaxOccurs);
-                        asbieSpec.AggregationKind = EAAggregationKind.Shared;
+                        asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, EAAggregationKind.Shared);
                     }
 
-                    // Finally we add our new ASBIE to the list of new ASBIEs for our current ABIE. 
                     newAsbieSpecs.Add(asbieSpec);
                 }
+                else
+                {
+                    if (element.Type.Prefix.Equals("tns"))
+                    {
+                        string associatedAbieName = element.Type.Name;
+                        associatedAbieName = associatedAbieName.Substring(0, associatedAbieName.Length - 4);
 
+                        IABIE associatedAbie = BieLibrary.ElementByName(associatedAbieName);
+
+                        string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
+
+                        ASBIESpec asbieSpec = MatchAsbieToAscc(ExistingAccs.ElementByName(abieName), asbieName,
+                                                               associatedAbie.Id);
+
+                        if (asbieSpec == null)
+                        {
+                            asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie,
+                                                          EAAggregationKind.Composite);
+                        }
+
+                        newAsbieSpecs.Add(asbieSpec);
+                    }
+                }
             }
 
             return newAsbieSpecs;
         }
 
-        
+        ///<summary>
+        ///</summary>
+        ///<param name="element">
+        ///</param>
+        ///<param name="asbieName">
+        ///</param>
+        ///<param name="associatedAbie">
+        ///</param>
+        ///<param name="aggregationKind">
+        ///</param>
+        ///<returns>
+        ///</returns>
+        public static ASBIESpec CumulateAsbieSpec(Element element, string asbieName, IABIE associatedAbie, EAAggregationKind aggregationKind)
+        {
+            ASBIESpec asbieSpec = new ASBIESpec
+                                      {
+                                          AssociatedABIEId = associatedAbie.Id,
+                                          Name = asbieName,
+                                          LowerBound = ResolveMinOccurs(element.MinOccurs),
+                                          UpperBound = ResolveMaxOccurs(element.MaxOccurs),
+                                          AggregationKind = aggregationKind
+                                      };
+
+            return asbieSpec;
+        }
+
         #endregion
 
         #region Private Class Methods       
 
+        ///<summary>
+        ///</summary>
+        ///<param name="context">
+        ///</param>
+        ///<returns>
+        ///</returns>
         private static XmlDocument GetBieSchemaDocument(ImporterContext context)
         {
             XmlDocument bieSchemaDocument = new XmlDocument();
@@ -319,6 +385,29 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             }
 
             return bieSchemaDocument;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="acc">
+        ///</param>
+        ///<param name="asbieName">
+        ///</param>
+        ///<param name="associatedAbie">
+        ///</param>
+        ///<returns>
+        ///</returns>
+        private static ASBIESpec MatchAsbieToAscc(IACC acc, string asbieName, int associatedAbie)
+        {
+            foreach (IASCC ascc in acc.ASCCs)
+            {
+                if (ascc.Name.Equals(asbieName))
+                {
+                    return ASBIESpec.CloneASCC(ascc, asbieName, associatedAbie);
+                }
+            }
+
+            return null;
         }
 
         #endregion
