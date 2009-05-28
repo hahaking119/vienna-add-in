@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Linq;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -32,6 +33,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
                 return value;
             }
+        }
+
+        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        {
+            return connector.IsIsEquivalentTo();
         }
 
         public string Pattern

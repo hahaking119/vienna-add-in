@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using EA;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
@@ -15,6 +16,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     {
         public CDT(CCRepository repository, Element element) : base(repository, element, Stereotype.CDT)
         {
+        }
+
+        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        {
+            return false;
         }
     }
 }
