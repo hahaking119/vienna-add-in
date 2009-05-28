@@ -44,7 +44,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         protected override bool DeleteConnectorOnUpdate(Connector connector)
         {
-            return connector.IsIsEquivalentTo() || connector.IsASBIE();
+            return connector.IsIsEquivalentTo() || IsASCC(connector);
         }
 
         ///<summary>

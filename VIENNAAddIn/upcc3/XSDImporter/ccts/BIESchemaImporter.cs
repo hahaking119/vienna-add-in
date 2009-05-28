@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 using VIENNAAddIn.upcc3.XSDImporter.util;
 
@@ -62,9 +63,9 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
                     // Having an ABIESpec representing the complex type currently 
                     // processed we can create the corresponding ABIE in the BIE library. 
 
-                    Console.Write("Attempting to <<write>> ABIE: {0}", singleAbieSpec.Name);
+                    //Console.Write("Attempting to <<write>> ABIE: {0}", singleAbieSpec.Name);
                     bieLibrary.CreateElement(singleAbieSpec);
-                    Console.WriteLine("  ->  Success");
+                    //Console.WriteLine("  ->  Success");
 
                 }
 
@@ -108,39 +109,18 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
                     // Create a list of ASBIESpecs based on the complex type definition of the ABIE
                     IList<ASBIESpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
 
-                    // NOTE: Begin temporary work-around
-                    #region temporary work-around
-                    bool interruptor = false;
-
-                    IList<ASBIESpec> updatedAsbieSpecs = new List<ASBIESpec>(updatedAbieSpec.ASBIEs);
-
-                    if (newAsbieSpecs.Count > 0)
-                    {
-                        interruptor = true;
-                    }
-
-                    foreach (ASBIESpec newAsbieSpec in newAsbieSpecs)
-                    {
-                        updatedAsbieSpecs.Add(newAsbieSpec);
-                    }
-
-                    #endregion temporary work-around
-                    // NOTE: End temporary work-around
-
                     // After resolving all ASBIE declarations for the current ABIE we assign the 
                     // new ASBIEs to the ABIE and update the ABIE accordingly utilizing the
                     // updated ABIESpec. 
-                    updatedAbieSpec.ASBIEs = updatedAsbieSpecs;
-
-                    // NOTE: Begin temporary work-around
-                    if (interruptor)
+                    foreach (ASBIESpec newAsbieSpec in newAsbieSpecs)
                     {
-                        interruptor = false;
-                    // NOTE: End temporary work-around
-                        Console.Write("Attempting to <<update>> ABIE: {0}", abieToBeUpdated.Name);
-                        bieLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
-                        Console.WriteLine("  ->  Success");
+                        updatedAbieSpec.AddASBIE(newAsbieSpec);
+                        
                     }
+
+                    //Console.Write("Attempting to <<update>> ABIE: {0}", abieToBeUpdated.Name);
+                    bieLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
+                    //Console.WriteLine("  ->  Success");
                 }
             }
 
@@ -307,6 +287,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
                         asbieSpec.Name = asbieName;
                         asbieSpec.LowerBound = ResolveMinOccurs(element.MinOccurs);
                         asbieSpec.UpperBound = ResolveMaxOccurs(element.MaxOccurs);
+                        asbieSpec.AggregationKind = EAAggregationKind.Shared;
                     }
 
                     // Finally we add our new ASBIE to the list of new ASBIEs for our current ABIE. 
