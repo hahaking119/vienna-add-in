@@ -148,7 +148,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
             for (var i = (short)(element.Connectors.Count - 1); i >= 0; i--)
             {
-                element.Connectors.Delete(i);
+                if (DeleteConnectorOnUpdate((Connector) element.Connectors.GetAt(i)))
+                {
+                    element.Connectors.Delete(i);
+                }
             }
             element.Connectors.Refresh();
             foreach (var connector in spec.GetConnectors())
@@ -171,5 +174,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Update();
             element.Refresh();
         }
+
+        protected abstract bool DeleteConnectorOnUpdate(Connector connector);
     }
 }
