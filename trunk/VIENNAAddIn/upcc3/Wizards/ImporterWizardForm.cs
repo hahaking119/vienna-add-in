@@ -93,7 +93,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             buttonImport.Enabled = false;
 
-            ImporterContext context = new ImporterContext(CcRepository, InputDirectory, schemas);
+            ImporterContext context = new ImporterContext(CcRepository, InputDirectory, schemas, new SchemaInfo(rootSchema, FileName));
             XSDImporter.ccts.XSDImporter.ImportSchemas(context);
 
             progressBar.Minimum = 0;
