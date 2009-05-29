@@ -2,26 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.XSDImporter.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 {
+    
     public class RootSchemaImporter
     {
+        private static IDOCLibrary DocLibrary;
+        private static ICCLibrary ExistingAccs;
+        private static IBDTLibrary ExistingBdts;
+
         public static void ImportXSD(ImporterContext context)
         {
             ICCRepository repo = context.Repository;
+            BIESchemaImporter.InitLibraries(context);
+            
             XmlSchema root = context.Root.Schema;
             
             int index = context.Root.FileName.IndexOf('_');
             String docname = context.Root.FileName.Substring(0, index);
 
-
+            //TODO check whether Document with the specified name does not already exist
             IBLibrary bLibrary = repo.Libraries<IBLibrary>().ElementAt(0);
-            bLibrary.CreateDOCLibrary(new LibrarySpec { Name = docname });
+            DocLibrary = bLibrary.CreateDOCLibrary(new LibrarySpec { Name = docname });
 
             foreach (var currentElement in root.Items)
             {
@@ -33,7 +42,54 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
                 }
 
             }
-            //throw new NotImplementedException();
+            
+
+            XmlDocument rootDocument = new XmlDocument();
+            rootDocument.Load(context.InputDirectory + context.Root.FileName);
+            CustomSchemaReader reader = new CustomSchemaReader(rootDocument);
+            
+            IDictionary<string, string> allElementDefinitions = new Dictionary<string, string>();
+
+            foreach (object item in reader.Items)
+            {
+                if (item is ComplexType)
+                {
+                    ComplexType abieComplexType = (ComplexType)item;
+
+                    ABIESpec singleAbieSpec = BIESchemaImporter.CumulateAbieSpecFromComplexType(abieComplexType);
+
+                    DocLibrary.CreateElement(singleAbieSpec);
+                }
+
+                if (item is Element)
+                {
+                    Element element = (Element)item;
+                    allElementDefinitions.Add(element.Name, element.Type.Name);
+                }
+            }
+
+            foreach (object item in reader.Items)
+            {
+                if (item is ComplexType)
+                {
+                    ComplexType abieComplexType = (ComplexType) item;
+
+                    string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
+
+                    IABIE abieToBeUpdated = DocLibrary.ElementByName(abieName);
+                    ABIESpec updatedAbieSpec = new ABIESpec(abieToBeUpdated);
+
+                    IList<ASBIESpec> newAsbieSpecs = BIESchemaImporter.CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
+
+                    foreach (ASBIESpec newAsbieSpec in newAsbieSpecs)
+                    {
+                        updatedAbieSpec.AddASBIE(newAsbieSpec);                        
+                    }
+
+                    DocLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
+                }
+            }
+
         }
     }
 }

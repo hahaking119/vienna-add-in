@@ -50,10 +50,8 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             #region Import Preparation
 
             // TODO: ACC, BDT and BIE library should be configurable through the ImporterContext
-            ExistingAccs = context.Repository.Libraries<ICCLibrary>().ElementAt(0);
-            ExistingBdts = context.Repository.Libraries<IBDTLibrary>().ElementAt(0);
-            BieLibrary = context.Repository.Libraries<IBIELibrary>().ElementAt(0);
-            
+            InitLibraries(context);
+
             // Even though the XML schema is stored in the importer context we need to re-read
             // the XML schema. The reason for doing so is that the impoter context pre-read the
             // XML schema using the XML schema reader class from the .net API. However, the XML
@@ -116,6 +114,13 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             }
 
             #endregion
+        }
+
+        public static void InitLibraries(ImporterContext context)
+        {
+            ExistingAccs = context.Repository.Libraries<ICCLibrary>().ElementAt(0);
+            ExistingBdts = context.Repository.Libraries<IBDTLibrary>().ElementAt(0);
+            BieLibrary = context.Repository.Libraries<IBIELibrary>().ElementAt(0);
         }
 
         #region Public Class Methods
