@@ -29,8 +29,9 @@ namespace VIENNAAddIn.upcc3.XSDImporter
             Root = null;
         }
 
-        public ImporterContext(ICCRepository ccRepository, List<SchemaInfo> schemaFiles, SchemaInfo root)
+        public ImporterContext(ICCRepository ccRepository, string inputDirectory, List<SchemaInfo> schemaFiles, SchemaInfo root)
         {
+            InputDirectory = inputDirectory;
             Repository = ccRepository;
             schemas = schemaFiles;
             Root = root;
