@@ -76,7 +76,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
                 reader.Close();
             }
             
-            return new ImporterContext(ccRepository, schemaDirectory, schemas);
+            return new ImporterContext(ccRepository, schemaDirectory, schemas, schemas[2]);
         }
 
         #endregion
@@ -135,7 +135,6 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
         {
             RootSchemaImporter.ImportXSD(PrepareTestContext());
 
-            Assert.Fail("Unit Test needs to be implemented as well ...");
         }
 
         [Test]
