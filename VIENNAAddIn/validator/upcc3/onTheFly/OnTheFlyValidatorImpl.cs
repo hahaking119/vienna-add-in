@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using EA;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using Attribute=System.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.validator.upcc3.onTheFly
@@ -77,7 +80,7 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
             Package package = repository.GetPackageByID(id);
             if (package.IsPRIMLibrary())
             {
-                library = new ValidatingPRIMLibrary(validationContext);
+                library = new ValidatingPRIMLibrary(null, validationContext);
                 libraries[id] = library;
             }
             return library;
@@ -203,11 +206,13 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
 
     public class ValidatingPRIMLibrary : IValidatingBusinessLibrary
     {
+        private readonly Repository repository;
         private readonly IValidationContext validationContext;
-        private List<IPRIM> prims = new List<IPRIM>();
+        private readonly List<IPRIM> prims = new List<IPRIM>();
 
-        public ValidatingPRIMLibrary(IValidationContext validationContext)
+        public ValidatingPRIMLibrary(Repository repository, IValidationContext validationContext)
         {
+            this.repository = repository;
             this.validationContext = validationContext;
         }
 
@@ -220,7 +225,42 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
         {
             ValidateStereotype(element);
             ValidateDuplicateNames(element);
-            prims.Add(new PRIM(element));
+            ValidateIsEquivalentToDependencies(element);
+            prims.Add(new ValidatingPRIM(element));
+        }
+
+        private void ValidateIsEquivalentToDependencies(Element element)
+        {
+            var connectors = element.Connectors;
+            if (connectors != null)
+            {
+                bool isClient = false;
+                bool isSupplier = false;
+                foreach (Connector connector in connectors)
+                {
+                    if (connector.IsIsEquivalentTo())
+                    {
+                        if (connector.ClientID == element.ElementID)
+                        {
+                            isClient = true;
+                            var supplier = repository.GetElementByID(connector.SupplierID);
+                            var supplierStereotype = supplier.Stereotype;
+                            if (supplierStereotype != Stereotype.PRIM)
+                            {
+                                validationContext.AddValidationIssue(new InvalidSupplierForIsEquivalentTo(element.ElementGUID, supplierStereotype));
+                            }
+                        }
+                        else if (connector.SupplierID == element.ElementID)
+                        {
+                            isSupplier = true;
+                        }
+                    }
+                }
+                if (isClient && isSupplier)
+                {
+                    validationContext.AddValidationIssue(new ElementIsSourceAndTargetOfIsEquivalentTo(element.ElementGUID));
+                }
+            }
         }
 
         private void ValidateDuplicateNames(Element element)
@@ -255,13 +295,80 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
         }
     }
 
-    public class PRIM : IPRIM
+    public class ValidatingPRIM : IPRIM
     {
         private readonly Element element;
+        private readonly string dictionaryEntryName;
 
-        public PRIM(Element element)
+        private static List<TaggedValueProperty> taggedValueProperties;
+
+        static ValidatingPRIM()
+        {
+            Type type = typeof(ValidatingPRIM);
+            taggedValueProperties = new List<TaggedValueProperty>();
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                object[] attributes = property.GetCustomAttributes(typeof(TaggedValueAttribute), true);
+                if (attributes.Length > 0)
+                {
+                    var attribute = (TaggedValueAttribute)attributes[0];
+                    TaggedValues taggedValue = DetermineTaggedValue(property, attribute);
+                    if (property.PropertyType == typeof(string))
+                    {
+                        taggedValueProperties.Add(new StringTaggedValueProperty(taggedValue, property));
+                    }
+                    else if (property.PropertyType == typeof(IEnumerable<string>))
+                    {
+                        taggedValueProperties.Add(new MultiStringTaggedValueProperty(taggedValue, property));
+                    }
+                    else if (property.PropertyType == typeof(bool))
+                    {
+                        taggedValueProperties.Add(new BooleanTaggedValueProperty(taggedValue, property));
+                    }
+                }
+            }
+        }
+
+        private static TaggedValues DetermineTaggedValue(PropertyInfo property, TaggedValueAttribute attribute)
+        {
+            TaggedValues taggedValue = attribute.Key;
+            if (taggedValue == TaggedValues.undefined)
+            {
+                taggedValue = GetTaggedValue(property.Name);
+            }
+            if (taggedValue == TaggedValues.undefined && property.Name.EndsWith("s"))
+            {
+                taggedValue = GetTaggedValue(property.Name.Substring(0, property.Name.Length - 1));
+            }
+            if (taggedValue == TaggedValues.undefined)
+            {
+                throw new Exception("cannot determine tagged value of property " + property.DeclaringType.Name + "." + property.Name);
+            }
+            return taggedValue;
+        }
+
+        private static TaggedValues GetTaggedValue(string propertyName)
+        {
+            TaggedValues taggedValue;
+            try
+            {
+                taggedValue = (TaggedValues)Enum.Parse(typeof(TaggedValues), propertyName, true);
+            }
+            catch (ArgumentException)
+            {
+                taggedValue = TaggedValues.undefined;
+            }
+            return taggedValue;
+        }
+
+        public ValidatingPRIM(Element element)
         {
             this.element = element;
+            foreach (var taggedValueProperty in taggedValueProperties)
+            {
+                taggedValueProperty.LoadFromElement(this, element);
+            }
         }
 
         #region IPRIM Members
@@ -281,9 +388,18 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
             get { return element.Name; }
         }
 
+        [OptionalTaggedValue]
         public string DictionaryEntryName
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                string value = dictionaryEntryName;
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = Name;
+                }
+                return value;
+            }
         }
 
         public string Definition
@@ -377,5 +493,80 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
         }
 
         #endregion
+    }
+
+    internal class BooleanTaggedValueProperty : TaggedValueProperty
+    {
+        public BooleanTaggedValueProperty(TaggedValues key, PropertyInfo property) : base(key, property)
+        {
+        }
+
+        protected override object GetValue(TaggedValue tv)
+        {
+            return "true" == tv.Value.DefaultTo("true").ToLower();
+        }
+    }
+
+    internal class MultiStringTaggedValueProperty : TaggedValueProperty
+    {
+        public MultiStringTaggedValueProperty(TaggedValues key, PropertyInfo property) : base(key, property)
+        {
+        }
+
+        protected override object GetValue(TaggedValue tv)
+        {
+            var value = tv.Value;
+            return String.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
+        }
+    }
+
+    internal class StringTaggedValueProperty : TaggedValueProperty
+    {
+        public StringTaggedValueProperty(TaggedValues key, PropertyInfo property) : base(key, property)
+        {
+        }
+
+        protected override object GetValue(TaggedValue tv)
+        {
+            return tv.Value ?? string.Empty;
+        }
+    }
+
+    internal abstract class TaggedValueProperty
+    {
+        private readonly TaggedValues key;
+        private readonly PropertyInfo property;
+
+        public TaggedValueProperty(TaggedValues key, PropertyInfo property)
+        {
+            this.key = key;
+            this.property = property;
+        }
+
+        public void LoadFromElement(object obj, Element element)
+        {
+            foreach (TaggedValue tv in element.TaggedValues)
+            {
+                if (tv.Name.Equals(key.ToString()))
+                {
+                    property.SetValue(obj, GetValue(tv), null);
+                    return;
+                }
+            }
+        }
+
+        protected abstract object GetValue(TaggedValue tv);
+    }
+
+    public class DefaultAttribute : Attribute
+    {
+        public DefaultAttribute(Func<string> getDefaultValue)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class OptionalTaggedValueAttribute : Attribute
+    {
     }
 }

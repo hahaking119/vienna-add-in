@@ -121,6 +121,18 @@ namespace VIENNAAddInUnitTests.TestRepository
                                                                                    });
         }
 
+        public static void AddIsEquivalentToDependency(this Element client, Element supplier)
+        {
+            client.AddConnector("isEquivalentTo", EAConnectorTypes.Dependency.ToString(), c =>
+                                                                                   {
+                                                                                       c.Stereotype = Stereotype.IsEquivalentTo;
+                                                                                       c.ClientEnd.Aggregation = (int) EAAggregationKind.None;
+                                                                                       c.SupplierID = supplier.ElementID;
+                                                                                       c.SupplierEnd.Role = "isEquivalentTo";
+                                                                                       c.SupplierEnd.Cardinality = "1";
+                                                                                   });
+        }
+
         public static Element AddACC(this Package package, string name)
         {
             return package.AddClass(name).With(EARepository.ElementStereotype(Stereotype.ACC));

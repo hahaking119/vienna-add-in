@@ -29,6 +29,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             this.eaRepository = eaRepository;
         }
 
+        public Repository EARepository
+        {
+            get { return eaRepository; }
+        }
+
         #region ICCRepository Members
 
         public IBusinessLibrary GetLibrary(int id)
@@ -75,7 +80,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             foreach (var rootBLibraryPackage in AllRootBLibraryPackages())
             {
-                var bLibrary = (IBLibrary)GetLibrary(rootBLibraryPackage);
+                var bLibrary = (IBLibrary) GetLibrary(rootBLibraryPackage);
                 yield return bLibrary;
                 foreach (IBusinessLibrary child in bLibrary.AllChildren)
                 {
@@ -110,6 +115,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
             }
         }
+
         #endregion
 
         public ICDT GetCDT(int id)
@@ -136,6 +142,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             if (package == null)
             {
+                return null;
+            }
+            if (package.Element == null)
+            {
+                // this is a model, which cannot be a business library
                 return null;
             }
             switch (package.Element.Stereotype)

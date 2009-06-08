@@ -1,3 +1,5 @@
+using System;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
@@ -12,7 +14,7 @@ namespace VIENNAAddIn.upcc3.ccts
         public ASCCSpec(IASCC ascc) : base(ascc)
         {
             SequencingKey = ascc.SequencingKey;
-            AssociatedACCId = ascc.AssociatedElement.Id;
+            ResolveAssociatedACC = () => ascc.AssociatedElement;
             LowerBound = ascc.LowerBound;
             UpperBound = ascc.UpperBound;
         }
@@ -30,14 +32,23 @@ namespace VIENNAAddIn.upcc3.ccts
 
         ///<summary>
         ///</summary>
-        public int AssociatedACCId { get; set; }
-
-        ///<summary>
-        ///</summary>
         public string LowerBound { get; set; }
 
         ///<summary>
         ///</summary>
         public string UpperBound { get; set; }
+
+        public IACC AssociatedACC
+        {
+            get
+            {
+                return ResolveAssociatedACC();
+            }
+        }
+
+        /// <summary>
+        /// Set a function to resolve the associated ACC.
+        /// </summary>
+        public Func<IACC> ResolveAssociatedACC { get; set; }
     }
 }

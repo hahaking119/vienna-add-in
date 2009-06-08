@@ -433,7 +433,10 @@ namespace VIENNAAddIn.menu
         {
             set
             {
-                menuItems.Add(new MenuItems(MenuNameIs(null).And(predicate), new List<string> {value.Name}));
+                menuItems.Add(new MenuItems(MenuNameIs(null).And(predicate), new List<string>
+                                                                             {
+                                                                                 value.Name
+                                                                             }));
                 ProcessMenuItem(predicate, string.Empty, value);
             }
         }
@@ -447,43 +450,8 @@ namespace VIENNAAddIn.menu
         {
             set
             {
-                Predicate<AddInContext> predicate = context =>
-                                                        {
-                                                            if ((menuLocation & context.MenuLocation) ==
-                                                                context.MenuLocation)
-                                                            {
-                                                                ObjectType otype = context.SelectedItemObjectType;
-
-                                                                if (otype.Equals(ObjectType.otPackage))
-                                                                {
-                                                                    Package obj =
-                                                                        context.Repository.GetPackageByGuid(
-                                                                            context.SelectedItemGUID);
-                                                                    return obj.HasStereotype(packageStereotype);
-                                                                }
-                                                                if (otype.Equals(ObjectType.otElement))
-                                                                {
-                                                                    Element obj =
-                                                                        context.Repository.GetElementByGuid(
-                                                                            context.SelectedItemGUID);
-                                                                    return
-                                                                        context.Repository.GetPackageByID(obj.PackageID)
-                                                                            .HasStereotype(packageStereotype);
-                                                                }
-                                                                if (otype.Equals(ObjectType.otDiagram))
-                                                                {
-                                                                    var obj =
-                                                                        (Diagram)
-                                                                        context.Repository.GetDiagramByGuid(
-                                                                            context.SelectedItemGUID);
-                                                                    return
-                                                                        context.Repository.GetPackageByID(obj.PackageID)
-                                                                            .HasStereotype(packageStereotype);
-                                                                }
-                                                            }
-                                                            return false;
-                                                        };
-                this[predicate] = value;
+                this[context => (menuLocation & context.MenuLocation) == context.MenuLocation
+                                && context.SelectedItemPackageStereotype == packageStereotype] = value;
             }
         }
 
@@ -529,17 +497,16 @@ namespace VIENNAAddIn.menu
             // --- Begin Workaround
             if (context.MenuLocation == MenuLocation.TreeView)
             {
-                object item;
-                ObjectType objectType = context.Repository.GetTreeSelectedItem(out item);
-
-                if (objectType == ObjectType.otPackage)
+                if (context.TreeSelectedItemObjectType == ObjectType.otPackage)
                 {
-                    context.SelectedItemObjectType = objectType;
-                    context.SelectedItemGUID = ((Package)item).PackageGUID;
+                    context.SelectedItem = context.TreeSelectedItem;
+                    context.SelectedItemGUID = ((Package) context.TreeSelectedItem).PackageGUID;
+                    context.SelectedItemObjectType = context.TreeSelectedItemObjectType;
+                    context.SelectedItemPackageStereotype = ((Package) context.TreeSelectedItem).Element.Stereotype;
                 }
             }
             // --- End Workaround
-            
+
             foreach (MenuItems items in menuItems)
             {
                 if (items.Matches(context))
@@ -619,6 +586,7 @@ namespace VIENNAAddIn.menu
         {
             return true;
         }
+
         ///<summary>
         /// Returns false.
         ///</summary>

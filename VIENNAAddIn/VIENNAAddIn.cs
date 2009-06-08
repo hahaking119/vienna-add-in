@@ -33,8 +33,7 @@ namespace VIENNAAddIn
     public class VIENNAAddIn : VIENNAAddInInterface
     {
         private static Repository Repo;
-        private static string SelectedItemGUID;
-        private static ObjectType SelectedItemObjectType;
+        private static readonly AddInContext context = new AddInContext();
         private readonly MenuManager menuManager;
         private OnTheFlyValidator onTheFlyValidator;
 
@@ -129,17 +128,22 @@ namespace VIENNAAddIn
             }
             else
             {
-                var context = new AddInContext
-                              {
-                                  Repository = Repo,
-                                  MenuLocationString = menulocation,
-                                  MenuName = menuname,
-                                  MenuItem = itemname,
-                                  SelectedItemGUID = SelectedItemGUID,
-                                  SelectedItemObjectType = SelectedItemObjectType
-                              };
+                context.Repository = repository;
+                context.MenuLocationString = menulocation;
+                context.MenuName = menuname;
+                context.MenuItem = itemname;
+                UpdateContextTreeSelectedItem(repository);
                 menuManager.GetMenuState(context, ref isEnabled, ref isChecked);
             }
+        }
+
+        private static void UpdateContextTreeSelectedItem(Repository repository)
+        {
+            object treeSelectedItem;
+            ObjectType treeSelectedItemObjectType = Repo.GetTreeSelectedItem(out treeSelectedItem);
+            context.TreeSelectedItem = treeSelectedItem;
+            context.TreeSelectedItemObjectType = treeSelectedItemObjectType;
+            context.TreeSelectedPackage = repository.GetTreeSelectedPackage();
         }
 
         ///<summary>
@@ -205,14 +209,10 @@ namespace VIENNAAddIn
         /// <returns></returns>
         public string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname)
         {
-            var context = new AddInContext
-                          {
-                              Repository = Repo,
-                              MenuLocationString = menulocation,
-                              MenuName = menuname,
-                              SelectedItemGUID = SelectedItemGUID,
-                              SelectedItemObjectType = SelectedItemObjectType
-                          };
+            context.Repository = repository;
+            context.MenuLocationString = menulocation;
+            context.MenuName = menuname;
+            UpdateContextTreeSelectedItem(repository);
             return menuManager.GetMenuItems(context);
         }
 
@@ -227,15 +227,11 @@ namespace VIENNAAddIn
         {
             try
             {
-                var context = new AddInContext
-                              {
-                                  Repository = Repo,
-                                  MenuLocationString = menulocation,
-                                  MenuName = menuname,
-                                  MenuItem = menuitem,
-                                  SelectedItemGUID = SelectedItemGUID,
-                                  SelectedItemObjectType = SelectedItemObjectType
-                              };
+                context.Repository = repository;
+                context.MenuLocationString = menulocation;
+                context.MenuName = menuname;
+                context.MenuItem = menuitem;
+                UpdateContextTreeSelectedItem(repository);
                 menuManager.MenuClick(context);
             }
             catch (Exception e)
@@ -252,8 +248,27 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public void EA_OnContextItemChanged(Repository repository, string GUID, ObjectType ot)
         {
-            SelectedItemObjectType = ot;
-            SelectedItemGUID = GUID;
+            context.SelectedItemObjectType = ot;
+            context.SelectedItemGUID = GUID;
+            switch (context.SelectedItemObjectType)
+            {
+                case ObjectType.otPackage:
+                    context.SelectedItem = repository.GetPackageByGuid(context.SelectedItemGUID);
+                    context.SelectedItemPackageStereotype = ((Package)context.SelectedItem).Element.Stereotype;
+                    break;
+                case ObjectType.otElement:
+                    context.SelectedItem = repository.GetElementByGuid(context.SelectedItemGUID);
+                    context.SelectedItemPackageStereotype = repository.GetPackageByID(((Element)context.SelectedItem).PackageID).Element.Stereotype;
+                    break;
+                case ObjectType.otDiagram:
+                    context.SelectedItem = repository.GetDiagramByGuid(context.SelectedItemGUID);
+                    context.SelectedItemPackageStereotype = repository.GetPackageByID(((Diagram)context.SelectedItem).PackageID).Element.Stereotype;
+                    break;
+                default:
+                    context.SelectedItem = null;
+                    context.SelectedItemPackageStereotype = string.Empty;
+                    break;
+            }
         }
 
         ///<summary>
@@ -311,7 +326,7 @@ namespace VIENNAAddIn
         {
             if (context.MenuLocation == MenuLocation.TreeView)
             {
-                if (context.Repository.GetTreeSelectedPackage().IsModel)
+                if (context.TreeSelectedPackage.IsModel)
                 {
                     return true;
                 }

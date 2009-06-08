@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 using EA;
 
@@ -61,23 +60,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return null;
         }
 
-
-        private Package CreateLibraryPackage(LibrarySpec spec, string stereotype)
-        {
-            var libraryPackage = CreateLibraryPackage(spec, package, stereotype);
-            AddPackageToDiagram(libraryPackage);
-            return libraryPackage;
-        }
-
-        private void AddPackageToDiagram(Package libraryPackage)
-        {
-            var diagram = (Diagram) package.Diagrams.GetByName(Name);
-            var newDiagramObject = (DiagramObject)diagram.DiagramObjects.AddNew("", "");
-            newDiagramObject.DiagramID = diagram.DiagramID;
-            newDiagramObject.ElementID = libraryPackage.Element.ElementID;
-            newDiagramObject.Update();
-        }
-
         public IBLibrary CreateBLibrary(LibrarySpec spec)
         {
             return new BLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BLibrary));
@@ -119,5 +101,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        private Package CreateLibraryPackage(LibrarySpec spec, string stereotype)
+        {
+            Package libraryPackage = CreateLibraryPackage(spec, package, stereotype);
+            AddPackageToDiagram(libraryPackage);
+            return libraryPackage;
+        }
+
+        private void AddPackageToDiagram(Package libraryPackage)
+        {
+            var diagram = (Diagram) package.Diagrams.GetByName(Name);
+            var newDiagramObject = (DiagramObject) diagram.DiagramObjects.AddNew("", "");
+            newDiagramObject.DiagramID = diagram.DiagramID;
+            newDiagramObject.ElementID = libraryPackage.Element.ElementID;
+            newDiagramObject.Update();
+        }
     }
 }

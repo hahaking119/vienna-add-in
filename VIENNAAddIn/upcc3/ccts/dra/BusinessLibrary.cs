@@ -56,6 +56,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return repository.GetLibrary(package.ParentID); }
         }
 
+        public Path Path
+        {
+            get { return package.GetPath(repository.EARepository); }
+        }
+
         ///<summary>
         ///</summary>
         public string Status
