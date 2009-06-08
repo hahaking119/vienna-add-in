@@ -18,7 +18,7 @@ namespace CCLImporter
         {
             var eaRepository = new Repository();
             string originalRepoPath = Directory.GetCurrentDirectory() + "\\" + args[1];
-            string targetRepoPath = originalRepoPath.WithoutSuffix(".eap") + "_with_cc.eap";
+            string targetRepoPath = originalRepoPath.WithoutSuffix(".eap") + "-and-CCs.eap";
             File.Copy(originalRepoPath, targetRepoPath, true);
             eaRepository.OpenFile(targetRepoPath);
             var ccRepository = new CCRepository(eaRepository);
