@@ -125,6 +125,7 @@
     <Compile Include="upcc3\ccts\util\EADiagramExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
+    <Compile Include="upcc3\Importer\ACCImporter.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +304,7 @@
     <Compile Include="validator\upcc3\onTheFly\DuplicateElementName.cs" />
     <Compile Include="validator\upcc3\onTheFly\InvalidElementStereotype.cs" />
     <Compile Include="validator\upcc3\onTheFly\BackgroundOnTheFlyValidator.cs" />
+    <Compile Include="validator\upcc3\onTheFly\InvalidSupplierForIsEquivalentTo.cs" />
     <Compile Include="validator\upcc3\onTheFly\OnTheFlyValidator.cs" />
     <Compile Include="validator\upcc3\onTheFly\OnTheFlyValidatorImpl.cs" />
     <Compile Include="validator\upcc3\onTheFly\ProcessItemRequest.cs" />

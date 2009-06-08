@@ -154,7 +154,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
             }
             element.Connectors.Refresh();
-            foreach (var connector in spec.GetConnectors())
+            foreach (var connector in spec.GetConnectors(repository))
             {
                 element.AddConnector(connector);
             }

@@ -179,7 +179,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public string ElementGUID
         {
-            get { throw new NotImplementedException(); }
+            get { return "" + ElementID; }
         }
 
         public string ExtensionPoints

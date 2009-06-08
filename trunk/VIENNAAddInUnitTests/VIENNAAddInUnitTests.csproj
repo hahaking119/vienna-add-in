@@ -113,7 +113,7 @@
     <Compile Include="TestRepository\EARepositoryTest.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\XSDGeneratorTest.cs" />
     <Compile Include="menu\MenuManagerTest.cs" />
-    <Compile Include="validator\upcc3\onTheFly\OnTheFlyValidatorTest.cs" />
+    <Compile Include="validator\upcc3\onTheFly\ValidatingPRIMLibraryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />

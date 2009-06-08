@@ -6,6 +6,9 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra

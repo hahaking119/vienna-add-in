@@ -15,6 +15,7 @@ namespace VIENNAAddIn.upcc3.ccts
         int Id { get; }
         string Name { get; }
         IBusinessLibrary Parent { get; }
+        Path Path { get; }
         string Status { get; }
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }

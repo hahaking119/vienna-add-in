@@ -23,6 +23,7 @@ using File=EA.File;
 namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
 {
     [TestFixture]
+    [Category(TestCategories.FileBased)]
     public class XSDImporterTest
     {
         #region Test Preparation

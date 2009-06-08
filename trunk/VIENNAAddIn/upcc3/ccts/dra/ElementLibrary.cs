@@ -25,9 +25,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             foreach (TICCTSElement element in Elements)
             {
                 if (((TCCTSElement)element).Name == name)
-                    return element;       
+                {
+                    return element;
+                }
+
             }
-            //return Elements.First(e => ((TCCTSElement)e).Name == name);
             return default(TICCTSElement);
         }
 

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
@@ -80,7 +81,7 @@ namespace VIENNAAddIn.upcc3.ccts
             return taggedValue;
         }
 
-        public IEnumerable<ConnectorSpec> GetConnectors()
+        public IEnumerable<ConnectorSpec> GetConnectors(CCRepository repository)
         {
             Type type = GetType();
             PropertyInfo[] properties = type.GetProperties();
@@ -112,13 +113,13 @@ namespace VIENNAAddIn.upcc3.ccts
                     }
                 }
             }
-            foreach (ConnectorSpec connector in GetCustomConnectors())
+            foreach (ConnectorSpec connector in GetCustomConnectors(repository))
             {
                 yield return connector;
             }
         }
 
-        public virtual IEnumerable<ConnectorSpec> GetCustomConnectors()
+        public virtual IEnumerable<ConnectorSpec> GetCustomConnectors(CCRepository repository)
         {
             yield break;
         }

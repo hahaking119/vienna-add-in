@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
@@ -8,16 +10,18 @@ namespace VIENNAAddIn.upcc3.ccts
     ///</summary>
     public class ACCSpec : CCSpec
     {
-        private List<ASCCSpec> asccs;
-        private List<BCCSpec> bccs;
+        private readonly List<ASCCSpec> asccs;
+        private readonly List<BCCSpec> bccs;
+        private readonly List<string> duplicateBCCNames = new List<string>();
+        private readonly List<string> duplicateASCCNames = new List<string>();
 
         ///<summary>
         ///</summary>
         ///<param name="acc"></param>
         public ACCSpec(IACC acc) : base(acc)
         {
-            BCCs = acc.BCCs.Convert(bcc => new BCCSpec(bcc));
-            ASCCs = acc.ASCCs.Convert(ascc => new ASCCSpec(ascc));
+            bccs = new List<BCCSpec>(acc.BCCs.Convert(bcc => new BCCSpec(bcc)));
+            asccs = new List<ASCCSpec>(acc.ASCCs.Convert(ascc => new ASCCSpec(ascc)));
             IsEquivalentTo = acc.IsEquivalentTo;
         }
 
@@ -30,13 +34,11 @@ namespace VIENNAAddIn.upcc3.ccts
         public IEnumerable<BCCSpec> BCCs
         {
             get { return bccs; }
-            set { bccs = new List<BCCSpec>(value); }
         }
 
         public IEnumerable<ASCCSpec> ASCCs
         {
             get { return asccs; }
-            set { asccs = new List<ASCCSpec>(value); }
         }
 
         ///<summary>
@@ -49,23 +51,36 @@ namespace VIENNAAddIn.upcc3.ccts
         ///<param name="name"></param>
         public void RemoveASCC(string name)
         {
+            duplicateASCCNames.Remove(name);
             asccs.RemoveAll(ascc => ascc.Name == name);
         }
 
         public void RemoveBCC(string name)
         {
+            duplicateBCCNames.Remove(name);
             bccs.RemoveAll(bcc => bcc.Name == name);
         }
 
-        public override IEnumerable<ConnectorSpec> GetCustomConnectors()
+        public override IEnumerable<ConnectorSpec> GetCustomConnectors(CCRepository repository)
         {
             if (ASCCs != null)
             {
                 foreach (ASCCSpec ascc in ASCCs)
                 {
+                    var associatedACC = ascc.AssociatedACC;
+                    if (associatedACC == null)
+                    {
+                        // TODO throw meaningful exception instead
+                        continue;
+                    }
+                    var name = ascc.Name;
+                    if (duplicateASCCNames.Contains(name))
+                    {
+                        name = name + associatedACC.Name;
+                    }
                     yield return
-                        ConnectorSpec.CreateAggregation(EAAggregationKind.Shared, Stereotype.ASCC, ascc.Name,
-                                                        ascc.AssociatedACCId, ascc.LowerBound, ascc.UpperBound);
+                        ConnectorSpec.CreateAggregation(EAAggregationKind.Shared, Stereotype.ASCC, name,
+                                                        ascc.AssociatedACC.Id, ascc.LowerBound, ascc.UpperBound);
                 }
             }
         }
@@ -76,7 +91,46 @@ namespace VIENNAAddIn.upcc3.ccts
             {
                 foreach (BCCSpec bcc in BCCs)
                 {
-                    yield return new AttributeSpec(Stereotype.BCC, bcc.Name, bcc.Type.Name, bcc.Type.Id, bcc.LowerBound, bcc.UpperBound, bcc.GetTaggedValues());
+                    var name = bcc.Name;
+                    if (duplicateBCCNames.Contains(name))
+                    {
+                        name = name + bcc.Type.Name;
+                    }
+                    yield return new AttributeSpec(Stereotype.BCC, name, bcc.Type.Name, bcc.Type.Id, bcc.LowerBound, bcc.UpperBound, bcc.GetTaggedValues());
+                }
+            }
+        }
+
+        public void AddBCC(BCCSpec bcc)
+        {
+            CheckDuplicateBCCNames(bcc);
+            bccs.Add(bcc);
+        }
+
+        private void CheckDuplicateBCCNames(BCCSpec newBCC)
+        {
+            foreach (BCCSpec bcc in bccs)
+            {
+                if (newBCC.Name == bcc.Name)
+                {
+                    duplicateBCCNames.Add(bcc.Name);
+                }
+            }
+        }
+
+        public void AddASCC(ASCCSpec ascc)
+        {
+            CheckDuplicateASCCNames(ascc);
+            asccs.Add(ascc);
+        }
+
+        private void CheckDuplicateASCCNames(ASCCSpec newASCC)
+        {
+            foreach (ASCCSpec ascc in asccs)
+            {
+                if (newASCC.Name == ascc.Name)
+                {
+                    duplicateASCCNames.Add(ascc.Name);
                 }
             }
         }
