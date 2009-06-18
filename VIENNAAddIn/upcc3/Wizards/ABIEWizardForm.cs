@@ -229,6 +229,38 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
                 comboACCs.SelectedIndex= comboACCs.FindString(abie.BasedOn.Name);
                 comboACCs_SelectionChangeCommitted(null, null);
+
+                foreach (IASBIE asbie in abie.ASBIEs)
+                {
+                    if( asbie.AssociatedElement.Name == abie.Name)
+                    {
+                        for (int i = 0; i < checkedlistboxASCCs.Items.Count; i++)
+                        {
+                            int indexBrace = checkedlistboxASCCs.Items[i].ToString().IndexOf('(');
+                            string itemName = checkedlistboxASCCs.Items[i].ToString().Substring(indexBrace + 1, checkedlistboxASCCs.Items[i].ToString().Length - indexBrace - 2);
+                            if (itemName.Equals(asbie.AssociatingElement.Name))
+                            {
+                                checkedlistboxASCCs.SetSelected(i, true);
+                                checkedlistboxASCCs.SetItemChecked(i,true);
+                                checkedlistboxASCCs_ItemCheck(null, new ItemCheckEventArgs(i, CheckState.Checked, CheckState.Unchecked));
+                            }
+                        }
+                    }
+                    if (asbie.AssociatingElement.Name == abie.Name)
+                    {
+                        for (int i = 0; i < checkedlistboxASCCs.Items.Count;i++ )
+                        {
+                            int indexBrace = checkedlistboxASCCs.Items[i].ToString().IndexOf('(');
+                            string itemName = checkedlistboxASCCs.Items[i].ToString().Substring(indexBrace + 1, checkedlistboxASCCs.Items[i].ToString().Length - indexBrace - 2);
+                            if (itemName.Equals(asbie.AssociatedElement.Name))
+                            {
+                                checkedlistboxASCCs.SetSelected(i, true);
+                                checkedlistboxASCCs.SetItemChecked(i, true);
+                                checkedlistboxASCCs_ItemCheck(null, new ItemCheckEventArgs(i, CheckState.Checked, CheckState.Unchecked));
+                            }
+                        }
+                    }
+                }
                 ResetForm(4);
                 buttonSave.Show();
             }
