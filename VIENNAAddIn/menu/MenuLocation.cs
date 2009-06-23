@@ -13,4 +13,12 @@ namespace VIENNAAddIn.menu
         TreeView = 2,
         Diagram = 4
     }
+
+    public static class MenuLocationExtensions
+    {
+        public static bool IsContextMenu(this MenuLocation menuLocation)
+        {
+            return ((MenuLocation.TreeView | MenuLocation.Diagram) & menuLocation) == menuLocation;
+        }
+    }
 }
