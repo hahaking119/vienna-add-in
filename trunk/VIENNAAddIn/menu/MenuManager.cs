@@ -442,20 +442,6 @@ namespace VIENNAAddIn.menu
         }
 
         ///<summary>
-        /// Use this indexer to assign a menu to a context matching the given <see cref="MenuLocation"/> and package stereotype.
-        ///</summary>
-        ///<param name="menuLocation">One or more menu locations (joined with the | operator)</param>
-        ///<param name="packageStereotype">The stereotype of the selected package or the package containing the selected element or diagram.</param>
-        public MenuItem this[MenuLocation menuLocation, string packageStereotype]
-        {
-            set
-            {
-                this[context => (menuLocation & context.MenuLocation) == context.MenuLocation
-                                && context.SelectedItemPackageStereotype == packageStereotype] = value;
-            }
-        }
-
-        ///<summary>
         /// Use this indexer to assign a menu to a context matching the given <see cref="MenuLocation"/>.
         ///</summary>
         ///<param name="menuLocation">One or more menu locations (joined with the | operator)</param>
@@ -488,25 +474,6 @@ namespace VIENNAAddIn.menu
         ///<returns></returns>
         public string[] GetMenuItems(AddInContext context)
         {
-            // Workaround to fix problem in Enterprise Architect:
-            // The "EA_OnContextItemChanged" method is not invoked in case the user
-            // selects a model in the tree view which causes "SelectedItemObjectType"
-            // and "SelectedItemGUID" to contain invalid values. Therefore we override
-            // the values of the variables whenever the user selects an packge in the 
-            // tree view. 
-            // --- Begin Workaround
-            if (context.MenuLocation == MenuLocation.TreeView)
-            {
-                if (context.TreeSelectedItemObjectType == ObjectType.otPackage)
-                {
-                    context.SelectedItem = context.TreeSelectedItem;
-                    context.SelectedItemGUID = ((Package) context.TreeSelectedItem).PackageGUID;
-                    context.SelectedItemObjectType = context.TreeSelectedItemObjectType;
-                    context.SelectedItemPackageStereotype = ((Package) context.TreeSelectedItem).Element.Stereotype;
-                }
-            }
-            // --- End Workaround
-
             foreach (MenuItems items in menuItems)
             {
                 if (items.Matches(context))

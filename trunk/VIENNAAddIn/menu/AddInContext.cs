@@ -57,33 +57,8 @@ namespace VIENNAAddIn.menu
         public ObjectType SelectedItemObjectType { get; set; }
 
         ///<summary>
-        /// The GUID of the currently selected item.
-        ///</summary>
-        public string SelectedItemGUID { get; set; }
-
-        ///<summary>
         /// The currently selected item.
         ///</summary>
         public object SelectedItem { get; set; }
-
-        ///<summary>
-        /// The stereotype of the package containing the currently selected item or of the selected item itself, if it is a package.
-        ///</summary>
-        public string SelectedItemPackageStereotype { get; set; }
-
-        /// <summary>
-        /// The item currently selected in the tree view.
-        /// </summary>
-        public object TreeSelectedItem { get; set; }
-
-        /// <summary>
-        /// Object type of the item currently selected in the tree view.
-        /// </summary>
-        public ObjectType TreeSelectedItemObjectType { get; set; }
-
-        /// <summary>
-        /// The package currently selected in the tree view.
-        /// </summary>
-        public Package TreeSelectedPackage { get; set; }
     }
 }

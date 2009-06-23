@@ -168,54 +168,49 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return attribute.Stereotype == SUP;
         }
 
-        private static bool PackageHasStereotype(this Package package, string stereotype)
-        {
-            return (package.Element != null) && (package.Element.Stereotype == stereotype);
-        }
-
         public static bool IsCCLibrary(this Package package)
         {
-            return PackageHasStereotype(package, CCLibrary);
+            return package.HasStereotype(CCLibrary);
         }
 
         public static bool IsCDTLibrary(this Package package)
         {
-            return PackageHasStereotype(package, CDTLibrary);
+            return package.HasStereotype(CDTLibrary);
         }
 
         public static bool IsBIELibrary(this Package package)
         {
-            return PackageHasStereotype(package, BIELibrary);
+            return package.HasStereotype(BIELibrary);
         }
 
         public static bool IsBDTLibrary(this Package package)
         {
-            return PackageHasStereotype(package, BDTLibrary);
+            return package.HasStereotype(BDTLibrary);
         }
 
         public static bool IsPRIMLibrary(this Package package)
         {
-            return PackageHasStereotype(package, PRIMLibrary);
+            return package.HasStereotype(PRIMLibrary);
         }
 
         public static bool IsENUMLibrary(this Package package)
         {
-            return PackageHasStereotype(package, ENUMLibrary);
+            return package.HasStereotype(ENUMLibrary);
         }
 
         public static bool IsDOCLibrary(this Package package)
         {
-            return PackageHasStereotype(package, DOCLibrary);
+            return package.HasStereotype(DOCLibrary);
         }
 
         public static bool IsBLibrary(this Package package)
         {
-            return PackageHasStereotype(package, BLibrary);
+            return package.HasStereotype(BLibrary);
         }
 
         public static bool IsBInformationV(this Package package)
         {
-            return PackageHasStereotype(package, BInformationV);
+            return package.HasStereotype(BInformationV);
         }
 #pragma warning restore 1591
 

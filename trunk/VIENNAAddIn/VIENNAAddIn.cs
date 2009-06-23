@@ -7,6 +7,7 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
@@ -22,6 +23,7 @@ using VIENNAAddIn.validator.upcc3.onTheFly;
 using VIENNAAddIn.workflow;
 using MenuItem=VIENNAAddIn.menu.MenuItem;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Timer=System.Timers.Timer;
 
 namespace VIENNAAddIn
 {
@@ -32,8 +34,8 @@ namespace VIENNAAddIn
      ComSourceInterfaces(typeof (VIENNAAddInEvents))]
     public class VIENNAAddIn : VIENNAAddInInterface
     {
-        private static Repository Repo;
         private static readonly AddInContext context = new AddInContext();
+        private static Repository Repo;
         private readonly MenuManager menuManager;
         private OnTheFlyValidator onTheFlyValidator;
 
@@ -80,21 +82,22 @@ namespace VIENNAAddIn
                  + "&Options".OnClick(OptionsForm.ShowForm)
                  + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)
                 );
-            menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BLibrary] =
+            menuManager[ContextIsBLibrary] =
                 (AddInSettings.AddInName
                  + "Import Standard CC Libraries".OnClick(ImportStandardCcLibraries)
                 );
-            menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BIELibrary] =
+            menuManager[ContextIsBIELibrary] =
                 (AddInSettings.AddInName
                  + createABIE
-                 + modifyABIE
-                 + _____
                  + validate
                 );
-            menuManager[MenuLocation.TreeView | MenuLocation.Diagram, Stereotype.BDTLibrary] =
+            menuManager[ContextIsABIE] =
+                (AddInSettings.AddInName
+                 + modifyABIE
+                );
+            menuManager[ContextIsBDTLibrary] =
                 (AddInSettings.AddInName
                  + createBDT
-                 + _____
                  + validate
                 );
             menuManager[IsRootModel] =
@@ -132,18 +135,9 @@ namespace VIENNAAddIn
                 context.MenuLocationString = menulocation;
                 context.MenuName = menuname;
                 context.MenuItem = itemname;
-                UpdateContextTreeSelectedItem(repository);
+                OverrideSelectedItemIfPackageSelectedInTreeView(repository);
                 menuManager.GetMenuState(context, ref isEnabled, ref isChecked);
             }
-        }
-
-        private static void UpdateContextTreeSelectedItem(Repository repository)
-        {
-            object treeSelectedItem;
-            ObjectType treeSelectedItemObjectType = Repo.GetTreeSelectedItem(out treeSelectedItem);
-            context.TreeSelectedItem = treeSelectedItem;
-            context.TreeSelectedItemObjectType = treeSelectedItemObjectType;
-            context.TreeSelectedPackage = repository.GetTreeSelectedPackage();
         }
 
         ///<summary>
@@ -154,7 +148,7 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public bool EA_OnNotifyContextItemModified(Repository repository, string GUID, ObjectType ot)
         {
-            onTheFlyValidator.ProcessItemModified(GUID, ot);
+//            onTheFlyValidator.ProcessItemModified(GUID, ot);
             return true;
         }
 
@@ -209,11 +203,23 @@ namespace VIENNAAddIn
         /// <returns></returns>
         public string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname)
         {
+            try
+            {
             context.Repository = repository;
             context.MenuLocationString = menulocation;
             context.MenuName = menuname;
-            UpdateContextTreeSelectedItem(repository);
+            OverrideSelectedItemIfPackageSelectedInTreeView(repository);
             return menuManager.GetMenuItems(context);
+            }
+            catch (Exception e)
+            {
+                new ErrorReporterForm(e.Message + "\n" + e.StackTrace, Repo.LibraryVersion);
+                if (menulocation == AddInSettings.AddInName)
+                {
+                    return new string[0];
+                }
+                return new[] {AddInSettings.AddInName};
+            }
         }
 
         /// <summary>
@@ -231,7 +237,7 @@ namespace VIENNAAddIn
                 context.MenuLocationString = menulocation;
                 context.MenuName = menuname;
                 context.MenuItem = menuitem;
-                UpdateContextTreeSelectedItem(repository);
+                OverrideSelectedItemIfPackageSelectedInTreeView(repository);
                 menuManager.MenuClick(context);
             }
             catch (Exception e)
@@ -248,27 +254,9 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public void EA_OnContextItemChanged(Repository repository, string GUID, ObjectType ot)
         {
-            context.SelectedItemObjectType = ot;
-            context.SelectedItemGUID = GUID;
-            switch (context.SelectedItemObjectType)
-            {
-                case ObjectType.otPackage:
-                    context.SelectedItem = repository.GetPackageByGuid(context.SelectedItemGUID);
-                    context.SelectedItemPackageStereotype = ((Package)context.SelectedItem).Element.Stereotype;
-                    break;
-                case ObjectType.otElement:
-                    context.SelectedItem = repository.GetElementByGuid(context.SelectedItemGUID);
-                    context.SelectedItemPackageStereotype = repository.GetPackageByID(((Element)context.SelectedItem).PackageID).Element.Stereotype;
-                    break;
-                case ObjectType.otDiagram:
-                    context.SelectedItem = repository.GetDiagramByGuid(context.SelectedItemGUID);
-                    context.SelectedItemPackageStereotype = repository.GetPackageByID(((Diagram)context.SelectedItem).PackageID).Element.Stereotype;
-                    break;
-                default:
-                    context.SelectedItem = null;
-                    context.SelectedItemPackageStereotype = string.Empty;
-                    break;
-            }
+            object contextItem;
+            context.SelectedItemObjectType = repository.GetContextItem(out contextItem);
+            context.SelectedItem = contextItem;
         }
 
         ///<summary>
@@ -322,23 +310,45 @@ namespace VIENNAAddIn
 
         #region AddInContext Predicates
 
+        private static bool ContextIsABIE(AddInContext context)
+        {
+            return context.MenuLocation.IsContextMenu()
+                   && context.SelectedItem != null
+                   && context.SelectedItemObjectType == ObjectType.otElement
+                   && ((Element) context.SelectedItem).IsABIE();
+        }
+
+        private static bool ContextIsLibrary(AddInContext context, string stereotype)
+        {
+            return context.MenuLocation.IsContextMenu()
+                   && context.SelectedItem != null
+                   && context.SelectedItemObjectType == ObjectType.otPackage
+                   && ((Package) context.SelectedItem).HasStereotype(stereotype);
+        }
+
+        private static bool ContextIsBLibrary(AddInContext context)
+        {
+            return ContextIsLibrary(context, Stereotype.BLibrary);
+        }
+
+        private static bool ContextIsBIELibrary(AddInContext context)
+        {
+            return ContextIsLibrary(context, Stereotype.BIELibrary);
+        }
+
+        private static bool ContextIsBDTLibrary(AddInContext context)
+        {
+            return ContextIsLibrary(context, Stereotype.BDTLibrary);
+        }
+
         private static bool IsRootModel(AddInContext context)
         {
-            if (context.MenuLocation == MenuLocation.TreeView)
-            {
-                if (context.TreeSelectedPackage.IsModel)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return context.SelectedItem != null && context.SelectedItemObjectType == ObjectType.otPackage && ((Package) context.SelectedItem).IsModel;
         }
 
         private static bool IfABIEIsSelected(AddInContext context)
         {
-            return context.SelectedItemObjectType == ObjectType.otElement &&
-                   Repo.GetElementByGuid(context.SelectedItemGUID).IsABIE();
+            return context.SelectedItemObjectType == ObjectType.otElement && ((Element) context.SelectedItem).IsABIE();
         }
 
         private static bool IfRepositoryIsUmm2Model(AddInContext context)
@@ -357,6 +367,27 @@ namespace VIENNAAddIn
         }
 
         #endregion
+
+        /// <summary>
+        /// Workaround to fix problem in Enterprise Architect:
+        /// The "EA_OnContextItemChanged" method is not invoked in case the user
+        /// selects a model in the tree view which causes SelectedItemXXX members of the AddInContext
+        /// to contain invalid values. Therefore we override the values of the variables whenever the 
+        /// user selects a package in the tree view. 
+        /// </summary>
+        /// <param name="repository"></param>
+        private static void OverrideSelectedItemIfPackageSelectedInTreeView(Repository repository)
+        {
+            if (context.MenuLocation == MenuLocation.TreeView)
+            {
+                var treeSelectedItemType = repository.GetTreeSelectedItemType();
+                if (treeSelectedItemType == ObjectType.otPackage)
+                {
+                    context.SelectedItem = repository.GetTreeSelectedObject();
+                    context.SelectedItemObjectType = treeSelectedItemType;
+                }
+            }
+        }
 
         private static void ToggleUmm2ModelState(AddInContext context)
         {
