@@ -23,7 +23,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IABIE AssociatedElement
         {
-            get { return repository.GetABIE(connector.SupplierID); }
+            get { return repository.GetABIE(connector.ClientID == AssociatingElement.Id ? connector.SupplierID : connector.ClientID); }
         }
 
         public EAAggregationKind AggregationKind
