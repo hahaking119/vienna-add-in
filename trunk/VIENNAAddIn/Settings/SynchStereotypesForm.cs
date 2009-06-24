@@ -29,7 +29,7 @@ namespace VIENNAAddIn.Settings
         {
             if (synchStereotypesForm == null || synchStereotypesForm.IsDisposed)
             {
-                synchStereotypesForm = new SynchStereotypesForm(context.Repository);
+                synchStereotypesForm = new SynchStereotypesForm(context.EARepository);
                 synchStereotypesForm.Show();
             }
             else

@@ -265,7 +265,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowForm(AddInContext context)
         {
-            new UpccModelWizardForm(context.Repository).Show();
+            new UpccModelWizardForm(context.EARepository).Show();
         }
     }
 }

@@ -56,7 +56,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowImporterWizard(AddInContext context)
         {            
-            new ImporterWizardForm(context.Repository).Show();
+            new ImporterWizardForm(context.EARepository).Show();
         }
 
         private void ImporterWizardForm_Load(object sender, EventArgs e)

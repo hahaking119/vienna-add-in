@@ -7,7 +7,6 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
@@ -15,7 +14,6 @@ using VIENNAAddIn.ErrorReporter;
 using VIENNAAddIn.Exceptions;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.Settings;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.Wizards;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
@@ -23,7 +21,6 @@ using VIENNAAddIn.validator.upcc3.onTheFly;
 using VIENNAAddIn.workflow;
 using MenuItem=VIENNAAddIn.menu.MenuItem;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
-using Timer=System.Timers.Timer;
 
 namespace VIENNAAddIn
 {
@@ -34,10 +31,10 @@ namespace VIENNAAddIn
      ComSourceInterfaces(typeof (VIENNAAddInEvents))]
     public class VIENNAAddIn : VIENNAAddInInterface
     {
-        private static readonly AddInContext context = new AddInContext();
         private static Repository Repo;
         private readonly MenuManager menuManager;
         private OnTheFlyValidator onTheFlyValidator;
+        private AddInContext context;
 
         ///<summary>
         ///</summary>
@@ -100,11 +97,11 @@ namespace VIENNAAddIn
                  + createBDT
                  + validate
                 );
-            menuManager[IsRootModel] =
+            menuManager[ContextIsRootModel] =
                 (AddInSettings.AddInName
                  + createUPCCStructure
                 );
-            menuManager[MenuLocation.TreeView | MenuLocation.Diagram] =
+            menuManager[ContextIsContextMenu] =
                 (AddInSettings.AddInName
                  + validate
                 );
@@ -131,12 +128,7 @@ namespace VIENNAAddIn
             }
             else
             {
-                context.Repository = repository;
-                context.MenuLocationString = menulocation;
-                context.MenuName = menuname;
-                context.MenuItem = itemname;
-                OverrideSelectedItemIfPackageSelectedInTreeView(repository);
-                menuManager.GetMenuState(context, ref isEnabled, ref isChecked);
+                menuManager.GetMenuState(new AddInContext(repository, menulocation, menuname, itemname), ref isEnabled, ref isChecked);
             }
         }
 
@@ -205,11 +197,16 @@ namespace VIENNAAddIn
         {
             try
             {
-            context.Repository = repository;
-            context.MenuLocationString = menulocation;
-            context.MenuName = menuname;
-            OverrideSelectedItemIfPackageSelectedInTreeView(repository);
-            return menuManager.GetMenuItems(context);
+                if (string.IsNullOrEmpty(menuname))
+                {
+                    // this is the first invocation of this method for a top-level menu click
+                    context = new AddInContext(repository, menulocation, menuname, null);
+                } else
+                {
+                    // otherwise, reuse the context of the top-level invocation (in order to avoid re-examination of the selected item)
+                    context = context.CreateSubContext(menuname);
+                }
+                return menuManager.GetMenuItems(context);
             }
             catch (Exception e)
             {
@@ -233,12 +230,7 @@ namespace VIENNAAddIn
         {
             try
             {
-                context.Repository = repository;
-                context.MenuLocationString = menulocation;
-                context.MenuName = menuname;
-                context.MenuItem = menuitem;
-                OverrideSelectedItemIfPackageSelectedInTreeView(repository);
-                menuManager.MenuClick(context);
+                menuManager.MenuClick(new AddInContext(repository, menulocation, menuname, menuitem));
             }
             catch (Exception e)
             {
@@ -254,9 +246,6 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public void EA_OnContextItemChanged(Repository repository, string GUID, ObjectType ot)
         {
-            object contextItem;
-            context.SelectedItemObjectType = repository.GetContextItem(out contextItem);
-            context.SelectedItem = contextItem;
         }
 
         ///<summary>
@@ -312,48 +301,42 @@ namespace VIENNAAddIn
 
         private static bool ContextIsABIE(AddInContext context)
         {
-            return context.MenuLocation.IsContextMenu()
-                   && context.SelectedItem != null
-                   && context.SelectedItemObjectType == ObjectType.otElement
-                   && ((Element) context.SelectedItem).IsABIE();
-        }
-
-        private static bool ContextIsLibrary(AddInContext context, string stereotype)
-        {
-            return context.MenuLocation.IsContextMenu()
-                   && context.SelectedItem != null
-                   && context.SelectedItemObjectType == ObjectType.otPackage
-                   && ((Package) context.SelectedItem).HasStereotype(stereotype);
+            return context.MenuLocation.IsContextMenu() && context.IsABIE();
         }
 
         private static bool ContextIsBLibrary(AddInContext context)
         {
-            return ContextIsLibrary(context, Stereotype.BLibrary);
+            return context.MenuLocation.IsContextMenu() && context.IsLibraryOfType(Stereotype.BLibrary);
         }
 
         private static bool ContextIsBIELibrary(AddInContext context)
         {
-            return ContextIsLibrary(context, Stereotype.BIELibrary);
+            return context.MenuLocation.IsContextMenu() && context.IsLibraryOfType(Stereotype.BIELibrary);
         }
 
         private static bool ContextIsBDTLibrary(AddInContext context)
         {
-            return ContextIsLibrary(context, Stereotype.BDTLibrary);
+            return context.MenuLocation.IsContextMenu() && context.IsLibraryOfType(Stereotype.BDTLibrary);
         }
 
-        private static bool IsRootModel(AddInContext context)
+        private static bool ContextIsContextMenu(AddInContext context)
         {
-            return context.SelectedItem != null && context.SelectedItemObjectType == ObjectType.otPackage && ((Package) context.SelectedItem).IsModel;
+            return context.MenuLocation.IsContextMenu();
+        }
+
+        private static bool ContextIsRootModel(AddInContext context)
+        {
+            return context.MenuLocation.IsContextMenu() && context.IsRootModel();
         }
 
         private static bool IfABIEIsSelected(AddInContext context)
         {
-            return context.SelectedItemObjectType == ObjectType.otElement && ((Element) context.SelectedItem).IsABIE();
+            return context.IsABIE();
         }
 
         private static bool IfRepositoryIsUmm2Model(AddInContext context)
         {
-            return context.Repository.IsUmm2Model();
+            return context.EARepository.IsUmm2Model();
         }
 
         private static bool Always(AddInContext context)
@@ -368,35 +351,14 @@ namespace VIENNAAddIn
 
         #endregion
 
-        /// <summary>
-        /// Workaround to fix problem in Enterprise Architect:
-        /// The "EA_OnContextItemChanged" method is not invoked in case the user
-        /// selects a model in the tree view which causes SelectedItemXXX members of the AddInContext
-        /// to contain invalid values. Therefore we override the values of the variables whenever the 
-        /// user selects a package in the tree view. 
-        /// </summary>
-        /// <param name="repository"></param>
-        private static void OverrideSelectedItemIfPackageSelectedInTreeView(Repository repository)
-        {
-            if (context.MenuLocation == MenuLocation.TreeView)
-            {
-                var treeSelectedItemType = repository.GetTreeSelectedItemType();
-                if (treeSelectedItemType == ObjectType.otPackage)
-                {
-                    context.SelectedItem = repository.GetTreeSelectedObject();
-                    context.SelectedItemObjectType = treeSelectedItemType;
-                }
-            }
-        }
-
         private static void ToggleUmm2ModelState(AddInContext context)
         {
-            context.Repository.ToggleUmm2ModelState();
+            context.EARepository.ToggleUmm2ModelState();
         }
 
         private static void ImportStandardCcLibraries(AddInContext context)
         {
-            context.Repository.ImportStandardCcLibraries();
+            context.EARepository.ImportStandardCcLibraries();
         }
     }
 }

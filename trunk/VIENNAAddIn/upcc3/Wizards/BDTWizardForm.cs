@@ -393,7 +393,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowBDTWizard(AddInContext context)
         {
-            new BDTWizardForm(context.Repository).Show();
+            new BDTWizardForm(context.EARepository).Show();
         }
 
         private void checkboxAttributes_MouseDown(object sender, MouseEventArgs e)

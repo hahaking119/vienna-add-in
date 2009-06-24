@@ -30,6 +30,16 @@ namespace VIENNAAddIn.menu
         {
             return new List<MenuItem>(lhs) {rhs};
         }
+
+        public virtual string[] GetMenuItems(AddInContext context)
+        {
+            return null;
+        }
+
+        public virtual MenuAction GetMenuAction(AddInContext context)
+        {
+            return null;
+        }
     }
 
     public class SubMenu:MenuItem
@@ -43,6 +53,7 @@ namespace VIENNAAddIn.menu
             get { return "-" + base.Name; }
         }
 
+        private string[] menuItems;
         private List<MenuItem> items = new List<MenuItem>();
 
         public List<MenuItem> Items
@@ -61,6 +72,51 @@ namespace VIENNAAddIn.menu
             return lhs.AddItem(rhs);
         }
 
+        public override string[] GetMenuItems(AddInContext context)
+        {
+            if (Name.Equals(context.MenuName))
+            {
+                if (menuItems == null)
+                {
+                    menuItems = items.ConvertAll(item => item.Name).ToArray();
+                }
+                return menuItems;
+            }
+            foreach (MenuItem item in items)
+            {
+                var subMenuItems = item.GetMenuItems(context);
+                if (subMenuItems != null)
+                {
+                    return subMenuItems;
+                }
+            }
+            return null;
+        }
 
+        public override MenuAction GetMenuAction(AddInContext context)
+        {
+            if (Name.Equals(context.MenuName))
+            {
+                foreach (MenuItem item in items)
+                {
+                    if (item is MenuAction && item.Name.Equals(context.MenuItem))
+                    {
+                        return (MenuAction) item;
+                    }
+                }
+            }
+            foreach (MenuItem item in items)
+            {
+                if (item is SubMenu)
+                {
+                    var menuAction = item.GetMenuAction(context);
+                    if (menuAction != null)
+                    {
+                        return menuAction;
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

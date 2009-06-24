@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using EA;
-using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.Utils;
 
 namespace VIENNAAddIn.menu
 {
@@ -10,7 +7,89 @@ namespace VIENNAAddIn.menu
     /// <para>
     /// The MenuManager handles all menu-related EA-Add-In events. The main objective for creating this 
     /// class was to have a way to specify menu structures in a hierarchical and concise way while minimizing 
-    /// code duplication.
+    /// code duplication. Also, the EA Menu API is a bit complicated (and perhaps even a bit buggy), so that
+    /// it is not exactly trivial to handle the events correctly.
+    /// </para>
+    /// 
+    /// <hr/>
+    /// 
+    /// <para>
+    /// <b>The EA Menu API:</b>
+    /// </para>
+    /// 
+    /// <para>
+    /// This section briefly describes the EA Menu API so that the knowledge does not get lost. The API consist of 
+    /// three events, that invoke the following functions:
+    /// </para>
+    /// <code>
+    /// string[] EA_GetMenuItems(Repository repository, string menuLocation, string menuName);
+    /// void     EA_MenuClick   (Repository repository, string menuLocation, string menuName, string menuItem);
+    /// void     EA_GetMenuState(Repository repository, string menuLocation, string menuName, string menuItem, ref bool IsEnabled, ref bool IsChecked);
+    /// </code>
+    /// 
+    /// <para>
+    /// The first argument always contains a reference to the EA repository.
+    /// </para>
+    /// <para>
+    /// The second argument specifies the menu location, which is one of {"MainMenu", "TreeView", "Diagram"} (see <see cref="MenuLocation"/>).
+    /// Now this part seems to be a bit buggy, since the menu location is only correct for the top level element of a menu tree, but this is handled
+    /// by the implementation of the MenuManager.
+    /// </para>
+    /// <para>
+    /// The remaining arguments have different meanings for the three events and will be explained later.
+    /// </para>
+    /// <para>
+    /// So the basic question is: How does EA use these events to work with add-in menus? I will try to explain this by listing the steps for displaying
+    /// a menu and (possibly) clicking one of the menu items. The steps are always the same and the MenuManager handles the events according to these steps.
+    /// 
+    /// <list type="number">
+    /// <item>
+    /// When the user clicks on the "Add-Ins" menu item in the main menu bar or right-clicks a repository element (such as a package or class) elsewhere 
+    /// in the user interface, EA invokes EA_GetMenuItems with the correct menu location and an empty menuname. The function must return the top-level menu items
+    /// of the add-in (in our case, a single item "VIENNAAddIn").
+    /// </item>
+    /// <item>
+    /// <para>
+    /// Then EA invokes the function again for each sub-menu, providing the sub-menu name as an argument 
+    /// and expecting the items of the sub-menu as return value. As noted above, the menu location for these invocations is not correct (it seems to always be "Diagram", 
+    /// even if the correct location is "MainMenu" or "TreeView"). In this way, EA constructs the entire menu tree at the time the user clicks on the main menu or 
+    /// repository element (i.e. it does not wait to build sub-menus only when the user points to them).
+    /// </para>
+    /// <para>
+    /// At some point during this process, EA also invokes EA_GetMenuState for each menu item in order to determine whether the item is enabled and/or checked. Note that
+    /// sub-menus cannot be disabled or checked (only click-able items). I have not bothered to find out the exact times when this function is invoked.
+    /// </para>
+    /// </item>
+    /// <item>
+    /// If the user dismisses the menu (by clicking elsewhere), no further events are generated.
+    /// </item>
+    /// <item>
+    /// If the user clicks on a menu item (other than a sub-menu), EA invokes EA_MenuClick. Again, the menu location is only correct for the top-level items. The menu name is 
+    /// either empty or the name of the sub-menu wherein the menu item resides. The menu item is the name of the clicked item. Note that this implies that the combination of
+    /// sub-menu name and menu item name must be unique within a given menu hierarchy, because it is the only information we have to decide which action to execute.
+    /// </item>
+    /// <item>
+    /// The whole process begins again when the user clicks again on the main menu or right-clicks a repository element.
+    /// </item>
+    /// </list>
+    /// </para>
+    /// 
+    /// <para>
+    /// <b>Consequences for the implementation:</b> This behavior has the following consequences for the implementation of the menu manager:
+    /// <list type="bullet">
+    /// <item>
+    /// The first (top-level) invocation of EA_GetMenuItems must be used to select the appropriate menu tree. This selection can depend on the menu location and on arbitrary predicates that
+    /// can be defined or information in the repository (e.g. we can define a special menu for right-click context menus for BIE libraries in the tree view). We can recognize that
+    /// an invocation is the first invocation, by checking whether the menu name is empty.
+    /// </item>
+    /// <item>
+    /// All other invocations of the menu API operate on the menu tree selected in that first invocation. There is no way around this, since the menu location is not correct for these
+    /// subsequent invocations. Also we can improve performance be evaluating the predicates only once for an entire menu tree.
+    /// </item>
+    /// <item>
+    /// The selected menu tree is valid until the next top-level invocation of EA_GetMenuItems.
+    /// </item>
+    /// </list>
     /// </para>
     /// 
     /// <hr/>
@@ -392,16 +471,35 @@ namespace VIENNAAddIn.menu
     ///</summary>
     public class MenuManager
     {
-        private readonly Dictionary<string, Dictionary<string, MenuAction>> menuActions =
-            new Dictionary<string, Dictionary<string, MenuAction>>();
-
-        private readonly List<MenuItems> menuItems = new List<MenuItems>();
-
         private readonly MenuAction defaultAction = string.Empty.OnClick(DoNothing).Checked(Never).Enabled(Always);
+
+        private readonly Dictionary<Predicate<AddInContext>, MenuItem> menus = new Dictionary<Predicate<AddInContext>, MenuItem>();
+
+        private MenuItem activeMenu;
 
         private static void DoNothing(AddInContext context)
         {
             // do nothing
+        }
+
+        ///<summary>
+        /// Returns false.
+        ///</summary>
+        ///<param name="context"></param>
+        ///<returns></returns>
+        private static bool Always(AddInContext context)
+        {
+            return true;
+        }
+
+        ///<summary>
+        /// Returns false.
+        ///</summary>
+        ///<param name="context"></param>
+        ///<returns></returns>
+        private static bool Never(AddInContext context)
+        {
+            return false;
         }
 
         #region Default settings
@@ -431,14 +529,7 @@ namespace VIENNAAddIn.menu
         ///<param name="predicate"></param>
         public MenuItem this[Predicate<AddInContext> predicate]
         {
-            set
-            {
-                menuItems.Add(new MenuItems(MenuNameIs(null).And(predicate), new List<string>
-                                                                             {
-                                                                                 value.Name
-                                                                             }));
-                ProcessMenuItem(predicate, string.Empty, value);
-            }
+            set { menus[predicate] = value; }
         }
 
         ///<summary>
@@ -462,7 +553,7 @@ namespace VIENNAAddIn.menu
         ///<param name="isChecked"></param>
         public void GetMenuState(AddInContext context, ref bool isEnabled, ref bool isChecked)
         {
-            var menuAction = GetMenuAction(context);
+            MenuAction menuAction = GetMenuAction(context);
             isEnabled = menuAction.IsEnabled == null ? DefaultEnabled(context) : menuAction.IsEnabled(context);
             isChecked = menuAction.IsChecked == null ? DefaultChecked(context) : menuAction.IsChecked(context);
         }
@@ -474,14 +565,29 @@ namespace VIENNAAddIn.menu
         ///<returns></returns>
         public string[] GetMenuItems(AddInContext context)
         {
-            foreach (MenuItems items in menuItems)
+            if (IsInitialInvocation(context))
             {
-                if (items.Matches(context))
+                activeMenu = null;
+                foreach (var menu in menus)
                 {
-                    return items.Items;
+                    Predicate<AddInContext> menuMatches = menu.Key;
+                    if (menuMatches(context))
+                    {
+                        activeMenu = menu.Value;
+                        return new[] {activeMenu.Name};
+                    }
                 }
             }
-            return DefaultMenuItems;
+            if (activeMenu == null)
+            {
+                return DefaultMenuItems;
+            }
+            return activeMenu.GetMenuItems(context) ?? DefaultMenuItems;
+        }
+
+        private static bool IsInitialInvocation(AddInContext context)
+        {
+            return string.IsNullOrEmpty(context.MenuName);
         }
 
         ///<summary>
@@ -495,98 +601,13 @@ namespace VIENNAAddIn.menu
 
         private MenuAction GetMenuAction(AddInContext context)
         {
-            Dictionary<string, MenuAction> menu;
-            if (menuActions.TryGetValue(context.MenuName, out menu))
+            if (activeMenu == null)
             {
-                MenuAction action;
-                if (menu.TryGetValue(context.MenuItem, out action))
-                {
-                    return action;
-                }
+                return defaultAction;
             }
-            return defaultAction;
+            return activeMenu.GetMenuAction(context) ?? defaultAction;
         }
 
         #endregion
-
-        /// <summary>
-        /// Recursively adds the given menuItem and its children to the various lookup structures of the menu manager.
-        /// </summary>
-        /// <param name="predicate">A predicate to determine in which context the menuItem should be displayed.</param>
-        /// <param name="menuName">The name of the parent menu.</param>
-        /// <param name="menuItem">The menu item to process.</param>
-        private void ProcessMenuItem(Predicate<AddInContext> predicate, string menuName, MenuItem menuItem)
-        {
-            if (menuItem is SubMenu)
-            {
-                var subMenu = (SubMenu) menuItem;
-                var items = new List<string>();
-                foreach (MenuItem item in subMenu.Items)
-                {
-                    items.Add(item.Name);
-                    ProcessMenuItem(predicate, menuItem.Name, item);
-                }
-                menuItems.Add(new MenuItems(MenuNameIs(menuItem.Name).And(predicate), items));
-            }
-            else if (menuItem is MenuAction)
-            {
-                menuActions.GetAndCreate(menuName)[menuItem.Name] = (MenuAction) menuItem;
-            }
-        }
-
-        /// <summary>
-        /// Returns a predicate matching contexts where <see cref="AddInContext.MenuName"/> equals the given menu name.
-        /// </summary>
-        /// <param name="menuName"></param>
-        /// <returns></returns>
-        private static Predicate<AddInContext> MenuNameIs(string menuName)
-        {
-            return context => (menuName ?? string.Empty) == context.MenuName;
-        }
-
-        ///<summary>
-        /// Returns false.
-        ///</summary>
-        ///<param name="context"></param>
-        ///<returns></returns>
-        private static bool Always(AddInContext context)
-        {
-            return true;
-        }
-
-        ///<summary>
-        /// Returns false.
-        ///</summary>
-        ///<param name="context"></param>
-        ///<returns></returns>
-        private static bool Never(AddInContext context)
-        {
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Simple container for a context matching predicate and a list of menu items.
-    /// </summary>
-    internal class MenuItems
-    {
-        public MenuItems(Predicate<AddInContext> predicate, List<string> items)
-        {
-            Matches = predicate;
-            Items = items.ToArray();
-        }
-
-        public Predicate<AddInContext> Matches { get; private set; }
-
-        public string[] Items { get; private set; }
-    }
-
-    /// <summary>
-    /// Simple container for enabled/disabled and checked predicates for a menu item.
-    /// </summary>
-    internal class MenuState
-    {
-        public Predicate<AddInContext> IsEnabled { get; set; }
-        public Predicate<AddInContext> IsChecked { get; set; }
     }
 }
