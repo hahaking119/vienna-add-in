@@ -33,7 +33,7 @@ namespace VIENNAAddIn.workflow
         ///</summary>
         public static void ShowForm(AddInContext context)
         {
-            new InitialPackageStructureCreator(context.Repository).Show();
+            new InitialPackageStructureCreator(context.EARepository).Show();
         }
 
         /// <summary>

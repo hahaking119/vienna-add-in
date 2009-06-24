@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUnitTests.TestRepository;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.menu
@@ -11,32 +12,22 @@ namespace VIENNAAddInUnitTests.menu
     [TestFixture]
     public class MenuManagerTest
     {
-        private static AddInContext CreatePackageContext(string stereotype, string menuName)
+        private static AddInContext CreatePackageContext(string stereotype, string menuName, string menuItem)
         {
             Mock<Package> packageMock = CreatePackageMock(stereotype);
             var repositoryMock = new Mock<Repository>();
-            return new AddInContext
-                   {
-                       Repository = repositoryMock.Object,
-                       MenuLocation = MenuLocation.TreeView,
-                       MenuName = menuName,
-                       SelectedItemObjectType = ObjectType.otPackage,
-                       SelectedItem = packageMock.Object,
-                   };
+            repositoryMock.Setup(r => r.GetContextItemType()).Returns(ObjectType.otPackage);
+            repositoryMock.Setup(r => r.GetContextObject()).Returns(packageMock.Object);
+            return new AddInContext(repositoryMock.Object, MenuLocation.TreeView.ToString(), menuName, menuItem);
         }
 
         private static AddInContext CreateElementContext(string menuName)
         {
             var elementMock = new Mock<Element>();
             var repositoryMock = new Mock<Repository>();
-            return new AddInContext
-                   {
-                       Repository = repositoryMock.Object,
-                       MenuLocation = MenuLocation.TreeView,
-                       MenuName = menuName,
-                       SelectedItemObjectType = ObjectType.otElement,
-                       SelectedItem = elementMock.Object,
-                   };
+            repositoryMock.Setup(r => r.GetContextItemType()).Returns(ObjectType.otElement);
+            repositoryMock.Setup(r => r.GetContextObject()).Returns(elementMock.Object);
+            return new AddInContext(repositoryMock.Object, MenuLocation.TreeView.ToString(), menuName, null);
         }
 
         private static Mock<Package> CreatePackageMock(string stereotype)
@@ -52,14 +43,9 @@ namespace VIENNAAddInUnitTests.menu
         {
             var diagramMock = new Mock<Diagram>();
             var repositoryMock = new Mock<Repository>();
-            return new AddInContext
-                   {
-                       Repository = repositoryMock.Object,
-                       MenuLocation = MenuLocation.TreeView,
-                       MenuName = menuName,
-                       SelectedItemObjectType = ObjectType.otDiagram,
-                       SelectedItem = diagramMock.Object,
-                   };
+            repositoryMock.Setup(r => r.GetContextItemType()).Returns(ObjectType.otDiagram);
+            repositoryMock.Setup(r => r.GetContextObject()).Returns(diagramMock.Object);
+            return new AddInContext(repositoryMock.Object, MenuLocation.TreeView.ToString(), menuName, null);
         }
 
         private static void DoNothing(AddInContext context)
@@ -68,13 +54,7 @@ namespace VIENNAAddInUnitTests.menu
 
         private static void AssertMenuState(TestPredicate testPredicate, MenuManager menuManager, string menuName, string menuItem)
         {
-            var context = new AddInContext
-                          {
-                              MenuLocation = MenuLocation.MainMenu,
-                              MenuName = menuName,
-                              MenuItem = menuItem
-                          };
-
+            var context = CreateMainMenuContext(menuName, menuItem);
             bool isEnabled = false;
             bool isChecked = false;
 
@@ -91,28 +71,14 @@ namespace VIENNAAddInUnitTests.menu
             Assert.IsFalse(isChecked);
         }
 
-        private static AddInContext CreateMainMenuContext(string menuName)
+        private static AddInContext CreateMainMenuContext(string menuName, string menuItem)
         {
-            return new AddInContext
-                   {
-                       MenuLocation = MenuLocation.MainMenu,
-                       MenuName = menuName
-                   };
+            return new AddInContext(null, MenuLocation.MainMenu.ToString(), menuName, menuItem);
         }
 
         private static bool ContextIsBDTLibrary(AddInContext context)
         {
-            return context.MenuLocation.IsContextMenu()
-                   && context.SelectedItem != null
-                   && context.SelectedItemObjectType == ObjectType.otPackage
-                   && ((Package) context.SelectedItem).HasStereotype(Stereotype.BDTLibrary);
-        }
-
-        private static AddInContext CreatePackageContext(string stereotype, string menuName, string menuItem)
-        {
-            AddInContext context = CreatePackageContext(stereotype, menuName);
-            context.MenuItem = menuItem;
-            return context;
+            return context.MenuLocation.IsContextMenu() && context.IsLibraryOfType(Stereotype.BDTLibrary);
         }
 
         [Test]
@@ -125,6 +91,7 @@ namespace VIENNAAddInUnitTests.menu
                  + "Validate BDT Library".OnClick(action.Execute)
                  + "Create new BDT".OnClick(action.Execute)
                 );
+            menuManager.GetMenuItems(CreatePackageContext(Stereotype.BDTLibrary, null, null));
             menuManager.MenuClick(CreatePackageContext(Stereotype.BDTLibrary, "-VIENNAAddIn", "Validate BDT Library"));
             menuManager.MenuClick(CreatePackageContext(Stereotype.BDTLibrary, "-VIENNAAddIn", "Create new BDT"));
             Assert.AreEqual(new[] {"Validate BDT Library", "Create new BDT"},
@@ -143,11 +110,11 @@ namespace VIENNAAddInUnitTests.menu
                  + "Validate BDT Library".OnClick(DoNothing)
                  + "Create new BDT".OnClick(DoNothing)
                 );
-            Assert.AreEqual(new[] {"default"}, menuManager.GetMenuItems(CreateMainMenuContext(null)));
-            Assert.AreEqual(new[] {"-VIENNAAddIn"}, menuManager.GetMenuItems(CreatePackageContext(Stereotype.BDTLibrary, null)));
-            Assert.AreEqual(new[] {"Validate BDT Library", "Create new BDT"}, menuManager.GetMenuItems(CreatePackageContext(Stereotype.BDTLibrary, "-VIENNAAddIn")));
-            Assert.AreEqual(new[] {"Validate BDT Library", "Create new BDT"}, menuManager.GetMenuItems(CreateElementContext("-VIENNAAddIn")));
-            Assert.AreEqual(new[] {"Validate BDT Library", "Create new BDT"}, menuManager.GetMenuItems(CreateDiagramContext("-VIENNAAddIn")));
+            Assert.AreEqual(new[] {"default"}, menuManager.GetMenuItems(CreateMainMenuContext(null, null)));
+            Assert.AreEqual(new[] {"-VIENNAAddIn"}, menuManager.GetMenuItems(CreatePackageContext(Stereotype.BDTLibrary, null, null)));
+            Assert.AreEqual(new[] {"Validate BDT Library", "Create new BDT"}, menuManager.GetMenuItems(CreatePackageContext(Stereotype.BDTLibrary, "-VIENNAAddIn", null)));
+            Assert.AreEqual(new[] {"default"}, menuManager.GetMenuItems(CreateElementContext(null)));
+            Assert.AreEqual(new[] {"default"}, menuManager.GetMenuItems(CreateDiagramContext(null)));
         }
 
         [Test]
@@ -166,15 +133,15 @@ namespace VIENNAAddInUnitTests.menu
                                                     + "sub-menu-action2".OnClick(DoNothing)
                                                    )
                                                  + "action3".OnClick(DoNothing);
-            Assert.AreEqual(new[] {"default"}, menuManager.GetMenuItems(CreateMainMenuContext("unknown menu name")));
+            Assert.AreEqual(new[] {"default"}, menuManager.GetMenuItems(CreateMainMenuContext("unknown menu name", null)));
             Assert.AreEqual(new[] {"-menu"},
-                            menuManager.GetMenuItems(CreateMainMenuContext(null)));
+                            menuManager.GetMenuItems(CreateMainMenuContext(null, null)));
             Assert.AreEqual(new[] {"-menu"},
-                            menuManager.GetMenuItems(CreateMainMenuContext(string.Empty)));
+                            menuManager.GetMenuItems(CreateMainMenuContext(string.Empty, null)));
             Assert.AreEqual(new[] {"action1", "action2", "-", "-sub-menu", "action3"},
-                            menuManager.GetMenuItems(CreateMainMenuContext("-menu")));
+                            menuManager.GetMenuItems(CreateMainMenuContext("-menu", null)));
             Assert.AreEqual(new[] {"sub-menu-action1", "sub-menu-action2"},
-                            menuManager.GetMenuItems(CreateMainMenuContext("-sub-menu")));
+                            menuManager.GetMenuItems(CreateMainMenuContext("-sub-menu", null)));
         }
 
         [Test]
@@ -192,6 +159,7 @@ namespace VIENNAAddInUnitTests.menu
                                                     )
                                                   + "action3".OnClick(DoNothing).Checked(testPredicate.IsChecked).Enabled(testPredicate.IsEnabled)
                                                  );
+            menuManager.GetMenuItems(CreateMainMenuContext(null, null));
             AssertMenuState(testPredicate, menuManager, "-menu", "action1");
             AssertMenuState(testPredicate, menuManager, "-menu", "action2");
             AssertMenuState(testPredicate, menuManager, "-menu", "action3");
@@ -213,38 +181,13 @@ namespace VIENNAAddInUnitTests.menu
                                                     + "sub-menu-action2".OnClick(action.Execute)
                                                    )
                                                  + "action3".OnClick(action.Execute);
-            menuManager.MenuClick(new AddInContext
-                                  {
-                                      MenuLocation = MenuLocation.MainMenu,
-                                      MenuName = "-menu",
-                                      MenuItem = "action1"
-                                  });
-            menuManager.MenuClick(new AddInContext
-                                  {
-                                      MenuLocation = MenuLocation.MainMenu,
-                                      MenuName = "-menu",
-                                      MenuItem = "action2"
-                                  });
-            menuManager.MenuClick(new AddInContext
-                                  {
-                                      MenuLocation = MenuLocation.MainMenu,
-                                      MenuName = "-sub-menu",
-                                      MenuItem = "sub-menu-action1"
-                                  });
-            menuManager.MenuClick(new AddInContext
-                                  {
-                                      MenuLocation = MenuLocation.MainMenu,
-                                      MenuName = "-sub-menu",
-                                      MenuItem = "sub-menu-action2"
-                                  });
-            menuManager.MenuClick(new AddInContext
-                                  {
-                                      MenuLocation = MenuLocation.MainMenu,
-                                      MenuName = "-menu",
-                                      MenuItem = "action3"
-                                  });
-            Assert.AreEqual(new[] {"action1", "action2", "sub-menu-action1", "sub-menu-action2", "action3"},
-                            action.ExecutedActions);
+            menuManager.GetMenuItems(CreateMainMenuContext(null, null));
+            menuManager.MenuClick(CreateMainMenuContext("-menu", "action1"));
+            menuManager.MenuClick(CreateMainMenuContext("-menu", "action2"));
+            menuManager.MenuClick(CreateMainMenuContext("-sub-menu", "sub-menu-action1"));
+            menuManager.MenuClick(CreateMainMenuContext("-sub-menu", "sub-menu-action2"));
+            menuManager.MenuClick(CreateMainMenuContext("-menu", "action3"));
+            Assert.AreEqual(new[] { "action1", "action2", "sub-menu-action1", "sub-menu-action2", "action3" }, action.ExecutedActions);
         }
 
         [Test]

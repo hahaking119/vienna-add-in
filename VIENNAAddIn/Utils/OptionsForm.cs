@@ -162,7 +162,7 @@ namespace VIENNAAddIn.Utils
 
 	    public static void ShowForm(AddInContext context)
 	    {
-	        new OptionsForm(context.Repository).ShowDialog();
+	        new OptionsForm(context.EARepository).ShowDialog();
 	    }
 	}
 }

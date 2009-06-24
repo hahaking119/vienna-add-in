@@ -72,7 +72,7 @@ namespace VIENNAAddIn.validator
         {
             if (String.IsNullOrEmpty(scope))
             {
-                scope = DetermineValidationScope(context.Repository, context.MenuLocationString);
+                scope = DetermineValidationScope(context.EARepository, context.MenuLocation);
             }
             if (scope == "")
             {
@@ -84,7 +84,7 @@ namespace VIENNAAddIn.validator
             {
                 if (form == null || form.IsDisposed)
                 {
-                    form = new ValidatorForm(context.Repository, scope);
+                    form = new ValidatorForm(context.EARepository, scope);
                     form.Show();
                 }
                 else
@@ -110,11 +110,11 @@ namespace VIENNAAddIn.validator
         /// <param name="repository"></param>
         /// <param name="menulocation"></param>
         /// <returns></returns>
-        private static String DetermineValidationScope(Repository repository, String menulocation)
+        private static String DetermineValidationScope(Repository repository, MenuLocation menulocation)
         {
             String s = "";
 
-            if (menulocation == "TreeView")
+            if (menulocation == MenuLocation.TreeView)
             {
                 //Get the element in the tree view which was clicked
                 Object obj;
@@ -190,7 +190,7 @@ namespace VIENNAAddIn.validator
             }
             //If the users clicks into a diagram we must determine to which package
             //the diagram belongs
-            else if (menulocation == "Diagram")
+            else if (menulocation == MenuLocation.Diagram)
             {
                 int packageID = 0;
                 try

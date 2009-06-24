@@ -1221,7 +1221,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowABIEWizard(AddInContext context)
         {
-            new ABIEWizardForm(context.Repository).Show();
+            new ABIEWizardForm(context.EARepository).Show();
         }
 
         ///<summary>
@@ -1231,7 +1231,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowModifyABIEWizard(AddInContext context)
         {
-            new ABIEWizardForm(context.Repository, (Element) context.SelectedItem).Show();
+            new ABIEWizardForm(context.EARepository, (Element) context.SelectedItem).Show();
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
