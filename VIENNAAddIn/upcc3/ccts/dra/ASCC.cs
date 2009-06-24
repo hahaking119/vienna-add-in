@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -23,20 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IACC AssociatedElement
         {
-            get { return repository.GetACC(connector.ClientID == AssociatingElement.Id ? connector.SupplierID : connector.ClientID); }
-        }
-
-        public EAAggregationKind AggregationKind
-        {
-            get
-            {
-                var value = connector.ClientEnd.Aggregation;
-                if (Enum.IsDefined(typeof (EAAggregationKind), value))
-                {
-                    return (EAAggregationKind) Enum.ToObject(typeof (EAAggregationKind), value);
-                }
-                return EAAggregationKind.None;
-            }
+            get { return repository.GetACC(connector.GetAssociatedElementId(AssociatingElement.Id)); }
         }
 
         #endregion
