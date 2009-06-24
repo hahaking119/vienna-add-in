@@ -49,7 +49,6 @@ namespace VIENNAAddIn.upcc3.ccts
                        AssociatedABIEId = associatedABIEId,
                        LowerBound = ascc.LowerBound,
                        UpperBound = ascc.UpperBound,
-                       AggregationKind = ascc.AggregationKind,
                    };
         }
     }
