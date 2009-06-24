@@ -23,7 +23,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IACC AssociatedElement
         {
-            get { return repository.GetACC(connector.SupplierID); }
+            get { return repository.GetACC(connector.ClientID == AssociatingElement.Id ? connector.SupplierID : connector.ClientID); }
         }
 
         public EAAggregationKind AggregationKind
@@ -31,9 +31,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 var value = connector.ClientEnd.Aggregation;
-                if (Enum.IsDefined(typeof(EAAggregationKind), value))
+                if (Enum.IsDefined(typeof (EAAggregationKind), value))
                 {
-                    return (EAAggregationKind)Enum.ToObject(typeof(EAAggregationKind), value);
+                    return (EAAggregationKind) Enum.ToObject(typeof (EAAggregationKind), value);
                 }
                 return EAAggregationKind.None;
             }
