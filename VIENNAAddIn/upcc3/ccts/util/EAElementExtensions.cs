@@ -116,7 +116,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.Type = connectorSpec.ConnectorType.ToString();
             connector.Stereotype = connectorSpec.Stereotype;
             connector.ClientID = element.ElementID;
-            connector.ClientEnd.Aggregation = (int) connectorSpec.AggregationKind;
+            connector.SupplierEnd.Aggregation = (int) connectorSpec.AggregationKind;
             connector.SupplierID = connectorSpec.SupplierId;
             connector.SupplierEnd.Role = connectorSpec.Name;
             connector.SupplierEnd.Cardinality = connectorSpec.LowerBound + ".." + connectorSpec.UpperBound;
