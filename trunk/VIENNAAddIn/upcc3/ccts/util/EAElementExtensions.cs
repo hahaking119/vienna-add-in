@@ -112,11 +112,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="connectorSpec"></param>
         public static void AddConnector(this Element element, ConnectorSpec connectorSpec)
         {
-            var connector = (Connector) element.Connectors.AddNew("", "Association");
+            var connector = (Connector)element.Connectors.AddNew("", connectorSpec.ConnectorType.ToString());
             connector.Type = connectorSpec.ConnectorType.ToString();
             connector.Stereotype = connectorSpec.Stereotype;
             connector.ClientID = element.ElementID;
-            connector.SupplierEnd.Aggregation = (int) connectorSpec.AggregationKind;
+            connector.ClientEnd.Aggregation = (int) connectorSpec.AggregationKind;
             connector.SupplierID = connectorSpec.SupplierId;
             connector.SupplierEnd.Role = connectorSpec.Name;
             connector.SupplierEnd.Cardinality = connectorSpec.LowerBound + ".." + connectorSpec.UpperBound;
