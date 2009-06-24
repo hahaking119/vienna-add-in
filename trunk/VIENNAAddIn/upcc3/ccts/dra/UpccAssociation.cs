@@ -33,6 +33,24 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return associatingClass; }
         }
 
+        public EAAggregationKind AggregationKind
+        {
+            get
+            {
+                int value = connector.GetAssociatingEnd(AssociatingElement.Id).Aggregation;
+                if (Enum.IsDefined(typeof (EAAggregationKind), value))
+                {
+                    return (EAAggregationKind) Enum.ToObject(typeof (EAAggregationKind), value);
+                }
+                return EAAggregationKind.None;
+            }
+        }
+
+        private Cardinality Cardinality
+        {
+            get { return new Cardinality(connector.GetAssociatedEnd(AssociatingElement.Id).Cardinality); }
+        }
+
         #region ICCTSElement Members
 
         public int Id
@@ -47,12 +65,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Name
         {
-            get
-            {
-                return connector.ClientEnd.Aggregation == (int) EAAggregationKind.None
-                           ? connector.ClientEnd.Role
-                           : connector.SupplierEnd.Role;
-            }
+            get { return connector.GetAssociatedEnd(AssociatingElement.Id).Role; }
         }
 
         public string Definition
@@ -96,38 +109,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string UpperBound
         {
-            get
-            {
-                string cardinality = connector.SupplierEnd.Cardinality;
-                string[] parts = cardinality.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length == 1)
-                {
-                    return parts[0];
-                }
-                if (parts.Length == 2)
-                {
-                    return parts[1];
-                }
-                return "1";
-            }
+            get { return Cardinality.UpperBound; }
         }
 
         public string LowerBound
         {
-            get
-            {
-                string cardinality = connector.SupplierEnd.Cardinality;
-                string[] parts = cardinality.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length == 1)
-                {
-                    return (parts[0] == "*" ? "0" : parts[0]);
-                }
-                if (parts.Length == 2)
-                {
-                    return parts[0];
-                }
-                return "1";
-            }
+            get { return Cardinality.LowerBound; }
         }
 
         #endregion
@@ -152,7 +139,39 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private string GetTaggedValue(TaggedValues key)
         {
-            return EAConnectorExtensions.GetTaggedValue(connector, key.ToString());
+            return connector.GetTaggedValue(key.ToString());
         }
+    }
+
+    internal class Cardinality
+    {
+        public Cardinality(string lowerBound, string upperBound)
+        {
+            LowerBound = lowerBound;
+            UpperBound = upperBound;
+        }
+
+        public Cardinality(string cardinality)
+        {
+            string[] parts = cardinality.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+            switch (parts.Length)
+            {
+                case 1:
+                    LowerBound = (parts[0] == "*" ? "0" : parts[0]);
+                    UpperBound = parts[0];
+                    break;
+                case 2:
+                    LowerBound = parts[0];
+                    UpperBound = parts[1];
+                    break;
+                default:
+                    LowerBound = "1";
+                    UpperBound = "1";
+                    break;
+            }
+        }
+
+        public string LowerBound { get; private set; }
+        public string UpperBound { get; private set; }
     }
 }

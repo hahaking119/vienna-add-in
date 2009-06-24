@@ -135,7 +135,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
 
         public static bool IsA(this Element element, string stereotype)
         {
-            return element.Stereotype == stereotype;
+            return element != null && element.Stereotype == stereotype;
         }
 
         public static bool IsBDT(this Element element)

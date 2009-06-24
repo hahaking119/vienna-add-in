@@ -51,5 +51,20 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             return connector.GetTaggedValueByName(name) != null;
         }
+
+        public static ConnectorEnd GetAssociatedEnd(this Connector connector, int associatingElementId)
+        {
+            return connector.ClientID == associatingElementId ? connector.SupplierEnd : connector.ClientEnd;
+        }
+
+        public static int GetAssociatedElementId(this Connector connector, int associatingElementId)
+        {
+            return connector.ClientID == associatingElementId ? connector.SupplierID : connector.ClientID;
+        }
+
+        public static ConnectorEnd GetAssociatingEnd(this Connector connector, int associatingElementId)
+        {
+            return connector.ClientID == associatingElementId ? connector.ClientEnd : connector.SupplierEnd;
+        }
     }
 }
