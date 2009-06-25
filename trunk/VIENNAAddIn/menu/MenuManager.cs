@@ -99,7 +99,7 @@ namespace VIENNAAddIn.menu
     /// </para>
     /// 
     /// <para>
-    /// A menu consists of <b>actions</b>, <b>sub-menus</b> and <b>separators</b>.
+    /// A menu consists of a <b>menu location</b>, <b>actions</b>, <b>sub-menus</b> and <b>separators</b>.
     /// </para>
     /// 
     /// <para>
@@ -184,7 +184,7 @@ namespace VIENNAAddIn.menu
     /// a "File" sub-menu:
     /// 
     /// <code>
-    /// var menu = ("File" 
+    /// var subMenu = ("File" 
     ///             + "New".OnClick(CreateFile)
     ///             + "Open".OnClick(OpenFile)
     ///             + "Close".OnClick(CloseFile)
@@ -201,7 +201,7 @@ namespace VIENNAAddIn.menu
     /// enclosed in parenthesis):
     /// 
     /// <code>
-    /// var menu = ("File" 
+    /// var subMenu = ("File" 
     ///             + ("New"
     ///                + "File".OnClick(CreateFile)
     ///                + "Project".OnClick(CreateProject)
@@ -226,7 +226,24 @@ namespace VIENNAAddIn.menu
     ///             + "Exit".OnClick(Exit)
     ///            );
     /// </code>
+    /// </para>
+    /// 
+    /// <para>
+    /// <b>The menu location</b> determines where the menu will be displayed. Possible menu locations are defined by the enum <see cref="MenuLocation"/>. The can, of course, be 
+    /// combined using the "|" operator.
     /// <br/>
+    /// Again, we use the overloaded "+" operator to define the complete menu. The following examples puts the file menu into the main menu bar:
+    /// 
+    /// <code>
+    /// var menu = MenuLocation.MainMenu
+    ///            + ("File" 
+    ///               + "New".OnClick(CreateFile)
+    ///               + "Open".OnClick(OpenFile)
+    ///               + "Close".OnClick(CloseFile)
+    ///               + MenuItem.Separator
+    ///               + "Exit".OnClick(Exit)
+    ///              );
+    /// </code>
     /// </para>
     /// 
     /// <para>
@@ -237,18 +254,19 @@ namespace VIENNAAddIn.menu
     /// Here is an example of a complete "File" menu with actions, nested sub-menus and separators:
     /// 
     /// <code>
-    /// var menu = ("&amp;File" 
-    ///             + ("&amp;New"
-    ///                + "&amp;File".OnClick(CreateFile)
-    ///                + "&amp;Project".OnClick(CreateProject)
-    ///               )
-    ///             + "&amp;Open".OnClick(OpenFile)
-    ///             + "&amp;Close".OnClick(CloseFile)
-    ///             + MenuItem.Separator
-    ///             + "Allow multiple open files".OnClick(ToggleMultipleOpenFilesAllowed).Checked(IfMultipleOpenFilesAllowed)
-    ///             + MenuItem.Separator 
-    ///             + "&amp;Exit".OnClick(Exit)
-    ///            );
+    /// var menu = MenuLocation.MainMenu
+    ///            + ("&amp;File" 
+    ///               + ("&amp;New"
+    ///                  + "&amp;File".OnClick(CreateFile)
+    ///                  + "&amp;Project".OnClick(CreateProject)
+    ///                 )
+    ///               + "&amp;Open".OnClick(OpenFile)
+    ///               + "&amp;Close".OnClick(CloseFile)
+    ///               + MenuItem.Separator
+    ///               + "Allow multiple open files".OnClick(ToggleMultipleOpenFilesAllowed).Checked(IfMultipleOpenFilesAllowed)
+    ///               + MenuItem.Separator 
+    ///               + "&amp;Exit".OnClick(Exit)
+    ///              );
     /// </code>
     /// <br/>
     /// The resulting menu structure will look like this (arrows indicate a sub-menu relation):
@@ -271,131 +289,26 @@ namespace VIENNAAddIn.menu
     /// 
     /// <para>
     /// The previous section described how menu structures can be defined. However, we want to be able to display 
-    /// different menu structures in different contexts. Currently, we distinguish contexts along the following two 
-    /// dimensions:
-    /// 
-    /// <list type="bullet">
-    /// <item>
-    /// <b>Menu Location</b><br/>
-    /// EA provides the menu location as an argument to the relevant API functions.
-    /// </item>
-    /// <item>
-    /// <b>Package stereotypes</b><br/>
-    /// We also use the package stereotype of either the selected package or the containing package of the selected 
-    /// element or diagram for context determination.
-    /// </item>
-    /// </list>
-    /// 
-    /// Menu contexts are defined using indexers ("[]") of the MenuManager class.
-    /// </para>
-    /// 
-    /// <para>
-    /// <b>Assigning a menu to a menu location:</b>
-    /// </para>
-    /// 
-    /// <para>
-    /// MenuManager defines an indexer to assign a menu structure to a menu location. For example:
+    /// different menu structures in different contexts. The context in which a menu should be displayed is specified
+    /// with the ShowIf method of the Menu class.
     /// 
     /// <code>
     /// var menuManager = new MenuManager();
-    /// menuManager[MenuLocation.MainMenu] = ("My main menu"
-    ///                                       + "Do something".OnClick(DoSomething)
-    ///                                       + "Do something else".OnClick(DoSomethingElse)
-    ///                                      );
+    /// menuManager.AddMenu(
+    ///     (MenuLocation.TreeView | MenuLocation.Diagram)
+    ///       + ("BDTLibrary context menu"
+    ///          + "Do something specific to BDT libraries".OnClick(DoSomeBDTStuff)
+    ///          + "Do something else".OnClick(DoSomethingElse)
+    ///         )
+    ///     )
+    /// ).ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.BDTLibrary));
     /// </code>
     /// <br/>
-    /// 
-    /// This code assigns the "My main menu" menu to the "MainMenu" menu location. This means that this menu will be displayed as
-    /// a sub-menu of the "Add-Ins" menu in EA's main menu bar.
-    /// </para>
-    /// <para>
-    /// Possible menu locations are (see also <see cref="MenuLocation"/>):
-    /// <list type="bullet">
-    /// <item><b>MainMenu:</b> The menu is displayed as a sub-menu of the "Add-Ins" menu in EA's main menu bar.</item>
-    /// <item><b>TreeView:</b> The menu is displayed as a sub-menu of the "Add-In" menu in the tree view's context menu.</item>
-    /// <item><b>Diagram:</b> The menu is displayed as a sub-menu of the "Add-Ins" menu in a diagram's context menu.</item>
-    /// </list>
-    /// 
-    /// Menu locations can be combined using the "|" operator:
-    /// 
-    /// <code>
-    /// var menuManager = new MenuManager();
-    /// menuManager[MenuLocation.TreeView | MenuLocation.Diagram] = ("My context menu"
-    ///                                                              + "Do something".OnClick(DoSomething)
-    ///                                                              + "Do something else".OnClick(DoSomethingElse)
-    ///                                                             );
-    /// </code>
-    /// <br/>
-    /// In this case, the defined menu will be shown in the context menu of both diagrams and the tree view.
+    /// This menu will only be displayed in the context menu of the tree view or diagram and only if a BDTLibrary is currently selected.
     /// </para>
     /// 
     /// <para>
-    /// <b>Assigning a menu to a package stereotype:</b>
-    /// </para>
-    /// 
-    /// <para>
-    /// In addition to the menu location, we also want to be able to display different kinds of context menus for
-    /// different kinds of selected elements. Currently, we only distinguish package stereotypes. This means, if a package
-    /// is selected, we look at its stereotype. If a diagram or package element is selected, we look at the stereotype of the
-    /// package containing that diagram or element. The package stereotype can be specified as a second parameter to the indexer:
-    /// 
-    /// <code>
-    /// var menuManager = new MenuManager();
-    /// menuManager[MenuLocation.TreeView, "BDTLibrary"] = ("BDTLibrary context menu"
-    ///                                                      + "Do something specific to BDT libraries".OnClick(DoSomeBDTStuff)
-    ///                                                      + "Do something else".OnClick(DoSomethingElse)
-    ///                                                     );
-    /// </code>
-    /// <br/>
-    /// This menu will only be displayed in the context menu of the tree view and only if a BDTLibrary is currently selected (or a 
-    /// diagram/element within a BDT library).
-    /// </para>
-    /// 
-    /// <para>
-    /// <b>Defining arbitrary menu contexts:</b>
-    /// </para>
-    /// 
-    /// <para>
-    /// A third indexer allows for the definition of arbitrary contexts, based on a predicate (i.e. a method that takes an 
-    /// <see cref="AddInContext"/> argument and returns a bool):
-    /// 
-    /// <code>
-    /// var menuManager = new MenuManager();
-    /// menuManager[MySpecialContext] = ("Context menu for my special context"
-    ///                                  + "Do something".OnClick(DoSomething)
-    ///                                 );
-    /// ...
-    /// public bool MySpecialContext(AddInContext context)
-    /// {
-    ///   return /* context matches my requirements */;
-    /// }
-    /// </code>
-    /// </para>
-    /// 
-    /// <para>
-    /// <b>Evaluation of menu contexts:</b>
-    /// </para>
-    /// 
-    /// <para>
-    /// Menu contexts are evaluated in the order they are defined. The menu assigned to the first matching context is displayed.
-    /// For example, consider the following definitions:
-    /// 
-    /// <code>
-    /// var menuManager = new MenuManager();
-    /// menuManager[MenuLocation.TreeView, "BDTLibrary"] = ("Context menu for BDT Libraries" + ...);
-    /// menuManager[MenuLocation.TreeView] = ("Context menu if none of the above match" + ...);
-    /// </code>
-    /// <br/>
-    /// In this case, if the user right-clicks on a BDTLibrary in the tree view, the first menu will be displayed. The second menu 
-    /// will be displayed for other kinds of libraries. However, if the definition order is reversed, the special menu for BDTLibraries
-    /// will never be displayed, because the more general context will always match first:
-    /// 
-    /// <code>
-    /// var menuManager = new MenuManager();
-    /// menuManager[MenuLocation.TreeView] = ("Context menu if none of the above match" + ...);
-    /// menuManager[MenuLocation.TreeView, "BDTLibrary"] = ("Context menu for BDT Libraries" + ...);
-    /// </code>
-    /// <br/>
+    /// Menu contexts are evaluated in the order in which the menus are added to the menu manager.
     /// </para>
     /// 
     /// <hr/>
@@ -437,35 +350,6 @@ namespace VIENNAAddIn.menu
     /// <hr/>
     /// 
     /// <para>
-    /// <b>Limitations:</b>
-    /// </para>
-    /// 
-    /// <para>
-    /// Due to a bug in Enterprise Architect's EA_MenuClick event, the menu item is selected only based on the menu name and 
-    /// menu item name (e.g. menu name: "File", menu item name: "Close"). The menu location is ignored, because EA does not 
-    /// consistently provide the correct menu location.
-    /// <br/>
-    /// Basically, this means that a combination of menu name and menu item should trigger the same action, no matter in which
-    /// menu it is defined. Example:
-    /// 
-    /// <code>
-    /// var menuManager = new MenuManager();
-    /// menuManager[MenuLocation.MainMenu] = ("File"
-    ///                                       + "Open".OnClick(OpenFile)
-    ///                                      );
-    /// menuManager[MenuLocation.TreeView] = ("File"
-    ///                                       + "Open".OnClick(OpenFile)
-    ///                                      );
-    /// </code>
-    /// <br/>
-    /// In this case, both "File"/"Open" actions invoke the same delegate, no matter whether the user clicked on the main menu
-    /// or tree view menu item. This is the required behaviour. If they invoke different delegates, there is no guarantee as to 
-    /// which delegate will be invoked.
-    /// </para>
-    /// 
-    /// <hr/>
-    /// 
-    /// <para>
     /// See <see cref="VIENNAAddIn"/> or MenuManagerTest for real-life menu definitions.
     /// </para>
     ///</summary>
@@ -473,7 +357,7 @@ namespace VIENNAAddIn.menu
     {
         private readonly MenuAction defaultAction = string.Empty.OnClick(DoNothing).Checked(Never).Enabled(Always);
 
-        private readonly Dictionary<Predicate<AddInContext>, MenuItem> menus = new Dictionary<Predicate<AddInContext>, MenuItem>();
+        private readonly Dictionary<MenuLocation, List<Menu>> menusByLocation = new Dictionary<MenuLocation, List<Menu>>();
 
         private MenuItem activeMenu;
 
@@ -502,6 +386,100 @@ namespace VIENNAAddIn.menu
             return false;
         }
 
+        public Menu AddMenu(Menu menu)
+        {
+            foreach (MenuLocation menuLocation in Enum.GetValues(typeof (MenuLocation)))
+            {
+                if ((menu.MenuLocation & menuLocation) == menuLocation)
+                {
+                    GetMenus(menuLocation).Add(menu);
+                }
+            }
+            return menu;
+        }
+
+        private List<Menu> GetMenus(MenuLocation menuLocation)
+        {
+            List<Menu> menus;
+            if (!menusByLocation.TryGetValue(menuLocation, out menus))
+            {
+                menus = new List<Menu>();
+                menusByLocation[menuLocation] = menus;
+            }
+            return menus;
+        }
+
+        #region EA Menu API
+
+        ///<summary>
+        /// Should be called from EA_GetMenuState.
+        ///</summary>
+        ///<param name="context">The current context.</param>
+        ///<param name="isEnabled"></param>
+        ///<param name="isChecked"></param>
+        ///<param name="menuName"></param>
+        ///<param name="menuItem"></param>
+        public void GetMenuState(AddInContext context, string menuName, string menuItem, ref bool isEnabled, ref bool isChecked)
+        {
+            MenuAction menuAction = GetMenuAction(menuName, menuItem);
+            isEnabled = menuAction.IsEnabled == null ? DefaultEnabled(context) : menuAction.IsEnabled(context);
+            isChecked = menuAction.IsChecked == null ? DefaultChecked(context) : menuAction.IsChecked(context);
+        }
+
+        ///<summary>
+        /// Should be called from EA_GetMenuItems.
+        ///</summary>
+        ///<param name="context"></param>
+        ///<param name="menuName"></param>
+        ///<returns></returns>
+        public string[] GetMenuItems(AddInContext context, string menuName)
+        {
+            if (IsInitialInvocation(menuName))
+            {
+                activeMenu = null;
+                foreach (Menu menu in GetMenus(context.MenuLocation))
+                {
+                    if (menu.Matches(context))
+                    {
+                        activeMenu = menu;
+                        break;
+                    }
+                }
+            }
+            if (activeMenu == null)
+            {
+                return DefaultMenuItems;
+            }
+            return activeMenu.GetMenuItems(menuName ?? string.Empty) ?? DefaultMenuItems;
+        }
+
+        private static bool IsInitialInvocation(string menuName)
+        {
+            return string.IsNullOrEmpty(menuName);
+        }
+
+        ///<summary>
+        /// Should be called from EA_MenuClick.
+        ///</summary>
+        ///<param name="context"></param>
+        ///<param name="menuName"></param>
+        ///<param name="menuItem"></param>
+        public void MenuClick(AddInContext context, string menuName, string menuItem)
+        {
+            GetMenuAction(menuName, menuItem).Execute(context);
+        }
+
+        private MenuAction GetMenuAction(string menuName, string menuItem)
+        {
+            if (activeMenu == null)
+            {
+                return defaultAction;
+            }
+            return activeMenu.GetMenuAction(menuName, menuItem) ?? defaultAction;
+        }
+
+        #endregion
+
         #region Default settings
 
         ///<summary>
@@ -518,95 +496,6 @@ namespace VIENNAAddIn.menu
         /// The default predicate to determine the checked state of menu items that have no explicit predicate set.
         ///</summary>
         public Predicate<AddInContext> DefaultChecked { get; set; }
-
-        #endregion
-
-        #region Indexers for defining menu contexts
-
-        ///<summary>
-        /// Use this indexer to assign a menu to a context matched by an arbitrary predicate.
-        ///</summary>
-        ///<param name="predicate"></param>
-        public MenuItem this[Predicate<AddInContext> predicate]
-        {
-            set { menus[predicate] = value; }
-        }
-
-        ///<summary>
-        /// Use this indexer to assign a menu to a context matching the given <see cref="MenuLocation"/>.
-        ///</summary>
-        ///<param name="menuLocation">One or more menu locations (joined with the | operator)</param>
-        public MenuItem this[MenuLocation menuLocation]
-        {
-            set { this[context => (menuLocation & context.MenuLocation) == context.MenuLocation] = value; }
-        }
-
-        #endregion
-
-        #region EA Menu API
-
-        ///<summary>
-        /// Should be called from EA_GetMenuState.
-        ///</summary>
-        ///<param name="context">The current context.</param>
-        ///<param name="isEnabled"></param>
-        ///<param name="isChecked"></param>
-        public void GetMenuState(AddInContext context, ref bool isEnabled, ref bool isChecked)
-        {
-            MenuAction menuAction = GetMenuAction(context);
-            isEnabled = menuAction.IsEnabled == null ? DefaultEnabled(context) : menuAction.IsEnabled(context);
-            isChecked = menuAction.IsChecked == null ? DefaultChecked(context) : menuAction.IsChecked(context);
-        }
-
-        ///<summary>
-        /// Should be called from EA_GetMenuItems.
-        ///</summary>
-        ///<param name="context"></param>
-        ///<returns></returns>
-        public string[] GetMenuItems(AddInContext context)
-        {
-            if (IsInitialInvocation(context))
-            {
-                activeMenu = null;
-                foreach (var menu in menus)
-                {
-                    Predicate<AddInContext> menuMatches = menu.Key;
-                    if (menuMatches(context))
-                    {
-                        activeMenu = menu.Value;
-                        return new[] {activeMenu.Name};
-                    }
-                }
-            }
-            if (activeMenu == null)
-            {
-                return DefaultMenuItems;
-            }
-            return activeMenu.GetMenuItems(context) ?? DefaultMenuItems;
-        }
-
-        private static bool IsInitialInvocation(AddInContext context)
-        {
-            return string.IsNullOrEmpty(context.MenuName);
-        }
-
-        ///<summary>
-        /// Should be called from EA_MenuClick.
-        ///</summary>
-        ///<param name="context"></param>
-        public void MenuClick(AddInContext context)
-        {
-            GetMenuAction(context).Execute(context);
-        }
-
-        private MenuAction GetMenuAction(AddInContext context)
-        {
-            if (activeMenu == null)
-            {
-                return defaultAction;
-            }
-            return activeMenu.GetMenuAction(context) ?? defaultAction;
-        }
 
         #endregion
     }

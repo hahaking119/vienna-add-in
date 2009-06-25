@@ -30,30 +30,30 @@ namespace VIENNAAddIn
         /// Get Menu-Items
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="menulocation"></param>
-        /// <param name="menuname"></param>
+        /// <param name="menuLocation"></param>
+        /// <param name="menuName"></param>
         /// <returns></returns>
-        string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname);
+        string[] EA_GetMenuItems(Repository repository, string menuLocation, string menuName);
 
         /// <summary>
         /// Menu Click
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="menulocation"></param>
-        /// <param name="menuname"></param>
-        /// <param name="menuitem"></param>
-        void EA_MenuClick(Repository repository, string menulocation, string menuname, string menuitem);
+        /// <param name="menuLocation"></param>
+        /// <param name="menuName"></param>
+        /// <param name="menuItem"></param>
+        void EA_MenuClick(Repository repository, string menuLocation, string menuName, string menuItem);
 
         /// <summary>
         /// Menu State
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="menulocation"></param>
+        /// <param name="menuLocation"></param>
         /// <param name="menuname"></param>
         /// <param name="menuitem"></param>
         /// <param name="IsEnabled"></param>
         /// <param name="IsChecked"></param>
-        void EA_GetMenuState(Repository repository, string menulocation, string menuname, string menuitem,
+        void EA_GetMenuState(Repository repository, string menuLocation, string menuname, string menuitem,
                              ref bool IsEnabled, ref bool IsChecked);
 
         bool EA_OnNotifyContextItemModified(EA.Repository repository, string GUID, EA.ObjectType ot);

@@ -11,7 +11,7 @@ namespace VIENNAAddIn.menu
         Undefined = 0,
         MainMenu = 1,
         TreeView = 2,
-        Diagram = 4
+        Diagram = 4,
     }
 
     public static class MenuLocationExtensions

@@ -55,56 +55,54 @@ namespace VIENNAAddIn
             MenuAction validate = "&Validate".OnClick(ValidatorForm.ShowValidator);
             MenuItem _____ = MenuItem.Separator;
 
-            menuManager[MenuLocation.MainMenu] =
-                (AddInSettings.AddInName
-                 +
-                 "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled
-                     (Always)
-                 + createUPCCStructure
-                 + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
-                 + _____
-                 + "&Validate All - UPCC3".OnClick(ValidatorForm.ShowUpccValidator)
-                 + "&Validate All - UMM2".OnClick(ValidatorForm.ShowUmmValidator)
-                 + _____
-                 + ("Maintenance"
-                    + "Synchronize &Tagged Values...".OnClick(SynchStereotypesForm.ShowForm)
-                   )
-                 + ("Wizards"
-                    + createABIE
-                    + modifyABIE
-                    + createBDT
-                    + "Generate &XML Schema".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
-                    + "&Import XML Schemas".OnClick(ImporterWizardForm.ShowImporterWizard)
-                   )
-                 + "&Options".OnClick(OptionsForm.ShowForm)
-                 + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)
-                );
-            menuManager[ContextIsBLibrary] =
-                (AddInSettings.AddInName
-                 + "Import Standard CC Libraries".OnClick(ImportStandardCcLibraries)
-                );
-            menuManager[ContextIsBIELibrary] =
-                (AddInSettings.AddInName
-                 + createABIE
-                 + validate
-                );
-            menuManager[ContextIsABIE] =
-                (AddInSettings.AddInName
-                 + modifyABIE
-                );
-            menuManager[ContextIsBDTLibrary] =
-                (AddInSettings.AddInName
-                 + createBDT
-                 + validate
-                );
-            menuManager[ContextIsRootModel] =
-                (AddInSettings.AddInName
-                 + createUPCCStructure
-                );
-            menuManager[ContextIsContextMenu] =
-                (AddInSettings.AddInName
-                 + validate
-                );
+            menuManager.AddMenu(MenuLocation.MainMenu
+                                + (AddInSettings.AddInName
+                                   +
+                                   "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled
+                                       (Always)
+                                   + createUPCCStructure
+                                   + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
+                                   + _____
+                                   + "&Validate All - UPCC3".OnClick(ValidatorForm.ShowUpccValidator)
+                                   + "&Validate All - UMM2".OnClick(ValidatorForm.ShowUmmValidator)
+                                   + _____
+                                   + ("Maintenance"
+                                      + "Synchronize &Tagged Values...".OnClick(SynchStereotypesForm.ShowForm)
+                                     )
+                                   + ("Wizards"
+                                      + createABIE
+                                      + modifyABIE
+                                      + createBDT
+                                      + "Generate &XML Schema".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
+                                      + "&Import XML Schemas".OnClick(ImporterWizardForm.ShowImporterWizard)
+                                     )
+                                   + "&Options".OnClick(OptionsForm.ShowForm)
+                                   + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)));
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + "Import Standard CC Libraries".OnClick(ImportStandardCcLibraries)))
+                .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.BLibrary));
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + createABIE
+                                   + validate))
+                .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.BIELibrary));
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + modifyABIE))
+                .ShowIf(context => context.SelectedItemIsABIE());
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + createBDT
+                                   + validate))
+                .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.BDTLibrary));
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + createUPCCStructure))
+                .ShowIf(context => context.SelectedItemIsRootModel());
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + validate));
         }
 
         #region VIENNAAddInInterface Members
@@ -113,12 +111,12 @@ namespace VIENNAAddIn
         /// Get menu state
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="menulocation"></param>
-        /// <param name="menuname"></param>
-        /// <param name="itemname"></param>
+        /// <param name="menuLocation"></param>
+        /// <param name="menuName"></param>
+        /// <param name="menuItem"></param>
         /// <param name="isEnabled"></param>
         /// <param name="isChecked"></param>
-        public void EA_GetMenuState(Repository repository, string menulocation, string menuname, string itemname,
+        public void EA_GetMenuState(Repository repository, string menuLocation, string menuName, string menuItem,
                                     ref bool isEnabled, ref bool isChecked)
         {
             if (Repo == null)
@@ -128,7 +126,7 @@ namespace VIENNAAddIn
             }
             else
             {
-                menuManager.GetMenuState(new AddInContext(repository, menulocation, menuname, itemname), ref isEnabled, ref isChecked);
+                menuManager.GetMenuState(context, menuName, menuItem, ref isEnabled, ref isChecked);
             }
         }
 
@@ -190,28 +188,24 @@ namespace VIENNAAddIn
         /// EA - get menu items
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="menulocation"></param>
-        /// <param name="menuname"></param>
+        /// <param name="menuLocation"></param>
+        /// <param name="menuName"></param>
         /// <returns></returns>
-        public string[] EA_GetMenuItems(Repository repository, string menulocation, string menuname)
+        public string[] EA_GetMenuItems(Repository repository, string menuLocation, string menuName)
         {
             try
             {
-                if (string.IsNullOrEmpty(menuname))
+                if (string.IsNullOrEmpty(menuName))
                 {
-                    // this is the first invocation of this method for a top-level menu click
-                    context = new AddInContext(repository, menulocation, menuname, null);
-                } else
-                {
-                    // otherwise, reuse the context of the top-level invocation (in order to avoid re-examination of the selected item)
-                    context = context.CreateSubContext(menuname);
+                    // this is the first (top-level) invocation of this method for the current mouse click
+                    context = new AddInContext(repository, menuLocation);
                 }
-                return menuManager.GetMenuItems(context);
+                return menuManager.GetMenuItems(context, menuName);
             }
             catch (Exception e)
             {
                 new ErrorReporterForm(e.Message + "\n" + e.StackTrace, Repo.LibraryVersion);
-                if (menulocation == AddInSettings.AddInName)
+                if (menuLocation == AddInSettings.AddInName)
                 {
                     return new string[0];
                 }
@@ -223,14 +217,14 @@ namespace VIENNAAddIn
         /// EA menu click
         /// </summary>
         /// <param name="repository"></param>
-        /// <param name="menulocation"></param>
-        /// <param name="menuname"></param>
-        /// <param name="menuitem"></param>
-        public void EA_MenuClick(Repository repository, string menulocation, string menuname, string menuitem)
+        /// <param name="menuLocation"></param>
+        /// <param name="menuName"></param>
+        /// <param name="menuItem"></param>
+        public void EA_MenuClick(Repository repository, string menuLocation, string menuName, string menuItem)
         {
             try
             {
-                menuManager.MenuClick(new AddInContext(repository, menulocation, menuname, menuitem));
+                menuManager.MenuClick(context, menuName, menuItem);
             }
             catch (Exception e)
             {
@@ -299,39 +293,9 @@ namespace VIENNAAddIn
 
         #region AddInContext Predicates
 
-        private static bool ContextIsABIE(AddInContext context)
-        {
-            return context.MenuLocation.IsContextMenu() && context.IsABIE();
-        }
-
-        private static bool ContextIsBLibrary(AddInContext context)
-        {
-            return context.MenuLocation.IsContextMenu() && context.IsLibraryOfType(Stereotype.BLibrary);
-        }
-
-        private static bool ContextIsBIELibrary(AddInContext context)
-        {
-            return context.MenuLocation.IsContextMenu() && context.IsLibraryOfType(Stereotype.BIELibrary);
-        }
-
-        private static bool ContextIsBDTLibrary(AddInContext context)
-        {
-            return context.MenuLocation.IsContextMenu() && context.IsLibraryOfType(Stereotype.BDTLibrary);
-        }
-
-        private static bool ContextIsContextMenu(AddInContext context)
-        {
-            return context.MenuLocation.IsContextMenu();
-        }
-
-        private static bool ContextIsRootModel(AddInContext context)
-        {
-            return context.MenuLocation.IsContextMenu() && context.IsRootModel();
-        }
-
         private static bool IfABIEIsSelected(AddInContext context)
         {
-            return context.IsABIE();
+            return context.SelectedItemIsABIE();
         }
 
         private static bool IfRepositoryIsUmm2Model(AddInContext context)

@@ -10,15 +10,21 @@ namespace VIENNAAddIn.menu
         public readonly static MenuItem Separator = new MenuItem("-");
         public virtual string Name { get; private set; }
 
-        public MenuItem(string name)
+        protected MenuItem(string name)
         {
             Name = name;
         }
 
+        public static Menu operator +(MenuLocation lhs, MenuItem rhs)
+        {
+            var menu = new Menu(lhs);
+            menu.AddItem(rhs);
+            return menu;
+        }
+
         public static SubMenu operator +(string lhs, MenuItem rhs)
         {
-            var menu = new SubMenu(lhs);
-            return menu.AddItem(rhs);
+            return new SubMenu(lhs).AddItem(rhs);
         }
 
         public static List<MenuItem> operator +(MenuItem lhs, MenuItem rhs)
@@ -31,14 +37,35 @@ namespace VIENNAAddIn.menu
             return new List<MenuItem>(lhs) {rhs};
         }
 
-        public virtual string[] GetMenuItems(AddInContext context)
+        public virtual string[] GetMenuItems(string menuName)
         {
             return null;
         }
 
-        public virtual MenuAction GetMenuAction(AddInContext context)
+        public virtual MenuAction GetMenuAction(string menuName, string menuItem)
         {
             return null;
+        }
+    }
+
+    public class Menu:SubMenu
+    {
+        public Menu(MenuLocation menuLocation):base(null)
+        {
+            MenuLocation = menuLocation;
+        }
+
+        public MenuLocation MenuLocation { get; private set; }
+        private Predicate<AddInContext> predicate;
+
+        public void ShowIf(Predicate<AddInContext> predicate)
+        {
+            this.predicate = this.predicate.And(predicate);
+        }
+
+        public bool Matches(AddInContext context)
+        {
+            return predicate != null ? predicate(context) : true;
         }
     }
 
@@ -50,11 +77,11 @@ namespace VIENNAAddIn.menu
 
         public override string Name
         {
-            get { return "-" + base.Name; }
+            get { return string.IsNullOrEmpty(base.Name) ? string.Empty : "-" + base.Name; }
         }
 
         private string[] menuItems;
-        private List<MenuItem> items = new List<MenuItem>();
+        private readonly List<MenuItem> items = new List<MenuItem>();
 
         public List<MenuItem> Items
         {
@@ -72,9 +99,9 @@ namespace VIENNAAddIn.menu
             return lhs.AddItem(rhs);
         }
 
-        public override string[] GetMenuItems(AddInContext context)
+        public override string[] GetMenuItems(string menuName)
         {
-            if (Name.Equals(context.MenuName))
+            if (Name.Equals(menuName))
             {
                 if (menuItems == null)
                 {
@@ -84,7 +111,7 @@ namespace VIENNAAddIn.menu
             }
             foreach (MenuItem item in items)
             {
-                var subMenuItems = item.GetMenuItems(context);
+                var subMenuItems = item.GetMenuItems(menuName);
                 if (subMenuItems != null)
                 {
                     return subMenuItems;
@@ -93,13 +120,13 @@ namespace VIENNAAddIn.menu
             return null;
         }
 
-        public override MenuAction GetMenuAction(AddInContext context)
+        public override MenuAction GetMenuAction(string menuName, string menuItem)
         {
-            if (Name.Equals(context.MenuName))
+            if (Name.Equals(menuName))
             {
                 foreach (MenuItem item in items)
                 {
-                    if (item is MenuAction && item.Name.Equals(context.MenuItem))
+                    if (item is MenuAction && item.Name.Equals(menuItem))
                     {
                         return (MenuAction) item;
                     }
@@ -109,7 +136,7 @@ namespace VIENNAAddIn.menu
             {
                 if (item is SubMenu)
                 {
-                    var menuAction = item.GetMenuAction(context);
+                    var menuAction = item.GetMenuAction(menuName, menuItem);
                     if (menuAction != null)
                     {
                         return menuAction;

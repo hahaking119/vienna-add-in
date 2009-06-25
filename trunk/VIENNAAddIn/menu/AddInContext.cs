@@ -1,5 +1,4 @@
 using System;
-using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -11,12 +10,10 @@ namespace VIENNAAddIn.menu
     ///</summary>
     public class AddInContext
     {
-        public AddInContext(Repository eaRepository, string menuLocation, string menuName, string menuItem)
+        public AddInContext(Repository eaRepository, string menuLocation)
         {
             EARepository = eaRepository;
             MenuLocation = (MenuLocation)Enum.Parse(typeof(MenuLocation), menuLocation);
-            MenuItem = menuItem;
-            MenuName = menuName ?? string.Empty;
         }
 
         ///<summary>
@@ -36,16 +33,6 @@ namespace VIENNAAddIn.menu
         {
             get { return new CCRepository(EARepository); }
         }
-
-        ///<summary>
-        /// The current menu name.
-        ///</summary>
-        public string MenuName { get; private set; }
-
-        ///<summary>
-        /// The current menu item.
-        ///</summary>
-        public string MenuItem { get; private set; }
 
         ///<summary>
         /// The type of the currently selected item.
@@ -85,31 +72,25 @@ namespace VIENNAAddIn.menu
             }
         }
 
-        public bool IsLibraryOfType(string stereotype)
+        public bool SelectedItemIsLibraryOfType(string stereotype)
         {
             return SelectedItem != null
                    && SelectedItemObjectType == ObjectType.otPackage
                    && ((Package) SelectedItem).HasStereotype(stereotype);
         }
 
-        public bool IsABIE()
+        public bool SelectedItemIsABIE()
         {
             return SelectedItem != null
                    && SelectedItemObjectType == ObjectType.otElement
                    && ((Element) SelectedItem).IsABIE();
         }
 
-        public bool IsRootModel()
+        public bool SelectedItemIsRootModel()
         {
             return SelectedItem != null 
                    && SelectedItem is Package
                    && ((Package) SelectedItem).ParentID == 0;
-        }
-
-        public AddInContext CreateSubContext(string menuName)
-        {
-            MenuName = menuName;
-            return this;
         }
     }
 }
