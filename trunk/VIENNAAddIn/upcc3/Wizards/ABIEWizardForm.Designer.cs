@@ -262,7 +262,7 @@
             this.TabControlPageAssociations.Controls.Add(this.groupboxASBIEs);
             this.TabControlPageAssociations.Location = new System.Drawing.Point(4, 22);
             this.TabControlPageAssociations.Name = "TabControlPageAssociations";
-            this.TabControlPageAssociations.Size = new System.Drawing.Size(651, 363);
+            this.TabControlPageAssociations.Size = new System.Drawing.Size(651, 333);
             this.TabControlPageAssociations.TabIndex = 1;
             this.TabControlPageAssociations.Text = "Associations";
             this.TabControlPageAssociations.UseVisualStyleBackColor = true;
@@ -449,6 +449,8 @@
             this.richtextStatus.Size = new System.Drawing.Size(656, 50);
             this.richtextStatus.TabIndex = 0;
             this.richtextStatus.Text = "";
+            this.richtextStatus.BackColorChanged += new System.EventHandler(this.richtextStatus_BackColorChanged);
+            this.richtextStatus.TextChanged += new System.EventHandler(this.richtextStatus_TextChanged);
             // 
             // ABIEWizardForm
             // 
@@ -461,7 +463,7 @@
             this.Controls.Add(this.groupboxSettings);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(692, 652);
+            this.MinimumSize = new System.Drawing.Size(692, 702);
             this.Name = "ABIEWizardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Aggregated Business Information Entity (ABIE) Wizard";
