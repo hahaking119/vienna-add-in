@@ -18,8 +18,6 @@ namespace VIENNAAddIn.upcc3.Wizards
         private CCRepository repository;
         private ABIE abie;
         private Cache cache;
-        private Label errorMessageABIE;
-        private Label errorMessageBDT;
         private TextBox editboxBBIEName;
         private TextBox editboxBDTName;
         private bool editboxBBIENameEsc = false;
@@ -41,7 +39,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private const string CAPTION_ERROR_WINDOW = "ABIE Wizard Error";
         private const string CAPTION_INFO_WINDOW = "ABIE Wizard";
-        private const string INFO_MSG_BBIE_EXISTS = "A BBIE having the name \"{0}\" already exists within the current ABIE.";
+        private const string INFO_MSG_BBIE_EXISTS = "WARNING: A BBIE having the name \"{0}\" already exists within the current ABIE.\n";
         private const string INFO_MSG_BDT_EXISTS = "A BDT named \"{0}\" already exists!";
 
         #endregion
@@ -499,8 +497,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Add(newBBIEName, updatedBBIE);
                 }
                 else
-                {                    
-                    InformativeMessage(INFO_MSG_BBIE_EXISTS.Replace("{0}", newBBIEName));
+                {
+                    richtextStatus.Text += INFO_MSG_BBIE_EXISTS.Replace("{0}", newBBIEName);                    
                 }                
             }
         }
@@ -608,19 +606,14 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 if (bdtl.BDTs.ContainsKey(newBDTName))
                 {
-                    errorMessageBDT.Location = new Point(tabcontrolACC.Location.X + tabcontrolACC.Width - 217, tabcontrolACC.Location.Y + 42);
-
-                    errorMessageBDT.Text = INFO_MSG_BDT_EXISTS.Replace("{0}", newBDTName);
-                    errorMessageBDT.BringToFront();
-                    errorMessageBDT.Show();  
+                    richtextStatus.Text += INFO_MSG_BDT_EXISTS.Replace("{0}", newBDTName);
+                    
                     return;
                 }
             }
 
             if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName, selectedBCCName, selectedBBIEName, selectedBDTName }))
             {
-                errorMessageBDT.Hide();
-
                 int cdtType = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type;
 
                 cache.BDTLs[selectedBDTLName].BDTs.Add(newBDTName, new cBDT(newBDTName, -1, cdtType, CheckState.Unchecked));
@@ -683,15 +676,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 if (cache.BIELs[selectedBIELName].ABIEs.ContainsKey(textABIEName.Text))
                 {
-                    errorMessageABIE.Location = new Point(textABIEName.Location.X + textABIEName.Width - 210,
-                                                          textABIEName.Location.Y);
-                    errorMessageABIE.Text = "ABIE named \"" + textABIEName.Text + "\" alreay exists!";
-                    errorMessageABIE.BringToFront();
-                    errorMessageABIE.Show();
-                }
-                else
-                {
-                    errorMessageABIE.Hide();
+                    richtextStatus.Text += "ABIE named \"" + textABIEName.Text + "\" alreay exists!";
                 }
             }
         }
@@ -750,8 +735,6 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void ABIEWizardForm_SizeChanged(object sender, EventArgs e)
         {
-            errorMessageABIE.Location = new Point(textABIEName.Location.X + textABIEName.Width - 210, textABIEName.Location.Y);
-            errorMessageBDT.Location = new Point(tabcontrolACC.Location.X + tabcontrolACC.Width - 217, tabcontrolACC.Location.Y + 42);
         }
 
         private void checkedlistboxBCCs_MouseDown(object sender, MouseEventArgs e)
@@ -826,36 +809,6 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void CreateOnTheFlyControls()
         {
-            /*
-             * Label to display error messages in case an ABIE with name of the ABIE to be 
-             * generated already exists in the currently selected BIE library. 
-             **/
-            errorMessageABIE = new Label
-            {
-                Size = new Size(200, 17),
-                Location = new Point(0, 0),
-                BorderStyle = BorderStyle.FixedSingle,
-                ForeColor = Color.Black,
-                BackColor = Color.Yellow
-            };
-            groupboxSettings.Controls.Add(errorMessageABIE);
-            errorMessageABIE.Hide();
-
-            /*
-             * Label to display error messages in case a BDT with name of the BDT to be 
-             * generated already exists in any of the availalbe BDT libraries. 
-             **/
-            errorMessageBDT = new Label
-            {
-                Size = new Size(199, 17),
-                Location = new Point(0, 0),
-                BorderStyle = BorderStyle.FixedSingle,
-                ForeColor = Color.Black,
-                BackColor = Color.Yellow
-            };
-            groupboxSettings.Controls.Add(errorMessageBDT);
-            errorMessageBDT.Hide();
-
             /*
              * Edit box to edit the name of a BBIE listed in the checked listbox 
              * displaying all BBIEs. 
