@@ -15,6 +15,14 @@ namespace VIENNAAddIn.menu
         public static Predicate<AddInContext> And
             (this Predicate<AddInContext> lhs, Predicate<AddInContext> rhs)
         {
+            if (lhs == null)
+            {
+                return rhs;
+            }
+            if (rhs == null)
+            {
+                return lhs;
+            }
             return context => lhs(context) && rhs(context);
         }
 
@@ -26,6 +34,14 @@ namespace VIENNAAddIn.menu
         public static Predicate<AddInContext> Or
             (this Predicate<AddInContext> lhs, Predicate<AddInContext> rhs)
         {
+            if (lhs == null)
+            {
+                return rhs;
+            }
+            if (rhs == null)
+            {
+                return lhs;
+            }
             return context => lhs(context) || rhs(context);
         }
     }
