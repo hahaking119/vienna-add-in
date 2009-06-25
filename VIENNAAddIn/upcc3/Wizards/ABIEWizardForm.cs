@@ -194,6 +194,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 ResetForm(1);
                 ResetForm(2);
                 ResetForm(3);
+                buttonGenerate.Text = "&Generate ABIE ...";
                 buttonGenerate.Show();
             }
             else
@@ -263,7 +264,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                     }
                 }
                 ResetForm(4);
-                buttonSave.Show();
+                buttonGenerate.Text = "&Save ABIE ...";
+                buttonGenerate.Show();
+                //buttonSave.Show();
             }
 
             /*
@@ -690,16 +693,39 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            GatherUserInput();
-            IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+            if (editMode)
+            {
+                GatherUserInput();
+                IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
 
-            /* get the selected ACC which we as a basis to generate the new ABIE */
-            IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-            ABIESpec abieSpec = createABISpec(selectedACC);
-            IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
-            cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
-            textABIEName.Text = "";
-            textABIEName.Text = newABIE.Name;
+                /* get the selected ACC which we as a basis to generate the new ABIE */
+                IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                ABIESpec abieSpec = createABISpec(selectedACC);
+                IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
+                cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
+                textABIEName.Text = "";
+                textABIEName.Text = newABIE.Name;                
+            }
+            else
+            {
+                GatherUserInput();
+                IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+
+                /* get the selected ACC which we as a basis to generate the new ABIE */
+                IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                ABIESpec abieSpec = createABISpec(selectedACC);
+                IABIE newABIE = selectedBIEL.UpdateElement(abie, abieSpec);
+                //todo: find a better way to update internal cache
+                cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
+                cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
+                textABIEName.Text = "";
+                textABIEName.Text = newABIE.Name;
+                if (newABIE.Id > -1)
+                {
+                    InformativeMessage("ABIE " + newABIE.Name + " update succeeded.");
+                }
+                Close();
+            }
         }
         
         private void buttonClose_Click(object sender, EventArgs e)
@@ -1234,26 +1260,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             new ABIEWizardForm(context.EARepository, (Element) context.SelectedItem).Show();
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            GatherUserInput();
-            IBIELibrary selectedBIEL = (IBIELibrary)repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
-
-            /* get the selected ACC which we as a basis to generate the new ABIE */
-            IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-            ABIESpec abieSpec = createABISpec(selectedACC);
-            IABIE newABIE = selectedBIEL.UpdateElement(abie,abieSpec);
-            //todo: find a better way to update internal cache
-            cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
-            cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name, new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
-            textABIEName.Text = "";
-            textABIEName.Text = newABIE.Name;
-            if(newABIE.Id>-1)
-            {
-                InformativeMessage("ABIE "+newABIE.Name+" update succeeded.");
-            }
-            Close();
-        }
         private ABIESpec createABISpec(IACC selectedACC)
         {
             
@@ -1386,6 +1392,8 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
             return abieSpec;
         }
-        }
 
+
+
+        }
     }
