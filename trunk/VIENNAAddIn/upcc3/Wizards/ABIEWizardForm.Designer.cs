@@ -57,7 +57,6 @@
             this.comboBIELs = new System.Windows.Forms.ComboBox();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonGenerate = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.groupboxSettings.SuspendLayout();
             this.tabcontrolACC.SuspendLayout();
             this.TabControlPageAttributes.SuspendLayout();
@@ -88,7 +87,7 @@
             this.groupboxSettings.Controls.Add(this.comboBIELs);
             this.groupboxSettings.Location = new System.Drawing.Point(4, 4);
             this.groupboxSettings.Name = "groupboxSettings";
-            this.groupboxSettings.Size = new System.Drawing.Size(676, 574);
+            this.groupboxSettings.Size = new System.Drawing.Size(676, 581);
             this.groupboxSettings.TabIndex = 28;
             this.groupboxSettings.TabStop = false;
             this.groupboxSettings.Text = "Settings";
@@ -98,7 +97,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 471);
+            this.label6.Location = new System.Drawing.Point(7, 478);
             this.label6.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(187, 13);
@@ -109,7 +108,7 @@
             // 
             this.textPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textPrefix.Location = new System.Drawing.Point(217, 468);
+            this.textPrefix.Location = new System.Drawing.Point(217, 475);
             this.textPrefix.Name = "textPrefix";
             this.textPrefix.Size = new System.Drawing.Size(450, 20);
             this.textPrefix.TabIndex = 45;
@@ -125,7 +124,7 @@
             this.tabcontrolACC.Location = new System.Drawing.Point(10, 76);
             this.tabcontrolACC.Name = "tabcontrolACC";
             this.tabcontrolACC.SelectedIndex = 0;
-            this.tabcontrolACC.Size = new System.Drawing.Size(659, 382);
+            this.tabcontrolACC.Size = new System.Drawing.Size(659, 389);
             this.tabcontrolACC.TabIndex = 44;
             // 
             // TabControlPageAttributes
@@ -136,7 +135,7 @@
             this.TabControlPageAttributes.Location = new System.Drawing.Point(4, 22);
             this.TabControlPageAttributes.Name = "TabControlPageAttributes";
             this.TabControlPageAttributes.Padding = new System.Windows.Forms.Padding(3);
-            this.TabControlPageAttributes.Size = new System.Drawing.Size(651, 356);
+            this.TabControlPageAttributes.Size = new System.Drawing.Size(651, 363);
             this.TabControlPageAttributes.TabIndex = 0;
             this.TabControlPageAttributes.Text = "Attributes";
             this.TabControlPageAttributes.UseVisualStyleBackColor = true;
@@ -150,7 +149,7 @@
             this.groupBox2.Controls.Add(this.checkedlistboxBBIEs);
             this.groupBox2.Location = new System.Drawing.Point(216, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(216, 353);
+            this.groupBox2.Size = new System.Drawing.Size(216, 354);
             this.groupBox2.TabIndex = 45;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "BBIEs based on BCCs";
@@ -198,7 +197,7 @@
             this.groupBox3.Controls.Add(this.checkboxAttributes);
             this.groupBox3.Location = new System.Drawing.Point(6, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(212, 353);
+            this.groupBox3.Size = new System.Drawing.Size(212, 354);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "BCCs used as BBIEs";
@@ -236,7 +235,7 @@
             this.groupboxBDTs.Controls.Add(this.checkedlistboxBDTs);
             this.groupboxBDTs.Location = new System.Drawing.Point(430, 3);
             this.groupboxBDTs.Name = "groupboxBDTs";
-            this.groupboxBDTs.Size = new System.Drawing.Size(214, 353);
+            this.groupboxBDTs.Size = new System.Drawing.Size(214, 354);
             this.groupboxBDTs.TabIndex = 3;
             this.groupboxBDTs.TabStop = false;
             this.groupboxBDTs.Text = "BDTs available to typify the BBIEs";
@@ -260,28 +259,34 @@
             this.TabControlPageAssociations.Controls.Add(this.groupboxASBIEs);
             this.TabControlPageAssociations.Location = new System.Drawing.Point(4, 22);
             this.TabControlPageAssociations.Name = "TabControlPageAssociations";
-            this.TabControlPageAssociations.Size = new System.Drawing.Size(651, 356);
+            this.TabControlPageAssociations.Size = new System.Drawing.Size(651, 363);
             this.TabControlPageAssociations.TabIndex = 1;
             this.TabControlPageAssociations.Text = "Associations";
             this.TabControlPageAssociations.UseVisualStyleBackColor = true;
             // 
             // groupboxASBIEs
             // 
+            this.groupboxASBIEs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.groupboxASBIEs.Controls.Add(this.checkedlistboxASCCs);
-            this.groupboxASBIEs.Location = new System.Drawing.Point(9, 3);
+            this.groupboxASBIEs.Location = new System.Drawing.Point(6, 3);
             this.groupboxASBIEs.Name = "groupboxASBIEs";
-            this.groupboxASBIEs.Size = new System.Drawing.Size(631, 318);
+            this.groupboxASBIEs.Size = new System.Drawing.Size(638, 352);
             this.groupboxASBIEs.TabIndex = 0;
             this.groupboxASBIEs.TabStop = false;
             this.groupboxASBIEs.Text = "ABIEs available to associate the new ABIE with";
             // 
             // checkedlistboxASCCs
             // 
+            this.checkedlistboxASCCs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedlistboxASCCs.CheckOnClick = true;
             this.checkedlistboxASCCs.FormattingEnabled = true;
-            this.checkedlistboxASCCs.Location = new System.Drawing.Point(13, 19);
+            this.checkedlistboxASCCs.Location = new System.Drawing.Point(11, 22);
             this.checkedlistboxASCCs.Name = "checkedlistboxASCCs";
-            this.checkedlistboxASCCs.Size = new System.Drawing.Size(604, 289);
+            this.checkedlistboxASCCs.Size = new System.Drawing.Size(615, 319);
             this.checkedlistboxASCCs.TabIndex = 0;
             this.checkedlistboxASCCs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxASCCs_ItemCheck);
             // 
@@ -290,7 +295,7 @@
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 523);
+            this.label7.Location = new System.Drawing.Point(7, 530);
             this.label7.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(178, 13);
@@ -312,7 +317,7 @@
             this.comboBDTLs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBDTLs.FormattingEnabled = true;
-            this.comboBDTLs.Location = new System.Drawing.Point(217, 520);
+            this.comboBDTLs.Location = new System.Drawing.Point(217, 527);
             this.comboBDTLs.Name = "comboBDTLs";
             this.comboBDTLs.Size = new System.Drawing.Size(450, 21);
             this.comboBDTLs.TabIndex = 42;
@@ -334,7 +339,7 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 550);
+            this.label1.Location = new System.Drawing.Point(7, 557);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(170, 13);
@@ -357,7 +362,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 497);
+            this.label2.Location = new System.Drawing.Point(7, 504);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(146, 13);
@@ -368,7 +373,7 @@
             // 
             this.textABIEName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.textABIEName.Location = new System.Drawing.Point(217, 494);
+            this.textABIEName.Location = new System.Drawing.Point(217, 501);
             this.textABIEName.Name = "textABIEName";
             this.textABIEName.Size = new System.Drawing.Size(450, 20);
             this.textABIEName.TabIndex = 38;
@@ -389,7 +394,7 @@
             this.comboBIELs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBIELs.FormattingEnabled = true;
-            this.comboBIELs.Location = new System.Drawing.Point(217, 547);
+            this.comboBIELs.Location = new System.Drawing.Point(217, 554);
             this.comboBIELs.Name = "comboBIELs";
             this.comboBIELs.Size = new System.Drawing.Size(450, 21);
             this.comboBIELs.TabIndex = 40;
@@ -398,7 +403,7 @@
             // buttonClose
             // 
             this.buttonClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonClose.Location = new System.Drawing.Point(399, 588);
+            this.buttonClose.Location = new System.Drawing.Point(399, 595);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(99, 22);
             this.buttonClose.TabIndex = 32;
@@ -409,7 +414,7 @@
             // buttonGenerate
             // 
             this.buttonGenerate.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonGenerate.Location = new System.Drawing.Point(189, 588);
+            this.buttonGenerate.Location = new System.Drawing.Point(182, 595);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(99, 22);
             this.buttonGenerate.TabIndex = 31;
@@ -418,29 +423,17 @@
             this.buttonGenerate.Visible = false;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
-            // buttonSave
-            // 
-            this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.buttonSave.Location = new System.Drawing.Point(189, 588);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(86, 22);
-            this.buttonSave.TabIndex = 33;
-            this.buttonSave.Text = "&Save ABIE ...";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Visible = false;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
             // ABIEWizardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 618);
-            this.Controls.Add(this.buttonSave);
+            this.ClientSize = new System.Drawing.Size(684, 625);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.buttonGenerate);
             this.Controls.Add(this.groupboxSettings);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(692, 652);
             this.Name = "ABIEWizardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Aggregated Business Information Entity (ABIE) Wizard";
@@ -492,7 +485,6 @@
         private System.Windows.Forms.CheckedListBox checkedlistboxASCCs;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textPrefix;
-        private System.Windows.Forms.Button buttonSave;
 
     }
 }
