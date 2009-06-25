@@ -40,7 +40,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             try
             {
                 cache.LoadCDTLs(repository);
-                cache.LoadBDTLs(repository);
+                cache.LoadBDTLsAndTheirBDTs(repository);
             }
             catch (CacheException ce)
             {

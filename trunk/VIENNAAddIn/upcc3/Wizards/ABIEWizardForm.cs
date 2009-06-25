@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
-using Timer=System.Threading.Timer;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -61,36 +59,22 @@ namespace VIENNAAddIn.upcc3.Wizards
         /// An example for on-the-fly editing and validation is renaming a BBIE and
         /// validation that the name of the BBIE is already in use. 
         ///</summary>
-        ///<param name="eaRepo"></param>
-        public ABIEWizardForm(EA.Repository eaRepo)
+        ///<param name="eaRepository"></param>
+        public ABIEWizardForm(Repository eaRepository)
         {
             InitializeComponent();
-
+            
             try
             {
-                repository = new CCRepository(eaRepo);
+                repository = new CCRepository(eaRepository);
 
                 cache = new Cache();
 
-                /*
-                 * Populate the internal cache with all the CC libraries currently
-                 * available the repository.
-                 **/
                 cache.LoadCCLs(repository);
 
-                /*
-                 * Populate the internal cache with all the BIE libraries currently
-                 * available the repository. For each BIE library all ABIEs contained
-                 * in the library are cached as well. 
-                 **/
-                cache.LoadBIELs(repository);
+                cache.LoadBIELsAndTheirABIEs(repository);
 
-                /*
-                 * Populate the internal cache with all the BDT libraries currently
-                 * available the repository. For each BDT library all BDTs contained
-                 * in the library are cached as well. 
-                 **/
-                cache.LoadBDTLs(repository);
+                cache.LoadBDTLsAndTheirBDTs(repository);
             }
             catch (CacheException ce)
             {
@@ -126,25 +110,11 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 cache = new Cache();
 
-                /*
-                         * Populate the internal cache with all the CC libraries currently
-                         * available the repository.
-                         **/
                 cache.LoadCCLs(repository);
 
-                /*
-                         * Populate the internal cache with all the BIE libraries currently
-                         * available the repository. For each BIE library all ABIEs contained
-                         * in the library are cached as well. 
-                         **/
-                cache.LoadBIELs(repository);
+                cache.LoadBIELsAndTheirABIEs(repository);
 
-                /*
-                         * Populate the internal cache with all the BDT libraries currently
-                         * available the repository. For each BDT library all BDTs contained
-                         * in the library are cached as well. 
-                         **/
-                cache.LoadBDTLs(repository);
+                cache.LoadBDTLsAndTheirBDTs(repository);
             }
             catch (CacheException ce)
             {
@@ -499,6 +469,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             editboxBBIEName.Location = new Point(r.X + 15, r.Y);
             editboxBBIEName.Size = new Size(r.Width - 15, r.Height + 100);
             editboxBBIEName.Show();
+            editboxBBIEName.Focus();
         }
 
         private void UpdateBBIEName()
@@ -636,6 +607,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     editboxBDTName.Size = new Size(r.Width - 15, r.Height + 100);
 
                     editboxBDTName.Show();
+                    editboxBDTName.Focus();
                 }
             }
         }
