@@ -22,6 +22,8 @@ namespace VIENNAAddIn.upcc3.Wizards
         private Label errorMessageBDT;
         private TextBox editboxBBIEName;
         private TextBox editboxBDTName;
+        private bool editboxBBIENameEsc = false;
+        private bool editboxBDTNameEsc = false;
         private int mouseDownPosX;
         private bool editMode = true;
         private bool userHasClickedCheckbox;
@@ -477,7 +479,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             editboxBBIEName.Text = cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].Name;
             editboxBBIEName.Location = new Point(r.X + 15, r.Y);
             editboxBBIEName.Size = new Size(r.Width - 15, r.Height + 100);
-
             editboxBBIEName.Show();
         }
 
@@ -514,13 +515,20 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
             else if (e.KeyChar == 27)
             {
+                editboxBBIENameEsc = true;
                 editboxBBIEName.Hide();
             }
         }
 
         private void FocusLeftEditBBIEName(object sender, EventArgs e)
         {
-            editboxBBIEName.Hide();
+            if (!editboxBBIENameEsc)
+            {
+                UpdateBBIEName();
+                editboxBBIEName.Hide();
+                MirrorBBIEsToUI();
+            }
+            editboxBBIENameEsc = false;
         }
 
         private void buttonAddBBIE_Click(object sender, EventArgs e)
@@ -653,13 +661,20 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
             else if (e.KeyChar == 27)
             {
+                editboxBDTNameEsc = true;
                 editboxBDTName.Hide();
             }
         }
 
         private void FocusLeftEditBDTName(object sender, EventArgs e)
         {
-            editboxBDTName.Hide();
+            if (!editboxBDTNameEsc)
+            {
+                UpdateBDTName();
+                editboxBDTName.Hide();
+                MirrorBDTsToUI();
+            }
+            editboxBDTNameEsc = false;
         }
 
         private void textABIEName_TextChanged(object sender, EventArgs e)
