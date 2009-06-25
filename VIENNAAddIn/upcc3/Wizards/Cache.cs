@@ -15,6 +15,8 @@ using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
+    #region code to be cleaned up
+
     public class cItem
     {
         public cItem()
@@ -583,8 +585,36 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
     }
 
+    #endregion code to be cleaned up
+
     public class Cache
     {
+        /* BEGIN - REVISED CLEAN CODE*/
+
+        public void LoadCCLs(CCRepository repository)
+        {
+            foreach (ICCLibrary ccl in repository.Libraries<CCLibrary>())
+            {
+                if (CCLs.ContainsKey(ccl.Name))
+                {
+                    EmptyCache();
+                    throw new CacheException("ERROR: The wizard encountered two CC libraries having identical names. Please make sure that all CC libraries within the model have unique names before proceeding with the wizard.");                   
+                }
+
+                CCLs.Add(ccl.Name, new cCCLibrary(ccl.Name, ccl.Id));
+            }
+
+            if (CCLs.Count == 0)
+            {
+                throw new CacheException("ERROR: The repository did not contain any CC libraries. Please make sure at least one CC library is present before proceeding with the wizard.");
+            }
+        }
+
+
+        /* END - REVISED CLEAN CODE*/ 
+
+
+
         public IDictionary<string, cCCLibrary> CCLs { get; set; }
         public IDictionary<string, cCDTLibrary> CDTLs { get; set; }
         public IDictionary<string, cBDTLibrary> BDTLs { get; set; }
@@ -733,26 +763,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadCCLs(CCRepository repository)
-        {
-            foreach (ICCLibrary ccl in repository.Libraries<CCLibrary>())
-            {
-                if (CCLs.ContainsKey(ccl.Name))
-                {
-                    CCLs.Clear();
-                    throw new CacheException(CacheConstants.CCL_EXISTS);
-                }
 
-                CCLs.Add(ccl.Name, new cCCLibrary(ccl.Name, ccl.Id));
-            }
 
-            if (CCLs.Count == 0)
-            {
-                throw new CacheException(CacheConstants.NO_CCLs);
-            }
-        }
-
-        public void LoadBIELs(CCRepository repository)
+        public void LoadBIELsAndTheirABIEs(CCRepository repository)
         {
             foreach (IBIELibrary biel in repository.Libraries<IBIELibrary>())
             {
@@ -782,7 +795,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadBDTLs(CCRepository repository)
+        public void LoadBDTLsAndTheirBDTs(CCRepository repository)
         {
             foreach (IBDTLibrary bdtl in repository.Libraries<IBDTLibrary>())
             {
@@ -834,14 +847,12 @@ namespace VIENNAAddIn.upcc3.Wizards
 
     public class CacheConstants
     {
-        public const string CCL_EXISTS = "The wizard encountered two CC libraries having identical names. Please verify your model!";
         public const string CDTL_EXISTS = "The wizard encountered two CDT libraries having identical names. Please verify your model!";
         public const string BIEL_EXISTS = "The wizard encountered two BIE libraries having identical names. Please verify your model!";
         public const string ABIE_EXISTS = "The wizard encountered two ABIEs within one BIE library having identical names. Please verify your model!";
         public const string BDTL_EXISTS = "The wizard encountered two BDT libraries having identical names. Please verify your model!";
         public const string BDT_EXISTS = "The wizard encountered two BDTs within one BDT library having identical names. Please verify your model!";
         public const string BIV_EXISTS = "The wizard encountered two BIVs having identical names. Please verify your model!";
-        public const string NO_CCLs = "The repository did not contain any CC libraries. Please make sure at least one CC library is present before proceeding with the wizard.";
         public const string NO_CDTLs = "The repository did not contain any CDT libraries. Please make sure at least one CDT library is present before proceeding with the wizard.";
         public const string NO_BIELs = "The repository did not contain any BIE libraries. Please make sure at least one BIE library is present before proceeding with the wizard.";
         public const string NO_BDTLs = "The repository did not contain any BDT libraries. Please make sure at least one BDT library is present before proceeding with the wizard.";
