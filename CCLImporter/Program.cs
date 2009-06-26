@@ -47,7 +47,7 @@ namespace CCLImporter
             {
                 LineNumber++;
                 if (LineNumber < 2) continue;
-//                if (LineNumber > 150) break;
+                if (LineNumber > 150) break;
 
                 Record record = GetRecord(line);
 

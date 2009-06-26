@@ -121,6 +121,17 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.SupplierEnd.Role = connectorSpec.Name;
             connector.SupplierEnd.Cardinality = connectorSpec.LowerBound + ".." + connectorSpec.UpperBound;
             connector.Update();
+            Collection taggedValues = connector.TaggedValues;
+            foreach (TaggedValueSpec taggedValueSpec in connectorSpec.TaggedValueSpecs)
+            {
+                var taggedValue = (ConnectorTag)taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
+                taggedValue.Value = taggedValueSpec.Value;
+                if (!taggedValue.Update())
+                {
+                    throw new EAException(taggedValue.GetLastError());
+                }
+            }
+            taggedValues.Refresh();
         }
 
         public static Connector AddConnector(this Element client, string name, string type, Action<Connector> initConnector)
