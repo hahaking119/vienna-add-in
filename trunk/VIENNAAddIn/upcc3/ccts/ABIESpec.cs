@@ -73,7 +73,7 @@ namespace VIENNAAddIn.upcc3.ccts
                 {
                     yield return
                         ConnectorSpec.CreateAggregation(asbie.AggregationKind, Stereotype.ASBIE, asbie.Name,
-                                                        asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound);
+                                                        asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound, asbie.GetTaggedValues());
                 }
             }
         }

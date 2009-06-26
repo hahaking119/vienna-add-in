@@ -80,7 +80,7 @@ namespace VIENNAAddIn.upcc3.ccts
                     }
                     yield return
                         ConnectorSpec.CreateAggregation(EAAggregationKind.Shared, Stereotype.ASCC, name,
-                                                        ascc.AssociatedACC.Id, ascc.LowerBound, ascc.UpperBound);
+                                                        ascc.AssociatedACC.Id, ascc.LowerBound, ascc.UpperBound, ascc.GetTaggedValues());
                 }
             }
         }
