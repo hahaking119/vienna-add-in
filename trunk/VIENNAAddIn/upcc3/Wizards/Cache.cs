@@ -168,7 +168,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (CDTs.ContainsKey(cdt.Name))
                     {
                         CDTs.Clear();
-                        throw new CacheException(CacheConstants.CDT_EXISTS);
+                        throw new CacheException("The wizard encountered two CDTs within one CDT library having identical names. Please verify your model!");
                     }
 
                     CDTs.Add(cdt.Name, new cCDT(cdt.Name, cdt.Id));
@@ -176,7 +176,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (CDTs.Count == 0)
                 {
-                    throw new CacheException(CacheConstants.NO_CDTs);
+                    throw new CacheException("The CC library did not contain any CDTs. Please make sure at least one ACC is present in the library before proceeding with the wizard.");
                 }
             }
         }
@@ -329,7 +329,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (BCCs.ContainsKey(bcc.Name))
                     {
                         BCCs.Clear();
-                        throw new CacheException(CacheConstants.BCC_EXISTS);
+                        throw new CacheException("The wizard encountered two BCCs within one ACC having identical names. Please verify your model!");
                     }
 
                     BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked));
@@ -355,7 +355,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (BCCs.ContainsKey(bcc.Name))
                     {
                         BCCs.Clear();
-                        throw new CacheException(CacheConstants.BCC_EXISTS);
+                        throw new CacheException("The wizard encountered two BCCs within one ACC having identical names. Please verify your model!");
                     }
                     
                     BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked));
@@ -418,12 +418,12 @@ namespace VIENNAAddIn.upcc3.Wizards
                             }
                             else
                             {
-                                throw new CacheException(CacheConstants.ASCC_EXISTS);
+                                throw new CacheException("The wizard encountered two ASCCs having identical target role names. Please verify your model!");
                             }                                                    
                         }
                         else
                         {
-                            MessageBox.Show(CacheConstants.ASCC_ERRONEOUS, "ABIE Wizard", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("The wizard encountered an association whose target role name is not set properly. Please verify your model!", "ABIE Wizard", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                 }
@@ -484,7 +484,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (ACCs.ContainsKey(acc.Name))
                     {
                         ACCs.Clear();
-                        throw new CacheException(CacheConstants.ACC_EXISTS);
+                        throw new CacheException("The wizard encountered two ACCs having identical names. Please verify your model!");
                     }
 
                     ACCs.Add(acc.Name, new cACC(acc.Name, acc.Id, CheckState.Unchecked));
@@ -493,7 +493,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (ACCs.Count == 0)
             {
-                throw new CacheException(CacheConstants.NO_ACCs);
+                throw new CacheException("The CC library did not contain any ACCs. Please make sure at least one ACC is present in the library before proceeding with the wizard.");
             }
         }
     }
@@ -752,14 +752,14 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (CDTLs.ContainsKey(cdtl.Name))
                 {
                     CDTLs.Clear();
-                    throw new CacheException(CacheConstants.CDTL_EXISTS);
+                    throw new CacheException("The wizard encountered two CDT libraries having identical names. Please verify your model!");
                 }
                 CDTLs.Add(cdtl.Name, new cCDTLibrary(cdtl.Name, cdtl.Id));
             }
 
             if (CDTLs.Count == 0)
             {
-                throw new CacheException(CacheConstants.NO_CDTLs);
+                throw new CacheException("The repository did not contain any CDT libraries. Please make sure at least one CDT library is present before proceeding with the wizard.");
             }
         }
 
@@ -772,7 +772,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (BIELs.ContainsKey(biel.Name))
                 {
                     BIELs.Clear();
-                    throw new CacheException(CacheConstants.BIEL_EXISTS);
+                    throw new CacheException("The wizard encountered two BIE libraries having identical names. Please verify your model!");
                 }
 
                 BIELs.Add(biel.Name, new cBIELibrary(biel.Name, biel.Id));
@@ -782,7 +782,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (BIELs[biel.Name].ABIEs.ContainsKey(abie.Name))
                     {
                         BIELs[biel.Name].ABIEs.Clear();
-                        throw new CacheException(CacheConstants.ABIE_EXISTS);
+                        throw new CacheException("The wizard encountered two ABIEs within one BIE library having identical names. Please verify your model!");
                     }
 
                     BIELs[biel.Name].ABIEs.Add(abie.Name, new cABIE(abie.Name, abie.Id, abie.BasedOn.Id));
@@ -791,7 +791,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (BIELs.Count == 0)
             {
-                throw new CacheException(CacheConstants.NO_BIELs);
+                throw new CacheException("The repository did not contain any BIE libraries. Please make sure at least one BIE library is present before proceeding with the wizard.");
             }
         }
 
@@ -802,7 +802,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (BDTLs.ContainsKey(bdtl.Name))
                 {
                     BDTLs.Clear();
-                    throw new CacheException(CacheConstants.BDTL_EXISTS);
+                    throw new CacheException("The wizard encountered two BDT libraries having identical names. Please verify your model!");
                 }
 
                 BDTLs.Add(bdtl.Name, new cBDTLibrary(bdtl.Name, bdtl.Id));
@@ -812,7 +812,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (BDTLs[bdtl.Name].BDTs.ContainsKey(bdt.Name))
                     {
                         BDTLs[bdtl.Name].BDTs.Clear();
-                        throw new CacheException(CacheConstants.BDT_EXISTS);
+                        throw new CacheException("The wizard encountered two BDTs within one BDT library having identical names. Please verify your model!");
                     }
 
                     BDTLs[bdtl.Name].BDTs.Add(bdt.Name, new cBDT(bdt.Name, bdt.Id, bdt.BasedOn.CDT.Id, CheckState.Unchecked));
@@ -821,7 +821,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (BDTLs.Count == 0)
             {
-                throw new CacheException(CacheConstants.NO_BDTLs);
+                throw new CacheException("The repository did not contain any BDT libraries. Please make sure at least one BDT library is present before proceeding with the wizard.");
             }
         }        
 
@@ -832,7 +832,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (BIVs.ContainsKey(docl.Name))
                 {
                     BIVs.Clear();
-                    throw new CacheException(CacheConstants.BIV_EXISTS);
+                    throw new CacheException("The wizard encountered two BIVs having identical names. Please verify your model!");
                 }
 
                 BIVs.Add(docl.Name, new cBIV(docl.Name, docl.Id));
@@ -840,31 +840,13 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (BIVs.Count == 0)
             {
-                throw new CacheException(CacheConstants.NO_BIVs);
+                throw new CacheException("The repository did not contain any BIVs. Please make sure at least one BIV is present before proceeding with the wizard.");
             }
         }
     }
 
     public class CacheConstants
     {
-        public const string CDTL_EXISTS = "The wizard encountered two CDT libraries having identical names. Please verify your model!";
-        public const string BIEL_EXISTS = "The wizard encountered two BIE libraries having identical names. Please verify your model!";
-        public const string ABIE_EXISTS = "The wizard encountered two ABIEs within one BIE library having identical names. Please verify your model!";
-        public const string BDTL_EXISTS = "The wizard encountered two BDT libraries having identical names. Please verify your model!";
-        public const string BDT_EXISTS = "The wizard encountered two BDTs within one BDT library having identical names. Please verify your model!";
-        public const string BIV_EXISTS = "The wizard encountered two BIVs having identical names. Please verify your model!";
-        public const string NO_CDTLs = "The repository did not contain any CDT libraries. Please make sure at least one CDT library is present before proceeding with the wizard.";
-        public const string NO_BIELs = "The repository did not contain any BIE libraries. Please make sure at least one BIE library is present before proceeding with the wizard.";
-        public const string NO_BDTLs = "The repository did not contain any BDT libraries. Please make sure at least one BDT library is present before proceeding with the wizard.";
-        public const string ACC_EXISTS = "The wizard encountered two ACCs having identical names. Please verify your model!";
-        public const string NO_ACCs = "The CC library did not contain any ACCs. Please make sure at least one ACC is present in the library before proceeding with the wizard.";
-        public const string BCC_EXISTS = "The wizard encountered two BCCs within one ACC having identical names. Please verify your model!";
-        public const string CDT_EXISTS = "The wizard encountered two CDTs within one CDT library having identical names. Please verify your model!";
-        public const string NO_CDTs = "The CC library did not contain any CDTs. Please make sure at least one ACC is present in the library before proceeding with the wizard.";
-        public const string ASCC_EXISTS = "The wizard encountered two ASCCs having identical target role names. Please verify your model!";
-        public const string ASCC_ERRONEOUS = "The wizard encountered an association whose target role name is not set properly. Please verify your model!";
-        public const string NO_BIVs = "The repository did not contain any BIVs. Please make sure at least one BIV is present before proceeding with the wizard.";
-
         public const int PATH_BCCs = 1;
         public const int PATH_ASCCs = 2;
         public const int PATH_BDTLs = 3;
