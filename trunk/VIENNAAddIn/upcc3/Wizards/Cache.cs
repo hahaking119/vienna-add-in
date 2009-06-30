@@ -15,8 +15,6 @@ using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
-    #region code to be cleaned up
-
     public class cItem
     {
         public cItem()
@@ -123,7 +121,6 @@ namespace VIENNAAddIn.upcc3.Wizards
                 int cdtId = Id;
                 ICDT cdt = repository.GetCDT(cdtId);
 
-                //CON = new cCON(cdt.CON.Name, cdt.CON.Id, CheckState.Checked);
                 CON.Name = cdt.CON.Name;
                 CON.Id = cdt.CON.Id;
                 CON.State = CheckState.Checked;
@@ -176,7 +173,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (CDTs.Count == 0)
                 {
-                    throw new CacheException("The CC library did not contain any CDTs. Please make sure at least one ACC is present in the library before proceeding with the wizard.");
+                    throw new CacheException(
+                        "The CC library did not contain any CDTs. Please make sure at least one CDT is present in the library before proceeding with the wizard.");
                 }
             }
         }
@@ -319,7 +317,6 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public void LoadBCCsAndCreateDefaults(CCRepository repository, IDictionary<string, cBDTLibrary> bdtls)
         {
-            //if (BCCs.Count == 0)
             if (!HasBCCs())
             {
                 IACC acc = repository.GetACC(Id);
@@ -337,15 +334,12 @@ namespace VIENNAAddIn.upcc3.Wizards
                     BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Type.Id, CheckState.Unchecked));
 
                     BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
-
-                    //BCCs[bcc.Name].BBIEs[bcc.Name].BDTs = GetRelevantBDTs(bcc.Type.Id, bdtls);
                 }                
             }
         }
 
         public void LoadBCCsAndBBIEs(CCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IABIE abie)
         {
-            //if (BCCs.Count == 0)
             if (!HasBCCs())
             {
                 IACC acc = repository.GetACC(Id);
@@ -364,8 +358,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     foreach (IBBIE bbie in abie.BBIEs)
                     {
                         if (bbie.Name.Contains(bcc.Name))
-                        {
-                            //BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Checked));
+                        {                            
                             BCCs[bcc.Name].State = CheckState.Checked;
                             BCCs[bcc.Name].BBIEs.Add(bbie.Name,
                                                      new cBBIE(bbie.Name, -1, bcc.Type.Id, CheckState.Checked));
@@ -378,8 +371,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     {
                         BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Type.Id, CheckState.Unchecked));
                         BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
-                    }
-                    //BCCs[bcc.Name].BBIEs[bcc.Name].BDTs = GetRelevantBDTs(bcc.Type.Id, bdtls);
+                    }                   
                 }
             }
         }
@@ -418,12 +410,12 @@ namespace VIENNAAddIn.upcc3.Wizards
                             }
                             else
                             {
-                                throw new CacheException("The wizard encountered two ASCCs having identical target role names. Please verify your model!");
+                                throw new CacheException("The wizard encountered two ASCCs having identical target role names. Please make sure that all ASCCs for a particular ACC have unique target role names before proceeding with the wizard.");
                             }                                                    
                         }
                         else
                         {
-                            MessageBox.Show("The wizard encountered an association whose target role name is not set properly. Please verify your model!", "ABIE Wizard", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            throw new CacheException("The wizard encountered an association whose target role name is not set properly. Please make sure that all ASCC's target names are set properly before proceeding with the wizard.");
                         }
                     }
                 }
@@ -585,36 +577,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
     }
 
-    #endregion code to be cleaned up
 
     public class Cache
     {
-        /* BEGIN - REVISED CLEAN CODE*/
-
-        public void LoadCCLs(CCRepository repository)
-        {
-            foreach (ICCLibrary ccl in repository.Libraries<CCLibrary>())
-            {
-                if (CCLs.ContainsKey(ccl.Name))
-                {
-                    EmptyCache();
-                    throw new CacheException("ERROR: The wizard encountered two CC libraries having identical names. Please make sure that all CC libraries within the model have unique names before proceeding with the wizard.");                   
-                }
-
-                CCLs.Add(ccl.Name, new cCCLibrary(ccl.Name, ccl.Id));
-            }
-
-            if (CCLs.Count == 0)
-            {
-                throw new CacheException("ERROR: The repository did not contain any CC libraries. Please make sure at least one CC library is present before proceeding with the wizard.");
-            }
-        }
-
-
-        /* END - REVISED CLEAN CODE*/ 
-
-
-
         public IDictionary<string, cCCLibrary> CCLs { get; set; }
         public IDictionary<string, cCDTLibrary> CDTLs { get; set; }
         public IDictionary<string, cBDTLibrary> BDTLs { get; set; }
@@ -745,6 +710,25 @@ namespace VIENNAAddIn.upcc3.Wizards
             return true;
         }
 
+        public void LoadCCLs(CCRepository repository)
+        {
+            foreach (ICCLibrary ccl in repository.Libraries<CCLibrary>())
+            {
+                if (CCLs.ContainsKey(ccl.Name))
+                {
+                    EmptyCache();
+                    throw new CacheException("The wizard encountered two CC libraries having identical names. Please make sure that all CC libraries within the model have unique names before proceeding with the wizard.");
+                }
+
+                CCLs.Add(ccl.Name, new cCCLibrary(ccl.Name, ccl.Id));
+            }
+
+            if (CCLs.Count == 0)
+            {
+                throw new CacheException("The repository did not contain any CC libraries. Please make sure at least one CC library is present before proceeding with the wizard.");
+            }
+        }
+
         public void LoadCDTLs(CCRepository repository)
         {
             foreach (ICDTLibrary cdtl in repository.Libraries<CDTLibrary>())
@@ -752,7 +736,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (CDTLs.ContainsKey(cdtl.Name))
                 {
                     CDTLs.Clear();
-                    throw new CacheException("The wizard encountered two CDT libraries having identical names. Please verify your model!");
+                    throw new CacheException("The wizard encountered two CDT libraries having identical names. Please make sure that all CDT libraries within the model have unique names before proceeding with the wizard.");
                 }
                 CDTLs.Add(cdtl.Name, new cCDTLibrary(cdtl.Name, cdtl.Id));
             }
@@ -763,8 +747,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-
-
+        
         public void LoadBIELsAndTheirABIEs(CCRepository repository)
         {
             foreach (IBIELibrary biel in repository.Libraries<IBIELibrary>())
@@ -772,7 +755,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (BIELs.ContainsKey(biel.Name))
                 {
                     BIELs.Clear();
-                    throw new CacheException("The wizard encountered two BIE libraries having identical names. Please verify your model!");
+                    throw new CacheException("The wizard encountered two BIE libraries having identical names. Please make sure that all BIE libraries within the model have unique names before proceeding with the wizard.");
                 }
 
                 BIELs.Add(biel.Name, new cBIELibrary(biel.Name, biel.Id));
@@ -782,7 +765,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (BIELs[biel.Name].ABIEs.ContainsKey(abie.Name))
                     {
                         BIELs[biel.Name].ABIEs.Clear();
-                        throw new CacheException("The wizard encountered two ABIEs within one BIE library having identical names. Please verify your model!");
+                        throw new CacheException("The wizard encountered two ABIEs within one BIE library having identical names. Please make sure that all ABIEs within each BIE library have unique names before proceeding with the wizard.");
                     }
 
                     BIELs[biel.Name].ABIEs.Add(abie.Name, new cABIE(abie.Name, abie.Id, abie.BasedOn.Id));
@@ -802,7 +785,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (BDTLs.ContainsKey(bdtl.Name))
                 {
                     BDTLs.Clear();
-                    throw new CacheException("The wizard encountered two BDT libraries having identical names. Please verify your model!");
+                    throw new CacheException("The wizard encountered two BDT libraries having identical names. Please make sure that all BDT libraries within the model have unique names before proceeding with the wizard.");
                 }
 
                 BDTLs.Add(bdtl.Name, new cBDTLibrary(bdtl.Name, bdtl.Id));
@@ -812,7 +795,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (BDTLs[bdtl.Name].BDTs.ContainsKey(bdt.Name))
                     {
                         BDTLs[bdtl.Name].BDTs.Clear();
-                        throw new CacheException("The wizard encountered two BDTs within one BDT library having identical names. Please verify your model!");
+                        throw new CacheException("The wizard encountered two BDTs within one BDT library having identical names. Please make sure that all BDTs within each BDT library have unique names before proceeding with the wizard.");
                     }
 
                     BDTLs[bdtl.Name].BDTs.Add(bdt.Name, new cBDT(bdt.Name, bdt.Id, bdt.BasedOn.CDT.Id, CheckState.Unchecked));
@@ -832,7 +815,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 if (BIVs.ContainsKey(docl.Name))
                 {
                     BIVs.Clear();
-                    throw new CacheException("The wizard encountered two BIVs having identical names. Please verify your model!");
+                    throw new CacheException("The wizard encountered two BIVs having identical names. Please make sure that all BIVs within the model have unique names before proceeding with the wizard.");
                 }
 
                 BIVs.Add(docl.Name, new cBIV(docl.Name, docl.Id));

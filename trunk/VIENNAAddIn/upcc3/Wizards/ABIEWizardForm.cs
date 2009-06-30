@@ -1,4 +1,13 @@
-﻿using System;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -13,17 +22,17 @@ namespace VIENNAAddIn.upcc3.Wizards
     ///</summary>
     public partial class ABIEWizardForm : Form
     {
-        #region Variable Declarations
+        #region Field Declarations
 
         private CCRepository repository;
         private ABIE abie;
         private Cache cache;
         private TextBox editboxBBIEName;
         private TextBox editboxBDTName;
-        private bool editboxBBIENameEsc = false;
-        private bool editboxBDTNameEsc = false;
+        private bool editboxBBIENameEsc;
+        private bool editboxBDTNameEsc;
         private int mouseDownPosX;
-        private bool editMode = true;
+        private bool wizardModeCreate = true;
         private bool userHasClickedCheckbox;
         private const int MARGIN = 15;
         private const string DEFAULT_PREFIX = "My";
@@ -37,73 +46,24 @@ namespace VIENNAAddIn.upcc3.Wizards
         private string selectedBIELName;
         private string selectedASCCName;
 
-        private const string CAPTION_ERROR_WINDOW = "ABIE Wizard Error";
-        private const string CAPTION_INFO_WINDOW = "ABIE Wizard";
-
-        private const string INFO_MSG_BBIE_EXISTS =
-            "WARNING: The name of the BBIE couldn't be changed since the current ABIE alreday contains another BBIE named \"{0}\". Please choose a different name before proceeding to edit the name of the BBIE.";
-
-        private const string INFO_MSG_BDT_EXISTS = "A BDT named \"{0}\" already exists!";
-
         #endregion
 
         #region Constructor
 
         ///<summary>
-        /// The constructor of the ABIE has one input parameter which is the EA
-        /// repository that the wizard operates on. Based on the EA repository the 
-        /// constructor pre-poluates the internal cache of the wizard with all CC 
-        /// libraries, all BDT libraries and their corresponding BDTs, all BIE libraries 
-        /// and their corresponding ABIEs. Furthermore, the constructor initializes
-        /// different textboxes and labels used for on-the-fly editing or validation. 
-        /// An example for on-the-fly editing and validation is renaming a BBIE and
-        /// validation that the name of the BBIE is already in use. 
+        /// The method prepares the wizard cache for creating new ABIEs as 
+        /// well as editing existing ABIEs. In particular the method caches
+        /// the CC libraries, the BDT libraries, as well as the BIE libraries
+        /// from the EA repository passed through the parameter eaRepo.
+        /// The method is used by the constructors only. 
         ///</summary>
-        ///<param name="eaRepository"></param>
-        public ABIEWizardForm(Repository eaRepository)
+        ///<param name="eaRepo">
+        /// Specifies an EA repository that the wizard operates on. 
+        /// eaRepo an EA repository that the wizard
+        /// cache is created for. 
+        ///</param>
+        private void InitializeWizardCache(Repository eaRepo)
         {
-            InitializeComponent();
-            
-            try
-            {
-                repository = new CCRepository(eaRepository);
-
-                cache = new Cache();
-
-                cache.LoadCCLs(repository);
-
-                cache.LoadBIELsAndTheirABIEs(repository);
-
-                cache.LoadBDTLsAndTheirBDTs(repository);
-            }
-            catch (CacheException ce)
-            {
-                InformativeMessage(ce.Message);
-                ResetForm(0);
-            }
-            catch (Exception e)
-            {
-                CriticalErrorMessage(e.ToString());
-                ResetForm(0);
-            }
-        }
-
-        ///<summary>
-        /// The constructor of the ABIE has two input parameter, where one is the EA
-        /// repository to save the edited Element into and the other one is the element
-        /// which should be manipulated. Furthermore, the constructor initializes
-        /// different textboxes and labels used for on-the-fly editing or validation. 
-        /// An example for on-the-fly editing and validation is renaming a BBIE and
-        /// validation that the name of the BBIE is already in use. 
-        ///</summary>
-        ///<param name="eaRepo"></param>
-        /// <param name="element"></param>
-        public ABIEWizardForm(EA.Repository eaRepo, EA.Element element)
-        {
-            repository = new CCRepository(eaRepo);
-            abie = (ABIE) repository.GetABIE(element.ElementID);
-            editMode = false;
-            InitializeComponent();
             try
             {
                 repository = new CCRepository(eaRepo);
@@ -111,14 +71,12 @@ namespace VIENNAAddIn.upcc3.Wizards
                 cache = new Cache();
 
                 cache.LoadCCLs(repository);
-
                 cache.LoadBIELsAndTheirABIEs(repository);
-
                 cache.LoadBDTLsAndTheirBDTs(repository);
             }
             catch (CacheException ce)
             {
-                InformativeMessage(ce.Message);
+                richtextStatus.Text = ce.Message;
                 ResetForm(0);
             }
             catch (Exception e)
@@ -128,53 +86,105 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
+        ///<summary>
+        /// This constructor is typically used to prepare the ABIE wizard for 
+        /// creating new ABIEs in an EA repository. The constructor of the ABIE 
+        /// wizard has one input parameter which is the EA repository that the 
+        /// wizard operates on. 
+        ///</summary>
+        ///<param name="eaRepository">
+        /// The EA repository that the wizard operates on. 
+        ///</param>
+        private ABIEWizardForm(Repository eaRepository)
+        {
+            InitializeComponent();
+
+            InitializeWizardCache(eaRepository);           
+        }
+
+        ///<summary>
+        /// This constructor is typically used to prepare the ABIE wizard for
+        /// editing an existing ABIE in an EA repository. The constructor of the 
+        /// ABIE wizard has two input parameters which include (1) the EA repository 
+        /// that the wizard operates on and (2) the ABIE to be modified. 
+        ///</summary>
+        ///<param name="eaRepo">
+        /// The EA repository that the wizard operates on.
+        ///</param>
+        ///<param name="element">
+        /// The ABIE to be modified. 
+        ///</param>
+        private ABIEWizardForm(Repository eaRepo, Element element)
+        {
+            InitializeComponent();
+
+            InitializeWizardCache(eaRepo);
+
+            // retrieve the current ABIE to be edited 
+            abie = (ABIE)repository.GetABIE(element.ElementID);
+            wizardModeCreate = false;
+        }
+
         #endregion
+
+        #region Wizard Launch Methods
+        ///<summary>
+        /// This Method is used to show the Generate new ABIE Wizard Window.
+        /// There is no initial Element to load.
+        ///</summary>
+        ///<param name="context"></param>
+        public static void ShowABIEWizard(AddInContext context)
+        {
+            new ABIEWizardForm(context.EARepository).Show();
+        }
+
+        ///<summary>
+        /// This Method is used to show the Modify existing ABIE Wizard Window.
+        /// The selected ABIE has to be passed over to the ABIE Wizard.
+        ///</summary>
+        ///<param name="context"></param>
+        public static void ShowModifyABIEWizard(AddInContext context)
+        {
+            new ABIEWizardForm(context.EARepository, (Element)context.SelectedItem).Show();
+        }
+
+        #endregion
+
 
         #region Event Handlers
 
+        ///<summary>
+        /// The method initializes the windows form. Depending on whether the wizard
+        /// is launched for creating new ABIEs or editing an existing ABIE, the user
+        /// interface of the wizard is adapted accordingly. 
+        ///</summary>
+        ///<param name="sender"></param>
+        ///<param name="e"></param>
         private void ABIEWizardForm_Load(object sender, EventArgs e)
         {
-            /*
-              * Disable all input controls on the UI. The controls will be enabled
-              * depending of the input provided through the user.
-              **/
             ResetForm(0);
 
-            /*
-             * As part of the wizard being launched the items already stored in 
-             * the cache are displayed to the user. These items include the cached 
-             * CC libraries, BDT libraries and BIE libraries. 
-             **/
             MirrorCCLibrariesToUI();
             MirrorBDTLibrariesToUI();
             MirrorBIELibrariesToUI();
 
-            /*
-             * Also default entries are selected in the combo boxes for the
-             * BDT and BIE libraries. 
-             **/
             SetSafeIndex(comboBDTLs, 0);
             SetSafeIndex(comboBIELs, 0);
 
-            /*
-             * Also set a default prefix for the generated Artifacts
-             **/
             textPrefix.Text = DEFAULT_PREFIX;
 
-            /*
-             * Per default all of the user input controls are disabled except the
-             * combo box containing all the CC libraries. 
-             **/
-            if (editMode)
+            if (wizardModeCreate)
             {
                 ResetForm(1);
                 ResetForm(2);
                 ResetForm(3);
-                buttonGenerate.Text = "&Generate ABIE ...";
-                buttonGenerate.Show();
+                
+                buttonGenerate.Text = "&Create ABIE ...";
             }
             else
             {
+                // TODO andik/fabiank: this code needs to be cleaned up!
+                #region code to be cleaned up
                 textABIEName.Text = abie.Name;
                 int correctCCL = -1;
                 bool found = false;
@@ -205,31 +215,13 @@ namespace VIENNAAddIn.upcc3.Wizards
                     InformativeMessage("no corresponding CCLibrary found.");
                     Close();
                 }
+
                 comboACCs.SelectedIndex = comboACCs.FindString(abie.BasedOn.Name);
                 comboACCs_SelectionChangeCommitted(null, null);
 
+                
                 foreach (IASBIE asbie in abie.ASBIEs)
                 {
-                    if (asbie.AssociatedElement.Name == abie.Name)
-                    {
-                        for (int i = 0; i < checkedlistboxASCCs.Items.Count; i++)
-                        {
-                            int indexBrace = checkedlistboxASCCs.Items[i].ToString().IndexOf('(');
-                            string itemName = checkedlistboxASCCs.Items[i].ToString().Substring(indexBrace + 1,
-                                                                                                checkedlistboxASCCs.
-                                                                                                    Items[i].ToString().
-                                                                                                    Length - indexBrace -
-                                                                                                2);
-                            if (itemName.Equals(asbie.AssociatingElement.Name))
-                            {
-                                checkedlistboxASCCs.SetSelected(i, true);
-                                checkedlistboxASCCs.SetItemChecked(i, true);
-                                checkedlistboxASCCs_ItemCheck(null,
-                                                              new ItemCheckEventArgs(i, CheckState.Checked,
-                                                                                     CheckState.Unchecked));
-                            }
-                        }
-                    }
                     if (asbie.AssociatingElement.Name == abie.Name)
                     {
                         for (int i = 0; i < checkedlistboxASCCs.Items.Count; i++)
@@ -251,104 +243,66 @@ namespace VIENNAAddIn.upcc3.Wizards
                         }
                     }
                 }
+
+                #endregion
+                
+                ResetForm(0);                
                 ResetForm(4);
+
                 buttonGenerate.Text = "&Save ABIE ...";
-                buttonGenerate.Show();
-                //buttonSave.Show();
             }
 
-            /*
-             * In the following two labels and two edit boxes are defined. The labels are used
-             * to display error messages to the user for validation performed on the fly. An
-             * example for validation performed on the fly is to check if an ABIE already exists
-             * in the currently selected BIE library that the user is about to generate. The
-             * edit boxes are used to enable to user to edit BBIE and BDT names in checked list 
-             * boxes. The reason for using edit boxes is that checked list boxes currently do not
-             * support to edit items in the checked listbox. Therefore a workaround based on edit
-             * boxes is used in the following way: in case the user double-clicks on an entry
-             * in the checked listbox an edit box is displayed overlaying the double-clicked item. 
-             * This allows the user to enter a new name for the item in the checked listbox. 
-             **/
             CreateOnTheFlyControls();
         }
 
+        ///<summary>
+        /// The method is invoked in case the user selects a CC library from the 
+        /// combo box. The method causes the cache to load all ACCs contained in 
+        /// the CC library chosen. Finally, the method mirrors the ACCs loaded
+        /// to the wizard UI. 
+        ///</summary>
+        ///<param name="sender"></param>
+        ///<param name="e"></param>
         private void comboCCLs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            /*
-             * This event is triggered in case the user selected an entry in the combo
-             * box containing all CC libraries. As a result the relevant ACCs contained
-             * in the CC library selected need to be cached as well as displayed to the
-             * user. 
-             **/
-
             try
             {
-                /*
-                 * To retrieve the currently selected user input the method GatherUserInput()
-                 * is used. 
-                 */
                 GatherUserInput();
 
                 if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName}))
                 {
-                    /*
-                     * First check, if the CC library has not been selectd the first time because
-                     * if so then the ACCs contained in the CC library have already been cashed. 
-                     * And if the ACCs are already cashed they can be directlay displayed to the
-                     * user. 
-                     **/
                     cache.CCLs[selectedCCLName].LoadACCs(repository);
 
-                    /*
-                     * Display the relevant ACCs contained in the currently selected CC library
-                     * to the user by using the method MirrorACCsToUI().
-                     */
                     MirrorACCsToUI();
 
-                    /*
-                     * Accordingly, enable the combo box containing all ACCs to allow the 
-                     * user to choose an ACC.
-                     **/
-                    if (editMode)
-                    {
-                        ResetForm(2);
-                    }
+                    ResetForm(2);
                 }
             }
             catch (CacheException ce)
             {
-                InformativeMessage(ce.Message);
+                richtextStatus.Text = ce.Message;
                 ResetForm(0);
             }
         }
 
+        ///<summary>
+        /// The method is invoked in case the user selects an ACC from the combo box. 
+        ///</summary>
+        ///<param name="sender"></param>
+        ///<param name="e"></param>
         private void comboACCs_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            /*
-             * This event is triggered in case the user chose an ACC from the 
-             * combo box containing all ACCs. In case an ACC is selected it is 
-             * necessary to display the BCCs of the ACC to the user. Along with 
-             * displaying the BCCs to the user it is necessary to create a default
-             * BBIE for each BCC and a list of relevant datatypes for each BBIE. 
-             **/
-
             try
             {
-                /*
-                 * To operate on the correct ACC the currently selected user input 
-                 * is retrieved from the UI. 
-                 **/
                 GatherUserInput();
 
                 if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName}))
                 {
-                    if (editMode)
+                    if (wizardModeCreate)
                     {
                         cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndCreateDefaults(repository,
                                                                                                     cache.BDTLs);
                     }
-
-                        //use new Method for loading BBIEs in modify mode
                     else
                     {
                         cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndBBIEs(repository,
@@ -356,18 +310,16 @@ namespace VIENNAAddIn.upcc3.Wizards
                     }
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
                 }
-                if (editMode)
-                {
-                    textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
-                    ResetForm(3);
-                }
+
+                textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
+                richtextStatus.Text = "";
             }
             catch (CacheException ce)
             {
+                richtextStatus.Text = ce.Message;
                 ResetForm(0);
                 ResetForm(1);
                 ResetForm(2);
-                InformativeMessage(ce.Message);
             }
             finally
             {
@@ -376,6 +328,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 CheckIfConfigurationValid();
             }
         }
+
 
         private void checkedlistboxBCCs_ItemCheck(object sender, ItemCheckEventArgs e)
         {
@@ -483,7 +436,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.ContainsKey(
                         newBBIEName))
                 {
-                    richtextStatus.Text = INFO_MSG_BBIE_EXISTS.Replace("{0}", newBBIEName);
+                    richtextStatus.Text = "WARNING: The name of the BBIE couldn't be changed since the current ABIE alreday contains another BBIE named \"{0}\". Please choose a different name before proceeding to edit the name of the BBIE.".Replace("{0}", newBBIEName);
                 }
                 else
                 {
@@ -620,7 +573,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 if (bdtl.BDTs.ContainsKey(newBDTName))
                 {
-                    richtextStatus.Text += INFO_MSG_BDT_EXISTS.Replace("{0}", newBDTName);
+                    richtextStatus.Text += "A BDT named \"{0}\" already exists!".Replace("{0}", newBDTName);
 
                     return;
                 }
@@ -696,7 +649,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void textABIEName_TextChanged(object sender, EventArgs e)
         {
-            if (editMode)
+            if (wizardModeCreate)
             {
                 CheckIfConfigurationValid();
             }
@@ -714,7 +667,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
-            if (editMode)
+            if (wizardModeCreate)
             {
                 GatherUserInput();
                 IBIELibrary selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
@@ -725,8 +678,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                 IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
                                                         new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
-                textABIEName.Text = "";
-                textABIEName.Text = newABIE.Name;
+
+                richtextStatus.Text = "SUCCESS: an ABIE named " + newABIE.Name + " has been created.";
+                buttonGenerate.Enabled = false;
+                //textABIEName.Text = "";
+                //textABIEName.Text = newABIE.Name;
             }
             else
             {
@@ -741,13 +697,12 @@ namespace VIENNAAddIn.upcc3.Wizards
                 cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
                                                         new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
-                textABIEName.Text = "";
-                textABIEName.Text = newABIE.Name;
                 if (newABIE.Id > -1)
                 {
-                    InformativeMessage("ABIE " + newABIE.Name + " update succeeded.");
-                }
-                Close();
+                    richtextStatus.Text = "SUCCESS: the ABIE named " + newABIE.Name + " has been udpated.";
+
+                    ResetForm(0);
+                }               
             }
         }
 
@@ -832,6 +787,20 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void CreateOnTheFlyControls()
         {
+            /*
+             * In the following two labels and two edit boxes are defined. The labels are used
+             * to display error messages to the user for validation performed on the fly. An
+             * example for validation performed on the fly is to check if an ABIE already exists
+             * in the currently selected BIE library that the user is about to generate. The
+             * edit boxes are used to enable to user to edit BBIE and BDT names in checked list 
+             * boxes. The reason for using edit boxes is that checked list boxes currently do not
+             * support to edit items in the checked listbox. Therefore a workaround based on edit
+             * boxes is used in the following way: in case the user double-clicks on an entry
+             * in the checked listbox an edit box is displayed overlaying the double-clicked item. 
+             * This allows the user to enter a new name for the item in the checked listbox. 
+             **/
+
+
             /*
              * Edit box to edit the name of a BBIE listed in the checked listbox 
              * displaying all BBIEs. 
@@ -1189,12 +1158,12 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private static void CriticalErrorMessage(string errorMessage)
         {
-            MessageBox.Show(errorMessage, CAPTION_ERROR_WINDOW, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(errorMessage, "ABIE Wizard Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private static void InformativeMessage(string infoMessage)
         {
-            MessageBox.Show(infoMessage, CAPTION_INFO_WINDOW, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(infoMessage, "ABIE Wizard", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void CheckIfConfigurationValid()
@@ -1202,7 +1171,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             GatherUserInput();
 
             buttonGenerate.Enabled = true;
-
+            richtextStatus.Text = "";
 
             if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName}))
             {
@@ -1212,23 +1181,24 @@ namespace VIENNAAddIn.upcc3.Wizards
                     buttonGenerate.Enabled = false;
                     return;
                 }
-                richtextStatus.Text = "";
+                //richtextStatus.Text = "";
 
-                if (cache.BIELs[selectedBIELName].ABIEs.ContainsKey(textABIEName.Text))
+                if ((cache.BIELs[selectedBIELName].ABIEs.ContainsKey(textABIEName.Text)) && (wizardModeCreate))
                 {
                     richtextStatus.Text = "WARNING: An ABIE with the name " + textABIEName.Text +
                                           " already exists. Please change the name of your ABIE accordingly.\n";
                     buttonGenerate.Enabled = false;
                     return;
                 }
-                richtextStatus.Text = "";
+
+                //richtextStatus.Text = "";
 
 
-                if (!(richtextStatus.Text.Equals("")))
-                {
-                    buttonGenerate.Enabled = false;
-                    return;
-                }
+                //if (!(richtextStatus.Text.Equals("")))
+                //{
+                //    buttonGenerate.Enabled = false;
+                //    return;
+                //}
 
                 if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].HasBCCs())
                 {
@@ -1265,25 +1235,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
-        ///<summary>
-        /// This Method is used to show the Generate new ABIE Wizard Window.
-        /// There is no initial Element to load.
-        ///</summary>
-        ///<param name="context"></param>
-        public static void ShowABIEWizard(AddInContext context)
-        {
-            new ABIEWizardForm(context.EARepository).Show();
-        }
 
-        ///<summary>
-        /// This Method is used to show the Modify existing ABIE Wizard Window.
-        /// The selected ABIE has to be passed over to the ABIE Wizard.
-        ///</summary>
-        ///<param name="context"></param>
-        public static void ShowModifyABIEWizard(AddInContext context)
-        {
-            new ABIEWizardForm(context.EARepository, (Element) context.SelectedItem).Show();
-        }
 
         private ABIESpec createABISpec(IACC selectedACC)
         {

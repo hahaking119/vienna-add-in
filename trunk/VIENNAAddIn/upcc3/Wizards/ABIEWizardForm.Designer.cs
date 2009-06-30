@@ -275,7 +275,7 @@
             this.groupboxASBIEs.Controls.Add(this.checkedlistboxASCCs);
             this.groupboxASBIEs.Location = new System.Drawing.Point(6, 3);
             this.groupboxASBIEs.Name = "groupboxASBIEs";
-            this.groupboxASBIEs.Size = new System.Drawing.Size(638, 352);
+            this.groupboxASBIEs.Size = new System.Drawing.Size(638, 322);
             this.groupboxASBIEs.TabIndex = 0;
             this.groupboxASBIEs.TabStop = false;
             this.groupboxASBIEs.Text = "ABIEs available to associate the new ABIE with";
@@ -289,7 +289,7 @@
             this.checkedlistboxASCCs.FormattingEnabled = true;
             this.checkedlistboxASCCs.Location = new System.Drawing.Point(11, 22);
             this.checkedlistboxASCCs.Name = "checkedlistboxASCCs";
-            this.checkedlistboxASCCs.Size = new System.Drawing.Size(615, 319);
+            this.checkedlistboxASCCs.Size = new System.Drawing.Size(615, 289);
             this.checkedlistboxASCCs.TabIndex = 0;
             this.checkedlistboxASCCs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedlistboxASCCs_ItemCheck);
             // 
@@ -423,7 +423,6 @@
             this.buttonGenerate.TabIndex = 31;
             this.buttonGenerate.Text = "&Generate ABIE ...";
             this.buttonGenerate.UseVisualStyleBackColor = true;
-            this.buttonGenerate.Visible = false;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
             // groupboxStatus
