@@ -31,6 +31,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private TextBox editboxBDTName;
         private bool editboxBBIENameEsc;
         private bool editboxBDTNameEsc;
+        private List<string> editboxBDTNameList = new List<string>();
         private int mouseDownPosX;
         private bool wizardModeCreate = true;
         private bool userHasClickedCheckbox;
@@ -313,6 +314,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
                 richtextStatus.Text = "";
+                editboxBDTNameList.Clear();
+                editboxBDTNameList.Add("Create new BDT");
             }
             catch (CacheException ce)
             {
@@ -550,7 +553,13 @@ namespace VIENNAAddIn.upcc3.Wizards
                                           selectedBDTName
                                       }))
             {
-                if (selectedBDTName == "Create new BDT")
+                bool nameAlreadyExists = false;
+                foreach(string curName in editboxBDTNameList)
+                {
+                    if(curName == selectedBDTName)
+                        nameAlreadyExists = true;
+                }
+                if (nameAlreadyExists)
                 {
                     Rectangle r = checkedlistboxBDTs.GetItemRectangle(checkedlistboxBDTs.SelectedIndex);
 
@@ -603,6 +612,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                 {
                                     bbie.BDTs.Insert(bbie.BDTs.Count - 1,
                                                      new cBDT(newBDTName, -1, bcc.Type, CheckState.Unchecked));
+                                    editboxBDTNameList.Add(newBDTName);
                                     break;
                                 }
                             }
@@ -623,7 +633,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void KeyPressedEditBDTName(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 13)
+          if (e.KeyChar == 13)
             {
                 UpdateBDTName();
                 editboxBDTName.Hide();
