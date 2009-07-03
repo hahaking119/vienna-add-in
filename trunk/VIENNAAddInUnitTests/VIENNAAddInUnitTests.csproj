@@ -71,6 +71,7 @@
     <Compile Include="TestRepository\EmptyEARepository.cs" />
     <Compile Include="TestRepository\IDFactory.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
+    <Compile Include="upcc3\ccts\otf\ValidatingRepositoryTests.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryResourceHandler.cs" />

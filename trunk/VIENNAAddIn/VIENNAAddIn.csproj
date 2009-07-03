@@ -119,6 +119,8 @@
     <Compile Include="upcc3\ccts\ENUMSpec.cs" />
     <Compile Include="upcc3\ccts\IBLibrary.cs" />
     <Compile Include="upcc3\ccts\IElementLibrary.cs" />
+    <Compile Include="upcc3\ccts\otf\BLibrary.cs" />
+    <Compile Include="upcc3\ccts\otf\ValidatingCCRepository.cs" />
     <Compile Include="upcc3\ccts\PRIMSpec.cs" />
     <Compile Include="upcc3\ccts\util\EAAttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAConnectorExtensions.cs" />
