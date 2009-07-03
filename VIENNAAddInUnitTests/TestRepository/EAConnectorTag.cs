@@ -19,11 +19,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public int TagID { get; set; }
 
-        public int ConnectorID
-        {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+        public int ConnectorID { get; set;}
 
         public string Name { get; set; }
 
