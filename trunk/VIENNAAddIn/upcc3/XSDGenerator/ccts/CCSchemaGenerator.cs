@@ -18,6 +18,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
         private const string NSPREFIX_XSD = "xsd";
         private const string NS_XSD = "http://www.w3.org/2001/XMLSchema";
+
+        private static List<String> globalASCCs = new List<String>();
    
 
         ///<summary>
@@ -141,13 +143,15 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
                 if (ascc.AggregationKind == EAAggregationKind.Shared)
                 {
-                    // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
-                    XmlSchemaElement refASCC = new XmlSchemaElement();
-                    refASCC.RefName =
-                        new XmlQualifiedName(accPrefix + ":" + ascc.Name + ascc.AssociatedElement.Name);
-                    sequenceBCCs.Items.Add(refASCC);
-
-                    schema.Items.Add(elementASCC);
+                    if (!globalASCCs.Contains(ascc.Name + ascc.AssociatedElement.Name))
+                    {
+                        // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
+                        XmlSchemaElement refASCC = new XmlSchemaElement();
+                        refASCC.RefName = new XmlQualifiedName(accPrefix + ":" + ascc.Name + ascc.AssociatedElement.Name);
+                        sequenceBCCs.Items.Add(refASCC);
+                        schema.Items.Add(elementASCC);
+                        globalASCCs.Add(ascc.Name + ascc.AssociatedElement.Name);
+                    }
                 }
                 else
                 {
