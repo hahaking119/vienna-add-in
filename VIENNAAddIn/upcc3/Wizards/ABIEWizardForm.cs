@@ -578,12 +578,14 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             string newBDTName = editboxBDTName.Text;
 
+            if(newBDTName == "Create new BDT")
+                return;
+
             foreach (cBDTLibrary bdtl in cache.BDTLs.Values)
             {
                 if (bdtl.BDTs.ContainsKey(newBDTName))
                 {
                     richtextStatus.Text += "A BDT named \"{0}\" already exists!".Replace("{0}", newBDTName);
-
                     return;
                 }
             }
