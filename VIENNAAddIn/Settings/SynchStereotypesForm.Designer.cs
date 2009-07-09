@@ -35,6 +35,7 @@
             // 
             // CloseButton
             // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CloseButton.Location = new System.Drawing.Point(246, 261);
             this.CloseButton.Name = "CloseButton";
@@ -46,6 +47,9 @@
             // 
             // missingList
             // 
+            this.missingList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.missingList.FormattingEnabled = true;
             this.missingList.Location = new System.Drawing.Point(1, 3);
             this.missingList.Name = "missingList";
@@ -54,6 +58,7 @@
             // 
             // FixAllButton
             // 
+            this.FixAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.FixAllButton.Location = new System.Drawing.Point(12, 261);
             this.FixAllButton.Name = "FixAllButton";
             this.FixAllButton.Size = new System.Drawing.Size(75, 23);
@@ -62,7 +67,7 @@
             this.FixAllButton.UseVisualStyleBackColor = true;
             this.FixAllButton.Click += new System.EventHandler(this.FixAllButton_Click);
             // 
-            // SynchStereotypesWindow
+            // SynchStereotypesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -71,13 +76,13 @@
             this.Controls.Add(this.FixAllButton);
             this.Controls.Add(this.missingList);
             this.Controls.Add(this.CloseButton);
-            this.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SynchStereotypesWindow";
+            this.MinimumSize = new System.Drawing.Size(300, 300);
+            this.Name = "SynchStereotypesForm";
             this.Text = "Synchronize Tagged Values";
-            this.Load += new System.EventHandler(this.SynchStereotypesWindow_Load);
+            this.Shown += new System.EventHandler(this.SynchStereotypesForm_Shown);
             this.ResumeLayout(false);
 
         }
