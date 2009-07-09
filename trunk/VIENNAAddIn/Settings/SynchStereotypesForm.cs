@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.menu;
@@ -46,13 +41,10 @@ namespace VIENNAAddIn.Settings
             missingList.Items.Clear();
         }
 
-        private void SynchStereotypesWindow_Load(object sender, EventArgs e)
-        {
-            RefreshList();
-        }
-
         private void RefreshList()
         {
+            this.Text = "Checking Model...";
+            this.Cursor = Cursors.WaitCursor;
             var ss = new SynchStereotypes();
             var result = new List<List<String>>();
             var tempList = new List<String>();
@@ -92,6 +84,8 @@ namespace VIENNAAddIn.Settings
                 }
                 this.missingList.Items.Add("Finished checking model '" + modelname + "'");
             }
+            this.Text = "Synchronize Tagged Values";
+            this.Cursor = Cursors.Arrow;
         }
 
         private void FixAllButton_Click(object sender, EventArgs e)
@@ -104,6 +98,11 @@ namespace VIENNAAddIn.Settings
         private void CloseButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void SynchStereotypesForm_Shown(object sender, EventArgs e)
+        {
+            RefreshList();
         }
     }
 }
