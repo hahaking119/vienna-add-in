@@ -714,8 +714,33 @@ namespace VIENNAAddIn.upcc3.Wizards
                     richtextStatus.Text = "SUCCESS: the ABIE named " + newABIE.Name + " has been udpated.";
 
                     ResetForm(0);
-                }               
+                }
             }
+
+            // update diagrams
+            var repo = repository.EARepository;
+            var packageModel = (Package)repo.Models.GetAt(0);
+            var packageBIEL = FindPackage(comboBIELs.SelectedItem.ToString(), packageModel);
+            var diagramBIEL = (Diagram)packageBIEL.Diagrams.GetAt(0);
+            diagramBIEL.Update();
+            var packageBDTL = FindPackage(comboBDTLs.SelectedItem.ToString(), packageModel);
+            var diagramBDTL = (Diagram)packageBDTL.Diagrams.GetAt(0);
+            diagramBDTL.Update();
+        }
+
+        private Package FindPackage(string packageName, Package where)
+        {
+            Package result = null;
+            try
+            {
+                result = (Package)where.Packages.GetByName(packageName);
+            }
+            catch(Exception e)
+            {
+                foreach (Package p in where.Packages)
+                    result = FindPackage(packageName, p);
+            }
+            return result;
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
