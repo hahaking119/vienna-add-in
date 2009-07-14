@@ -722,10 +722,12 @@ namespace VIENNAAddIn.upcc3.Wizards
             var packageModel = (Package)repo.Models.GetAt(0);
             var packageBIEL = FindPackage(comboBIELs.SelectedItem.ToString(), packageModel);
             var diagramBIEL = (Diagram)packageBIEL.Diagrams.GetAt(0);
-            diagramBIEL.Update();
+            //diagramBIEL.Update();
+            repo.GetProjectInterface().LayoutDiagramEx(diagramBIEL.DiagramGUID, 0, 4, 20, 20, true);
             var packageBDTL = FindPackage(comboBDTLs.SelectedItem.ToString(), packageModel);
             var diagramBDTL = (Diagram)packageBDTL.Diagrams.GetAt(0);
-            diagramBDTL.Update();
+            //diagramBDTL.Update();
+            repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true);
         }
 
         private Package FindPackage(string packageName, Package where)
