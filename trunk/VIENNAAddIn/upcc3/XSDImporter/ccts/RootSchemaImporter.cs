@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
+using EA;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.XSDImporter.util;
+using Element=VIENNAAddIn.upcc3.XSDImporter.util.Element;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 {
@@ -90,6 +92,18 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
                 }
             }
 
+            // Diagram auto-layout
+            var repository = (Repository)context.Repository;
+            foreach(Package model in repository.Models)
+            {
+                foreach(Package package in model.Packages)
+                {
+                    foreach(Diagram diagram in package.Diagrams)
+                    {
+                        repository.GetProjectInterface().LayoutDiagramEx(diagram.DiagramGUID, 0, 4, 20, 20, true);
+                    }
+                }
+            }
         }
     }
 }
