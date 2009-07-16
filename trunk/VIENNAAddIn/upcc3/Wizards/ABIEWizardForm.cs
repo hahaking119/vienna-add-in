@@ -504,7 +504,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
 
                 baseBCC.BBIEs.Add(newBBIEName, new cBBIE(newBBIEName, -1, baseBCC.Type, CheckState.Unchecked));
-                baseBCC.BBIEs[newBBIEName].SearchAndAssignRelevantBDTs(baseBCC.Type, cache.BDTLs);
+                baseBCC.BBIEs[newBBIEName].SearchAndAssignRelevantBDTs(baseBCC.Type, cache.BDTLs, CheckState.Unchecked);
 
                 MirrorBBIEsToUI();
             }
@@ -718,16 +718,17 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
 
             // update diagrams
+            // TODO: check which diagrams are currently opened an update them
             var repo = repository.EARepository;
             var packageModel = (Package)repo.Models.GetAt(0);
             var packageBIEL = FindPackage(comboBIELs.SelectedItem.ToString(), packageModel);
             var diagramBIEL = (Diagram)packageBIEL.Diagrams.GetAt(0);
-            //diagramBIEL.Update();
-            repo.GetProjectInterface().LayoutDiagramEx(diagramBIEL.DiagramGUID, 0, 4, 20, 20, true);
+            diagramBIEL.Update();
+            //repo.GetProjectInterface().LayoutDiagramEx(diagramBIEL.DiagramGUID, 0, 4, 20, 20, true);
             var packageBDTL = FindPackage(comboBDTLs.SelectedItem.ToString(), packageModel);
             var diagramBDTL = (Diagram)packageBDTL.Diagrams.GetAt(0);
-            //diagramBDTL.Update();
-            repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true);
+            diagramBDTL.Update();
+            //repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true);
         }
 
         private Package FindPackage(string packageName, Package where)
@@ -1006,6 +1007,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     tabcontrolACC.Enabled = true;
                     break;
             }
+            CheckIfConfigurationValid();
         }
 
         /*
