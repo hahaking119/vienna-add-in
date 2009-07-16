@@ -5,6 +5,7 @@
  * [Troubleshooting Troubleshooting]
  * [Release_Notes Release Notes]
  * [EnterpriseArchitect The Enterprise Architect]  
+ * [HowToVideos HOW-TO videos]  
 
 * [ForDevelopers Developer infos]
  * [CheckoutfromSVN Check out from SVN]
