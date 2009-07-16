@@ -1,11 +1,19 @@
 #summary Release Notes.
 
-= VIENNAAddIn_0.1-beta =
+
+= VIENNAAddIn_0.0.4 =
+
+* CCTS Model validation
+* ABIE creation wizard
+* Initial package structure creator
+* Enhanced XML Schema generator based on the UN/CEFACT Naming and Design Rules (NDR) 3.0
+* Tagged value synchronization
+
+
+= VIENNAAddIn_0.0.1-beta =
 
 The first version of the VIENNA AddIn contains the merged feature from the coding efforts in Austria and Australia. Among the merged features are:
 
  * UMM2 validation
  * UMM2 model creation wizard
  * Schema generation from CCTS models
- * WSDL generation from business transactions
- * BPEL generation from business transactions
