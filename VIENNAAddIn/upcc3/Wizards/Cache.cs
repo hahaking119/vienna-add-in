@@ -205,12 +205,12 @@ namespace VIENNAAddIn.upcc3.Wizards
         public int IdOfUnderlyingType { get; set; }
 
         
-        public void SearchAndAssignRelevantBDTs(int cdtid, IDictionary<string, cBDTLibrary> bdtls)
+        public void SearchAndAssignRelevantBDTs(int cdtid, IDictionary<string, cBDTLibrary> bdtls, CheckState check)
         {
-            BDTs = GetRelevantBDTs(cdtid, bdtls);
+            BDTs = GetRelevantBDTs(cdtid, bdtls, check);
         }
 
-        public IList<cBDT> GetRelevantBDTs(int cdtid, IDictionary<string, cBDTLibrary> bdtls)
+        public IList<cBDT> GetRelevantBDTs(int cdtid, IDictionary<string, cBDTLibrary> bdtls, CheckState check)
         {
             IList<cBDT> relevantBdts = new List<cBDT>();
 
@@ -220,7 +220,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 {
                     if (bdt.BasedOn == cdtid)
                     {
-                        relevantBdts.Add(new cBDT(bdt.Name, bdt.Id, bdt.BasedOn, CheckState.Unchecked));
+                        relevantBdts.Add(new cBDT(bdt.Name, bdt.Id, bdt.BasedOn, check));
                     }
                 }
             }
@@ -333,7 +333,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                     BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Type.Id, CheckState.Unchecked));
 
-                    BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
+                    BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls, CheckState.Unchecked);
                 }                
             }
         }
@@ -362,7 +362,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                             BCCs[bcc.Name].State = CheckState.Checked;
                             BCCs[bcc.Name].BBIEs.Add(bbie.Name,
                                                      new cBBIE(bbie.Name, -1, bcc.Type.Id, CheckState.Checked));
-                            BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
+                            BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls, CheckState.Checked);
 
                             bbieCount++;
                         }
@@ -370,7 +370,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if (bbieCount == 0)
                     {
                         BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Type.Id, CheckState.Unchecked));
-                        BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls);
+                        BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls, CheckState.Unchecked);
                     }                   
                 }
             }
