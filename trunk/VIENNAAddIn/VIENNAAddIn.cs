@@ -7,6 +7,7 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
@@ -14,6 +15,7 @@ using VIENNAAddIn.ErrorReporter;
 using VIENNAAddIn.Exceptions;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.Wizards;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
@@ -35,6 +37,8 @@ namespace VIENNAAddIn
         private readonly MenuManager menuManager;
         private OnTheFlyValidator onTheFlyValidator;
         private AddInContext context;
+        private ValidatingCCRepository validatingCCRepository;
+        private RepositoryContentLoader contentLoader;
 
         ///<summary>
         ///</summary>
@@ -139,6 +143,8 @@ namespace VIENNAAddIn
         public bool EA_OnNotifyContextItemModified(Repository repository, string GUID, ObjectType ot)
         {
 //            onTheFlyValidator.ProcessItemModified(GUID, ot);
+            contentLoader.LoadItemByGUID(ot, GUID);
+            validatingCCRepository.ValidateAll();
             return true;
         }
 
@@ -181,7 +187,26 @@ namespace VIENNAAddIn
             Repo = repository;
             Repo.EnableCache = true;
             repository.CreateOutputTab(AddInSettings.AddInName);
-            onTheFlyValidator = new OnTheFlyValidatorImpl(repository);
+//            onTheFlyValidator = new OnTheFlyValidatorImpl(repository);
+            validatingCCRepository = new ValidatingCCRepository();
+
+            contentLoader = new RepositoryContentLoader(repository);
+            contentLoader.PackageLoaded += validatingCCRepository.HandlePackageCreatedOrModified;
+            contentLoader.ElementLoaded += validatingCCRepository.HandleElementCreatedOrModified;
+            contentLoader.LoadRepositoryContent();
+
+            validatingCCRepository.ValidationIssuesUpdated += ValidationIssuesUpdated;
+            validatingCCRepository.ValidateAll();
+        }
+
+        private static void ValidationIssuesUpdated(IEnumerable<IValidationIssue> validationIssues)
+        {
+            Repo.ClearOutput(AddInSettings.AddInName);
+            foreach (var issue in validationIssues)
+            {
+                Repo.WriteOutput(AddInSettings.AddInName, "ERROR: " + issue.Message, issue.Id);
+            }
+            Repo.EnsureOutputVisible(AddInSettings.AddInName);
         }
 
         /// <summary>
@@ -252,7 +277,11 @@ namespace VIENNAAddIn
         {
             if (tabName == AddInSettings.AddInName)
             {
-                onTheFlyValidator.FocusIssueItem(id);
+                IValidationIssue issue = validatingCCRepository.GetValidationIssue(id);
+                if (issue != null)
+                {
+                    repository.ShowInProjectView(issue.ResolveItem(repository));
+                }
             }
         }
 
@@ -282,7 +311,58 @@ namespace VIENNAAddIn
                 if (eventProperty.Name == "ElementID")
                 {
                     int elementId = int.Parse(eventProperty.Value.ToString());
-                    onTheFlyValidator.ProcessElementCreated(elementId);
+                    contentLoader.LoadElementByID(elementId);
+                    validatingCCRepository.ValidateAll();
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="repository"></param>
+        ///<param name="info"></param>
+        ///<returns></returns>
+        public bool EA_OnPostNewPackage(Repository repository, EventProperties info)
+        {
+            foreach (EventProperty eventProperty in info)
+            {
+                if (eventProperty.Name == "PackageID")
+                {
+                    int packageId = int.Parse(eventProperty.Value.ToString());
+                    contentLoader.LoadPackageByID(packageId);
+                    validatingCCRepository.ValidateAll();
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool EA_OnPreDeleteElement(Repository repository, EventProperties info)
+        {
+            foreach (EventProperty eventProperty in info)
+            {
+                if (eventProperty.Name == "ElementID")
+                {
+                    int elementId = int.Parse(eventProperty.Value.ToString());
+                    validatingCCRepository.HandleElementDeleted(elementId);
+                    validatingCCRepository.ValidateAll();
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public bool EA_OnPreDeletePackage(Repository repository, EventProperties info)
+        {
+            foreach (EventProperty eventProperty in info)
+            {
+                if (eventProperty.Name == "PackageID")
+                {
+                    int packageId = int.Parse(eventProperty.Value.ToString());
+                    validatingCCRepository.HandlePackageDeleted(packageId);
+                    validatingCCRepository.ValidateAll();
                     return false;
                 }
             }
