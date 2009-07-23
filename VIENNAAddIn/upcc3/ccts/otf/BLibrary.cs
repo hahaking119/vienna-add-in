@@ -1,178 +1,21 @@
 using System;
 using System.Collections.Generic;
-using EA;
-using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    internal abstract class ElementLibrary<TElement, TElementSpec>: BusinessLibrary
+    public class BLibrary : BusinessLibrary, IBLibrary
     {
-        public ElementLibrary(Package package) : base(package)
-        {
-        }
-
-        public IEnumerable<TElement> Elements
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public TElement ElementByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TElement CreateElement(TElementSpec spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TElement UpdateElement(TElement element, TElementSpec spec)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class PRIMLibrary : ElementLibrary<IPRIM, PRIMSpec>, IPRIMLibrary
-    {
-        public PRIMLibrary(Package package) : base(package)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class ENUMLibrary : ElementLibrary<IENUM, ENUMSpec>, IENUMLibrary
-    {
-        public ENUMLibrary(Package package) : base(package)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class CDTLibrary : ElementLibrary<ICDT, CDTSpec>, ICDTLibrary
-    {
-        public CDTLibrary(Package package) : base(package)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class CCLibrary : ElementLibrary<IACC, ACCSpec>, ICCLibrary
-    {
-        public CCLibrary(Package package) : base(package)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class BDTLibrary : ElementLibrary<IBDT, BDTSpec>, IBDTLibrary
-    {
-        public BDTLibrary(Package package) : base(package)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class BIELibrary : ElementLibrary<IABIE, ABIESpec>, IBIELibrary
-    {
-        public BIELibrary(Package package) : base(package)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class DOCLibrary : ElementLibrary<IABIE, ABIESpec>, IDOCLibrary
-    {
-        public DOCLibrary(Package package) : base(package)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-
-        public IEnumerable<IABIE> RootElements
-        {
-            get { throw new NotImplementedException(); }
-        }
-    }
-
-    internal abstract class BusinessLibrary : AbstractEAPackage, IBusinessLibrary
-    {
-        protected BusinessLibrary(Package package) : base(package.PackageID)
-        {
-            Name = package.Name;
-            Status = package.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty);
-            UniqueIdentifier = package.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty);
-            VersionIdentifier = package.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty);
-            BaseURN = package.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty);
-            NamespacePrefix = package.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty);
-            BusinessTerms = package.GetTaggedValues(TaggedValues.businessTerm);
-            Copyrights = package.GetTaggedValues(TaggedValues.copyright);
-            Owners = package.GetTaggedValues(TaggedValues.owner);
-            References = package.GetTaggedValues(TaggedValues.reference);
-        }
-
-        public IBusinessLibrary Parent
-        {
-            get { return ParentPackage as IBusinessLibrary; }
-        }
-
-        public Path Path
-        {
-            get { return Parent != null ? Parent.Path/Name : null; }
-        }
-
-        public string Name { get; private set; }
-        public string Status { get; private set; }
-        public string UniqueIdentifier { get; private set; }
-        public string VersionIdentifier { get; private set; }
-        public string BaseURN { get; private set; }
-        public string NamespacePrefix { get; private set; }
-        public IEnumerable<string> BusinessTerms { get; private set; }
-        public IEnumerable<string> Copyrights { get; private set; }
-        public IEnumerable<string> Owners { get; private set; }
-        public IEnumerable<string> References { get; private set; }
-    }
-
-    internal class BLibrary : BusinessLibrary, IBLibrary
-    {
-        internal BLibrary(Package package) : base(package)
-        {
-        }
-
         #region IBLibrary Members
+
+        public BLibrary(int id, string name, int parentId, string status, string uniqueIdentifier, string versionIdentifier, string baseUrn, string namespacePrefix, IEnumerable<string> businessTerms, IEnumerable<string> copyrights, IEnumerable<string> owners, IEnumerable<string> references) : base(id, name, parentId, status, uniqueIdentifier, versionIdentifier, baseUrn, namespacePrefix, businessTerms, copyrights, owners, references)
+        {
+        }
 
         public IEnumerable<IBusinessLibrary> Children
         {
             get
             {
-                foreach (var subPackage in subPackages)
+                foreach (IEAPackage subPackage in subPackages)
                 {
                     if (subPackage is IBusinessLibrary)
                     {
@@ -247,83 +90,30 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         #endregion
 
-        public override IEnumerable<IValidationIssue> Validate()
+        protected override IEnumerable<IValidationIssue> PerformValidation()
         {
+            foreach (var validationIssue in base.PerformValidation())
+            {
+                yield return validationIssue;
+            }
+//            AddConstraint(MustNot.HaveAny.Elements);
+//            AddConstraint(The(l => l.ParentPackage).MustBe.Either.OfType<EAModel>.Or.OfType<BInformationV>.Or.OfType<BLibrary>);
+//            AddConstraint(All(l => l.SubPackages).MustBe.OfType<IBusinessLibrary>);
             if (!(ParentPackage is EAModel || ParentPackage is BInformationV || ParentPackage is BLibrary))
             {
-                yield return new InvalidParentPackage(Id);
+                yield return new InvalidParentPackage(Id, Name);
             }
-            foreach (var subPackage in subPackages)
+            foreach (IEAPackage subPackage in subPackages)
             {
                 if (!(subPackage is IBusinessLibrary))
                 {
-                    yield return new InvalidSubPackage(subPackage.Id);
+                    yield return new InvalidSubPackageStereotype(Id, subPackage.Id, Name, subPackage.Name);
                 }
             }
-            foreach (var element in elements)
+            foreach (IEAElement element in elements)
             {
-                yield return new NoElementsAllowed(element.Id);
+                yield return new NoElementsAllowed(Id, element.Id, Name);
             }
-        }
-    }
-
-    internal abstract class AbstractValidationIssue : IValidationIssue
-    {
-        private static int nextId;
-
-        protected AbstractValidationIssue(int itemId)
-        {
-            Id = nextId++;
-            ItemId = itemId;
-        }
-
-        public int ItemId { get; private set; }
-        public int Id { get; private set; }
-        public abstract object ResolveItem(Repository repository);
-    }
-
-    internal abstract class PackageValidationIssue : AbstractValidationIssue
-    {
-        protected PackageValidationIssue(int itemId) : base(itemId)
-        {
-        }
-
-        public override object ResolveItem(Repository repository)
-        {
-            return repository.GetPackageByID(ItemId);
-        }
-    }
-
-    internal abstract class ElementValidationIssue : AbstractValidationIssue
-    {
-        protected ElementValidationIssue(int itemId) : base(itemId)
-        {
-        }
-
-        public override object ResolveItem(Repository repository)
-        {
-            return repository.GetElementByID(ItemId);
-        }
-    }
-
-    internal class NoElementsAllowed : ElementValidationIssue
-    {
-        public NoElementsAllowed(int elementId) : base(elementId)
-        {
-        }
-    }
-
-    internal class InvalidSubPackage : PackageValidationIssue
-    {
-        public InvalidSubPackage(int subPackageId) : base(subPackageId)
-        {
-        }
-    }
-
-    internal class InvalidParentPackage : PackageValidationIssue
-    {
-        public InvalidParentPackage(int packageId) : base(packageId)
-        {
         }
     }
 }

@@ -30,6 +30,19 @@ namespace VIENNAAddIn.Utils
             return value;
         }
 
+        /// <summary>
+        /// Adds the given value to the values stored for the given key.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dictionary"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public static void AddValueToList<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key, TValue value)
+        {
+            dictionary.GetAndCreate(key).Add(value);
+        }
+
         ///<summary>
         /// Print the dictionary to Console.Out in tabular form.
         ///</summary>

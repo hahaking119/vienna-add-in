@@ -1,39 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EA;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
     public class ValidatingCCRepository : ICCRepository
     {
-        private readonly ContentLoader contentLoader;
-        private readonly Dictionary<int, EAPackage> eaPackagesById = new Dictionary<int, EAPackage>();
-        private readonly List<EAPackage> models;
-
-        public ValidatingCCRepository(Repository eaRepository)
-        {
-            contentLoader = new ContentLoader(eaRepository);
-            models = contentLoader.LoadRepositoryContent();
-//            ValidateAll();
-        }
-
+        private readonly Dictionary<int, IEAElement> eaElementsById = new Dictionary<int, IEAElement>();
+        private readonly Dictionary<int, IEAPackage> eaPackagesById = new Dictionary<int, IEAPackage>();
+        private readonly PackageRoot root = new PackageRoot();
         private readonly Dictionary<int, IValidationIssue> validationIssues = new Dictionary<int, IValidationIssue>();
-
-        public event EventHandler<ValidationIssueAddedEventArgs> ValidationIssueAdded;
-
-        private void AddValidationIssue(IValidationIssue validationIssue)
-        {
-            validationIssues[validationIssue.Id] = validationIssue;
-            if (ValidationIssueAdded != null) ValidationIssueAdded(this, new ValidationIssueAddedEventArgs(validationIssue));
-        }
-
-        public IValidationIssue GetValidationIssue(int issueId)
-        {
-            IValidationIssue issue;
-            return validationIssues.TryGetValue(issueId, out issue) ? issue : null;
-        }
 
         public List<IValidationIssue> ValidationIssues
         {
@@ -44,7 +20,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         public IBusinessLibrary GetLibrary(int id)
         {
-            EAPackage library = GetPackageById(id);
+            IEAPackage library = GetPackageById(id);
             if (library != null && library is IBusinessLibrary)
             {
                 return (IBusinessLibrary) library;
@@ -55,7 +31,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         public IEnumerable<IBusinessLibrary> AllLibraries()
         {
             var libraries = new List<IBusinessLibrary>();
-            WithEachLibraryDo<IBusinessLibrary>(libraries.Add);
+            root.WithEachSubPackageDo((Action<IBusinessLibrary>) libraries.Add);
             return libraries;
         }
 
@@ -78,320 +54,142 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         #endregion
 
-        public void ValidateAll()
+        /// <summary>
+        /// Traverse item tree depth-first and execute action on each item.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public void WithAllItemsDo(Action<IEAItem> action)
         {
-            foreach (EAPackage model in models)
-            {
-                foreach(var issue in model.ValidateAll())
-                {
-                    AddValidationIssue(issue);
-                }
-            }
+            root.WithAllItemsDo(action);
         }
 
-        private EAPackage GetPackageById(int id)
+        public event Action<IEnumerable<IValidationIssue>> ValidationIssuesUpdated;
+
+        public IValidationIssue GetValidationIssue(int issueId)
         {
-            EAPackage package;
+            IValidationIssue issue;
+            return validationIssues.TryGetValue(issueId, out issue) ? issue : null;
+        }
+
+        public void ValidateAll()
+        {
+            validationIssues.Clear();
+            foreach (IValidationIssue issue in root.ValidateAll())
+            {
+                validationIssues[issue.Id] = issue;
+            }
+            if (ValidationIssuesUpdated != null) ValidationIssuesUpdated(new List<IValidationIssue>(validationIssues.Values));
+        }
+
+        private IEAPackage GetPackageById(int id)
+        {
+            if (id == 0)
+            {
+                return root;
+            }
+            IEAPackage package;
             eaPackagesById.TryGetValue(id, out package);
             return package;
         }
 
-        public void WithEachLibraryDo<TLibrary>(Action<TLibrary> action)
+        private IEAElement GetElementById(int id)
         {
-            foreach (EAPackage eaPackage in models)
+            IEAElement element;
+            eaElementsById.TryGetValue(id, out element);
+            return element;
+        }
+
+        private IEAPackage ReplacePackage(IEAPackage newPackage)
+        {
+            IEAPackage oldPackage = GetPackageById(newPackage.Id);
+            eaPackagesById[newPackage.Id] = newPackage;
+            return oldPackage;
+        }
+
+        private IEAElement ReplaceElement(IEAElement newElement)
+        {
+            IEAElement oldElement = GetElementById(newElement.Id);
+            eaElementsById[newElement.Id] = newElement;
+            return oldElement;
+        }
+
+        public void HandlePackageDeleted(int id)
+        {
+            IEAPackage package = GetPackageById(id);
+            if (package != null)
             {
-                if (eaPackage is TLibrary)
-                {
-                    action((TLibrary) eaPackage);
-                }
-                eaPackage.WithEachSubPackageDo(action);
+                IEAPackage parent = package.ParentPackage;
+                parent.RemoveSubPackage(id);
+                RemoveItem(package);
+                package.WithAllItemsDo(RemoveItem);
             }
         }
 
-        public void ReloadPackage(int id)
+        private void RemoveItem(IEAItem item)
         {
-            EAPackage package = GetPackageById(id);
-            if (package == null)
+            RemoveValidationIssues(item);
+            if (item is IEAPackage)
             {
-                // a new package
-                // TODO
-            }
-            else
-            {
-                eaPackagesById.Remove(id);
-                if (package is EAModel)
-                {
-                    // TODO simply reload the model's content
-                }
-                else
-                {
-                    EAPackage parent = package.ParentPackage;
-                    parent.ReplaceSubPackage(id, contentLoader.LoadPackage(id));
-                }
-            }
-        }
-    }
-
-    public interface IValidationIssue
-    {
-        int ItemId { get; }
-        int Id { get; }
-        object ResolveItem(Repository repository);
-    }
-
-    internal class ContentLoader
-    {
-        private readonly Repository eaRepository;
-
-        public ContentLoader(Repository eaRepository)
-        {
-            this.eaRepository = eaRepository;
-        }
-
-        public List<EAPackage> LoadRepositoryContent()
-        {
-            var models = new List<EAPackage>();
-            foreach (Package model in eaRepository.Models)
-            {
-                models.Add(LoadPackageRecursively(model));
-            }
-            return models;
-        }
-
-        private static EAPackage LoadPackageRecursively(Package package)
-        {
-            EAPackage eaPackage = LoadPackage(package);
-            foreach (Package subPackage in package.Packages)
-            {
-                eaPackage.AddSubPackage(LoadPackageRecursively(subPackage));
-            }
-            foreach (Element element in package.Elements)
-            {
-                eaPackage.AddElement(LoadElement(element));
-            }
-            return eaPackage;
-        }
-
-        public static EAElement LoadElement(Element element)
-        {
-            return new OtherElement(element.ElementID);
-        }
-
-        public static EAPackage LoadPackage(Package package)
-        {
-            EAPackage eaPackage;
-            int packageId = package.PackageID;
-            if (package.ParentID == 0)
-            {
-                eaPackage = new EAModel(packageId);
+                eaPackagesById.Remove(item.Id);
             }
             else
             {
-                switch (package.Element.Stereotype)
-                {
-                    case Stereotype.BInformationV:
-                    {
-                        eaPackage = new BInformationV(packageId);
-                        break;
-                    }
-                    case Stereotype.BLibrary:
-                    {
-                        eaPackage = new BLibrary(package);
-                        break;
-                    }
-                    case Stereotype.PRIMLibrary:
-                    {
-                        eaPackage = new PRIMLibrary(package);
-                        break;
-                    }
-                    case Stereotype.ENUMLibrary:
-                    {
-                        eaPackage = new ENUMLibrary(package);
-                        break;
-                    }
-                    case Stereotype.CDTLibrary:
-                    {
-                        eaPackage = new CDTLibrary(package);
-                        break;
-                    }
-                    case Stereotype.CCLibrary:
-                    {
-                        eaPackage = new CCLibrary(package);
-                        break;
-                    }
-                    case Stereotype.BDTLibrary:
-                    {
-                        eaPackage = new BDTLibrary(package);
-                        break;
-                    }
-                    case Stereotype.BIELibrary:
-                    {
-                        eaPackage = new BIELibrary(package);
-                        break;
-                    }
-                    case Stereotype.DOCLibrary:
-                    {
-                        eaPackage = new DOCLibrary(package);
-                        break;
-                    }
-                    default:
-                    {
-                        eaPackage = new OtherPackage(packageId);
-                        break;
-                    }
-                }
+                eaElementsById.Remove(item.Id);
             }
-            return eaPackage;
         }
 
-        public EAPackage LoadPackage(int id)
+        private void RemoveValidationIssues(IValidating item)
         {
-            return LoadPackage(eaRepository.GetPackageByID(id));
-        }
-    }
-
-    internal class OtherElement : EAElement
-    {
-        public OtherElement(int id)
-        {
-            Id = id;
-        }
-
-        #region EAElement Members
-
-        public int Id { get; set; }
-        public EAPackage Package { get; set; }
-
-        #endregion
-    }
-
-    internal class OtherPackage : AbstractEAPackage
-    {
-        public OtherPackage(int id) : base(id)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class BInformationV : AbstractEAPackage
-    {
-        public BInformationV(int id) : base(id)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal class EAModel : AbstractEAPackage
-    {
-        public EAModel(int id) : base(id)
-        {
-        }
-
-        public override IEnumerable<IValidationIssue> Validate()
-        {
-            yield break;
-        }
-    }
-
-    internal interface EAPackage
-    {
-        EAPackage ParentPackage { get; set; }
-        int Id { get; }
-        void WithEachSubPackageDo<T>(Action<T> action);
-        void AddSubPackage(EAPackage package);
-        void ReplaceSubPackage(int id, EAPackage package);
-        IEnumerable<IValidationIssue> ValidateAll();
-        IEnumerable<IValidationIssue> Validate();
-        void AddElement(EAElement element);
-    }
-
-    internal interface EAElement
-    {
-        int Id { get; }
-        EAPackage Package { get; set; }
-    }
-
-    internal abstract class AbstractEAPackage : EAPackage
-    {
-        protected readonly List<EAElement> elements = new List<EAElement>();
-        protected readonly List<EAPackage> subPackages = new List<EAPackage>();
-
-        protected AbstractEAPackage(int id)
-        {
-            Id = id;
-        }
-
-        #region EAPackage Members
-
-        public void WithEachSubPackageDo<T>(Action<T> action)
-        {
-            foreach (EAPackage eaPackage in subPackages)
+            foreach (IValidationIssue issue in item.ValidationIssues)
             {
-                if (eaPackage is T)
-                {
-                    action((T) eaPackage);
-                }
-                eaPackage.WithEachSubPackageDo(action);
+                validationIssues.Remove(issue.Id);
             }
         }
 
-        public void AddSubPackage(EAPackage package)
+        public void HandleElementDeleted(int id)
         {
-            subPackages.Add(package);
-            package.ParentPackage = this;
-        }
-
-        public EAPackage ParentPackage { get; set; }
-        public int Id { get; private set; }
-
-        public void ReplaceSubPackage(int id, EAPackage package)
-        {
-            subPackages.RemoveAll(p => p.Id == id);
-            AddSubPackage(package);
-        }
-
-        public IEnumerable<IValidationIssue> ValidateAll()
-        {
-            foreach (IValidationIssue issue in Validate())
+            IEAElement element = GetElementById(id);
+            if (element != null)
             {
-                yield return issue;
+                IEAPackage package = element.Package;
+                package.RemoveElement(id);
+                RemoveItem(element);
             }
-            foreach (EAPackage eaPackage in subPackages)
+        }
+
+        public void HandleElementCreatedOrModified(IEAElement newElement)
+        {
+            IEAElement oldElement = ReplaceElement(newElement);
+
+            IEAPackage package = oldElement == null ? GetPackageById(newElement.PackageId) : oldElement.Package;
+
+            if (oldElement == null)
             {
-                foreach (IValidationIssue issue in eaPackage.ValidateAll())
-                {
-                    yield return issue;
-                }
+                package.AddElement(newElement);
+            }
+            else
+            {
+                package.ReplaceElement(newElement);
             }
         }
 
-        public abstract IEnumerable<IValidationIssue> Validate();
-
-        public void AddElement(EAElement element)
+        public void HandlePackageCreatedOrModified(IEAPackage newPackage)
         {
-            elements.Add(element);
-            element.Package = this;
+            IEAPackage oldPackage = ReplacePackage(newPackage);
+
+            IEAPackage parent = oldPackage == null ? GetPackageById(newPackage.ParentId) : oldPackage.ParentPackage;
+
+            if (oldPackage == null)
+            {
+                parent.AddSubPackage(newPackage);
+            }
+            else
+            {
+                newPackage.CopyChildren(oldPackage);
+                parent.ReplaceSubPackage(newPackage);
+            }
         }
 
-        #endregion
     }
-    public class ValidationIssueAddedEventArgs : EventArgs
-    {
-        public IValidationIssue Issue { get; private set; }
-
-        public ValidationIssueAddedEventArgs(IValidationIssue issue)
-        {
-            Issue = issue;
-        }
-    }
-
-
 }
