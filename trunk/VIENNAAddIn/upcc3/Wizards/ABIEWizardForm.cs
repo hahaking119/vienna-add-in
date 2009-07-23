@@ -186,7 +186,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 // TODO andik/fabiank: this code needs to be cleaned up!
                 #region code to be cleaned up
-                textABIEName.Text = abie.Name;
                 int correctCCL = -1;
                 bool found = false;
                 foreach (cCCLibrary ccl in cache.CCLs.Values)
@@ -244,7 +243,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                         }
                     }
                 }
-
+                textABIEName.Text = abie.Name;
                 #endregion
                 
                 ResetForm(0);                
@@ -308,10 +307,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                     {
                         cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndBBIEs(repository,
                                                                                            cache.BDTLs, abie);
+                    //TODO: check if this was really a refactoring error
+                        cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
+                    //the above line was outside of else before! (FK 23.07.2009)
                     }
-                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
                 }
-
                 textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
                 richtextStatus.Text = "";
                 editboxBDTNameList.Clear();
@@ -722,12 +722,42 @@ namespace VIENNAAddIn.upcc3.Wizards
             var repo = repository.EARepository;
             var packageModel = (Package)repo.Models.GetAt(0);
             var packageBIEL = FindPackage(comboBIELs.SelectedItem.ToString(), packageModel);
-            var diagramBIEL = (Diagram)packageBIEL.Diagrams.GetAt(0);
-            diagramBIEL.Update();
-            //repo.GetProjectInterface().LayoutDiagramEx(diagramBIEL.DiagramGUID, 0, 4, 20, 20, true);
+            try
+            {
+                var diagramBIEL = (Diagram) packageBIEL.Diagrams.GetAt(0);
+                if(diagramBIEL.Update())
+                {
+                    richtextStatus.Text = "BIEL Diagram updated successfully";
+                }
+                else
+                {
+                    richtextStatus.Text = "An error occurred: "+diagramBIEL.GetLastError();
+                }
+                //repo.GetProjectInterface().LayoutDiagramEx(diagramBIEL.DiagramGUID, 0, 4, 20, 20, true);
+            }
+            catch (Exception)
+            {
+                richtextStatus.Text = "No open BIEL Diagram found.";
+            }
+            
             var packageBDTL = FindPackage(comboBDTLs.SelectedItem.ToString(), packageModel);
-            var diagramBDTL = (Diagram)packageBDTL.Diagrams.GetAt(0);
-            diagramBDTL.Update();
+            try
+            {
+                var diagramBDTL = (Diagram)packageBDTL.Diagrams.GetAt(0);
+                richtextStatus.Text = "No open BDTL Diagram found.";
+                if(diagramBDTL.Update())
+                {
+                    richtextStatus.Text = "BDTL Diagram updated successfully";
+                }
+                else
+                {
+                    richtextStatus.Text = "An error occurred: "+diagramBDTL.GetLastError();
+                }
+            }
+            catch (Exception)
+            {
+                richtextStatus.Text = "No open BDTL Diagram found.";
+            }
             //repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true);
         }
 
