@@ -17,6 +17,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         public ValidatingCCRepository(Repository eaRepository)
         {
             validationService = new ValidationService();
+            validationService.AddConstraint(new BLibraryConstraints());
 
             repository = new HierarchicalRepository();
             repository.OnItemCreatedOrModified += validationService.ItemCreatedOrModified;

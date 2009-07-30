@@ -7,6 +7,6 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         IEnumerable<RepositoryItem> Children { get; }
         IRepositoryItemData Data { get; set; }
         ItemId Id { get; }
-        IEnumerable<IValidationIssue> Validate();
+        IRepositoryItem Parent { get; }
     }
 }

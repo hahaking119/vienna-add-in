@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -6,10 +7,8 @@ using VIENNAAddIn.upcc3.ccts.util;
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
     [TestFixture]
-    public class Given_a_bLibrary : CCRepositoryTest
+    public class Given_BLibraryConstraints
     {
-        #region Setup/Teardown
-
         [SetUp]
         public void Context()
         {
@@ -27,8 +26,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                            };
             bLibrary = AddChild(model, bLibraryData);
         }
-
-        #endregion
 
         private RepositoryItem root;
         private RepositoryItem model;
@@ -55,8 +52,35 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                     });
         }
 
+        private static void VerifyValidationIssues(RepositoryItem item, params ItemId[] validationIssueItemIds)
+        {
+            var validationIssues = new List<IValidationIssue>(new BLibraryConstraints().Check(item));
+            foreach (IValidationIssue validationIssue in validationIssues)
+            {
+                Console.WriteLine(validationIssue);
+            }
+            Assert.AreEqual(validationIssueItemIds.Length, validationIssues.Count);
+            for (int i = 0; i < validationIssueItemIds.Length; ++i)
+            {
+                Assert.AreEqual(validationIssueItemIds[i], validationIssues[i].ItemId);
+            }
+        }
+
         [Test]
-        public void When_it_contains_elements_Then_report_an_error_for_each_element()
+        public void The_constraints_should_match_a_bLibrary()
+        {
+            Assert.IsTrue(new BLibraryConstraints().Matches(bLibrary), "Constraints do not match matching item.");
+        }
+
+        [Test]
+        public void The_constraints_should_not_match_anything_else()
+        {
+            Assert.IsFalse(new BLibraryConstraints().Matches(model), "Constraints match unmatching item.");
+            Assert.IsFalse(new BLibraryConstraints().Matches(AddChild(bLibrary, ItemId.ItemType.Element)), "Constraints match unmatching item.");
+        }
+
+        [Test]
+        public void When_a_bLibrary_contains_elements_Then_create_an_issue_for_each_element()
         {
             RepositoryItem element1 = AddChild(bLibrary, ItemId.ItemType.Element);
             RepositoryItem element2 = AddChild(bLibrary, ItemId.ItemType.Element);
@@ -64,14 +88,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void When_it_contains_invalid_subpackages_Then_report_an_error_for_each_case()
+        public void When_a_bLibrary_contains_invalid_subpackages_Then_create_an_issue_for_each_case()
         {
             RepositoryItem subPackage = AddChild(bLibrary, ItemId.ItemType.Package);
             VerifyValidationIssues(bLibrary, subPackage.Id);
         }
 
         [Test]
-        public void When_it_is_valid_Then_it_should_not_report_any_validation_issues()
+        public void When_a_bLibrary_is_valid_Then_do_not_report_any_issues()
         {
             AddSubLibrary(bLibrary, Stereotype.BLibrary);
             AddSubLibrary(bLibrary, Stereotype.PRIMLibrary);
@@ -85,7 +109,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void When_its_baseURN_is_empty_Then_report_an_error()
+        public void When_the_baseURN_is_empty_Then_create_an_issue()
         {
             bLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
                                         {
@@ -96,14 +120,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void When_its_name_is_empty_Then_report_an_error()
+        public void When_the_name_is_empty_Then_create_an_issue()
         {
             bLibraryData.Name = "";
             VerifyValidationIssues(bLibrary, bLibrary.Id);
         }
 
         [Test]
-        public void When_its_parent_is_a_bInformationV_Then_do_not_report_an_error()
+        public void When_the_parent_is_a_bInformationV_Then_do_not_create_an_issue()
         {
             model.RemoveChild(bLibrary.Id);
             RepositoryItem parent = AddSubLibrary(model, Stereotype.BInformationV);
@@ -112,7 +136,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void When_its_parent_is_a_bLibrary_Then_do_not_report_an_error()
+        public void When_the_parent_is_a_bLibrary_Then_do_not_create_an_issue()
         {
             model.RemoveChild(bLibrary.Id);
             RepositoryItem parent = AddSubLibrary(model, Stereotype.BLibrary);
@@ -121,13 +145,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void When_its_parent_is_a_Model_Then_do_not_report_an_error()
+        public void When_the_parent_is_a_Model_Then_do_not_create_an_issue()
         {
             VerifyValidationIssues(bLibrary);
         }
 
         [Test]
-        public void When_its_parent_is_neither_a_Model_nor_a_bInformationV_nor_a_bLibrary_Then_do_report_an_error()
+        public void When_the_parent_is_neither_a_Model_nor_a_bInformationV_nor_a_bLibrary_Then_do_create_an_issue()
         {
             model.RemoveChild(bLibrary.Id);
             RepositoryItem parent = AddSubLibrary(model, "Something else");
@@ -136,7 +160,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void When_its_uniqueIdentifier_is_empty_Then_report_an_error()
+        public void When_the_uniqueIdentifier_is_empty_Then_create_an_issue()
         {
             bLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
                                         {
@@ -147,7 +171,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void When_its_versionIdentifier_is_empty_Then_report_an_error()
+        public void When_the_versionIdentifier_is_empty_Then_create_an_issue()
         {
             bLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
                                         {

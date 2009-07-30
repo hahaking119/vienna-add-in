@@ -127,6 +127,7 @@
     <Compile Include="upcc3\ccts\otf\BIELibrary.cs" />
     <Compile Include="upcc3\ccts\otf\BInformationV.cs" />
     <Compile Include="upcc3\ccts\otf\BLibrary.cs" />
+    <Compile Include="upcc3\ccts\otf\BLibraryConstraints.cs" />
     <Compile Include="upcc3\ccts\otf\BusinessLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\CCLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\CDTLibrary.cs" />
