@@ -1,8 +1,8 @@
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    internal class LibraryNameNotSpecified : PackageValidationIssue
+    internal class LibraryNameNotSpecified : AbstractValidationIssue
     {
-        public LibraryNameNotSpecified(int packageId) : base(packageId, packageId)
+        public LibraryNameNotSpecified(ItemId packageId) : base(packageId, packageId)
         {
         }
 

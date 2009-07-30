@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -5,7 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 {
     public abstract class BusinessLibrary : AbstractEAPackage, IBusinessLibrary
     {
-        protected BusinessLibrary(int id, string name, int parentId, string status, string uniqueIdentifier, string versionIdentifier, string baseUrn, string namespacePrefix, IEnumerable<string> businessTerms, IEnumerable<string> copyrights, IEnumerable<string> owners, IEnumerable<string> references) : base(id, name, parentId)
+        protected BusinessLibrary(ItemId id, string name, ItemId parentId, string status, string uniqueIdentifier, string versionIdentifier, string baseUrn, string namespacePrefix, IEnumerable<string> businessTerms, IEnumerable<string> copyrights, IEnumerable<string> owners, IEnumerable<string> references) : base(id, name, parentId)
         {
             Status = status;
             UniqueIdentifier = uniqueIdentifier;
@@ -19,6 +20,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         }
 
         #region IBusinessLibrary Members
+
+        int IBusinessLibrary.Id
+        {
+            get { return Id.Value; }
+        }
 
         public IBusinessLibrary Parent
         {
@@ -41,25 +47,5 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         public IEnumerable<string> References { get; private set; }
 
         #endregion
-
-        protected override IEnumerable<IValidationIssue> PerformValidation()
-        {
-            if (string.IsNullOrEmpty(Name))
-            {
-                yield return new LibraryNameNotSpecified(Id);
-            }
-            if (string.IsNullOrEmpty(UniqueIdentifier))
-            {
-                yield return new LibraryMandatoryTaggedValueNotSpecified(Id, Name, TaggedValues.uniqueIdentifier);
-            }
-            if (string.IsNullOrEmpty(VersionIdentifier))
-            {
-                yield return new LibraryMandatoryTaggedValueNotSpecified(Id, Name, TaggedValues.versionIdentifier);
-            }
-            if (string.IsNullOrEmpty(BaseURN))
-            {
-                yield return new LibraryMandatoryTaggedValueNotSpecified(Id, Name, TaggedValues.baseURN);
-            }
-        }
     }
 }

@@ -1,12 +1,10 @@
-using System;
-
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    internal class InvalidParentPackage : PackageValidationIssue
+    internal class InvalidParentPackage : AbstractValidationIssue
     {
         private readonly string packageName;
 
-        public InvalidParentPackage(int packageId, string packageName) : base(packageId, packageId)
+        public InvalidParentPackage(ItemId packageId, string packageName) : base(packageId, packageId)
         {
             this.packageName = packageName;
         }

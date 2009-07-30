@@ -1,10 +1,10 @@
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    internal class NoElementsAllowed : ElementValidationIssue
+    internal class NoElementsAllowed : AbstractValidationIssue
     {
         private readonly string packageName;
 
-        public NoElementsAllowed(int packageId, int elementId, string packageName)
+        public NoElementsAllowed(ItemId packageId, ItemId elementId, string packageName)
             : base(packageId, elementId)
         {
             this.packageName = packageName;

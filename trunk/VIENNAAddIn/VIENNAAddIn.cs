@@ -19,10 +19,10 @@ using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.Wizards;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
-using VIENNAAddIn.validator.upcc3.onTheFly;
 using VIENNAAddIn.workflow;
 using MenuItem=VIENNAAddIn.menu.MenuItem;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using System.Linq;
 
 namespace VIENNAAddIn
 {
@@ -35,10 +35,10 @@ namespace VIENNAAddIn
     {
         private static Repository Repo;
         private readonly MenuManager menuManager;
-        private OnTheFlyValidator onTheFlyValidator;
         private AddInContext context;
         private ValidatingCCRepository validatingCCRepository;
-        private RepositoryContentLoader contentLoader;
+        private const bool AllowDeletion = true;
+        private const bool ItemNotUpdated = false;
 
         ///<summary>
         ///</summary>
@@ -142,9 +142,7 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public bool EA_OnNotifyContextItemModified(Repository repository, string GUID, ObjectType ot)
         {
-//            onTheFlyValidator.ProcessItemModified(GUID, ot);
-            contentLoader.LoadItemByGUID(ot, GUID);
-            validatingCCRepository.ValidateAll();
+            validatingCCRepository.LoadItemByGUID(ot, GUID);
             return true;
         }
 
@@ -187,16 +185,9 @@ namespace VIENNAAddIn
             Repo = repository;
             Repo.EnableCache = true;
             repository.CreateOutputTab(AddInSettings.AddInName);
-//            onTheFlyValidator = new OnTheFlyValidatorImpl(repository);
-            validatingCCRepository = new ValidatingCCRepository();
-
-            contentLoader = new RepositoryContentLoader(repository);
-            contentLoader.PackageLoaded += validatingCCRepository.HandlePackageCreatedOrModified;
-            contentLoader.ElementLoaded += validatingCCRepository.HandleElementCreatedOrModified;
-            contentLoader.LoadRepositoryContent();
-
+            validatingCCRepository = new ValidatingCCRepository(repository);
             validatingCCRepository.ValidationIssuesUpdated += ValidationIssuesUpdated;
-            validatingCCRepository.ValidateAll();
+            validatingCCRepository.LoadRepositoryContent();
         }
 
         private static void ValidationIssuesUpdated(IEnumerable<IValidationIssue> validationIssues)
@@ -277,10 +268,20 @@ namespace VIENNAAddIn
         {
             if (tabName == AddInSettings.AddInName)
             {
-                IValidationIssue issue = validatingCCRepository.GetValidationIssue(id);
+                var issue = validatingCCRepository.GetValidationIssue(id);
                 if (issue != null)
                 {
-                    repository.ShowInProjectView(issue.ResolveItem(repository));
+                    var itemId = issue.ItemId;
+                    object item;
+                    if (itemId.Type == ItemId.ItemType.Package)
+                    {
+                        item = repository.GetPackageByID(itemId.Value);
+                    }
+                    else
+                    {
+                        item = repository.GetElementByID(itemId.Value);
+                    }
+                    repository.ShowInProjectView(item);
                 }
             }
         }
@@ -293,10 +294,6 @@ namespace VIENNAAddIn
         ///<param name="id"></param>
         public void EA_OnOutputItemDoubleClicked(Repository repository, string tabName, string text, int id)
         {
-            if (tabName == AddInSettings.AddInName)
-            {
-                onTheFlyValidator.ShowQuickFixes(id);
-            }
         }
 
         ///<summary>
@@ -311,12 +308,11 @@ namespace VIENNAAddIn
                 if (eventProperty.Name == "ElementID")
                 {
                     int elementId = int.Parse(eventProperty.Value.ToString());
-                    contentLoader.LoadElementByID(elementId);
-                    validatingCCRepository.ValidateAll();
-                    return false;
+                    validatingCCRepository.LoadElementByID(elementId);
+                    return ItemNotUpdated;
                 }
             }
-            return false;
+            return ItemNotUpdated;
         }
 
         ///<summary>
@@ -331,12 +327,11 @@ namespace VIENNAAddIn
                 if (eventProperty.Name == "PackageID")
                 {
                     int packageId = int.Parse(eventProperty.Value.ToString());
-                    contentLoader.LoadPackageByID(packageId);
-                    validatingCCRepository.ValidateAll();
-                    return false;
+                    validatingCCRepository.LoadPackageByID(packageId);
+                    return ItemNotUpdated;
                 }
             }
-            return false;
+            return ItemNotUpdated;
         }
 
         public bool EA_OnPreDeleteElement(Repository repository, EventProperties info)
@@ -346,12 +341,11 @@ namespace VIENNAAddIn
                 if (eventProperty.Name == "ElementID")
                 {
                     int elementId = int.Parse(eventProperty.Value.ToString());
-                    validatingCCRepository.HandleElementDeleted(elementId);
-                    validatingCCRepository.ValidateAll();
-                    return false;
+                    validatingCCRepository.ItemDeleted(ItemId.ForElement(elementId));
+                    return AllowDeletion;
                 }
             }
-            return false;
+            return AllowDeletion;
         }
 
         public bool EA_OnPreDeletePackage(Repository repository, EventProperties info)
@@ -361,12 +355,11 @@ namespace VIENNAAddIn
                 if (eventProperty.Name == "PackageID")
                 {
                     int packageId = int.Parse(eventProperty.Value.ToString());
-                    validatingCCRepository.HandlePackageDeleted(packageId);
-                    validatingCCRepository.ValidateAll();
-                    return false;
+                    validatingCCRepository.ItemDeleted(ItemId.ForPackage(packageId));
+                    return AllowDeletion;
                 }
             }
-            return false;
+            return AllowDeletion;
         }
 
         #endregion
