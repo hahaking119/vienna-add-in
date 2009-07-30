@@ -2,7 +2,8 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 {
     public class OtherPackage : AbstractEAPackage
     {
-        public OtherPackage(int id, string name, int parentId) : base(id, name, parentId)
+        public OtherPackage(ItemId id, string name, ItemId parentId)
+            : base(id, name, parentId)
         {
         }
     }

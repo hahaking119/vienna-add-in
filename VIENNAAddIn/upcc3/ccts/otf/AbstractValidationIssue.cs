@@ -4,22 +4,21 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 {
     public abstract class AbstractValidationIssue : IValidationIssue
     {
-        private static int nextId;
+        private static int NextId;
 
-        protected AbstractValidationIssue(int validatedItemId, int itemId)
+        protected AbstractValidationIssue(ItemId validatedItemId, ItemId itemId)
         {
-            Id = nextId++;
+            Id = NextId++;
             ValidatedItemId = validatedItemId;
             ItemId = itemId;
         }
 
         #region IValidationIssue Members
 
-        public int ValidatedItemId { get; private set; }
-        public int ItemId { get; private set; }
+        public ItemId ValidatedItemId { get; private set; }
+        public ItemId ItemId { get; private set; }
         public int Id { get; private set; }
         public abstract string Message { get; }
-        public abstract object ResolveItem(Repository repository);
 
         #endregion
 

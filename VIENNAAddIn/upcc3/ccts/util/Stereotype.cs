@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
+using System.Collections.Generic;
 using EA;
 using Attribute=EA.Attribute;
 
@@ -102,6 +103,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
                     return stereotype;
             }
         }
+
+        private static readonly List<string> BusinessLibraryStereotypes = new List<string>{BLibrary, PRIMLibrary, ENUMLibrary, CDTLibrary, CCLibrary, BDTLibrary, BIELibrary, DOCLibrary};
 
         public static bool IsIsEquivalentTo(this Connector con)
         {
@@ -301,6 +304,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 return CON;
             }
             return String.Empty;
+        }
+
+        public static bool IsBusinessLibraryStereotype(string stereotype)
+        {
+            return BusinessLibraryStereotypes.Contains(stereotype);
         }
     }
 }

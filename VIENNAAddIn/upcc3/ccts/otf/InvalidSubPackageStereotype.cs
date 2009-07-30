@@ -1,11 +1,11 @@
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    internal class InvalidSubPackageStereotype : PackageValidationIssue
+    internal class InvalidSubPackageStereotype : AbstractValidationIssue
     {
         private readonly string packageName;
         private readonly string subPackageName;
 
-        public InvalidSubPackageStereotype(int packageId, int subPackageId, string packageName, string subPackageName) : base(packageId, subPackageId)
+        public InvalidSubPackageStereotype(ItemId packageId, ItemId subPackageId, string packageName, string subPackageName) : base(packageId, subPackageId)
         {
             this.packageName = packageName;
             this.subPackageName = subPackageName;
