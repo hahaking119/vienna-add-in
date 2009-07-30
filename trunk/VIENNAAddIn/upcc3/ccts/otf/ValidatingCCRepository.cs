@@ -34,19 +34,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         #region ICCRepository Members
 
-        public IBusinessLibrary GetLibrary(ItemId id)
-        {
-            IEAPackage library = GetPackageById(id);
-            if (library != null && library is IBusinessLibrary)
-            {
-                return (IBusinessLibrary) library;
-            }
-            return null;
-        }
-
         public IBusinessLibrary GetLibrary(int id)
         {
-            return GetLibrary(ItemId.ForPackage(id));
+            return WrapItem(repository.GetItemById(ItemId.ForPackage(id))) as IBusinessLibrary;
         }
 
         public IEnumerable<IBusinessLibrary> AllLibraries()
@@ -58,7 +48,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         private static IBusinessLibrary WrapBusinessLibrary(IRepositoryItem item)
         {
-            return WrapPackage(item) as IBusinessLibrary;
+            return WrapItem(item) as IBusinessLibrary;
         }
 
         private static bool IsBusinessLibrary(IRepositoryItem item)
@@ -96,164 +86,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return validationService.GetIssueById(issueId);
         }
 
-        private IEAPackage GetPackageById(ItemId id)
+        private static object WrapItem(IRepositoryItem item)
         {
-            return WrapPackage(repository.GetItemById(id));
-        }
-
-        private static IEAPackage WrapPackage(IRepositoryItem item)
-        {
-            IEAPackage eaPackage;
-            var itemData = item.Data;
-            if (itemData.ParentId.IsNull)
-            {
-                eaPackage = new EAModel(itemData.Id, itemData.Name, itemData.ParentId);
-            }
-            else
-            {
-                switch (item.Data.Stereotype)
-                {
-                    case Stereotype.BInformationV:
-                        {
-                            eaPackage = new BInformationV(itemData.Id, itemData.Name, itemData.ParentId);
-                            break;
-                        }
-                    case Stereotype.BLibrary:
-                        {
-                            eaPackage = new BLibrary(itemData.Id,
-                                                     itemData.Name,
-                                                     itemData.ParentId,
-                                                     itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                     itemData.GetTaggedValues(TaggedValues.copyright),
-                                                     itemData.GetTaggedValues(TaggedValues.owner),
-                                                     itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    case Stereotype.PRIMLibrary:
-                        {
-                            eaPackage = new PRIMLibrary(itemData.Id,
-                                                        itemData.Name,
-                                                        itemData.ParentId,
-                                                        itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                        itemData.GetTaggedValues(TaggedValues.copyright),
-                                                        itemData.GetTaggedValues(TaggedValues.owner),
-                                                        itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    case Stereotype.ENUMLibrary:
-                        {
-                            eaPackage = new ENUMLibrary(itemData.Id,
-                                                        itemData.Name,
-                                                        itemData.ParentId,
-                                                        itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                        itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                        itemData.GetTaggedValues(TaggedValues.copyright),
-                                                        itemData.GetTaggedValues(TaggedValues.owner),
-                                                        itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    case Stereotype.CDTLibrary:
-                        {
-                            eaPackage = new CDTLibrary(itemData.Id,
-                                                       itemData.Name,
-                                                       itemData.ParentId,
-                                                       itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                       itemData.GetTaggedValues(TaggedValues.copyright),
-                                                       itemData.GetTaggedValues(TaggedValues.owner),
-                                                       itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    case Stereotype.CCLibrary:
-                        {
-                            eaPackage = new CCLibrary(itemData.Id,
-                                                      itemData.Name,
-                                                      itemData.ParentId,
-                                                      itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                      itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                      itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                      itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                      itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                      itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                      itemData.GetTaggedValues(TaggedValues.copyright),
-                                                      itemData.GetTaggedValues(TaggedValues.owner),
-                                                      itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    case Stereotype.BDTLibrary:
-                        {
-                            eaPackage = new BDTLibrary(itemData.Id,
-                                                       itemData.Name,
-                                                       itemData.ParentId,
-                                                       itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                       itemData.GetTaggedValues(TaggedValues.copyright),
-                                                       itemData.GetTaggedValues(TaggedValues.owner),
-                                                       itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    case Stereotype.BIELibrary:
-                        {
-                            eaPackage = new BIELibrary(itemData.Id,
-                                                       itemData.Name,
-                                                       itemData.ParentId,
-                                                       itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                       itemData.GetTaggedValues(TaggedValues.copyright),
-                                                       itemData.GetTaggedValues(TaggedValues.owner),
-                                                       itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    case Stereotype.DOCLibrary:
-                        {
-                            eaPackage = new DOCLibrary(itemData.Id,
-                                                       itemData.Name,
-                                                       itemData.ParentId,
-                                                       itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                       itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                       itemData.GetTaggedValues(TaggedValues.copyright),
-                                                       itemData.GetTaggedValues(TaggedValues.owner),
-                                                       itemData.GetTaggedValues(TaggedValues.reference));
-                            break;
-                        }
-                    default:
-                        {
-                            eaPackage = new OtherPackage(itemData.Id, itemData.Name, itemData.ParentId);
-                            break;
-                        }
-                }
-            }
-            return eaPackage;
+            return CCItemWrapper.Wrap(item);
         }
 
         public void ItemDeleted(ItemId id)
