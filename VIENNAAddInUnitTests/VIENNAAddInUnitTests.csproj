@@ -73,6 +73,7 @@
     <Compile Include="TestRepository\IDFactory.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
     <Compile Include="upcc3\ccts\otf\AssertCollections.cs" />
+    <Compile Include="upcc3\ccts\otf\Given_a_CCItemWrapper.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_HierarchicalRepository.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_new_CCRepository.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_Validator.cs" />

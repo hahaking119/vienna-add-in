@@ -129,6 +129,7 @@
     <Compile Include="upcc3\ccts\otf\BLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\BLibraryConstraints.cs" />
     <Compile Include="upcc3\ccts\otf\BusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\otf\CCItemWrapper.cs" />
     <Compile Include="upcc3\ccts\otf\CCLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\CDTLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\HierarchicalRepository.cs" />
