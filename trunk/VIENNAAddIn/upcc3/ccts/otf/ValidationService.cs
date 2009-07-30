@@ -8,6 +8,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         private readonly Dictionary<ItemId, IRepositoryItem> itemsNeedingValidation = new Dictionary<ItemId, IRepositoryItem>();
         private readonly Dictionary<int, IValidationIssue> validationIssuesById = new Dictionary<int, IValidationIssue>();
         private readonly Dictionary<ItemId, List<IValidationIssue>> validationIssuesByItemId = new Dictionary<ItemId, List<IValidationIssue>>();
+        private readonly List<IConstraint> constraints = new List<IConstraint>();
 
         public event Action<IEnumerable<IValidationIssue>> ValidationIssuesUpdated;
 
@@ -39,7 +40,26 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         private void ValidateItem(IRepositoryItem item)
         {
-            var issues = new List<IValidationIssue>(item.Validate());
+            AddIssues(item, CheckConstraints(item));
+        }
+
+        private IEnumerable<IValidationIssue> CheckConstraints(IRepositoryItem item)
+        {
+            foreach (var constraint in constraints)
+            {
+                if (constraint.Matches(item))
+                {
+                    foreach (var issue in constraint.Check(item))
+                    {
+                        yield return issue;
+                    }
+                }
+            }
+        }
+
+        private void AddIssues(IRepositoryItem item, IEnumerable<IValidationIssue> itemIssues)
+        {
+            var issues = new List<IValidationIssue>(itemIssues);
             validationIssuesByItemId[item.Id] = issues;
             foreach (IValidationIssue issue in issues)
             {
@@ -71,6 +91,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         {
             RemoveIssues(item);
             itemsNeedingValidation.Remove(item.Id);
+        }
+
+        public void AddConstraint(IConstraint constraint)
+        {
+            constraints.Add(constraint);
         }
     }
 }

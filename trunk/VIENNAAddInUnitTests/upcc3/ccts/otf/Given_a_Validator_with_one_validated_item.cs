@@ -11,6 +11,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         private ValidationService validationService;
         private Mock<IRepositoryItem> itemMock;
         private IValidationIssue[] itemIssues;
+        private Mock<IConstraint> constraintMock;
 
         [SetUp]
         public void Context()
@@ -18,9 +19,15 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             validationService = new ValidationService();
             ItemId itemId = ItemId.ForElement(1);
             itemIssues = OneValidationIssue(itemId, itemId);
+
             itemMock = new Mock<IRepositoryItem>();
             itemMock.SetupGet(element => element.Id).Returns(itemId);
-            itemMock.Setup(element => element.Validate()).Returns(itemIssues);
+
+            constraintMock = new Mock<IConstraint>();
+            constraintMock.Setup(c => c.Matches(It.IsAny<IRepositoryItem>())).Returns(true);
+            constraintMock.Setup(c => c.Check(It.IsAny<IRepositoryItem>())).Returns(itemIssues);
+            validationService.AddConstraint(constraintMock.Object);
+
             validationService.ItemCreatedOrModified(itemMock.Object);
             validationService.Validate();
         }
@@ -38,14 +45,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             validationService.ItemCreatedOrModified(itemMock.Object);
             validationService.Validate();
             Assert.AreEqual(1, validationService.ValidationIssues.Count());
-            itemMock.Verify(item => item.Validate(), Times.Exactly(2));
+            constraintMock.Verify(c => c.Check(It.IsAny<IRepositoryItem>()), Times.Exactly(2));
         }
 
         [Test]
         public void When_the_item_is_not_modified_Then_it_should_not_be_revalidated()
         {
             validationService.Validate();
-            itemMock.Verify(item => item.Validate(), Times.Exactly(1));
+            constraintMock.Verify(c => c.Check(It.IsAny<IRepositoryItem>()), Times.Exactly(1));
         }
 
         [Test]
@@ -61,7 +68,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             validationService.ItemCreatedOrModified(itemMock.Object);
             validationService.ItemDeleted(itemMock.Object);
             validationService.Validate();
-            itemMock.Verify(item => item.Validate(), Times.Exactly(1));
+            constraintMock.Verify(c => c.Check(It.IsAny<IRepositoryItem>()), Times.Exactly(1));
         }
 
         private static IValidationIssue[] OneValidationIssue(ItemId validatedItemId, ItemId itemId)

@@ -10,6 +10,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         private ValidationService validationService;
         private Mock<IRepositoryItem> itemMock;
         private IValidationIssue[] itemIssues;
+        private Mock<IConstraint> constraintMock;
 
         [SetUp]
         public void Context()
@@ -19,7 +20,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             itemIssues = new IValidationIssue[] {new TestValidationIssue(itemId, itemId)};
             itemMock = new Mock<IRepositoryItem>();
             itemMock.SetupGet(element => element.Id).Returns(itemId);
-            itemMock.Setup(element => element.Validate()).Returns(itemIssues);
+            constraintMock = new Mock<IConstraint>();
+            constraintMock.Setup(c => c.Matches(It.IsAny<IRepositoryItem>())).Returns(true);
+            constraintMock.Setup(c => c.Check(It.IsAny<IRepositoryItem>())).Returns(itemIssues);
+            validationService.AddConstraint(constraintMock.Object);
         }
 
         [Test]
@@ -35,7 +39,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             validationService.ItemCreatedOrModified(itemMock.Object);
             validationService.Validate();
-            itemMock.Verify(item => item.Validate(), Times.Exactly(1));
+            constraintMock.Verify(c => c.Check(It.IsAny<IRepositoryItem>()), Times.Exactly(1));
         }
 
         [Test]
