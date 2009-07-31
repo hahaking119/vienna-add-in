@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -13,7 +14,26 @@ namespace VIENNAAddIn.menu
         public AddInContext(Repository eaRepository, string menuLocation)
         {
             EARepository = eaRepository;
-            MenuLocation = (MenuLocation)Enum.Parse(typeof(MenuLocation), menuLocation);
+
+            MenuLocation = (MenuLocation) Enum.Parse(typeof (MenuLocation), menuLocation);
+
+            if (MenuLocation == MenuLocation.TreeView)
+            {
+                /// Workaround to fix problem in Enterprise Architect:
+                /// The "EA_OnContextItemChanged" method is not invoked in case the user
+                /// selects a model in the tree view which causes SelectedItem
+                /// to contain an invalid value. Therefore we override the values of the variables whenever the 
+                /// user selects a package in the tree view. 
+                SelectedItem = EARepository.GetTreeSelectedObject();
+            }
+            else
+            {
+                // Cannot simply use EARepository.GetContextObject(), because this method always returns the TreeSelectedObject!
+                // (which probably is a bug)
+                object contextObject;
+                EARepository.GetContextItem(out contextObject);
+                SelectedItem = contextObject;
+            }
         }
 
         ///<summary>
@@ -35,62 +55,24 @@ namespace VIENNAAddIn.menu
         }
 
         ///<summary>
-        /// The type of the currently selected item.
-        ///</summary>
-        private ObjectType SelectedItemObjectType
-        {
-            get { return EARepository.GetContextItemType(); }
-        }
-
-        private object selectedItem;
-
-        ///<summary>
         /// The currently selected item.
         ///</summary>
-        public object SelectedItem
-        {
-            get
-            {
-                if (selectedItem == null)
-                {
-//                    MessageBox.Show("loading selected item");
-                    if (MenuLocation == MenuLocation.TreeView && SelectedItemObjectType == ObjectType.otNone)
-                    {
-                        /// Workaround to fix problem in Enterprise Architect:
-                        /// The "EA_OnContextItemChanged" method is not invoked in case the user
-                        /// selects a model in the tree view which causes SelectedItem
-                        /// to contain an invalid value. Therefore we override the values of the variables whenever the 
-                        /// user selects a package in the tree view. 
-                        selectedItem = EARepository.GetTreeSelectedObject();
-                    }
-                    else
-                    {
-                        selectedItem = EARepository.GetContextObject();
-                    }
-                }
-                return selectedItem;
-            }
-        }
+        public object SelectedItem { get; private set; }
 
         public bool SelectedItemIsLibraryOfType(string stereotype)
         {
-            return SelectedItem != null
-                   && SelectedItemObjectType == ObjectType.otPackage
-                   && ((Package) SelectedItem).HasStereotype(stereotype);
+            return (SelectedItem as Package).HasStereotype(stereotype);
         }
 
         public bool SelectedItemIsABIE()
         {
-            return SelectedItem != null
-                   && SelectedItemObjectType == ObjectType.otElement
-                   && ((Element) SelectedItem).IsABIE();
+            return (SelectedItem as Element).IsABIE();
         }
 
         public bool SelectedItemIsRootModel()
         {
-            return SelectedItem != null 
-                   && SelectedItem is Package
-                   && ((Package) SelectedItem).ParentID == 0;
+            var selectedPackage = SelectedItem as Package;
+            return selectedPackage != null && selectedPackage.ParentID == 0;
         }
     }
 }

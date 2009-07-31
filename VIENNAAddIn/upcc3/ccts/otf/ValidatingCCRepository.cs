@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
@@ -46,16 +44,6 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                    select WrapBusinessLibrary(item);
         }
 
-        private static IBusinessLibrary WrapBusinessLibrary(IRepositoryItem item)
-        {
-            return WrapItem(item) as IBusinessLibrary;
-        }
-
-        private static bool IsBusinessLibrary(IRepositoryItem item)
-        {
-            return Stereotype.IsBusinessLibraryStereotype(item.Data.Stereotype);
-        }
-
         public IEnumerable<T> Libraries<T>() where T : IBusinessLibrary
         {
             return from library in AllLibraries()
@@ -74,6 +62,16 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         }
 
         #endregion
+
+        private static IBusinessLibrary WrapBusinessLibrary(IRepositoryItem item)
+        {
+            return WrapItem(item) as IBusinessLibrary;
+        }
+
+        private static bool IsBusinessLibrary(IRepositoryItem item)
+        {
+            return Stereotype.IsBusinessLibraryStereotype(item.Data.Stereotype);
+        }
 
         public event Action<IEnumerable<IValidationIssue>> ValidationIssuesUpdated
         {
