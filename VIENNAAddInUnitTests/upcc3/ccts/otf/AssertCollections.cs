@@ -7,7 +7,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
     public static class AssertCollections
     {
-        public static void AreEqual<T>(IEnumerable<T> expectedCollection, IEnumerable<T> actualCollection, Func<T, int> comp)
+        public static void AreEqual<T>(IEnumerable<T> expectedCollection, IEnumerable<T> actualCollection, Func<T, object> comp)
         {
             var expectedList = new List<T>(expectedCollection.OrderBy(comp));
             var actualList = new List<T>(actualCollection.OrderBy(comp));
