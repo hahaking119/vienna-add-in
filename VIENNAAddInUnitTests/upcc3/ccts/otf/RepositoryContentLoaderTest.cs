@@ -17,6 +17,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         private  RepositoryContentLoader contentLoader;
         private List<Package> packages;
         private List<Element> elements;
+        private Package bLibrary;
 
         [SetUp]
         public void Context()
@@ -33,7 +34,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
             var bInformationV = CreatePackage(model, Stereotype.BInformationV);
 
-            var bLibrary = CreatePackage(bInformationV, Stereotype.BLibrary);
+            bLibrary = CreatePackage(bInformationV, Stereotype.BLibrary);
 
             CreatePackage(bLibrary, Stereotype.PRIMLibrary);
             CreatePackage(bLibrary, Stereotype.ENUMLibrary);
@@ -67,6 +68,19 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             contentLoader.LoadRepositoryContent();
             Assert.AreEqual(0, packages.Count, "some packages where not loaded: " + ListToString(packages, package => (package.Element != null ? package.Element.Stereotype : "Model")));
             Assert.AreEqual(0, elements.Count, "some elements where not loaded: " + ListToString(elements, element => element.Stereotype));
+        }
+
+        [Test]
+        public void When_a_package_element_is_reloaded_Then_the_package_should_be_reloaded()
+        {
+            // this is a fix for the problem that sometimes (e.g. when changing a package's tagged values),
+            // EA generates an event for the package's internal element to have changed instead of the package itself.
+            contentLoader.LoadRepositoryContent();
+            IRepositoryItemData loadedItemData = null;
+            contentLoader.ItemLoaded += itemData => loadedItemData = itemData;
+            bLibrary.Element.SetTaggedValue(TaggedValues.baseURN, "test");
+            contentLoader.LoadElementByID(bLibrary.Element.ElementID);
+            Assert.AreEqual(ItemId.ForPackage(bLibrary.PackageID), loadedItemData.Id);
         }
 
         private void RemoveItem(IRepositoryItemData item)

@@ -631,6 +631,11 @@ namespace VIENNAAddInUnitTests.TestRepository
             int id = idFactory.NextID;
             var package = new EAPackage(this) {Name = name, PackageID = id, ParentID = parentId};
             packagesById[id] = package;
+            if (!package.IsModel)
+            {
+                ((EAElement)package.Element).ElementID = idFactory.NextID;
+                elementsById[package.Element.ElementID] = (EAElement) package.Element;
+            }
             return package;
         }
 

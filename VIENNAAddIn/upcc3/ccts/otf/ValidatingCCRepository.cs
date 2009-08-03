@@ -91,6 +91,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         public void ItemDeleted(ItemId id)
         {
+            contentLoader.ItemDeleted(id);
             repository.ItemDeleted(id);
             validationService.Validate();
         }

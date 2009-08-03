@@ -9,6 +9,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
     public class RepositoryContentLoader
     {
         private readonly Repository eaRepository;
+        private readonly Dictionary<int, int> packageIdsByPackageElementId = new Dictionary<int, int>();
 
         public RepositoryContentLoader(Repository eaRepository)
         {
@@ -40,14 +41,28 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         private void LoadElement(Element element)
         {
-            if (ItemLoaded != null)
+            var elementId = element.ElementID;
+            int packageId;
+            if (packageIdsByPackageElementId.TryGetValue(elementId, out packageId))
             {
-                ItemLoaded(new ElementData(element));
+                LoadPackageByID(packageId);
+            }
+            else
+            {
+                if (ItemLoaded != null)
+                {
+                    ItemLoaded(new ElementData(element));
+                }
             }
         }
 
         private void LoadPackage(Package package)
         {
+            if (package.Element != null)
+            {
+                var packageElementId = package.Element.ElementID;
+                packageIdsByPackageElementId[packageElementId] = package.PackageID;
+            }
             if (ItemLoaded != null)
             {
                 ItemLoaded(new PackageData(package));
@@ -85,6 +100,32 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                     LoadElementByGUID(guid);
                     break;
             }
+        }
+
+        public void ItemDeleted(ItemId id)
+        {
+            if (id.Type == ItemId.ItemType.Package)
+            {
+                int packageElementId;
+                if (FindPackageElementId(id, out packageElementId))
+                {
+                    packageIdsByPackageElementId.Remove(packageElementId);
+                }
+            }
+        }
+
+        private bool FindPackageElementId(ItemId id, out int packageElementId)
+        {
+            foreach (KeyValuePair<int, int> keyValuePair in packageIdsByPackageElementId)
+            {
+                if (keyValuePair.Value == id.Value)
+                {
+                    packageElementId = keyValuePair.Key;
+                    return true;
+                }
+            }
+            packageElementId = 0;
+            return false;
         }
     }
 
