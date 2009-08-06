@@ -16,6 +16,12 @@
 	<xs:complexType name="AddressType">
 		<xs:sequence>
 			<xs:element name="Town" type="xs:string"/>
+			<xs:element name="Person" type="PersonType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonType">
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="InvoiceType">
