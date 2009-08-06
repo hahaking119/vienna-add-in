@@ -142,7 +142,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 XmlSchemaElement elementBBIE = new XmlSchemaElement();
 
                 // R AEFE, R 96D9, R9A40, R A34A are implemented in GenerateBBIEName(...)
-                elementBBIE.Name = GenerateBBIEName(bbie.Name, bbie.Type.Name);
+                elementBBIE.Name = NDR.GenerateBBIEName(bbie);
 
                 // R 8B85: every BBIE type must be named the property term and qualifiers and the
                 //         representation term of the basic business information entity (BBIE) it represents
@@ -170,7 +170,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 XmlSchemaElement elementASBIE = new XmlSchemaElement();
 
                 // R A08A: name of the ASBIE
-                elementASBIE.Name = asbie.Name + asbie.AssociatedElement.Name;
+                elementASBIE.Name = NDR.GenerateASBIEName(asbie);
                 elementASBIE.SchemaTypeName =
                     new XmlQualifiedName(abiePrefix + ":" + asbie.AssociatedElement.Name + "Type");
 
@@ -181,15 +181,15 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
                 if (asbie.AggregationKind == EAAggregationKind.Shared)
                 {
-                    if (!globalASBIEs.Contains(asbie.Name + asbie.AssociatedElement.Name))
+                    if (!globalASBIEs.Contains(elementASBIE.Name))
                     {
                         // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
                         XmlSchemaElement refASBIE = new XmlSchemaElement();
                         refASBIE.RefName =
-                            new XmlQualifiedName(abiePrefix + ":" + asbie.Name + asbie.AssociatedElement.Name);
+                            new XmlQualifiedName(abiePrefix + ":" + elementASBIE.Name);
                         sequenceBBIEs.Items.Add(refASBIE);
                         schema.Items.Add(elementASBIE);
-                        globalASBIEs.Add(asbie.Name + asbie.AssociatedElement.Name);
+                        globalASBIEs.Add(elementASBIE.Name);
                     }
                 }
                 else
@@ -336,26 +336,6 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             }
 
             return bound;
-        }
-
-        private static string GenerateBBIEName(string bbieName, string bbieType)
-        {
-            if ((bbieName.EndsWith("Identification")) && (bbieType.Equals("Identifier")))
-            {
-                return bbieName.Remove(bbieName.Length - 14) + "Identifer";
-            }
-
-            if ((bbieName.EndsWith("Indication")) && (bbieType.Equals("Indicator")))
-            {
-                return bbieName.Remove(bbieName.Length - 10) + "Indicator";
-            }
-
-            if (bbieType.Equals("Text"))
-            {
-                return bbieName;
-            }
-
-            return bbieName + bbieType;
         }
 
         public static string getObjectClassTerm(string name)

@@ -78,10 +78,10 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
         internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneratorContext context, XmlSchema schema, IACC acc)
         {
-            return GenerateComplexTypeABIE(context, schema, acc, context.NamespacePrefix);
+            return GenerateComplexTypeACC(context, schema, acc, context.NamespacePrefix);
         }
 
-        internal static XmlSchemaComplexType GenerateComplexTypeABIE(GeneratorContext context, XmlSchema schema, IACC acc, string accPrefix)
+        internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneratorContext context, XmlSchema schema, IACC acc, string accPrefix)
         {
             // R A4CE, R AF95: a complex type must be defined for each ABIE   
             XmlSchemaComplexType complexTypeACC = new XmlSchemaComplexType();
@@ -104,7 +104,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 XmlSchemaElement elementBCC = new XmlSchemaElement();
 
                 // R AEFE, R 96D9, R9A40, R A34A are implemented in GenerateBBIEName(...)
-                elementBCC.Name = GenerateBCCName(bcc.Name, bcc.Type.Name);
+                elementBCC.Name = NDR.GenerateBCCName(bcc);
 
                 // R 8B85: every BBIE type must be named the property term and qualifiers and the
                 //         representation term of the basic business information entity (BBIE) it represents
@@ -132,7 +132,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 XmlSchemaElement elementASCC = new XmlSchemaElement();
 
                 // R A08A: name of the ASBIE
-                elementASCC.Name = ascc.Name + ascc.AssociatedElement.Name;
+                elementASCC.Name = NDR.GenerateASCCName(ascc);
                 elementASCC.SchemaTypeName =
                     new XmlQualifiedName(accPrefix + ":" + ascc.AssociatedElement.Name + "Type");
 
@@ -143,14 +143,14 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
                 if (ascc.AggregationKind == EAAggregationKind.Shared)
                 {
-                    if (!globalASCCs.Contains(ascc.Name + ascc.AssociatedElement.Name))
+                    if (!globalASCCs.Contains(elementASCC.Name))
                     {
                         // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
                         XmlSchemaElement refASCC = new XmlSchemaElement();
-                        refASCC.RefName = new XmlQualifiedName(accPrefix + ":" + ascc.Name + ascc.AssociatedElement.Name);
+                        refASCC.RefName = new XmlQualifiedName(accPrefix + ":" + elementASCC.Name);
                         sequenceBCCs.Items.Add(refASCC);
                         schema.Items.Add(elementASCC);
-                        globalASCCs.Add(ascc.Name + ascc.AssociatedElement.Name);
+                        globalASCCs.Add(elementASCC.Name);
                     }
                 }
                 else
@@ -297,26 +297,6 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             }
 
             return bound;
-        }
-
-        private static string GenerateBCCName(string bccName, string bccType)
-        {
-            if ((bccName.EndsWith("Identification")) && (bccType.Equals("Identifier")))
-            {
-                return bccName.Remove(bccName.Length - 14) + "Identifer";
-            }
-
-            if ((bccName.EndsWith("Indication")) && (bccType.Equals("Indicator")))
-            {
-                return bccName.Remove(bccName.Length - 10) + "Indicator";
-            }
-
-            if (bccType.Equals("Text"))
-            {
-                return bccName;
-            }
-
-            return bccName + bccType;
         }
 
         public static string getObjectClassTerm(string name)
