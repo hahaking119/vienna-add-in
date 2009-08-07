@@ -75,11 +75,14 @@
     <Compile Include="TestRepository\IDFactory.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
     <Compile Include="upcc3\ccts\otf\AssertCollections.cs" />
+    <Compile Include="upcc3\ccts\otf\BLibraryConstraintsTests.cs" />
+    <Compile Include="upcc3\ccts\otf\ConstraintsTests.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_CCItemWrapper.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_HierarchicalRepository.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_new_CCRepository.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_Validator.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_Validator_with_one_validated_item.cs" />
+    <Compile Include="upcc3\ccts\otf\PRIMLibraryConstraintsTests.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoaderTest.cs" />
     <Compile Include="upcc3\ccts\otf\TestElement.cs" />
     <Compile Include="upcc3\ccts\otf\TestPackage.cs" />

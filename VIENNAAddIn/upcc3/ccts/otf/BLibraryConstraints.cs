@@ -1,8 +1,16 @@
+using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
+    public class PRIMLibraryConstraints : AggregateConstraints
+    {
+        public override bool Matches(IRepositoryItem item)
+        {
+            return item != null && item.Data != null && Stereotype.PRIMLibrary == item.Data.Stereotype;
+        }
+    }
     public class BLibraryConstraints : AggregateConstraints
     {
         public BLibraryConstraints()
