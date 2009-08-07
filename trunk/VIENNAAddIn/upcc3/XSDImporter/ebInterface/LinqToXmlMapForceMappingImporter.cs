@@ -111,11 +111,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             if (string.IsNullOrEmpty(inputKey))
             {
                 var outputKey = (string)entryElement.Attribute("outkey");
-                if (string.IsNullOrEmpty(outputKey))
-                {
-                    // TODO error
-                }
-                inputOutputKey = InputOutputKey.Output(outputKey);
+                inputOutputKey = string.IsNullOrEmpty(outputKey) ? InputOutputKey.None : InputOutputKey.Output(outputKey);
             }
             else
             {
