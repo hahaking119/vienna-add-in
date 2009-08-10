@@ -40,9 +40,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void ShouldOnlyAllowABLibraryAsParent()
         {
+            VerifyValidationIssues(primLibrary);
             bLibrary.RemoveChild(primLibrary.Id);
             model.AddOrReplaceChild(primLibrary);
-            VerifyValidationIssues(bLibrary, bLibrary.Id);
+            VerifyValidationIssues(primLibrary, primLibrary.Id);
         }
 
         [Test]
