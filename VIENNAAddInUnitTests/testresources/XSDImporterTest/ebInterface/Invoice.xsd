@@ -16,7 +16,6 @@
 	<xs:complexType name="AddressType">
 		<xs:sequence>
 			<xs:element name="Town" type="xs:string"/>
-			<xs:element name="Person" type="PersonType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="PersonType">
@@ -27,6 +26,7 @@
 	<xs:complexType name="InvoiceType">
 		<xs:sequence>
 			<xs:element ref="Address" minOccurs="0"/>
+			<xs:element name="Person" type="PersonType" minOccurs="0"/>
 		</xs:sequence>
 		<xs:attribute name="GeneratingSystem" type="xs:string" use="required"/>
 	</xs:complexType>
