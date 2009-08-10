@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
@@ -8,10 +9,18 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         public string Name { get; private set; }
         public ICC Reference { get; private set; }
 
+        private readonly List<TargetCCElement> children;
+
+        public List<TargetCCElement> Children
+        {
+            get { return new List<TargetCCElement>(children); }
+        }
+
         public TargetCCElement(string name, ICC reference)
         {
             Name = name;
             Reference = reference;
+            children = new List<TargetCCElement>();
         }
 
         public bool Equals(TargetCCElement other)
@@ -55,5 +64,10 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         }
 
         public Mapping Mapping { get; set; }
+
+        public void AddChild(TargetCCElement element)
+        {
+            children.Add(element);
+        }
     }
 }

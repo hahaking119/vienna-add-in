@@ -13,6 +13,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         private readonly ICCRepository ccRepository;
         private readonly ICCLibrary ccl;
         private readonly Dictionary<string, SourceElement> sourceElementsByKey = new Dictionary<string, SourceElement>();
+        private readonly Dictionary<string, TargetCCElement> targetCCElementsByKey = new Dictionary<string, TargetCCElement>();
         private IBIELibrary bieLibrary;
         public SourceElement RootSourceElement { get; private set; }
 
@@ -50,10 +51,20 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
+        private void AddToIndex(Entry entry, TargetCCElement targetCCElement)
+        {
+            var key = entry.InputOutputKey.Value;
+            if (key != null)
+            {
+                targetCCElementsByKey[key] = targetCCElement;
+            }
+        }
+
         public void GenerateMapping()
         {
             var rootSchemaComponent = mapForceMapping.GetRootSchemaComponent();
             RootSourceElement = CreateSourceElementTree(rootSchemaComponent.RootEntry);
+            CreateTargetElementTrees();
 
             foreach (var vertex in mapForceMapping.Graph.Vertices)
             {
@@ -62,37 +73,61 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                     var sourceKey = vertex.Key;
                     var targetKey = edge.TargetVertexKey;
                     var sourceElement = GetSourceElement(sourceKey);
-                    if (sourceElement != null)
+                    var targetElement = GetTargetElement(targetKey);
+                    if (sourceElement == null || targetElement == null)
                     {
-                        Mappings.Add(new Mapping(sourceElement, GetTargetElement(targetKey)));
+                        // TODO error
                     }
                     else
                     {
-                        // TODO error
+                        Mappings.Add(new Mapping(sourceElement, targetElement));
                     }
                 }
             }
         }
 
-        private TargetCCElement GetTargetElement(string key)
+        /// <summary>
+        /// Build a target CC element hierarchy for each target component (i.e. for each ACC).
+        /// 
+        /// Note that the tree depth is currently limited to 2 (meaning that we do not resolve ASCCs within the ACC).
+        /// </summary>
+        private void CreateTargetElementTrees()
         {
-            // TODO search multiple target schema components
-            var targetSchemaComponent = mapForceMapping.GetTargetSchemaComponent();
-            var targetElementEntry = GetTargetElementEntry(targetSchemaComponent.RootEntry, key);
-            IACC acc = GetACC(targetSchemaComponent);
+            var targetSchemaComponents = mapForceMapping.GetTargetSchemaComponents();
+            foreach (var component in targetSchemaComponents)
+            {
+                CreateTargetElementTree(GetACC(component), component.RootEntry, true);
+            }
+        }
+
+        private TargetCCElement CreateTargetElementTree(IACC acc, Entry entry, bool isRoot)
+        {
             ICC reference;
-            if (targetElementEntry == targetSchemaComponent.RootEntry)
+            if (isRoot)
             {
                 reference = acc;
             }
             else
             {
-                reference = GetBCCOrASCC(acc, targetElementEntry.Name);
+                reference = GetBCCOrASCC(acc, entry.Name);
             }
-            return new TargetCCElement(targetElementEntry.Name, reference);
+            var targetCCElement = new TargetCCElement(entry.Name, reference);
+            AddToIndex(entry, targetCCElement);
+            foreach (var subEntry in entry.SubEntries)
+            {
+                targetCCElement.AddChild(CreateTargetElementTree(acc, subEntry, false));
+            }
+            return targetCCElement;
         }
 
-        private ICC GetBCCOrASCC(IACC acc, string name)
+        private TargetCCElement GetTargetElement(string key)
+        {
+            TargetCCElement targetCCElement;
+            targetCCElementsByKey.TryGetValue(key, out targetCCElement);
+            return targetCCElement;
+        }
+
+        private static ICC GetBCCOrASCC(IACC acc, string name)
         {
             var bccsAndASCCsByName = new Dictionary<string, ICC>();
             foreach (var bcc in acc.BCCs)
@@ -109,23 +144,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         private IACC GetACC(SchemaComponent component)
         {
             return ccl.ElementByName(component.RootEntry.Name);
-        }
-
-        private static Entry GetTargetElementEntry(Entry entry, string key)
-        {
-            if (entry.HasKey(key))
-            {
-                return entry;
-            }
-            foreach (var subEntry in entry.SubEntries)
-            {
-                var targetElementEntry = GetTargetElementEntry(subEntry, key);
-                if (targetElementEntry != null)
-                {
-                    return targetElementEntry;
-                }
-            }
-            return null;
         }
 
         private SourceElement GetSourceElement(string key)
@@ -152,6 +170,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                 var acc = (IACC) accMapping.TargetCC.Reference;
                 var bbies = new List<BBIESpec>();
 
+                // TODO make sure that the BCCs are children of the ACC
                 foreach (var bccMapping in GetBCCMappings())
                 {
                     var bcc = (IBCC) bccMapping.TargetCC.Reference;
@@ -165,6 +184,8 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                     var bbieSpec = BBIESpec.CloneBCC(bcc, bdt);
                     bbies.Add(bbieSpec);
                 }
+
+                // TODO generate ASBIEs
 
                 var abieSpec = new ABIESpec
                                {

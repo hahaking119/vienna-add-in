@@ -20,6 +20,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         private IACC accAddress;
         private IBCC bccCityName;
         private CCRepository ccRepository;
+        private TemporaryFileBasedRepository temporaryFileBasedRepository;
 
         [Test]
         public void TestCreateSourceElementTree()
@@ -59,11 +60,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
                                                                    {
                                                                        package.Element.Stereotype = Stereotype.CDTLibrary;
                                                                        cdtText = package.AddCDT("Text").With(e =>
-                                                                       {
-                                                                           e.Stereotype = Stereotype.CDT;
-                                                                           e.AddCON(primString);
-                                                                           e.AddSUPs(primString, "Language", "Language.Locale");
-                                                                       });
+                                                                                                             {
+                                                                                                                 e.Stereotype = Stereotype.CDT;
+                                                                                                                 e.AddCON(primString);
+                                                                                                                 e.AddSUPs(primString, "Language", "Language.Locale");
+                                                                                                             });
                                                                    });
                                                  bLibrary.AddPackage(
                                                      "CCL", package =>
@@ -75,10 +76,21 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
                                                                     .With(e => e.AddBCCs(cdtText, "StreetName", "CityName"));
                                                             });
                                              }));
+//            temporaryFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Repository-with-CDTs-and-CCs.eap"));
+//            ccRepository = new CCRepository(temporaryFileBasedRepository);
+//            ccl = ccRepository.LibraryByName<ICCLibrary>("CCLibrary");
+//            accAddress = ccl.ElementByName("Address");
+//            bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
             ccRepository = new CCRepository(eaRepository);
             ccl = ccRepository.LibraryByName<ICCLibrary>("CCL");
             accAddress = ccl.ElementByName("Address");
             bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+//            temporaryFileBasedRepository.Dispose();            
         }
 
         [Test]

@@ -67,6 +67,15 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return null;
         }
 
+        /// <summary>
+        /// Retrieve the schema component containing the input schemas' root element.
+        /// 
+        /// If there is only one input schema component, then this component is the root schema component.
+        /// 
+        /// If there are more than one input schema components, we look for a constant component with value "Root: *", where "*" must
+        /// be the name of the root XSD element of the input schemas. We then return the schema component containing this element as its root.
+        /// </summary>
+        /// <returns>The input schema component containing the XSD root element.</returns>
         public SchemaComponent GetRootSchemaComponent()
         {
             var inputSchemas = new List<SchemaComponent>();
@@ -155,22 +164,18 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return false;
         }
 
-        public SchemaComponent GetTargetSchemaComponent()
+        /// <summary>
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<SchemaComponent> GetTargetSchemaComponents()
         {
-            var outputSchemas = new List<SchemaComponent>();
             foreach (SchemaComponent schemaComponent in SchemaComponents)
             {
                 if (IsOutputSchema(schemaComponent))
                 {
-                    outputSchemas.Add(schemaComponent);
+                    yield return schemaComponent;
                 }
             }
-            if (outputSchemas.Count > 0)
-            {
-                return outputSchemas[0];
-            }
-            // TODO error
-            return null;
         }
     }
 }

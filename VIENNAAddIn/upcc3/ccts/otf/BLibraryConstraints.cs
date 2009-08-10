@@ -4,23 +4,33 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    public class PRIMLibraryConstraints : AggregateConstraints
+    public class PRIMLibraryConstraints : BusinessLibraryConstraints
     {
+        public PRIMLibraryConstraints()
+        {
+            AddConstraint(ParentMustBeABLibrary);
+        }
+
+        private static IEnumerable<IValidationIssue> ParentMustBeABLibrary(IRepositoryItem item)
+        {
+            string parentStereotype = item.Parent.Data.Stereotype;
+            if (!(Stereotype.BLibrary == parentStereotype))
+            {
+                yield return new InvalidParentPackage(item.Id, item.Data.Name);
+            }
+        }
+
         public override bool Matches(IRepositoryItem item)
         {
             return item != null && item.Data != null && Stereotype.PRIMLibrary == item.Data.Stereotype;
         }
     }
-    public class BLibraryConstraints : AggregateConstraints
+    public class BLibraryConstraints : BusinessLibraryConstraints
     {
         public BLibraryConstraints()
         {
             AddConstraint(MustNotContainAnyElements);
             AddConstraint(SubPackagesMustBeBusinessLibraries);
-            AddConstraint(NameMustNotBeEmpty);
-            AddConstraint(TaggedValueBaseURNMustNotBeEmpty);
-            AddConstraint(TaggedValueUniqueIdentifierMustNotBeEmpty);
-            AddConstraint(TaggedValueVersionIdentifierMustNotBeEmpty);
             AddConstraint(ParentMustBeModelOrBInformationVOrBLibrary);
         }
 
@@ -30,29 +40,6 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             if (!(item.Parent.Data.ParentId.IsNull || Stereotype.BInformationV == parentStereotype || Stereotype.BLibrary == parentStereotype))
             {
                 yield return new InvalidParentPackage(item.Id, item.Data.Name);
-            }
-        }
-
-        private static IEnumerable<IValidationIssue> TaggedValueBaseURNMustNotBeEmpty(IRepositoryItem item)
-        {
-            return TaggedValueMustNotBeEmpty(item, TaggedValues.baseURN);
-        }
-
-        private static IEnumerable<IValidationIssue> TaggedValueUniqueIdentifierMustNotBeEmpty(IRepositoryItem item)
-        {
-            return TaggedValueMustNotBeEmpty(item, TaggedValues.uniqueIdentifier);
-        }
-
-        private static IEnumerable<IValidationIssue> TaggedValueVersionIdentifierMustNotBeEmpty(IRepositoryItem item)
-        {
-            return TaggedValueMustNotBeEmpty(item, TaggedValues.versionIdentifier);
-        }
-
-        private static IEnumerable<IValidationIssue> NameMustNotBeEmpty(IRepositoryItem item)
-        {
-            if (string.IsNullOrEmpty(item.Data.Name))
-            {
-                yield return new LibraryNameNotSpecified(item.Id);
             }
         }
 
@@ -123,6 +110,40 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         #endregion
 
         public abstract bool Matches(IRepositoryItem item);
+    }
+
+    public abstract class BusinessLibraryConstraints : AggregateConstraints
+    {
+        protected BusinessLibraryConstraints()
+        {
+            AddConstraint(NameMustNotBeEmpty);
+            AddConstraint(TaggedValueBaseURNMustNotBeEmpty);
+            AddConstraint(TaggedValueUniqueIdentifierMustNotBeEmpty);
+            AddConstraint(TaggedValueVersionIdentifierMustNotBeEmpty);
+        }
+
+        private static IEnumerable<IValidationIssue> TaggedValueBaseURNMustNotBeEmpty(IRepositoryItem item)
+        {
+            return TaggedValueMustNotBeEmpty(item, TaggedValues.baseURN);
+        }
+
+        private static IEnumerable<IValidationIssue> TaggedValueUniqueIdentifierMustNotBeEmpty(IRepositoryItem item)
+        {
+            return TaggedValueMustNotBeEmpty(item, TaggedValues.uniqueIdentifier);
+        }
+
+        private static IEnumerable<IValidationIssue> TaggedValueVersionIdentifierMustNotBeEmpty(IRepositoryItem item)
+        {
+            return TaggedValueMustNotBeEmpty(item, TaggedValues.versionIdentifier);
+        }
+
+        private static IEnumerable<IValidationIssue> NameMustNotBeEmpty(IRepositoryItem item)
+        {
+            if (string.IsNullOrEmpty(item.Data.Name))
+            {
+                yield return new LibraryNameNotSpecified(item.Id);
+            }
+        }
     }
 
     public interface IConstraint
