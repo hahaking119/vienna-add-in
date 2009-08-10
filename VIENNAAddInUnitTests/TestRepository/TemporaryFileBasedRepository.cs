@@ -55,6 +55,11 @@ namespace VIENNAAddInUnitTests.TestRepository
             }
         }
 
+        public void CloseButKeepFile()
+        {
+            repo.CloseFile();
+        }
+
         #region IDisposable Members
 
         /// <summary>
