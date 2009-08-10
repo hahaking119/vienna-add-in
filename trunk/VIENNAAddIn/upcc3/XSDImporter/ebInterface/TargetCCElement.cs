@@ -65,9 +65,12 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 
         public Mapping Mapping { get; set; }
 
-        public void AddChild(TargetCCElement element)
+        public TargetCCElement Parent { get; set; }
+
+        public void AddChild(TargetCCElement child)
         {
-            children.Add(element);
+            children.Add(child);
+            child.Parent = this;
         }
     }
 }

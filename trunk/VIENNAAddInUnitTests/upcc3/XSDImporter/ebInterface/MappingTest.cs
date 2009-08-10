@@ -41,6 +41,14 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         [SetUp]
         public void Context()
         {
+            UseTestRepository();
+//            UseFileBasedRepository();
+        }
+
+// ReSharper disable UnusedMember.Local
+        private void UseTestRepository()
+// ReSharper restore UnusedMember.Local
+        {
             var eaRepository = new EARepository();
             Element cdtText = null;
             Element primString = null;
@@ -74,15 +82,22 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
                                                                 package.AddClass("Address")
                                                                     .With(e => e.Stereotype = Stereotype.ACC)
                                                                     .With(e => e.AddBCCs(cdtText, "StreetName", "CityName"));
+                                                                package.AddClass("Person")
+                                                                    .With(e => e.Stereotype = Stereotype.ACC)
+                                                                    .With(e => e.AddBCCs(cdtText, "Name"));
                                                             });
                                              }));
-//            temporaryFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Repository-with-CDTs-and-CCs.eap"));
-//            ccRepository = new CCRepository(temporaryFileBasedRepository);
-//            ccl = ccRepository.LibraryByName<ICCLibrary>("CCLibrary");
-//            accAddress = ccl.ElementByName("Address");
-//            bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
             ccRepository = new CCRepository(eaRepository);
             ccl = ccRepository.LibraryByName<ICCLibrary>("CCL");
+            accAddress = ccl.ElementByName("Address");
+            bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
+        }
+
+        private void UseFileBasedRepository()
+        {
+            temporaryFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Repository-with-CDTs-and-CCs.eap"));
+            ccRepository = new CCRepository(temporaryFileBasedRepository);
+            ccl = ccRepository.LibraryByName<ICCLibrary>("CCLibrary");
             accAddress = ccl.ElementByName("Address");
             bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
         }
@@ -90,7 +105,11 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         [TearDown]
         public void Teardown()
         {
-//            temporaryFileBasedRepository.Dispose();            
+            if (temporaryFileBasedRepository != null)
+            {
+//                temporaryFileBasedRepository.Dispose();
+                temporaryFileBasedRepository.CloseButKeepFile();
+            }
         }
 
         [Test]
@@ -147,6 +166,46 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             Assert.IsNotNull(docLibrary, "DOCLibrary not generated");
             var bieInvoice = docLibrary.ElementByName("Invoice");
             Assert.IsNotNull(bieInvoice, "ABIE Invoice not generated");
+        }
+
+        [Test]
+        public void TestMappingWithTwoTargetComponents()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping-2-target-components.mfd");
+            MapForceMapping mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFile(mappingFile);
+            var mappingAdapter = new MappingAdapter(mapForceMapping, ccRepository);
+            mappingAdapter.GenerateMapping();
+
+            const string docLibraryName = "ebInterface Invoice";
+            const string bieLibraryName = "ebInterface";
+            const string bdtLibraryName = "ebInterface Types";
+
+            mappingAdapter.GenerateBIELibrary(bieLibraryName, bdtLibraryName);
+            var bieLibrary = ccRepository.LibraryByName<IBIELibrary>(bieLibraryName);
+            Assert.IsNotNull(bieLibrary, "BIELibrary not generated");
+
+            var bieAddress = bieLibrary.ElementByName("Address");
+            Assert.IsNotNull(bieAddress, "ABIE Address not generated");
+            Assert.IsNotNull(bieAddress.BasedOn, "BasedOn reference not specified");
+            Assert.AreEqual("Address", bieAddress.BasedOn.Name);
+            Assert.AreEqual(1, bieAddress.BBIEs.Count());
+            Assert.AreEqual("CityName", bieAddress.BBIEs.ElementAt(0).Name);
+
+            var biePerson = bieLibrary.ElementByName("Person");
+            Assert.IsNotNull(biePerson, "ABIE Person not generated");
+            Assert.IsNotNull(biePerson.BasedOn, "BasedOn reference not specified");
+            Assert.AreEqual("Person", biePerson.BasedOn.Name);
+            Assert.AreEqual(1, biePerson.BBIEs.Count());
+            Assert.AreEqual("Name", biePerson.BBIEs.ElementAt(0).Name);
+
+            mappingAdapter.GenerateDOCLibrary(docLibraryName);
+            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>(docLibraryName);
+            Assert.IsNotNull(docLibrary, "DOCLibrary not generated");
+            var bieInvoice = docLibrary.ElementByName("Invoice");
+            Assert.IsNotNull(bieInvoice, "ABIE Invoice not generated");
+            Assert.AreEqual(2, bieInvoice.ASBIEs.Count());
+            Assert.AreEqual(bieAddress.Id, bieInvoice.ASBIEs.ElementAt(0).AssociatedElement.Id);
+            Assert.AreEqual(biePerson.Id, bieInvoice.ASBIEs.ElementAt(1).AssociatedElement.Id);
         }
 
         private static void AssertTreesAreEqual(SourceElement expected, SourceElement actual, string path)
