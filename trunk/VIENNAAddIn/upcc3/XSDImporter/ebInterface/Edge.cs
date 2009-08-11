@@ -3,6 +3,11 @@ using System.IO;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
+    /// <summary>
+    /// Represents a MapForce mapping element of the form:
+    /// <edge vertexkey="78577400" edgekey="81255240"/>
+    /// which reside in the tree of the graph element.
+    /// </summary>
     public class Edge : IEquatable<Edge>
     {
         public string EdgeKey { get; private set; }

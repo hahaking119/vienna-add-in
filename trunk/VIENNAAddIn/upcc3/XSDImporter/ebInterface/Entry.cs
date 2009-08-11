@@ -5,6 +5,10 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
+    /// <summary>
+    /// Represents a MapForce mapping element of the form:
+    /// <entry name="Invoice" expanded="1">
+    /// </summary>
     public class Entry : IEquatable<Entry>
     {
         private readonly InputOutputKey inputOutputKey;
@@ -29,11 +33,17 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         public string Name { get; private set; }
         public IEnumerable<Entry> SubEntries { get; private set; }
 
+        /// <summary>
+        /// Determines whether this object is a mapping input element, i.e. a source element.
+        /// </summary>
         public bool IsInput
         {
             get { return inputOutputKey.IsOutputKey; }
         }
 
+        /// <summary>
+        /// Determines whether this object is a mapping output element, i.e. a target element.
+        /// </summary>
         public bool IsOutput
         {
             get { return inputOutputKey.IsInputKey; }

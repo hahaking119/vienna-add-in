@@ -5,6 +5,11 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
+    /// <summary>
+    /// Represents a MapForce mapping element of the form:
+    /// <graph directed="1">
+    /// This element contains all the visual mappings of a MapForce mapping model.
+    /// </summary>
     public class Graph : IEquatable<Graph>
     {
         public IEnumerable<Vertex> Vertices { get; private set; }
@@ -38,6 +43,10 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return Equals((Graph)obj);
         }
 
+        /// <summary>
+        /// Is used to determine the equality of two objects.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return (Vertices != null ? Vertices.GetHashCode() : 0);

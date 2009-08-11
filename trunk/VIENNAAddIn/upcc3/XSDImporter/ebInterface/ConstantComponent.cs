@@ -3,6 +3,10 @@ using System.IO;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
+    /// <summary>
+    /// Represents a MapForce mapping element of the form:
+    /// <component name="constant" library="core" uid="17" kind="2">
+    /// </summary>
     public class ConstantComponent : IEquatable<ConstantComponent>
     {
         public void PrettyPrint(TextWriter writer, string indent)
