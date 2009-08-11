@@ -94,10 +94,12 @@
     <Compile Include="upcc3\ccts\otf\TestValidationIssue.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_bLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTest.cs" />
+    <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryResourceHandler.cs" />
     <Compile Include="upcc3\Wizards\util\DatabaseHandlerTest.cs" />
+    <Compile Include="upcc3\Wizards\util\LibraryImporterTest.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceHandlerTest.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\XSDImporterTest.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MapForceMappingImporterTest.cs" />

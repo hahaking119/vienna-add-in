@@ -194,7 +194,8 @@ namespace VIENNAAddIn
                 string bLibraryGuid = repository.GetTreeSelectedPackage().Element.ElementGUID;
                 Package bLibrary = repository.GetPackageByGuid(bLibraryGuid);
 
-                (new ModelCreator(repository)).ImportStandardCcLibraries(bLibrary);
+                LibraryImporter importer = new LibraryImporter(repository);
+                importer.ImportStandardCcLibraries(bLibrary);                
 
                 Cursor.Current = Cursors.Default;
             }

@@ -9,9 +9,10 @@
 
 using System.IO;
 using System.Net;
+using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
-{
+{  
     ///<summary>
     /// The ResourceHandler class may be used to retrieve resources located at a particular URI on 
     /// the web to the local file system. The configuration of the ResourceHandler is achieved 
@@ -20,15 +21,14 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     ///</summary>
     public class ResourceHandler
     {
-        #region Properties
+        public static readonly string[] DefaultResources = new[]
+                                                               {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi"};//, "cclibrary.xmi" };
+        public static readonly string DefaultDownloadUri = "http://www.umm-dev.org/xmi/";
+        public static readonly string DefaultStorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
 
-        private string[] Resources { get; set; }
-        private string DownloadUri { get; set; }
-        private string StorageDirectory { get; set; }
-
-        #endregion
-
-        #region Constructor
+        private readonly string[] resources;
+        private readonly string downloadUri;
+        private readonly string storageDirectory;
 
         ///<summary>
         /// The constructor of the ResourceHandler initializes the ResourceHandler and therefore
@@ -49,10 +49,24 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// </param>
         public ResourceHandler(string[] resources, string downloadUri, string storageDirectory)
         {
-            // Storing the parameters in the class internal properties.
-            Resources = resources;
-            DownloadUri = downloadUri;
-            StorageDirectory = storageDirectory;
+            this.resources = resources;
+            this.downloadUri = downloadUri;
+            this.storageDirectory = storageDirectory;
+        }
+
+        #region Class Methods
+
+        ///<summary>
+        /// The method retrieves resources located at a particular URI and caches these resources on the 
+        /// local file system. Retrieving of the resources is performed based upon the parameters set in 
+        /// the ResourceHandler constructor.
+        ///</summary>
+        public void CacheResourcesLocally()
+        {
+            foreach (string resourceFile in resources)
+            {
+                CacheSingleResourceLocally(downloadUri + resourceFile, storageDirectory + resourceFile);
+            }
         }
 
         #endregion
@@ -93,46 +107,20 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             string currentFileContent = "";
             string newFileContent = RetrieveContentFromUri(downloadUri);
 
-            // First it is checked whether the file to be written already exists on the file system. 
             if (File.Exists(outputFile))
             {
                 currentFileContent = File.ReadAllText(outputFile);
             }
 
-            // Second it is checked whether the content to be written is empty or not. In case it is 
-            // empty the file is not written to the file system.
             if (!string.IsNullOrEmpty(newFileContent))
             {
-                // Third it is checked whether the content of the file equals the new content or not.
-                // If the content is different then it is actually written to the file system. 
                 if (!currentFileContent.Equals(newFileContent))
                 {
-                    // Write the content to the file located on the filesystem at the path 
-                    // specified in the parameter outputFile. 
                     using (StreamWriter writer = File.CreateText(outputFile))
                     {
                         writer.Write(newFileContent);
                     }
                 }
-            }
-        }
-
-        #endregion
-
-        #region Class Methods
-
-        ///<summary>
-        /// The method retrieves resources located at a particular URI and caches these resources on the 
-        /// local file system. Retrieving of the resources is performed based upon the parameters set in 
-        /// the ResourceHandler constructor.
-        ///</summary>
-        public void CacheResourcesLocally()
-        {
-            // iterate through the resources contained in the property "Resources"
-            foreach (string resourceFile in Resources)
-            {
-                // cache each resource locally on the file system
-                CacheSingleResourceLocally(DownloadUri + resourceFile, StorageDirectory + resourceFile);
             }
         }
 

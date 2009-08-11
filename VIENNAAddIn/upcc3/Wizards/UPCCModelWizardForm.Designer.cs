@@ -362,6 +362,7 @@
             this.checkboxImportStandardLibraries.Size = new System.Drawing.Size(15, 14);
             this.checkboxImportStandardLibraries.TabIndex = 17;
             this.checkboxImportStandardLibraries.UseVisualStyleBackColor = true;
+            this.checkboxImportStandardLibraries.CheckedChanged += new System.EventHandler(this.checkboxImportStandardLibraries_CheckedChanged);
             // 
             // UpccModelWizardForm
             // 

@@ -717,64 +717,64 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
 
-            // update diagrams
-            // TODO: check which diagrams are currently opened an update them
-            var repo = repository.EARepository;
-            var packageModel = (Package)repo.Models.GetAt(0);
-            var packageBIEL = FindPackage(comboBIELs.SelectedItem.ToString(), packageModel);
-            try
-            {
-                var diagramBIEL = (Diagram) packageBIEL.Diagrams.GetAt(0);
-                if(diagramBIEL.Update())
-                {
-                    richtextStatus.Text = "BIEL Diagram updated successfully";
-                }
-                else
-                {
-                    richtextStatus.Text = "An error occurred: "+diagramBIEL.GetLastError();
-                }
-                //repo.GetProjectInterface().LayoutDiagramEx(diagramBIEL.DiagramGUID, 0, 4, 20, 20, true);
-            }
-            catch (Exception)
-            {
-                richtextStatus.Text = "No open BIEL Diagram found.";
-            }
+            //// update diagrams
+            //// TODO: check which diagrams are currently opened an update them
+            //var repo = repository.EARepository;
+            //var packageModel = (Package)repo.Models.GetAt(0);
+            //var packageBIEL = FindPackage(comboBIELs.SelectedItem.ToString(), packageModel);
+            //try
+            //{
+            //    var diagramBIEL = (Diagram) packageBIEL.Diagrams.GetAt(0);
+            //    if(diagramBIEL.Update())
+            //    {
+            //        richtextStatus.Text = "BIEL Diagram updated successfully";
+            //    }
+            //    else
+            //    {
+            //        richtextStatus.Text = "An error occurred: "+diagramBIEL.GetLastError();
+            //    }
+            //    //repo.GetProjectInterface().LayoutDiagramEx(diagramBIEL.DiagramGUID, 0, 4, 20, 20, true);
+            //}
+            //catch (Exception)
+            //{
+            //    richtextStatus.Text = "No open BIEL Diagram found.";
+            //}
             
-            var packageBDTL = FindPackage(comboBDTLs.SelectedItem.ToString(), packageModel);
-            try
-            {
-                var diagramBDTL = (Diagram)packageBDTL.Diagrams.GetAt(0);
-                richtextStatus.Text = "No open BDTL Diagram found.";
-                if(diagramBDTL.Update())
-                {
-                    richtextStatus.Text = "BDTL Diagram updated successfully";
-                }
-                else
-                {
-                    richtextStatus.Text = "An error occurred: "+diagramBDTL.GetLastError();
-                }
-            }
-            catch (Exception)
-            {
-                richtextStatus.Text = "No open BDTL Diagram found.";
-            }
-            //repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true);
+            //var packageBDTL = FindPackage(comboBDTLs.SelectedItem.ToString(), packageModel);
+            //try
+            //{
+            //    var diagramBDTL = (Diagram)packageBDTL.Diagrams.GetAt(0);
+            //    richtextStatus.Text = "No open BDTL Diagram found.";
+            //    if(diagramBDTL.Update())
+            //    {
+            //        richtextStatus.Text = "BDTL Diagram updated successfully";
+            //    }
+            //    else
+            //    {
+            //        richtextStatus.Text = "An error occurred: "+diagramBDTL.GetLastError();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    richtextStatus.Text = "No open BDTL Diagram found.";
+            //}
+            ////repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true);
         }
 
-        private Package FindPackage(string packageName, Package where)
-        {
-            Package result = null;
-            try
-            {
-                result = (Package)where.Packages.GetByName(packageName);
-            }
-            catch(Exception e)
-            {
-                foreach (Package p in where.Packages)
-                    result = FindPackage(packageName, p);
-            }
-            return result;
-        }
+        //private Package FindPackage(string packageName, Package where)
+        //{
+        //    Package result = null;
+        //    try
+        //    {
+        //        result = (Package)where.Packages.GetByName(packageName);
+        //    }
+        //    catch(Exception e)
+        //    {
+        //        foreach (Package p in where.Packages)
+        //            result = FindPackage(packageName, p);
+        //    }
+        //    return result;
+        //}
 
         private void buttonClose_Click(object sender, EventArgs e)
         {

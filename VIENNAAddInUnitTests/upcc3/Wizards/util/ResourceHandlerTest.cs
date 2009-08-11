@@ -27,7 +27,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
             string[] resources = new[] { "simplified_enumlibrary.xmi", "simplified_primlibrary.xmi", "simplified_cdtlibrary.xmi" };// TODO: temporarily excluded since it caused a filure for whatever reason, "simplified_cclibrary.xmi" };
 
             // the uri where the files to be downloaded are located 
-            string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
+            const string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
 
             // the directory on the local file system where the downloaded file is to be stored
             string storageDirectory = Directory.GetCurrentDirectory() +
