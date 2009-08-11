@@ -1,0 +1,49 @@
+using EA;
+using VIENNAAddIn;
+using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUnitTests.TestRepository;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+
+namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
+{
+    internal class MappingTestRepository : EARepository
+    {
+        public MappingTestRepository()
+        {
+            Element cdtText = null;
+            Element primString = null;
+            this.AddModel(
+                "test", m => m.AddPackage("bLibrary", bLibrary =>
+                                                      {
+                                                          bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                                                          bLibrary.AddDiagram("bLibrary", "Class");
+                                                          bLibrary.AddPackage("PRIMLibrary", package =>
+                                                                                             {
+                                                                                                 package.Element.Stereotype = Stereotype.PRIMLibrary;
+                                                                                                 primString = package.AddPRIM("String");
+                                                                                             });
+                                                          bLibrary.AddPackage("CDTLibrary", package =>
+                                                                                            {
+                                                                                                package.Element.Stereotype = Stereotype.CDTLibrary;
+                                                                                                cdtText = package.AddCDT("Text").With(e =>
+                                                                                                                                                        {
+                                                                                                                                                            e.Stereotype = Stereotype.CDT;
+                                                                                                                                                            e.AddCON(primString);
+                                                                                                                                                            e.AddSUPs(primString, "Language", "Language.Locale");
+                                                                                                                                                        });
+                                                                                            });
+                                                          bLibrary.AddPackage("CCLibrary", package =>
+                                                                                     {
+                                                                                         package.Element.Stereotype = Stereotype.CCLibrary;
+                                                                                         package.AddClass("Foo").With(e => e.Stereotype = Stereotype.ACC);
+                                                                                         package.AddClass("Address")
+                                                                                             .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                             .With(e => e.AddBCCs(cdtText, "StreetName", "CityName"));
+                                                                                         package.AddClass("Person")
+                                                                                             .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                             .With(e => e.AddBCCs(cdtText, "Name"));
+                                                                                     });
+                                                      }));
+        }
+    }
+}

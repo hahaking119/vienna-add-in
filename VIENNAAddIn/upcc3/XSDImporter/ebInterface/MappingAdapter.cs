@@ -1,157 +1,18 @@
-using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts;
-using System.Linq;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
     public class MappingAdapter
     {
-        private readonly MapForceMapping mapForceMapping;
-        private readonly ICCLibrary ccl;
-        private readonly Dictionary<string, TargetCCElement> targetCCElementsByKey = new Dictionary<string, TargetCCElement>();
-        private SourceElementStore sourceElementStore;
-        public SourceElement RootSourceElement
+        private readonly IBLibrary bLibrary;
+        private readonly Mappings mappings;
+
+        public MappingAdapter(IBLibrary bLibrary, Mappings mappings)
         {
-            get { return sourceElementStore.RootSourceElement; }
-        }
-
-        public List<Mapping> Mappings { get; private set; }
-
-        public MappingAdapter(MapForceMapping mapForceMapping, ICCRepository ccRepository)
-        {
-            this.mapForceMapping = mapForceMapping;
-            ccl = ccRepository.Libraries<ICCLibrary>().FirstOrDefault();
-            if (ccl == null)
-            {
-                throw new Exception("No CCLibary found in repository.");
-            }
-            Mappings = new List<Mapping>();
-        }
-
-        private void AddToIndex(Entry entry, TargetCCElement targetCCElement)
-        {
-            var key = entry.InputOutputKey.Value;
-            if (key != null)
-            {
-                targetCCElementsByKey[key] = targetCCElement;
-            }
-        }
-
-        public void GenerateMapping()
-        {
-            var rootSchemaComponent = mapForceMapping.GetRootSchemaComponent();
-            sourceElementStore = new SourceElementStore(rootSchemaComponent.RootEntry);
-            CreateTargetElementTrees();
-
-            foreach (var vertex in mapForceMapping.Graph.Vertices)
-            {
-                foreach (var edge in vertex.Edges)
-                {
-                    var sourceKey = vertex.Key;
-                    var targetKey = edge.TargetVertexKey;
-                    var sourceElement = sourceElementStore.GetSourceElement(sourceKey);
-                    var targetElement = GetTargetElement(targetKey);
-                    if (sourceElement == null || targetElement == null)
-                    {
-                        // TODO error
-                    }
-                    else
-                    {
-                        Mappings.Add(new Mapping(sourceElement, targetElement));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Build a target CC element hierarchy for each target component (i.e. for each ACC).
-        /// 
-        /// Note that the tree depth is currently limited to 2 (meaning that we do not resolve ASCCs within the ACC).
-        /// </summary>
-        private void CreateTargetElementTrees()
-        {
-            var targetSchemaComponents = mapForceMapping.GetTargetSchemaComponents();
-            foreach (var component in targetSchemaComponents)
-            {
-                var acc = GetACC(component);
-                if (acc == null)
-                {
-                    Console.WriteLine("ERROR: ACC '" + component.RootEntry.Name + "' not found.");
-                    // TODO error
-                }
-                else
-                {
-                    CreateTargetElementTree(acc, component.RootEntry, true);
-                }
-            }
-        }
-
-        private TargetCCElement CreateTargetElementTree(IACC acc, Entry entry, bool isRoot)
-        {
-            ICC reference;
-            if (isRoot)
-            {
-                reference = acc;
-            }
-            else
-            {
-                reference = GetBCCOrASCC(acc, entry.Name);
-            }
-            var targetCCElement = new TargetCCElement(entry.Name, reference);
-            AddToIndex(entry, targetCCElement);
-            foreach (var subEntry in entry.SubEntries)
-            {
-                targetCCElement.AddChild(CreateTargetElementTree(acc, subEntry, false));
-            }
-            return targetCCElement;
-        }
-
-        private TargetCCElement GetTargetElement(string key)
-        {
-            TargetCCElement targetCCElement;
-            targetCCElementsByKey.TryGetValue(key, out targetCCElement);
-            return targetCCElement;
-        }
-
-        private static ICC GetBCCOrASCC(IACC acc, string name)
-        {
-            var bccsAndASCCsByName = new Dictionary<string, ICC>();
-            foreach (var bcc in acc.BCCs)
-            {
-                bccsAndASCCsByName[NDR.GenerateBCCName(bcc)] = bcc;
-            }
-            foreach (var ascc in acc.ASCCs)
-            {
-                bccsAndASCCsByName[NDR.GenerateASCCName(ascc)] = ascc;
-            }
-            return bccsAndASCCsByName[name];
-        }
-
-        private IACC GetACC(SchemaComponent component)
-        {
-            return ccl.ElementByName(component.RootEntry.Name);
-        }
-
-        public void GenerateBIELibrary(string bieLibraryName, string bdtLibraryName)
-        {
-            var bLibrary = GetBLibrary();
-            var bdtLibrary = bLibrary.CreateBDTLibrary(SpecifyLibraryNamed(bdtLibraryName));
-            var bieLibrary = bLibrary.CreateBIELibrary(SpecifyLibraryNamed(bieLibraryName));
-
-            foreach (var accMapping in GetACCMappings())
-            {
-                // TODO generate ASBIEs
-                var acc = (IACC)accMapping.TargetCC.Reference;
-                var abieSpec = new ABIESpec
-                               {
-                                   BasedOn = acc,
-                                   Name = acc.Name,
-                                   BBIEs = SpecifyBBIEs(bdtLibrary, accMapping.TargetCC),
-                               };
-                accMapping.TargetBIE = new TargetBIEElement(abieSpec.Name, bieLibrary.CreateElement(abieSpec));
-            }
+            this.bLibrary = bLibrary;
+            this.mappings = mappings;
         }
 
         private static LibrarySpec SpecifyLibraryNamed(string bdtLibraryName)
@@ -188,22 +49,6 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return bdt;
         }
 
-        private IBLibrary GetBLibrary()
-        {
-            return (IBLibrary) ccl.Parent;
-        }
-
-        private IEnumerable<Mapping> GetACCMappings()
-        {
-            foreach (var mapping in Mappings)
-            {
-                if (mapping.TargetCC.IsACC)
-                {
-                    yield return mapping;
-                }
-            }
-        }
-
         private static IEnumerable<IBCC> GetMappedBCCs(TargetCCElement acc)
         {
             foreach (var child in acc.Children)
@@ -215,15 +60,35 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
-        public void GenerateDOCLibrary(string docLibraryName)
+        public void GenerateLibraries(string docLibraryName, string bieLibraryName, string bdtLibraryName)
         {
-            var bLibrary = GetBLibrary();
-            var docLibrary = bLibrary.CreateDOCLibrary(new LibrarySpec
-                                                       {
-                                                           Name = docLibraryName,
-                                                       });
+            var bdtLibrary = bLibrary.CreateBDTLibrary(SpecifyLibraryNamed(bdtLibraryName));
+            var bieLibrary = bLibrary.CreateBIELibrary(SpecifyLibraryNamed(bieLibraryName));
+            var docLibrary = bLibrary.CreateDOCLibrary(SpecifyLibraryNamed(docLibraryName));
+            GenerateBDTsAndABIEs(bdtLibrary, bieLibrary);
+            GenerateDOC(docLibrary);
+        }
+
+        private void GenerateBDTsAndABIEs(IBDTLibrary bdtLibrary, IBIELibrary bieLibrary)
+        {
+            foreach (var accMapping in mappings.GetACCMappings())
+            {
+                // TODO generate ASBIEs
+                var acc = (IACC)accMapping.TargetCC.Reference;
+                var abieSpec = new ABIESpec
+                               {
+                                   BasedOn = acc,
+                                   Name = acc.Name,
+                                   BBIEs = SpecifyBBIEs(bdtLibrary, accMapping.TargetCC),
+                               };
+                accMapping.TargetBIE = new TargetBIEElement(abieSpec.Name, bieLibrary.CreateElement(abieSpec));
+            }
+        }
+
+        private void GenerateDOC(IDOCLibrary docLibrary)
+        {
             var asbies = new List<ASBIESpec>();
-            foreach (var childElement in RootSourceElement.Children)
+            foreach (var childElement in mappings.RootSourceElement.Children)
             {
                 var abie = childElement.Mapping.TargetBIE.Reference as IABIE;
                 if (abie == null)
@@ -242,49 +107,10 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
             var abieSpec = new ABIESpec
                            {
-                               Name = RootSourceElement.Name,
+                               Name = mappings.RootSourceElement.Name,
                                ASBIEs = asbies,
                            };
             docLibrary.CreateElement(abieSpec);
-        }
-    }
-
-    public class SourceElementStore
-    {
-        private readonly Dictionary<string, SourceElement> sourceElementsByKey = new Dictionary<string, SourceElement>();
-
-        public SourceElementStore(Entry rootEntry)
-        {
-            RootSourceElement = CreateSourceElementTree(rootEntry);
-        }
-
-        public SourceElement RootSourceElement { get; private set; }
-
-        private SourceElement CreateSourceElementTree(Entry entry)
-        {
-            var sourceElement = new SourceElement(entry.Name);
-            AddToIndex(entry, sourceElement);
-            foreach (var subEntry in entry.SubEntries)
-            {
-                sourceElement.AddChild(CreateSourceElementTree(subEntry));
-            }
-            return sourceElement;
-        }
-
-        private void AddToIndex(Entry entry, SourceElement sourceElement)
-        {
-            var key = entry.InputOutputKey.Value;
-            if (key != null)
-            {
-                sourceElementsByKey[key] = sourceElement;
-            }
-        }
-
-        public SourceElement GetSourceElement(string key)
-        {
-            SourceElement element;
-            sourceElementsByKey.TryGetValue(key, out element);
-            return element;
         }
     }
 }
