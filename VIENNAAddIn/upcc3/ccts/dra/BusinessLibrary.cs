@@ -51,9 +51,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBusinessLibrary Parent
+        public IBLibrary Parent
         {
-            get { return repository.GetLibrary(package.ParentID); }
+            get { return repository.GetLibrary(package.ParentID) as IBLibrary; }
         }
 
         public Path Path

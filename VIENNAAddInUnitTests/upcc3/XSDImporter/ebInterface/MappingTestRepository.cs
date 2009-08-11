@@ -12,6 +12,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         {
             Element cdtText = null;
             Element primString = null;
+            Element accAddress = null;
             this.AddModel(
                 "test", m => m.AddPackage("bLibrary", bLibrary =>
                                                       {
@@ -26,23 +27,27 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
                                                                                             {
                                                                                                 package.Element.Stereotype = Stereotype.CDTLibrary;
                                                                                                 cdtText = package.AddCDT("Text").With(e =>
-                                                                                                                                                        {
-                                                                                                                                                            e.Stereotype = Stereotype.CDT;
-                                                                                                                                                            e.AddCON(primString);
-                                                                                                                                                            e.AddSUPs(primString, "Language", "Language.Locale");
-                                                                                                                                                        });
+                                                                                                                                      {
+                                                                                                                                          e.Stereotype = Stereotype.CDT;
+                                                                                                                                          e.AddCON(primString);
+                                                                                                                                          e.AddSUPs(primString, "Language", "Language.Locale");
+                                                                                                                                      });
                                                                                             });
                                                           bLibrary.AddPackage("CCLibrary", package =>
-                                                                                     {
-                                                                                         package.Element.Stereotype = Stereotype.CCLibrary;
-                                                                                         package.AddClass("Foo").With(e => e.Stereotype = Stereotype.ACC);
-                                                                                         package.AddClass("Address")
-                                                                                             .With(e => e.Stereotype = Stereotype.ACC)
-                                                                                             .With(e => e.AddBCCs(cdtText, "StreetName", "CityName"));
-                                                                                         package.AddClass("Person")
-                                                                                             .With(e => e.Stereotype = Stereotype.ACC)
-                                                                                             .With(e => e.AddBCCs(cdtText, "Name"));
-                                                                                     });
+                                                                                           {
+                                                                                               package.Element.Stereotype = Stereotype.CCLibrary;
+                                                                                               package.AddClass("Foo").With(e => e.Stereotype = Stereotype.ACC);
+                                                                                               accAddress = package.AddClass("Address")
+                                                                                                   .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                                   .With(e => e.AddBCCs(cdtText, "StreetName", "CityName"));
+                                                                                               package.AddClass("Person")
+                                                                                                   .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                                   .With(e => e.AddBCCs(cdtText, "Name"));
+                                                                                               package.AddClass("Party")
+                                                                                                   .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                                   .With(e => e.AddBCCs(cdtText, "Name"))
+                                                                                                   .With(e => e.AddASCC(accAddress, "Residence"));
+                                                                                           });
                                                       }));
         }
     }

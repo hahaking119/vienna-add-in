@@ -63,6 +63,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             get { return Reference is IBCC; }
         }
 
+        public bool IsASCC
+        {
+            get { return Reference is IASCC; }
+        }
+
         public Mapping Mapping { get; set; }
 
         public TargetCCElement Parent { get; set; }

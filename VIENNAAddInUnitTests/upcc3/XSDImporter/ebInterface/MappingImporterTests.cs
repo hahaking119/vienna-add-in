@@ -106,5 +106,36 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             Assert.That(bieInvoice, Is.Not.Null, "ABIE Invoice not generated");
             Assert.That(ASBIEAssociatedElementIds(bieInvoice), Is.EquivalentTo(new[] {bieAddress.Id, biePerson.Id}));
         }
+
+        [Test]
+        public void TestNestedMapping()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd");
+
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName).ImportMapping(ccRepository);
+
+            var bieLibrary = ccRepository.LibraryByName<IBIELibrary>(BIELibraryName);
+            Assert.IsNotNull(bieLibrary, "BIELibrary not generated");
+
+            IABIE bieAddress = bieLibrary.ElementByName("Address");
+            Assert.IsNotNull(bieAddress, "ABIE Address not generated");
+            Assert.IsNotNull(bieAddress.BasedOn, "BasedOn reference not specified");
+            Assert.AreEqual("Address", bieAddress.BasedOn.Name);
+            Assert.That(BBIENames(bieAddress), Is.EquivalentTo(new[] { "CityName" }));
+
+            IABIE bieParty = bieLibrary.ElementByName("Party");
+            Assert.IsNotNull(bieParty, "ABIE Party not generated");
+            Assert.IsNotNull(bieParty.BasedOn, "BasedOn reference not specified");
+            Assert.AreEqual("Party", bieParty.BasedOn.Name);
+            Assert.That(BBIENames(bieParty), Is.EquivalentTo(new[] { "Name" }));
+            Assert.That(ASBIEAssociatedElementIds(bieParty), Is.EquivalentTo(new[] { bieAddress.Id }));
+
+            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>(DOCLibraryName);
+            Assert.That(docLibrary, Is.Not.Null, "DOCLibrary not generated");
+            IABIE bieInvoice = docLibrary.ElementByName("Invoice");
+            Assert.That(bieInvoice, Is.Not.Null, "ABIE Invoice not generated");
+            Assert.That(ASBIEAssociatedElementIds(bieInvoice), Is.EquivalentTo(new[] { bieParty.Id }));
+        }
+
     }
 }

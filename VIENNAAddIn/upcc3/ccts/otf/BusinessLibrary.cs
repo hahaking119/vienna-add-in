@@ -26,9 +26,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
-        public IBusinessLibrary Parent
+        public IBLibrary Parent
         {
-            get { return ParentPackage as IBusinessLibrary; }
+            get { return ParentPackage as IBLibrary; }
         }
 
         public Path Path
