@@ -75,10 +75,6 @@
       <HintPath>ext\IBM.Data.DB2.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
-    <Reference Include="nunit.framework, Version=2.2.2.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ext\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -191,11 +187,15 @@
     <Compile Include="upcc3\XSDImporter\ebInterface\MapForceMapping.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\Mapping.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MappingAdapter.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\MappingImporter.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\Mappings.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\Namespace.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\SchemaComponent.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\SourceElement.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\SourceElementStore.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\TargetBIEElement.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\TargetCCElement.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\TargetElementStore.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\Vertex.cs" />
     <Compile Include="upcc3\XSDImporter\ImporterContext.cs" />
     <Compile Include="upcc3\XSDImporter\util\CustomSchemaReader.cs" />
