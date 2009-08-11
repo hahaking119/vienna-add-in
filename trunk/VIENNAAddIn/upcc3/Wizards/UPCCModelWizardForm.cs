@@ -1,4 +1,13 @@
-﻿using System;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
+using System;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.menu;
@@ -6,14 +15,19 @@ using VIENNAAddIn.upcc3.Wizards.util;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
-    ///<summary>
-    ///</summary>
+    /// <summary>
+    /// This class implements the functionality for the UPCC Wizard Form which
+    /// allows to create default UPCC models. Basically, the wizard allows the
+    /// user to create (a) empty default models which contain only the packages 
+    /// according to UPCC and (b) default models which also import the standard
+    /// CC libraries. The wizard utilizes the class "ModelCreator" for creating
+    /// the default structure. 
+    /// </summary>
     public partial class UpccModelWizardForm : Form
     {
         #region Local Class Fields
 
         private string modelName = "";
-        private bool importStandardLibraries = false;
         private string primLibraryName = "";
         private string enumLibraryName = "";
         private string cdtLibraryName = "";
@@ -21,52 +35,86 @@ namespace VIENNAAddIn.upcc3.Wizards
         private string bdtLibraryName = "";
         private string bieLibraryName = "";
         private string docLibraryName = "";
-        private Repository repository;
+// ReSharper disable InconsistentNaming
+        private const string wizardTitle = "UPCC Model Wizard";
+        private const string statusMessage = "Creating a default model named \"{0}\" completed successfully.";
+// ReSharper restore InconsistentNaming
+
+        private bool importStandardLibraries;
+        
+        private readonly Repository repository;
 
         #endregion
 
         ///<summary>
+        /// The constructor of the wizard initializes the form. Furthermore, 
+        /// the constructor is private since he is called by the method "ShowForm" 
+        /// which is part of the same class. 
         ///</summary>
-        public UpccModelWizardForm(Repository eaRepository)
+        ///<param name="eaRepository">
+        /// Specifies the EA Repository that the wizard operates on. 
+        ///</param>
+        private UpccModelWizardForm(Repository eaRepository)
         {
             InitializeComponent();
 
             repository = eaRepository;
         }
 
-        #region Convenience Methods
-
-        private void EnableAllLibraryCheckBoxes(bool newState)
+        ///<summary>
+        /// The method is called from the menu manager of the VIENNAAddIn and
+        /// creates creates as well as launches a new instance of the wizard. 
+        ///</summary>
+        ///<param name="context">
+        /// TODO: what exactly is the context parameter for?
+        ///</param>
+        public static void ShowForm(AddInContext context)
         {
-            checkboxPRIML.Enabled = newState;
-            checkboxENUML.Enabled = newState;
-            checkboxCDTL.Enabled = newState;
-            checkboxCCL.Enabled = newState;
-            checkboxBDTL.Enabled = newState;
-            checkboxBIEL.Enabled = newState;
-            checkboxDOCL.Enabled = newState;
+            new UpccModelWizardForm(context.EARepository).ShowDialog();
         }
 
-        private void CheckAllLibraries(CheckState newState)
+        #region Convenience Methods
+
+        private void CheckCCLibraries(CheckState newState)
         {
             checkboxPRIML.CheckState = newState;
             checkboxENUML.CheckState = newState;
             checkboxCDTL.CheckState = newState;
             checkboxCCL.CheckState = newState;
+        }
+
+        private void CheckBIELibraries(CheckState newState)
+        {
             checkboxBDTL.CheckState = newState;
             checkboxBIEL.CheckState = newState;
             checkboxDOCL.CheckState = newState;
         }
 
-        private void EnableAllLibraryTextFields(bool newState)
+        private void CheckAllLibraries(CheckState newState)
+        {
+            CheckCCLibraries(newState);
+            CheckBIELibraries(newState);
+        }
+
+        private void SetEnabledForCCLibraryTextFields(bool newState)
         {
             textboxPRIMLName.Enabled = newState;
             textboxENUMLName.Enabled = newState;
             textboxCDTLName.Enabled = newState;
             textboxCCLName.Enabled = newState;
+        }
+
+        private void SetEnabledForBIELibraryTextFields(bool newState)
+        {
             textboxBDTLName.Enabled = newState;
             textboxBIELName.Enabled = newState;
             textboxDOCLName.Enabled = newState;
+        }
+
+        private void SetEnabledForAllLibraryTextFields(bool newState)
+        {
+            SetEnabledForCCLibraryTextFields(newState);
+            SetEnabledForBIELibraryTextFields(newState);
         }
 
         private void SetModelDefaultName()
@@ -74,36 +122,25 @@ namespace VIENNAAddIn.upcc3.Wizards
             textboxModelName.Text = "Default Model";
         }
 
-        private void SetLibraryDefaultNames()
+        private void SetCCLibraryDefaultNames()
         {
             textboxPRIMLName.Text = "PRIMLibrary";
             textboxENUMLName.Text = "ENUMLibrary";
             textboxCDTLName.Text = "CDTLibrary";
-            textboxCCLName.Text = "CCLibrary";
+            textboxCCLName.Text = "CCLibrary";            
+        }
+
+        private void SetBIELibraryDefaultNames()
+        {
             textboxBDTLName.Text = "BDTLibrary";
             textboxBIELName.Text = "BIELibrary";
             textboxDOCLName.Text = "DOCLibrary";
         }
 
-        private void ResetForm(short resetLevel)
+        private void SetLibraryDefaultNames()
         {
-            switch (resetLevel)
-            {
-                case 1:
-                    checkboxDefaultValues.CheckState = CheckState.Checked;
-                    CheckAllLibraries(CheckState.Checked);
-                    EnableAllLibraryCheckBoxes(false);
-                    EnableAllLibraryTextFields(false);
-                    break;
-
-                case 2:
-                    EnableAllLibraryCheckBoxes(true);
-                    EnableAllLibraryTextFields(true);
-                    break;
-
-                case 3:
-                    break;
-            }
+            SetCCLibraryDefaultNames();
+            SetBIELibraryDefaultNames();
         }
 
         private void GatherUserInput()
@@ -144,6 +181,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
+        #region Event Handler Methods
+
         private void buttonClose_Click(object sender, EventArgs e)
         {
             Close();
@@ -160,6 +199,8 @@ namespace VIENNAAddIn.upcc3.Wizards
             creator.CreateUpccModel(modelName, primLibraryName, enumLibraryName, cdtLibraryName,
                                     ccLibraryName, bdtLibraryName, bieLibraryName, docLibraryName, importStandardLibraries);
 
+            MessageBox.Show(string.Format(statusMessage, modelName), wizardTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             buttonGenerate.Enabled = true;
         }
 
@@ -167,20 +208,44 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             if (checkboxDefaultValues.CheckState == CheckState.Checked)
             {
-                ResetForm(1);
+                checkboxDefaultValues.CheckState = CheckState.Checked;
+                SetEnabledForAllLibraryTextFields(false);
 
                 SetLibraryDefaultNames();
             }
             else
             {
-                ResetForm(2);
+                if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)
+                {
+                    SetEnabledForCCLibraryTextFields(false);
+                    SetEnabledForBIELibraryTextFields(true);
+                }
+                else
+                {
+                    SetEnabledForAllLibraryTextFields(true);
+                }
+            }
+        }
+
+        private void checkboxImportStandardLibraries_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)
+            {
+                SetEnabledForCCLibraryTextFields(false);
+                SetBIELibraryDefaultNames();
+                CheckCCLibraries(CheckState.Checked);
+            }
+            else
+            {
+                SetEnabledForCCLibraryTextFields(true);
             }
         }
 
         private void UPCCModelWizardForm_Load(object sender, EventArgs e)
         {
-            ResetForm(1);
-
+            CheckAllLibraries(CheckState.Checked);
+            checkboxDefaultValues.CheckState = CheckState.Checked;            
+            SetEnabledForAllLibraryTextFields(false);
             SetModelDefaultName();
             SetLibraryDefaultNames();
         }
@@ -260,12 +325,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             CheckIfInputIsValid();
         }
 
-        ///<summary>
-        ///</summary>
-        ///<param name="context"></param>
-        public static void ShowForm(AddInContext context)
-        {
-            new UpccModelWizardForm(context.EARepository).Show();
-        }
+        #endregion Event Handler Methods
     }
 }
