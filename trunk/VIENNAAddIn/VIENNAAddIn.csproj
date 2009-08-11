@@ -186,7 +186,7 @@
     <Compile Include="upcc3\XSDImporter\ebInterface\LinqToXmlMapForceMappingImporter.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MapForceMapping.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\Mapping.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\MappingAdapter.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\MappedLibraryGenerator.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MappingImporter.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\Mappings.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\Namespace.cs" />

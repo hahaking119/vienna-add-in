@@ -104,6 +104,7 @@
     <Compile Include="upcc3\XSDImporter\ebInterface\MappingsTests.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MappingImporterTests.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MappingTestRepository.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\TargetElementStoreTests.cs" />
     <Compile Include="upcc3\XSDImporter\util\CustomSchemaReaderTest.cs" />
     <Compile Include="Utils\EAAssert.cs" />
     <Compile Include="Utils\PropertyEqualityAssertion.cs" />

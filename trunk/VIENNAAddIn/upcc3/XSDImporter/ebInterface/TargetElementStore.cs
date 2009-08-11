@@ -22,47 +22,83 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             foreach (var component in targetSchemaComponents)
             {
                 var acc = GetACC(component);
+                var entry = component.RootEntry;
                 if (acc == null)
                 {
-                    Console.WriteLine("ERROR: ACC '" + component.RootEntry.Name + "' not found.");
+                    Console.WriteLine("ERROR: ACC '" + entry.Name + "' not found.");
                     // TODO error
                 }
                 else
                 {
-                    CreateTargetElementTree(acc, component.RootEntry, true);
+                    var rootTargetCCElement = CreateTargetCCElement(entry, acc);
+                    CreateChildren(rootTargetCCElement, entry, acc);
                 }
             }
         }
+
+        private void CreateChildren(TargetCCElement targetCCElement, Entry entry, IACC acc)
+        {
+            foreach (var subEntry in entry.SubEntries)
+            {
+                var bcc = GetBCC(acc, subEntry.Name);
+                if (bcc != null)
+                {
+                    targetCCElement.AddChild(CreateTargetCCElement(subEntry, bcc));
+                }
+                else
+                {
+                    var ascc = GetASCC(acc, subEntry.Name);
+                    if (ascc != null)
+                    {
+                        var targetASCCElement = CreateTargetCCElement(subEntry, ascc);
+                        CreateChildren(targetASCCElement, subEntry, ascc.AssociatedElement);
+                        targetCCElement.AddChild(targetASCCElement);
+                    }
+                    else
+                    {
+                        Console.WriteLine("ERROR: BCC or ASCC '" + subEntry.Name + "' not found.");
+                        // TODO error
+                    }
+                }
+            }
+        }
+
+        private TargetCCElement CreateTargetCCElement(Entry entry, ICC cc)
+        {
+            var targetCCElement = new TargetCCElement(entry.Name, cc);
+            AddToIndex(entry, targetCCElement);
+            return targetCCElement;
+        }
+
         private IACC GetACC(SchemaComponent component)
         {
             return ccLibrary.ElementByName(component.RootEntry.Name);
         }
 
-        private static ICC GetBCCOrASCC(IACC acc, string name)
+        private static IBCC GetBCC(IACC acc, string name)
         {
-            var bccsAndASCCsByName = new Dictionary<string, ICC>();
             foreach (var bcc in acc.BCCs)
             {
-                bccsAndASCCsByName[NDR.GenerateBCCName(bcc)] = bcc;
+                if (name == NDR.GenerateBCCName(bcc))
+                {
+                    return bcc;
+                }
             }
-            foreach (var ascc in acc.ASCCs)
-            {
-                bccsAndASCCsByName[NDR.GenerateASCCName(ascc)] = ascc;
-            }
-            return bccsAndASCCsByName[name];
+            return null;
         }
 
-        private TargetCCElement CreateTargetElementTree(IACC acc, Entry entry, bool isRoot)
+        private static IASCC GetASCC(IACC acc, string name)
         {
-            ICC reference = isRoot ? acc : GetBCCOrASCC(acc, entry.Name);
-            var targetCCElement = new TargetCCElement(entry.Name, reference);
-            AddToIndex(entry, targetCCElement);
-            foreach (var subEntry in entry.SubEntries)
+            foreach (var ascc in acc.ASCCs)
             {
-                targetCCElement.AddChild(CreateTargetElementTree(acc, subEntry, false));
+                if (name == NDR.GenerateASCCName(ascc))
+                {
+                    return ascc;
+                }
             }
-            return targetCCElement;
+            return null;
         }
+
         private void AddToIndex(Entry entry, TargetCCElement targetCCElement)
         {
             var key = entry.InputOutputKey.Value;
@@ -71,13 +107,12 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                 targetCCElementsByKey[key] = targetCCElement;
             }
         }
+
         public TargetCCElement GetTargetElement(string key)
         {
             TargetCCElement targetCCElement;
             targetCCElementsByKey.TryGetValue(key, out targetCCElement);
             return targetCCElement;
         }
-
-
     }
 }
