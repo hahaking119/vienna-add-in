@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts;
@@ -10,9 +11,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
     [TestFixture]
     public class TargetElementStoreTests
     {
-        private ICCLibrary ccLibrary;
-        private MapForceMapping mapForceMapping;
-        private IACC accParty;
+        #region Setup/Teardown
 
         [SetUp]
         public void CreateExpectedSourceElementTree()
@@ -20,24 +19,60 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             var ccRepository = new CCRepository(new MappingTestRepository());
             ccLibrary = ccRepository.LibraryByName<ICCLibrary>("CCLibrary");
             accParty = ccLibrary.ElementByName("Party");
+            bccPartyName = accParty.BCCs.First(bcc => bcc.Name == "Name");
+            asccPartyResidence = accParty.ASCCs.First(ascc => ascc.Name == "Residence");
             mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFile(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd"));
         }
-        [Test]
-        public void TestTargetElementStore()
+
+        #endregion
+
+        private ICCLibrary ccLibrary;
+        private MapForceMapping mapForceMapping;
+        private IACC accParty;
+        private IBCC bccPartyName;
+        private IASCC asccPartyResidence;
+
+        private void ShouldContainTargetACCElement(TargetElementStore targetElementStore, string name, ICC referencedCC, string parentName, params string[] childNames)
         {
-            var targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
-            var partyKey = GetTargetEntryKey("Party");
-            var party = targetElementStore.GetTargetElement(partyKey);
-            Assert.That(party, Is.Not.Null, "Target element 'Party' not found");
-            Assert.IsTrue(party.IsACC);
-            Assert.That(party.Reference.Id, Is.EqualTo(accParty.Id));
-            Assert.That(party.Parent, Is.Null);
-            Assert.That(party.Name, Is.EqualTo("Party"));
-            Assert.That(party.Children, Is.EquivalentTo(new[]
-                                                        {
-                                                            targetElementStore.GetTargetElement(GetTargetEntryKey("Name")), 
-                                                            targetElementStore.GetTargetElement(GetTargetEntryKey("ResidenceAddress"))
-                                                        }));
+            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedCC, parentName, childNames);
+            Assert.IsTrue(targetCCElement.IsACC);
+        }
+
+        private void ShouldContainTargetBCCElement(TargetElementStore targetElementStore, string name, ICC referencedCC, string parentName, params string[] childNames)
+        {
+            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedCC, parentName, childNames);
+            Assert.IsTrue(targetCCElement.IsBCC);
+        }
+
+        private void ShouldContainTargetASCCElement(TargetElementStore targetElementStore, string name, ICC referencedCC, string parentName, params string[] childNames)
+        {
+            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedCC, parentName, childNames);
+            Assert.IsTrue(targetCCElement.IsASCC);
+        }
+
+        private TargetCCElement ShouldContainTargetCCElement(string name, TargetElementStore targetElementStore, ICC referencedCC, string parentName, string[] childNames)
+        {
+            string entryKey = GetTargetEntryKey(name);
+            TargetCCElement targetCCElement = targetElementStore.GetTargetElement(entryKey);
+            Assert.That(targetCCElement, Is.Not.Null, "Target element '" + name + "' not found");
+            Assert.That(targetCCElement.Reference.Id, Is.EqualTo(referencedCC.Id));
+            if (string.IsNullOrEmpty(parentName))
+            {
+                Assert.That(targetCCElement.Parent, Is.Null);
+            }
+            else
+            {
+                Assert.That(targetCCElement.Parent, Is.Not.Null);
+                Assert.That(targetCCElement.Parent, Is.SameAs(targetElementStore.GetTargetElement(GetTargetEntryKey(parentName))));
+            }
+            Assert.That(targetCCElement.Name, Is.EqualTo(name));
+            var children = new List<TargetCCElement>();
+            foreach (string childName in childNames)
+            {
+                children.Add(targetElementStore.GetTargetElement(GetTargetEntryKey(childName)));
+            }
+            Assert.That(targetCCElement.Children, Is.EquivalentTo(children));
+            return targetCCElement;
         }
 
         private string GetTargetEntryKey(string targetEntryName)
@@ -47,9 +82,9 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
 
         private Entry FindTargetEntry(string name)
         {
-            foreach (var component in mapForceMapping.GetTargetSchemaComponents())
+            foreach (SchemaComponent component in mapForceMapping.GetTargetSchemaComponents())
             {
-                var entry = FindEntryByName(component.RootEntry, name);
+                Entry entry = FindEntryByName(component.RootEntry, name);
                 if (entry != null)
                 {
                     return entry;
@@ -64,15 +99,25 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             {
                 return entry;
             }
-            foreach (var subEntry in entry.SubEntries)
+            foreach (Entry subEntry in entry.SubEntries)
             {
-                var e = FindEntryByName(subEntry, name);
+                Entry e = FindEntryByName(subEntry, name);
                 if (e != null)
                 {
                     return e;
                 }
             }
             return null;
+        }
+
+        [Test]
+        public void TestTargetElementStore()
+        {
+            var targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
+            ShouldContainTargetACCElement(targetElementStore, "Party", accParty, null, "Name", "ResidenceAddress");
+            ShouldContainTargetBCCElement(targetElementStore, "Name", bccPartyName, "Party");
+            ShouldContainTargetASCCElement(targetElementStore, "ResidenceAddress", asccPartyResidence, "Party", "CityName");
+            ShouldContainTargetBCCElement(targetElementStore, "CityName", asccPartyResidence, "ResidenceAddress");
         }
     }
 }
