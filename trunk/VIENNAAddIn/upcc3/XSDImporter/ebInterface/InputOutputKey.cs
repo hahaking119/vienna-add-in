@@ -2,6 +2,14 @@ using System;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
+    /// <summary>
+    /// Represents a MapForce mapping attribute of the form:
+    /// inpkey="78577400"
+    /// or
+    /// outkey="80765288"
+    /// in an Entry element.
+    /// The type of key determines whether the Entry element is on the source or target side of a mapping.
+    /// </summary>
     public class InputOutputKey : IEquatable<InputOutputKey>
     {
         #region KeyType enum
