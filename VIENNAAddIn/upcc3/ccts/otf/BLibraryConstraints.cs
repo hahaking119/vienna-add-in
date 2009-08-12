@@ -9,6 +9,8 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         public PRIMLibraryConstraints()
         {
             AddConstraint(ParentMustBeABLibrary);
+            AddConstraint(MustOnlyContainPRIMElements);
+            AddConstraint(MustNotContaintAnyPackages);
         }
 
         private static IEnumerable<IValidationIssue> ParentMustBeABLibrary(IRepositoryItem item)
@@ -17,6 +19,31 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             if (!(Stereotype.BLibrary == parentStereotype))
             {
                 yield return new InvalidParentPackage(item.Id, item.Data.Name);
+            }
+        }
+
+        private static IEnumerable<IValidationIssue> MustOnlyContainPRIMElements(IRepositoryItem item)
+        {
+            foreach (RepositoryItem child in item.Children)
+            {
+                if (child.Id.Type == ItemId.ItemType.Element)
+                {
+                    if (child.Data.Stereotype != Stereotype.PRIM)
+                    {
+                        yield return new InvalidElementStereotype(item.Id, child.Id, item.Data.Name, child.Data.Name);
+                    }
+                }
+            }
+        }
+
+        private static IEnumerable<IValidationIssue> MustNotContaintAnyPackages(IRepositoryItem item)
+        {
+            foreach (RepositoryItem child in item.Children)
+            {
+                if (child.Id.Type == ItemId.ItemType.Package)
+                {
+                    yield return new NoPackagesAllowed(item.Id, child.Id, item.Data.Name);
+                }
             }
         }
 

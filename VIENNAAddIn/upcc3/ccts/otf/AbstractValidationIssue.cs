@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         public override string ToString()
         {
-            return "ValidationIssue[Type=" + GetType().Name + ", ItemId=" + ItemId + "]";
+            return "ValidationIssue[Type=" + GetType().Name + ", ItemId=" + ItemId + "]: " + Message;
         }
     }
 }

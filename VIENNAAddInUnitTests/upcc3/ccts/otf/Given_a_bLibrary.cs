@@ -25,7 +25,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
         public string Name
         {
-            get { return overrideDefaultName ? name : Stereotype + "_" + Id; }
+            get { return overrideDefaultName ? name : Stereotype + "_" + Id.Value; }
             set
             {
                 overrideDefaultName = true;

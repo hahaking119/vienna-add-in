@@ -15,4 +15,20 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return "No elements are allowed in library '" + packageName + "'."; }
         }
     }
+
+    internal class NoPackagesAllowed : AbstractValidationIssue
+    {
+        private readonly string packageName;
+
+        public NoPackagesAllowed(ItemId packageId, ItemId subPackageId, string packageName)
+            : base(packageId, subPackageId)
+        {
+            this.packageName = packageName;
+        }
+
+        public override string Message
+        {
+            get { return "No sub-packages are allowed in library '" + packageName + "'."; }
+        }
+    }
 }

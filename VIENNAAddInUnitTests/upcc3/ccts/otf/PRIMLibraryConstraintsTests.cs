@@ -90,7 +90,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         public void ShouldOnlyAllowPRIMElements()
         {
             AddElement(primLibrary, Stereotype.PRIM);
-            var element2 = AddElement(primLibrary, "stereotype not allowed for elements in this library");
+            var element2 = AddElement(primLibrary, "invalid_stereotype");
             VerifyValidationIssues(primLibrary, element2.Id);
         }
 
