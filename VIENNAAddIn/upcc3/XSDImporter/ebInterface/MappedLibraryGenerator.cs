@@ -5,6 +5,10 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
+    /// <summary>
+    /// This Class manages as a last step of the generic XML Schema importer the generation of proper 
+    /// BIE and BIE Doc elements in the proper UPCC libraries.
+    /// </summary>
     public class MappedLibraryGenerator
     {
         private readonly IBLibrary bLibrary;

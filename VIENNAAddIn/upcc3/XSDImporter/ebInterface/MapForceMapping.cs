@@ -5,6 +5,11 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
+    /// <summary>
+    /// Basically represents a MapForce mapping attribute of the form:
+    /// <mapping version="11">
+    /// with all necessary information used for the import of an XML Schema document model.
+    /// </summary>
     public class MapForceMapping : IEquatable<MapForceMapping>
     {
         public Graph Graph { get; private set; }
@@ -112,11 +117,23 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return null;
         }
 
+        /// <summary>
+        /// Takes a SchemaComponent as input and returns true if this SchemaComponent is an Input Schema, i.e. a 
+        /// source Schema, and false otherwise.
+        /// </summary>
+        /// <param name="component"></param>
+        /// <returns></returns>
         private bool IsInputSchema(SchemaComponent component)
         {
             return IsInput(component.RootEntry);
         }
 
+        /// <summary>
+        /// Takes an Entry as input and returns true if this Entry or its child Entries have an OutputKey specified,
+        /// false otherwise.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
         private bool IsInput(Entry entry)
         {
             if (entry.IsInput)
@@ -138,11 +155,23 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return false;
         }
 
+        /// <summary>
+        /// Takes a SchemaComponent as input and returns true if this SchemaComponent is an Output Schema, i.e. a 
+        /// target Schema, and false otherwise.
+        /// </summary>
+        /// <param name="component"></param>
+        /// <returns></returns>
         private bool IsOutputSchema(SchemaComponent component)
         {
             return IsOutput(component.RootEntry);
         }
 
+        /// <summary>
+        /// Takes an Entry as input and returns true if this Entry or its child Entries have an InputKey specified,
+        /// false otherwise.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
         private bool IsOutput(Entry entry)
         {
             if (entry.IsInput)
@@ -165,6 +194,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         }
 
         /// <summary>
+        /// Returns a set of TargetSchemaComponents, i.e, OutputSchemas.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<SchemaComponent> GetTargetSchemaComponents()
