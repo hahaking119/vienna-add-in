@@ -40,6 +40,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
                                                                                                accAddress = package.AddClass("Address")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "StreetName", "CityName"));
+                                                                                               package.AddClass("AccountingVoucher")
+                                                                                                   .With(e => e.Stereotype = Stereotype.ACC);
                                                                                                package.AddClass("Person")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "Name"));

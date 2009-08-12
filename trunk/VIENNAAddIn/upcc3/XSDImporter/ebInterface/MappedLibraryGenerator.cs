@@ -72,20 +72,20 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
-        public void GenerateLibraries(string docLibraryName, string bieLibraryName, string bdtLibraryName)
+        public void GenerateLibraries(string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier)
         {
             var bdtLibrary = bLibrary.CreateBDTLibrary(SpecifyLibraryNamed(bdtLibraryName));
             var bieLibrary = bLibrary.CreateBIELibrary(SpecifyLibraryNamed(bieLibraryName));
             var docLibrary = bLibrary.CreateDOCLibrary(SpecifyLibraryNamed(docLibraryName));
             GenerateBDTsAndABIEs(bdtLibrary, bieLibrary);
-            GenerateDOC(docLibrary);
+            GenerateDOC(docLibrary, qualifier);
         }
 
         private void GenerateBDTsAndABIEs(IBDTLibrary bdtLibrary, IBIELibrary bieLibrary)
         {
             foreach (var accMapping in mappings.GetACCMappings())
             {
-                var acc = (IACC)accMapping.TargetCC.Reference;
+                var acc = (IACC) accMapping.TargetCC.Reference;
                 var abieSpec = new ABIESpec
                                {
                                    BasedOn = acc,
@@ -107,7 +107,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         {
             foreach (var asccMapping in GetASCCMappings(accMapping.TargetCC))
             {
-                var ascc = ((IASCC)asccMapping.TargetCC.Reference);
+                var ascc = ((IASCC) asccMapping.TargetCC.Reference);
 
                 var associatedABIE = GetABIE(ascc.AssociatedElement, bdtLibrary, asccMapping.TargetCC, bieLibrary);
                 var asbieSpec = ASBIESpec.CloneASCC(ascc, ascc.Name, associatedABIE.Id);
@@ -132,32 +132,96 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return abie;
         }
 
-        private void GenerateDOC(IDOCLibrary docLibrary)
+        private void GenerateDOC(IDOCLibrary docLibrary, string qualifier)
         {
-            var asbies = new List<ASBIESpec>();
-            foreach (var childElement in mappings.RootSourceElement.Children)
+            docLibrary.CreateElement(new ABIESpec
+                                     {
+                                         Name = mappings.RootSourceElement.Name,
+                                         ASBIEs = GenerateASBIEsToChildren(mappings.RootSourceElement, qualifier, docLibrary),
+                                     });
+        }
+
+        private IABIE GenerateDOCABIE(SourceElement sourceElement, string qualifier, IDOCLibrary docLibrary)
+        {
+            var asbies = new List<ASBIESpec>
+                         {
+                             GenerateASBIEToTarget(sourceElement, "self")
+                         };
+            asbies.AddRange(GenerateASBIEsToChildren(sourceElement, qualifier, docLibrary));
+            return docLibrary.CreateElement(new ABIESpec
+                                            {
+                                                Name = qualifier + "_" + sourceElement.Name,
+                                                ASBIEs = asbies,
+                                            });
+        }
+
+        private static ASBIESpec GenerateASBIEToTarget(SourceElement sourceElement, string asbieName)
+        {
+            var abie = sourceElement.Mapping.TargetBIE.Reference as IABIE;
+            if (abie == null)
             {
-                var abie = childElement.Mapping.TargetBIE.Reference as IABIE;
-                if (abie == null)
+                // TODO error
+                throw new Exception("Source element mapped to ABIE, but reference cannot be resolved to an ABIE: " + sourceElement.Name);
+            }
+            return new ASBIESpec
+                   {
+                       AggregationKind = EAAggregationKind.Composite,
+                       AssociatedABIEId = abie.Id,
+                       Name = asbieName,
+                   };
+        }
+
+        private IEnumerable<ASBIESpec> GenerateASBIEsToChildren(SourceElement sourceElement, string qualifier, IDOCLibrary docLibrary)
+        {
+            foreach (var childElement in sourceElement.Children)
+            {
+                if (NeedsDOCABIE(childElement))
                 {
-                    // TODO error
+                    var childABIE = GenerateDOCABIE(childElement, qualifier, docLibrary);
+                    yield return new ASBIESpec
+                               {
+                                   AggregationKind = EAAggregationKind.Composite,
+                                   AssociatedABIEId = childABIE.Id,
+                                   Name = childElement.Name,
+                               };
                 }
                 else
                 {
-                    asbies.Add(new ASBIESpec
-                               {
-                                   AggregationKind = EAAggregationKind.Composite,
-                                   AssociatedABIEId = abie.Id,
-                                   Name = "specified_" + abie.Name,
-                               });
+                    if (IsMappedToABIE(childElement))
+                    {
+                        yield return GenerateASBIEToTarget(childElement, childElement.Name);
+                    }
                 }
             }
-            var abieSpec = new ABIESpec
-                           {
-                               Name = mappings.RootSourceElement.Name,
-                               ASBIEs = asbies,
-                           };
-            docLibrary.CreateElement(abieSpec);
+        }
+
+        /// <summary>
+        /// If a source element is mapped to an ABIE and at least one of its children is
+        /// also mapped to an ABIE, we must create an ABIE in the DOCLibrary.
+        /// </summary>
+        /// <param name="sourceElement"></param>
+        /// <returns></returns>
+        private static bool NeedsDOCABIE(SourceElement sourceElement)
+        {
+            if (IsMappedToABIE(sourceElement))
+            {
+                foreach (var child in sourceElement.Children)
+                {
+                    if (IsMappedToABIE(child))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private static bool IsMappedToABIE(SourceElement sourceElement)
+        {
+            return sourceElement != null && 
+                   sourceElement.Mapping != null &&
+                   sourceElement.Mapping.TargetBIE != null &&
+                   sourceElement.Mapping.TargetBIE.IsABIE;
         }
     }
 }

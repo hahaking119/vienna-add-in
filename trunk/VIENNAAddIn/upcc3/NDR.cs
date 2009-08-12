@@ -49,5 +49,39 @@ namespace VIENNAAddIn.upcc3
         {
             return asbie.Name + asbie.AssociatedElement.Name;
         }
+
+        /// <summary>
+        /// [R A7B8]
+        /// The name of a BDT that uses a primitive to define its content component BVD MUST be
+        /// - the BDT ccts:DataTypeQualifier(s) if any, plus
+        /// - the ccts:DataTypeTerm, plus
+        /// - the primitive type name,
+        /// - followed by the word ‘Type’
+        /// - with the separators removed and approved abbreviations and acronyms applied.
+        /// Deviation: Separators ('_') are not removed.
+        ///
+        /// [R 90FB]
+        /// The name of a BDT that includes one or more Supplementary Components MUST be:
+        /// - The BDT ccts:DataTypeQualifier(s) if any, plus
+        /// - The ccts:DataTypeTerm, plus
+        /// - The suffix of the Content Component Business Value Domain where the suffix is 
+        ///   the primitive type name, the code list token, the series of code list tokens, 
+        ///   or the identifier scheme token.
+        /// plus
+        /// - The ccts:DictionaryEntryName for each Supplementary Component present following the order
+        ///   defined in the Data Type Catalogue, plus
+        /// - The suffix that represents the Supplementary Component BVD where the suffix is the primitive 
+        ///   type name, the code list token, the series of code list tokens, or the identifier scheme token, plus
+        /// - The word ‘Type’.
+        /// - With all separators removed and approved abbreviations and acronyms applied.
+        /// Deviation: Ignoring the SUPs, which means that we name complex types in the same way as simple types.
+        /// Deviation: Separators ('_') are not removed.
+        /// </summary>
+        /// <param name="bdt"></param>
+        /// <returns></returns>
+        public static string GenerateBDTName(IBDT bdt)
+        {
+            return bdt.Name + bdt.CON.BasicType.Name + "Type";
+        }
     }
 }
