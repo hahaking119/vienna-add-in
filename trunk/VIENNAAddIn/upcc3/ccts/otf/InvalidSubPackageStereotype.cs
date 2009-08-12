@@ -16,4 +16,21 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return "Sub-package '" + subPackageName + "' of package '" + packageName + "' has an invalid stereotype."; }
         }
     }
+
+    internal class InvalidElementStereotype : AbstractValidationIssue
+    {
+        private readonly string packageName;
+        private readonly string elementName;
+
+        public InvalidElementStereotype(ItemId packageId, ItemId elementId, string packageName, string elementName) : base(packageId, elementId)
+        {
+            this.packageName = packageName;
+            this.elementName = elementName;
+        }
+
+        public override string Message
+        {
+            get { return "Element '" + elementName + "' of package '" + packageName + "' has an invalid stereotype."; }
+        }
+    }
 }
