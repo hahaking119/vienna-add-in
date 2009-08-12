@@ -11,6 +11,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         private readonly string docLibraryName;
         private readonly string bieLibraryName;
         private readonly string bdtLibraryName;
+        private readonly string qualifier;
 
         /// <summary>
         /// </summary>
@@ -18,12 +19,14 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         /// <param name="docLibraryName">The name of the DOCLibrary to be created.</param>
         /// <param name="bieLibraryName">The name of the BIELibrary to be created.</param>
         /// <param name="bdtLibraryName">The name of the BDTLibrary to be created.</param>
-        public MappingImporter(string mapForceMappingFile, string docLibraryName, string bieLibraryName, string bdtLibraryName)
+        /// <param name="qualifier">The qualifier for the business domain (e.g. "ebInterface").</param>
+        public MappingImporter(string mapForceMappingFile, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier)
         {
             this.mapForceMappingFile = mapForceMappingFile;
             this.docLibraryName = docLibraryName;
             this.bieLibraryName = bieLibraryName;
             this.bdtLibraryName = bdtLibraryName;
+            this.qualifier = qualifier;
         }
 
         /// <summary>
@@ -43,7 +46,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFile(mapForceMappingFile);
             var mappings = new Mappings(mapForceMapping, ccLibrary);
             var mappedLibraryGenerator = new MappedLibraryGenerator(ccLibrary.Parent, mappings);
-            mappedLibraryGenerator.GenerateLibraries(docLibraryName, bieLibraryName, bdtLibraryName);
+            mappedLibraryGenerator.GenerateLibraries(docLibraryName, bieLibraryName, bdtLibraryName, qualifier);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 var sups = new List<ISUP>(bdt.SUPs);
                 if (sups.Count == 0)
                 {
-                    var simpleType = new XmlSchemaSimpleType {Name = GetTypeName(bdt)};
+                    var simpleType = new XmlSchemaSimpleType {Name = NDR.GenerateBDTName(bdt)};
                     var simpleTypeRestriction = new XmlSchemaSimpleTypeRestriction
                                                 {
                                                     BaseTypeName = GetXmlQualifiedName(bdt.CON.BasicType)
@@ -42,8 +42,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 {
                     var complexType = new XmlSchemaComplexType
                                       {
-                                          // Deviation from rule [R 90FB]: Using simpler and shorter names for BDT complex types.
-                                          Name = GetTypeName(bdt)
+                                          Name = NDR.GenerateBDTName(bdt)
                                       };
                     var simpleContent = new XmlSchemaSimpleContent();
                     var simpleContentExtension = new XmlSchemaSimpleContentExtension
@@ -148,11 +147,6 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         {
             string name = sup.Name + sup.BasicType.Name;
             return name.Replace(".", "");
-        }
-
-        private static string GetTypeName(IBDT bdt)
-        {
-            return bdt.Name + bdt.CON.BasicType.Name + "Type";
         }
 
         private static string GetXSDType(string primitiveTypeName)
