@@ -14,8 +14,9 @@ namespace VIENNAAddInUnitTests.menu
         {
             Mock<Package> packageMock = CreatePackageMock(stereotype);
             var repositoryMock = new Mock<Repository>();
-            repositoryMock.Setup(r => r.GetContextItemType()).Returns(ObjectType.otPackage);
-            repositoryMock.Setup(r => r.GetContextObject()).Returns(packageMock.Object);
+            repositoryMock.Setup(r => r.GetTreeSelectedObject()).Returns(packageMock.Object);
+            object outContextObject = packageMock.Object;
+            repositoryMock.Setup(r => r.GetContextItem(out outContextObject)).Returns(ObjectType.otPackage);
             return new AddInContext(repositoryMock.Object, MenuLocation.TreeView.ToString());
         }
 
@@ -71,7 +72,8 @@ namespace VIENNAAddInUnitTests.menu
 
         private static AddInContext CreateMainMenuContext()
         {
-            return new AddInContext(null, MenuLocation.MainMenu.ToString());
+            var eaRepositoryMock = new Mock<Repository>();
+            return new AddInContext(eaRepositoryMock.Object, MenuLocation.MainMenu.ToString());
         }
 
         private static bool ContextIsBDTLibrary(AddInContext context)
