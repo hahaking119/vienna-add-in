@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     public class ResourceHandler
     {
         public static readonly string[] DefaultResources = new[]
-                                                               {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi"};//, "cclibrary.xmi" };
+                                                               {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi" };
         public static readonly string DefaultDownloadUri = "http://www.umm-dev.org/xmi/";
         public static readonly string DefaultStorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
 
