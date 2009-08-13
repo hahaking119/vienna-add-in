@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
     /// <summary>
     /// This Class manages as a last step of the generic XML Schema importer the generation of proper 
-    /// BIE and BIE Doc elements in the proper UPCC libraries.
+    /// BIE and BIE Doc elements in the corresponding UPCC libraries.
     /// </summary>
     public class MappedLibraryGenerator
     {
@@ -28,6 +28,13 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                    };
         }
 
+        /// <summary>
+        /// Takes a TargetCCElement representing an ACC as input and returns a set of BBIESpecs according to
+        /// the mapped BCCs of that ACC.
+        /// </summary>
+        /// <param name="bdtLibrary"></param>
+        /// <param name="targetACCElement"></param>
+        /// <returns></returns>
         private static IEnumerable<BBIESpec> SpecifyBBIEs(IBDTLibrary bdtLibrary, TargetCCElement targetACCElement)
         {
             foreach (var bcc in GetMappedBCCs(targetACCElement))
@@ -54,6 +61,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return bdt;
         }
 
+        /// <summary>
+        /// Returns a set of IBCCs that belong to a given ACC from the list of TargetCCElements.
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
         private static IEnumerable<IBCC> GetMappedBCCs(TargetCCElement acc)
         {
             foreach (var child in acc.Children)
@@ -65,6 +77,12 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
+        /// <summary>
+        /// Returns a set of Mappings which actually involve ASCCs on the TargetCCElement side for a
+        /// given ACC.
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
         private static IEnumerable<Mapping> GetASCCMappings(TargetCCElement acc)
         {
             foreach (var child in acc.Children)
@@ -76,6 +94,14 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
+        /// <summary>
+        /// Takes the names of the libraries to be created as well as a qualifier as input and creates the
+        /// libraries.
+        /// </summary>
+        /// <param name="docLibraryName"></param>
+        /// <param name="bieLibraryName"></param>
+        /// <param name="bdtLibraryName"></param>
+        /// <param name="qualifier"></param>
         public void GenerateLibraries(string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier)
         {
             var bdtLibrary = bLibrary.CreateBDTLibrary(SpecifyLibraryNamed(bdtLibraryName));
@@ -85,6 +111,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             GenerateDOC(docLibrary, qualifier);
         }
 
+        /// <summary>
+        /// Takes a IBDTLibrary and a IBIELibrary as input and generates BDTs and ABIEs properly.
+        /// </summary>
+        /// <param name="bdtLibrary"></param>
+        /// <param name="bieLibrary"></param>
         private void GenerateBDTsAndABIEs(IBDTLibrary bdtLibrary, IBIELibrary bieLibrary)
         {
             foreach (var accMapping in mappings.GetACCMappings())
@@ -102,11 +133,25 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
+        /// <summary>
+        /// At the moment this method returns the name of the given IACC. The name may however be also constructed from the complex typ
+        /// of the source XML Schema document.
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
         private static string GetABIEName(IACC acc)
         {
+            //TODO this needs to be reconsidered
             return acc.Name;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="accMapping"></param>
+        /// <param name="bdtLibrary"></param>
+        /// <param name="bieLibrary"></param>
+        /// <returns></returns>
         private IEnumerable<ASBIESpec> SpecifyASBIES(Mapping accMapping, IBDTLibrary bdtLibrary, IBIELibrary bieLibrary)
         {
             foreach (var asccMapping in GetASCCMappings(accMapping.TargetCC))
@@ -119,6 +164,14 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <param name="bdtLibrary"></param>
+        /// <param name="targetCCElement"></param>
+        /// <param name="bieLibrary"></param>
+        /// <returns></returns>
         private static IABIE GetABIE(IACC acc, IBDTLibrary bdtLibrary, TargetCCElement targetCCElement, IBIELibrary bieLibrary)
         {
             var abieName = GetABIEName(acc);
@@ -136,6 +189,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return abie;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="docLibrary"></param>
+        /// <param name="qualifier"></param>
         private void GenerateDOC(IDOCLibrary docLibrary, string qualifier)
         {
             docLibrary.CreateElement(new ABIESpec
@@ -145,6 +203,13 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                                      });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceElement"></param>
+        /// <param name="qualifier"></param>
+        /// <param name="docLibrary"></param>
+        /// <returns></returns>
         private IABIE GenerateDOCABIE(SourceElement sourceElement, string qualifier, IDOCLibrary docLibrary)
         {
             var asbies = new List<ASBIESpec>
@@ -159,6 +224,12 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                                             });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceElement"></param>
+        /// <param name="asbieName"></param>
+        /// <returns></returns>
         private static ASBIESpec GenerateASBIEToTarget(SourceElement sourceElement, string asbieName)
         {
             var abie = sourceElement.Mapping.TargetBIE.Reference as IABIE;
@@ -175,6 +246,13 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                    };
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceElement"></param>
+        /// <param name="qualifier"></param>
+        /// <param name="docLibrary"></param>
+        /// <returns></returns>
         private IEnumerable<ASBIESpec> GenerateASBIEsToChildren(SourceElement sourceElement, string qualifier, IDOCLibrary docLibrary)
         {
             foreach (var childElement in sourceElement.Children)
@@ -220,6 +298,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceElement"></param>
+        /// <returns></returns>
         private static bool IsMappedToABIE(SourceElement sourceElement)
         {
             return sourceElement != null && 
