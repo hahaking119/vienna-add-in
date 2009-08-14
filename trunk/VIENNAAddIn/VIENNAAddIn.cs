@@ -83,8 +83,9 @@ namespace VIENNAAddIn
                                    + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)));
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
+                                   + validate
                                    + "Import Standard CC Libraries".OnClick(ImportStandardCcLibraries)))
-                .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.BLibrary));
+                .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.bLibrary));
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
                                    + createABIE
@@ -219,7 +220,7 @@ namespace VIENNAAddIn
             }
             catch (Exception e)
             {
-                new ErrorReporterForm(e.Message + "\n" + e.StackTrace, Repo.LibraryVersion);
+                new ErrorReporterForm(e.ToString() + "\n" + e.Message + "\n" + e.StackTrace, Repo.LibraryVersion);
                 if (menuLocation == AddInSettings.AddInName)
                 {
                     return new string[0];

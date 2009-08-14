@@ -30,7 +30,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public const string BDTLibrary = "BDTLibrary";
         public const string BIELibrary = "BIELibrary";
         public const string DOCLibrary = "DOCLibrary";
-        public const string BLibrary = "bLibrary";
+        public const string bLibrary = "bLibrary";
         public const string CCLibrary = "CCLibrary";
         public const string BInformationV = "bInformationV";
         public const string CDT = "CDT";
@@ -76,7 +76,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 case "doclibrary":
                     return DOCLibrary;
                 case "blibrary":
-                    return BLibrary;
+                    return bLibrary;
                 case "cclibrary":
                     return CCLibrary;
                 case "binformationv":
@@ -104,7 +104,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
         }
 
-        private static readonly List<string> BusinessLibraryStereotypes = new List<string>{BLibrary, PRIMLibrary, ENUMLibrary, CDTLibrary, CCLibrary, BDTLibrary, BIELibrary, DOCLibrary};
+        private static readonly List<string> BusinessLibraryStereotypes = new List<string>{bLibrary, PRIMLibrary, ENUMLibrary, CDTLibrary, CCLibrary, BDTLibrary, BIELibrary, DOCLibrary};
 
         public static bool IsIsEquivalentTo(this Connector con)
         {
@@ -208,7 +208,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
 
         public static bool IsBLibrary(this Package package)
         {
-            return package.HasStereotype(BLibrary);
+            return package.HasStereotype(bLibrary);
         }
 
         public static bool IsBInformationV(this Package package)
@@ -225,7 +225,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             if (typeof (T) == typeof (IBLibrary))
             {
-                return BLibrary;
+                return bLibrary;
             }
             if (typeof (T) == typeof (ICCLibrary))
             {

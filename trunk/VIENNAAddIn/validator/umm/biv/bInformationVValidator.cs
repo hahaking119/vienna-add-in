@@ -44,7 +44,7 @@ namespace VIENNAAddIn.validator.umm.biv
             foreach (EA.Element e in informationEnvelopes)
             {
                 //Is the classifier of type InformationEnvelope?
-                if (e.Stereotype == UMM.InfEnvelope.ToString())
+                if (e.Stereotype == UMM.bInformation.ToString())
                 {
                     informationEnvelopeFound = true;
                 }
@@ -53,7 +53,7 @@ namespace VIENNAAddIn.validator.umm.biv
                 {
                     foreach (EA.Element el in e.BaseClasses)
                     {
-                        if (el.Stereotype == UMM.InfEnvelope.ToString())
+                        if (el.Stereotype == UMM.bInformation.ToString())
                         {
                             informationEnvelopeFound = true;
                             break;

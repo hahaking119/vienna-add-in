@@ -62,7 +62,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IBLibrary CreateBLibrary(LibrarySpec spec)
         {
-            return new BLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BLibrary));
+            return new BLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.bLibrary));
         }
 
         public ICDTLibrary CreateCDTLibrary(LibrarySpec spec)

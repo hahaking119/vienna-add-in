@@ -16,7 +16,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         private static IEnumerable<IValidationIssue> ParentMustBeABLibrary(IRepositoryItem item)
         {
             string parentStereotype = item.Parent.Data.Stereotype;
-            if (!(Stereotype.BLibrary == parentStereotype))
+            if (!(Stereotype.bLibrary == parentStereotype))
             {
                 yield return new InvalidParentPackage(item.Id, item.Data.Name);
             }
@@ -64,7 +64,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         private static IEnumerable<IValidationIssue> ParentMustBeModelOrBInformationVOrBLibrary(IRepositoryItem item)
         {
             string parentStereotype = item.Parent.Data.Stereotype;
-            if (!(item.Parent.Data.ParentId.IsNull || Stereotype.BInformationV == parentStereotype || Stereotype.BLibrary == parentStereotype))
+            if (!(item.Parent.Data.ParentId.IsNull || Stereotype.BInformationV == parentStereotype || Stereotype.bLibrary == parentStereotype))
             {
                 yield return new InvalidParentPackage(item.Id, item.Data.Name);
             }
@@ -94,7 +94,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         public override bool Matches(IRepositoryItem item)
         {
-            return item != null && item.Data != null && Stereotype.BLibrary == item.Data.Stereotype;
+            return item != null && item.Data != null && Stereotype.bLibrary == item.Data.Stereotype;
         }
     }
 

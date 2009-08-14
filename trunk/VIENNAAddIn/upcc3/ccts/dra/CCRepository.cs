@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     {
                         foreach (Package subPackage in rootPackage.Packages)
                         {
-                            if (subPackage.HasStereotype(Stereotype.BLibrary))
+                            if (subPackage.HasStereotype(Stereotype.bLibrary))
                             {
                                 yield return subPackage;
                             }
@@ -107,7 +107,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     }
                     else
                     {
-                        if (rootPackage.HasStereotype(Stereotype.BLibrary))
+                        if (rootPackage.HasStereotype(Stereotype.bLibrary))
                         {
                             yield return rootPackage;
                         }
@@ -233,7 +233,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<returns></returns>
         public IBLibrary CreateBLibrary(LibrarySpec spec, Package parentPackage)
         {
-            return new BLibrary(this, BusinessLibrary.CreateLibraryPackage(spec, parentPackage, Stereotype.BLibrary));
+            return new BLibrary(this, BusinessLibrary.CreateLibraryPackage(spec, parentPackage, Stereotype.bLibrary));
         }
     }
 }
