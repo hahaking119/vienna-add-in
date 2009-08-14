@@ -17,7 +17,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             model = AddChild(root, ItemId.ItemType.Package);
             bLibraryData = new MyTestRepositoryItemData(model.Id, ItemId.ItemType.Package)
                            {
-                               Stereotype = Stereotype.BLibrary,
+                               Stereotype = Stereotype.bLibrary,
                                TaggedValues = new Dictionary<TaggedValues, string>
                                               {
                                                   {TaggedValues.uniqueIdentifier, "foo"},
@@ -48,7 +48,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         public void ShouldAllowABLibraryAsParent()
         {
             model.RemoveChild(bLibrary.Id);
-            RepositoryItem parent = AddSubLibrary(model, Stereotype.BLibrary);
+            RepositoryItem parent = AddSubLibrary(model, Stereotype.bLibrary);
             parent.AddOrReplaceChild(bLibrary);
             VerifyValidationIssues(bLibrary);
         }
@@ -119,7 +119,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void ShouldOnlyAllowBusinessLibrariesAsSubpackages()
         {
-            AddSubLibrary(bLibrary, Stereotype.BLibrary);
+            AddSubLibrary(bLibrary, Stereotype.bLibrary);
             AddSubLibrary(bLibrary, Stereotype.PRIMLibrary);
             AddSubLibrary(bLibrary, Stereotype.ENUMLibrary);
             AddSubLibrary(bLibrary, Stereotype.CDTLibrary);

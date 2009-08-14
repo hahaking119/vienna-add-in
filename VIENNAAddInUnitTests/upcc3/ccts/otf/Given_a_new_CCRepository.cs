@@ -22,10 +22,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                            {
                                                model.AddPackage("Package 1", package_1 =>
                                                                              {
-                                                                                 package_1.Element.Stereotype = Stereotype.BLibrary;
+                                                                                 package_1.Element.Stereotype = Stereotype.bLibrary;
                                                                                  package_1.AddPackage("Package 1.1", package_1_1 =>
                                                                                                                      {
-                                                                                                                         package_1_1.Element.Stereotype = Stereotype.BLibrary;
+                                                                                                                         package_1_1.Element.Stereotype = Stereotype.bLibrary;
                                                                                                                          package_1_1.AddPackage("Package 1.1.1", p => { p.Element.Stereotype = Stereotype.PRIMLibrary; });
                                                                                                                          package_1_1.AddPackage("Package 1.1.2", p => { p.Element.Stereotype = Stereotype.ENUMLibrary; });
                                                                                                                          package_1_1.AddPackage("Package 1.1.3", p => { p.Element.Stereotype = Stereotype.CDTLibrary; });
@@ -42,8 +42,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                                                                  package_3.Element.Stereotype = Stereotype.BInformationV;
                                                                                  package_3.AddPackage("Package 3.1", package_3_1 =>
                                                                                                                      {
-                                                                                                                         package_3_1.Element.Stereotype = Stereotype.BLibrary;
-                                                                                                                         package_3_1.AddPackage("Package 3.1.1", package_3_1_1 => { package_3_1_1.Element.Stereotype = Stereotype.BLibrary; });
+                                                                                                                         package_3_1.Element.Stereotype = Stereotype.bLibrary;
+                                                                                                                         package_3_1.AddPackage("Package 3.1.1", package_3_1_1 => { package_3_1_1.Element.Stereotype = Stereotype.bLibrary; });
                                                                                                                          package_3_1.AddPackage("Package 3.1.2", package_3_1_2 => { package_3_1_2.Element.Stereotype = "Foo bar 3"; });
                                                                                                                      });
                                                                              });

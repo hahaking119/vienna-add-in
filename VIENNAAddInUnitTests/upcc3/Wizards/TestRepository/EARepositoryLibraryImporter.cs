@@ -21,11 +21,11 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.TestRepository
         {
             this.AddModel("Test Model 1", m => m.AddPackage("bLibrary", bLibrary =>
             {
-                bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                bLibrary.Element.Stereotype = Stereotype.bLibrary;
             }));
             this.AddModel("Test Model 2", m => m.AddPackage("bLibrary", bLibrary =>
             {
-                bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                bLibrary.Element.Stereotype = Stereotype.bLibrary;
                 AddLibrary(bLibrary, Stereotype.ENUMLibrary);
                 AddLibrary(bLibrary, Stereotype.PRIMLibrary);
                 AddLibrary(bLibrary, Stereotype.CDTLibrary);

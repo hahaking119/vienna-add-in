@@ -15,7 +15,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             root = new RepositoryItem(new RootRepositoryItemData());
             model = AddChild(root, ItemId.ItemType.Package);
-            bLibrary = AddSubLibrary(model, Stereotype.BLibrary);
+            bLibrary = AddSubLibrary(model, Stereotype.bLibrary);
             primLibraryData = new MyTestRepositoryItemData(model.Id, ItemId.ItemType.Package)
             {
                 Stereotype = Stereotype.PRIMLibrary,
@@ -97,7 +97,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void ShouldNotAllowAnySubpackages()
         {
-            var subPackage = AddSubLibrary(primLibrary, Stereotype.BLibrary);
+            var subPackage = AddSubLibrary(primLibrary, Stereotype.bLibrary);
             VerifyValidationIssues(primLibrary, subPackage.Id);
         }
 
