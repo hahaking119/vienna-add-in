@@ -493,18 +493,21 @@ namespace VIENNAAddIn.validator.upcc3
                     {
                         //Get the CDT
                         EA.Element supplier = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
-                        if (supplier.Stereotype == UPCC.CDT.ToString() || supplier.Stereotype == UPCC.BDT.ToString())
+                        if (supplier != null)
                         {
-
-                            int countSUP = Utility.countAttributesOfElement(e.Value, UPCC.SUP.ToString());
-                            int countSUP_supplier = Utility.countAttributesOfElement(supplier, UPCC.SUP.ToString());
-
-                            if (countSUP != countSUP_supplier)
+                            if (supplier.Stereotype == UPCC.CDT.ToString() || supplier.Stereotype == UPCC.BDT.ToString())
                             {
-                                context.AddValidationMessage(new ValidationMessage("Invalid number of supplementary components found.", "An unqualified BDT shall include the same supplementary components as its source CDT. BDT " + e.Value.Name + " is based on " + supplier.Stereotype + " " + supplier.Name + ". " + e.Value.Stereotype + " " + e.Value.Name + " has " + countSUP + " SUPs and " + supplier.Stereotype + " " + supplier.Name + " has " + countSUP_supplier + " SUPs.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
 
+                                int countSUP = Utility.countAttributesOfElement(e.Value, UPCC.SUP.ToString());
+                                int countSUP_supplier = Utility.countAttributesOfElement(supplier, UPCC.SUP.ToString());
+
+                                if (countSUP != countSUP_supplier)
+                                {
+                                    context.AddValidationMessage(new ValidationMessage("Invalid number of supplementary components found.", "An unqualified BDT shall include the same supplementary components as its source CDT. BDT " + e.Value.Name + " is based on " + supplier.Stereotype + " " + supplier.Name + ". " + e.Value.Stereotype + " " + e.Value.Name + " has " + countSUP + " SUPs and " + supplier.Stereotype + " " + supplier.Name + " has " + countSUP_supplier + " SUPs.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+
+                                }
                             }
-                        }                       
+                        }
                     }                
             }
 
@@ -531,8 +534,12 @@ namespace VIENNAAddIn.validator.upcc3
                 if (!Utility.isAQualifiedElement(e.Value.Name))
                 {
                     EA.Element supplier = Utility.getTargetOfisbasedOnDependency(e.Value, context.Repository);
-                    if (supplier.Name.Trim() != e.Value.Name.Trim()) {
-                        context.AddValidationMessage(new ValidationMessage("Mismatch of names between BDT and underlying CDT.", "An unqualified BDT shall have the same name as the CDT the BDT is based on. BDT " + e.Value.Name + " and the CDT/BDT " + supplier.Name + " do not have the same name.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                    if (supplier != null)
+                    {
+                        if (supplier.Name.Trim() != e.Value.Name.Trim())
+                        {
+                            context.AddValidationMessage(new ValidationMessage("Mismatch of names between BDT and underlying CDT.", "An unqualified BDT shall have the same name as the CDT the BDT is based on. BDT " + e.Value.Name + " and the CDT/BDT " + supplier.Name + " do not have the same name.", "BDTLibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                        }
                     }
                 }
             }

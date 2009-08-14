@@ -705,12 +705,15 @@ namespace VIENNAAddIn.validator.upcc3
                         EA.AttributeTag at = Utility.getTaggedValue(a, UPCC_TV.uniqueIdentifier.ToString());
 
                         //Found double name
-                        if (at == null || names.ContainsValue(at.Value))
+                        if (at != null)
                         {
-                            context.AddValidationMessage(new ValidationMessage("Found two BBIEs with the same unique identifier tagged value.", "For a given BIELibrary there shall not be two BBIEs with the same unique identifier tagged value. ABIE " + e.Value.Name + " has more than one BBIE with the name " + at.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
-                        }
+                            if (names.ContainsValue(at.Value))
+                            {
+                                context.AddValidationMessage(new ValidationMessage("Found two BBIEs with the same unique identifier tagged value.", "For a given BIELibrary there shall not be two BBIEs with the same unique identifier tagged value. ABIE " + e.Value.Name + " has more than one BBIE with the name " + at.Name + ".", "BIELibrary", ValidationMessage.errorLevelTypes.ERROR, p.PackageID));
+                            }
 
-                        names.Add(at.AttributeID, at.Value);
+                            names.Add(at.AttributeID, at.Value);
+                        }
                     }
                 }
             }

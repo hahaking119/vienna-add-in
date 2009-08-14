@@ -128,7 +128,7 @@ namespace VIENNAAddIn.Settings
             taggedValues[Stereotype.DOCLibrary] = new List<TaggedValues>(libraryTaggedValues);
             taggedValues[Stereotype.PRIMLibrary] = new List<TaggedValues>(libraryTaggedValues);
             taggedValues[Stereotype.ENUMLibrary] = new List<TaggedValues>(libraryTaggedValues);
-            taggedValues[Stereotype.BLibrary] = new List<TaggedValues>(libraryTaggedValues);
+            taggedValues[Stereotype.bLibrary] = new List<TaggedValues>(libraryTaggedValues);
         }
 
         private IEnumerable<TaggedValues> GetTaggedValuesForStereotype(string stereotype)

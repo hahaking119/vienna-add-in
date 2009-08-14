@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             {
                 switch (item.Data.Stereotype)
                 {
-                    case Stereotype.BLibrary:
+                    case Stereotype.bLibrary:
                     {
                         wrappedObject = new BLibrary(itemData.Id,
                                                      itemData.Name,
