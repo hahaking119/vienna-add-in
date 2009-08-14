@@ -93,7 +93,7 @@ namespace VIENNAAddInUnitTests.validator.upcc3.onTheFly
                                   model => model.AddPackage("bLibrary",
                                                             bLibrary =>
                                                             {
-                                                                bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                                                                bLibrary.Element.Stereotype = Stereotype.bLibrary;
                                                                 bLibrary.AddPackage("PRIMLibrary",
                                                                                     p =>
                                                                                     {
@@ -138,7 +138,7 @@ namespace VIENNAAddInUnitTests.validator.upcc3.onTheFly
                                   model => model.AddPackage("bLibrary",
                                                             bLibrary =>
                                                             {
-                                                                bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                                                                bLibrary.Element.Stereotype = Stereotype.bLibrary;
                                                                 bLibrary.AddPackage("PRIMLibrary",
                                                                                     p =>
                                                                                     {

@@ -16,7 +16,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             this.AddModel(
                 "test", m => m.AddPackage("bLibrary", bLibrary =>
                                                       {
-                                                          bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                                                          bLibrary.Element.Stereotype = Stereotype.bLibrary;
                                                           bLibrary.AddDiagram("bLibrary", "Class");
                                                           bLibrary.AddPackage("PRIMLibrary", package =>
                                                                                              {

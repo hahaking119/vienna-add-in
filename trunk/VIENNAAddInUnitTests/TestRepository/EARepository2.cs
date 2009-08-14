@@ -35,7 +35,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                           m => m.AddPackage("BLibrary",
                                             bLibrary =>
                                             {
-                                                bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                                                bLibrary.Element.Stereotype = Stereotype.bLibrary;
                                                 bLibrary.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1");
                                                 bLibrary.AddPackage("PRIMLibrary", InitPRIMLibrary);
                                                 bLibrary.AddPackage("ENUMLibrary", InitENUMLibrary);

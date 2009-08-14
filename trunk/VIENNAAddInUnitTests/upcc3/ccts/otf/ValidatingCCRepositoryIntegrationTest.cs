@@ -26,7 +26,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_is_loaded_Then_it_should_be_in_the_repository()
         {
-            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.BLibrary; });
+            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.bLibrary; });
             validatingCCRepository.LoadPackageByID(newBLibrary.PackageID);
             var bLibraries = new List<IBLibrary>(validatingCCRepository.Libraries<IBLibrary>());
             Assert.AreEqual(2, bLibraries.Count, "Wrong number of BLibraries");
@@ -37,7 +37,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_is_loaded_Then_the_package_should_be_validated()
         {
-            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.BLibrary; });
+            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.bLibrary; });
             validatingCCRepository.LoadPackageByID(newBLibrary.PackageID);
             // expect issues for missing tagged values
             issueHandler.AssertReceivedIssuesTotal(3);
@@ -57,7 +57,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_is_deleted_Then_its_validation_issues_should_be_removed()
         {
-            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.BLibrary; });
+            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.bLibrary; });
             validatingCCRepository.LoadPackageByID(newBLibrary.PackageID);
             validatingCCRepository.ItemDeleted(ItemId.ForPackage(newBLibrary.PackageID));
             issueHandler.AssertReceivedIssuesTotal(0);
@@ -68,14 +68,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             var bLibraryWithoutIssues = bLibrary.AddPackage("BLibrary2", p =>
             {
-                p.Element.Stereotype = Stereotype.BLibrary;
+                p.Element.Stereotype = Stereotype.bLibrary;
                 p.AddTaggedValue(TaggedValues.uniqueIdentifier.ToString()).WithValue("foo");
                 p.AddTaggedValue(TaggedValues.versionIdentifier.ToString()).WithValue("foo");
                 p.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("foo");
             });
             validatingCCRepository.LoadPackageByID(bLibraryWithoutIssues.PackageID);
 
-            var bLibraryWithIssues = bLibraryWithoutIssues.AddPackage("BLibrary3", p => { p.Element.Stereotype = Stereotype.BLibrary; });
+            var bLibraryWithIssues = bLibraryWithoutIssues.AddPackage("BLibrary3", p => { p.Element.Stereotype = Stereotype.bLibrary; });
             validatingCCRepository.LoadPackageByID(bLibraryWithIssues.PackageID);
             // expect issues for missing tagged values
             issueHandler.AssertReceivedIssuesTotal(3);
@@ -97,7 +97,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_is_deleted_Then_the_package_should_no_longer_be_in_the_repository()
         {
-            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.BLibrary; });
+            var newBLibrary = bLibrary.AddPackage("New BLibrary", p => { p.Element.Stereotype = Stereotype.bLibrary; });
             validatingCCRepository.LoadPackageByID(newBLibrary.PackageID);
             validatingCCRepository.ItemDeleted(ItemId.ForPackage(newBLibrary.PackageID));
             var bLibraries = new List<IBLibrary>(validatingCCRepository.Libraries<IBLibrary>());
@@ -108,9 +108,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_is_deleted_Then_its_descendants_should_no_longer_be_in_the_repository()
         {
-            var newBLibrary1 = bLibrary.AddPackage("New BLibrary 1", p => { p.Element.Stereotype = Stereotype.BLibrary; });
+            var newBLibrary1 = bLibrary.AddPackage("New BLibrary 1", p => { p.Element.Stereotype = Stereotype.bLibrary; });
             validatingCCRepository.LoadPackageByID(newBLibrary1.PackageID);
-            var newBLibrary2 = newBLibrary1.AddPackage("New BLibrary 2", p => { p.Element.Stereotype = Stereotype.BLibrary; });
+            var newBLibrary2 = newBLibrary1.AddPackage("New BLibrary 2", p => { p.Element.Stereotype = Stereotype.bLibrary; });
             validatingCCRepository.LoadPackageByID(newBLibrary2.PackageID);
 
             validatingCCRepository.ItemDeleted(ItemId.ForPackage(newBLibrary1.PackageID));
@@ -173,7 +173,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                   {
                                       bLibrary = model.AddPackage("BLibrary", p =>
                                                                               {
-                                                                                  p.Element.Stereotype = Stereotype.BLibrary;
+                                                                                  p.Element.Stereotype = Stereotype.bLibrary;
                                                                                   p.AddTaggedValue(TaggedValues.uniqueIdentifier.ToString()).WithValue("foo");
                                                                                   p.AddTaggedValue(TaggedValues.versionIdentifier.ToString()).WithValue("foo");
                                                                                   p.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("foo");

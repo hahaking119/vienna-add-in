@@ -63,7 +63,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                          {
                              p.Element.Stereotype = "Some arbitrary stereotype";
                              p.AddPackage("This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy",
-                                          p1 => { p1.Element.Stereotype = Stereotype.BLibrary; });
+                                          p1 => { p1.Element.Stereotype = Stereotype.bLibrary; });
                              p.AddDiagram("A diagram", "Class");
                          });
         }
@@ -75,7 +75,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                 "A bLibrary nested in a bInformationV",
                 bLibrary =>
                 {
-                    bLibrary.Element.Stereotype = Stereotype.BLibrary;
+                    bLibrary.Element.Stereotype = Stereotype.bLibrary;
                     bLibrary.AddPackage("Another PRIMLibrary",
                                         primLibrary =>
                                         {
@@ -87,7 +87,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         private void InitBLib1(Package bLib1)
         {
-            bLib1.Element.Stereotype = Stereotype.BLibrary;
+            bLib1.Element.Stereotype = Stereotype.bLibrary;
             bLib1.AddDiagram("blib1", "Package");
             bLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1");
             bLib1.AddPackage("primlib1", InitPRIMLib1);

@@ -34,7 +34,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
             var bInformationV = CreatePackage(model, Stereotype.BInformationV);
 
-            bLibrary = CreatePackage(bInformationV, Stereotype.BLibrary);
+            bLibrary = CreatePackage(bInformationV, Stereotype.bLibrary);
 
             CreatePackage(bLibrary, Stereotype.PRIMLibrary);
             CreatePackage(bLibrary, Stereotype.ENUMLibrary);
