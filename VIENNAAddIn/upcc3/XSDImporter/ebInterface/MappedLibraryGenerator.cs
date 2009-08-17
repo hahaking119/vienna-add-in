@@ -146,7 +146,9 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         }
 
         /// <summary>
-        /// 
+        /// Takes a Mapping representing actually an ACCMapping, an IBDTLibrary amd an IBIELibrary as input and
+        /// returns a set of ASBIESpecs. Notice, that with this funtcion we only create ASBIEs that are based on existing
+        /// ASCCs.
         /// </summary>
         /// <param name="accMapping"></param>
         /// <param name="bdtLibrary"></param>
@@ -165,7 +167,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         }
 
         /// <summary>
-        /// 
+        /// Returns an IABIE based on its IACC in the given IBIELibrary.
         /// </summary>
         /// <param name="acc"></param>
         /// <param name="bdtLibrary"></param>
@@ -190,7 +192,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         }
 
         /// <summary>
-        /// 
+        /// This method creates the root ABIE in the DocLibrary representing the document which has been mapped.
         /// </summary>
         /// <param name="docLibrary"></param>
         /// <param name="qualifier"></param>
@@ -225,7 +227,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         }
 
         /// <summary>
-        /// 
+        /// Takes a SourceElement representing a Target as input and returns an ASBIESpec.
         /// </summary>
         /// <param name="sourceElement"></param>
         /// <param name="asbieName"></param>
