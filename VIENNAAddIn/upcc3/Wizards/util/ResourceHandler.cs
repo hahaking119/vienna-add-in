@@ -12,7 +12,7 @@ using System.Net;
 using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
-{  
+{
     ///<summary>
     /// The ResourceHandler class may be used to retrieve resources located at a particular URI on 
     /// the web to the local file system. The configuration of the ResourceHandler is achieved 
@@ -21,14 +21,29 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     ///</summary>
     public class ResourceHandler
     {
-        public static readonly string[] DefaultResources = new[]
-                                                               {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi" };
+        #region Constants
+
         public static readonly string DefaultDownloadUri = "http://www.umm-dev.org/xmi/";
+
+        public static readonly string[] DefaultResources = new[]
+                                                               {
+                                                                   "enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi",
+                                                                   "cclibrary.xmi"
+                                                               };
+
         public static readonly string DefaultStorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
 
-        private readonly string[] resources;
+        #endregion
+
+        #region Class Fields
+
         private readonly string downloadUri;
+        private readonly string[] resources;
         private readonly string storageDirectory;
+
+        #endregion
+
+        #region Constructor
 
         ///<summary>
         /// The constructor of the ResourceHandler initializes the ResourceHandler and therefore
@@ -45,7 +60,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// </param>
         ///<param name="storageDirectory">
         /// A string representing the location on the local file system specifying where the
-        /// resources retrieved should be stored at. An example would be "c:\\temp\\download\\".
+        /// resources retrieved should be stored at. An example would be "c:\\temp\\cache\\".
         /// </param>
         public ResourceHandler(string[] resources, string downloadUri, string storageDirectory)
         {
@@ -53,6 +68,8 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             this.downloadUri = downloadUri;
             this.storageDirectory = storageDirectory;
         }
+
+        #endregion
 
         #region Class Methods
 
@@ -71,7 +88,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         #endregion
 
-        #region Internal Class Methods
+        #region Private Class Methods
 
         ///<summary>
         /// The method retrieves a resource, such as an XMI file, located at a particular URI. 
@@ -81,10 +98,12 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// A URI pointing to the resource to be retrieved. An example would be 
         /// "http://www.umm-dev.org/xmi/primlibrary.xmi".
         /// </param>
-        ///<returns>A string representation from the content located at the specified URI.</returns>
+        ///<returns>
+        /// A string representation from the content located at the specified URI.
+        ///</returns>
         private static string RetrieveContentFromUri(string uri)
         {
-            using (WebClient client = new WebClient())
+            using (var client = new WebClient())
             {
                 return client.DownloadString(uri);
             }
