@@ -57,14 +57,16 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 }
             }
 
-            try
+            if (context.Annotate)
             {
-                CopyFolder(AddInSettings.CommonXSDPath, context.OutputDirectory);
-            }catch(IOException ioe)
-            {
+                try
+                {
+                    CopyFolder(AddInSettings.CommonXSDPath, context.OutputDirectory);
+                }
+                catch (IOException ioe)
+                {
+                }                
             }
-
-
 
             return context;
         }
