@@ -228,20 +228,16 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
         private static void AddImports(XmlSchema schema, GeneratorContext context, IDOCLibrary docLibrary)
         {
-            //foreach (SchemaInfo si in context.Schemas)
-            // {
-            //XmlTextReader textReader = new XmlTextReader(si.FileName);
-           // XmlTextReader textReader =
-                //new XmlTextReader("C:\\dump\\documentation\\standard\\XMLNDR_Documentation_3p0.xsd");
-            //XmlSchema importSchema = XmlSchema.Read(textReader, null);
+            if (context.Annotate)
+            {
+                XmlSchemaImport import = new XmlSchemaImport
+                                             {
+                                                 Namespace = "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3",
+                                                 SchemaLocation = "documentation/standard/XMLNDR_Documentation_3p0.xsd"
+                                             };
 
-            XmlSchemaImport import = new XmlSchemaImport();
-            //import.Schema = importSchema;
-            import.Namespace = "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3";
-            import.SchemaLocation = "documentation/standard/XMLNDR_Documentation_3p0.xsd";
-
-            schema.Includes.Add(import);
-            // }
+                schema.Includes.Add(import);   
+            }            
         }
 
         private static void AddIncludes(XmlSchema schema, GeneratorContext context, IDOCLibrary docLibrary)
