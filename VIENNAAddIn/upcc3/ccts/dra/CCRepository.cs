@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using EA;
@@ -95,11 +94,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (Package rootPackage in model.Packages)
                 {
-                    if (rootPackage.HasStereotype(Stereotype.BInformationV))
+                    if (rootPackage.IsA(Stereotype.BInformationV))
                     {
                         foreach (Package subPackage in rootPackage.Packages)
                         {
-                            if (subPackage.HasStereotype(Stereotype.bLibrary))
+                            if (subPackage.IsA(Stereotype.bLibrary))
                             {
                                 yield return subPackage;
                             }
@@ -107,7 +106,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     }
                     else
                     {
-                        if (rootPackage.HasStereotype(Stereotype.bLibrary))
+                        if (rootPackage.IsA(Stereotype.bLibrary))
                         {
                             yield return rootPackage;
                         }

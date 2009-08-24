@@ -1,5 +1,7 @@
+using System;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using Attribute=EA.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
@@ -11,12 +13,12 @@ namespace VIENNAAddInUnitTests.TestRepository
     {
         public static Attribute AddCON(this Element e, Element type)
         {
-            return e.AddAttribute("Content", type).With(EARepository.AttributeStereotype(Stereotype.CON));
+            return e.AddAttribute("Content", type).With((Action<Attribute>) (attribute => { attribute.Stereotype = Stereotype.CON; }));
         }
 
         public static Attribute AddSUP(this Element e, Element type, string name)
         {
-            return e.AddAttribute(name, type).With(EARepository.AttributeStereotype(Stereotype.SUP));
+            return e.AddAttribute(name, type).With((Action<Attribute>) (attribute => { attribute.Stereotype = Stereotype.SUP; }));
         }
 
         public static void AddSUPs(this Element e, Element type, params string[] names)
@@ -37,7 +39,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public static Attribute AddBCC(this Element e, Element type, string name)
         {
-            return e.AddAttribute(name, type).With(EARepository.AttributeStereotype(Stereotype.BCC));
+            return e.AddAttribute(name, type).With((Action<Attribute>) (attribute => { attribute.Stereotype = Stereotype.BCC; }));
         }
 
         public static void AddBBIEs(this Element e, Element type, params string[] names)
@@ -50,7 +52,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public static Attribute AddBBIE(this Element e, Element type, string name)
         {
-            return e.AddAttribute(name, type).With(EARepository.AttributeStereotype(Stereotype.BBIE));
+            return e.AddAttribute(name, type).With(attribute => { attribute.Stereotype = Stereotype.BBIE; });
         }
 
         public static Element AddPRIM(this Package primLib1, string name)

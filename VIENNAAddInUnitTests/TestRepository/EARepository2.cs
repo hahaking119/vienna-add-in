@@ -32,7 +32,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         public EARepository2()
         {
             this.AddModel("test model",
-                          m => m.AddPackage("BLibrary",
+                          m => m.AddPackage("bLibrary",
                                             bLibrary =>
                                             {
                                                 bLibrary.Element.Stereotype = Stereotype.bLibrary;

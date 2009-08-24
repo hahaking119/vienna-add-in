@@ -721,10 +721,5 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             return element => element.AddTaggedValue(key.ToString()).WithValue(value);
         }
-
-        public static Action<Attribute> AttributeStereotype(string stereotype)
-        {
-            return attribute => { attribute.Stereotype = stereotype; };
-        }
     }
 }

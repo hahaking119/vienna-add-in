@@ -25,8 +25,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
 
         public static IEnumerable<string> GetTaggedValues(this Connector connector, TaggedValues key)
         {
-            string value = GetTaggedValue(connector, key.ToString());
-            return String.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
+            return MultiPartTaggedValue.Split(GetTaggedValue(connector, key.ToString()));
         }
 
         public static string GetTaggedValue(this Connector connector, string name)

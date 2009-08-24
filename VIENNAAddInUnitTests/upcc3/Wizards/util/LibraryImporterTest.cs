@@ -34,6 +34,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         // Purpose: Test the import capability of the model creator to import the standard CC libraries
         // into a particular model which contains an empty business library named bLibrary. 
         [Test]
+        [Category("file-based")]
         public void TestImportStandardCcLibrariesIntoEmptyBusinessLibrary()
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryLibraryImporter());
@@ -51,6 +52,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         // into a particular model which already contains CC libraries. The test therefore checks if the 
         // existing CC libraries are deleted/replaced by the standard CC libraries. 
         [Test]
+        [Category("file-based")]
         public void TestImportStandardCcLibrariesIntoFullBusinessLibrary()
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryLibraryImporter());
