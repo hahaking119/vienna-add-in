@@ -10,9 +10,12 @@ using System;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
+    /// <summary>
+    /// An exception class used for wrapping EA-API error messages.
+    /// </summary>
     public class EAException : Exception
     {
-        public EAException(string errorMessage):base(errorMessage)
+        public EAException(string errorMessage) : base(errorMessage)
         {
         }
     }

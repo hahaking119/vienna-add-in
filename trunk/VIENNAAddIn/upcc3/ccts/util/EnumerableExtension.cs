@@ -22,29 +22,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
         }
 
-        public static void ForEach<T>(this IEnumerable<T> items, Action<T> action)
-        {
-            foreach (var item in items)
-            {
-                action(item);
-            }
-        }
-
-        public static string ConcatToString<T>(this IEnumerable<T> values)
-        {
-            return values == null ? String.Empty : String.Concat(ToStringArray(values));
-        }
-
-        public static string JoinToString<T>(this IEnumerable<T> values, string separator)
-        {
-            return values == null ? String.Empty : String.Join(separator, ToStringArray(values));
-        }
-
-        private static string[] ToStringArray<T>(IEnumerable<T> values)
-        {
-            return new List<string>(values.Convert(v => v.ToString())).ToArray();
-        }
-
         public static bool IsEqualTo<T>(this IEnumerable<T> lhs, IEnumerable<T> rhs)
         {
             if (ReferenceEquals(null, lhs))

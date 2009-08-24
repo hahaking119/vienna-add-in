@@ -33,7 +33,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         /// We currently assume that there is exactly one CCLibrary in the repository. If none is found, we throw an exception.
         /// If more than one are found, we choose one arbitrarily.
         /// 
-        /// The newly generated libraries (BDT, BIE, DOC) will be added to the CCLibrary's parent BLibrary.
+        /// The newly generated libraries (BDT, BIE, DOC) will be added to the CCLibrary's parent bLibrary.
         /// </summary>
         /// <param name="ccRepository"></param>
         public void ImportMapping(CCRepository ccRepository)

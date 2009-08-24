@@ -94,6 +94,7 @@
     <Compile Include="upcc3\ccts\otf\TestValidationIssue.cs" />
     <Compile Include="upcc3\ccts\otf\Given_a_bLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTest.cs" />
+    <Compile Include="upcc3\ccts\util\MultiPartTaggedValueTests.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
@@ -114,15 +115,11 @@
     <Compile Include="Utils\RepositoryCopierTest.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="upcc3\ccts\dra\DRACCRepositoryTest.cs" />
-    <Compile Include="upcc3\ccts\DynamicProxyTest.cs" />
     <Compile Include="upcc3\ccts\util\AggregationKindTest.cs" />
     <Compile Include="upcc3\Wizards\CacheTest.cs" />
     <Compile Include="upcc3\Wizards\util\ModelCreatorTest.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\DictionaryExtensionsTest.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\StringExtensionsTest.cs" />
-    <Compile Include="TestRepository\AttributeBuilder.cs" />
-    <Compile Include="TestRepository\ConnectorBuilder.cs" />
-    <Compile Include="TestRepository\DiagramBuilder.cs" />
     <Compile Include="TestRepository\EAAttribute.cs" />
     <Compile Include="TestRepository\EAAttributeTag.cs" />
     <Compile Include="TestRepository\EAConnector.cs" />
@@ -131,12 +128,8 @@
     <Compile Include="TestRepository\EADiagramObject.cs" />
     <Compile Include="TestRepository\EAElement.cs" />
     <Compile Include="TestRepository\EARepository2.cs" />
-    <Compile Include="TestRepository\RepositoryItemBuilder.cs" />
     <Compile Include="TestRepository\EAPackage.cs" />
     <Compile Include="TestRepository\EATaggedValue.cs" />
-    <Compile Include="TestRepository\ElementBuilder.cs" />
-    <Compile Include="TestRepository\PackageBuilder.cs" />
-    <Compile Include="TestRepository\TaggedValueBuilder.cs" />
     <Compile Include="TestRepository\EACollection.cs" />
     <Compile Include="TestRepository\EARepository.cs" />
     <Compile Include="TestRepository\EARepository1.cs" />

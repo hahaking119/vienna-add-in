@@ -58,15 +58,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return package.Element.AddTaggedValue(name);
         }
 
-        public static bool HasStereotype(this Package package, string stereotype)
-        {
-            if (package != null && package.Element != null)
-            {
-                return package.Element.Stereotype == stereotype;
-            }
-            return false;
-        }
-
         internal static IEnumerable<string> GetTaggedValues(this Package package, TaggedValues key)
         {
             return package.Element.GetTaggedValues(key);

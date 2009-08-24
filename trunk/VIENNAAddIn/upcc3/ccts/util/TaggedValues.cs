@@ -9,7 +9,9 @@
 namespace VIENNAAddIn.upcc3.ccts.util
 {
     /// <summary>
-    /// Tagged value keys defined by UPCC. The enum member names have been chosen to exactly match the UPCC tagged value definitions (rather than adhering to C# naming conventions).
+    /// Tagged value keys defined by UPCC.
+    /// 
+    /// The enum member names have been chosen to exactly match the UPCC tagged value definitions (rather than adhering to C# naming conventions).
     /// </summary>
     public enum TaggedValues
     {

@@ -61,7 +61,7 @@ namespace VIENNAAddIn.menu
 
         public bool SelectedItemIsLibraryOfType(string stereotype)
         {
-            return (SelectedItem as Package).HasStereotype(stereotype);
+            return (SelectedItem as Package).IsA(stereotype);
         }
 
         public bool SelectedItemIsABIE()

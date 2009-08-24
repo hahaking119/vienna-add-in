@@ -33,12 +33,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return taggedValue;
         }
 
-        public static Path GetPath(this Element element, Repository repository)
-        {
-            Package package = repository.GetPackageByID(element.PackageID);
-            return package.GetPath(repository)/element.Name;
-        }
-
         ///<summary>
         ///</summary>
         ///<param name="element"></param>
@@ -46,8 +40,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<returns></returns>
         public static IEnumerable<string> GetTaggedValues(this Element element, TaggedValues key)
         {
-            string value = element.GetTaggedValue(key);
-            return String.IsNullOrEmpty(value) ? new string[0] : value.Split('|');
+            return MultiPartTaggedValue.Split(element.GetTaggedValue(key));
         }
 
         ///<summary>
@@ -74,7 +67,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="values"></param>
         public static void SetTaggedValues(this Element element, TaggedValues key, IEnumerable<string> values)
         {
-            element.SetTaggedValue(key, values.JoinToString("|"));
+            element.SetTaggedValue(key, MultiPartTaggedValue.Merge(values));
         }
 
         ///<summary>
@@ -112,7 +105,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///<param name="connectorSpec"></param>
         public static void AddConnector(this Element element, ConnectorSpec connectorSpec)
         {
-            var connector = (Connector)element.Connectors.AddNew("", connectorSpec.ConnectorType.ToString());
+            var connector = (Connector) element.Connectors.AddNew("", connectorSpec.ConnectorType.ToString());
             connector.Type = connectorSpec.ConnectorType.ToString();
             connector.Stereotype = connectorSpec.Stereotype;
             connector.ClientID = element.ElementID;
@@ -124,7 +117,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             Collection taggedValues = connector.TaggedValues;
             foreach (TaggedValueSpec taggedValueSpec in connectorSpec.TaggedValueSpecs)
             {
-                var taggedValue = (ConnectorTag)taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
+                var taggedValue = (ConnectorTag) taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
                 taggedValue.Value = taggedValueSpec.Value;
                 if (!taggedValue.Update())
                 {
@@ -188,6 +181,5 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             return element.GetTaggedValueByName(name) != null;
         }
-
     }
 }

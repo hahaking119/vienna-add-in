@@ -19,7 +19,7 @@ namespace VIENNAAddIn.upcc3.ccts
             Value = value;
         }
 
-        public TaggedValueSpec(TaggedValues key, IEnumerable<string> values) : this(key, values.JoinToString("|"))
+        public TaggedValueSpec(TaggedValues key, IEnumerable<string> values) : this(key, MultiPartTaggedValue.Merge(values))
         {
         }
 
@@ -33,7 +33,7 @@ namespace VIENNAAddIn.upcc3.ccts
 
         public override string ToString()
         {
-            return string.Format("[{0}: {1}]", Key.ToString(), Value);
+            return string.Format("[{0}: {1}]", Key, Value);
         }
     }
 }
