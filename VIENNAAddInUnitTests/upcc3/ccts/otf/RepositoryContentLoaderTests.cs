@@ -76,14 +76,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             // this is a fix for the problem that sometimes (e.g. when changing a package's tagged values),
             // EA generates an event for the package's internal element to have changed instead of the package itself.
             contentLoader.LoadRepositoryContent();
-            IRepositoryItemData loadedItemData = null;
-            contentLoader.ItemLoaded += itemData => loadedItemData = itemData;
+            RepositoryItem loadedItem = null;
+            contentLoader.ItemLoaded += itemData => loadedItem = itemData;
             bLibrary.Element.SetTaggedValue(TaggedValues.baseURN, "test");
             contentLoader.LoadElementByID(bLibrary.Element.ElementID);
-            Assert.AreEqual(ItemId.ForPackage(bLibrary.PackageID), loadedItemData.Id);
+            Assert.AreEqual(ItemId.ForPackage(bLibrary.PackageID), loadedItem.Id);
         }
 
-        private void RemoveItem(IRepositoryItemData item)
+        private void RemoveItem(RepositoryItem item)
         {
             int numberOfItemsRemoved;
             if (item.Id.Type == ItemId.ItemType.Package)

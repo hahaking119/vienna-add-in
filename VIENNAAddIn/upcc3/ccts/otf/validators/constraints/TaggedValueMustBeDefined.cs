@@ -3,7 +3,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
 {
-    public class TaggedValueMustBeDefined : SafeConstraint<IRepositoryItem>
+    public class TaggedValueMustBeDefined : SafeConstraint<RepositoryItem>
     {
         private readonly TaggedValues taggedValueKey;
 
@@ -12,11 +12,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
             this.taggedValueKey = taggedValueKey;
         }
 
-        protected override IEnumerable<ConstraintViolation> SafeCheck(IRepositoryItem item)
+        protected override IEnumerable<ConstraintViolation> SafeCheck(RepositoryItem item)
         {
-            if (string.IsNullOrEmpty(item.Data.GetTaggedValue(taggedValueKey)))
+            if (string.IsNullOrEmpty(item.GetTaggedValue(taggedValueKey)))
             {
-                yield return new ConstraintViolation(item.Id, item.Id, "Tagged value " + taggedValueKey + " of " + item.Data.Name + " is not defined.");
+                yield return new ConstraintViolation(item.Id, item.Id, "Tagged value " + taggedValueKey + " of " + item.Name + " is not defined.");
             }
         }
     }

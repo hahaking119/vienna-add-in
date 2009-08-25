@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
@@ -11,7 +9,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         public HierarchicalRepository()
         {
-            Root = new RepositoryItem(new RootRepositoryItemData());
+            Root = new RepositoryItem(ItemId.Null,
+                                      ItemId.Null,
+                                      "root",
+                                      string.Empty,
+                                      new Dictionary<string, string>());
         }
 
         public RepositoryItem Root { get; private set; }
@@ -19,15 +21,14 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         /// <summary>
         /// Throws ArgumentException if itemData.ParentId is an unknown ID.
         /// </summary>
-        /// <param name="itemData"></param>
-        public void ItemLoaded(IRepositoryItemData itemData)
+        /// <param name="item"></param>
+        public void ItemLoaded(RepositoryItem item)
         {
-            var parent = GetItemById(itemData.ParentId);
+            var parent = GetItemById(item.ParentId);
             if (parent == null)
             {
                 throw new ArgumentException("itemData.ParentId is not a known item ID");
             }
-            var item = new RepositoryItem(itemData);
             var oldItem = parent.AddOrReplaceChild(item);
             item.CopyChildren(oldItem);
             itemsById[item.Id] = item;
@@ -49,8 +50,8 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return item;
         }
 
-        public event Action<IRepositoryItem> OnItemCreatedOrModified;
-        public event Action<IRepositoryItem> OnItemDeleted;
+        public event Action<RepositoryItem> OnItemCreatedOrModified;
+        public event Action<RepositoryItem> OnItemDeleted;
 
         public void ItemDeleted(ItemId id)
         {
@@ -64,7 +65,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         private void RemoveChildFromParent(RepositoryItem item)
         {
-            var parent = GetItemById(item.Data.ParentId);
+            var parent = GetItemById(item.ParentId);
             if (parent != null)
             {
                 parent.RemoveChild(item.Id);
@@ -88,12 +89,12 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             }
         }
 
-        public IEnumerable<IRepositoryItem> AllItems()
+        public IEnumerable<RepositoryItem> AllItems()
         {
             return AllChildren(Root);
         }
 
-        private static IEnumerable<IRepositoryItem> AllChildren(IRepositoryItem item)
+        private static IEnumerable<RepositoryItem> AllChildren(RepositoryItem item)
         {
             foreach (var child in item.Children)
             {
@@ -104,12 +105,13 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                 }
             }
         }
-        public IEnumerable<IRepositoryItem> FindAllMatching(Predicate<IRepositoryItem> predicate)
+
+        public IEnumerable<RepositoryItem> FindAllMatching(Predicate<RepositoryItem> predicate)
         {
             return FindAllMatching(predicate, Root);
         }
 
-        private static IEnumerable<IRepositoryItem> FindAllMatching(Predicate<IRepositoryItem> predicate, IRepositoryItem item)
+        private static IEnumerable<RepositoryItem> FindAllMatching(Predicate<RepositoryItem> predicate, RepositoryItem item)
         {
             if (predicate(item))
             {
@@ -123,42 +125,5 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                 }
             }
         }
-    }
-
-    public class RootRepositoryItemData : IRepositoryItemData
-    {
-        #region IRepositoryItemData Members
-
-        public ItemId Id
-        {
-            get { return ItemId.Null; }
-        }
-
-        public ItemId ParentId
-        {
-            get { return ItemId.Null; }
-        }
-
-        public string Name
-        {
-            get { return "root"; }
-        }
-
-        public string Stereotype
-        {
-            get { return null; }
-        }
-
-        public string GetTaggedValue(TaggedValues key)
-        {
-            return null;
-        }
-
-        public IEnumerable<string> GetTaggedValues(TaggedValues key)
-        {
-            return new string[0];
-        }
-
-        #endregion
     }
 }

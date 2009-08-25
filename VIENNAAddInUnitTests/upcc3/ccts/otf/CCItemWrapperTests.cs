@@ -10,11 +10,12 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
     {
         private static void AssertPackageWithStereotypeIsWrappedAs<TExpected>(string stereotype)
         {
-            var parent = new RepositoryItem(new MyTestRepositoryItemData(ItemId.ForPackage(1), ItemId.ItemType.Package));
-            var repositoryItem = new RepositoryItem(new MyTestRepositoryItemData(parent.Id, ItemId.ItemType.Package)
-                                                    {
-                                                        Stereotype = stereotype,
-                                                    });
+            var parent = new RepositoryItemBuilder().WithParentId(ItemId.ForPackage(1)).WithItemType(ItemId.ItemType.Package).Build();
+            var repositoryItem = new RepositoryItemBuilder()
+                .WithItemType(ItemId.ItemType.Package)
+                .WithParentId(parent.Id)
+                .WithStereotype(stereotype)
+                .Build();
             object wrappedObject = CCItemWrapper.Wrap(repositoryItem);
             Assert.IsNotNull(wrappedObject, "Wrapped object is null.");
             Assert.IsTrue(wrappedObject is TExpected, "\nWrapped object is not of expected type:\n  expected: " + typeof (TExpected) + "\n  but was:  " + wrappedObject.GetType());
@@ -23,10 +24,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_has_a_non_UPCC_stereotype_Then_return_null()
         {
-            var repositoryItem = new RepositoryItem(new MyTestRepositoryItemData(ItemId.ForPackage(1), ItemId.ItemType.Package)
-            {
-                Stereotype = "foobar",
-            });
+            var repositoryItem = new RepositoryItemBuilder()
+                .WithParentId(ItemId.ForPackage(1))
+                .WithItemType(ItemId.ItemType.Package)
+                .WithStereotype("foobar")
+                .Build();
             object wrappedObject = CCItemWrapper.Wrap(repositoryItem);
             Assert.IsNull(wrappedObject, "Object with unknown stereotype not wrapped to null, but wrapped as " + (wrappedObject == null ? null : wrappedObject.GetType()));
         }

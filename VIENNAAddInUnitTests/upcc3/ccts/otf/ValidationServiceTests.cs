@@ -11,7 +11,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
     public class ValidationServiceTests
     {
         private ValidationService validationService;
-        private Mock<IRepositoryItem> itemMock;
+        private RepositoryItem item;
         private ConstraintViolation[] itemConstraintViolations;
         private Mock<IValidator> validatorMock;
 
@@ -21,18 +21,17 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             validationService = new ValidationService();
             ItemId itemId = ItemId.ForElement(1);
             itemConstraintViolations = new[] {new ConstraintViolation(itemId, itemId, "A constraint has been violated.")};
-            itemMock = new Mock<IRepositoryItem>();
-            itemMock.SetupGet(element => element.Id).Returns(itemId);
+            item = new RepositoryItemBuilder().WithId(itemId).Build();
             validatorMock = new Mock<IValidator>();
-            validatorMock.Setup(c => c.Matches(It.IsAny<IRepositoryItem>())).Returns(true);
-            validatorMock.Setup(c => c.Validate(It.IsAny<IRepositoryItem>())).Returns(itemConstraintViolations);
+            validatorMock.Setup(c => c.Matches(It.IsAny<RepositoryItem>())).Returns(true);
+            validatorMock.Setup(c => c.Validate(It.IsAny<RepositoryItem>())).Returns(itemConstraintViolations);
             validationService.AddValidator(validatorMock.Object);
         }
 
         [Test]
         public void When_an_item_is_validated_Then_the_validator_should_contain_the_items_validation_issues()
         {
-            validationService.ItemCreatedOrModified(itemMock.Object);
+            validationService.ItemCreatedOrModified(item);
             validationService.Validate();
             var constraintViolations = new List<ConstraintViolation>(from issue in validationService.ValidationIssues select issue.ConstraintViolation);
             Assert.That(constraintViolations, Is.EquivalentTo(itemConstraintViolations));
@@ -41,9 +40,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_an_item_is_created_Then_the_item_should_be_validated_exactly_once()
         {
-            validationService.ItemCreatedOrModified(itemMock.Object);
+            validationService.ItemCreatedOrModified(item);
             validationService.Validate();
-            validatorMock.Verify(c => c.Validate(It.IsAny<IRepositoryItem>()), Times.Exactly(1));
+            validatorMock.Verify(c => c.Validate(It.IsAny<RepositoryItem>()), Times.Exactly(1));
         }
 
         [Test]
@@ -52,7 +51,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             var eventCount = 0;
             validationService.ValidationIssuesUpdated += issues => eventCount++;
             Assert.AreEqual(0, eventCount);
-            validationService.ItemCreatedOrModified(itemMock.Object);
+            validationService.ItemCreatedOrModified(item);
             validationService.Validate();
             Assert.AreEqual(1, eventCount);
         }
@@ -62,10 +61,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             var eventCount = 0;
             validationService.ValidationIssuesUpdated += issues => eventCount++;
-            validationService.ItemCreatedOrModified(itemMock.Object);
+            validationService.ItemCreatedOrModified(item);
             validationService.Validate();
             Assert.AreEqual(1, eventCount);
-            validationService.ItemDeleted(itemMock.Object);
+            validationService.ItemDeleted(item);
             Assert.AreEqual(2, eventCount);
         }
     }

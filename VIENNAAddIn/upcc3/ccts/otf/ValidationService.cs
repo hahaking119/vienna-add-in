@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 {
     public class ValidationService
     {
-        private readonly Dictionary<ItemId, IRepositoryItem> itemsNeedingValidation = new Dictionary<ItemId, IRepositoryItem>();
+        private readonly Dictionary<ItemId, RepositoryItem> itemsNeedingValidation = new Dictionary<ItemId, RepositoryItem>();
         private readonly Dictionary<int, ValidationIssue> validationIssuesById = new Dictionary<int, ValidationIssue>();
         private readonly Dictionary<ItemId, List<ValidationIssue>> validationIssuesByItemId = new Dictionary<ItemId, List<ValidationIssue>>();
         private readonly List<IConstraint> constraints = new List<IConstraint>();
@@ -42,12 +42,12 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             if (ValidationIssuesUpdated != null) ValidationIssuesUpdated(ValidationIssues);
         }
 
-        private void ValidateItem(IRepositoryItem item)
+        private void ValidateItem(RepositoryItem item)
         {
             AddIssues(item, CheckConstraints(item));
         }
 
-        private IEnumerable<ValidationIssue> CheckConstraints(IRepositoryItem item)
+        private IEnumerable<ValidationIssue> CheckConstraints(RepositoryItem item)
         {
             foreach (var validator in validators)
             {
@@ -61,7 +61,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             }
         }
 
-        private void AddIssues(IRepositoryItem item, IEnumerable<ValidationIssue> itemIssues)
+        private void AddIssues(RepositoryItem item, IEnumerable<ValidationIssue> itemIssues)
         {
             var issues = new List<ValidationIssue>(itemIssues);
             validationIssuesByItemId[item.Id] = issues;
@@ -71,7 +71,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             }
         }
 
-        private void RemoveIssues(IRepositoryItem item)
+        private void RemoveIssues(RepositoryItem item)
         {
             List<ValidationIssue> itemIssues;
             if (validationIssuesByItemId.TryGetValue(item.Id, out itemIssues))
@@ -85,13 +85,13 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             }
         }
 
-        public void ItemCreatedOrModified(IRepositoryItem item)
+        public void ItemCreatedOrModified(RepositoryItem item)
         {
             RemoveIssues(item);
             itemsNeedingValidation[item.Id] = item;
         }
 
-        public void ItemDeleted(IRepositoryItem item)
+        public void ItemDeleted(RepositoryItem item)
         {
             RemoveIssues(item);
             itemsNeedingValidation.Remove(item.Id);
