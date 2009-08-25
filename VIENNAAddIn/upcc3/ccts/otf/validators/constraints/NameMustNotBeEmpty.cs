@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.otf.validators.constraints;
 
-namespace VIENNAAddIn.upcc3.ccts.otf
+namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
 {
     public class NameMustNotBeEmpty : SafeConstraint<RepositoryItem>
     {
