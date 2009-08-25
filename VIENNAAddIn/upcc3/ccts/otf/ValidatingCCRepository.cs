@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EA;
+using VIENNAAddIn.upcc3.ccts.otf.validators;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
@@ -16,6 +17,13 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         {
             validationService = new ValidationService();
             validationService.AddValidator(new BLibraryValidator());
+            validationService.AddValidator(new ElementLibaryValidator(Stereotype.PRIMLibrary, Stereotype.PRIM));
+            validationService.AddValidator(new ElementLibaryValidator(Stereotype.ENUMLibrary, Stereotype.ENUM));
+            validationService.AddValidator(new ElementLibaryValidator(Stereotype.CDTLibrary, Stereotype.CDT));
+            validationService.AddValidator(new ElementLibaryValidator(Stereotype.CCLibrary, Stereotype.ACC));
+            validationService.AddValidator(new ElementLibaryValidator(Stereotype.BDTLibrary, Stereotype.BDT));
+            validationService.AddValidator(new ElementLibaryValidator(Stereotype.BIELibrary, Stereotype.ABIE));
+            validationService.AddValidator(new ElementLibaryValidator(Stereotype.DOCLibrary, Stereotype.ABIE));
 
             repository = new HierarchicalRepository();
             repository.OnItemCreatedOrModified += validationService.ItemCreatedOrModified;
@@ -25,7 +33,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             contentLoader.ItemLoaded += repository.ItemLoaded;
         }
 
-        public IEnumerable<IValidationIssue> ValidationIssues
+        public IEnumerable<ValidationIssue> ValidationIssues
         {
             get { return validationService.ValidationIssues; }
         }
@@ -73,13 +81,13 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return Stereotype.IsBusinessLibraryStereotype(item.Data.Stereotype);
         }
 
-        public event Action<IEnumerable<IValidationIssue>> ValidationIssuesUpdated
+        public event Action<IEnumerable<ValidationIssue>> ValidationIssuesUpdated
         {
             add { validationService.ValidationIssuesUpdated += value; }
             remove { validationService.ValidationIssuesUpdated -= value; }
         }
 
-        public IValidationIssue GetValidationIssue(int issueId)
+        public ValidationIssue GetValidationIssue(int issueId)
         {
             return validationService.GetIssueById(issueId);
         }

@@ -191,12 +191,12 @@ namespace VIENNAAddIn
             validatingCCRepository.LoadRepositoryContent();
         }
 
-        private static void ValidationIssuesUpdated(IEnumerable<IValidationIssue> validationIssues)
+        private static void ValidationIssuesUpdated(IEnumerable<ValidationIssue> validationIssues)
         {
             Repo.ClearOutput(AddInSettings.AddInName);
             foreach (var issue in validationIssues)
             {
-                Repo.WriteOutput(AddInSettings.AddInName, "ERROR: " + issue.Message, issue.Id);
+                Repo.WriteOutput(AddInSettings.AddInName, "ERROR: " + issue.ConstraintViolation.Message, issue.Id);
             }
             Repo.EnsureOutputVisible(AddInSettings.AddInName);
         }
@@ -272,7 +272,7 @@ namespace VIENNAAddIn
                 var issue = validatingCCRepository.GetValidationIssue(id);
                 if (issue != null)
                 {
-                    var itemId = issue.ItemId;
+                    var itemId = issue.ConstraintViolation.OffendingItemId;
                     object item;
                     if (itemId.Type == ItemId.ItemType.Package)
                     {
