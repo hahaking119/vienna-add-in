@@ -6,8 +6,11 @@ using VIENNAAddIn.upcc3.ccts.util;
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
     [TestFixture]
-    public class PRIMLibraryConstraintsTests : ConstraintsTests
+    public class ElementLibraryValidatorTests : ValidatorTests
     {
+        private const string LibraryStereotype = Stereotype.PRIMLibrary;
+        private const string ElementStereotype = Stereotype.PRIM;
+
         #region Setup/Teardown
 
         [SetUp]
@@ -16,9 +19,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             root = new RepositoryItem(new RootRepositoryItemData());
             model = AddChild(root, ItemId.ItemType.Package);
             bLibrary = AddSubLibrary(model, Stereotype.bLibrary);
-            primLibraryData = new MyTestRepositoryItemData(model.Id, ItemId.ItemType.Package)
+            elementLibraryData = new MyTestRepositoryItemData(model.Id, ItemId.ItemType.Package)
             {
-                Stereotype = Stereotype.PRIMLibrary,
+                Stereotype = LibraryStereotype,
                 TaggedValues = new Dictionary<TaggedValues, string>
                                               {
                                                   {TaggedValues.uniqueIdentifier, "foo"},
@@ -26,7 +29,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                                   {TaggedValues.baseURN, "foo"},
                                               }
             };
-            primLibrary = AddChild(bLibrary, primLibraryData);
+            elementLibrary = AddChild(bLibrary, elementLibraryData);
         }
 
         #endregion
@@ -34,84 +37,84 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         private RepositoryItem root;
         private RepositoryItem model;
         private RepositoryItem bLibrary;
-        private RepositoryItem primLibrary;
-        private MyTestRepositoryItemData primLibraryData;
+        private RepositoryItem elementLibrary;
+        private MyTestRepositoryItemData elementLibraryData;
 
         [Test]
         public void ShouldOnlyAllowABLibraryAsParent()
         {
-            VerifyValidationIssues(primLibrary);
-            bLibrary.RemoveChild(primLibrary.Id);
-            model.AddOrReplaceChild(primLibrary);
-            VerifyValidationIssues(primLibrary, primLibrary.Id);
+            VerifyConstraintViolations(elementLibrary);
+            bLibrary.RemoveChild(elementLibrary.Id);
+            model.AddOrReplaceChild(elementLibrary);
+            VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyBaseUrl()
         {
-            primLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
+            elementLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
                                         {
                                             {TaggedValues.uniqueIdentifier, "foo"},
                                             {TaggedValues.versionIdentifier, "foo"},
                                         };
-            VerifyValidationIssues(primLibrary, primLibrary.Id);
+            VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyName()
         {
-            primLibraryData.Name = "";
-            VerifyValidationIssues(primLibrary, primLibrary.Id);
+            elementLibraryData.Name = "";
+            VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyUniqueIdentifier()
         {
-            primLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
+            elementLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
                                         {
                                             {TaggedValues.versionIdentifier, "foo"},
                                             {TaggedValues.baseURN, "foo"},
                                         };
-            VerifyValidationIssues(primLibrary, primLibrary.Id);
+            VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyVersionIdentifier()
         {
-            primLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
+            elementLibraryData.TaggedValues = new Dictionary<TaggedValues, string>
                                         {
                                             {TaggedValues.uniqueIdentifier, "foo"},
                                             {TaggedValues.baseURN, "foo"},
                                         };
-            VerifyValidationIssues(primLibrary, primLibrary.Id);
+            VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
-        public void ShouldOnlyAllowPRIMElements()
+        public void ShouldOnlyAllowElementsWithTheProperStereotype()
         {
-            AddElement(primLibrary, Stereotype.PRIM);
-            var element2 = AddElement(primLibrary, "invalid_stereotype");
-            VerifyValidationIssues(primLibrary, element2.Id);
+            AddElement(elementLibrary, ElementStereotype);
+            var element2 = AddElement(elementLibrary, "invalid_stereotype");
+            VerifyConstraintViolations(elementLibrary, element2.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnySubpackages()
         {
-            var subPackage = AddSubLibrary(primLibrary, Stereotype.bLibrary);
-            VerifyValidationIssues(primLibrary, subPackage.Id);
+            var subPackage = AddSubLibrary(elementLibrary, Stereotype.bLibrary);
+            VerifyConstraintViolations(elementLibrary, subPackage.Id);
         }
 
         [Test]
-        public void ShouldOnlyMatchPRIMLibraries()
+        public void ShouldOnlyMatchPackagesWithTheProperStereotype()
         {
-            Assert.IsTrue(new PRIMLibraryConstraints().Matches(primLibrary), "Constraints do not match matching item.");
-            Assert.IsFalse(new PRIMLibraryConstraints().Matches(model), "Constraints match unmatching item.");
-            Assert.IsFalse(new PRIMLibraryConstraints().Matches(AddChild(bLibrary, ItemId.ItemType.Element)), "Constraints match unmatching item.");
+            Assert.IsTrue(Validator().Matches(elementLibrary), "Element library validator does not match a proper element library.");
+            Assert.IsFalse(Validator().Matches(model), "Element library validator matches a model.");
+            Assert.IsFalse(Validator().Matches(AddChild(bLibrary, ItemId.ItemType.Element)), "Element library validator matches an element.");
         }
 
-        protected override IConstraint Constraints()
+        protected override IValidator Validator()
         {
-            return new PRIMLibraryConstraints();
+            return new ElementLibaryValidator(LibraryStereotype, ElementStereotype);
         }
     }
 }

@@ -135,11 +135,6 @@ namespace CCLImporter
 
         private static ACCResolver accResolver;
 
-        private static Func<IACC> ResolveACC(CCRepository ccRepository, IBLibrary bLibrary, Record record)
-        {
-            return () => (IACC) ccRepository.FindByPath(bLibrary.Path/"CCLibrary"/record.AssociatedObjectClass.AsName());
-        }
-
         private static string MapOccurrence(string occurrence)
         {
             if (string.IsNullOrEmpty(occurrence))
