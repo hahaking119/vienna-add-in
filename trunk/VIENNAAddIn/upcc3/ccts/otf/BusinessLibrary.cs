@@ -31,11 +31,6 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return ParentPackage as IBLibrary; }
         }
 
-        public Path Path
-        {
-            get { return Parent != null ? Parent.Path/Name : null; }
-        }
-
         public string Status { get; private set; }
         public string UniqueIdentifier { get; private set; }
         public string VersionIdentifier { get; private set; }

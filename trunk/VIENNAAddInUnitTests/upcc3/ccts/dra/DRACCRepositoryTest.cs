@@ -466,25 +466,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         }
 
         [Test]
-        public void TestStringSplit()
-        {
-            foreach (string s in "".Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                Console.WriteLine("-" + s);
-            }
-            Console.WriteLine("------");
-            foreach (string s in "*".Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                Console.WriteLine("-" + s);
-            }
-            Console.WriteLine("------");
-            foreach (string s in "1..*".Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                Console.WriteLine("-" + s);
-            }
-        }
-
-        [Test]
         public void TestUpdateABIE()
         {
             var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());

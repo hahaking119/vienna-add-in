@@ -1,23 +1,40 @@
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    public interface IValidationIssue
+    public class IValidationIssue
     {
+        private readonly ConstraintViolation constraintViolation;
+
+        public IValidationIssue(int id, ConstraintViolation constraintViolation)
+        {
+            Id = id;
+            this.constraintViolation = constraintViolation;
+        }
+
         /// <summary>
         /// The ID of the item that was validated.
         /// </summary>
-        ItemId ValidatedItemId { get; }
+        public ItemId ValidatedItemId
+        {
+            get { return constraintViolation.ValidatedItemId; }
+        }
 
         /// <summary>
         /// The ID of the item that causes the issue. E.g. if a PRIMLibrary is validated and contains a non-PRIM element, 
         /// the ValidatedItemId is the library's ID, whereas the ItemId is the ID of the element.
         /// </summary>
-        ItemId ItemId { get; }
+        public ItemId ItemId
+        {
+            get { return constraintViolation.OffendingItemId; }
+        }
 
         /// <summary>
         /// A unique ID of this issue.
         /// </summary>
-        int Id { get; }
+        public int Id { get; private set; }
 
-        string Message { get; }
+        public string Message
+        {
+            get { return constraintViolation.Message; }
+        }
     }
 }

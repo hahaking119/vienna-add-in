@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using VIENNAAddIn.validator.upcc3.onTheFly;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
@@ -9,6 +11,8 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         private readonly Dictionary<int, IValidationIssue> validationIssuesById = new Dictionary<int, IValidationIssue>();
         private readonly Dictionary<ItemId, List<IValidationIssue>> validationIssuesByItemId = new Dictionary<ItemId, List<IValidationIssue>>();
         private readonly List<IConstraint> constraints = new List<IConstraint>();
+        private readonly List<IValidator> validators = new List<IValidator>();
+        private int NextIssueId;
 
         public event Action<IEnumerable<IValidationIssue>> ValidationIssuesUpdated;
 
@@ -45,13 +49,13 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         private IEnumerable<IValidationIssue> CheckConstraints(IRepositoryItem item)
         {
-            foreach (var constraint in constraints)
+            foreach (var validator in validators)
             {
-                if (constraint.Matches(item))
+                if (validator.Matches(item))
                 {
-                    foreach (var issue in constraint.Check(item))
+                    foreach (var constraintViolation in validator.Validate(item))
                     {
-                        yield return issue;
+                        yield return new IValidationIssue(NextIssueId++, constraintViolation);
                     }
                 }
             }
@@ -91,6 +95,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         {
             RemoveIssues(item);
             itemsNeedingValidation.Remove(item.Id);
+        }
+
+        public void AddValidator(IValidator validator)
+        {
+            validators.Add(validator);
         }
 
         public void AddConstraint(IConstraint constraint)

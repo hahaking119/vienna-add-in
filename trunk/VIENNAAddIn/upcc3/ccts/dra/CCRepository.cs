@@ -16,8 +16,8 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
     /// <summary>
-    /// A CCRepository that directly accesses (DRA = direct repository access) the underlying EA.Repository
-    /// (i.e. it is simply an interface layer on top of the EA.Repository)
+    /// A CCRepository that directly accesses (DRA = direct repository access) the underlying EA.Repository for each request
+    /// (i.e. it is simply an interface layer on top of the EA.Repository, without any caching).
     /// </summary>
     public class CCRepository : ICCRepository
     {

@@ -5,7 +5,7 @@ using VIENNAAddIn.upcc3.ccts.otf;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
-    public abstract class ConstraintsTests
+    public abstract class ValidatorTests
     {
         protected static RepositoryItem AddChild(RepositoryItem parent, MyTestRepositoryItemData itemData)
         {
@@ -27,21 +27,21 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                     });
         }
 
-        protected void VerifyValidationIssues(RepositoryItem item, params ItemId[] validationIssueItemIds)
+        protected void VerifyConstraintViolations(RepositoryItem item, params ItemId[] offendingItemIds)
         {
-            var validationIssues = new List<IValidationIssue>(Constraints().Check(item));
-            foreach (IValidationIssue validationIssue in validationIssues)
+            var constraintViolations = new List<ConstraintViolation>(Validator().Validate(item));
+            foreach (ConstraintViolation constraintViolation in constraintViolations)
             {
-                Console.WriteLine(validationIssue);
+                Console.WriteLine(constraintViolation);
             }
-            Assert.AreEqual(validationIssueItemIds.Length, validationIssues.Count);
-            for (int i = 0; i < validationIssueItemIds.Length; ++i)
+            Assert.AreEqual(offendingItemIds.Length, constraintViolations.Count);
+            for (int i = 0; i < offendingItemIds.Length; ++i)
             {
-                Assert.AreEqual(validationIssueItemIds[i], validationIssues[i].ItemId);
+                Assert.AreEqual(offendingItemIds[i], constraintViolations[i].OffendingItemId);
             }
         }
 
-        protected abstract IConstraint Constraints();
+        protected abstract IValidator Validator();
 
         protected static RepositoryItem AddElement(RepositoryItem library, string stereotype)
         {

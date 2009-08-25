@@ -15,7 +15,6 @@ namespace VIENNAAddIn.upcc3.ccts
         int Id { get; }
         string Name { get; }
         IBLibrary Parent { get; }
-        Path Path { get; }
         string Status { get; }
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }

@@ -6,7 +6,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
     [TestFixture]
-    public class BLibraryConstraintsTests : ConstraintsTests
+    public class BLibraryValidatorTests : ValidatorTests
     {
         #region Setup/Teardown
 
@@ -41,7 +41,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             model.RemoveChild(bLibrary.Id);
             RepositoryItem parent = AddSubLibrary(model, Stereotype.BInformationV);
             parent.AddOrReplaceChild(bLibrary);
-            VerifyValidationIssues(bLibrary);
+            VerifyConstraintViolations(bLibrary);
         }
 
         [Test]
@@ -50,13 +50,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             model.RemoveChild(bLibrary.Id);
             RepositoryItem parent = AddSubLibrary(model, Stereotype.bLibrary);
             parent.AddOrReplaceChild(bLibrary);
-            VerifyValidationIssues(bLibrary);
+            VerifyConstraintViolations(bLibrary);
         }
 
         [Test]
         public void ShouldAllowAModelAsParent()
         {
-            VerifyValidationIssues(bLibrary);
+            VerifyConstraintViolations(bLibrary);
         }
 
         [Test]
@@ -67,14 +67,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                             {TaggedValues.uniqueIdentifier, "foo"},
                                             {TaggedValues.versionIdentifier, "foo"},
                                         };
-            VerifyValidationIssues(bLibrary, bLibrary.Id);
+            VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyName()
         {
             bLibraryData.Name = "";
-            VerifyValidationIssues(bLibrary, bLibrary.Id);
+            VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                             {TaggedValues.versionIdentifier, "foo"},
                                             {TaggedValues.baseURN, "foo"},
                                         };
-            VerifyValidationIssues(bLibrary, bLibrary.Id);
+            VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                             {TaggedValues.uniqueIdentifier, "foo"},
                                             {TaggedValues.baseURN, "foo"},
                                         };
-            VerifyValidationIssues(bLibrary, bLibrary.Id);
+            VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             model.RemoveChild(bLibrary.Id);
             RepositoryItem parent = AddSubLibrary(model, "Something else");
             parent.AddOrReplaceChild(bLibrary);
-            VerifyValidationIssues(bLibrary, bLibrary.Id);
+            VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             RepositoryItem element1 = AddChild(bLibrary, ItemId.ItemType.Element);
             RepositoryItem element2 = AddChild(bLibrary, ItemId.ItemType.Element);
-            VerifyValidationIssues(bLibrary, element1.Id, element2.Id);
+            VerifyConstraintViolations(bLibrary, element1.Id, element2.Id);
         }
 
         [Test]
@@ -128,20 +128,20 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             AddSubLibrary(bLibrary, Stereotype.BIELibrary);
             AddSubLibrary(bLibrary, Stereotype.DOCLibrary);
             RepositoryItem invalidSubPackage = AddChild(bLibrary, ItemId.ItemType.Package);
-            VerifyValidationIssues(bLibrary, invalidSubPackage.Id);
+            VerifyConstraintViolations(bLibrary, invalidSubPackage.Id);
         }
 
         [Test]
         public void ShouldOnlyMatchBLibraries()
         {
-            Assert.IsTrue(new BLibraryConstraints().Matches(bLibrary), "Constraints do not match matching item.");
-            Assert.IsFalse(new BLibraryConstraints().Matches(model), "Constraints match unmatching item.");
-            Assert.IsFalse(new BLibraryConstraints().Matches(AddChild(bLibrary, ItemId.ItemType.Element)), "Constraints match unmatching item.");
+            Assert.IsTrue(new BLibraryValidator().Matches(bLibrary), "Validator do not match matching item.");
+            Assert.IsFalse(new BLibraryValidator().Matches(model), "Validator match unmatching item.");
+            Assert.IsFalse(new BLibraryValidator().Matches(AddChild(bLibrary, ItemId.ItemType.Element)), "Validator match unmatching item.");
         }
 
-        protected override IConstraint Constraints()
+        protected override IValidator Validator()
         {
-            return new BLibraryConstraints();
+            return new BLibraryValidator();
         }
     }
 }

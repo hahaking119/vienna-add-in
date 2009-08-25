@@ -60,9 +60,10 @@ namespace VIENNAAddIn
 
             menuManager.AddMenu(MenuLocation.MainMenu
                                 + (AddInSettings.AddInName
-                                   +
-                                   "&Set Model as UMM2/UPCC3 Model".OnClick(ToggleUmm2ModelState).Checked(IfRepositoryIsUmm2Model).Enabled
-                                       (Always)
+                                   + "&Set Model as UMM2/UPCC3 Model"
+                                         .OnClick(ToggleUmm2ModelState)
+                                         .Checked(IfRepositoryIsUmm2Model)
+                                         .Enabled(Always)
                                    + createUPCCStructure
                                    + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
                                    + _____
@@ -220,7 +221,7 @@ namespace VIENNAAddIn
             }
             catch (Exception e)
             {
-                new ErrorReporterForm(e.ToString() + "\n" + e.Message + "\n" + e.StackTrace, Repo.LibraryVersion);
+                new ErrorReporterForm(e + "\n" + e.Message + "\n" + e.StackTrace, Repo.LibraryVersion);
                 if (menuLocation == AddInSettings.AddInName)
                 {
                     return new string[0];
