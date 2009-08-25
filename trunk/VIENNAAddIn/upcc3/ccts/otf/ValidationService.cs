@@ -8,17 +8,17 @@ namespace VIENNAAddIn.upcc3.ccts.otf
     public class ValidationService
     {
         private readonly Dictionary<ItemId, IRepositoryItem> itemsNeedingValidation = new Dictionary<ItemId, IRepositoryItem>();
-        private readonly Dictionary<int, IValidationIssue> validationIssuesById = new Dictionary<int, IValidationIssue>();
-        private readonly Dictionary<ItemId, List<IValidationIssue>> validationIssuesByItemId = new Dictionary<ItemId, List<IValidationIssue>>();
+        private readonly Dictionary<int, ValidationIssue> validationIssuesById = new Dictionary<int, ValidationIssue>();
+        private readonly Dictionary<ItemId, List<ValidationIssue>> validationIssuesByItemId = new Dictionary<ItemId, List<ValidationIssue>>();
         private readonly List<IConstraint> constraints = new List<IConstraint>();
         private readonly List<IValidator> validators = new List<IValidator>();
         private int NextIssueId;
 
-        public event Action<IEnumerable<IValidationIssue>> ValidationIssuesUpdated;
+        public event Action<IEnumerable<ValidationIssue>> ValidationIssuesUpdated;
 
-        public IEnumerable<IValidationIssue> ValidationIssues
+        public IEnumerable<ValidationIssue> ValidationIssues
         {
-            get { return new List<IValidationIssue>(validationIssuesById.Values); }
+            get { return new List<ValidationIssue>(validationIssuesById.Values); }
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         /// </summary>
         /// <param name="issueId"></param>
         /// <returns></returns>
-        public IValidationIssue GetIssueById(int issueId)
+        public ValidationIssue GetIssueById(int issueId)
         {
-            IValidationIssue issue;
+            ValidationIssue issue;
             return validationIssuesById.TryGetValue(issueId, out issue) ? issue : null;
         }
 
@@ -47,7 +47,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             AddIssues(item, CheckConstraints(item));
         }
 
-        private IEnumerable<IValidationIssue> CheckConstraints(IRepositoryItem item)
+        private IEnumerable<ValidationIssue> CheckConstraints(IRepositoryItem item)
         {
             foreach (var validator in validators)
             {
@@ -55,17 +55,17 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                 {
                     foreach (var constraintViolation in validator.Validate(item))
                     {
-                        yield return new IValidationIssue(NextIssueId++, constraintViolation);
+                        yield return new ValidationIssue(NextIssueId++, constraintViolation);
                     }
                 }
             }
         }
 
-        private void AddIssues(IRepositoryItem item, IEnumerable<IValidationIssue> itemIssues)
+        private void AddIssues(IRepositoryItem item, IEnumerable<ValidationIssue> itemIssues)
         {
-            var issues = new List<IValidationIssue>(itemIssues);
+            var issues = new List<ValidationIssue>(itemIssues);
             validationIssuesByItemId[item.Id] = issues;
-            foreach (IValidationIssue issue in issues)
+            foreach (ValidationIssue issue in issues)
             {
                 validationIssuesById[issue.Id] = issue;
             }
@@ -73,10 +73,10 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         private void RemoveIssues(IRepositoryItem item)
         {
-            List<IValidationIssue> itemIssues;
+            List<ValidationIssue> itemIssues;
             if (validationIssuesByItemId.TryGetValue(item.Id, out itemIssues))
             {
-                foreach (IValidationIssue issue in itemIssues)
+                foreach (ValidationIssue issue in itemIssues)
                 {
                     validationIssuesById.Remove(issue.Id);
                 }

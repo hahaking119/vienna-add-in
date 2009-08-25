@@ -191,15 +191,15 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
     public class ValidationIssueHandler
     {
-        private List<IValidationIssue> issues;
+        private List<ValidationIssue> issues;
 
-        public void ValidationIssuesUpdated(IEnumerable<IValidationIssue> updatedIssues)
+        public void ValidationIssuesUpdated(IEnumerable<ValidationIssue> updatedIssues)
         {
-            issues = new List<IValidationIssue>(updatedIssues);
+            issues = new List<ValidationIssue>(updatedIssues);
             Console.WriteLine("received issues:");
             foreach (var issue in updatedIssues)
             {
-                Console.WriteLine("  " + issue.Message);
+                Console.WriteLine("  " + issue.ConstraintViolation.Message);
             }
         }
 
@@ -214,9 +214,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             Assert.AreEqual(count, issues.FindAll(AnIssueWith(itemId, validatedItemId)).Count, "The expected number of issues with ItemId=" + itemId + " and ValidatedItemId=" + validatedItemId + " has not been received.");
         }
 
-        private Predicate<IValidationIssue> AnIssueWith(int itemId, int validatedItemId)
+        private static Predicate<ValidationIssue> AnIssueWith(int itemId, int validatedItemId)
         {
-            return issue => issue.ItemId.Value == itemId && issue.ValidatedItemId.Value == validatedItemId;
+            return issue => issue.ConstraintViolation.OffendingItemId.Value == itemId && issue.ConstraintViolation.ValidatedItemId.Value == validatedItemId;
         }
 
         public void Reset()

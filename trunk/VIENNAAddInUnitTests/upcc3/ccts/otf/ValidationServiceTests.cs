@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts.otf;
 using System.Linq;
@@ -36,8 +34,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             validationService.ItemCreatedOrModified(itemMock.Object);
             validationService.Validate();
-            var actualValidationIssues = new List<ConstraintViolation>(from issue in validationService.ValidationIssues select new ConstraintViolation(issue.ValidatedItemId, issue.ItemId, issue.Message));
-            Assert.That(actualValidationIssues, Is.EquivalentTo(itemConstraintViolations));
+            var constraintViolations = new List<ConstraintViolation>(from issue in validationService.ValidationIssues select issue.ConstraintViolation);
+            Assert.That(constraintViolations, Is.EquivalentTo(itemConstraintViolations));
         }
 
         [Test]
