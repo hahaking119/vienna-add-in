@@ -71,14 +71,14 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         #endregion
 
-        private static IBusinessLibrary WrapBusinessLibrary(IRepositoryItem item)
+        private static IBusinessLibrary WrapBusinessLibrary(RepositoryItem item)
         {
             return WrapItem(item) as IBusinessLibrary;
         }
 
-        private static bool IsBusinessLibrary(IRepositoryItem item)
+        private static bool IsBusinessLibrary(RepositoryItem item)
         {
-            return Stereotype.IsBusinessLibraryStereotype(item.Data.Stereotype);
+            return Stereotype.IsBusinessLibraryStereotype(item.Stereotype);
         }
 
         public event Action<IEnumerable<ValidationIssue>> ValidationIssuesUpdated
@@ -92,7 +92,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return validationService.GetIssueById(issueId);
         }
 
-        private static object WrapItem(IRepositoryItem item)
+        private static object WrapItem(RepositoryItem item)
         {
             return CCItemWrapper.Wrap(item);
         }

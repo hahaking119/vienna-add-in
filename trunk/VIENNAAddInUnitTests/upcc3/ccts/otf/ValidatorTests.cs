@@ -7,24 +7,39 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
     public abstract class ValidatorTests
     {
-        protected static RepositoryItem AddChild(RepositoryItem parent, MyTestRepositoryItemData itemData)
+        protected static RepositoryItemBuilder ARepositoryItem
         {
-            var newItem = new RepositoryItem(itemData);
+            get { return new RepositoryItemBuilder(); }
+        }
+
+        protected static RepositoryItem AddChild(RepositoryItem parent, RepositoryItemBuilder itemBuilder)
+        {
+            var newItem = itemBuilder.Build();
             parent.AddOrReplaceChild(newItem);
             return newItem;
         }
 
         protected static RepositoryItem AddChild(RepositoryItem parent, ItemId.ItemType itemType)
         {
-            return AddChild(parent, new MyTestRepositoryItemData(parent.Id, itemType));
+            return AddChild(parent, ARepositoryItem
+                                        .WithItemType(itemType)
+                                        .WithParentId(parent.Id));
         }
 
         protected static RepositoryItem AddSubLibrary(RepositoryItem parent, string stereotype)
         {
-            return AddChild(parent, new MyTestRepositoryItemData(parent.Id, ItemId.ItemType.Package)
-                                    {
-                                        Stereotype = stereotype,
-                                    });
+            return AddChild(parent, ARepositoryItem
+                                        .WithItemType(ItemId.ItemType.Package)
+                                        .WithParentId(parent.Id)
+                                        .WithStereotype(stereotype));
+        }
+
+        protected static RepositoryItem AddElement(RepositoryItem library, string stereotype)
+        {
+            return AddChild(library, ARepositoryItem
+                                        .WithItemType(ItemId.ItemType.Element)
+                                        .WithParentId(library.Id)
+                                        .WithStereotype(stereotype));
         }
 
         protected void VerifyConstraintViolations(RepositoryItem item, params ItemId[] offendingItemIds)
@@ -42,10 +57,5 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         protected abstract IValidator Validator();
-
-        protected static RepositoryItem AddElement(RepositoryItem library, string stereotype)
-        {
-            return AddChild(library, new MyTestRepositoryItemData(library.Id, ItemId.ItemType.Element){Stereotype = stereotype});
-        }
     }
 }

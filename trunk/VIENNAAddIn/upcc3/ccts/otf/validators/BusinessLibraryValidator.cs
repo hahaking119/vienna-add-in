@@ -3,7 +3,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators
 {
-    public abstract class BusinessLibraryValidator : ConstraintBasedValidator<IRepositoryItem>
+    public abstract class BusinessLibraryValidator : ConstraintBasedValidator<RepositoryItem>
     {
         private readonly string stereotype;
 
@@ -16,9 +16,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators
             AddConstraint(new TaggedValueMustBeDefined(TaggedValues.versionIdentifier));
         }
 
-        protected override bool SafeMatches(IRepositoryItem item)
+        protected override bool SafeMatches(RepositoryItem item)
         {
-            return item.Data != null && item.Data.Stereotype == stereotype;
+            return item.Stereotype == stereotype;
         }
     }
 }

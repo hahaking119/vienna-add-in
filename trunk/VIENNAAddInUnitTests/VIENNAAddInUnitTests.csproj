@@ -80,6 +80,7 @@
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
     <Compile Include="upcc3\ccts\otf\AssertCollections.cs" />
     <Compile Include="upcc3\ccts\otf\BLibraryValidatorTests.cs" />
+    <Compile Include="upcc3\ccts\otf\RepositoryItemBuilder.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\CCItemWrapperTests.cs" />
     <Compile Include="upcc3\ccts\otf\HierarchicalRepositoryTests.cs" />
@@ -88,8 +89,6 @@
     <Compile Include="upcc3\ccts\otf\ValidationServiceWithOneValidatedItemTests.cs" />
     <Compile Include="upcc3\ccts\otf\ElementLibraryValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoaderTests.cs" />
-    <Compile Include="upcc3\ccts\otf\TestRepositoryItemData.cs" />
-    <Compile Include="upcc3\ccts\otf\MyTestRepositoryItemData.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTests.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValueTests.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />

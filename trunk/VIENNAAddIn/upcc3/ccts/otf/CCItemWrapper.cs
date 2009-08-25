@@ -5,13 +5,13 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 {
     public static class CCItemWrapper
     {
-        public static object Wrap(IRepositoryItem item)
+        public static object Wrap(RepositoryItem item)
         {
             object wrappedObject = null;
-            var itemData = item.Data;
+            var itemData = item;
             if (!itemData.ParentId.IsNull)
             {
-                switch (item.Data.Stereotype)
+                switch (item.Stereotype)
                 {
                     case Stereotype.bLibrary:
                     {
