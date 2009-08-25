@@ -117,15 +117,14 @@
     <Compile Include="upcc3\ccts\ENUMSpec.cs" />
     <Compile Include="upcc3\ccts\IBLibrary.cs" />
     <Compile Include="upcc3\ccts\IElementLibrary.cs" />
-    <Compile Include="upcc3\ccts\otf\AbstractEAElement.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAItem.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAPackage.cs" />
     <Compile Include="upcc3\ccts\otf\BDTLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\BIELibrary.cs" />
     <Compile Include="upcc3\ccts\otf\BLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\BusinessLibrary.cs" />
-    <Compile Include="upcc3\ccts\otf\ElementData.cs" />
-    <Compile Include="upcc3\ccts\otf\PackageData.cs" />
+    <Compile Include="upcc3\ccts\otf\ElementRepositoryItem.cs" />
+    <Compile Include="upcc3\ccts\otf\PackageRepositoryItem.cs" />
     <Compile Include="upcc3\ccts\otf\RootRepositoryItem.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BusinessLibraryValidator.cs" />
     <Compile Include="upcc3\ccts\otf\CCItemWrapper.cs" />
@@ -140,7 +139,7 @@
     <Compile Include="upcc3\ccts\otf\IValidator.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\MustNotContainAnyElements.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\MustNotContainAnyPackages.cs" />
-    <Compile Include="upcc3\ccts\otf\NameMustNotBeEmpty.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\NameMustNotBeEmpty.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentPackageMustHaveStereotype.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoader.cs" />
     <Compile Include="upcc3\ccts\otf\DOCLibrary.cs" />
@@ -150,8 +149,6 @@
     <Compile Include="upcc3\ccts\otf\IEAItem.cs" />
     <Compile Include="upcc3\ccts\otf\IEAPackage.cs" />
     <Compile Include="upcc3\ccts\otf\ValidationIssue.cs" />
-    <Compile Include="upcc3\ccts\otf\OtherElement.cs" />
-    <Compile Include="upcc3\ccts\otf\PackageRoot.cs" />
     <Compile Include="upcc3\ccts\otf\PRIMLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryItem.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\SafeConstraint.cs" />

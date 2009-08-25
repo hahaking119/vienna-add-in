@@ -3,13 +3,13 @@ using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    internal class PackageData : RepositoryItem
+    internal class PackageRepositoryItem : RepositoryItem
     {
-        public PackageData(ItemId id, ItemId parentId, string name, string stereotype, Dictionary<string, string> taggedValues) : base(id, parentId, name, stereotype, taggedValues)
+        public PackageRepositoryItem(ItemId id, ItemId parentId, string name, string stereotype, Dictionary<string, string> taggedValues) : base(id, parentId, name, stereotype, taggedValues)
         {
         }
 
-        public static PackageData FromPackage(Package package)
+        public static PackageRepositoryItem FromPackage(Package package)
         {
             ItemId id = ItemId.ForPackage(package.PackageID);
             ItemId parentId = ItemId.ForPackage(package.ParentID);
@@ -28,7 +28,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             {
                 stereotype = string.Empty;
             }
-            return new PackageData(id, parentId, name, stereotype, taggedValues);
+            return new PackageRepositoryItem(id, parentId, name, stereotype, taggedValues);
         }
     }
 }
