@@ -12,6 +12,7 @@
  * [CreateInstallerFileForDistribution Create installer]   
  * [QuickLinker EA quicklinker feature]
  * [Meetings Meeting Notes]
+ * [ReSharperSettings]
 
 * [Presentation VIENNA AddIn Presentation]
 
