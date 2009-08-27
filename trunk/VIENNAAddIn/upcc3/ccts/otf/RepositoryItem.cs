@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 
@@ -34,7 +35,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         {
             string value;
             taggedValues.TryGetValue(key.ToString(), out value);
-            return value.DefaultTo(string.Empty);
+            return value;
         }
 
         public IEnumerable<string> GetTaggedValues(TaggedValues key)
@@ -62,6 +63,39 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             {
                 children = new Dictionary<ItemId, RepositoryItem>(item.children);
             }
+        }
+
+        public static RepositoryItem FromPackage(Package package)
+        {
+            ItemId id = ItemId.ForPackage(package.PackageID);
+            ItemId parentId = ItemId.ForPackage(package.ParentID);
+            string name = package.Name;
+            string stereotype;
+            var taggedValues = new Dictionary<string, string>();
+            if (package.Element != null)
+            {
+                stereotype = package.Element.Stereotype;
+                foreach (TaggedValue taggedValue in package.Element.TaggedValues)
+                {
+                    taggedValues[taggedValue.Name] = taggedValue.Value;
+                }
+            }
+            else
+            {
+                stereotype = string.Empty;
+            }
+            return new RepositoryItem(id, parentId, name, stereotype, taggedValues);
+        }
+
+        public static RepositoryItem FromElement(Element element)
+        {
+            return new RepositoryItem(
+                ItemId.ForElement(element.ElementID),
+                ItemId.ForPackage(element.PackageID),
+                element.Name,
+                element.Stereotype,
+                new Dictionary<string, string>()
+                );
         }
     }
 }

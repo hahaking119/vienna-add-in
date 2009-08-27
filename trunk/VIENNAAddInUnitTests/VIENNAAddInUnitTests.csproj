@@ -80,6 +80,7 @@
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
     <Compile Include="upcc3\ccts\otf\AssertCollections.cs" />
     <Compile Include="upcc3\ccts\otf\BLibraryValidatorTests.cs" />
+    <Compile Include="upcc3\ccts\otf\PRIMValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryItemBuilder.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\CCItemWrapperTests.cs" />

@@ -14,17 +14,17 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [SetUp]
         public void Context()
         {
-            root = ARepositoryItem.Build();
+            root = APackageRepositoryItem.Build();
             model = AddChild(root, ItemId.ItemType.Package);
-            bLibraryBuilder = ARepositoryItem
+            defaultBLibrary = APackageRepositoryItem
                 .WithParentId(model.Id)
                 .WithItemType(ItemId.ItemType.Package)
                 .WithStereotype(Stereotype.bLibrary)
-                .WithTaggedValues(new Dictionary<string, string>
+                .WithTaggedValues(new Dictionary<TaggedValues, string>
                                   {
-                                      {TaggedValues.uniqueIdentifier.ToString(), "foo"},
-                                      {TaggedValues.versionIdentifier.ToString(), "foo"},
-                                      {TaggedValues.baseURN.ToString(), "foo"},
+                                      {TaggedValues.uniqueIdentifier, "foo"},
+                                      {TaggedValues.versionIdentifier, "foo"},
+                                      {TaggedValues.baseURN, "foo"},
                                   });
         }
 
@@ -32,84 +32,68 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
         private RepositoryItem root;
         private RepositoryItem model;
-        private RepositoryItemBuilder bLibraryBuilder;
+        private RepositoryItemBuilder defaultBLibrary;
 
         [Test]
         public void ShouldAllowABInformationVAsParent()
         {
-            var bLibrary = AddChild(AddSubLibrary(model, Stereotype.BInformationV), bLibraryBuilder);
+            var bLibrary = AddChild(AddSubLibrary(model, Stereotype.BInformationV), defaultBLibrary);
             VerifyConstraintViolations(bLibrary);
         }
 
         [Test]
         public void ShouldAllowABLibraryAsParent()
         {
-            var bLibrary = AddChild(AddSubLibrary(model, Stereotype.bLibrary), bLibraryBuilder);
+            var bLibrary = AddChild(AddSubLibrary(model, Stereotype.bLibrary), defaultBLibrary);
             VerifyConstraintViolations(bLibrary);
         }
 
         [Test]
         public void ShouldAllowAModelAsParent()
         {
-            var bLibrary = AddChild(model, bLibraryBuilder);
+            var bLibrary = AddChild(model, defaultBLibrary);
             VerifyConstraintViolations(bLibrary);
         }
 
         [Test]
-        public void ShouldNotAllowAnEmptyBaseUrl()
+        public void ShouldNotAllowAnEmptyBaseURN()
         {
-            bLibraryBuilder.WithTaggedValues(new Dictionary<string, string>
-                                        {
-                                            {TaggedValues.uniqueIdentifier.ToString(), "foo"},
-                                            {TaggedValues.versionIdentifier.ToString(), "foo"},
-                                        });
-            var bLibrary = AddChild(model, bLibraryBuilder);
+            var bLibrary = AddChild(model, defaultBLibrary.WithoutTaggedValue(TaggedValues.baseURN));
             VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyName()
         {
-            bLibraryBuilder.WithName(string.Empty);
-            var bLibrary = AddChild(model, bLibraryBuilder);
+            var bLibrary = AddChild(model, defaultBLibrary.WithName(string.Empty));
             VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyUniqueIdentifier()
         {
-            bLibraryBuilder.WithTaggedValues(new Dictionary<string, string>
-                                        {
-                                            {TaggedValues.versionIdentifier.ToString(), "foo"},
-                                            {TaggedValues.baseURN.ToString(), "foo"},
-                                        });
-            var bLibrary = AddChild(model, bLibraryBuilder);
+            var bLibrary = AddChild(model, defaultBLibrary.WithoutTaggedValue(TaggedValues.uniqueIdentifier));
             VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyVersionIdentifier()
         {
-            bLibraryBuilder.WithTaggedValues(new Dictionary<string, string>
-                                        {
-                                            {TaggedValues.uniqueIdentifier.ToString(), "foo"},
-                                            {TaggedValues.baseURN.ToString(), "foo"},
-                                        });
-            var bLibrary = AddChild(model, bLibraryBuilder);
+            var bLibrary = AddChild(model, defaultBLibrary.WithoutTaggedValue(TaggedValues.versionIdentifier));
             VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnInvalidParent()
         {
-            var bLibrary = AddChild(AddSubLibrary(model, "SOME-OTHER-KIND-OF-PACKAGE"), bLibraryBuilder);
+            var bLibrary = AddChild(AddSubLibrary(model, "SOME-OTHER-KIND-OF-PACKAGE"), defaultBLibrary);
             VerifyConstraintViolations(bLibrary, bLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowElementsInABLibrary()
         {
-            var bLibrary = AddChild(model, bLibraryBuilder);
+            var bLibrary = AddChild(model, defaultBLibrary);
             var element1 = AddChild(bLibrary, ItemId.ItemType.Element);
             var element2 = AddChild(bLibrary, ItemId.ItemType.Element);
             VerifyConstraintViolations(bLibrary, element1.Id, element2.Id);
@@ -118,7 +102,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void ShouldOnlyAllowBusinessLibrariesAsSubpackages()
         {
-            var bLibrary = AddChild(model, bLibraryBuilder);
+            var bLibrary = AddChild(model, defaultBLibrary);
             AddSubLibrary(bLibrary, Stereotype.bLibrary);
             AddSubLibrary(bLibrary, Stereotype.PRIMLibrary);
             AddSubLibrary(bLibrary, Stereotype.ENUMLibrary);
@@ -134,9 +118,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void ShouldOnlyMatchBLibraries()
         {
-            Assert.IsTrue(new BLibraryValidator().Matches(AddChild(model, bLibraryBuilder)), "Validator do not match matching item.");
+            Assert.IsTrue(new BLibraryValidator().Matches(AddChild(model, defaultBLibrary)), "Validator do not match matching item.");
             Assert.IsFalse(new BLibraryValidator().Matches(model), "Validator match unmatching item.");
-            Assert.IsFalse(new BLibraryValidator().Matches(AddChild(AddChild(model, bLibraryBuilder), ItemId.ItemType.Element)), "Validator match unmatching item.");
+            Assert.IsFalse(new BLibraryValidator().Matches(AddChild(AddChild(model, defaultBLibrary), ItemId.ItemType.Element)), "Validator match unmatching item.");
         }
 
         protected override IValidator Validator()

@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             {
                 if (ItemLoaded != null)
                 {
-                    ItemLoaded(ElementRepositoryItem.FromElement(element));
+                    ItemLoaded(RepositoryItem.FromElement(element));
                 }
             }
         }
@@ -63,7 +63,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             }
             if (ItemLoaded != null)
             {
-                ItemLoaded(PackageRepositoryItem.FromPackage(package));
+                ItemLoaded(RepositoryItem.FromPackage(package));
             }
         }
 
