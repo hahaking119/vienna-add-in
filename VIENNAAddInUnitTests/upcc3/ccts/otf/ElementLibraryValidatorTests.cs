@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.otf.validators;
+using VIENNAAddIn.upcc3.ccts.otf.validators.constraints;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
@@ -17,18 +19,18 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [SetUp]
         public void Context()
         {
-            root = ARepositoryItem.Build();
+            root = APackageRepositoryItem.Build();
             model = AddChild(root, ItemId.ItemType.Package);
             bLibrary = AddSubLibrary(model, Stereotype.bLibrary);
-            elementLibraryBuilder = ARepositoryItem
+            defaultElementLibrary = APackageRepositoryItem
                 .WithParentId(model.Id)
                 .WithItemType(ItemId.ItemType.Package)
                 .WithStereotype(LibraryStereotype)
-                .WithTaggedValues(new Dictionary<string, string>
+                .WithTaggedValues(new Dictionary<TaggedValues, string>
                                   {
-                                      {TaggedValues.uniqueIdentifier.ToString(), "foo"},
-                                      {TaggedValues.versionIdentifier.ToString(), "foo"},
-                                      {TaggedValues.baseURN.ToString(), "foo"},
+                                      {TaggedValues.uniqueIdentifier, "foo"},
+                                      {TaggedValues.versionIdentifier, "foo"},
+                                      {TaggedValues.baseURN, "foo"},
                                   });
         }
 
@@ -37,12 +39,12 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         private RepositoryItem root;
         private RepositoryItem model;
         private RepositoryItem bLibrary;
-        private RepositoryItemBuilder elementLibraryBuilder;
+        private RepositoryItemBuilder defaultElementLibrary;
 
         [Test]
         public void ShouldOnlyAllowABLibraryAsParent()
         {
-            var elementLibrary = AddChild(bLibrary, elementLibraryBuilder);
+            var elementLibrary = AddChild(bLibrary, defaultElementLibrary);
             VerifyConstraintViolations(elementLibrary);
             bLibrary.RemoveChild(elementLibrary.Id);
             model.AddOrReplaceChild(elementLibrary);
@@ -50,53 +52,37 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         }
 
         [Test]
-        public void ShouldNotAllowAnEmptyBaseUrl()
+        public void ShouldNotAllowAnEmptyBaseURN()
         {
-            elementLibraryBuilder.WithTaggedValues(new Dictionary<string, string>
-                                        {
-                                            {TaggedValues.uniqueIdentifier.ToString(), "foo"},
-                                            {TaggedValues.versionIdentifier.ToString(), "foo"},
-                                        });
-            var elementLibrary = AddChild(bLibrary, elementLibraryBuilder);
+            var elementLibrary = AddChild(bLibrary, defaultElementLibrary.WithoutTaggedValue(TaggedValues.baseURN));
             VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyName()
         {
-            elementLibraryBuilder.WithName(string.Empty);
-            var elementLibrary = AddChild(bLibrary, elementLibraryBuilder);
+            var elementLibrary = AddChild(bLibrary, defaultElementLibrary.WithName(string.Empty));
             VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyUniqueIdentifier()
         {
-            elementLibraryBuilder.WithTaggedValues(new Dictionary<string, string>
-                                        {
-                                            {TaggedValues.versionIdentifier.ToString(), "foo"},
-                                            {TaggedValues.baseURN.ToString(), "foo"},
-                                        });
-            var elementLibrary = AddChild(bLibrary, elementLibraryBuilder);
+            var elementLibrary = AddChild(bLibrary, defaultElementLibrary.WithoutTaggedValue(TaggedValues.uniqueIdentifier));
             VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldNotAllowAnEmptyVersionIdentifier()
         {
-            elementLibraryBuilder.WithTaggedValues(new Dictionary<string, string>
-                                        {
-                                            {TaggedValues.uniqueIdentifier.ToString(), "foo"},
-                                            {TaggedValues.baseURN.ToString(), "foo"},
-                                        });
-            var elementLibrary = AddChild(bLibrary, elementLibraryBuilder);
+            var elementLibrary = AddChild(bLibrary, defaultElementLibrary.WithoutTaggedValue(TaggedValues.versionIdentifier));
             VerifyConstraintViolations(elementLibrary, elementLibrary.Id);
         }
 
         [Test]
         public void ShouldOnlyAllowElementsWithTheProperStereotype()
         {
-            var elementLibrary = AddChild(bLibrary, elementLibraryBuilder);
+            var elementLibrary = AddChild(bLibrary, defaultElementLibrary);
             AddElement(elementLibrary, ElementStereotype);
             var element2 = AddElement(elementLibrary, "invalid_stereotype");
             VerifyConstraintViolations(elementLibrary, element2.Id);
@@ -105,7 +91,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void ShouldNotAllowAnySubpackages()
         {
-            var elementLibrary = AddChild(bLibrary, elementLibraryBuilder);
+            var elementLibrary = AddChild(bLibrary, defaultElementLibrary);
             var subPackage = AddSubLibrary(elementLibrary, Stereotype.bLibrary);
             VerifyConstraintViolations(elementLibrary, subPackage.Id);
         }
@@ -113,7 +99,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void ShouldOnlyMatchPackagesWithTheProperStereotype()
         {
-            Assert.IsTrue(Validator().Matches(AddChild(bLibrary, elementLibraryBuilder)), "Element library validator does not match a proper element library.");
+            Assert.IsTrue(Validator().Matches(AddChild(bLibrary, defaultElementLibrary)), "Element library validator does not match a proper element library.");
             Assert.IsFalse(Validator().Matches(model), "Element library validator matches a model.");
             Assert.IsFalse(Validator().Matches(AddChild(bLibrary, ItemId.ItemType.Element)), "Element library validator matches an element.");
         }

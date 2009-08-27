@@ -7,6 +7,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
     public abstract class ValidatorTests
     {
+        protected static RepositoryItemBuilder APackageRepositoryItem
+        {
+            get { return ARepositoryItem; }
+        }
+
         protected static RepositoryItemBuilder ARepositoryItem
         {
             get { return new RepositoryItemBuilder(); }
@@ -14,21 +19,25 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
         protected static RepositoryItem AddChild(RepositoryItem parent, RepositoryItemBuilder itemBuilder)
         {
-            var newItem = itemBuilder.Build();
+            RepositoryItem newItem = itemBuilder.Build();
             parent.AddOrReplaceChild(newItem);
             return newItem;
         }
 
         protected static RepositoryItem AddChild(RepositoryItem parent, ItemId.ItemType itemType)
         {
-            return AddChild(parent, ARepositoryItem
-                                        .WithItemType(itemType)
-                                        .WithParentId(parent.Id));
+            return itemType == ItemId.ItemType.Package
+                       ? AddChild(parent, APackageRepositoryItem
+                                              .WithItemType(itemType)
+                                              .WithParentId(parent.Id))
+                       : AddChild(parent, ARepositoryItem
+                                              .WithItemType(itemType)
+                                              .WithParentId(parent.Id));
         }
 
         protected static RepositoryItem AddSubLibrary(RepositoryItem parent, string stereotype)
         {
-            return AddChild(parent, ARepositoryItem
+            return AddChild(parent, APackageRepositoryItem
                                         .WithItemType(ItemId.ItemType.Package)
                                         .WithParentId(parent.Id)
                                         .WithStereotype(stereotype));
@@ -37,9 +46,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         protected static RepositoryItem AddElement(RepositoryItem library, string stereotype)
         {
             return AddChild(library, ARepositoryItem
-                                        .WithItemType(ItemId.ItemType.Element)
-                                        .WithParentId(library.Id)
-                                        .WithStereotype(stereotype));
+                                         .WithItemType(ItemId.ItemType.Element)
+                                         .WithParentId(library.Id)
+                                         .WithStereotype(stereotype));
         }
 
         protected void VerifyConstraintViolations(RepositoryItem item, params ItemId[] offendingItemIds)

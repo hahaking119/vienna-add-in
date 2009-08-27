@@ -10,10 +10,12 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators
         protected BusinessLibraryValidator(string stereotype)
         {
             this.stereotype = stereotype;
-            AddConstraint(new NameMustNotBeEmpty());
-            AddConstraint(new TaggedValueMustBeDefined(TaggedValues.baseURN));
-            AddConstraint(new TaggedValueMustBeDefined(TaggedValues.uniqueIdentifier));
-            AddConstraint(new TaggedValueMustBeDefined(TaggedValues.versionIdentifier));
+            AddConstraint(new NameMustNotBeEmpty<RepositoryItem>());
+            AddConstraint(new TaggedValuesMustNotBeEmpty<RepositoryItem>(
+                TaggedValues.baseURN, 
+                TaggedValues.uniqueIdentifier, 
+                TaggedValues.versionIdentifier
+                ));
         }
 
         protected override bool SafeMatches(RepositoryItem item)
