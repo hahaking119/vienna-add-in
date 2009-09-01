@@ -10,8 +10,16 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators
         protected BusinessLibraryValidator(string stereotype)
         {
             this.stereotype = stereotype;
-            AddConstraint(new NameMustNotBeEmpty<RepositoryItem>());
-            AddConstraint(new TaggedValuesMustNotBeEmpty<RepositoryItem>(
+            AddConstraint(new NameMustNotBeEmpty());
+            AddConstraint(new TaggedValuesMustBeDefined(
+                TaggedValues.businessTerm,
+                TaggedValues.copyright,
+                TaggedValues.owner,
+                TaggedValues.reference,
+                TaggedValues.status,
+                TaggedValues.namespacePrefix
+                ));
+            AddConstraint(new TaggedValuesMustNotBeEmpty(
                 TaggedValues.baseURN, 
                 TaggedValues.uniqueIdentifier, 
                 TaggedValues.versionIdentifier
@@ -20,7 +28,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators
 
         protected override bool SafeMatches(RepositoryItem item)
         {
-            return item.Stereotype == stereotype;
+            return item.Id.IsPackage && item.Stereotype == stereotype;
         }
     }
 }

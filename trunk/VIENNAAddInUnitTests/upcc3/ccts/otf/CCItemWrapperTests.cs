@@ -10,10 +10,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
     {
         private static void AssertPackageWithStereotypeIsWrappedAs<TExpected>(string stereotype)
         {
-            var parent = new RepositoryItemBuilder().WithParentId(ItemId.ForPackage(1)).WithItemType(ItemId.ItemType.Package).Build();
+            var parent = new RepositoryItemBuilder().WithParent(new RepositoryItemBuilder().WithId(ItemId.ForPackage(1))).WithItemType(ItemId.ItemType.Package).Build();
             var repositoryItem = new RepositoryItemBuilder()
-                .WithItemType(ItemId.ItemType.Package)
-                .WithParentId(parent.Id)
+                .WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parent.Id))
                 .WithStereotype(stereotype)
                 .Build();
             object wrappedObject = CCItemWrapper.Wrap(repositoryItem);
@@ -24,8 +23,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_has_a_non_UPCC_stereotype_Then_return_null()
         {
-            var repositoryItem = new RepositoryItemBuilder()
-                .WithParentId(ItemId.ForPackage(1))
+            var repositoryItem = new RepositoryItemBuilder().WithParent(new RepositoryItemBuilder().WithId(ItemId.ForPackage(1)))
                 .WithItemType(ItemId.ItemType.Package)
                 .WithStereotype("foobar")
                 .Build();

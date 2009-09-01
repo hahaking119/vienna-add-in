@@ -58,27 +58,27 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return package.Element.AddTaggedValue(name);
         }
 
-        internal static IEnumerable<string> GetTaggedValues(this Package package, TaggedValues key)
+        public static IEnumerable<string> GetTaggedValues(this Package package, TaggedValues key)
         {
             return package.Element.GetTaggedValues(key);
         }
 
-        internal static string GetTaggedValue(this Package package, TaggedValues key)
+        public static string GetTaggedValue(this Package package, TaggedValues key)
         {
             return package.Element.GetTaggedValue(key);
         }
 
-        internal static void SetTaggedValues(this Package package, TaggedValues key, IEnumerable<string> values)
+        public static void SetTaggedValues(this Package package, TaggedValues key, IEnumerable<string> values)
         {
             package.Element.SetTaggedValues(key, values);
         }
 
-        internal static void SetTaggedValue(this Package package, TaggedValues key, string value)
+        public static void SetTaggedValue(this Package package, TaggedValues key, string value)
         {
             package.Element.SetTaggedValue(key, value);
         }
 
-        internal static Package PackageByName(this Package package, string name)
+        public static Package PackageByName(this Package package, string name)
         {
             foreach (Package child in package.Packages)
             {
@@ -90,7 +90,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return null;
         }
 
-        internal static Element ElementByName(this Package package, string name)
+        public static Element ElementByName(this Package package, string name)
         {
             foreach (Element element in package.Elements)
             {
@@ -101,6 +101,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             }
             return null;
         }
+
         private static TaggedValue GetTaggedValueByName(this Package package, string name)
         {
             foreach (TaggedValue tv in package.Element.TaggedValues)
@@ -117,6 +118,5 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             return package.GetTaggedValueByName(name) != null;
         }
-
     }
 }

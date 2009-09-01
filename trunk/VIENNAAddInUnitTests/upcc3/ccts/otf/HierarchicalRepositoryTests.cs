@@ -48,7 +48,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [ExpectedException(typeof (ArgumentException))]
         public void When_an_item_with_an_unknown_parentId_is_loaded_Then_it_should_throw_an_ArgumentException()
         {
-            var item = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(ItemId.ForPackage(2)).Build();
+            var item = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(ItemId.ForPackage(2))).Build();
             repository.ItemLoaded(item);
         }
 
@@ -57,7 +57,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             var parent = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
             repository.ItemLoaded(parent);
-            var child = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parent.Id).Build();
+            var child = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parent.Id)).Build();
             repository.ItemLoaded(child);
             var retrievedParent = repository.GetItemById(parent.Id);
             var firstChild = retrievedParent.Children.First();
@@ -71,12 +71,12 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             repository.ItemLoaded(parentData);
             var parent = repository.GetItemById(parentData.Id);
 
-            var child1 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parent.Id).Build();
+            var child1 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parent.Id)).Build();
             repository.ItemLoaded(child1);
             Assert.AreEqual(1, parent.Children.Count());
             Assert.AreEqual(child1.Id, parent.Children.First().Id);
 
-            var child2 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parent.Id).Build();
+            var child2 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parent.Id)).Build();
             repository.ItemLoaded(child2);
             Assert.AreEqual(2, parent.Children.Count());
             Assert.AreEqual(child1.Id, parent.Children.First().Id);
@@ -87,7 +87,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             var parentData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
             repository.ItemLoaded(parentData);
-            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
+            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
             repository.ItemLoaded(childData);
             repository.ItemDeleted(childData.Id);
             var parent = repository.GetItemById(parentData.Id);
@@ -100,7 +100,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             var parentData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
             repository.ItemLoaded(parentData);
 
-            var childBuilder = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).WithName("old");
+            var childBuilder = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).WithName("old");
             var childData = childBuilder.Build();
             repository.ItemLoaded(childData);
 
@@ -123,7 +123,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             repository.ItemLoaded(parentData);
             var parent = repository.GetItemById(parentData.Id);
 
-            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
+            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
             repository.ItemLoaded(childData);
             Assert.AreEqual(1, parent.Children.Count());
 
@@ -138,7 +138,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             var parentData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
             repository.ItemLoaded(parentData);
 
-            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
+            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
 
             bool expectedEventGenerated = false;
             repository.OnItemCreatedOrModified += item =>
@@ -159,7 +159,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             var parentData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
             repository.ItemLoaded(parentData);
 
-            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
+            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
 
             bool expectedEventGenerated = false;
             repository.OnItemCreatedOrModified += item =>
@@ -178,7 +178,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         public void When_an_item_is_deleted_Then_a_deletion_event_should_be_generated_for_the_item()
         {
             var parentData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
-            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
+            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
             repository.ItemLoaded(parentData);
             repository.ItemLoaded(childData);
 
@@ -199,9 +199,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         public void When_an_item_is_deleted_Then_a_deletion_event_should_be_generated_for_its_children()
         {
             var parentData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
-            var childData1 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
-            var childData2 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
-            var childData3 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(childData2.Id).Build();
+            var childData1 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
+            var childData2 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
+            var childData3 = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(childData2.Id)).Build();
             repository.ItemLoaded(parentData);
             repository.ItemLoaded(childData1);
             repository.ItemLoaded(childData2);
@@ -224,7 +224,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         public void When_an_item_is_deleted_Then_a_modification_event_should_be_generated_for_its_parent()
         {
             var parentData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).Build();
-            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParentId(parentData.Id).Build();
+            var childData = new RepositoryItemBuilder().WithItemType(ItemId.ItemType.Package).WithParent(new RepositoryItemBuilder().WithId(parentData.Id)).Build();
             repository.ItemLoaded(parentData);
             repository.ItemLoaded(childData);
 

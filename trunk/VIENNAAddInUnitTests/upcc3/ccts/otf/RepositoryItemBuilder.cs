@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -7,12 +8,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
     public class RepositoryItemBuilder
     {
         private static int NextId;
-        protected Dictionary<TaggedValues, string> taggedValues = new Dictionary<TaggedValues, string>();
 
-        protected ItemId id = ItemId.Null;
-        protected string name;
-        protected ItemId parentId = ItemId.Null;
-        protected string stereotype = string.Empty;
+        private ItemId id = ItemId.Null;
+        private string name;
+        private string stereotype = string.Empty;
+        private Dictionary<TaggedValues, string> taggedValues = new Dictionary<TaggedValues, string>();
+
+        private RepositoryItemBuilder parent;
+        private List<RepositoryItemBuilder> children = new List<RepositoryItemBuilder>();
 
         public RepositoryItemBuilder()
         {
@@ -22,22 +25,46 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             id = other.id;
             name = other.name;
-            parentId = other.parentId;
             stereotype = other.stereotype;
             taggedValues = new Dictionary<TaggedValues, string>(other.taggedValues);
+            parent = other.parent != null ? new RepositoryItemBuilder(other.parent) : null;
+            children = new List<RepositoryItemBuilder>();
+            if (other.children != null)
+            {
+                foreach (var otherChild in other.children)
+                {
+                    children.Add(new RepositoryItemBuilder(otherChild));
+                }
+            }
         }
 
-        public virtual RepositoryItem Build()
+        public RepositoryItem Build()
         {
-            return new RepositoryItem(
+            RepositoryItem parentItem;
+            if (parent == null)
+            {
+                parentItem = new RepositoryItem(ItemId.Null, ItemId.Null, null, null, null);
+            }
+            else
+            {
+                parentItem = parent.Build();
+            }
+            var repositoryItem = new RepositoryItem(
                 id,
-                parentId,
+                parentItem.Id,
                 name ?? stereotype + "_" + id.Value,
                 stereotype,
                 ConvertTaggedValues());
+            parentItem.AddOrReplaceChild(repositoryItem);
+            foreach (var child in children)
+            {
+                var childItem = child.Build();
+                repositoryItem.AddOrReplaceChild(childItem);
+            }
+            return repositoryItem;
         }
 
-        protected Dictionary<string, string> ConvertTaggedValues()
+        private Dictionary<string, string> ConvertTaggedValues()
         {
             var tv = new Dictionary<string, string>();
             foreach (var keyValuePair in taggedValues)
@@ -52,14 +79,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             return new RepositoryItemBuilder(this)
                    {
                        id = new ItemId(itemType, ++NextId)
-                   };
-        }
-
-        public RepositoryItemBuilder WithParentId(ItemId value)
-        {
-            return new RepositoryItemBuilder(this)
-                   {
-                       parentId = value
                    };
         }
 
@@ -107,6 +126,21 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                    {
                        id = value
                    };
+        }
+
+        public RepositoryItemBuilder WithChild(RepositoryItemBuilder value)
+        {
+            var copy = new RepositoryItemBuilder(this);
+            copy.children.Add(value);
+            return copy;
+        }
+
+        public RepositoryItemBuilder WithParent(RepositoryItemBuilder value)
+        {
+            return new RepositoryItemBuilder(this)
+            {
+                parent = value
+            };
         }
     }
 }

@@ -9,118 +9,96 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
     [TestFixture]
     public class PRIMValidatorTests : ValidatorTests
     {
-        #region Setup/Teardown
+        private const string LibraryStereotype = Stereotype.PRIMLibrary;
+        private const string ElementStereotype = Stereotype.PRIM;
 
-        [SetUp]
-        public void Context()
+        private static readonly TaggedValues[] DefinedTaggedValues = new[]
+                                                                     {
+                                                                         TaggedValues.businessTerm,
+                                                                         TaggedValues.dictionaryEntryName,
+                                                                         TaggedValues.pattern,
+                                                                         TaggedValues.fractionDigits,
+                                                                         TaggedValues.length,
+                                                                         TaggedValues.maxExclusive,
+                                                                         TaggedValues.maxInclusive,
+                                                                         TaggedValues.maxLength,
+                                                                         TaggedValues.minExclusive,
+                                                                         TaggedValues.minInclusive,
+                                                                         TaggedValues.minLength,
+                                                                         TaggedValues.totalDigits,
+                                                                         TaggedValues.whiteSpace,
+                                                                         TaggedValues.uniqueIdentifier,
+                                                                         TaggedValues.versionIdentifier,
+                                                                         TaggedValues.languageCode,
+                                                                     };
+
+        private static readonly TaggedValues[] RequiredTaggedValues = new[]
+                                                                      {
+                                                                          TaggedValues.definition,
+                                                                      };
+
+        public PRIMValidatorTests() : base(DefinedTaggedValues, RequiredTaggedValues)
         {
-            RepositoryItem root = APackageRepositoryItem.Build();
-            RepositoryItem model = AddChild(root, ItemId.ItemType.Package);
-            bLibrary = AddSubLibrary(model, Stereotype.bLibrary);
-            primLibrary = AddSubLibrary(bLibrary, Stereotype.PRIMLibrary);
-            defaultPRIM = ARepositoryItem
-                .WithParentId(primLibrary.Id)
-                .WithItemType(ItemId.ItemType.Element)
-                .WithStereotype(Stereotype.PRIM)
-                .WithTaggedValues(new Dictionary<TaggedValues, string>
-                                  {
-                                      {TaggedValues.businessTerm, ""},
-                                      {TaggedValues.definition, "foo"},
-                                      {TaggedValues.dictionaryEntryName, ""},
-                                      {TaggedValues.pattern, ""},
-                                      {TaggedValues.fractionDigits, ""},
-                                      {TaggedValues.length, ""},
-                                      {TaggedValues.maxExclusive, ""},
-                                      {TaggedValues.maxInclusive, ""},
-                                      {TaggedValues.maxLength, ""},
-                                      {TaggedValues.minExclusive, ""},
-                                      {TaggedValues.minInclusive, ""},
-                                      {TaggedValues.minLength, ""},
-                                      {TaggedValues.totalDigits, ""},
-                                      {TaggedValues.whiteSpace, ""},
-                                      {TaggedValues.uniqueIdentifier, ""},
-                                      {TaggedValues.versionIdentifier, ""},
-                                      {TaggedValues.languageCode, ""},
-                                  });
         }
-
-        #endregion
-
-        private RepositoryItem bLibrary;
-        private RepositoryItem primLibrary;
-        private RepositoryItemBuilder defaultPRIM;
 
         protected override IValidator Validator()
         {
             return new PRIMValidator();
         }
 
-        private void ShouldNotAllowUndefinedTaggedValue(TaggedValues taggedValue)
+        protected override RepositoryItemBuilder DefaultItem
         {
-            var prim = AddChild(primLibrary, defaultPRIM.WithoutTaggedValue(taggedValue));
-            VerifyConstraintViolations(prim, prim.Id);
-            primLibrary.RemoveChild(prim.Id);
+            get
+            {
+                return AnElement
+                    .WithStereotype(ElementStereotype)
+                    .WithParent(APackage.WithStereotype(LibraryStereotype))
+                    .WithTaggedValues(new Dictionary<TaggedValues, string>
+                                      {
+                                          {TaggedValues.definition, "foo"},
+                                          {TaggedValues.businessTerm, ""},
+                                          {TaggedValues.dictionaryEntryName, ""},
+                                          {TaggedValues.pattern, ""},
+                                          {TaggedValues.fractionDigits, ""},
+                                          {TaggedValues.length, ""},
+                                          {TaggedValues.maxExclusive, ""},
+                                          {TaggedValues.maxInclusive, ""},
+                                          {TaggedValues.maxLength, ""},
+                                          {TaggedValues.minExclusive, ""},
+                                          {TaggedValues.minInclusive, ""},
+                                          {TaggedValues.minLength, ""},
+                                          {TaggedValues.totalDigits, ""},
+                                          {TaggedValues.whiteSpace, ""},
+                                          {TaggedValues.uniqueIdentifier, ""},
+                                          {TaggedValues.versionIdentifier, ""},
+                                          {TaggedValues.languageCode, ""},
+                                      });
+            }
         }
 
-        private void ShouldNotAllowEmptyTaggedValue(TaggedValues taggedValue)
+        private void AssertValidatorDoesNotMatch(RepositoryItemBuilder repositoryItemBuilder)
         {
-            var prim = AddChild(primLibrary, defaultPRIM.WithTaggedValue(taggedValue, string.Empty));
-            VerifyConstraintViolations(prim, prim.Id);
-            primLibrary.RemoveChild(prim.Id);
+            RepositoryItem repositoryItem = repositoryItemBuilder.Build();
+            Assert.IsFalse(Validator().Matches(repositoryItem), ElementStereotype + " validator wrongly matches a " + repositoryItem.Id.Type + " with stereotype " + repositoryItem.Stereotype + ".");
         }
 
         [Test]
-        public void ShouldNotAllowAnEmptyName()
+        public void ShouldNotMatchPackages()
         {
-            var prim = AddChild(primLibrary, defaultPRIM.WithName(string.Empty));
-            VerifyConstraintViolations(prim, prim.Id);
-        }
-
-        [Test]
-        public void ShouldNotAllowEmptyTaggedValues()
-        {
-            ShouldNotAllowEmptyTaggedValue(TaggedValues.definition);
-        }
-
-        [Test]
-        public void ShouldNotAllowUndefinedTaggedValues()
-        {
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.businessTerm);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.definition);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.dictionaryEntryName);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.pattern);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.fractionDigits);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.length);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.maxExclusive);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.maxInclusive);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.maxLength);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.minExclusive);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.minInclusive);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.minLength);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.totalDigits);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.whiteSpace);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.uniqueIdentifier);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.versionIdentifier);
-            ShouldNotAllowUndefinedTaggedValue(TaggedValues.languageCode);
+            AssertValidatorDoesNotMatch(APackage.WithStereotype(ElementStereotype));
         }
 
         [Test]
         public void ShouldOnlyAllowAPRIMLibraryAsParent()
         {
-            RepositoryItem prim = AddChild(primLibrary, defaultPRIM);
-            VerifyConstraintViolations(prim);
-
-            primLibrary.RemoveChild(prim.Id);
-            bLibrary.AddOrReplaceChild(prim);
-            VerifyConstraintViolations(prim, prim.Id);
+            RepositoryItemBuilder prim = DefaultItem.WithParent(APackage.WithStereotype("other than " + LibraryStereotype));
+            VerifyConstraintViolations(prim, prim);
         }
 
         [Test]
-        public void ShouldOnlyMatchElementsWithThePRIMStereotype()
+        public void ShouldOnlyMatchElementsWithTheProperStereotype()
         {
-            Assert.IsTrue(Validator().Matches(AddChild(primLibrary, defaultPRIM)), "PRIM validator does not match a proper PRIM element.");
-            Assert.IsFalse(Validator().Matches(AddChild(primLibrary, ItemId.ItemType.Element)), "PRIM validator matches an element without a PRIM stereotype.");
-            Assert.IsFalse(Validator().Matches(bLibrary), "PRIM validator matches a bLibrary.");
+            AssertValidatorDoesNotMatch(AnElement.WithStereotype("other than " + ElementStereotype));
         }
     }
 }

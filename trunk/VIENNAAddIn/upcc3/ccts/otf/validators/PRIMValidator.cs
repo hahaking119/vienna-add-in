@@ -7,9 +7,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators
     {
         public PRIMValidator()
         {
-            AddConstraint(new ParentPackageMustHaveStereotype<RepositoryItem>(Stereotype.PRIMLibrary));
-            AddConstraint(new NameMustNotBeEmpty<RepositoryItem>());
-            AddConstraint(new TaggedValuesMustBeDefined<RepositoryItem>(
+            AddConstraint(new ParentPackageMustHaveStereotype(Stereotype.PRIMLibrary));
+            AddConstraint(new NameMustNotBeEmpty());
+            AddConstraint(new TaggedValuesMustBeDefined(
                 TaggedValues.businessTerm,
                 TaggedValues.dictionaryEntryName, // We allow the DEN to be empty (in this case, we generate it from the element's type and name).
                 TaggedValues.pattern,
@@ -27,7 +27,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators
                 TaggedValues.versionIdentifier,
                 TaggedValues.languageCode
                 ));
-            AddConstraint(new TaggedValuesMustNotBeEmpty<RepositoryItem>(
+            AddConstraint(new TaggedValuesMustNotBeEmpty(
                 TaggedValues.definition
                 ));
             // TODO Implement constraint 5.4.4b.
@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators
 
         protected override bool SafeMatches(RepositoryItem item)
         {
-            return item.Stereotype == Stereotype.PRIM;
+            return item.Id.Type == ItemId.ItemType.Element && item.Stereotype == Stereotype.PRIM;
         }
     }
 }

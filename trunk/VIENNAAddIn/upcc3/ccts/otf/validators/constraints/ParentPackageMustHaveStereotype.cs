@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
 {
-    public class ParentPackageMustHaveStereotype<T> : SafeConstraint<T> where T : RepositoryItem
+    public class ParentPackageMustHaveStereotype : SafeConstraint<RepositoryItem>
     {
         private readonly string stereotype;
 
@@ -11,7 +11,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
             this.stereotype = stereotype;
         }
 
-        protected override IEnumerable<ConstraintViolation> SafeCheck(T item)
+        protected override IEnumerable<ConstraintViolation> SafeCheck(RepositoryItem item)
         {
             if (stereotype != item.Parent.Stereotype)
             {

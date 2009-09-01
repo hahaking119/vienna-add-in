@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using VIENNAAddIn.validator.upcc3.onTheFly;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
@@ -10,16 +8,15 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         private readonly Dictionary<ItemId, RepositoryItem> itemsNeedingValidation = new Dictionary<ItemId, RepositoryItem>();
         private readonly Dictionary<int, ValidationIssue> validationIssuesById = new Dictionary<int, ValidationIssue>();
         private readonly Dictionary<ItemId, List<ValidationIssue>> validationIssuesByItemId = new Dictionary<ItemId, List<ValidationIssue>>();
-        private readonly List<IConstraint> constraints = new List<IConstraint>();
         private readonly List<IValidator> validators = new List<IValidator>();
         private int NextIssueId;
-
-        public event Action<IEnumerable<ValidationIssue>> ValidationIssuesUpdated;
 
         public IEnumerable<ValidationIssue> ValidationIssues
         {
             get { return new List<ValidationIssue>(validationIssuesById.Values); }
         }
+
+        public event Action<IEnumerable<ValidationIssue>> ValidationIssuesUpdated;
 
         /// <summary>
         /// Returns the issue with the given ID or <c>null</c>, if no such issue exists.
@@ -34,7 +31,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         public void Validate()
         {
-            foreach (var item in itemsNeedingValidation.Values)
+            foreach (RepositoryItem item in itemsNeedingValidation.Values)
             {
                 ValidateItem(item);
             }
@@ -49,11 +46,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         private IEnumerable<ValidationIssue> CheckConstraints(RepositoryItem item)
         {
-            foreach (var validator in validators)
+            foreach (IValidator validator in validators)
             {
                 if (validator.Matches(item))
                 {
-                    foreach (var constraintViolation in validator.Validate(item))
+                    foreach (ConstraintViolation constraintViolation in validator.Validate(item))
                     {
                         yield return new ValidationIssue(NextIssueId++, constraintViolation);
                     }
@@ -100,11 +97,6 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         public void AddValidator(IValidator validator)
         {
             validators.Add(validator);
-        }
-
-        public void AddConstraint(IConstraint constraint)
-        {
-            constraints.Add(constraint);
         }
     }
 }

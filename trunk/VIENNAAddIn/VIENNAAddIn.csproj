@@ -123,6 +123,7 @@
     <Compile Include="upcc3\ccts\otf\BIELibrary.cs" />
     <Compile Include="upcc3\ccts\otf\BLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\BusinessLibrary.cs" />
+    <Compile Include="upcc3\ccts\otf\ItemId.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BusinessLibraryValidator.cs" />
     <Compile Include="upcc3\ccts\otf\CCItemWrapper.cs" />
     <Compile Include="upcc3\ccts\otf\CCLibrary.cs" />
