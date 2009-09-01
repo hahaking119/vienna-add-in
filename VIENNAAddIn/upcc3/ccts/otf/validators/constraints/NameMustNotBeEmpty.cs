@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
 {
-    public class NameMustNotBeEmpty<T> : SafeConstraint<T> where T:RepositoryItem
+    public class NameMustNotBeEmpty : SafeConstraint<RepositoryItem>
     {
-        protected override IEnumerable<ConstraintViolation> SafeCheck(T item)
+        protected override IEnumerable<ConstraintViolation> SafeCheck(RepositoryItem item)
         {
             if (string.IsNullOrEmpty(item.Name))
             {

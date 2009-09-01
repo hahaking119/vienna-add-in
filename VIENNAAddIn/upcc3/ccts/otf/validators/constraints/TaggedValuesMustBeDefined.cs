@@ -3,7 +3,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
 {
-    public class TaggedValuesMustBeDefined<T> : SafeConstraint<T> where T : RepositoryItem
+    public class TaggedValuesMustBeDefined : SafeConstraint<RepositoryItem>
     {
         private readonly TaggedValues[] taggedValues;
 
@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
             this.taggedValues = taggedValues;
         }
 
-        protected override IEnumerable<ConstraintViolation> SafeCheck(T item)
+        protected override IEnumerable<ConstraintViolation> SafeCheck(RepositoryItem item)
         {
             foreach (var taggedValue in taggedValues)
             {

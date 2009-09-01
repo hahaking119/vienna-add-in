@@ -24,6 +24,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             validationService.AddValidator(new ElementLibaryValidator(Stereotype.BDTLibrary, Stereotype.BDT));
             validationService.AddValidator(new ElementLibaryValidator(Stereotype.BIELibrary, Stereotype.ABIE));
             validationService.AddValidator(new ElementLibaryValidator(Stereotype.DOCLibrary, Stereotype.ABIE));
+            validationService.AddValidator(new PRIMValidator());
 
             repository = new HierarchicalRepository();
             repository.OnItemCreatedOrModified += validationService.ItemCreatedOrModified;

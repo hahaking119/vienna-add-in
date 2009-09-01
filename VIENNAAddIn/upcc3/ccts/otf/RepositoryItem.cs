@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
@@ -12,7 +11,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         public RepositoryItem(ItemId id, ItemId parentId, string name, string stereotype, Dictionary<string, string> taggedValues)
         {
-            this.taggedValues = taggedValues;
+            this.taggedValues = taggedValues ?? new Dictionary<string, string>();
             Id = id;
             ParentId = parentId;
             Name = name;
