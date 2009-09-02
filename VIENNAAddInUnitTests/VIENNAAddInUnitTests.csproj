@@ -84,6 +84,16 @@
     <Compile Include="upcc3\ccts\otf\PRIMLibraryValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\PRIMValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryItemBuilder.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\ConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\ElementsMustHaveStereotypeConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\MustNotContainAnyElementsConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\MustNotContainAnyPackagesConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\NameMustNotBeEmptyConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\ParentMustBeModelOrBInformationVOrBLibraryConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\ParentPackageMustHaveStereotypeConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\SubPackagesMustBeBusinessLibrariesConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\TaggedValuesMustBeDefinedConstraintTests.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\TaggedValuesMustNotBeEmptyConstraintTests.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\CCItemWrapperTests.cs" />
     <Compile Include="upcc3\ccts\otf\HierarchicalRepositoryTests.cs" />

@@ -133,13 +133,12 @@
     <Compile Include="upcc3\ccts\otf\validators\constraints\NameMustNotBeEmpty.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\TaggedValuesMustNotBeEmpty.cs" />
     <Compile Include="upcc3\ccts\otf\validators\ElementLibaryValidator.cs" />
-    <Compile Include="upcc3\ccts\otf\validators\constraints\ElementMustHaveStereotype.cs" />
+    <Compile Include="upcc3\ccts\otf\validators\constraints\ElementsMustHaveStereotype.cs" />
     <Compile Include="upcc3\ccts\otf\HierarchicalRepository.cs" />
     <Compile Include="upcc3\ccts\otf\IConstraint.cs" />
     <Compile Include="upcc3\ccts\otf\IValidator.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\MustNotContainAnyElements.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\MustNotContainAnyPackages.cs" />
-    <Compile Include="upcc3\ccts\otf\validators\constraints\PackageNameMustNotBeEmpty.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentPackageMustHaveStereotype.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoader.cs" />
     <Compile Include="upcc3\ccts\otf\DOCLibrary.cs" />
