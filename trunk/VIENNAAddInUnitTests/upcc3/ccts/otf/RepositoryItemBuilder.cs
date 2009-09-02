@@ -52,7 +52,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             var repositoryItem = new RepositoryItem(
                 id,
                 parentItem.Id,
-                name ?? stereotype + "_" + id.Value,
+                name ?? (string.IsNullOrEmpty(stereotype) ? id.Type.ToString() : stereotype) + "_" + id.Value,
                 stereotype,
                 ConvertTaggedValues());
             parentItem.AddOrReplaceChild(repositoryItem);

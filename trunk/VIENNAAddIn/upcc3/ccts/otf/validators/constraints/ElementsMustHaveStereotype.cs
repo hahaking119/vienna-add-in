@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
 {
-    public class ElementMustHaveStereotype : SafeConstraint<RepositoryItem>
+    public class ElementsMustHaveStereotype : SafeConstraint<RepositoryItem>
     {
         private readonly string stereotype;
 
-        public ElementMustHaveStereotype(string stereotype)
+        public ElementsMustHaveStereotype(string stereotype)
         {
             this.stereotype = stereotype;
         }
@@ -19,7 +19,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
                 {
                     if (child.Stereotype != stereotype)
                     {
-                        yield return new ConstraintViolation(item.Id, child.Id, "Elements of " + item.Name + " must have stereotype " + stereotype + ".");
+                        yield return new ConstraintViolation(item.Id, child.Id, "Elements of " + item.Name + " must have stereotype '" + stereotype + "'.");
                     }
                 }
             }

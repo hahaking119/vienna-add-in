@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         public RepositoryItem(ItemId id, ItemId parentId, string name, string stereotype, Dictionary<string, string> taggedValues)
         {
             this.taggedValues = taggedValues ?? new Dictionary<string, string>();
-            Id = id;
+            Id = id ?? ItemId.Null;
             ParentId = parentId;
             Name = name;
             Stereotype = stereotype;
