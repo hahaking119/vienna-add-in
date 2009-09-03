@@ -4,7 +4,7 @@ using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3.Importer
 {
-    public class ACCImporter
+    public static class ACCImporter
     {
         public static void ImportACCs(ICCLibrary ccLibrary, IEnumerable<ACCSpec> accSpecs)
         {
