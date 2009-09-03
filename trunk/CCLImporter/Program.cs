@@ -16,8 +16,14 @@ namespace CCLImporter
 
         public static void Main(string[] args)
         {
+            //            ImportCCL(@"..\..\resources\CCL08B-for-CC-import.txt", @"..\..\resources\Repository-with-CDTs.eap", "CCL08B");
+            ImportCCL(@"..\..\resources\CCL09A\CCL09A-CCs.txt", @"..\..\resources\CCL09A\Repository-with-CDTs.eap", "CCL09A");
+        }
+
+        private static void ImportCCL(string tabSeparatedCCFile, string eapFile, string cclVersion)
+        {
             var eaRepository = new Repository();
-            string originalRepoPath = Directory.GetCurrentDirectory() + "\\" + args[1];
+            string originalRepoPath = Directory.GetCurrentDirectory() + "\\" + eapFile;
             string targetRepoPath = originalRepoPath.WithoutSuffix(".eap") + "-and-CCs.eap";
             File.Copy(originalRepoPath, targetRepoPath, true);
             eaRepository.OpenFile(targetRepoPath);
@@ -32,14 +38,14 @@ namespace CCLImporter
             }
 
             ICCLibrary ccLibrary = bLibrary.CreateCCLibrary(new LibrarySpec
-            {
-                Name = "CCLibrary",
-                VersionIdentifier = "CCL08B"
-            });
+                                                            {
+                                                                Name = "CCLibrary",
+                                                                VersionIdentifier = cclVersion
+                                                            });
 
             accResolver = new ACCResolver(ccLibrary);
 
-            StreamReader reader = File.OpenText(args[0]);
+            StreamReader reader = File.OpenText(tabSeparatedCCFile);
             String line;
             var accSpecs = new List<ACCSpec>();
             ACCSpec accSpec = null;
