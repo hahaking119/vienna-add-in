@@ -11,19 +11,21 @@ namespace CCLImporter
 {
     internal static class Program
     {
+        private const bool Debug = false;
+
         private const int MaximumTaggedValueLength = 255;
         public static int LineNumber;
 
         public static void Main(string[] args)
         {
-            //            ImportCCL(@"..\..\resources\CCL08B-for-CC-import.txt", @"..\..\resources\Repository-with-CDTs.eap", "CCL08B");
-            ImportCCL(@"..\..\resources\CCL09A\CCL09A-CCs.txt", @"..\..\resources\CCL09A\Repository-with-CDTs.eap", "CCL09A");
+//            ImportCCL("CCL08B");
+            ImportCCL("CCL09A");
         }
 
-        private static void ImportCCL(string tabSeparatedCCFile, string eapFile, string cclVersion)
+        private static void ImportCCL(string cclVersion)
         {
             var eaRepository = new Repository();
-            string originalRepoPath = Directory.GetCurrentDirectory() + "\\" + eapFile;
+            string originalRepoPath = Directory.GetCurrentDirectory() + string.Format(@"\..\..\resources\{0}\Repository-with-CDTs.eap", cclVersion);
             string targetRepoPath = originalRepoPath.WithoutSuffix(".eap") + "-and-CCs.eap";
             File.Copy(originalRepoPath, targetRepoPath, true);
             eaRepository.OpenFile(targetRepoPath);
@@ -45,7 +47,7 @@ namespace CCLImporter
 
             accResolver = new ACCResolver(ccLibrary);
 
-            StreamReader reader = File.OpenText(tabSeparatedCCFile);
+            StreamReader reader = File.OpenText(string.Format(@"..\..\resources\{0}\{0}-CCs.txt", cclVersion));
             String line;
             var accSpecs = new List<ACCSpec>();
             ACCSpec accSpec = null;
@@ -53,7 +55,11 @@ namespace CCLImporter
             {
                 LineNumber++;
                 if (LineNumber < 2) continue;
-//                if (LineNumber > 150) break;
+
+                if (Debug)
+                {
+                    if (LineNumber > 150) break;
+                }
 
                 Record record = GetRecord(line);
 
