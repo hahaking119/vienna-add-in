@@ -165,6 +165,30 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         }
 
         [Test]
+        [Ignore]
+        public void TestOneComplexTypeToMultipleACCsMapping()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.mfd");
+
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier).ImportMapping(ccRepository);
+
+            var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
+            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] { "CityName" }, null);
+            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name"}, null);
+
+            var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
+            IABIE bieEbInterfaceAddress = ShouldContainABIE(docLibrary, "ebInterface_Address", null, null, new[]
+                                                                                                           {
+                                                                                                               new ASBIEDescriptor("self", bieAddress.Id), 
+                                                                                                               new ASBIEDescriptor("Person", biePerson.Id), 
+                                                                                                           });
+            ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+                                                                 {
+                                                                     new ASBIEDescriptor("Address", bieEbInterfaceAddress.Id), 
+                                                                 });
+        }
+
+        [Test]
         public void TestNestedMapping()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd");
