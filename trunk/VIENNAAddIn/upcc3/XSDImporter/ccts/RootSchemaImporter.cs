@@ -23,8 +23,8 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
         public static void ImportXSD(ImporterContext context)
         {
             ICCRepository repo = context.Repository;
-            BIESchemaImporter.InitLibraries(context);
-            
+            //BIESchemaImporter.InitLibraries(context);
+            BIESchemaImporter.ImportXSD(context);
             XmlSchema root = context.Root.Schema;
             
             int index = context.Root.FileName.IndexOf('_');
