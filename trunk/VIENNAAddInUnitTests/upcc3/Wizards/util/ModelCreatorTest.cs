@@ -22,15 +22,24 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     [Category(TestCategories.FileBased)]
     public class ModelCreatorTest
     {
-        private readonly string[] resources = new[]
-                                                  {
-                                                      "simplified_enumlibrary.xmi", "simplified_primlibrary.xmi",
-                                                      "simplified_cdtlibrary.xmi", "simplified_cclibrary.xmi"};
-
-        private readonly string downloadUri = "http://www.umm-dev.org/xmi/testresources/";
-
-        private readonly string storageDirectory = Directory.GetCurrentDirectory() +
-                                                   "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\";
+        private readonly ResourceDescriptor resourceDescriptor = new ResourceDescriptor
+        {
+            Resources = new[]
+                                                                                         {
+                                                                                             "simplified_enumlibrary.xmi"
+                                                                                             ,
+                                                                                             "simplified_primlibrary.xmi"
+                                                                                             ,
+                                                                                             "simplified_cdtlibrary.xmi"
+                                                                                             ,
+                                                                                             "simplified_cclibrary.xmi"
+                                                                                         },
+            DownloadUri =
+                "http://www.umm-dev.org/xmi/testresources/",
+            StorageDirectory =
+                Directory.GetCurrentDirectory() +
+                "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\"
+        };
 
         // Purpose: The test evaluates the default model creator capabilites in regards of creating
         // an empty UPCC model containg all necessary (empty) libraries. 
@@ -56,7 +65,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
-            ModelCreator creator = new ModelCreator(eaRepository, resources, downloadUri, storageDirectory);
+            ModelCreator creator = new ModelCreator(eaRepository, resourceDescriptor);
 
             creator.CreateUpccModel("New Test Model", "PRIMLibrary", "ENUMLibrary", "CDTLibrary", "CCLibrary",
                                     "BDTLibrary", "BIELibrary", "DOCLibrary", true);

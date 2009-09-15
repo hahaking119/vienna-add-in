@@ -23,9 +23,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     public class ModelCreator
     {
         private readonly Repository repository;
-        private readonly string[] resources;
-        private readonly string downloadUri;
-        private readonly string storageDirectory;
+        private readonly ResourceDescriptor resourceDescriptor;
 
         ///<summary>
         /// The constructor of the ModelCreator requires one input parameter specifying the EA 
@@ -39,9 +37,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         public ModelCreator(Repository eaRepository)
         {
             repository = eaRepository;
-            resources = ResourceHandler.DefaultResources;
-            downloadUri = ResourceHandler.DefaultDownloadUri;
-            storageDirectory = ResourceHandler.DefaultStorageDirectory;
+            resourceDescriptor = new ResourceDescriptor();
         }
 
         ///<summary>
@@ -59,12 +55,11 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// A string representing a directory location where the resources retrieved from the
         /// URI are to be retrieved from. 
         ///</param>
-        public ModelCreator(Repository eaRepository, string[] resources, string downloadUri, string storageDirectory)
+        public ModelCreator(Repository eaRepository, ResourceDescriptor resourceDescriptor)
         {
             repository = eaRepository;
-            this.resources = resources;
-            this.downloadUri = downloadUri;
-            this.storageDirectory = storageDirectory;
+
+            this.resourceDescriptor = new ResourceDescriptor(resourceDescriptor);
         }
 
         #region Class Methods
@@ -133,7 +128,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
             if (importStandardLibraries)
             {
-                new LibraryImporter(repository, resources, downloadUri, storageDirectory).ImportStandardCcLibraries(repository.GetPackageByID(bLibrary.Id));
+                new LibraryImporter(repository, resourceDescriptor).ImportStandardCcLibraries(repository.GetPackageByID(bLibrary.Id));
             }
             else
             {
