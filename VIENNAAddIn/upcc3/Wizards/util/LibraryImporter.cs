@@ -16,9 +16,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     public class LibraryImporter
     {
         private readonly Repository repository;
-        private readonly string[] resources;
-        private readonly string downloadUri;
-        private readonly string storageDirectory;
+        private readonly ResourceDescriptor resourceDescriptor;
 
         ///<summary>
         /// The constructor of the ModelCreator which allows to specify details about the resources
@@ -27,9 +25,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         public LibraryImporter(Repository eaRepository)
         {
             repository = eaRepository;
-            resources = ResourceHandler.DefaultResources;
-            downloadUri = ResourceHandler.DefaultDownloadUri;
-            storageDirectory = ResourceHandler.DefaultStorageDirectory;
+            resourceDescriptor = new ResourceDescriptor();
         }
 
         ///<summary>
@@ -47,12 +43,10 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// A string representing a directory location where the resources retrieved from the
         /// URI are to be retrieved from. 
         ///</param>
-        public LibraryImporter(Repository eaRepository, string[] resources, string downloadUri, string storageDirectory)
+        public LibraryImporter(Repository eaRepository, ResourceDescriptor resourceDescriptor)
         {
             repository = eaRepository;
-            this.resources = resources;
-            this.downloadUri = downloadUri;
-            this.storageDirectory = storageDirectory;
+            this.resourceDescriptor = new ResourceDescriptor(resourceDescriptor);           
         }
 
         ///<summary>
@@ -70,15 +64,15 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///</param>
         public void ImportStandardCcLibraries(Package bLibrary)
         {
-            new ResourceHandler(resources, downloadUri, storageDirectory).CacheResourcesLocally();
+            new ResourceHandler(resourceDescriptor).CacheResourcesLocally();
 
             Project project = repository.GetProjectInterface();
 
             CleanUpUpccModel(repository, bLibrary);
 
-            foreach (string xmiFile in resources)
+            foreach (string xmiFile in resourceDescriptor.Resources)
             {
-                project.ImportPackageXMI(bLibrary.PackageGUID, storageDirectory + xmiFile, 1, 0);
+                project.ImportPackageXMI(bLibrary.PackageGUID, resourceDescriptor.StorageDirectory + xmiFile, 1, 0);
             }
         }
 

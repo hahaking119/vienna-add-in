@@ -13,6 +13,35 @@ using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
+    public class ResourceDescriptor
+    {
+        /// A string array of the resources to be retrieved. An example would be:
+        /// new string[] {"primlibrary.xmi", "cdtlibrary.xmi"}
+        public string[] Resources { get; set; }
+
+        /// A string representing the URI where the resources are to be retrieved from. An
+        /// example would be "http://www.myresources.com/xmi/".
+        public string DownloadUri { get; set; }
+
+        /// A string representing the location on the local file system specifying where the
+        /// resources retrieved should be stored at. An example would be "c:\\temp\\cache\\".
+        public string StorageDirectory { get; set; }
+
+        public ResourceDescriptor()
+        {
+            Resources = new[] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
+            DownloadUri = "http://www.umm-dev.org/xmi/";
+            StorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
+        }
+
+        public ResourceDescriptor(ResourceDescriptor descriptor)
+        {
+            Resources = descriptor.Resources;
+            DownloadUri = descriptor.DownloadUri;
+            StorageDirectory = descriptor.StorageDirectory;
+        }
+    }
+
     ///<summary>
     /// The ResourceHandler class may be used to retrieve resources located at a particular URI on 
     /// the web to the local file system. The configuration of the ResourceHandler is achieved 
@@ -21,52 +50,17 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     ///</summary>
     public class ResourceHandler
     {
-        #region Constants
-
-        public static readonly string DefaultDownloadUri = "http://www.umm-dev.org/xmi/";
-
-        public static readonly string[] DefaultResources = new[]
-                                                               {
-                                                                   "enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi",
-                                                                   "cclibrary.xmi"
-                                                               };
-
-        public static readonly string DefaultStorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
-
-        #endregion
-
         #region Class Fields
 
-        private readonly string downloadUri;
-        private readonly string[] resources;
-        private readonly string storageDirectory;
+        private readonly ResourceDescriptor resourceDescriptor;
 
         #endregion
 
         #region Constructor
 
-        ///<summary>
-        /// The constructor of the ResourceHandler initializes the ResourceHandler and therefore
-        /// requires three input parameters specifying details on the resources to be retrieved
-        /// such as the URI where the resources are located at. 
-        ///</summary>
-        ///<param name="resources">
-        /// A string array of the resources to be retrieved. An example would be:
-        ///   new string[] {"primlibrary.xmi", "cdtlibrary.xmi"}
-        /// </param>
-        ///<param name="downloadUri">
-        /// A string representing the URI where the resources are to be retrieved from. An
-        /// example would be "http://www.myresources.com/xmi/".
-        /// </param>
-        ///<param name="storageDirectory">
-        /// A string representing the location on the local file system specifying where the
-        /// resources retrieved should be stored at. An example would be "c:\\temp\\cache\\".
-        /// </param>
-        public ResourceHandler(string[] resources, string downloadUri, string storageDirectory)
+        public ResourceHandler(ResourceDescriptor resourceDescriptor)
         {
-            this.resources = resources;
-            this.downloadUri = downloadUri;
-            this.storageDirectory = storageDirectory;
+            this.resourceDescriptor = resourceDescriptor;
         }
 
         #endregion
@@ -80,9 +74,9 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///</summary>
         public void CacheResourcesLocally()
         {
-            foreach (string resourceFile in resources)
+            foreach (string resourceFile in resourceDescriptor.Resources)
             {
-                CacheSingleResourceLocally(downloadUri + resourceFile, storageDirectory + resourceFile);
+                CacheSingleResourceLocally(resourceDescriptor.DownloadUri + resourceFile, resourceDescriptor.StorageDirectory + resourceFile);
             }
         }
 
