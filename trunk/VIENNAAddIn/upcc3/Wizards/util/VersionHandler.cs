@@ -10,23 +10,24 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
     public struct VersionDescriptor
     {
-        public string Version;
-        public string Iteration;
+        public string Major;
+        public string Minor;
         public string Comment;
 
         public string ResourceDirectory
         {
-            get { return Version + "_" + Iteration; }
+            get { return Major + "_" + Minor; }
         }
 
         public override string ToString()
         {
-            return string.Format("VersionDescriptor <\"{0}\", \"{1}\", \"{2}\">", Version, Iteration, Comment);
+            return string.Format("VersionDescriptor <\"{0}\", \"{1}\", \"{2}\">", Major, Minor, Comment);
         }
         
         public static VersionDescriptor ParseVersionString(string versionString)
@@ -37,15 +38,15 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             {
                 VersionDescriptor versionDescriptor = new VersionDescriptor
                                                           {
-                                                              Version = stringTokens[0],
-                                                              Iteration = stringTokens[1],
+                                                              Major = stringTokens[0],
+                                                              Minor = stringTokens[1],
                                                               Comment = stringTokens[2]
                                                           };
 
                 return versionDescriptor;
             }
             
-            throw new ArgumentException("expected version string: <Version|Iteration|Comment>, but was: <{0}>", versionString);            
+            throw new ArgumentException("expected version string: <Major|Minor|Comment>, but was: <{0}>", versionString);            
         }
     }
 
@@ -67,44 +68,61 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         public void RetrieveAvailableVersions()
         {
-            string versionsString = webClientMediator.DownloadString(uri);            
-
             AvailableVersions = new List<VersionDescriptor>();
+            
+            string versionsString = webClientMediator.DownloadString(uri);            
 
             foreach (string version in versionsString.Split('\n'))
             {
-                AvailableVersions.Add(VersionDescriptor.ParseVersionString(version));
+                if (version.Trim() != "")
+                {
+                    AvailableVersions.Add(VersionDescriptor.ParseVersionString(version));    
+                }                
             }
         }
 
-        public List<VersionDescriptor> FilterDescriptors(string version)
+        public List<string> GetMajorVersions()
         {
-            List <VersionDescriptor> filteredDescriptors = new List<VersionDescriptor>();
+            List<string> majorVersions = new List<string>();
 
             foreach (VersionDescriptor descriptor in AvailableVersions)
             {
-                if (descriptor.Version == version)                
+                if (!(majorVersions.Contains(descriptor.Major)))
                 {
-                    filteredDescriptors.Add(descriptor);
+                    majorVersions.Add(descriptor.Major);
                 }
             }
 
-            return filteredDescriptors;
+            return majorVersions;
         }
 
-        public VersionDescriptor FilterDescriptors(string version, string iteration)
+        public List<string> GetMinorVersions(string majorVersion)
+        {
+            List<string> minorVersions = new List<string>();
+
+            foreach (VersionDescriptor descriptor in AvailableVersions)
+            {
+                if (descriptor.Major == majorVersion)
+                {
+                    minorVersions.Add(descriptor.Minor);
+                }
+            }
+
+            return minorVersions;            
+        }
+
+        public string GetComment(string majorVersion, string minorVersion)
         {
             foreach (VersionDescriptor descriptor in AvailableVersions)
             {
-                if ((descriptor.Version == version) && (descriptor.Iteration == iteration))
+                if ((descriptor.Major == majorVersion) && (descriptor.Minor == minorVersion))
                 {
-                    return descriptor;
+                    return descriptor.Comment;                    
                 }
             }
 
-            throw new ArgumentException(string.Format("expected version: <{0}|{1}>, not found", version, iteration));
+            return "";
         }
-
     }
 
     public interface IWebClientMediator
@@ -112,4 +130,14 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         string DownloadString(string uri);
     }
 
+    public class WebClientMediator : IWebClientMediator
+    {
+        public string DownloadString(string uri)
+        {
+            using (var client = new WebClient())
+            {
+                return client.DownloadString(uri);
+            }
+        }
+    }
 }
