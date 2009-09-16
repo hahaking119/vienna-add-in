@@ -25,5 +25,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override string GetTypeName()
+        {
+            return Type.Name;
+        }
+
     }
 }

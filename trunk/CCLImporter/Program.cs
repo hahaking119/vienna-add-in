@@ -88,6 +88,7 @@ namespace CCLImporter
                                       {
                                           UniqueIdentifier = record.UniqueUNAssignedID,
                                           Definition = record.Definition.LimitTo(MaximumTaggedValueLength),
+                                          DictionaryEntryName = record.DictionaryEntryName,
                                           Name = QualifiedName(record.PropertyTermQualifiers, record.PropertyTerm),
                                           BusinessTerms = ToArray(record.BusinessTerms.LimitTo(MaximumTaggedValueLength)),
                                           UsageRules = ToArray(record.UsageRules.LimitTo(MaximumTaggedValueLength)),

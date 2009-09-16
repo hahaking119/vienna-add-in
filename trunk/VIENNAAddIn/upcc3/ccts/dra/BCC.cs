@@ -6,7 +6,8 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using EA;
+using System;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -25,5 +26,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override string GetTypeName()
+        {
+            return Type.Name;
+        }
     }
 }

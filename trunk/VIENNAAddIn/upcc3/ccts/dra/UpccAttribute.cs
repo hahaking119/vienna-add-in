@@ -46,8 +46,18 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string DictionaryEntryName
         {
-            get { return GetTaggedValue(TaggedValues.dictionaryEntryName); }
+            get
+            {
+                string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = Container.Name + ". " + Name + ". " + GetTypeName();
+                }
+                return value;
+            }
         }
+
+        protected abstract string GetTypeName();
 
         public string LanguageCode
         {
