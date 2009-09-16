@@ -1,3 +1,4 @@
+using System;
 using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3
@@ -12,16 +13,23 @@ namespace VIENNAAddIn.upcc3
 
         public static string GenerateBCCName(IBCC bcc)
         {
-            return GenerateBCCOrBBIEName(bcc.Name, bcc.Type.Name);
+            return GenerateBCCOrBBIEName(bcc.DictionaryEntryName);
         }
 
         public static string GenerateBBIEName(IBBIE bbie)
         {
-            return GenerateBCCOrBBIEName(bbie.Name, bbie.Type.Name);
+            return GenerateBCCOrBBIEName(bbie.DictionaryEntryName);
         }
 
-        private static string GenerateBCCOrBBIEName(string propertyTerm, string representationTerm)
+        private static string GenerateBCCOrBBIEName(string dictionaryEntryName)
         {
+            var parts = dictionaryEntryName.Replace(" ", "").Replace("-", "").Split('.');
+            if(parts.Length != 3)
+            {
+                throw new ArgumentException("Expected DictionaryEntryName <ObjectClassTerm. PropertyTerm. RepresentationTerm>, but is " + dictionaryEntryName);
+            }
+            var propertyTerm = parts[1];
+            var representationTerm = parts[2];
             if ((propertyTerm.EndsWith(Identification)) && (representationTerm.Equals(Identifier)))
             {
                 return propertyTerm.Remove(propertyTerm.Length - Identification.Length) + Identifier;
