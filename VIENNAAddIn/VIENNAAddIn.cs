@@ -85,7 +85,7 @@ namespace VIENNAAddIn
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
                                    + validate
-                                   + "Import Standard CC Libraries".OnClick(ImportStandardCcLibraries)))
+                                   + "Import Standard CC Libraries".OnClick(StandardLibraryImporterForm.ShowForm)))
                 .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.bLibrary));
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
@@ -392,11 +392,6 @@ namespace VIENNAAddIn
         private static void ToggleUmm2ModelState(AddInContext context)
         {
             context.EARepository.ToggleUmm2ModelState();
-        }
-
-        private static void ImportStandardCcLibraries(AddInContext context)
-        {
-            context.EARepository.ImportStandardCcLibraries();
         }
     }
 }

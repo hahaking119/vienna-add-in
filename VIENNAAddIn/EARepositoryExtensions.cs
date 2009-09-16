@@ -173,32 +173,5 @@ namespace VIENNAAddIn
                 MessageBox.Show("Please open a model first", "AddIn Error");
             }
         }
-
-        internal static void ImportStandardCcLibraries(this Repository repository)
-        {
-            const string warnMessage = "Importing the standard CC libraries will overwrite all existing:\n\n"
-                                       + "    - ENUM libraries named \"ENUMLibrary\",\n"
-                                       + "    - PRIM libraries named \"PRIMLibrary\",\n"
-                                       + "    - CDT libraries named \"CDTLibrary \", and \n"
-                                       + "    - CC libraries named \"CCLibrary\"\n\n"
-                                       + "Are you sure you want to proceed?";
-            const string caption = "VIENNA Add-In Warning";
-
-            DialogResult dialogResult = MessageBox.Show(warnMessage, caption, MessageBoxButtons.YesNo,
-                                                        MessageBoxIcon.Exclamation);
-
-            if (dialogResult == DialogResult.Yes)
-            {
-                Cursor.Current = Cursors.WaitCursor;
-
-                string bLibraryGuid = repository.GetTreeSelectedPackage().Element.ElementGUID;
-                Package bLibrary = repository.GetPackageByGuid(bLibraryGuid);
-
-                LibraryImporter importer = new LibraryImporter(repository);
-                importer.ImportStandardCcLibraries(bLibrary);                
-
-                Cursor.Current = Cursors.Default;
-            }
-        }
     }
 }
