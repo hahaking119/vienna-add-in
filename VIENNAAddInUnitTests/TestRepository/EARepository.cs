@@ -259,7 +259,8 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public ObjectType GetContextItem(out object Item)
         {
-            throw new NotImplementedException();
+            Item = null;
+            return ObjectType.otNone;
         }
 
         public ObjectType GetContextItemType()

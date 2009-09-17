@@ -23,23 +23,17 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     public class ModelCreatorTest
     {
         private readonly ResourceDescriptor resourceDescriptor = new ResourceDescriptor
-        {
-            Resources = new[]
-                                                                                         {
-                                                                                             "simplified_enumlibrary.xmi"
-                                                                                             ,
-                                                                                             "simplified_primlibrary.xmi"
-                                                                                             ,
-                                                                                             "simplified_cdtlibrary.xmi"
-                                                                                             ,
-                                                                                             "simplified_cclibrary.xmi"
-                                                                                         },
-            DownloadUri =
-                "http://www.umm-dev.org/xmi/testresources/",
-            StorageDirectory =
-                Directory.GetCurrentDirectory() +
-                "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\"
-        };
+            (
+            new[]
+                {
+                    "simplified_enumlibrary.xmi",
+                    "simplified_primlibrary.xmi",
+                    "simplified_cdtlibrary.xmi",
+                    "simplified_cclibrary.xmi"
+                },
+            "http://www.umm-dev.org/xmi/testresources/",
+            Directory.GetCurrentDirectory() + "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\"
+            );
 
         // Purpose: The test evaluates the default model creator capabilites in regards of creating
         // an empty UPCC model containg all necessary (empty) libraries. 
@@ -51,7 +45,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
             ModelCreator creator = new ModelCreator(eaRepository);
 
             creator.CreateUpccModel("New Test Model", "PRIMLibrary", "ENUMLibrary", "CDTLibrary", "CCLibrary",
-                                    "BDTLibrary", "BIELibrary", "DOCLibrary", false);
+                                    "BDTLibrary", "BIELibrary", "DOCLibrary");
 
             AssertEmptyStandardCcLibrariesInBusinessLibrary(eaRepository, "Test Model 1", "New Test Model");
             AssertEmptyBieLibrariesinBusinessLibrary(eaRepository, "Test Model 1", "New Test Model");
@@ -65,10 +59,9 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
-            ModelCreator creator = new ModelCreator(eaRepository, resourceDescriptor);
+            ModelCreator creator = new ModelCreator(eaRepository);
 
-            creator.CreateUpccModel("New Test Model", "PRIMLibrary", "ENUMLibrary", "CDTLibrary", "CCLibrary",
-                                    "BDTLibrary", "BIELibrary", "DOCLibrary", true);
+            creator.CreateUpccModel("New Test Model", "BDTLibrary", "BIELibrary", "DOCLibrary", resourceDescriptor);
 
             AssertEmptyStandardCcLibrariesInBusinessLibrary(eaRepository, "Test Model 1", "New Test Model");
             AssertStandardCcLibrariesContentInBusinessLibrary(eaRepository, "Test Model 1", "New Test Model");

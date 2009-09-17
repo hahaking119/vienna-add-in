@@ -37,13 +37,13 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
                                          "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ResourceHandlerTest\\xmi\\reference\\";
 
             // method to be tested 1: caching resources locally
-            ResourceDescriptor resourceDescriptor = new ResourceDescriptor()
-                                                        {
-                                                                        Resources = resources,
-                                                        DownloadUri = downloadUri,
-                                                        StorageDirectory = storageDirectory,
+            ResourceDescriptor resourceDescriptor = new ResourceDescriptor
+                                                        (
+                                                                        resources,
+                                                        downloadUri,
+                                                        storageDirectory
 
-                                                        };
+                                                        );
 
             (new ResourceHandler(resourceDescriptor)).CacheResourcesLocally();
 

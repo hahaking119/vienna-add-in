@@ -35,10 +35,13 @@
             this.txtComment = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnImport = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rtxtStatus = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -86,7 +89,7 @@
             this.txtComment.Multiline = true;
             this.txtComment.Name = "txtComment";
             this.txtComment.ReadOnly = true;
-            this.txtComment.Size = new System.Drawing.Size(293, 74);
+            this.txtComment.Size = new System.Drawing.Size(293, 58);
             this.txtComment.TabIndex = 5;
             // 
             // groupBox1
@@ -94,14 +97,14 @@
             this.groupBox1.Controls.Add(this.txtComment);
             this.groupBox1.Location = new System.Drawing.Point(12, 71);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(314, 103);
+            this.groupBox1.Size = new System.Drawing.Size(314, 88);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Comment";
             // 
             // btnImport
             // 
-            this.btnImport.Location = new System.Drawing.Point(55, 189);
+            this.btnImport.Location = new System.Drawing.Point(55, 312);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 23);
             this.btnImport.TabIndex = 7;
@@ -109,15 +112,15 @@
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
-            // btnCancel
+            // btnClose
             // 
-            this.btnCancel.Location = new System.Drawing.Point(210, 189);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 8;
-            this.btnCancel.Text = "&Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnClose.Location = new System.Drawing.Point(210, 312);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 8;
+            this.btnClose.Text = "&Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // groupBox2
             // 
@@ -132,13 +135,34 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Core Component Library Version";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rtxtStatus);
+            this.groupBox3.Location = new System.Drawing.Point(12, 163);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(314, 133);
+            this.groupBox3.TabIndex = 10;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Status";
+            // 
+            // rtxtStatus
+            // 
+            this.rtxtStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.rtxtStatus.Location = new System.Drawing.Point(10, 18);
+            this.rtxtStatus.Name = "rtxtStatus";
+            this.rtxtStatus.Size = new System.Drawing.Size(293, 103);
+            this.rtxtStatus.TabIndex = 0;
+            this.rtxtStatus.Text = "";
+            this.rtxtStatus.WordWrap = false;
+            // 
             // StandardLibraryImporterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 224);
+            this.ClientSize = new System.Drawing.Size(338, 349);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -151,6 +175,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -164,7 +189,9 @@
         private System.Windows.Forms.TextBox txtComment;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RichTextBox rtxtStatus;
     }
 }

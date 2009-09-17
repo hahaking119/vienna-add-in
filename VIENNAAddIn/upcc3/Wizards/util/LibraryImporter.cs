@@ -7,6 +7,8 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using System;
+using System.Diagnostics;
 using EA;
 using VIENNAAddIn.Settings;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
@@ -49,6 +51,8 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             this.resourceDescriptor = new ResourceDescriptor(resourceDescriptor);           
         }
 
+        public event Action<string> StatusChanged;
+
         ///<summary>
         /// The method's purpose is to first retrieve the latest CC libraries from the web and 
         /// second import the downloaded libraries into an existing business library. The method
@@ -64,16 +68,21 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///</param>
         public void ImportStandardCcLibraries(Package bLibrary)
         {
+            StatusChanged("Caching resources: " + resourceDescriptor.StorageDirectory);
+            
             new ResourceHandler(resourceDescriptor).CacheResourcesLocally();
 
             Project project = repository.GetProjectInterface();
 
+            StatusChanged("Cleaning up model.");
             CleanUpUpccModel(repository, bLibrary);
 
             foreach (string xmiFile in resourceDescriptor.Resources)
             {
+                StatusChanged("Importing library: " + xmiFile);
                 project.ImportPackageXMI(bLibrary.PackageGUID, resourceDescriptor.StorageDirectory + xmiFile, 1, 0);
             }
+            StatusChanged("Done.");
         }
 
         ///<summary>

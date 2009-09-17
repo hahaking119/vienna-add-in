@@ -108,9 +108,13 @@
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryResourceHandler.cs" />
+    <Compile Include="upcc3\Wizards\util\UPCCModelWizardFormTest.cs" />
+    <Compile Include="upcc3\Wizards\util\ResourceDescriptorTest.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceHandlerTest.cs" />
     <Compile Include="upcc3\Wizards\util\DatabaseHandlerTest.cs" />
     <Compile Include="upcc3\Wizards\util\LibraryImporterTest.cs" />
+    <Compile Include="upcc3\Wizards\util\StandardLibraryImporterFormTest.cs" />
+    <Compile Include="upcc3\Wizards\util\VersionDescriptorTest.cs" />
     <Compile Include="upcc3\Wizards\util\VersionHandlerTest.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\XSDImporterTest.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MapForceMappingImporterTest.cs" />

@@ -43,6 +43,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private bool importStandardLibraries;
         
         private readonly Repository repository;
+        private FileBasedVersionHandler versionHandler;
 
         #endregion
 
@@ -102,6 +103,21 @@ namespace VIENNAAddIn.upcc3.Wizards
             textboxENUMLName.Enabled = newState;
             textboxCDTLName.Enabled = newState;
             textboxCCLName.Enabled = newState;
+        }
+
+        private void SetEnabledForCCLibraryCheckBoxes(bool newState)
+        {
+            checkboxPRIML.Enabled = newState;
+            checkboxENUML.Enabled = newState;
+            checkboxCDTL.Enabled = newState;
+            checkboxCCL.Enabled = newState;
+        }
+
+        private void SetEnabledForBIELibraryCheckBoxes(bool newState)
+        {
+            checkboxBDTL.Enabled = newState;
+            checkboxBIEL.Enabled = newState;
+            checkboxDOCL.Enabled = newState;
         }
 
         private void SetEnabledForBIELibraryTextFields(bool newState)
@@ -188,6 +204,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             Close();
         }
 
+        private void OnStatusChanged(string statusMessage)
+        {
+            rtxtStatus.Text = statusMessage + "\n" + rtxtStatus.Text;
+        }
+
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
             buttonGenerate.Enabled = false;
@@ -195,9 +216,18 @@ namespace VIENNAAddIn.upcc3.Wizards
             GatherUserInput();
 
             ModelCreator creator = new ModelCreator(repository);
+            creator.StatusChanged += OnStatusChanged;
 
-            creator.CreateUpccModel(modelName, primLibraryName, enumLibraryName, cdtLibraryName,
-                                    ccLibraryName, bdtLibraryName, bieLibraryName, docLibraryName, importStandardLibraries);
+            if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)
+            {
+                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());                
+                creator.CreateUpccModel(modelName, bdtLibraryName, bieLibraryName, docLibraryName, resourceDescriptor);
+            }
+            else
+            {
+                creator.CreateUpccModel(modelName, primLibraryName, enumLibraryName, cdtLibraryName,
+                                        ccLibraryName, bdtLibraryName, bieLibraryName, docLibraryName);
+            }
 
             MessageBox.Show(string.Format(statusMessage, modelName), wizardTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -206,12 +236,45 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void checkboxDefaultValues_CheckedChanged(object sender, EventArgs e)
         {
+            UpdateFormState();
+        }
+
+        private void checkboxImportStandardLibraries_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)
+            {
+                LoadStandardLibraryVersions();
+            }
+            UpdateFormState();
+        }
+
+        private void UpdateFormState()
+        {
             if (checkboxDefaultValues.CheckState == CheckState.Checked)
             {
-                checkboxDefaultValues.CheckState = CheckState.Checked;
-                SetEnabledForAllLibraryTextFields(false);
+                if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)
+                {
+                    SetEnabledForAllLibraryTextFields(false);
 
-                SetLibraryDefaultNames();
+                    SetEnabledForCCLibraryCheckBoxes(false);
+                    SetEnabledForBIELibraryCheckBoxes(true);
+
+                    SetEnabledForStandardCCControls(true);
+
+                    SetLibraryDefaultNames();
+
+                    CheckCCLibraries(CheckState.Checked);
+                }
+                else
+                {
+                    SetEnabledForAllLibraryTextFields(false);
+
+                    SetEnabledForAllLibraryCheckBoxes(true);
+
+                    SetEnabledForStandardCCControls(false);
+
+                    SetLibraryDefaultNames();
+                }
             }
             else
             {
@@ -219,30 +282,89 @@ namespace VIENNAAddIn.upcc3.Wizards
                 {
                     SetEnabledForCCLibraryTextFields(false);
                     SetEnabledForBIELibraryTextFields(true);
+
+                    SetEnabledForCCLibraryCheckBoxes(false);
+                    SetEnabledForBIELibraryCheckBoxes(true);
+
+                    SetEnabledForStandardCCControls(true);
+
+                    SetCCLibraryDefaultNames();
+
+                    CheckCCLibraries(CheckState.Checked);
                 }
                 else
                 {
                     SetEnabledForAllLibraryTextFields(true);
+
+                    SetEnabledForAllLibraryCheckBoxes(true);
+
+                    SetEnabledForStandardCCControls(false);
                 }
             }
         }
 
-        private void checkboxImportStandardLibraries_CheckedChanged(object sender, EventArgs e)
+        private void SetEnabledForStandardCCControls(bool newState)
         {
-            if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)
+            cbxMajor.Enabled = newState;
+            cbxMinor.Enabled = newState;
+            txtComment.Enabled = newState;
+        }
+
+        private void SetEnabledForAllLibraryCheckBoxes(bool newState)
+        {
+            SetEnabledForCCLibraryCheckBoxes(newState);
+            SetEnabledForBIELibraryCheckBoxes(newState);
+        }
+
+        private void LoadStandardLibraryVersions()
+        {
+            if (versionHandler == null)
             {
-                SetEnabledForCCLibraryTextFields(false);
-                SetBIELibraryDefaultNames();
-                CheckCCLibraries(CheckState.Checked);
+                try
+                {
+                    versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile("http://www.umm-dev.org/xmi/ccl_versions.txt"));
+
+                    versionHandler.RetrieveAvailableVersions();
+
+                    foreach (string majorVersion in versionHandler.GetMajorVersions())
+                    {
+                        cbxMajor.Items.Add(majorVersion);
+                    }
+
+                    cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
+
+                    PopulateCbxMinor();
+                }
+                catch (Exception)
+                {
+                    // TODO
+                }
             }
-            else
+        }
+
+        private void PopulateCbxMinor()
+        {
+            cbxMinor.Items.Clear();
+
+            foreach (string minorVersion in versionHandler.GetMinorVersions(cbxMajor.SelectedItem.ToString()))
             {
-                SetEnabledForCCLibraryTextFields(true);
+                cbxMinor.Items.Add(minorVersion);
             }
+
+            cbxMinor.SelectedIndex = cbxMinor.Items.Count - 1;
+            PopulateTxtComment();
+        }
+
+        private void PopulateTxtComment()
+        {
+            txtComment.Text = versionHandler.GetComment(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
         }
 
         private void UPCCModelWizardForm_Load(object sender, EventArgs e)
         {
+            cbxMajor.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxMinor.DropDownStyle = ComboBoxStyle.DropDownList;
+            
             CheckAllLibraries(CheckState.Checked);
             checkboxDefaultValues.CheckState = CheckState.Checked;            
             SetEnabledForAllLibraryTextFields(false);
@@ -326,5 +448,15 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
 
         #endregion Event Handler Methods
+
+        private void cbxMajor_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            PopulateCbxMinor();
+        }
+
+        private void cbxMinor_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            PopulateTxtComment();
+        }
     }
 }

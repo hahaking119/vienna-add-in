@@ -35,7 +35,7 @@ namespace VIENNAAddIn
         private static Repository Repo;
         private readonly MenuManager menuManager;
         private AddInContext context;
-        private ValidatingCCRepository validatingCCRepository;
+//        private ValidatingCCRepository validatingCCRepository;
         private const bool AllowDeletion = true;
         private const bool ItemNotUpdated = false;
 
@@ -143,7 +143,7 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public bool EA_OnNotifyContextItemModified(Repository repository, string GUID, ObjectType ot)
         {
-            validatingCCRepository.LoadItemByGUID(ot, GUID);
+//            validatingCCRepository.LoadItemByGUID(ot, GUID);
             return true;
         }
 
@@ -186,9 +186,9 @@ namespace VIENNAAddIn
             Repo = repository;
             Repo.EnableCache = true;
             repository.CreateOutputTab(AddInSettings.AddInName);
-            validatingCCRepository = new ValidatingCCRepository(repository);
-            validatingCCRepository.ValidationIssuesUpdated += ValidationIssuesUpdated;
-            validatingCCRepository.LoadRepositoryContent();
+//            validatingCCRepository = new ValidatingCCRepository(repository);
+//            validatingCCRepository.ValidationIssuesUpdated += ValidationIssuesUpdated;
+//            validatingCCRepository.LoadRepositoryContent();
         }
 
         private static void ValidationIssuesUpdated(IEnumerable<ValidationIssue> validationIssues)
@@ -267,24 +267,24 @@ namespace VIENNAAddIn
         ///<param name="id"></param>
         public void EA_OnOutputItemClicked(Repository repository, string tabName, string text, int id)
         {
-            if (tabName == AddInSettings.AddInName)
-            {
-                var issue = validatingCCRepository.GetValidationIssue(id);
-                if (issue != null)
-                {
-                    var itemId = issue.ConstraintViolation.OffendingItemId;
-                    object item;
-                    if (itemId.Type == ItemId.ItemType.Package)
-                    {
-                        item = repository.GetPackageByID(itemId.Value);
-                    }
-                    else
-                    {
-                        item = repository.GetElementByID(itemId.Value);
-                    }
-                    repository.ShowInProjectView(item);
-                }
-            }
+//            if (tabName == AddInSettings.AddInName)
+//            {
+//                var issue = validatingCCRepository.GetValidationIssue(id);
+//                if (issue != null)
+//                {
+//                    var itemId = issue.ConstraintViolation.OffendingItemId;
+//                    object item;
+//                    if (itemId.Type == ItemId.ItemType.Package)
+//                    {
+//                        item = repository.GetPackageByID(itemId.Value);
+//                    }
+//                    else
+//                    {
+//                        item = repository.GetElementByID(itemId.Value);
+//                    }
+//                    repository.ShowInProjectView(item);
+//                }
+//            }
         }
 
         ///<summary>
@@ -304,15 +304,15 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public bool EA_OnPostNewElement(Repository repository, EventProperties info)
         {
-            foreach (EventProperty eventProperty in info)
-            {
-                if (eventProperty.Name == "ElementID")
-                {
-                    int elementId = int.Parse(eventProperty.Value.ToString());
-                    validatingCCRepository.LoadElementByID(elementId);
-                    return ItemNotUpdated;
-                }
-            }
+//            foreach (EventProperty eventProperty in info)
+//            {
+//                if (eventProperty.Name == "ElementID")
+//                {
+//                    int elementId = int.Parse(eventProperty.Value.ToString());
+//                    validatingCCRepository.LoadElementByID(elementId);
+//                    return ItemNotUpdated;
+//                }
+//            }
             return ItemNotUpdated;
         }
 
@@ -323,43 +323,43 @@ namespace VIENNAAddIn
         ///<returns></returns>
         public bool EA_OnPostNewPackage(Repository repository, EventProperties info)
         {
-            foreach (EventProperty eventProperty in info)
-            {
-                if (eventProperty.Name == "PackageID")
-                {
-                    int packageId = int.Parse(eventProperty.Value.ToString());
-                    validatingCCRepository.LoadPackageByID(packageId);
-                    return ItemNotUpdated;
-                }
-            }
+//            foreach (EventProperty eventProperty in info)
+//            {
+//                if (eventProperty.Name == "PackageID")
+//                {
+//                    int packageId = int.Parse(eventProperty.Value.ToString());
+//                    validatingCCRepository.LoadPackageByID(packageId);
+//                    return ItemNotUpdated;
+//                }
+//            }
             return ItemNotUpdated;
         }
 
         public bool EA_OnPreDeleteElement(Repository repository, EventProperties info)
         {
-            foreach (EventProperty eventProperty in info)
-            {
-                if (eventProperty.Name == "ElementID")
-                {
-                    int elementId = int.Parse(eventProperty.Value.ToString());
-                    validatingCCRepository.ItemDeleted(ItemId.ForElement(elementId));
-                    return AllowDeletion;
-                }
-            }
+//            foreach (EventProperty eventProperty in info)
+//            {
+//                if (eventProperty.Name == "ElementID")
+//                {
+//                    int elementId = int.Parse(eventProperty.Value.ToString());
+//                    validatingCCRepository.ItemDeleted(ItemId.ForElement(elementId));
+//                    return AllowDeletion;
+//                }
+//            }
             return AllowDeletion;
         }
 
         public bool EA_OnPreDeletePackage(Repository repository, EventProperties info)
         {
-            foreach (EventProperty eventProperty in info)
-            {
-                if (eventProperty.Name == "PackageID")
-                {
-                    int packageId = int.Parse(eventProperty.Value.ToString());
-                    validatingCCRepository.ItemDeleted(ItemId.ForPackage(packageId));
-                    return AllowDeletion;
-                }
-            }
+//            foreach (EventProperty eventProperty in info)
+//            {
+//                if (eventProperty.Name == "PackageID")
+//                {
+//                    int packageId = int.Parse(eventProperty.Value.ToString());
+//                    validatingCCRepository.ItemDeleted(ItemId.ForPackage(packageId));
+//                    return AllowDeletion;
+//                }
+//            }
             return AllowDeletion;
         }
 
