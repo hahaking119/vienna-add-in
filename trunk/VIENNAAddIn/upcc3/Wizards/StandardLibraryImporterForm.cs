@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
+using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
 
@@ -8,19 +8,21 @@ namespace VIENNAAddIn.upcc3.Wizards
 {
     public partial class StandardLibraryImporterForm : Form
     {
-        VersionHandler versionHandler;
+        private readonly Repository eaRepository;
+        FileBasedVersionHandler versionHandler;
 
         public static void ShowForm(AddInContext context)
         {
-            new StandardLibraryImporterForm().ShowDialog();
+            new StandardLibraryImporterForm(context.EARepository).ShowDialog();
         }
         
-        public StandardLibraryImporterForm()
+        public StandardLibraryImporterForm(Repository repository)
         {
+            eaRepository = repository;
             InitializeComponent();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
         }
@@ -32,7 +34,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             try
             {
-                versionHandler = new VersionHandler(new WebClientMediator(), "http://www.umm-dev.org/xmi/ccl_versions.txt");
+                versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile("http://www.umm-dev.org/xmi/ccl_versions.txt"));
 
                 versionHandler.RetrieveAvailableVersions();
 
@@ -45,7 +47,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                 
                 PopulateCbxMinor();
             }
+// ReSharper disable EmptyGeneralCatchClause
             catch (Exception)
+// ReSharper restore EmptyGeneralCatchClause
             {
                 // TODO
             }
@@ -94,16 +98,28 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (dialogResult == DialogResult.Yes)
             {
-                //Cursor.Current = Cursors.WaitCursor;
+                Cursor.Current = Cursors.WaitCursor;
+                btnClose.Enabled = false;
+                btnImport.Enabled = false;
 
-                //string bLibraryGuid = repository.GetTreeSelectedPackage().Element.ElementGUID;
-                //Package bLibrary = repository.GetPackageByGuid(bLibraryGuid);
+                string bLibraryGuid = eaRepository.GetTreeSelectedPackage().Element.ElementGUID;
+                Package bLibrary = eaRepository.GetPackageByGuid(bLibraryGuid);
 
-                //LibraryImporter importer = new LibraryImporter(repository);
-                //importer.ImportStandardCcLibraries(bLibrary);
+                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());                
 
-                //Cursor.Current = Cursors.Default;
+                LibraryImporter importer = new LibraryImporter(eaRepository, resourceDescriptor);
+                importer.StatusChanged += OnStatusChanged;
+                importer.ImportStandardCcLibraries(bLibrary);
+
+                btnImport.Enabled = true;
+                btnClose.Enabled = true;
+                Cursor.Current = Cursors.Default;
             }
+        }
+
+        private void OnStatusChanged(string statusMessage)
+        {
+            rtxtStatus.Text = statusMessage + "\n" + rtxtStatus.Text;
         }
     }
 }

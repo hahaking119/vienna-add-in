@@ -22,8 +22,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     public class LibraryImporterTest
     {
         private readonly ResourceDescriptor resourceDescriptor = new ResourceDescriptor
-                                                                     {
-                                                                         Resources = new[]
+                                                                     (
+                                                                      new[]
                                                                                          {
                                                                                              "simplified_enumlibrary.xmi"
                                                                                              ,
@@ -33,12 +33,12 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
                                                                                              ,
                                                                                              "simplified_cclibrary.xmi"
                                                                                          },
-                                                                         DownloadUri =
-                                                                             "http://www.umm-dev.org/xmi/testresources/",
-                                                                         StorageDirectory =
+                                                                      
+                                                                             "http://www.umm-dev.org/xmi/testresources/simplified_1/",
+                                                                      
                                                                              Directory.GetCurrentDirectory() +
                                                                              "\\..\\..\\..\\VIENNAAddInUnitTests\\testresources\\ModelCreatorTest\\download\\"
-                                                                     };
+                                                                     );
 
         // Purpose: Test the import capability of the model creator to import the standard CC libraries
         // into a particular model which contains an empty business library named bLibrary. 
@@ -118,12 +118,22 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryLibraryImporter());
             var bLibrary = eaRepository.Resolve<Package>((Path) "Test Model 1"/"bLibrary");
 
+            DeleteDownloadDirectory();
+
             var importer = new LibraryImporter(eaRepository, resourceDescriptor);
             importer.ImportStandardCcLibraries(bLibrary);
 
             AssertEmptyStandardCcLibrariesInBusinessLibrary(eaRepository, "Test Model 1", "bLibrary");
             AssertStandardCcLibrariesContentInBusinessLibrary(eaRepository, "Test Model 1", "bLibrary");
             AssertNonExistenceOfBieLibrariesinBusinessLibrary(eaRepository, "Test Model 1", "bLibrary");
+        }
+
+        private void DeleteDownloadDirectory()
+        {
+            if (Directory.Exists(resourceDescriptor.StorageDirectory))
+            {
+                Directory.Delete(resourceDescriptor.StorageDirectory, true);    
+            }
         }
 
         // Purpose: Test the import capability of the model creator to import the standard CC libraries
@@ -134,7 +144,10 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         public void TestImportStandardCcLibrariesIntoFullBusinessLibrary()
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryLibraryImporter());
+
             var bLibrary = eaRepository.Resolve<Package>((Path) "Test Model 2"/"bLibrary");
+
+            DeleteDownloadDirectory();
 
             var importer = new LibraryImporter(eaRepository, resourceDescriptor);
             importer.ImportStandardCcLibraries(bLibrary);

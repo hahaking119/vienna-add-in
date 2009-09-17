@@ -180,10 +180,15 @@
     <Compile Include="upcc3\Wizards\StandardLibraryImporterForm.Designer.cs">
       <DependentUpon>StandardLibraryImporterForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\Wizards\util\VersionHandler.cs" />
+    <Compile Include="upcc3\Wizards\util\FileBasedVersionHandler.cs" />
     <Compile Include="upcc3\Wizards\util\DatabaseHandler.cs" />
+    <Compile Include="upcc3\Wizards\util\IVersionHandler.cs" />
+    <Compile Include="upcc3\Wizards\util\IVersionsFile.cs" />
     <Compile Include="upcc3\Wizards\util\LibraryImporter.cs" />
+    <Compile Include="upcc3\Wizards\util\RemoteVersionsFile.cs" />
+    <Compile Include="upcc3\Wizards\util\ResourceDescriptor.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceHandler.cs" />
+    <Compile Include="upcc3\Wizards\util\VersionDescriptor.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\CCSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\CDTSchemaGenerator.cs" />
     <Compile Include="upcc3\XSDGenerator\ccts\GeneratorContext.cs" />

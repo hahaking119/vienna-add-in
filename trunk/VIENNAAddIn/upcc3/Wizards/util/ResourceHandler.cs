@@ -9,39 +9,9 @@
 
 using System.IO;
 using System.Net;
-using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
-    public class ResourceDescriptor
-    {
-        /// A string array of the resources to be retrieved. An example would be:
-        /// new string[] {"primlibrary.xmi", "cdtlibrary.xmi"}
-        public string[] Resources { get; set; }
-
-        /// A string representing the URI where the resources are to be retrieved from. An
-        /// example would be "http://www.myresources.com/xmi/".
-        public string DownloadUri { get; set; }
-
-        /// A string representing the location on the local file system specifying where the
-        /// resources retrieved should be stored at. An example would be "c:\\temp\\cache\\".
-        public string StorageDirectory { get; set; }
-
-        public ResourceDescriptor()
-        {
-            Resources = new[] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
-            DownloadUri = "http://www.umm-dev.org/xmi/";
-            StorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
-        }
-
-        public ResourceDescriptor(ResourceDescriptor descriptor)
-        {
-            Resources = descriptor.Resources;
-            DownloadUri = descriptor.DownloadUri;
-            StorageDirectory = descriptor.StorageDirectory;
-        }
-    }
-
     ///<summary>
     /// The ResourceHandler class may be used to retrieve resources located at a particular URI on 
     /// the web to the local file system. The configuration of the ResourceHandler is achieved 
@@ -74,9 +44,14 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///</summary>
         public void CacheResourcesLocally()
         {
+            if (!(Directory.Exists(resourceDescriptor.StorageDirectory)))
+            {
+                Directory.CreateDirectory(resourceDescriptor.StorageDirectory);
+            }
+
             foreach (string resourceFile in resourceDescriptor.Resources)
             {
-                CacheSingleResourceLocally(resourceDescriptor.DownloadUri + resourceFile, resourceDescriptor.StorageDirectory + resourceFile);
+                CacheSingleResourceLocally(resourceDescriptor.DownloadUri, resourceDescriptor.StorageDirectory, resourceFile);
             }
         }
 
@@ -112,27 +87,18 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// A URI pointing to the resource to be retrieved. An example would be 
         /// "http://www.umm-dev.org/xmi/primlibrary.xmi".
         /// </param>        
-        ///<param name="outputFile">A path including the file name that the content is stored at. 
+        ///<param name="storageDirectory">A path including the file name that the content is stored at. 
         /// An example would be "c:\\temp\\output\\file.xmi". 
         /// </param>        
-        private static void CacheSingleResourceLocally(string downloadUri, string outputFile)
+        private static void CacheSingleResourceLocally(string downloadUri, string storageDirectory, string resourceFile)
         {
-            string currentFileContent = "";
-            string newFileContent = RetrieveContentFromUri(downloadUri);
+            string localResourcePath = storageDirectory + resourceFile;
 
-            if (File.Exists(outputFile))
+            if (!(File.Exists(localResourcePath)))
             {
-                currentFileContent = File.ReadAllText(outputFile);
-            }
-
-            if (!string.IsNullOrEmpty(newFileContent))
-            {
-                if (!currentFileContent.Equals(newFileContent))
+                using (StreamWriter writer = File.CreateText(localResourcePath))
                 {
-                    using (StreamWriter writer = File.CreateText(outputFile))
-                    {
-                        writer.Write(newFileContent);
-                    }
+                    writer.Write(RetrieveContentFromUri(downloadUri + resourceFile));
                 }
             }
         }

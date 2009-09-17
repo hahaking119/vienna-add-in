@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using System;
 using EA;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -23,7 +24,6 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     public class ModelCreator
     {
         private readonly Repository repository;
-        private readonly ResourceDescriptor resourceDescriptor;
 
         ///<summary>
         /// The constructor of the ModelCreator requires one input parameter specifying the EA 
@@ -37,32 +37,11 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         public ModelCreator(Repository eaRepository)
         {
             repository = eaRepository;
-            resourceDescriptor = new ResourceDescriptor();
-        }
-
-        ///<summary>
-        /// The constructor of the ModelCreator which allows to specify details about the resources
-        /// to be cashed. The details are specified through the parameters of the constructor.  
-        ///</summary>
-        ///<param name="resources">
-        /// An array of strings specifying the names of the resources to be retrieved (e.g. 
-        /// "enumlibrary.xmi").
-        /// </param>
-        ///<param name="downloadUri">
-        /// A string representing the URI where the resources are to be retrieved from. 
-        ///</param>
-        ///<param name="storageDirectory">
-        /// A string representing a directory location where the resources retrieved from the
-        /// URI are to be retrieved from. 
-        ///</param>
-        public ModelCreator(Repository eaRepository, ResourceDescriptor resourceDescriptor)
-        {
-            repository = eaRepository;
-
-            this.resourceDescriptor = new ResourceDescriptor(resourceDescriptor);
         }
 
         #region Class Methods
+
+        public event Action<string> StatusChanged;
 
         ///<summary>
         /// The method creates a default model having the structure as specified in the UPCC 3 
@@ -116,29 +95,42 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///</param>
         public void CreateUpccModel(string modelName, string primLibraryName, string enumLibraryName,
                                     string cdtLibraryName, string ccLibraryName, string bdtLibraryName,
-                                    string bieLibraryName, string docLibraryName, bool importStandardLibraries)
+                                    string bieLibraryName, string docLibraryName)
+        {
+            CreateUpccModel(modelName, bdtLibraryName, bieLibraryName, docLibraryName,
+                bLibrary => CreateCCLibraries(bLibrary, primLibraryName, enumLibraryName, cdtLibraryName, ccLibraryName));
+        }
+
+        public void CreateUpccModel(string modelName, string bdtLibraryName,
+                                    string bieLibraryName, string docLibraryName, Action<IBLibrary> importCCLibraries)
         {
             repository.Models.Refresh();
             CCRepository ccRepository = new CCRepository(repository);
 
+            StatusChanged("Selecting empty root model.");
             Package model = GetEmptyRootModel();
 
+            StatusChanged("Creating bLibrary.");
             IBLibrary bLibrary = ccRepository.CreateBLibrary(new LibrarySpec {Name = modelName}, model);
 
-
-            if (importStandardLibraries)
-            {
-                new LibraryImporter(repository, resourceDescriptor).ImportStandardCcLibraries(repository.GetPackageByID(bLibrary.Id));
-            }
-            else
-            {
-                CreateCCLibraries(bLibrary, primLibraryName, enumLibraryName, cdtLibraryName, ccLibraryName);
-            }
+            importCCLibraries(bLibrary);
 
             CreateBIELibraries(bLibrary, bdtLibraryName, bieLibraryName, docLibraryName);
 
             repository.RefreshModelView(0);
             repository.Models.Refresh();
+            StatusChanged("Done.");
+        }
+
+        public void CreateUpccModel(string modelName, string bdtLibraryName, string bieLibraryName, string docLibraryName, ResourceDescriptor standardLibraryResourceDescriptor)
+        {
+            CreateUpccModel(modelName, bdtLibraryName, bieLibraryName, docLibraryName,
+                bLibrary =>
+                    {
+                        var libraryImporter = new LibraryImporter(repository, standardLibraryResourceDescriptor);
+                        libraryImporter.StatusChanged += StatusChanged;
+                        libraryImporter.ImportStandardCcLibraries(repository.GetPackageByID(bLibrary.Id));
+                    });
         }
 
         #endregion
@@ -195,19 +187,22 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// The name of the DOC library created. If the parameter equals an empty string ("") then
         /// creating the library is omitted. 
         /// </param> 
-        private static void CreateBIELibraries(IBLibrary bLibrary, string bdtLibraryName, string bieLibraryName,
+        private void CreateBIELibraries(IBLibrary bLibrary, string bdtLibraryName, string bieLibraryName,
                                                string docLibraryName)
         {
             if (!bdtLibraryName.Equals(""))
             {
+                StatusChanged("Creating BDT Library.");
                 bLibrary.CreateBDTLibrary(new LibrarySpec {Name = bdtLibraryName});
             }
             if (!bieLibraryName.Equals(""))
             {
+                StatusChanged("Creating BIE Library.");
                 bLibrary.CreateBIELibrary(new LibrarySpec {Name = bieLibraryName});
             }
             if (!docLibraryName.Equals(""))
             {
+                StatusChanged("Creating DOC Library.");
                 bLibrary.CreateDOCLibrary(new LibrarySpec {Name = docLibraryName});
             }
         }
@@ -237,23 +232,27 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// The name of the CC library created. If the parameter equals an empty string ("") then
         /// creating the library is omitted. 
         /// </param> 
-        private static void CreateCCLibraries(IBLibrary bLibrary, string primLibraryName, string enumLibraryName,
+        private void CreateCCLibraries(IBLibrary bLibrary, string primLibraryName, string enumLibraryName,
                                               string cdtLibraryName, string ccLibraryName)
         {
             if (!primLibraryName.Equals(""))
             {
+                StatusChanged("Creating PRIM Library.");                
                 bLibrary.CreatePRIMLibrary(new LibrarySpec {Name = primLibraryName});
             }
             if (!enumLibraryName.Equals(""))
             {
+                StatusChanged("Creating ENUM Library.");
                 bLibrary.CreateENUMLibrary(new LibrarySpec {Name = enumLibraryName});
             }
             if (!cdtLibraryName.Equals(""))
             {
+                StatusChanged("Creating CDT Library.");
                 bLibrary.CreateCDTLibrary(new LibrarySpec {Name = cdtLibraryName});
             }
             if (!ccLibraryName.Equals(""))
             {
+                StatusChanged("Creating CC Library.");
                 bLibrary.CreateCCLibrary(new LibrarySpec {Name = ccLibraryName});
             }
         }
