@@ -339,6 +339,10 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return newAsbieSpecs;
         }
 
+        public static IABIE getElementByName(string abieName)
+        {
+            return BieLibrary.ElementByName(abieName);
+        }
         ///<summary>
         ///</summary>
         ///<param name="element">
