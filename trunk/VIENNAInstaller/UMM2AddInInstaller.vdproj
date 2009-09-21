@@ -81,12 +81,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EE656CFD713C761154CC0AD645ECC14C"
-        "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F4EC814584E362276E7D4AF4568014E4"
         "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
         "MsmSig" = "8:_UNDEFINED"
@@ -107,12 +101,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F4EC814584E362276E7D4AF4568014E4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EE656CFD713C761154CC0AD645ECC14C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -147,7 +135,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\VIENNAAddIn_0_0_4_400.msi"
+        "OutputFilename" = "8:Debug\\VIENNAAddIn_0_0_5_000.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -428,37 +416,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EE656CFD713C761154CC0AD645ECC14C"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.2.2.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
-                "ScatterAssemblies"
-                {
-                    "_EE656CFD713C761154CC0AD645ECC14C"
-                    {
-                    "Name" = "8:nunit.framework.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:nunit.framework.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F4EC814584E362276E7D4AF4568014E4"
             {
             "AssemblyRegister" = "3:1"
@@ -603,14 +560,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:VIENNAAddIn"
-        "ProductCode" = "8:{B8B760F9-A4D4-4FD8-BE9D-2CB83055EE59}"
-        "PackageCode" = "8:{B1D6972F-BA5E-46F4-B8C1-715DCCB26009}"
+        "ProductCode" = "8:{D09101CF-60D8-40C1-A730-4AD0C7C6823E}"
+        "PackageCode" = "8:{462CE8E6-EBC3-4E4A-8553-5527E034BB27}"
         "UpgradeCode" = "8:{577D477F-D456-43AE-ACDF-5C40A4810579}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.4"
+        "ProductVersion" = "8:0.0.5"
         "Manufacturer" = "8:VIENNA Add-In"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://vienna-add-in.googlecode.com"
