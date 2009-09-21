@@ -1,6 +1,6 @@
 #summary Release Notes.
 
-= VIENNAAddIn_0.0.5 (build 649) =
+= VIENNAAddIn_0.0.5 (build 659) =
 
  * On-the-fly validation of CCTS models. <br>The VIENNA Add-In constantly validates your modeling progress and reports any deviations from the UML Profile for Core Components Specification in a message window.
  * Support for Core Component Library 08B and Core Component Library 09A
