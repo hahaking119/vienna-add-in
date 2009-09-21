@@ -330,6 +330,11 @@ namespace VIENNAAddInUnitTests.TestRepository
             throw new NotImplementedException();
         }
 
+        public bool DeleteBaseline(string Baseline)
+        {
+            throw new NotImplementedException();
+        }
+
         public ObjectType ObjectType
         {
             get { throw new NotImplementedException(); }

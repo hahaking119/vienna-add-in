@@ -625,6 +625,11 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
+        public EAEditionTypes EAEditionEx
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
 
         public EAPackage CreatePackage(string name, string type, int parentId)
