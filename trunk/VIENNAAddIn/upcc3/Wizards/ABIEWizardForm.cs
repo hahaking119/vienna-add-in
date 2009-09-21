@@ -559,7 +559,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     if(curName == selectedBDTName)
                         nameAlreadyExists = true;
                 }
-                if (nameAlreadyExists)
+                if (nameAlreadyExists || selectedBDTName.StartsWith("Create new BDT"))
                 {
                     Rectangle r = checkedlistboxBDTs.GetItemRectangle(checkedlistboxBDTs.SelectedIndex);
 
@@ -578,12 +578,21 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             string newBDTName = editboxBDTName.Text;
 
-            if(newBDTName == "Create new BDT")
-                return;
+            //if(newBDTName.StartsWith("Create new BDT"))
+                //return;
 
             foreach (cBDTLibrary bdtl in cache.BDTLs.Values)
             {
                 if (bdtl.BDTs.ContainsKey(newBDTName))
+                {
+                    richtextStatus.Text += "A BDT named \"{0}\" already exists!".Replace("{0}", newBDTName);
+                    return;
+                }
+            }
+
+            foreach (var item in checkedlistboxBDTs.Items)
+            {
+                if (item.ToString().Equals(newBDTName))
                 {
                     richtextStatus.Text += "A BDT named \"{0}\" already exists!".Replace("{0}", newBDTName);
                     return;
@@ -638,6 +647,7 @@ namespace VIENNAAddIn.upcc3.Wizards
           if (e.KeyChar == 13)
             {
                 UpdateBDTName();
+                editboxBDTNameEsc = true;
                 editboxBDTName.Hide();
                 MirrorBDTsToUI();
             }
@@ -1215,11 +1225,16 @@ namespace VIENNAAddIn.upcc3.Wizards
             if (cache.PathIsValid(CacheConstants.PATH_BCCs,
                                   new[] {selectedCCLName, selectedACCName, selectedBCCName, selectedBBIEName}))
             {
-                foreach (
+               ICDT baseCDT = repository.GetCDT(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type);
+               foreach (
                     cBDT bdt in
                         cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].
                             BDTs)
                 {
+                    if (bdt.Name.Equals("Create new BDT"))
+                    {
+                        bdt.Name = "Create new BDT: " + baseCDT.Name;
+                    }
                     checkedlistboxBDTs.Items.Add(bdt.Name, bdt.State);
                 }
 
@@ -1340,22 +1355,44 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                                         if (bdt.Id == -1)
                                         {
-                                            // check if datatype has been generated previously
-                                            if (!(generatedBDTs.ContainsKey(bdt.Name)))
-                                            {
-                                                /* the BDT to be used is to be created based on the CDT used in the BCC */
-                                                ICDT baseCDT = repository.GetCDT(bcc.Type);
-                                                BDTSpec bdtSpec = BDTSpec.CloneCDT(baseCDT, bdt.Name);
-                                                IBDT newBDT = selectedBDTL.CreateElement(bdtSpec);
-                                                bdtUsed = newBDT;
+                                            // remove text "Create new BDT..."
+                                            bdt.Name = bdt.Name.Replace("Create new BDT: ", "");
 
-                                                generatedBDTs.Add(newBDT.Name,
-                                                                  new cBDT(newBDT.Name, newBDT.Id, newBDT.BasedOn.CDT.Id,
-                                                                           CheckState.Unchecked));
-                                            }
-                                            else
+                                            // check if BDT exists already in the library
+                                            bool exists = false;
+                                            bdtUsed = null;
+                                            foreach(var curbdtl in cache.BDTLs.Values)
                                             {
-                                                bdtUsed = repository.GetBDT(generatedBDTs[bdt.Name].Id);
+                                                foreach(var curbdt in curbdtl.BDTs.Values)
+                                                {
+                                                    if(bdt.Name.Equals(curbdt.Name))
+                                                    {
+                                                        exists = true;
+                                                        bdtUsed = repository.GetBDT(curbdt.Id); ;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (!exists)
+                                            {
+                                                // check if datatype has been generated previously
+                                                if (!(generatedBDTs.ContainsKey(bdt.Name)))
+                                                {
+                                                    /* the BDT to be used is to be created based on the CDT used in the BCC */
+                                                    ICDT baseCDT = repository.GetCDT(bcc.Type);
+                                                    BDTSpec bdtSpec = BDTSpec.CloneCDT(baseCDT, bdt.Name);
+                                                    IBDT newBDT = selectedBDTL.CreateElement(bdtSpec);
+                                                    bdtUsed = newBDT;
+
+                                                    generatedBDTs.Add(newBDT.Name,
+                                                                      new cBDT(newBDT.Name, newBDT.Id,
+                                                                               newBDT.BasedOn.CDT.Id,
+                                                                               CheckState.Unchecked));
+                                                }
+                                                else
+                                                {
+                                                    bdtUsed = repository.GetBDT(generatedBDTs[bdt.Name].Id);
+                                                }
                                             }
                                         }
                                         else
