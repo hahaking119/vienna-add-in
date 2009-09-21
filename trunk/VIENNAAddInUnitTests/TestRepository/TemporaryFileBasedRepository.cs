@@ -647,6 +647,11 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { repo.SuppressSecurityDialog = value; }
         }
 
+        public EAEditionTypes EAEditionEx
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
     }
 }
