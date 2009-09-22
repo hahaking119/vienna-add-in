@@ -57,7 +57,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             cdtInclude.SchemaLocation = "CoreDataType_" + schema.Version + ".xsd";
             schema.Includes.Add(cdtInclude);
 
-            foreach (IACC acc in accs)
+            foreach (IACC acc in accs.OrderBy(a => a.Name))
             {
                 // finally add the complex type to the schema
                 schema.Items.Add(GenerateComplexTypeACC(context, schema, acc));
@@ -98,7 +98,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             // create the sequence for the BBIEs within the ABIE
             XmlSchemaSequence sequenceBCCs = new XmlSchemaSequence();
 
-            foreach (IBCC bcc in acc.BCCs)
+            foreach (IBCC bcc in acc.BCCs.OrderBy(a => a.Name))
             {
                 // R 89A6: for every BBIE a named element must be locally declared
                 XmlSchemaElement elementBCC = new XmlSchemaElement();
@@ -127,7 +127,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             }
 
 
-            foreach (IASCC ascc in acc.ASCCs)
+            foreach (IASCC ascc in acc.ASCCs.OrderBy(a => a.Name))
             {
                 XmlSchemaElement elementASCC = new XmlSchemaElement();
 
@@ -143,15 +143,17 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
                 if (ascc.AggregationKind == EAAggregationKind.Shared)
                 {
+                    // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
+                    XmlSchemaElement refASCC = new XmlSchemaElement();
+                    refASCC.RefName = new XmlQualifiedName(accPrefix + ":" + elementASCC.Name);
+
+                    // every shared ASCC may only appear once in the XSD file
                     if (!globalASCCs.Contains(elementASCC.Name))
-                    {
-                        // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
-                        XmlSchemaElement refASCC = new XmlSchemaElement();
-                        refASCC.RefName = new XmlQualifiedName(accPrefix + ":" + elementASCC.Name);
-                        sequenceBCCs.Items.Add(refASCC);
+                    {     
                         schema.Items.Add(elementASCC);
                         globalASCCs.Add(elementASCC.Name);
                     }
+                    sequenceBCCs.Items.Add(refASCC);
                 }
                 else
                 {

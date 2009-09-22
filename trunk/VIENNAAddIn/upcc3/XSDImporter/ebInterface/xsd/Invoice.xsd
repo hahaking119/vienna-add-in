@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns="http://www.ebinterface.at/schema/3p0/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:tco="http://www.ebinterface.at/ext/telecom" targetNamespace="http://www.ebinterface.at/schema/3p0/" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns="http://www.ebinterface.at/schema/3p0/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.ebinterface.at/schema/3p0/" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
 	<xs:annotation>
 		<xs:documentation>
             schema version: 3.0
-            last update: 2008-12-12
-            documentation: http://www.ebinterface.at/download/documentation/ebInvoice_3p0.pdf (NOT YET)
+            last update: 2009-09-03
+            documentation: http://www.ebinterface.at/download/documentation/ebInvoice_3p0.pdf
         </xs:documentation>
 	</xs:annotation>
 	<!-- === Root Element === -->
@@ -36,6 +36,7 @@
 	<xs:element name="ConsolidatorsBillerID" type="AlphaNumIDType"/>
 	<xs:element name="Contact" type="xs:string"/>
 	<xs:element name="Country" type="xs:string"/>
+	<xs:element name="Custom" type="CustomType"/>
 	<xs:element name="Date" type="xs:date"/>
 	<xs:element name="Delivery" type="DeliveryType"/>
 	<xs:element name="DeliveryID" type="AlphaNumIDType"/>
@@ -62,7 +63,7 @@
 	<xs:element name="ItemList" type="ItemListType"/>
 	<xs:element name="LayoutID" type="AlphaNumIDType"/>
 	<xs:element name="LineItemAmount" type="Decimal2Type"/>
-	<xs:element name="LineItem" type="LineItemType"/>
+	<xs:element name="ListLineItem" type="ListLineItemType"/>
 	<xs:element name="LogoURL" type="xs:anyURI"/>
 	<xs:element name="MinimumPayment" type="Decimal2Type"/>
 	<xs:element name="Name" type="xs:string"/>
@@ -122,7 +123,7 @@
 	<!-- === Group Deklarations === -->
 	<xs:group name="Custom">
 		<xs:sequence>
-			<xs:any namespace="http://www.ebinterface.at/ext/tourism http://www.ebinterface.at/ext/telecom" processContents="strict"/>
+			<xs:any namespace="##other" processContents="lax"/>
 		</xs:sequence>
 	</xs:group>
 	<!-- === Simple Types === -->
@@ -552,7 +553,6 @@
 			<xs:enumeration value="TZS"/>
 			<xs:enumeration value="THB"/>
 			<xs:enumeration value="XOF"/>
-			<xs:enumeration value="NZD"/>
 			<xs:enumeration value="TOP"/>
 			<xs:enumeration value="TTD"/>
 			<xs:enumeration value="TND"/>
@@ -625,7 +625,7 @@
 			<xs:enumeration value="aka"/>
 			<xs:enumeration value="akk"/>
 			<xs:enumeration value="alb"/>
-			<xs:enumeration value="ski"/>
+			<xs:enumeration value="sqi"/>
 			<xs:enumeration value="ale"/>
 			<xs:enumeration value="alg"/>
 			<xs:enumeration value="amh"/>
@@ -731,7 +731,7 @@
 			<xs:enumeration value="dua"/>
 			<xs:enumeration value="dum"/>
 			<xs:enumeration value="dut"/>
-			<xs:enumeration value="|nld"/>
+			<xs:enumeration value="nld"/>
 			<xs:enumeration value="dyu"/>
 			<xs:enumeration value="dzo"/>
 			<xs:enumeration value="efi"/>
@@ -808,7 +808,6 @@
 			<xs:enumeration value="iii"/>
 			<xs:enumeration value="ijo"/>
 			<xs:enumeration value="iku"/>
-			<xs:enumeration value="||ha"/>
 			<xs:enumeration value="ile"/>
 			<xs:enumeration value="ilo"/>
 			<xs:enumeration value="ina"/>
@@ -822,7 +821,6 @@
 			<xs:enumeration value="ita"/>
 			<xs:enumeration value="jbo"/>
 			<xs:enumeration value="jav"/>
-			<xs:enumeration value="||jv"/>
 			<xs:enumeration value="jpn"/>
 			<xs:enumeration value="jpr"/>
 			<xs:enumeration value="jrb"/>
@@ -1182,6 +1180,11 @@
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
+	<xs:complexType name="CustomType">
+		<xs:sequence>
+			<xs:group ref="Custom"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="DeliveryType">
 		<xs:sequence>
 			<xs:element ref="DeliveryID" minOccurs="0"/>
@@ -1195,7 +1198,9 @@
 	</xs:complexType>
 	<xs:complexType name="DetailsType">
 		<xs:sequence>
-			<xs:element ref="LineItem" maxOccurs="unbounded"/>
+			<xs:element ref="HeaderDescription" minOccurs="0"/>
+			<xs:element ref="ItemList" maxOccurs="unbounded"/>
+			<xs:element ref="FooterDescription" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="DirectDebitType">
@@ -1240,7 +1245,7 @@
 			<xs:element ref="PaymentMethod" minOccurs="0"/>
 			<xs:element ref="PaymentConditions" minOccurs="0"/>
 			<xs:element ref="PresentationDetails" minOccurs="0"/>
-			<xs:group ref="Custom" minOccurs="0"/>
+			<xs:element ref="Custom" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 		<xs:attribute ref="GeneratingSystem" use="required"/>
 		<xs:attribute ref="CancelledOriginalDocument" use="optional"/>
@@ -1259,7 +1264,11 @@
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ItemListType">
-		<xs:sequence/>
+		<xs:sequence>
+			<xs:element ref="HeaderDescription" minOccurs="0"/>
+			<xs:element ref="ListLineItem" maxOccurs="unbounded"/>
+			<xs:element ref="FooterDescription" minOccurs="0"/>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ItemType">
 		<xs:sequence>
@@ -1268,13 +1277,22 @@
 			<xs:element ref="Amount"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="LineItemType">
+	<xs:complexType name="ListLineItemType">
 		<xs:sequence>
 			<xs:element ref="PositionNumber" minOccurs="0"/>
 			<xs:element ref="Description" maxOccurs="unbounded"/>
+			<xs:element ref="BillersArticleNumber" minOccurs="0"/>
+			<xs:element ref="InvoiceRecipientsArticleNumber" minOccurs="0"/>
 			<xs:element ref="Quantity"/>
 			<xs:element ref="UnitPrice"/>
 			<xs:element ref="TaxRate"/>
+			<xs:element ref="DiscountFlag" minOccurs="0"/>
+			<xs:element ref="ReductionRate" minOccurs="0"/>
+			<xs:element ref="Delivery" minOccurs="0"/>
+			<xs:element ref="BillersOrderReference" minOccurs="0"/>
+			<xs:element ref="InvoiceRecipientsOrderReference" minOccurs="0"/>
+			<xs:element ref="AdditionalInformation" minOccurs="0"/>
+			<xs:element ref="Custom" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="LineItemAmount"/>
 		</xs:sequence>
 	</xs:complexType>
