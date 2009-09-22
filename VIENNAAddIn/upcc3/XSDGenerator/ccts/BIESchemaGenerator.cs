@@ -95,7 +95,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             bdtInclude.SchemaLocation = "BusinessDataType_" + schema.Version + ".xsd";
             schema.Includes.Add(bdtInclude);
 
-            foreach (IABIE abie in bies)
+            foreach (IABIE abie in bies.OrderBy(a => a.Name))
             {
                 // finally add the complex type to the schema
                 schema.Items.Add(GenerateComplexTypeABIE(context, schema, abie));
@@ -165,7 +165,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
             }
 
 
-            foreach (IASBIE asbie in abie.ASBIEs)
+            foreach (IASBIE asbie in abie.ASBIEs.OrderBy(a => a.Name))
             {
                 XmlSchemaElement elementASBIE = new XmlSchemaElement();
 
@@ -181,16 +181,17 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
                 if (asbie.AggregationKind == EAAggregationKind.Shared)
                 {
+                    XmlSchemaElement refASBIE = new XmlSchemaElement();
+                    refASBIE.RefName = new XmlQualifiedName(abiePrefix + ":" + elementASBIE.Name);
+
+                    // every shared ASCC may only appear once in the XSD file
                     if (!globalASBIEs.Contains(elementASBIE.Name))
                     {
-                        // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
-                        XmlSchemaElement refASBIE = new XmlSchemaElement();
-                        refASBIE.RefName =
-                            new XmlQualifiedName(abiePrefix + ":" + elementASBIE.Name);
-                        sequenceBBIEs.Items.Add(refASBIE);
+                        // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.   
                         schema.Items.Add(elementASBIE);
                         globalASBIEs.Add(elementASBIE.Name);
                     }
+                    sequenceBBIEs.Items.Add(refASBIE);
                 }
                 else
                 {
