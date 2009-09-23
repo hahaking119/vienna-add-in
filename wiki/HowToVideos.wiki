@@ -6,6 +6,8 @@
 
 This videos shows how to create an initial UPCC model structure.
 
+*Needs update:* As of v0.0.5 the wizard has been modified to support multiple versions of the CCL.
+
 = Video 2 =
 
 [http://umm-dev.org/wp-content/videos/tool-demo-2.htm Video 2]
