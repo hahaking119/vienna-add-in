@@ -3,16 +3,16 @@
 =Creating a UPCC3 model=
 
   # Create a new project.
-  # Select main menu: [Add-Ins]/[VIENNAAddIn]/[Set Model as UMM2/UPCC3 Model]
-  # Select main menu: [Add-Ins]/[VIENNAAddIn]/[Create initial UPCC3 model structure]
+  # Select main menu: "Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model".
+  # Select main menu: "Add-Ins / VIENNAAddIn / Create initial UPCC3 model structure".
 
 In the dialog, you can choose the libraries to create and whether to import the standard CCL libraries (see below).
 
-Click [Generate Default Model] to create the model structure.
+Click "Generate Default Model" to create the model structure.
 
 ==Importing standard libraries==
 
-  # Select "Import standard CC Libraries"
+  # Select "Import standard CC Libraries".
   # Choose a version of the CCL.
 
 The Add-In will then download the CLL libraries as XMI files and import them into the current project.
