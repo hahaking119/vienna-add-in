@@ -5,6 +5,8 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
     public class Mapping : IEquatable<Mapping>
     {
         private TargetBIEElement targetBIE;
+        public static readonly ElementMapping NullElementMapping = new NullMapping();
+        public static readonly ComplexTypeMapping NullComplexTypeMapping = new NullComplexTypeMapping();
 
         public Mapping(SourceElement source, TargetCCElement targetCC)
         {
@@ -16,6 +18,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 
         public SourceElement Source { get; private set; }
         public TargetCCElement TargetCC { get; private set; }
+
         public TargetBIEElement TargetBIE
         {
             get { return targetBIE; }

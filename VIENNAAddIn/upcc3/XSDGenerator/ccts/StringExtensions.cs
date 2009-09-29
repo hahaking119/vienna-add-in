@@ -6,10 +6,22 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System.Text;
+
 namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 {
     public static class StringExtensions
     {
+        public static string Times(this string str, int times)
+        {
+            var stringBuilder = new StringBuilder();
+            for (int i = 0; i < times; i++)
+            {
+                stringBuilder.Append(str);
+            }
+            return stringBuilder.ToString();
+        }
+
         public static string DefaultTo(this string str, string defaultValue)
         {
             return string.IsNullOrEmpty(str) ? defaultValue : str;

@@ -12,6 +12,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         private readonly string bieLibraryName;
         private readonly string bdtLibraryName;
         private readonly string qualifier;
+        private readonly string rootElementName;
 
         /// <summary>
         /// </summary>
@@ -20,13 +21,14 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         /// <param name="bieLibraryName">The name of the BIELibrary to be created.</param>
         /// <param name="bdtLibraryName">The name of the BDTLibrary to be created.</param>
         /// <param name="qualifier">The qualifier for the business domain (e.g. "ebInterface").</param>
-        public MappingImporter(string mapForceMappingFile, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier)
+        public MappingImporter(string mapForceMappingFile, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
         {
             this.mapForceMappingFile = mapForceMappingFile;
             this.docLibraryName = docLibraryName;
             this.bieLibraryName = bieLibraryName;
             this.bdtLibraryName = bdtLibraryName;
             this.qualifier = qualifier;
+            this.rootElementName = rootElementName;
         }
 
         /// <summary>
@@ -44,9 +46,9 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                 throw new Exception("No CCLibary found in repository.");
             }
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFile(mapForceMappingFile);
-            var mappings = new Mappings(mapForceMapping, ccLibrary);
-            var mappedLibraryGenerator = new MappedLibraryGenerator(ccLibrary.Parent, mappings);
-            mappedLibraryGenerator.GenerateLibraries(docLibraryName, bieLibraryName, bdtLibraryName, qualifier);
+            var mappings = new SchemaMapping(mapForceMapping, ccLibrary);
+            var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, ccLibrary.Parent, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
+            mappedLibraryGenerator.GenerateLibraries();
         }
     }
 }

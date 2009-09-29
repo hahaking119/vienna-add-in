@@ -38,6 +38,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         private const string BIELibraryName = "ebInterface";
         private const string BDTLibraryName = "ebInterface Types";
         private const string Qualifier = "ebInterface";
+        private const string RootElementName = "Invoice";
 
         private CCRepository ccRepository;
         private TemporaryFileBasedRepository temporaryFileBasedRepository;
@@ -114,78 +115,31 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         }
 
         [Test]
-        public void TestNestedInputToFlatOutputMappingWithDepthTwo()
-        {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-input-to-flat-output-mapping-depth-2.mfd");
-            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier).ImportMapping(ccRepository);
-
-            var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] { "CityName" }, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", null, null);
-            IABIE bieAccountingVoucher = ShouldContainABIE(bieLibrary, "AccountingVoucher", "AccountingVoucher", null, null);
-
-            var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
-            IABIE bieEbInterfaceChild2 = ShouldContainABIE(docLibrary, "ebInterface_Child2", null, null, new[]
-                                                                                                         {
-                                                                                                             new ASBIEDescriptor("self", bieAccountingVoucher.Id), 
-                                                                                                             new ASBIEDescriptor("Child3", bieAddress.Id), 
-                                                                                                         });
-            IABIE bieEbInterfaceChild1 = ShouldContainABIE(docLibrary, "ebInterface_Child1", null, null, new[]
-                                                                                                         {
-                                                                                                             new ASBIEDescriptor("Child2", bieEbInterfaceChild2.Id), 
-                                                                                                             new ASBIEDescriptor("self", biePerson.Id), 
-                                                                                                         });
-            ShouldContainABIE(docLibrary, "Root", null, null, new[]
-                                                              {
-                                                                  new ASBIEDescriptor("Child1", bieEbInterfaceChild1.Id), 
-                                                              });
-        }
-
-        [Test]
         public void TestNestedInputToFlatOutputMapping()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-input-to-flat-output-mapping.mfd");
 
-            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier).ImportMapping(ccRepository);
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] { "CityName" }, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name"}, null);
-
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
-            IABIE bieEbInterfaceAddress = ShouldContainABIE(docLibrary, "ebInterface_Address", null, null, new[]
-                                                                                                           {
-                                                                                                               new ASBIEDescriptor("self", bieAddress.Id), 
-                                                                                                               new ASBIEDescriptor("Person", biePerson.Id), 
-                                                                                                           });
-            ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
-                                                                 {
-                                                                     new ASBIEDescriptor("Address", bieEbInterfaceAddress.Id), 
-                                                                 });
-        }
 
-        [Test]
-        [Ignore]
-        public void TestOneComplexTypeToMultipleACCsMapping()
-        {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.mfd");
+            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address_Address", "Address", new[] {"Town_CityName"}, null);
+            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name_Name"}, null);
 
-            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier).ImportMapping(ccRepository);
-
-            var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] { "CityName" }, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name"}, null);
-
-            var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
-            IABIE bieEbInterfaceAddress = ShouldContainABIE(docLibrary, "ebInterface_Address", null, null, new[]
-                                                                                                           {
-                                                                                                               new ASBIEDescriptor("self", bieAddress.Id), 
-                                                                                                               new ASBIEDescriptor("Person", biePerson.Id), 
-                                                                                                           });
-            ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
-                                                                 {
-                                                                     new ASBIEDescriptor("Address", bieEbInterfaceAddress.Id), 
-                                                                 });
+            IABIE docBIEAddress = ShouldContainABIE(docLibrary, "Address", null, null, new[]
+                                                                                       {
+                                                                                           new ASBIEDescriptor("Address", bieAddress.Id),
+                                                                                           new ASBIEDescriptor("Person", biePerson.Id),
+                                                                                       });
+            IABIE docBIEInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+                                                                                       {
+                                                                                           new ASBIEDescriptor("Address", docBIEAddress.Id),
+                                                                                       });
+            ShouldContainABIE(docLibrary, "ebInterface_Invoice", null, null, new[]
+                                                                             {
+                                                                                 new ASBIEDescriptor("Invoice", docBIEInvoice.Id),
+                                                                             });
         }
 
         [Test]
@@ -193,20 +147,53 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd");
 
-            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier).ImportMapping(ccRepository);
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"CityName"}, null);
-            IABIE bieParty = ShouldContainABIE(bieLibrary, "Party", "Party", new[] {"Name"}, new[]
-                                                                                             {
-                                                                                                 new ASBIEDescriptor("Residence", bieAddress.Id), 
-                                                                                             });
-
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
-            ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
-                                                                 {
-                                                                     new ASBIEDescriptor("Person", bieParty.Id), 
-                                                                 });
+
+            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
+            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Party", new[] {"Name_Name"}, new[]
+                                                                                                    {
+                                                                                                        new ASBIEDescriptor("Address_Residence", bieAddress.Id),
+                                                                                                    });
+
+            IABIE bieInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+                                                                                    {
+                                                                                        new ASBIEDescriptor("Person", biePerson.Id),
+                                                                                    });
+            ShouldContainABIE(docLibrary, "ebInterface_Invoice", null, null, new[]
+                                                                             {
+                                                                                 new ASBIEDescriptor("Invoice", bieInvoice.Id),
+                                                                             });
+        }
+
+        [Test]
+        public void TestOneComplexTypeToMultipleACCsMapping()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.mfd");
+
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
+            var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
+
+            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address_Address", "Address", new[] {"Town_CityName"}, null);
+            IABIE biePerson = ShouldContainABIE(bieLibrary, "Address_Person", "Person", new[] {"PersonName_Name"}, null);
+
+            IABIE docBIEAddress = ShouldContainABIE(docLibrary, "Address", null, null, new[]
+                                                                                       {
+                                                                                           new ASBIEDescriptor("Address", bieAddress.Id),
+                                                                                           new ASBIEDescriptor("Person", biePerson.Id),
+                                                                                       });
+            IABIE docBIEInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+                                                                                       {
+                                                                                           new ASBIEDescriptor("Address", docBIEAddress.Id),
+                                                                                       });
+            ShouldContainABIE(docLibrary, "ebInterface_Invoice", null, null, new[]
+                                                                             {
+                                                                                 new ASBIEDescriptor("Invoice", docBIEInvoice.Id),
+                                                                             });
         }
 
         [Test]
@@ -214,16 +201,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         {
             string mapForceMappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping.mfd");
 
-            new MappingImporter(mapForceMappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier).ImportMapping(ccRepository);
+            new MappingImporter(mapForceMappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
-            var bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] { "CityName" }, null);
+            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
 
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
-            ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
-                                                                 {
-                                                                     new ASBIEDescriptor("Address", bieAddress.Id), 
-                                                                 });
+            ShouldContainABIE(docLibrary, "ebInterface_Invoice", null, null, new[]
+                                                                             {
+                                                                                 new ASBIEDescriptor("Address", bieAddress.Id),
+                                                                             });
         }
 
         [Test]
@@ -231,25 +218,44 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping-2-target-components.mfd");
 
-            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier).ImportMapping(ccRepository);
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"CityName"}, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary,"Person", "Person", new[] {"Name"}, null);
-
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
-            ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
-                                                                 {
-                                                                     new ASBIEDescriptor("Address", bieAddress.Id), 
-                                                                     new ASBIEDescriptor("Person", biePerson.Id), 
-                                                                 });
+
+            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
+            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name_Name"}, null);
+
+            IABIE bieInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+                                                                                    {
+                                                                                        new ASBIEDescriptor("Address", bieAddress.Id),
+                                                                                        new ASBIEDescriptor("Person", biePerson.Id),
+                                                                                    });
+            ShouldContainABIE(docLibrary, "ebInterface_Invoice", null, null, new[]
+                                                                             {
+                                                                                 new ASBIEDescriptor("Invoice", bieInvoice.Id),
+                                                                             });
         }
+
+        [Test]
+        public void ShouldMapASingleSimpleElement()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.mfd");
+
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            ShouldContainLibrary<IBIELibrary>(BIELibraryName);
+            var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
+
+            ShouldContainABIE(docLibrary, "ebInterface_Invoice", "Party", new[]{"PersonName_Name"}, null);
+        }
+
     }
 
     internal class ASBIEDescriptor : IEquatable<ASBIEDescriptor>
     {
-        private readonly string name;
         private readonly int associatedElementId;
+        private readonly string name;
 
         public ASBIEDescriptor(string name, int associatedElementId)
         {
@@ -257,12 +263,16 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             this.associatedElementId = associatedElementId;
         }
 
+        #region IEquatable<ASBIEDescriptor> Members
+
         public bool Equals(ASBIEDescriptor other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return Equals(other.name, name) && other.associatedElementId == associatedElementId;
         }
+
+        #endregion
 
         public override bool Equals(object obj)
         {

@@ -17,9 +17,12 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 
         public Mapping Mapping { get; set; }
 
-        public SourceElement(string name)
+        public string Key { get; private set; }
+
+        public SourceElement(string name, string key)
         {
             Name = name;
+            Key = key;
             children = new List<SourceElement>();
         }
 
@@ -59,6 +62,21 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         public static bool operator !=(SourceElement left, SourceElement right)
         {
             return !Equals(left, right);
+        }
+
+        public bool HasSimpleType()
+        {
+            return Children.Count == 0;
+        }
+
+        public bool HasComplexType()
+        {
+            return Children.Count > 0;
+        }
+
+        public string GetComplexTypeName()
+        {
+            return Name;
         }
     }
 }
