@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
+using System.Linq;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
@@ -12,46 +13,45 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
     public class MappedLibraryGenerator
     {
         private readonly IBLibrary bLibrary;
-        private readonly Mappings mappings;
+        private readonly string docLibraryName;
+        private readonly string bieLibraryName;
+        private readonly string bdtLibraryName;
+        private readonly string qualifier;
+        private readonly string rootElementName;
+        private readonly SchemaMapping schemaMapping;
+        private readonly List<ABIESpec> bieABIESpecs = new List<ABIESpec>();
+        private readonly List<ABIESpec> docABIESpecs = new List<ABIESpec>();
+        private IBDTLibrary bdtLibrary;
+        private IBIELibrary bieLibrary;
+        private IDOCLibrary docLibrary;
 
-        public MappedLibraryGenerator(IBLibrary bLibrary, Mappings mappings)
+        public MappedLibraryGenerator(SchemaMapping schemaMapping, IBLibrary bLibrary, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
         {
             this.bLibrary = bLibrary;
-            this.mappings = mappings;
+            this.docLibraryName = docLibraryName;
+            this.bieLibraryName = bieLibraryName;
+            this.bdtLibraryName = bdtLibraryName;
+            this.qualifier = qualifier;
+            this.rootElementName = rootElementName;
+            this.schemaMapping = schemaMapping;
         }
 
-        private static LibrarySpec SpecifyLibraryNamed(string bdtLibraryName)
+        private static LibrarySpec SpecifyLibraryNamed(string name)
         {
             return new LibrarySpec
                    {
-                       Name = bdtLibraryName
+                       Name = name
                    };
         }
 
         /// <summary>
-        /// Takes a TargetCCElement representing an ACC as input and returns a set of BBIESpecs according to
-        /// the mapped BCCs of that ACC.
-        /// </summary>
-        /// <param name="bdtLibrary"></param>
-        /// <param name="targetACCElement"></param>
-        /// <returns></returns>
-        private static IEnumerable<BBIESpec> SpecifyBBIEs(IBDTLibrary bdtLibrary, TargetCCElement targetACCElement)
-        {
-            foreach (var bcc in GetMappedBCCs(targetACCElement))
-            {
-                yield return BBIESpec.CloneBCC(bcc, GetBDT(bdtLibrary, bcc.Type));
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the BDT based on the given CDT from the BDTLibrary. If the BDT does not yet exist, it is created.
+        /// Retrieves the BDT based on the given CDT from the BDT library. If the BDT does not yet exist, it is created.
         /// </summary>
         /// <param name="cdt"></param>
-        /// <param name="bdtLibrary"></param>
         /// <returns></returns>
-        private static IBDT GetBDT(IBDTLibrary bdtLibrary, ICDT cdt)
+        private IBDT GetBDT(ICDT cdt)
         {
-            var bdtName = cdt.Name;
+            var bdtName = qualifier + "_" + cdt.Name;
             var bdt = bdtLibrary.ElementByName(bdtName);
             if (bdt == null)
             {
@@ -62,255 +62,213 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         }
 
         /// <summary>
-        /// Returns a set of IBCCs that belong to a given ACC from the list of TargetCCElements.
-        /// </summary>
-        /// <param name="acc"></param>
-        /// <returns></returns>
-        private static IEnumerable<IBCC> GetMappedBCCs(TargetCCElement acc)
-        {
-            foreach (var child in acc.Children)
-            {
-                if (child.IsBCC)
-                {
-                    yield return (IBCC) child.Reference;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns a set of Mappings which actually involve ASCCs on the TargetCCElement side for a
-        /// given ACC.
-        /// </summary>
-        /// <param name="acc"></param>
-        /// <returns></returns>
-        private static IEnumerable<Mapping> GetASCCMappings(TargetCCElement acc)
-        {
-            foreach (var child in acc.Children)
-            {
-                if (child.IsASCC)
-                {
-                    yield return child.Mapping;
-                }
-            }
-        }
-
-        /// <summary>
         /// Takes the names of the libraries to be created as well as a qualifier as input and creates the
         /// libraries.
         /// </summary>
-        /// <param name="docLibraryName"></param>
-        /// <param name="bieLibraryName"></param>
-        /// <param name="bdtLibraryName"></param>
-        /// <param name="qualifier"></param>
-        public void GenerateLibraries(string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier)
+        public void GenerateLibraries()
         {
-            var bdtLibrary = bLibrary.CreateBDTLibrary(SpecifyLibraryNamed(bdtLibraryName));
-            var bieLibrary = bLibrary.CreateBIELibrary(SpecifyLibraryNamed(bieLibraryName));
-            var docLibrary = bLibrary.CreateDOCLibrary(SpecifyLibraryNamed(docLibraryName));
-            GenerateBDTsAndABIEs(bdtLibrary, bieLibrary);
-            GenerateDOC(docLibrary, qualifier);
+            bdtLibrary = bLibrary.CreateBDTLibrary(SpecifyLibraryNamed(bdtLibraryName));
+            bieLibrary = bLibrary.CreateBIELibrary(SpecifyLibraryNamed(bieLibraryName));
+            docLibrary = bLibrary.CreateDOCLibrary(SpecifyLibraryNamed(docLibraryName));
+            GenerateBDTsAndABIEs();
+            GenerateRootABIE();
         }
 
-        /// <summary>
-        /// Takes a IBDTLibrary and a IBIELibrary as input and generates BDTs and ABIEs properly.
-        /// </summary>
-        /// <param name="bdtLibrary"></param>
-        /// <param name="bieLibrary"></param>
-        private void GenerateBDTsAndABIEs(IBDTLibrary bdtLibrary, IBIELibrary bieLibrary)
+        private void GenerateRootABIE()
         {
-            foreach (var accMapping in mappings.GetACCMappings())
+            var rootElementMapping = schemaMapping.RootElementMapping;
+            if (rootElementMapping is ASBIEMapping)
             {
-                var acc = (IACC) accMapping.TargetCC.Reference;
-                var abieSpec = new ABIESpec
-                               {
-                                   BasedOn = acc,
-                                   Name = GetABIEName(acc),
-                                   BBIEs = SpecifyBBIEs(bdtLibrary, accMapping.TargetCC),
-                                   ASBIEs = SpecifyASBIES(accMapping, bdtLibrary, bieLibrary),
-                               };
-                accMapping.TargetBIE = new TargetBIEElement(abieSpec.Name, bieLibrary.CreateElement(abieSpec));
-                // TODO iterate over ASCC-Mappings and add ASBIES as TargetBIE
+                ComplexTypeMapping rootComplexTypeMapping = ((ASBIEMapping) rootElementMapping).TargetMapping;
+                docLibrary.CreateElement(new ABIESpec
+                                         {
+                                             Name = qualifier + "_" + rootElementName,
+                                             ASBIEs = new List<ASBIESpec>
+                                                      {
+                                                          new ASBIESpec
+                                                          {
+                                                              AggregationKind = EAAggregationKind.Composite,
+                                                              Name = rootComplexTypeMapping.BIEName,
+                                                              ResolveAssociatedABIE = DeferredABIEResolver(rootComplexTypeMapping),
+                                                          }
+                                                      },
+                                         });
+            }
+            else if (rootElementMapping is BCCMapping)
+            {
+                var bccMapping = (BCCMapping) rootElementMapping;
+                docLibrary.CreateElement(new ABIESpec
+                {
+                    BasedOn = bccMapping.ACC,
+                    Name = qualifier + "_" + rootElementName,
+                    BBIEs = GenerateBCCMappings(new List<BCCMapping>{bccMapping}),
+                });
+            }
+            else
+            {
+                throw new MappingError("Root element can only be mapped to BCC, but is mapped to something else.");
             }
         }
 
-        /// <summary>
-        /// At the moment this method returns the name of the given IACC. The name may however be also constructed from the complex typ
-        /// of the source XML Schema document.
-        /// </summary>
-        /// <param name="acc"></param>
-        /// <returns></returns>
-        private static string GetABIEName(IACC acc)
+        private void GenerateBDTsAndABIEs()
         {
-            //TODO this needs to be reconsidered
-            return acc.Name;
+            foreach (var complexTypeMapping in schemaMapping.GetComplexTypeMappings())
+            {
+                GenerateComplexTypeBIESpecs(complexTypeMapping);
+            }
+            CreateBIEABIEs(bieABIESpecs);
+            CreateDOCABIEs(docABIESpecs);
         }
 
-        /// <summary>
-        /// Takes a Mapping representing actually an ACCMapping, an IBDTLibrary amd an IBIELibrary as input and
-        /// returns a set of ASBIESpecs. Notice, that with this funtcion we only create ASBIEs that are based on existing
-        /// ASCCs.
-        /// </summary>
-        /// <param name="accMapping"></param>
-        /// <param name="bdtLibrary"></param>
-        /// <param name="bieLibrary"></param>
-        /// <returns></returns>
-        private IEnumerable<ASBIESpec> SpecifyASBIES(Mapping accMapping, IBDTLibrary bdtLibrary, IBIELibrary bieLibrary)
+        private void CreateBIEABIEs(IEnumerable<ABIESpec> abieSpecs)
         {
-            foreach (var asccMapping in GetASCCMappings(accMapping.TargetCC))
+            // need two passes:
+            //  (1) create the ABIEs
+            //  (2) create the ASBIEs
+            var abies = new Dictionary<string, IABIE>();
+            foreach (ABIESpec spec in abieSpecs)
             {
-                var ascc = ((IASCC) asccMapping.TargetCC.Reference);
+                var specWithoutASBIEs = new ABIESpec
+                                        {
+                                            BusinessTerms = spec.BusinessTerms,
+                                            Definition = spec.Definition,
+                                            DictionaryEntryName = spec.DictionaryEntryName,
+                                            IsEquivalentTo = spec.IsEquivalentTo,
+                                            LanguageCode = spec.LanguageCode,
+                                            Name = spec.Name,
+                                            UniqueIdentifier = spec.UniqueIdentifier,
+                                            UsageRules = spec.UsageRules,
+                                            VersionIdentifier = spec.VersionIdentifier
+                                        };
+                foreach (BBIESpec bbieSpec in spec.BBIEs)
+                {
+                    specWithoutASBIEs.AddBBIE(bbieSpec);
+                }
+                abies[spec.Name] = bieLibrary.CreateElement(specWithoutASBIEs);
+            }
+            foreach (ABIESpec spec in abieSpecs)
+            {
+                var abie = abies[spec.Name];
+                bieLibrary.UpdateElement(abie, spec);
+            }
+        }
 
-                var associatedABIE = GetABIE(ascc.AssociatedElement, bdtLibrary, asccMapping.TargetCC, bieLibrary);
-                var asbieSpec = ASBIESpec.CloneASCC(ascc, ascc.Name, associatedABIE.Id);
+        private void CreateDOCABIEs(IEnumerable<ABIESpec> abieSpecs)
+        {
+            // need two passes:
+            //  (1) create the ABIEs
+            //  (2) create the ASBIEs
+            var abies = new Dictionary<string, IABIE>();
+            foreach (ABIESpec spec in abieSpecs)
+            {
+                var specWithoutASBIEs = new ABIESpec
+                                        {
+                                            BusinessTerms = spec.BusinessTerms,
+                                            Definition = spec.Definition,
+                                            DictionaryEntryName = spec.DictionaryEntryName,
+                                            IsEquivalentTo = spec.IsEquivalentTo,
+                                            LanguageCode = spec.LanguageCode,
+                                            Name = spec.Name,
+                                            UniqueIdentifier = spec.UniqueIdentifier,
+                                            UsageRules = spec.UsageRules,
+                                            VersionIdentifier = spec.VersionIdentifier
+                                        };
+                foreach (BBIESpec bbieSpec in spec.BBIEs)
+                {
+                    specWithoutASBIEs.AddBBIE(bbieSpec);
+                }
+                abies[spec.Name] = docLibrary.CreateElement(specWithoutASBIEs);
+            }
+            foreach (ABIESpec spec in abieSpecs)
+            {
+                var abie = abies[spec.Name];
+                docLibrary.UpdateElement(abie, spec);
+            }
+        }
+
+        private void GenerateComplexTypeBIESpecs(ComplexTypeMapping abieMapping)
+        {
+            if (abieMapping.IsMappedToSingleACC)
+            {
+                GenerateBIELibraryABIESpec(abieMapping, abieMapping.TargetACCs.ElementAt(0), abieMapping.BIEName);
+            }
+            else
+            {
+                var asbieSpecs = new List<ASBIESpec>();
+                foreach (IACC acc in abieMapping.TargetACCs)
+                {
+                    var accABIESpec = GenerateBIELibraryABIESpec(abieMapping, acc, abieMapping.ComplexTypeName + "_" + acc.Name);
+                    asbieSpecs.Add(new ASBIESpec
+                                   {
+                                       Name = acc.Name,
+                                       ResolveAssociatedABIE = DeferredABIEResolver(bieLibrary, accABIESpec.Name),
+                                   });
+                }
+                foreach (var asbieMapping in abieMapping.ASBIEMappings)
+                {
+                    asbieSpecs.Add(new ASBIESpec
+                                   {
+                                       Name = asbieMapping.BIEName,
+                                       ResolveAssociatedABIE = DeferredABIEResolver(asbieMapping.TargetMapping),
+                                   });
+                }
+                docABIESpecs.Add(new ABIESpec
+                                 {
+                                     Name = abieMapping.ComplexTypeName,
+                                     ASBIEs = asbieSpecs,
+                                 });
+            }
+        }
+
+        private ABIESpec GenerateBIELibraryABIESpec(ComplexTypeMapping abieMapping, IACC acc, string name)
+        {
+            var abieSpec = new ABIESpec
+                           {
+                               BasedOn = acc,
+                               Name = name,
+                               BBIEs = GenerateBCCMappings(abieMapping.BCCMappings(acc)),
+                               ASBIEs = GenerateASCCMappings(abieMapping.ASCCMappings(acc)),
+                           };
+            bieABIESpecs.Add(abieSpec);
+            return abieSpec;
+        }
+
+        private IEnumerable<ASBIESpec> GenerateASCCMappings(IEnumerable<ASCCMapping> asccMappings)
+        {
+            foreach (var asccMapping in asccMappings)
+            {
+                var ascc = asccMapping.ASCC;
+                var targetMapping = asccMapping.TargetMapping;
+                var asbieSpec = ASBIESpec.CloneASCC(ascc, asccMapping.BIEName, DeferredABIEResolver(targetMapping));
                 yield return asbieSpec;
             }
         }
 
-        /// <summary>
-        /// Returns an IABIE based on its IACC in the given IBIELibrary.
-        /// </summary>
-        /// <param name="acc"></param>
-        /// <param name="bdtLibrary"></param>
-        /// <param name="targetCCElement"></param>
-        /// <param name="bieLibrary"></param>
-        /// <returns></returns>
-        private static IABIE GetABIE(IACC acc, IBDTLibrary bdtLibrary, TargetCCElement targetCCElement, IBIELibrary bieLibrary)
+        private IEnumerable<BBIESpec> GenerateBCCMappings(IEnumerable<BCCMapping> bccMappings)
         {
-            var abieName = GetABIEName(acc);
-            IABIE abie = bieLibrary.ElementByName(abieName);
-            if (abie == null)
+            foreach (var bccMapping in bccMappings)
             {
-                var abieSpec = new ABIESpec
-                               {
-                                   BasedOn = acc,
-                                   Name = abieName,
-                                   BBIEs = SpecifyBBIEs(bdtLibrary, targetCCElement),
-                               };
-                abie = bieLibrary.CreateElement(abieSpec);
-            }
-            return abie;
-        }
-
-        /// <summary>
-        /// This method creates the root ABIE in the DocLibrary representing the document which has been mapped.
-        /// </summary>
-        /// <param name="docLibrary"></param>
-        /// <param name="qualifier"></param>
-        private void GenerateDOC(IDOCLibrary docLibrary, string qualifier)
-        {
-            docLibrary.CreateElement(new ABIESpec
-                                     {
-                                         Name = mappings.RootSourceElement.Name,
-                                         ASBIEs = GenerateASBIEsToChildren(mappings.RootSourceElement, qualifier, docLibrary),
-                                     });
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sourceElement"></param>
-        /// <param name="qualifier"></param>
-        /// <param name="docLibrary"></param>
-        /// <returns></returns>
-        private IABIE GenerateDOCABIE(SourceElement sourceElement, string qualifier, IDOCLibrary docLibrary)
-        {
-            var asbies = new List<ASBIESpec>
-                         {
-                             GenerateASBIEToTarget(sourceElement, "self")
-                         };
-            asbies.AddRange(GenerateASBIEsToChildren(sourceElement, qualifier, docLibrary));
-            return docLibrary.CreateElement(new ABIESpec
-                                            {
-                                                Name = qualifier + "_" + sourceElement.Name,
-                                                ASBIEs = asbies,
-                                            });
-        }
-
-        /// <summary>
-        /// Takes a SourceElement representing a Target as input and returns an ASBIESpec.
-        /// </summary>
-        /// <param name="sourceElement"></param>
-        /// <param name="asbieName"></param>
-        /// <returns></returns>
-        private static ASBIESpec GenerateASBIEToTarget(SourceElement sourceElement, string asbieName)
-        {
-            var abie = sourceElement.Mapping.TargetBIE.Reference as IABIE;
-            if (abie == null)
-            {
-                // TODO error
-                throw new Exception("Source element mapped to ABIE, but reference cannot be resolved to an ABIE: " + sourceElement.Name);
-            }
-            return new ASBIESpec
-                   {
-                       AggregationKind = EAAggregationKind.Composite,
-                       AssociatedABIEId = abie.Id,
-                       Name = asbieName,
-                   };
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sourceElement"></param>
-        /// <param name="qualifier"></param>
-        /// <param name="docLibrary"></param>
-        /// <returns></returns>
-        private IEnumerable<ASBIESpec> GenerateASBIEsToChildren(SourceElement sourceElement, string qualifier, IDOCLibrary docLibrary)
-        {
-            foreach (var childElement in sourceElement.Children)
-            {
-                if (NeedsDOCABIE(childElement))
-                {
-                    var childABIE = GenerateDOCABIE(childElement, qualifier, docLibrary);
-                    yield return new ASBIESpec
-                               {
-                                   AggregationKind = EAAggregationKind.Composite,
-                                   AssociatedABIEId = childABIE.Id,
-                                   Name = childElement.Name,
-                               };
-                }
-                else
-                {
-                    if (IsMappedToABIE(childElement))
-                    {
-                        yield return GenerateASBIEToTarget(childElement, childElement.Name);
-                    }
-                }
+                var bcc = bccMapping.BCC;
+                var bbieSpec = BBIESpec.CloneBCC(bcc, GetBDT(bcc.Type));
+                bbieSpec.Name = bccMapping.BIEName;
+                yield return bbieSpec;
             }
         }
 
-        /// <summary>
-        /// If a source element is mapped to an ABIE and at least one of its children is
-        /// also mapped to an ABIE, we must create an ABIE in the DOCLibrary.
-        /// </summary>
-        /// <param name="sourceElement"></param>
-        /// <returns></returns>
-        private static bool NeedsDOCABIE(SourceElement sourceElement)
+        private static Func<T> DeferredABIEResolver<T, S>(IElementLibrary<T, S> elementLibrary, string abieName)
         {
-            if (IsMappedToABIE(sourceElement))
-            {
-                foreach (var child in sourceElement.Children)
-                {
-                    if (IsMappedToABIE(child))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return () => elementLibrary.ElementByName(abieName);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sourceElement"></param>
-        /// <returns></returns>
-        private static bool IsMappedToABIE(SourceElement sourceElement)
+        private Func<IABIE> DeferredABIEResolver(ComplexTypeMapping complexTypeMapping)
         {
-            return sourceElement != null && 
-                   sourceElement.Mapping != null &&
-                   sourceElement.Mapping.TargetBIE != null &&
-                   sourceElement.Mapping.TargetBIE.IsABIE;
+            var elementLibrary = DetermineTargetLibrary(complexTypeMapping);
+            return DeferredABIEResolver(elementLibrary, complexTypeMapping.BIEName);
+        }
+
+        private IElementLibrary<IABIE, ABIESpec> DetermineTargetLibrary(ComplexTypeMapping complexTypeMapping)
+        {
+            return complexTypeMapping.Library == ComplexTypeMapping.LibraryType.BIE ? (IElementLibrary<IABIE, ABIESpec>) bieLibrary : docLibrary;
         }
     }
 }

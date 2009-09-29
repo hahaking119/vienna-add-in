@@ -60,6 +60,11 @@ namespace VIENNAAddIn.upcc3.ccts
             asbies.RemoveAll(asbie => asbie.Name == name);
         }
 
+        public void AddBBIE(BBIESpec spec)
+        {
+            bbies.Add(spec);
+        }
+
         public void RemoveBBIE(string name)
         {
             bbies.RemoveAll(bbie => bbie.Name == name);

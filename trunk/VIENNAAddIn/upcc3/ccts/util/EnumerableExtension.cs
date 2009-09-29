@@ -7,7 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -20,6 +22,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 yield return convert(input);
             }
+        }
+
+        public static IEnumerable<TOutput> FilterByType<TInput, TOutput>(this IEnumerable<TInput> inputs) where TOutput : TInput
+        {
+            return from input in inputs where input is TOutput select (TOutput) input;
         }
 
         public static bool IsEqualTo<T>(this IEnumerable<T> lhs, IEnumerable<T> rhs)

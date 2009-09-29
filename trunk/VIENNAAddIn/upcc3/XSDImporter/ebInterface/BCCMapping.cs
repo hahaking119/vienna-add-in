@@ -1,0 +1,66 @@
+using System;
+using VIENNAAddIn.upcc3.ccts;
+
+namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
+{
+    public class BCCMapping : ElementMapping, IEquatable<BCCMapping>
+    {
+        private readonly SourceElement sourceElement;
+        private readonly TargetCCElement targetElement;
+
+        public BCCMapping(SourceElement sourceElement, TargetCCElement targetElement)
+        {
+            this.sourceElement = sourceElement;
+            this.targetElement = targetElement;
+            BCC = (IBCC) targetElement.Reference;
+            ACC = BCC.Container;
+            ElementName = sourceElement.Name;
+        }
+
+        public override string BIEName
+        {
+            get { return ElementName + "_" + BCC.Name; }
+        }
+
+        public IBCC BCC { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format("BCCMapping <SourceElement: {0}, TargetElement: {1}, ACC: {2} [{3}]>", sourceElement.Name, targetElement.Name, ACC.Name, ACC.Id);
+        }
+
+        public IACC ACC { get; private set; }
+
+        public string ElementName { get; private set; }
+
+        public bool Equals(BCCMapping other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.sourceElement.Key, sourceElement.Key) && Equals(other.targetElement.Reference.Id, targetElement.Reference.Id) && Equals(other.ACC.Id, ACC.Id);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (BCCMapping)) return false;
+            return Equals((BCCMapping) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (ACC != null ? ACC.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(BCCMapping left, BCCMapping right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(BCCMapping left, BCCMapping right)
+        {
+            return !Equals(left, right);
+        }
+    }
+}
