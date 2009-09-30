@@ -36,6 +36,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
         }
 
+        /// <exception cref="MappingError"><c>MappingError</c>.</exception>
         private void CreateChildren(TargetCCElement targetCCElement, Entry entry, IACC acc)
         {
             foreach (var subEntry in entry.SubEntries)
@@ -56,8 +57,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
                     }
                     else
                     {
-                        Console.WriteLine("ERROR: BCC or ASCC '" + subEntry.Name + "' not found.");
-                        // TODO error
+                        throw new MappingError("BCC or ASCC '" + subEntry.Name + "' not found.");
                     }
                 }
             }

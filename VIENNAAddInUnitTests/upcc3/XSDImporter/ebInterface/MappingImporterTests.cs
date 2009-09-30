@@ -1,11 +1,13 @@
 using System;
 using System.Linq;
+using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.XSDImporter.ebInterface;
 using VIENNAAddInUnitTests.TestRepository;
+using File=System.IO.File;
 
 namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
 {
@@ -112,6 +114,31 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             {
                 Assert.That(ASBIEDescriptors(abie), Is.EquivalentTo(asbieDescriptors));
             }
+        }
+
+        [Test]
+        [Ignore]
+        public void ShouldImportEBInterfaceUniversalBankTransaction()
+        {
+            ImportEBInterfaceMappingPart("UniversalBankTransaction");
+        }
+
+        [Test]
+        [Ignore]
+        public void ShouldImportEBInterfacePaymentConditions()
+        {
+            ImportEBInterfaceMappingPart("PaymentConditions");
+        }
+
+        private static void ImportEBInterfaceMappingPart(string mappingPartName)
+        {
+            string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\" + mappingPartName + ".eap");
+            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
+            var repo = new Repository();
+            repo.OpenFile(repoPath);
+
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\" + mappingPartName + ".mfd");
+            new MappingImporter(mappingFile, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(new CCRepository(repo));
         }
 
         [Test]
@@ -247,9 +274,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             ShouldContainLibrary<IBIELibrary>(BIELibraryName);
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
 
-            ShouldContainABIE(docLibrary, "ebInterface_Invoice", "Party", new[]{"PersonName_Name"}, null);
+            ShouldContainABIE(docLibrary, "ebInterface_Invoice", "Party", new[] {"PersonName_Name"}, null);
         }
-
     }
 
     internal class ASBIEDescriptor : IEquatable<ASBIEDescriptor>
