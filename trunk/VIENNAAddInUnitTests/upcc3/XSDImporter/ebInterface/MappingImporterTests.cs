@@ -133,7 +133,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         private static void ImportEBInterfaceMappingPart(string mappingPartName)
         {
             string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\" + mappingPartName + ".eap");
-            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
+            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
             var repo = new Repository();
             repo.OpenFile(repoPath);
 
