@@ -55,6 +55,7 @@ namespace VIENNAAddIn
             MenuAction createABIE = "Create new &ABIE".OnClick(ABIEWizardForm.ShowABIEWizard);
             MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
             MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
+            MenuItem helloWorld = "New Importer".OnClick(ImporterWizard.ShowForm);
             MenuAction validate = "&Validate".OnClick(ValidatorForm.ShowValidator);
             MenuItem _____ = MenuItem.Separator;
 
@@ -74,6 +75,7 @@ namespace VIENNAAddIn
                                       + "Synchronize &Tagged Values...".OnClick(SynchStereotypesForm.ShowForm)
                                      )
                                    + ("Wizards"
+                                      + helloWorld
                                       + createABIE
                                       + modifyABIE
                                       + createBDT
