@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Xml;
+using System.Xml.Schema;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using VIENNAAddIn.upcc3.XSDImporter;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -23,17 +22,19 @@ namespace VIENNAAddIn.upcc3.Wizards
         private int mappingfilesEbInterface = 1;
         private Dictionary<string, TextBox> textboxes = new Dictionary<string, TextBox>();
         private Dictionary<string, Button> buttons = new Dictionary<string, Button>();
+        private CCRepository CcRepository;
 
-        public ImporterWizard()
+        public ImporterWizard(EA.Repository eaRepository)
         {
             InitializeComponent();
+            CcRepository = new CCRepository(eaRepository);
             buttons.Add("mappingFileB_1", this.mappingFileB_1);
             textboxes.Add("mappingFileT_1", this.mappingFileT_1);
         }
 
         public static void ShowForm(AddInContext context)
         {
-            new ImporterWizard().Show();
+            new ImporterWizard(context.EARepository).Show();
         }
 
         private string OpenFileDialog(string ext, string filter)
@@ -117,6 +118,58 @@ namespace VIENNAAddIn.upcc3.Wizards
             if (!string.IsNullOrEmpty(filename))
             {
                 textboxEbInterfaceSchema.Text = filename;
+            }
+        }
+
+        private void buttonClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void buttonImport_Click(object sender, RoutedEventArgs e)
+        {
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0: // CCTS
+                    Cursor = Cursors.Wait;
+
+                    List<SchemaInfo> schemas = new List<SchemaInfo>();
+
+                    XmlReader reader = XmlReader.Create(textboxRootSchema.Text);
+                    XmlSchema rootSchema = XmlSchema.Read(reader, null);
+
+                    int indexLastBackslash = textboxRootSchema.Text.LastIndexOf("\\");
+                    string FileName = textboxRootSchema.Text.Substring(indexLastBackslash + 1);
+                    string InputDirectory = textboxRootSchema.Text.Substring(0, indexLastBackslash + 1);
+                    schemas.Add(new SchemaInfo(rootSchema, FileName));
+
+                    foreach (XmlSchemaObject schemaObject in rootSchema.Includes)
+                    {
+                        if (schemaObject is XmlSchemaInclude)
+                        {
+                            XmlSchemaInclude include = (XmlSchemaInclude) schemaObject;
+                            reader = XmlReader.Create(InputDirectory + include.SchemaLocation);
+                            XmlSchema includedSchema = XmlSchema.Read(reader, null);
+                            schemas.Add(new SchemaInfo(includedSchema, include.SchemaLocation));
+                        }
+                    }
+
+                    buttonImport.Visibility = Visibility.Collapsed;
+
+                    ImporterContext context = new ImporterContext(CcRepository, InputDirectory, schemas,
+                                                                  new SchemaInfo(rootSchema, FileName));
+                    XSDImporter.ccts.XSDImporter.ImportSchemas(context);
+
+                    progressBar.Minimum = 0;
+                    progressBar.Maximum = 100;
+                    progressBar.Value = 100;
+
+                    textboxStatus.Text += "Importing the XML schema named \"" + FileName + "\" completed!\n";
+
+                    Cursor = Cursors.Arrow;
+                break;
+                case 1: // ebInterface
+                break;
             }
         }
     }
