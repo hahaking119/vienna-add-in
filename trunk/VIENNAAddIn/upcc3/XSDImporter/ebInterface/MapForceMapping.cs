@@ -72,125 +72,15 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return null;
         }
 
-        /// <summary>
-        /// Retrieve the schema component containing the input schemas' root element.
-        /// 
-        /// If there is only one input schema component, then this component is the root schema component.
-        /// 
-        /// If there are more than one input schema components, we look for a constant component with value "Root: *", where "*" must
-        /// be the name of the root XSD element of the input schemas. We then return the schema component containing this element as its root.
-        /// </summary>
-        /// <returns>The input schema component containing the XSD root element.</returns>
-        public SchemaComponent GetRootSchemaComponent()
+        public IEnumerable<SchemaComponent> GetInputSchemaComponents()
         {
-            var inputSchemas = new List<SchemaComponent>();
             foreach (SchemaComponent schemaComponent in SchemaComponents)
             {
-                if (IsInputSchema(schemaComponent))
+                if (schemaComponent.IsInputSchema())
                 {
-                    inputSchemas.Add(schemaComponent);
+                    yield return schemaComponent;
                 }
             }
-            if (inputSchemas.Count > 1)
-            {
-                var rootElementName = GetConstant("Root");
-                if (rootElementName == null)
-                {
-                    // TODO error
-                    return null;
-                }
-                foreach (SchemaComponent inputSchema in inputSchemas)
-                {
-                    if (inputSchema.RootEntry.Name == rootElementName)
-                    {
-                        return inputSchema;
-                    }
-                }
-                // TODO error
-                return null;
-            }
-            if (inputSchemas.Count == 1)
-            {
-                return inputSchemas[0];
-            }
-            // TODO error
-            return null;
-        }
-
-        /// <summary>
-        /// Takes a SchemaComponent as input and returns true if this SchemaComponent is an Input Schema, i.e. a 
-        /// source Schema, and false otherwise.
-        /// </summary>
-        /// <param name="component"></param>
-        /// <returns></returns>
-        private bool IsInputSchema(SchemaComponent component)
-        {
-            return IsInput(component.RootEntry);
-        }
-
-        /// <summary>
-        /// Takes an Entry as input and returns true if this Entry or its child Entries have an OutputKey specified,
-        /// false otherwise.
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <returns></returns>
-        private bool IsInput(Entry entry)
-        {
-            if (entry.IsInput)
-            {
-                return true;
-            }
-            if (entry.IsOutput)
-            {
-                return false;
-            }
-            foreach (Entry subEntry in entry.SubEntries)
-            {
-                var isInput = IsInput(subEntry);
-                if (isInput)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Takes a SchemaComponent as input and returns true if this SchemaComponent is an Output Schema, i.e. a 
-        /// target Schema, and false otherwise.
-        /// </summary>
-        /// <param name="component"></param>
-        /// <returns></returns>
-        private bool IsOutputSchema(SchemaComponent component)
-        {
-            return IsOutput(component.RootEntry);
-        }
-
-        /// <summary>
-        /// Takes an Entry as input and returns true if this Entry or its child Entries have an InputKey specified,
-        /// false otherwise.
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <returns></returns>
-        private bool IsOutput(Entry entry)
-        {
-            if (entry.IsInput)
-            {
-                return false;
-            }
-            if (entry.IsOutput)
-            {
-                return true;
-            }
-            foreach (Entry subEntry in entry.SubEntries)
-            {
-                var isOutput = IsOutput(subEntry);
-                if (isOutput)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         /// <summary>
@@ -201,7 +91,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         {
             foreach (SchemaComponent schemaComponent in SchemaComponents)
             {
-                if (IsOutputSchema(schemaComponent))
+                if (schemaComponent.IsOutputSchema())
                 {
                     yield return schemaComponent;
                 }

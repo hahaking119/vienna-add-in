@@ -21,7 +21,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
             accParty = ccLibrary.ElementByName("Party");
             bccPartyName = accParty.BCCs.First(bcc => bcc.Name == "Name");
             asccPartyResidence = accParty.ASCCs.First(ascc => ascc.Name == "Residence");
-            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFile(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd"));
+            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd"));
         }
 
         #endregion

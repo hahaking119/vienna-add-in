@@ -58,29 +58,34 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 
         #endregion
 
-        public static InputOutputKey Input(string value)
+        public static InputOutputKey Input(string prefix, string value)
         {
-            return new InputOutputKey(KeyType.Input, value);
+            return new InputOutputKey(KeyType.Input, PrependPrefix(prefix, value));
         }
 
-        public static InputOutputKey Output(string value)
+        public static string PrependPrefix(string prefix, string value)
         {
-            return new InputOutputKey(KeyType.Output, value);
+            return string.IsNullOrEmpty(prefix) ? value : prefix + "_" + value;
+        }
+
+        public static InputOutputKey Output(string prefix, string value)
+        {
+            return new InputOutputKey(KeyType.Output, PrependPrefix(prefix, value));
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(InputOutputKey)) return false;
-            return Equals((InputOutputKey)obj);
+            if (obj.GetType() != typeof (InputOutputKey)) return false;
+            return Equals((InputOutputKey) obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((Value != null ? Value.GetHashCode() : 0) * 397) ^ Type.GetHashCode();
+                return ((Value != null ? Value.GetHashCode() : 0)*397) ^ Type.GetHashCode();
             }
         }
 

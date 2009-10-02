@@ -10,9 +10,9 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         public string Key { get; private set; }
         public IEnumerable<Edge> Edges { get; private set; }
 
-        public Vertex(string key, IEnumerable<Edge> edges)
+        public Vertex(string key, IEnumerable<Edge> edges, string mappingFile)
         {
-            Key = key;
+            Key = InputOutputKey.PrependPrefix(mappingFile, key);
             Edges = new List<Edge>(edges);
         }
 
