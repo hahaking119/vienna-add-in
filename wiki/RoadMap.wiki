@@ -4,4 +4,5 @@
 
 == Release 0.0.6 ==
 
+[Issues]
 [http://code.google.com/p/vienna-add-in/issues/list?q=release%3A0.0.6]
