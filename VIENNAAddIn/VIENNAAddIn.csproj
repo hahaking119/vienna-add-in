@@ -183,9 +183,6 @@
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
     <Compile Include="upcc3\Importer\ACCImporter.cs" />
     <Compile Include="upcc3\NDR.cs" />
-    <Compile Include="upcc3\Wizards\HelloWorld.xaml.cs">
-      <DependentUpon>HelloWorld.xaml</DependentUpon>
-    </Compile>
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -556,10 +553,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="upcc3\Wizards\HelloWorld.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="upcc3\Wizards\ImporterWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

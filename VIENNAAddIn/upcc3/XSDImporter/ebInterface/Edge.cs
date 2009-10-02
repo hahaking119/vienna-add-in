@@ -13,10 +13,10 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
         public string EdgeKey { get; private set; }
         public string TargetVertexKey { get; private set; }
 
-        public Edge(string edgeKey, string targetVertexKey)
+        public Edge(string edgeKey, string targetVertexKey, string mappingFile)
         {
-            EdgeKey = edgeKey;
-            TargetVertexKey = targetVertexKey;
+            EdgeKey = InputOutputKey.PrependPrefix(mappingFile, edgeKey);
+            TargetVertexKey = InputOutputKey.PrependPrefix(mappingFile, targetVertexKey);
         }
 
         public bool Equals(Edge other)
@@ -26,12 +26,22 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             return Equals(other.EdgeKey, EdgeKey) && Equals(other.TargetVertexKey, TargetVertexKey);
         }
 
+        public static bool operator ==(Edge left, Edge right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Edge left, Edge right)
+        {
+            return !Equals(left, right);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Edge)) return false;
-            return Equals((Edge)obj);
+            if (obj.GetType() != typeof (Edge)) return false;
+            return Equals((Edge) obj);
         }
 
         public override int GetHashCode()

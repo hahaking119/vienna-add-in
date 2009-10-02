@@ -22,14 +22,14 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
                                                                           new Entry("Address", InputOutputKey.None,
                                                                                     new[]
                                                                                     {
-                                                                                        new Entry("CityName", InputOutputKey.Input(CCCityNameKey)),
+                                                                                        new Entry("CityName", InputOutputKey.Input(null, CCCityNameKey)),
                                                                                     })
                                                           ),
                                                       new SchemaComponent("Invoice.xsd", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
                                                                           new Entry("Address", InputOutputKey.None,
                                                                                     new[]
                                                                                     {
-                                                                                        new Entry("Town", InputOutputKey.Output(EBInterfaceTownKey)),
+                                                                                        new Entry("Town", InputOutputKey.Output(null, EBInterfaceTownKey)),
                                                                                     })),
                                                   },
                                                   new List<ConstantComponent>(),
@@ -37,8 +37,8 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
                                                             {
                                                                 new Vertex(EBInterfaceTownKey, new[]
                                                                                                {
-                                                                                                   new Edge("72603008", CCCityNameKey),
-                                                                                               }),
+                                                                                                   new Edge("72603008", CCCityNameKey, null),
+                                                                                               }, null),
                                                             }));
         }
 
@@ -51,7 +51,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\MapForceMappingImporter_ImportSchemaComponents_Test.mfd");
 
-            MapForceMapping mapping = LinqToXmlMapForceMappingImporter.ImportFromFile(mappingFile);
+            MapForceMapping mapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFile);
 
             Console.WriteLine("----------------------------------------------------");
             Console.WriteLine("Expected mapping: ");

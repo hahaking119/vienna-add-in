@@ -118,7 +118,8 @@
     <Compile Include="upcc3\Wizards\util\VersionHandlerTest.cs" />
     <Compile Include="upcc3\XSDImporter\ccts\XSDImporterTest.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MapForceMappingImporterTest.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\MappingsTests.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\MapForceSourceElementTreeTests.cs" />
+    <Compile Include="upcc3\XSDImporter\ebInterface\SchemaMappingTests.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MappingImporterTests.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\MappingTestRepository.cs" />
     <Compile Include="upcc3\XSDImporter\ebInterface\TargetElementStoreTests.cs" />

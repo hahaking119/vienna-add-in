@@ -46,7 +46,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 
         public override string ToString()
         {
-            return string.Format("Schema: {0}", Schema);
+            return String.Format("Schema: {0}", Schema);
         }
 
         public void PrettyPrint(TextWriter writer, string indent)
@@ -59,6 +59,80 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             }
             writer.WriteLine(indent + "  Entries: ");
             RootEntry.PrettyPrint(writer, indent + "    ");
+        }
+
+        /// <summary>
+        /// Takes a SchemaComponent as input and returns true if this SchemaComponent is an Input Schema, i.e. a 
+        /// source Schema, and false otherwise.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInputSchema()
+        {
+            return IsInput(RootEntry);
+        }
+
+        /// <summary>
+        /// Takes an Entry as input and returns true if this Entry or its child Entries have an OutputKey specified,
+        /// false otherwise.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
+        public static bool IsInput(Entry entry)
+        {
+            if (entry.IsInput)
+            {
+                return true;
+            }
+            if (entry.IsOutput)
+            {
+                return false;
+            }
+            foreach (Entry subEntry in entry.SubEntries)
+            {
+                var isInput = IsInput(subEntry);
+                if (isInput)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Takes a SchemaComponent as input and returns true if this SchemaComponent is an Output Schema, i.e. a 
+        /// target Schema, and false otherwise.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsOutputSchema()
+        {
+            return IsOutput(RootEntry);
+        }
+
+        /// <summary>
+        /// Takes an Entry as input and returns true if this Entry or its child Entries have an InputKey specified,
+        /// false otherwise.
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns></returns>
+        public static bool IsOutput(Entry entry)
+        {
+            if (entry.IsInput)
+            {
+                return false;
+            }
+            if (entry.IsOutput)
+            {
+                return true;
+            }
+            foreach (Entry subEntry in entry.SubEntries)
+            {
+                var isOutput = IsOutput(subEntry);
+                if (isOutput)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

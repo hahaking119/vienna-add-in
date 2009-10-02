@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -7,7 +8,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 {
     public class MappingImporter
     {
-        private readonly string mapForceMappingFile;
+        private readonly string[] mapForceMappingFiles;
         private readonly string docLibraryName;
         private readonly string bieLibraryName;
         private readonly string bdtLibraryName;
@@ -16,14 +17,14 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
 
         /// <summary>
         /// </summary>
-        /// <param name="mapForceMappingFile">The MapForce mapping file.</param>
+        /// <param name="mapForceMappingFiles">The MapForce mapping file.</param>
         /// <param name="docLibraryName">The name of the DOCLibrary to be created.</param>
         /// <param name="bieLibraryName">The name of the BIELibrary to be created.</param>
         /// <param name="bdtLibraryName">The name of the BDTLibrary to be created.</param>
         /// <param name="qualifier">The qualifier for the business domain (e.g. "ebInterface").</param>
-        public MappingImporter(string mapForceMappingFile, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
+        public MappingImporter(IEnumerable<string> mapForceMappingFiles, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
         {
-            this.mapForceMappingFile = mapForceMappingFile;
+            this.mapForceMappingFiles = new List<string>(mapForceMappingFiles).ToArray();
             this.docLibraryName = docLibraryName;
             this.bieLibraryName = bieLibraryName;
             this.bdtLibraryName = bdtLibraryName;
@@ -45,7 +46,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ebInterface
             {
                 throw new Exception("No CCLibary found in repository.");
             }
-            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFile(mapForceMappingFile);
+            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mapForceMappingFiles);
             var mappings = new SchemaMapping(mapForceMapping, ccLibrary);
             var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, ccLibrary.Parent, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
             mappedLibraryGenerator.GenerateLibraries();
