@@ -20,7 +20,7 @@ For your convenience, we included a registry file *createEAKeys.reg* within the 
   * Double-click the *createEAKeys.reg* file and confirm that you want to add the information to your Windows registry. This will add the necessary keys for the VIENNA Add-In itself.
 
 
-= Register the compiled UMM 2 Add-In with your system = 
+= Register the compiled VIENNA Add-In with your system = 
 
   * Build the VIENNA Add-In solution in Visual Studio. It is not necessary to build the Installers in this step. The resulting DLL file now has to be registered with your system. If you have checked out the solution under `C:\VIENNAAddIn` the DLL is found under `C:\VIENNAAddIn\VIENNAAddIn\bin\Debug\VIENNAAddIn.dll`. If you chose a different path, locate the DLL now. 
   * In general you should develop in Debug mode in Visual Studio and not in Release mode.
