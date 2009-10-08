@@ -74,6 +74,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 cache.LoadCCLs(repository);
                 cache.LoadBIELsAndTheirABIEs(repository);
                 cache.LoadBDTLsAndTheirBDTs(repository);
+                
             }
             catch (CacheException ce)
             {
@@ -185,33 +186,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             else
             {
                 // TODO andik/fabiank: this code needs to be cleaned up!
+                // partly cleaned up!
                 #region code to be cleaned up
-                int correctCCL = -1;
-                bool found = false;
-                foreach (cCCLibrary ccl in cache.CCLs.Values)
-                {
-                    ICCLibrary realCCL = repository.LibraryByName<ICCLibrary>(ccl.Name);
-                    correctCCL++;
-                    foreach (IACC acc in realCCL.Elements)
-                    {
-                        if (acc.Name == abie.BasedOn.Name)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (found)
-                    {
-                        break;
-                    }
-                }
-                if (found)
-                {
-                    comboCCLs.SelectedIndex = correctCCL;
-                    comboCCLs_SelectionChangeCommitted(null, null);
-                }
-                else
-                {
+                if(!setCorrectCCL()){
                     InformativeMessage("no corresponding CCLibrary found.");
                     Close();
                 }
@@ -693,9 +670,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 GatherUserInput();
                 IBIELibrary selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
-
+                
                 /* get the selected ACC which we as a basis to generate the new ABIE */
                 IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                
                 ABIESpec abieSpec = createABISpec(selectedACC);
                 IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
@@ -1368,7 +1346,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                     if(bdt.Name.Equals(curbdt.Name))
                                                     {
                                                         exists = true;
-                                                        bdtUsed = repository.GetBDT(curbdt.Id); ;
+                                                        bdtUsed = repository.GetBDT(curbdt.Id); 
                                                         break;
                                                     }
                                                 }
@@ -1478,7 +1456,25 @@ namespace VIENNAAddIn.upcc3.Wizards
             return abieSpec;
         }
 
-
+        private bool setCorrectCCL()
+        {
+            int correctCCL = -1;
+            foreach (cCCLibrary ccl in cache.CCLs.Values)
+            {
+                ICCLibrary realCCL = repository.LibraryByName<ICCLibrary>(ccl.Name);
+                correctCCL++;
+                foreach (IACC acc in realCCL.Elements)
+                {
+                    if (acc.Name == abie.BasedOn.Name)
+                    {
+                        comboCCLs.SelectedIndex = correctCCL;
+                        comboCCLs_SelectionChangeCommitted(null, null);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         private void richtextStatus_TextChanged(object sender, EventArgs e)
         {
         }
