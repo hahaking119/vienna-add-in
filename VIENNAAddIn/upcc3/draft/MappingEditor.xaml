@@ -1,0 +1,13 @@
+﻿<Window x:Class="VIENNAAddIn.upcc3.draft.MappingEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Height="363" Width="662" Loaded="Window_Loaded">
+    <Grid>
+        <Label Height="24" HorizontalAlignment="Left" Margin="13,20,0,0" Name="label1" VerticalAlignment="Top" Width="88">Source Schema:</Label>
+        <TextBox Height="23" Margin="99,21,315,0" Name="textBox1" VerticalAlignment="Top" />
+        <TreeView Margin="13,51,315,18" Name="treeView1"></TreeView>
+        <Label Height="24" Margin="0,20,237,0" Name="label2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="78">Target Model:</Label>
+        <TreeView Margin="0,51,14,18" Name="treeView2" HorizontalAlignment="Right" Width="301"></TreeView>
+        <ComboBox Height="25" HorizontalAlignment="Right" Margin="0,19,14,0" Name="comboBox1" VerticalAlignment="Top" Width="227" />
+    </Grid>
+</Window>
