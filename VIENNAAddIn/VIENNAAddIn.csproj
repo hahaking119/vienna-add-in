@@ -181,9 +181,6 @@
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
-    <Compile Include="upcc3\draft\MappingEditor.xaml.cs">
-      <DependentUpon>MappingEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="upcc3\Importer\ACCImporter.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
@@ -556,10 +553,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="upcc3\draft\MappingEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="upcc3\Wizards\ImporterWizard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
