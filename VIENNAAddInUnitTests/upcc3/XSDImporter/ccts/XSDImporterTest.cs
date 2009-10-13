@@ -7,16 +7,10 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.Schema;
 using EA;
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
 using VIENNAAddIn.upcc3.XSDImporter;
 using VIENNAAddIn.upcc3.XSDImporter.ccts;
 using File=System.IO.File;
@@ -39,7 +33,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
         public void clean()
         {
             eaRepository.Exit();
-         //   File.Delete(backupRepositoryFile);
+            //   File.Delete(backupRepositoryFile);
         }
 
         #endregion
@@ -78,86 +72,33 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
 
         private static ImporterContext PrepareTestContext()
         {
-            CCRepository ccRepository = GetFileBasedTestRepository();
-            var schemas = new List<SchemaInfo>();
-
-            string schemaDirectory = Directory.GetCurrentDirectory() +
-                                     "\\..\\..\\testresources\\XSDImporterTest\\ccts\\simpleXSDs\\";
-            var schemaFiles = new[] {"BusinessDataType_1.xsd", "BusinessInformationEntity_1.xsd", "Invoice_1.xsd"};
-
-            foreach (string schemaFile in schemaFiles)
-            {
-                var settings = new XmlReaderSettings {ConformanceLevel = ConformanceLevel.Document};
-                XmlReader reader = XmlReader.Create(schemaDirectory + schemaFile, settings);
-                XmlSchema schema = XmlSchema.Read(reader, null);
-
-                schemas.Add(new SchemaInfo(schema, schemaFile));
-
-                reader.Close();
-            }
-
-            return new ImporterContext(ccRepository, schemaDirectory, schemas, schemas[2]);
-        }
-
-        private static void SerializeSchema(ImporterContext context)
-        {
-            const string outputDirectory = "C:\\Temp\\michi";
-
-            //XmlSchema schemaContent = context.Schemas[1].Schema;
-
-            if (!Directory.Exists(outputDirectory))
-            {
-                Directory.CreateDirectory(outputDirectory);
-            }
-
-            var xmlWriterSettings = new XmlWriterSettings
-                                        {
-                                            Indent = true,
-                                            Encoding = Encoding.UTF8,
-                                        };
-
-
-            foreach (SchemaInfo schemainfo in context.Schemas)
-            {
-                using (
-                    XmlWriter xmlWriter = XmlWriter.Create(outputDirectory + "\\" + schemainfo.FileName,
-                                                           xmlWriterSettings))
-                {
-                    if (xmlWriter != null)
-                    {
-                        schemainfo.Schema.Write(xmlWriter);
-
-                        xmlWriter.Close();
-                    }
-                }
-            }
+            return new ImporterContext(GetFileBasedTestRepository(),
+                                       Directory.GetCurrentDirectory() + @"\..\..\testresources\XSDImporterTest\ccts\simpleXSDs\Invoice_1.xsd");
         }
 
         [Test]
         public void PrintSchemasInContext()
         {
-            foreach (SchemaInfo schemaInfo in testContext.Schemas)
-            {
-                schemaInfo.Schema.Write(Console.Out);
-                Console.Write("\n");
-            }
+//            foreach (SchemaInfo schemaInfo in testContext.Schemas)
+//            {
+//                schemaInfo.Schema.Write(Console.Out);
+//                Console.Write("\n");
+//            }
         }
 
         [Test]
         [Ignore("Implementation not finished yet.")]
         public void TestBDTSchemaImporter()
         {
-            BDTSchemaImporter.ImportXSD(testContext);
-            int count = 0;
-            foreach (XmlSchemaObject currentElement in testContext.Schemas[0].Schema.Items)
-            {
-                if (currentElement.GetType().Name == "XmlSchemaComplexType")
-                {
-                    count++;
-                }
-            }
-            ICCRepository repo = testContext.Repository;
-            Console.WriteLine(repo.GetLibrary(1).Name);
+            new BDTSchemaImporter(testContext).ImportXSD();
+//            int count = 0;
+//            foreach (XmlSchemaObject currentElement in testContext.Schemas[0].Schema.Items)
+//            {
+//                if (currentElement.GetType().Name == "XmlSchemaComplexType")
+//                {
+//                    count++;
+//                }
+//            }
 
             Assert.Fail("Unit Test needs to be implemented as well ...");
         }
@@ -165,7 +106,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
         [Test]
         public void TestBIESchemaImporter()
         {
-            BDTSchemaImporter.ImportXSD(testContext);
+            new BDTSchemaImporter(testContext).ImportXSD();
             BIESchemaImporter.ImportXSD(testContext);
 
             //Assert.Fail("Unit Test needs to be implemented as well ...");
@@ -174,7 +115,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
         [Test]
         public void TestRootSchemaImporter()
         {
-            BDTSchemaImporter.ImportXSD(testContext);
+            new BDTSchemaImporter(testContext).ImportXSD();
             BIESchemaImporter.ImportXSD(testContext);
             RootSchemaImporter.ImportXSD(testContext);
         }

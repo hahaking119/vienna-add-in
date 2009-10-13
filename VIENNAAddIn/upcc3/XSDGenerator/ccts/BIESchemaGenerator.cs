@@ -141,8 +141,8 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 // R 89A6: for every BBIE a named element must be locally declared
                 XmlSchemaElement elementBBIE = new XmlSchemaElement();
 
-                // R AEFE, R 96D9, R9A40, R A34A are implemented in GenerateBBIEName(...)
-                elementBBIE.Name = NDR.GenerateBBIEName(bbie);
+                // R AEFE, R 96D9, R9A40, R A34A are implemented in GetXsdElementNameFromBbie(...)
+                elementBBIE.Name = NDR.GetXsdElementNameFromBbie(bbie);
 
                 // R 8B85: every BBIE type must be named the property term and qualifiers and the
                 //         representation term of the basic business information entity (BBIE) it represents
@@ -170,7 +170,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 XmlSchemaElement elementASBIE = new XmlSchemaElement();
 
                 // R A08A: name of the ASBIE
-                elementASBIE.Name = NDR.GenerateASBIEName(asbie);
+                elementASBIE.Name = NDR.GetXsdElementNameFromAsbie(asbie);
                 elementASBIE.SchemaTypeName =
                     new XmlQualifiedName(abiePrefix + ":" + asbie.AssociatedElement.Name + "Type");
 

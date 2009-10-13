@@ -1,5 +1,9 @@
 using System;
+using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using VIENNAAddIn.upcc3.XSDImporter.ccts;
+using VIENNAAddIn.upcc3.XSDImporter.util;
 
 namespace VIENNAAddIn.upcc3
 {
@@ -16,16 +20,17 @@ namespace VIENNAAddIn.upcc3
             return GenerateBCCOrBBIEName(bcc.Name, bcc.Type.Name, bcc.DictionaryEntryName);
         }
 
-        public static string GenerateBBIEName(IBBIE bbie)
+        public static string GetXsdElementNameFromBbie(IBBIE bbie)
         {
             return GenerateBCCOrBBIEName(bbie.Name, bbie.Type.Name, bbie.DictionaryEntryName);
         }
 
+        /// <exception cref="ArgumentException"><c>ArgumentException</c>.</exception>
         private static string GenerateBCCOrBBIEName(string propertyTerm, string representationTerm, string dictionaryEntryName)
         {
-            if (!string.IsNullOrEmpty(dictionaryEntryName))
+            if (!String.IsNullOrEmpty(dictionaryEntryName))
             {
-                var parts = dictionaryEntryName.Replace(" ", "").Replace("-", "").Split('.');
+                var parts = dictionaryEntryName.Replace(" ", String.Empty).Replace("-", String.Empty).Split('.');
                 if (parts.Length != 3)
                 {
                     throw new ArgumentException(
@@ -58,9 +63,14 @@ namespace VIENNAAddIn.upcc3
             return ascc.Name + ascc.AssociatedElement.Name;
         }
 
-        public static string GenerateASBIEName(IASBIE asbie)
+        public static string GetXsdElementNameFromAsbie(IASBIE asbie)
         {
             return asbie.Name + asbie.AssociatedElement.Name;
+        }
+
+        public static string GetAsbieNameFromXsdElement(Element element, string associatedElementName)
+        {
+            return element.Ref.Name.Minus(associatedElementName);
         }
 
         /// <summary>
@@ -92,9 +102,14 @@ namespace VIENNAAddIn.upcc3
         /// </summary>
         /// <param name="bdt"></param>
         /// <returns></returns>
-        public static string GenerateBDTName(IBDT bdt)
+        public static string GetXsdTypeNameFromBdt(IBDT bdt)
         {
             return bdt.Name + bdt.CON.BasicType.Name + "Type";
+        }
+
+        public static string GetBdtNameFromXsdType(XmlSchemaType xsdType, string basicTypeName)
+        {
+            return xsdType.Name.Minus("Type").Minus(basicTypeName);
         }
     }
 }

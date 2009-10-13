@@ -1,63 +1,83 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml;
+using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using Path=System.IO.Path;
 
 namespace VIENNAAddIn.upcc3.XSDImporter
 {
-    ///<summary>
-    ///</summary>
     public class ImporterContext
     {
-        #region Fields
-
-        private readonly List<SchemaInfo> schemas = new List<SchemaInfo>();
-
-        #endregion
-
-        #region Constructor
-
-        ///<summary>
-        ///</summary>
-        ///<param name="ccRepository"></param>
-        ///<param name="inputDirectory"></param>
-        ///<param name="schemaFiles"></param>
-        public ImporterContext(ICCRepository ccRepository, string inputDirectory, List<SchemaInfo> schemaFiles)
+        /// <exception cref="Exception">Root schema does not include a BIE schema.</exception>
+        public ImporterContext(ICCRepository ccRepository, string rootSchemaPath)
         {
-            Repository = ccRepository;
-            InputDirectory = inputDirectory;
-            schemas = schemaFiles;
-            Root = null;
+            RootSchemaPath = rootSchemaPath;
+            RootSchemaFileName = Path.GetFileName(rootSchemaPath);
+
+            string inputDirectory = Path.GetDirectoryName(rootSchemaPath) + @"\";
+
+            foreach (string schemaLocation in GetIncludedSchemaLocations(rootSchemaPath))
+            {
+                if (schemaLocation.StartsWith("BusinessInformationEntity"))
+                {
+                    BIESchemaPath = inputDirectory + schemaLocation;
+                }
+                else if (schemaLocation.StartsWith("BusinessDataType"))
+                {
+                    BDTSchemaPath = inputDirectory + schemaLocation;
+                }
+            }
+            if (BDTSchemaPath == null)
+            {
+                throw new Exception("Root schema does not include a BDT schema.");
+            }
+            if (BIESchemaPath == null)
+            {
+                throw new Exception("Root schema does not include a BIE schema.");
+            }
+
+            CCLibrary = ccRepository.Libraries<ICCLibrary>().ElementAt(0);
+            BDTLibrary = ccRepository.Libraries<IBDTLibrary>().ElementAt(0);
+            BIELibrary = ccRepository.Libraries<IBIELibrary>().ElementAt(0);
+            PRIMLibrary = ccRepository.Libraries<IPRIMLibrary>().ElementAt(0);
+            BLibrary = ccRepository.Libraries<IBLibrary>().ElementAt(0);
         }
 
-        public ImporterContext(ICCRepository ccRepository, string inputDirectory, List<SchemaInfo> schemaFiles, SchemaInfo root)
+        public string RootSchemaPath { get; private set; }
+
+        public string RootSchemaFileName { get; private set; }
+
+        private string BDTSchemaPath { get; set; }
+
+        public XmlSchema BDTSchema
         {
-            InputDirectory = inputDirectory;
-            Repository = ccRepository;
-            schemas = schemaFiles;
-            Root = root;
+            get { return XmlSchema.Read(XmlReader.Create(BDTSchemaPath), null); }
         }
 
-        #endregion
+        public string BIESchemaPath { get; private set; }
 
-        #region Properties
+        public ICCLibrary CCLibrary { get; private set; }
 
-        ///<summary>
-        ///</summary>
-        public ICCRepository Repository { get; private set; }
+        public IBDTLibrary BDTLibrary { get; private set; }
 
-        ///<summary>
-        ///</summary>
-        public string InputDirectory { get; private set; }
+        public IBIELibrary BIELibrary { get; private set; }
 
-        ///<summary>
-        ///</summary>
-        public List<SchemaInfo> Schemas
+        public IPRIMLibrary PRIMLibrary { get; private set; }
+
+        public IBLibrary BLibrary { get; private set; }
+
+        private static IEnumerable<string> GetIncludedSchemaLocations(string rootSchemaPath)
         {
-            get { return schemas; }
+            XmlSchema rootSchema = XmlSchema.Read(XmlReader.Create(rootSchemaPath), null);
+            foreach (XmlSchemaObject schemaObject in rootSchema.Includes)
+            {
+                if (schemaObject is XmlSchemaInclude)
+                {
+                    yield return ((XmlSchemaInclude) schemaObject).SchemaLocation;
+                }
+            }
         }
-
-        public SchemaInfo Root { get; private set; }
-
-        #endregion
     }
 }

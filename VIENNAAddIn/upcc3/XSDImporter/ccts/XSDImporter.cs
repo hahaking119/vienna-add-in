@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Xml;
+using System.Xml.Schema;
 
 namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 {
-    public class XSDImporter
+    public static class XSDImporter
     {
-        public static ImporterContext ImportSchemas (ImporterContext context)
+        public static void ImportSchemas(ImporterContext context)
         {
-            BDTSchemaImporter.ImportXSD(context);
+            new BDTSchemaImporter(context).ImportXSD();
             BIESchemaImporter.ImportXSD(context);
             RootSchemaImporter.ImportXSD(context);
-
-            return context;
         }
     }
 }

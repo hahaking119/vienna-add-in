@@ -10,7 +10,7 @@ using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class PRIMLibrary : ElementLibrary<IPRIM, PRIM, PRIMSpec>, IPRIMLibrary
+    internal class  PRIMLibrary : ElementLibrary<IPRIM, PRIM, PRIMSpec>, IPRIMLibrary
     {
         public PRIMLibrary(CCRepository repository, Package package)
             : base(repository, package)
