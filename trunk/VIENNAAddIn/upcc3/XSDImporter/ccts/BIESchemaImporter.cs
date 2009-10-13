@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -118,9 +119,9 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
         public static void InitLibraries(ImporterContext context)
         {
-            ExistingAccs = context.Repository.Libraries<ICCLibrary>().ElementAt(0);
-            ExistingBdts = context.Repository.Libraries<IBDTLibrary>().ElementAt(0);
-            BieLibrary = context.Repository.Libraries<IBIELibrary>().ElementAt(0);
+            ExistingAccs = context.CCLibrary;
+            ExistingBdts = context.BDTLibrary;
+            BieLibrary = context.BIELibrary;
         }
 
         #region Public Class Methods
@@ -233,7 +234,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
             singleAbieSpec.Name = abieName;
-            singleAbieSpec.BasedOn = ExistingAccs.ElementByName(abieName);
+            singleAbieSpec.BasedOn = FindBaseACCForABIE(abieName);
 
             List<BBIESpec> bbieSpecs = new List<BBIESpec>();
 
@@ -274,6 +275,12 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
             return singleAbieSpec;
         }
 
+        private static IACC FindBaseACCForABIE(string abieName)
+        {
+            string accName = abieName.Split('_').Last();
+            return ExistingAccs.ElementByName(accName);
+        }
+
         ///<summary>
         ///</summary>
         ///<param name="abieComplexType">
@@ -297,11 +304,9 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
                     IABIE associatedAbie = BieLibrary.ElementByName(associatedABIEName);
 
-                    string asbieName = (element.Ref.Name).Substring(0,
-                                                                    (element.Ref.Name).Length -
-                                                                    associatedABIEName.Length);
+                    string asbieName = NDR.GetAsbieNameFromXsdElement(element, associatedABIEName);
 
-                    ASBIESpec asbieSpec = MatchAsbieToAscc(ExistingAccs.ElementByName(abieName), asbieName,
+                    ASBIESpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
                                                            associatedAbie.Id);
 
                     if (asbieSpec == null)
@@ -322,7 +327,7 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
                         string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
 
-                        ASBIESpec asbieSpec = MatchAsbieToAscc(ExistingAccs.ElementByName(abieName), asbieName,
+                        ASBIESpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
                                                                associatedAbie.Id);
 
                         if (asbieSpec == null)
@@ -373,26 +378,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
 
         #region Private Class Methods       
 
-        ///<summary>
-        ///</summary>
-        ///<param name="context">
-        ///</param>
-        ///<returns>
-        ///</returns>
+        /// <exception cref="Exception">Missing schema file for BIE schema</exception>
         private static XmlDocument GetBieSchemaDocument(ImporterContext context)
         {
-            XmlDocument bieSchemaDocument = new XmlDocument();
-
-            foreach (SchemaInfo schemaInfo in context.Schemas)
-            {
-                if (schemaInfo.FileName.StartsWith("BusinessInformationEntity"))
-                {
-                    bieSchemaDocument.Load(context.InputDirectory + schemaInfo.FileName);
-                    
-                    break;
-                }
-            }
-
+            var bieSchemaDocument = new XmlDocument();
+            bieSchemaDocument.Load(context.BIESchemaPath);
             return bieSchemaDocument;
         }
 

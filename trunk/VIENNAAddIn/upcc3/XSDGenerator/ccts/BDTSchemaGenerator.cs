@@ -26,7 +26,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 var sups = new List<ISUP>(bdt.SUPs);
                 if (sups.Count == 0)
                 {
-                    var simpleType = new XmlSchemaSimpleType {Name = NDR.GenerateBDTName(bdt)};
+                    var simpleType = new XmlSchemaSimpleType {Name = NDR.GetXsdTypeNameFromBdt(bdt)};
                     var simpleTypeRestriction = new XmlSchemaSimpleTypeRestriction
                                                 {
                                                     BaseTypeName = GetXmlQualifiedName(bdt.CON.BasicType)
@@ -42,7 +42,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 {
                     var complexType = new XmlSchemaComplexType
                                       {
-                                          Name = NDR.GenerateBDTName(bdt)
+                                          Name = NDR.GetXsdTypeNameFromBdt(bdt)
                                       };
                     var simpleContent = new XmlSchemaSimpleContent();
                     var simpleContentExtension = new XmlSchemaSimpleContentExtension

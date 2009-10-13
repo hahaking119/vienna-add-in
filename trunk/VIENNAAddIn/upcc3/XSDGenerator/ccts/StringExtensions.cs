@@ -6,12 +6,18 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Text;
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 {
     public static class StringExtensions
     {
+        public static string Minus(this string str, string suffix)
+        {
+            return str.Substring(0, str.Length - suffix.Length);
+        }
+
         public static string Times(this string str, int times)
         {
             var stringBuilder = new StringBuilder();
@@ -24,49 +30,16 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 
         public static string DefaultTo(this string str, string defaultValue)
         {
-            return string.IsNullOrEmpty(str) ? defaultValue : str;
+            return String.IsNullOrEmpty(str) ? defaultValue : str;
         }
 
         public static string ToXmlName(this string n)
         {
-            if (string.IsNullOrEmpty(n))
+            if (String.IsNullOrEmpty(n))
                 return "";
             n = n.Replace(' ', '_');
             n = n.Replace('/', '_');
             return n;
-        }
-
-        public static string ToXSDType(this string type)
-        {
-            switch (type.ToLower())
-            {
-                case "string":
-                    return "string";
-                case "decimal":
-                    return "decimal";
-                case "binary":
-                    return "base64Binary";
-                case "base64binary":
-                    return "base64Binary";
-                case "token":
-                    return "token";
-                case "double":
-                    return "double";
-                case "integer":
-                    return "integer";
-                case "long":
-                    return "long";
-                case "datetime":
-                    return "dateTime";
-                case "date":
-                    return "date";
-                case "time":
-                    return "time";
-                case "boolean":
-                    return "boolean";
-                default:
-                    return null;
-            }
         }
     }
 }

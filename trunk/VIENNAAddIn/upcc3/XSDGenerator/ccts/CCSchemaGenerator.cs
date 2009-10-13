@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
@@ -9,7 +8,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
 {
-    class CCSchemaGenerator
+    static class CCSchemaGenerator
     {
         private const string NSPREFIX_CDT = "cdt";
         private const string NSPREFIX_DOC = "ccts";
@@ -19,13 +18,13 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
         private const string NSPREFIX_XSD = "xsd";
         private const string NS_XSD = "http://www.w3.org/2001/XMLSchema";
 
-        private static List<String> globalASCCs = new List<String>();
+        private static readonly List<String> globalASCCs = new List<String>();
    
 
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
-        ///<param name="bies"></param>
+        ///<param name="accs"></param>
         public static void GenerateXSD(GeneratorContext context, IEnumerable<IACC> accs)
         {
             // Create XML schema file and prepare the XML schema header
@@ -103,7 +102,7 @@ namespace VIENNAAddIn.upcc3.XSDGenerator.ccts
                 // R 89A6: for every BBIE a named element must be locally declared
                 XmlSchemaElement elementBCC = new XmlSchemaElement();
 
-                // R AEFE, R 96D9, R9A40, R A34A are implemented in GenerateBBIEName(...)
+                // R AEFE, R 96D9, R9A40, R A34A are implemented in GetXsdElementNameFromBbie(...)
                 elementBCC.Name = NDR.GenerateBCCName(bcc);
 
                 // R 8B85: every BBIE type must be named the property term and qualifiers and the

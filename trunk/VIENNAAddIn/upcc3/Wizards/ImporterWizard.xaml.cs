@@ -133,38 +133,16 @@ namespace VIENNAAddIn.upcc3.Wizards
                 case 0: // CCTS
                     Cursor = Cursors.Wait;
 
-                    List<SchemaInfo> schemas = new List<SchemaInfo>();
-
-                    XmlReader reader = XmlReader.Create(textboxRootSchema.Text);
-                    XmlSchema rootSchema = XmlSchema.Read(reader, null);
-
-                    int indexLastBackslash = textboxRootSchema.Text.LastIndexOf("\\");
-                    string FileName = textboxRootSchema.Text.Substring(indexLastBackslash + 1);
-                    string InputDirectory = textboxRootSchema.Text.Substring(0, indexLastBackslash + 1);
-                    schemas.Add(new SchemaInfo(rootSchema, FileName));
-
-                    foreach (XmlSchemaObject schemaObject in rootSchema.Includes)
-                    {
-                        if (schemaObject is XmlSchemaInclude)
-                        {
-                            XmlSchemaInclude include = (XmlSchemaInclude) schemaObject;
-                            reader = XmlReader.Create(InputDirectory + include.SchemaLocation);
-                            XmlSchema includedSchema = XmlSchema.Read(reader, null);
-                            schemas.Add(new SchemaInfo(includedSchema, include.SchemaLocation));
-                        }
-                    }
-
                     buttonImport.Visibility = Visibility.Collapsed;
 
-                    ImporterContext context = new ImporterContext(CcRepository, InputDirectory, schemas,
-                                                                  new SchemaInfo(rootSchema, FileName));
+                    var context = new ImporterContext(CcRepository, textboxRootSchema.Text);
                     XSDImporter.ccts.XSDImporter.ImportSchemas(context);
 
                     progressBar.Minimum = 0;
                     progressBar.Maximum = 100;
                     progressBar.Value = 100;
 
-                    textboxStatus.Text += "Importing the XML schema named \"" + FileName + "\" completed!\n";
+                    textboxStatus.Text += "Importing the XML schema named \"" + context.RootSchemaFileName + "\" completed!\n";
 
                     Cursor = Cursors.Arrow;
                 break;

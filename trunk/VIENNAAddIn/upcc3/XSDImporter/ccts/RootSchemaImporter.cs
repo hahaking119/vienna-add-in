@@ -47,32 +47,17 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
         /// </param>
         public static void ImportXSD(ImporterContext context)
         {
-            ExistingBdts = context.Repository.Libraries<IBDTLibrary>().ElementAt(0);
+            ExistingBdts = context.BDTLibrary;
 
-            ICCRepository repo = context.Repository;
-
-            XmlSchema root = context.Root.Schema;
-
-            int index = context.Root.FileName.IndexOf('_');
-            String docname = context.Root.FileName.Substring(0, index);
+            int index = context.RootSchemaFileName.IndexOf('_');
+            String docname = context.RootSchemaFileName.Substring(0, index);
 
             //TODO check whether Document with the specified name does not already exist
-            IBLibrary bLibrary = repo.Libraries<IBLibrary>().ElementAt(0);
+            IBLibrary bLibrary = context.BLibrary;
             DocLibrary = bLibrary.CreateDOCLibrary(new LibrarySpec {Name = docname});
 
-            foreach (XmlSchemaObject currentElement in root.Items)
-            {
-                if (currentElement.GetType().Name == "XmlSchemaElement")
-                {
-                    var element = (XmlSchemaElement) currentElement;
-                    Console.WriteLine("Elementqualifiedname: " + element.QualifiedName + element.SchemaTypeName.Name);
-                    Console.WriteLine(element);
-                }
-            }
-
-
             var rootDocument = new XmlDocument();
-            rootDocument.Load(context.InputDirectory + context.Root.FileName);
+            rootDocument.Load(context.RootSchemaPath);
             var reader = new CustomSchemaReader(rootDocument);
 
             IDictionary<string, string> allElementDefinitions = new Dictionary<string, string>();
