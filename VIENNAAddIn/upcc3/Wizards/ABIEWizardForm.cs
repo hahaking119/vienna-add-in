@@ -1169,7 +1169,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             checkedlistboxBBIEs.Items.Clear();
 
-            if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName, selectedBCCName}))
+            if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName, selectedBCCName }))
             {
                 foreach (
                     cBBIE bbie in
@@ -1180,6 +1180,23 @@ namespace VIENNAAddIn.upcc3.Wizards
                 SetSafeIndex(checkedlistboxBBIEs, oldIndex);
 
                 MirrorBDTsToUI();
+                if (!wizardModeCreate) // add all BBIEs that already belong to the ABIE and were created by the user
+                {
+                    foreach (BBIE bbie in abie.BBIEs)
+                    {
+                        cBBIE newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Type.Id, CheckState.Checked);
+                        cBBIE testBBIE = new cBBIE();
+                        if (! cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.TryGetValue(newBBIE.Name, out testBBIE))
+                        {
+                            checkedlistboxBBIEs.Items.Add(newBBIE.Name, CheckState.Checked);
+                            cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Add(
+                                newBBIE.Name, newBBIE);
+                        }
+                    }
+                    SetSafeIndex(checkedlistboxBBIEs, oldIndex);
+
+                    MirrorBDTsToUI();
+                }
             }
             else
             {
