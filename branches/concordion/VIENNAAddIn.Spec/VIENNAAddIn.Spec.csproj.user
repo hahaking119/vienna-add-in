@@ -1,0 +1,10 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Programme\Gallio\bin\Gallio.Echo.exe</StartProgram>
+    <StartArguments>/runner:Local /wd:. /pd:C:\DATA\bin\Concordion-0.1.42.128\Gallio-Concordion-Adapter VIENNAAddIn.Spec\bin\debug\VIENNAAddIn.Spec.dll</StartArguments>
+  </PropertyGroup>
+</Project>
