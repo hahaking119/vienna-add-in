@@ -265,6 +265,11 @@ namespace VIENNAAddIn.upcc3.XSDImporter.ccts
                                 }
                             }
 
+                            if (bbieSpec.Type == null)
+                            {
+                                throw new Exception("Expected BDT not found: " + bdtName);
+                            }
+
                             bbieSpecs.Add(bbieSpec);
                         }
                     }
