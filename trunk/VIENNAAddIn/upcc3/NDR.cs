@@ -1,9 +1,8 @@
 using System;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
-using VIENNAAddIn.upcc3.XSDImporter.ccts;
-using VIENNAAddIn.upcc3.XSDImporter.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
+using VIENNAAddIn.upcc3.import.util;
 
 namespace VIENNAAddIn.upcc3
 {

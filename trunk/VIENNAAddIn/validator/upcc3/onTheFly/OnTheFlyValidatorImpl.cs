@@ -6,7 +6,7 @@ using EA;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using VIENNAAddIn.upcc3.export.cctsndr;
 using Attribute=System.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 

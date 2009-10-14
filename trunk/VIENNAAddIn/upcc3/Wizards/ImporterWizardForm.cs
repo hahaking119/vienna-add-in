@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.XSDImporter;
+using VIENNAAddIn.upcc3.import.cctsndr;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -69,7 +69,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             buttonImport.Enabled = false;
 
             ImporterContext context = new ImporterContext(CcRepository, textboxRootSchema.Text);
-            XSDImporter.ccts.XSDImporter.ImportSchemas(context);
+            import.cctsndr.XSDImporter.ImportSchemas(context);
 
             progressBar.Minimum = 0;
             progressBar.Maximum = 100;

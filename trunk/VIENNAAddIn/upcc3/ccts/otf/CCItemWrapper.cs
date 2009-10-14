@@ -1,5 +1,5 @@
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
