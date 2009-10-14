@@ -832,6 +832,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                 //    }
                 //}
             }
+
+            CheckIfConfigurationValid();
         }
 
         private void checkboxAttributes_MouseDown(object sender, MouseEventArgs e)
@@ -1360,7 +1362,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                             {
                                                 foreach(var curbdt in curbdtl.BDTs.Values)
                                                 {
-                                                    if(bdt.Name.Equals(curbdt.Name))
+                                                    if(bdt.Name.Equals(curbdt.Name) && curbdt.Id != -1)
                                                     {
                                                         exists = true;
                                                         bdtUsed = repository.GetBDT(curbdt.Id); 
