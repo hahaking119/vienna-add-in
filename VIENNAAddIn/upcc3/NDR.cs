@@ -113,6 +113,7 @@ namespace VIENNAAddIn.upcc3
         {
             StringBuilder qualifierString = new StringBuilder();
             List<string> qualifiers = new List<string>();
+
             if (xsdType.Annotation != null)
             {
                 XmlSchemaObjectCollection annotationItems = xsdType.Annotation.Items;
@@ -125,7 +126,7 @@ namespace VIENNAAddIn.upcc3
                         {
                             if (node is XmlElement)
                             {
-                                if (node.Name == "DataTypeQualifierTermName")
+                                if (node.LocalName == "DataTypeQualifierTermName")
                                 {
                                     string qualifier = node.InnerText;
                                     qualifierString.Append(qualifier);
@@ -136,13 +137,17 @@ namespace VIENNAAddIn.upcc3
                     }
                 }
             }
+
             string xsdTypeNameWithoutGuid = xsdType.Name.Substring(0, xsdType.Name.LastIndexOf('_'));
             string xsdTypeNameWithQualifiers = xsdTypeNameWithoutGuid.Minus("Type");
+
             StringBuilder qualifiersForClassName = new StringBuilder();
+
             foreach (var qualifier in qualifiers)
             {
                 qualifiersForClassName.Append(qualifier).Append("_");
             }
+
             return qualifiersForClassName + xsdTypeNameWithQualifiers.Substring(qualifierString.Length);
         }
     }
