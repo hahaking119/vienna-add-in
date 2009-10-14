@@ -104,6 +104,7 @@
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoaderTests.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTests.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValueTests.cs" />
+    <Compile Include="upcc3\import\cctsndr\BDTImporterTests.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
@@ -174,6 +175,9 @@
       <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="upcc3\import\cctsndr\BDTImporterTestResources\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

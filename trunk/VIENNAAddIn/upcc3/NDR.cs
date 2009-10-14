@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.export.cctsndr;
@@ -106,9 +109,41 @@ namespace VIENNAAddIn.upcc3
             return bdt.Name + bdt.CON.BasicType.Name + "Type";
         }
 
-        public static string GetBdtNameFromXsdType(XmlSchemaType xsdType, string basicTypeName)
+        public static string GetBdtNameFromXsdType(XmlSchemaType xsdType)
         {
-            return xsdType.Name.Minus("Type").Minus(basicTypeName);
+            StringBuilder qualifierString = new StringBuilder();
+            List<string> qualifiers = new List<string>();
+            if (xsdType.Annotation != null)
+            {
+                XmlSchemaObjectCollection annotationItems = xsdType.Annotation.Items;
+                foreach (var item in annotationItems)
+                {
+                    if (item is XmlSchemaDocumentation)
+                    {
+                        XmlNode[] nodes = ((XmlSchemaDocumentation) item).Markup;
+                        foreach (var node in nodes)
+                        {
+                            if (node is XmlElement)
+                            {
+                                if (node.Name == "DataTypeQualifierTermName")
+                                {
+                                    string qualifier = node.InnerText;
+                                    qualifierString.Append(qualifier);
+                                    qualifiers.Add(qualifier);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            string xsdTypeNameWithoutGuid = xsdType.Name.Substring(0, xsdType.Name.LastIndexOf('_'));
+            string xsdTypeNameWithQualifiers = xsdTypeNameWithoutGuid.Minus("Type");
+            StringBuilder qualifiersForClassName = new StringBuilder();
+            foreach (var qualifier in qualifiers)
+            {
+                qualifiersForClassName.Append(qualifier).Append("_");
+            }
+            return qualifiersForClassName + xsdTypeNameWithQualifiers.Substring(qualifierString.Length);
         }
     }
 }
