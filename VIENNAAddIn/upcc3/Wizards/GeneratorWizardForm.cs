@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -300,7 +300,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                 namespacePrefix, annotate, allschemas,
                                                 outputDirectory, docl, relevantDocuments);
             generationContext.SchemaAdded += HandleSchemaAdded;
-            XSDGenerator.ccts.XSDGenerator.GenerateSchemas(generationContext);
+            export.cctsndr.XSDGenerator.GenerateSchemas(generationContext);
 
             //VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary,
             //                                                                                  "urn:test:namespace", "test", true,

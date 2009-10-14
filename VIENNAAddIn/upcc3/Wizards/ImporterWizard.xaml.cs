@@ -9,8 +9,7 @@ using System.Xml;
 using System.Xml.Schema;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
-using VIENNAAddIn.upcc3.XSDImporter;
+using VIENNAAddIn.upcc3.import.cctsndr;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -136,7 +135,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     buttonImport.Visibility = Visibility.Collapsed;
 
                     var context = new ImporterContext(CcRepository, textboxRootSchema.Text);
-                    XSDImporter.ccts.XSDImporter.ImportSchemas(context);
+                    import.cctsndr.XSDImporter.ImportSchemas(context);
 
                     progressBar.Minimum = 0;
                     progressBar.Maximum = 100;
