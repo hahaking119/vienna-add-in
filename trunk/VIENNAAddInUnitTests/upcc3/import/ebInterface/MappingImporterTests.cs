@@ -6,11 +6,11 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.XSDImporter.ebInterface;
+using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUnitTests.TestRepository;
 using File=System.IO.File;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
+namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 {
     [TestFixture]
     public class MappingImporterTests

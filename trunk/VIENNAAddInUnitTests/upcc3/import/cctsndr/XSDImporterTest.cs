@@ -11,11 +11,10 @@ using System.IO;
 using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.XSDImporter;
-using VIENNAAddIn.upcc3.XSDImporter.ccts;
+using VIENNAAddIn.upcc3.import.cctsndr;
 using File=System.IO.File;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
+namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
 {
     [TestFixture]
     [Category(TestCategories.FileBased)]
@@ -123,7 +122,7 @@ namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ccts
         [Test]
         public void TestXSDImporter()
         {
-            VIENNAAddIn.upcc3.XSDImporter.ccts.XSDImporter.ImportSchemas(testContext);
+            VIENNAAddIn.upcc3.import.cctsndr.XSDImporter.ImportSchemas(testContext);
 
             //Assert.Fail("Unit Test needs to be implemented as well ...");
         }

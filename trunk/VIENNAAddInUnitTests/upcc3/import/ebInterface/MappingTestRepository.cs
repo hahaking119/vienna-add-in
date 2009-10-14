@@ -4,7 +4,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
+namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 {
     internal class MappingTestRepository : EARepository
     {

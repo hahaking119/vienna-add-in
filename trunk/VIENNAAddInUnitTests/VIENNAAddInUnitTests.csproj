@@ -116,14 +116,14 @@
     <Compile Include="upcc3\Wizards\util\StandardLibraryImporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\util\VersionDescriptorTest.cs" />
     <Compile Include="upcc3\Wizards\util\VersionHandlerTest.cs" />
-    <Compile Include="upcc3\XSDImporter\ccts\XSDImporterTest.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\MapForceMappingImporterTest.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\MapForceSourceElementTreeTests.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\SchemaMappingTests.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\MappingImporterTests.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\MappingTestRepository.cs" />
-    <Compile Include="upcc3\XSDImporter\ebInterface\TargetElementStoreTests.cs" />
-    <Compile Include="upcc3\XSDImporter\util\CustomSchemaReaderTest.cs" />
+    <Compile Include="upcc3\import\cctsndr\XSDImporterTest.cs" />
+    <Compile Include="upcc3\import\ebInterface\MapForceMappingImporterTest.cs" />
+    <Compile Include="upcc3\import\ebInterface\MapForceSourceElementTreeTests.cs" />
+    <Compile Include="upcc3\import\ebInterface\SchemaMappingTests.cs" />
+    <Compile Include="upcc3\import\ebInterface\MappingImporterTests.cs" />
+    <Compile Include="upcc3\import\ebInterface\MappingTestRepository.cs" />
+    <Compile Include="upcc3\import\ebInterface\TargetElementStoreTests.cs" />
+    <Compile Include="upcc3\import\util\CustomSchemaReaderTest.cs" />
     <Compile Include="Utils\EAAssert.cs" />
     <Compile Include="Utils\PropertyEqualityAssertion.cs" />
     <Compile Include="Utils\PropertyEqualityAssertionTest.cs" />
@@ -133,8 +133,8 @@
     <Compile Include="upcc3\ccts\util\AggregationKindTest.cs" />
     <Compile Include="upcc3\Wizards\CacheTest.cs" />
     <Compile Include="upcc3\Wizards\util\ModelCreatorTest.cs" />
-    <Compile Include="upcc3\XSDGenerator\ccts\DictionaryExtensionsTest.cs" />
-    <Compile Include="upcc3\XSDGenerator\ccts\StringExtensionsTest.cs" />
+    <Compile Include="upcc3\export\cctsndr\DictionaryExtensionsTest.cs" />
+    <Compile Include="upcc3\export\cctsndr\StringExtensionsTest.cs" />
     <Compile Include="TestRepository\EAAttribute.cs" />
     <Compile Include="TestRepository\EAAttributeTag.cs" />
     <Compile Include="TestRepository\EAConnector.cs" />
@@ -149,7 +149,7 @@
     <Compile Include="TestRepository\EARepository.cs" />
     <Compile Include="TestRepository\EARepository1.cs" />
     <Compile Include="TestRepository\EARepositoryTest.cs" />
-    <Compile Include="upcc3\XSDGenerator\ccts\XSDGeneratorTest.cs" />
+    <Compile Include="upcc3\export\cctsndr\XSDGeneratorTest.cs" />
     <Compile Include="menu\MenuManagerTest.cs" />
     <Compile Include="validator\upcc3\onTheFly\ValidatingPRIMLibraryTest.cs" />
   </ItemGroup>

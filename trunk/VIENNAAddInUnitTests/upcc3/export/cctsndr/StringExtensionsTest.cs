@@ -8,9 +8,9 @@
 // *******************************************************************************
 using System;
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.XSDGenerator.ccts;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.ccts
+namespace VIENNAAddInUnitTests.upcc3.export.cctsndr
 {
     [TestFixture]
     public class StringExtensionsTest
