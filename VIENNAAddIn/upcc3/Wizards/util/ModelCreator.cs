@@ -43,6 +43,14 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         public event Action<string> StatusChanged;
 
+        private void SendStatusChanged(string message)
+        {
+            if (StatusChanged != null)
+            {
+                StatusChanged(message);
+            }
+        }
+
         ///<summary>
         /// The method creates a default model having the structure as specified in the UPCC 3 
         /// specification. The default structure includes per definition a PRIM library, an ENUM
@@ -107,10 +115,10 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             repository.Models.Refresh();
             CCRepository ccRepository = new CCRepository(repository);
 
-            StatusChanged("Selecting empty root model.");
+            SendStatusChanged("Selecting empty root model.");
             Package model = GetEmptyRootModel();
 
-            StatusChanged("Creating bLibrary.");
+            SendStatusChanged("Creating bLibrary.");
             IBLibrary bLibrary = ccRepository.CreateBLibrary(new LibrarySpec {Name = modelName}, model);
 
             importCCLibraries(bLibrary);
@@ -119,7 +127,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
             repository.RefreshModelView(0);
             repository.Models.Refresh();
-            StatusChanged("Done.");
+            SendStatusChanged("Done.");
         }
 
         public void CreateUpccModel(string modelName, string bdtLibraryName, string bieLibraryName, string docLibraryName, ResourceDescriptor standardLibraryResourceDescriptor)
@@ -192,17 +200,17 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         {
             if (!bdtLibraryName.Equals(""))
             {
-                StatusChanged("Creating BDT Library.");
+                SendStatusChanged("Creating BDT Library.");
                 bLibrary.CreateBDTLibrary(new LibrarySpec {Name = bdtLibraryName});
             }
             if (!bieLibraryName.Equals(""))
             {
-                StatusChanged("Creating BIE Library.");
+                SendStatusChanged("Creating BIE Library.");
                 bLibrary.CreateBIELibrary(new LibrarySpec {Name = bieLibraryName});
             }
             if (!docLibraryName.Equals(""))
             {
-                StatusChanged("Creating DOC Library.");
+                SendStatusChanged("Creating DOC Library.");
                 bLibrary.CreateDOCLibrary(new LibrarySpec {Name = docLibraryName});
             }
         }
@@ -237,22 +245,22 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         {
             if (!primLibraryName.Equals(""))
             {
-                StatusChanged("Creating PRIM Library.");                
+                SendStatusChanged("Creating PRIM Library.");                
                 bLibrary.CreatePRIMLibrary(new LibrarySpec {Name = primLibraryName});
             }
             if (!enumLibraryName.Equals(""))
             {
-                StatusChanged("Creating ENUM Library.");
+                SendStatusChanged("Creating ENUM Library.");
                 bLibrary.CreateENUMLibrary(new LibrarySpec {Name = enumLibraryName});
             }
             if (!cdtLibraryName.Equals(""))
             {
-                StatusChanged("Creating CDT Library.");
+                SendStatusChanged("Creating CDT Library.");
                 bLibrary.CreateCDTLibrary(new LibrarySpec {Name = cdtLibraryName});
             }
             if (!ccLibraryName.Equals(""))
             {
-                StatusChanged("Creating CC Library.");
+                SendStatusChanged("Creating CC Library.");
                 bLibrary.CreateCCLibrary(new LibrarySpec {Name = ccLibraryName});
             }
         }

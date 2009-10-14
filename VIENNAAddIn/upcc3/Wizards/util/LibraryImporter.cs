@@ -53,6 +53,14 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         public event Action<string> StatusChanged;
 
+        private void SendStatusChanged(string message)
+        {
+            if (StatusChanged != null)
+            {
+                StatusChanged(message);
+            }
+        }
+
         ///<summary>
         /// The method's purpose is to first retrieve the latest CC libraries from the web and 
         /// second import the downloaded libraries into an existing business library. The method
@@ -68,21 +76,21 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///</param>
         public void ImportStandardCcLibraries(Package bLibrary)
         {
-            StatusChanged("Caching resources: " + resourceDescriptor.StorageDirectory);
+            SendStatusChanged("Caching resources: " + resourceDescriptor.StorageDirectory);
             
             new ResourceHandler(resourceDescriptor).CacheResourcesLocally();
 
             Project project = repository.GetProjectInterface();
 
-            StatusChanged("Cleaning up model.");
+            SendStatusChanged("Cleaning up model.");
             CleanUpUpccModel(repository, bLibrary);
 
             foreach (string xmiFile in resourceDescriptor.Resources)
             {
-                StatusChanged("Importing library: " + xmiFile);
+                SendStatusChanged("Importing library: " + xmiFile);
                 project.ImportPackageXMI(bLibrary.PackageGUID, resourceDescriptor.StorageDirectory + xmiFile, 1, 0);
             }
-            StatusChanged("Done.");
+            SendStatusChanged("Done.");
         }
 
         ///<summary>

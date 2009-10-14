@@ -191,6 +191,7 @@ Actual output file: {2}",
 
         [Test]
         [Category(TestCategories.FileBased)]
+        [Ignore("Test model must be updated to current standards.")]
         public void TestSchemaGenerator()
         {
             using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
