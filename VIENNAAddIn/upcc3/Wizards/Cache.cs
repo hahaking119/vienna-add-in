@@ -823,7 +823,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (BIVs.Count == 0)
             {
-                throw new CacheException("The repository did not contain any BIVs. Please make sure at least one BIV is present before proceeding with the wizard.");
+                throw new CacheException("The repository did not contain any Business Information Views (BIVs) or any DOCLibraries. Please make sure at least one BIV or one DOCLibrary is present before proceeding with the wizard.");
             }
         }
     }
