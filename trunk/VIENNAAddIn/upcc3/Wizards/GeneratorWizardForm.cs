@@ -375,8 +375,14 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowGeneratorWizard(AddInContext context)
         {
-            new GeneratorWizardForm(context.CCRepository).Show();
+            try
+            {
+                new GeneratorWizardForm(context.CCRepository).Show();
+            }
+            catch (CacheException ce)
+            {
+                MessageBox.Show(ce.Message, "VIENNA Add-In Information", MessageBoxButtons.OK, MessageBoxIcon.Information);                
+            }            
         }
-
     }
 }
