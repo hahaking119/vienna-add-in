@@ -11,7 +11,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         private readonly IBDTLibrary bdtLibrary;
         private readonly IPRIMLibrary primLibrary;
 
-        public BDTSchemaImporter(ImporterContext context)
+        public BDTSchemaImporter(IImporterContext context)
         {
             schema = context.BDTSchema;
             bdtLibrary = context.BDTLibrary;
@@ -89,7 +89,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         {
             var bdtSpec = new BDTSpec
                           {
-                              Name = NDR.GetBdtNameFromXsdType(xsdType, conPrimName),
+                              Name = NDR.GetBdtNameFromXsdType(xsdType),
                               CON = SpecifyCON(conPrimName),
                               SUPs = new List<SUPSpec>(sups),
                           };

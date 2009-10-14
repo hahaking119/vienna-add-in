@@ -8,7 +8,20 @@ using Path=System.IO.Path;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr
 {
-    public class ImporterContext
+    public interface IImporterContext
+    {
+        string RootSchemaPath { get; }
+        string RootSchemaFileName { get; }
+        XmlSchema BDTSchema { get; }
+        string BIESchemaPath { get; }
+        ICCLibrary CCLibrary { get; }
+        IBDTLibrary BDTLibrary { get; }
+        IBIELibrary BIELibrary { get; }
+        IPRIMLibrary PRIMLibrary { get; }
+        IBLibrary BLibrary { get; }
+    }
+
+    public class ImporterContext : IImporterContext
     {
         /// <exception cref="Exception">Root schema does not include a BIE schema.</exception>
         public ImporterContext(ICCRepository ccRepository, string rootSchemaPath)

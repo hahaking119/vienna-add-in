@@ -15,7 +15,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
     {
         public static string Minus(this string str, string suffix)
         {
-            return str.Substring(0, str.Length - suffix.Length);
+            if (str.EndsWith(suffix))
+            {
+                return str.Substring(0, str.Length - suffix.Length);
+            }
+            return str;
         }
 
         public static string Times(this string str, int times)
