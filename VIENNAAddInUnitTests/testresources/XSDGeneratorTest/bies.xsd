@@ -22,7 +22,7 @@
             <ccts:VersionID></ccts:VersionID>
             <ccts:Cardinality>1..1</ccts:Cardinality>
             <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:DictionaryEntryName>Address. CityName. Text</ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>CityName</ccts:PropertyTermName>
@@ -38,7 +38,7 @@
             <ccts:VersionID></ccts:VersionID>
             <ccts:Cardinality>1..1</ccts:Cardinality>
             <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:DictionaryEntryName>Address. CountryName. Text</ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>CountryName</ccts:PropertyTermName>
@@ -54,7 +54,7 @@
             <ccts:VersionID></ccts:VersionID>
             <ccts:Cardinality>1..1</ccts:Cardinality>
             <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:DictionaryEntryName>Address. Postcode. Text</ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>Postcode</ccts:PropertyTermName>
@@ -70,7 +70,7 @@
             <ccts:VersionID></ccts:VersionID>
             <ccts:Cardinality>1..1</ccts:Cardinality>
             <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:DictionaryEntryName>Address. StreetName. Text</ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>StreetName</ccts:PropertyTermName>
@@ -86,7 +86,7 @@
             <ccts:VersionID></ccts:VersionID>
             <ccts:Cardinality>1..1</ccts:Cardinality>
             <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:DictionaryEntryName>Address. StreetNumber. Text</ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>StreetNumber</ccts:PropertyTermName>
@@ -137,7 +137,7 @@
             <ccts:VersionID></ccts:VersionID>
             <ccts:Cardinality>1..1</ccts:Cardinality>
             <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:DictionaryEntryName>Person. FirstName. Text</ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>FirstName</ccts:PropertyTermName>
@@ -153,7 +153,7 @@
             <ccts:VersionID></ccts:VersionID>
             <ccts:Cardinality>1..1</ccts:Cardinality>
             <ccts:SequencingKey></ccts:SequencingKey>
-            <ccts:DictionaryEntryName></ccts:DictionaryEntryName>
+            <ccts:DictionaryEntryName>Person. LastName. Text</ccts:DictionaryEntryName>
             <ccts:Definition></ccts:Definition>
             <ccts:BusinessTermName></ccts:BusinessTermName>
             <ccts:PropertyTermName>LastName</ccts:PropertyTermName>
