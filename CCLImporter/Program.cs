@@ -4,7 +4,6 @@ using System.IO;
 using EA;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.Importer;
 using File=System.IO.File;
 
 namespace CCLImporter
