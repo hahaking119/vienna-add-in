@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.XSDImporter.util;
+using VIENNAAddIn.upcc3.import.util;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDImporter.util
+namespace VIENNAAddInUnitTests.upcc3.import.util
 {
     [TestFixture]
     public class CustomSchemaReaderTest

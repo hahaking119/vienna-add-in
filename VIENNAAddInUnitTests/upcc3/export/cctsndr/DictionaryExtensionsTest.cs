@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using VIENNAAddIn.Utils;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDGenerator.ccts
+namespace VIENNAAddInUnitTests.upcc3.export.cctsndr
 {
     [TestFixture]
     public class DictionaryExtensionsTest

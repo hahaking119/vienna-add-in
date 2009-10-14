@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.XSDImporter.ebInterface;
+using VIENNAAddIn.upcc3.import.ebInterface;
 
-namespace VIENNAAddInUnitTests.upcc3.XSDImporter.ebInterface
+namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 {
     [TestFixture]
     public class MapForceMappingImporterTest
