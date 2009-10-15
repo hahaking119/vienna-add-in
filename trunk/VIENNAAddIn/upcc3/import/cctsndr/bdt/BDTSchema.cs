@@ -1,19 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace VIENNAAddIn.upcc3.import.cctsndr
+namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {
-    public static class BDTXsdImporter
-    {
-        public static void ImportXsd(IImporterContext context)
-        {
-            var bdtSchema = new BDTSchema(context);
-            bdtSchema.CreateBDTs();
-        }
-    }
-
     public class BDTSchema
     {
         public IImporterContext Context { get; private set; }
@@ -30,7 +21,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
             {
                 if (currentElement is XmlSchemaComplexType)
                 {
-                    var bdtType = new BDTComplexType(Context, (XmlSchemaComplexType)currentElement, this);
+                    var bdtType = new BDTComplexType((XmlSchemaComplexType)currentElement, this);
                     bdtTypes[bdtType.XsdTypeName] = bdtType;
                 }
                 else if (currentElement is XmlSchemaSimpleType)

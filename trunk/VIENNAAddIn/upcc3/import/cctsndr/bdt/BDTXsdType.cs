@@ -6,26 +6,30 @@ using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.export.cctsndr;
 
-namespace VIENNAAddIn.upcc3.import.cctsndr
+namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {
     public abstract class BDTXsdType
     {
         private readonly BDTSchema bdtSchema;
-        private readonly XmlSchemaType xsdType;
 
         protected BDTXsdType(XmlSchemaType xsdType, BDTSchema bdtSchema)
         {
-            this.xsdType = xsdType;
+            XsdType = xsdType;
             this.bdtSchema = bdtSchema;
-            XsdTypeName = xsdType.Name;
         }
+
+        protected XmlSchemaType XsdType { get; private set; }
 
         public IImporterContext Context
         {
             get { return bdtSchema.Context; }
         }
 
-        public string XsdTypeName { get; private set; }
+        public string XsdTypeName
+        {
+            get { return XsdType.Name; }
+        }
+
         public abstract void CreateBDT();
 
         protected IPRIM FindPRIM(string primName)
@@ -62,7 +66,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
         private string GetDataTypeTerm()
         {
-            string xsdTypeNameWithoutGuid = xsdType.Name.Substring(0, xsdType.Name.LastIndexOf('_'));
+            string xsdTypeNameWithoutGuid = XsdType.Name.Substring(0, XsdType.Name.LastIndexOf('_'));
 
             string xsdTypeNameWithQualifiers = xsdTypeNameWithoutGuid.Minus("Type");
 
@@ -91,9 +95,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
             var qualifiers = new List<string>();
 
-            if (xsdType.Annotation != null)
+            if (XsdType.Annotation != null)
             {
-                XmlSchemaObjectCollection annotationItems = xsdType.Annotation.Items;
+                XmlSchemaObjectCollection annotationItems = XsdType.Annotation.Items;
                 foreach (XmlSchemaObject item in annotationItems)
                 {
                     if (item is XmlSchemaDocumentation)

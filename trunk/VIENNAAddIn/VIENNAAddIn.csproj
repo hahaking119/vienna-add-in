@@ -181,9 +181,10 @@
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
-    <Compile Include="upcc3\import\cctsndr\BDTComplexType.cs" />
-    <Compile Include="upcc3\import\cctsndr\BDTSimpleType.cs" />
-    <Compile Include="upcc3\import\cctsndr\BDTXsdType.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\BDTComplexType.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\BDTSchema.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\BDTSimpleType.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>
@@ -212,7 +213,7 @@
     <Compile Include="upcc3\export\cctsndr\CCSchemaGenerator.cs" />
     <Compile Include="upcc3\export\cctsndr\CDTSchemaGenerator.cs" />
     <Compile Include="upcc3\export\cctsndr\GeneratorContext.cs" />
-    <Compile Include="upcc3\import\cctsndr\BDTXsdImporter.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdImporter.cs" />
     <Compile Include="upcc3\import\cctsndr\BIESchemaImporter.cs" />
     <Compile Include="upcc3\import\cctsndr\RootSchemaImporter.cs" />
     <Compile Include="upcc3\import\cctsndr\XSDImporter.cs" />
