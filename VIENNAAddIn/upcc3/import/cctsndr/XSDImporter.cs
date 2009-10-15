@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     {
         public static void ImportSchemas(ImporterContext context)
         {
-            new BDTSchemaImporter(context).ImportXSD();
+            BDTXsdImporter.ImportXsd(context);
             BIESchemaImporter.ImportXSD(context);
             RootSchemaImporter.ImportXSD(context);
         }

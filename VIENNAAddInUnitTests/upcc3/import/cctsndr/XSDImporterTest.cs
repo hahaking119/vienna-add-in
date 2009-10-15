@@ -89,7 +89,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Ignore("Implementation not finished yet.")]
         public void TestBDTSchemaImporter()
         {
-            new BDTSchemaImporter(testContext).ImportXSD();
+            BDTXsdImporter.ImportXsd(testContext);
 //            int count = 0;
 //            foreach (XmlSchemaObject currentElement in testContext.Schemas[0].Schema.Items)
 //            {
@@ -105,7 +105,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void TestBIESchemaImporter()
         {
-            new BDTSchemaImporter(testContext).ImportXSD();
+            BDTXsdImporter.ImportXsd(testContext);
             BIESchemaImporter.ImportXSD(testContext);
 
             //Assert.Fail("Unit Test needs to be implemented as well ...");
@@ -114,7 +114,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void TestRootSchemaImporter()
         {
-            new BDTSchemaImporter(testContext).ImportXSD();
+            BDTXsdImporter.ImportXsd(testContext);
             BIESchemaImporter.ImportXSD(testContext);
             RootSchemaImporter.ImportXSD(testContext);
         }

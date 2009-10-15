@@ -11,6 +11,7 @@ namespace VIENNAAddIn.upcc3
 {
     public static class NDR
     {
+        public const string CCTSNamespace = "urn:un:unece:uncefact:documentation:common:3:standard:CoreComponentsTechnicalSpecification:3";
         private const string Identification = "Identification";
         private const string Identifier = "Identifier";
         private const string Indication = "Indication";
@@ -32,7 +33,7 @@ namespace VIENNAAddIn.upcc3
         {
             if (!String.IsNullOrEmpty(dictionaryEntryName))
             {
-                var parts = dictionaryEntryName.Replace(" ", String.Empty).Replace("-", String.Empty).Split('.');
+                string[] parts = dictionaryEntryName.Replace(" ", String.Empty).Replace("-", String.Empty).Split('.');
                 if (parts.Length != 3)
                 {
                     throw new ArgumentException(
@@ -109,46 +110,35 @@ namespace VIENNAAddIn.upcc3
             return bdt.Name + bdt.CON.BasicType.Name + "Type";
         }
 
-        public static string GetBdtNameFromXsdType(XmlSchemaType xsdType)
+        public static string ConvertXsdTypeNameToBasicTypeName(string xsdTypeName)
         {
-            StringBuilder qualifierString = new StringBuilder();
-            List<string> qualifiers = new List<string>();
-
-            if (xsdType.Annotation != null)
+            switch (xsdTypeName.ToLower())
             {
-                XmlSchemaObjectCollection annotationItems = xsdType.Annotation.Items;
-                foreach (var item in annotationItems)
-                {
-                    if (item is XmlSchemaDocumentation)
-                    {
-                        XmlNode[] nodes = ((XmlSchemaDocumentation) item).Markup;
-                        foreach (var node in nodes)
-                        {
-                            if (node is XmlElement)
-                            {
-                                if (node.LocalName == "DataTypeQualifierTermName")
-                                {
-                                    string qualifier = node.InnerText;
-                                    qualifierString.Append(qualifier);
-                                    qualifiers.Add(qualifier);
-                                }
-                            }
-                        }
-                    }
-                }
+                case "string":
+                    return "String";
+                case "decimal":
+                    return "Decimal";
+                case "base64binary":
+                    return "Base64Binary";
+                case "token":
+                    return "Token";
+                case "double":
+                    return "Double";
+                case "integer":
+                    return "Integer";
+                case "long":
+                    return "Long";
+                case "datetime":
+                    return "DateTime";
+                case "date":
+                    return "Date";
+                case "time":
+                    return "Time";
+                case "boolean":
+                    return "Boolean";
+                default:
+                    return "String";
             }
-
-            string xsdTypeNameWithoutGuid = xsdType.Name.Substring(0, xsdType.Name.LastIndexOf('_'));
-            string xsdTypeNameWithQualifiers = xsdTypeNameWithoutGuid.Minus("Type");
-
-            StringBuilder qualifiersForClassName = new StringBuilder();
-
-            foreach (var qualifier in qualifiers)
-            {
-                qualifiersForClassName.Append(qualifier).Append("_");
-            }
-
-            return qualifiersForClassName + xsdTypeNameWithQualifiers.Substring(qualifierString.Length);
         }
     }
 }

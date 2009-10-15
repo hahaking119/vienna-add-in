@@ -14,6 +14,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         string RootSchemaFileName { get; }
         XmlSchema BDTSchema { get; }
         string BIESchemaPath { get; }
+        ICDTLibrary CDTLibrary { get; }
         ICCLibrary CCLibrary { get; }
         IBDTLibrary BDTLibrary { get; }
         IBIELibrary BIELibrary { get; }
@@ -51,6 +52,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                 throw new Exception("Root schema does not include a BIE schema.");
             }
 
+            CDTLibrary = ccRepository.Libraries<ICDTLibrary>().ElementAt(0);
             CCLibrary = ccRepository.Libraries<ICCLibrary>().ElementAt(0);
             BDTLibrary = ccRepository.Libraries<IBDTLibrary>().ElementAt(0);
             BIELibrary = ccRepository.Libraries<IBIELibrary>().ElementAt(0);
@@ -71,6 +73,8 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
         public string BIESchemaPath { get; private set; }
 
+        public ICDTLibrary CDTLibrary { get; private set; }
+        
         public ICCLibrary CCLibrary { get; private set; }
 
         public IBDTLibrary BDTLibrary { get; private set; }
