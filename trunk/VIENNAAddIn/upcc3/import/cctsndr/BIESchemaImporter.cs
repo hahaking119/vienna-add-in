@@ -20,8 +20,8 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     ///<summary>
     /// The purpose of the static class BIESchemaImporter is to import an XML schema, 
     /// complying with CCTS and UN/CEFACT's NDRs, into an existing BIE library. The 
-    /// importer is invoked using the static method "ImportXSD". For more information
-    /// on the method "ImportXSD" please refer to the documentation of the method
+    /// importer is invoked using the static method "ImportXsd". For more information
+    /// on the method "ImportXsd" please refer to the documentation of the method
     /// itself. Furthermore, the class provides a set of methods allowing to cumulate
     /// different artifacts in the CCTS XML schema such as cumulating an ABIE from 
     /// a complex type in the XML schema. 
