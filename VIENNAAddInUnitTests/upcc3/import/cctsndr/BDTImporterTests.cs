@@ -9,6 +9,7 @@ using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.import.cctsndr;
+using VIENNAAddIn.upcc3.import.cctsndr.bdt;
 using VIENNAAddInUnitTests.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
