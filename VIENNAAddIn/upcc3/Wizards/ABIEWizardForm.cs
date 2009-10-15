@@ -24,32 +24,70 @@ namespace VIENNAAddIn.upcc3.Wizards
     {
         #region Field Declarations
 
-        private CCRepository repository;
-        private ABIE abie;
+        private const string DEFAULT_PREFIX = "My";
+        private const int MARGIN = 15;
+        private readonly ABIE abie;
+        private readonly List<string> editboxBDTNameList = new List<string>();
+        private readonly bool wizardModeCreate = true;
         private Cache cache;
         private TextBox editboxBBIEName;
-        private TextBox editboxBDTName;
         private bool editboxBBIENameEsc;
+        private TextBox editboxBDTName;
         private bool editboxBDTNameEsc;
-        private List<string> editboxBDTNameList = new List<string>();
         private int mouseDownPosX;
-        private bool wizardModeCreate = true;
-        private bool userHasClickedCheckbox;
-        private const int MARGIN = 15;
-        private const string DEFAULT_PREFIX = "My";
-
-        private string selectedCCLName;
+        private CCRepository repository;
         private string selectedACCName;
-        private string selectedBCCName;
-        private string selectedBBIEName;
-        private string selectedBDTName;
-        private string selectedBDTLName;
-        private string selectedBIELName;
         private string selectedASCCName;
+        private string selectedBBIEName;
+        private string selectedBCCName;
+        private string selectedBDTLName;
+        private string selectedBDTName;
+        private string selectedBIELName;
+        private string selectedCCLName;
+        private bool userHasClickedCheckbox;
 
         #endregion
 
         #region Constructor
+
+        ///<summary>
+        /// This constructor is typically used to prepare the ABIE wizard for 
+        /// creating new ABIEs in an EA repository. The constructor of the ABIE 
+        /// wizard has one input parameter which is the EA repository that the 
+        /// wizard operates on. 
+        ///</summary>
+        ///<param name="eaRepository">
+        /// The EA repository that the wizard operates on. 
+        ///</param>
+        private ABIEWizardForm(Repository eaRepository)
+        {
+            InitializeComponent();
+
+            InitializeWizardCache(eaRepository);
+        }
+
+        ///<summary>
+        /// This constructor is typically used to prepare the ABIE wizard for
+        /// editing an existing ABIE in an EA repository. The constructor of the 
+        /// ABIE wizard has two input parameters which include (1) the EA repository 
+        /// that the wizard operates on and (2) the ABIE to be modified. 
+        ///</summary>
+        ///<param name="eaRepo">
+        /// The EA repository that the wizard operates on.
+        ///</param>
+        ///<param name="element">
+        /// The ABIE to be modified. 
+        ///</param>
+        private ABIEWizardForm(Repository eaRepo, Element element)
+        {
+            InitializeComponent();
+
+            InitializeWizardCache(eaRepo);
+
+            // retrieve the current ABIE to be edited 
+            abie = (ABIE) repository.GetABIE(element.ElementID);
+            wizardModeCreate = false;
+        }
 
         ///<summary>
         /// The method prepares the wizard cache for creating new ABIEs as 
@@ -74,7 +112,6 @@ namespace VIENNAAddIn.upcc3.Wizards
                 cache.LoadCCLs(repository);
                 cache.LoadBIELsAndTheirABIEs(repository);
                 cache.LoadBDTLsAndTheirBDTs(repository);
-                
             }
             catch (CacheException ce)
             {
@@ -88,48 +125,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        ///<summary>
-        /// This constructor is typically used to prepare the ABIE wizard for 
-        /// creating new ABIEs in an EA repository. The constructor of the ABIE 
-        /// wizard has one input parameter which is the EA repository that the 
-        /// wizard operates on. 
-        ///</summary>
-        ///<param name="eaRepository">
-        /// The EA repository that the wizard operates on. 
-        ///</param>
-        private ABIEWizardForm(Repository eaRepository)
-        {
-            InitializeComponent();
-
-            InitializeWizardCache(eaRepository);           
-        }
-
-        ///<summary>
-        /// This constructor is typically used to prepare the ABIE wizard for
-        /// editing an existing ABIE in an EA repository. The constructor of the 
-        /// ABIE wizard has two input parameters which include (1) the EA repository 
-        /// that the wizard operates on and (2) the ABIE to be modified. 
-        ///</summary>
-        ///<param name="eaRepo">
-        /// The EA repository that the wizard operates on.
-        ///</param>
-        ///<param name="element">
-        /// The ABIE to be modified. 
-        ///</param>
-        private ABIEWizardForm(Repository eaRepo, Element element)
-        {
-            InitializeComponent();
-
-            InitializeWizardCache(eaRepo);
-
-            // retrieve the current ABIE to be edited 
-            abie = (ABIE)repository.GetABIE(element.ElementID);
-            wizardModeCreate = false;
-        }
-
         #endregion
 
         #region Wizard Launch Methods
+
         ///<summary>
         /// This Method is used to show the Generate new ABIE Wizard Window.
         /// There is no initial Element to load.
@@ -147,11 +146,10 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowModifyABIEWizard(AddInContext context)
         {
-            new ABIEWizardForm(context.EARepository, (Element)context.SelectedItem).Show();
+            new ABIEWizardForm(context.EARepository, (Element) context.SelectedItem).Show();
         }
 
         #endregion
-
 
         #region Event Handlers
 
@@ -180,15 +178,18 @@ namespace VIENNAAddIn.upcc3.Wizards
                 ResetForm(1);
                 ResetForm(2);
                 ResetForm(3);
-                
+
                 buttonGenerate.Text = "&Create ABIE ...";
             }
             else
             {
                 // TODO andik/fabiank: this code needs to be cleaned up!
                 // partly cleaned up!
+
                 #region code to be cleaned up
-                if(!setCorrectCCL()){
+
+                if (!setCorrectCCL())
+                {
                     InformativeMessage("no corresponding CCLibrary found.");
                     Close();
                 }
@@ -196,7 +197,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 comboACCs.SelectedIndex = comboACCs.FindString(abie.BasedOn.Name);
                 comboACCs_SelectionChangeCommitted(null, null);
 
-                
+
                 foreach (IASBIE asbie in abie.ASBIEs)
                 {
                     if (asbie.AssociatingElement.Name == abie.Name)
@@ -221,9 +222,10 @@ namespace VIENNAAddIn.upcc3.Wizards
                     }
                 }
                 textABIEName.Text = abie.Name;
+
                 #endregion
-                
-                ResetForm(0);                
+
+                ResetForm(0);
                 ResetForm(4);
 
                 buttonGenerate.Text = "&Save ABIE ...";
@@ -284,10 +286,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                     {
                         cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadBCCsAndBBIEs(repository,
                                                                                            cache.BDTLs, abie);
-                    //TODO: check if this was really a refactoring error
-                        cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
-                    //the above line was outside of else before! (FK 23.07.2009)
                     }
+                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].LoadASCCs(repository, cache.BIELs);
                 }
                 textABIEName.Text = textPrefix.Text + "_" + selectedACCName;
                 richtextStatus.Text = "";
@@ -355,7 +355,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (userHasClickedCheckbox)
                 {
-                    foreach (KeyValuePair<string, cBCC> bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs)
+                    foreach (var bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs)
                     {
                         bcc.Value.State = newState;
 
@@ -367,6 +367,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 MirrorBCCsToUI();
             }
+            CheckIfConfigurationValid();
         }
 
         private void checkedlistboxBBIEs_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -416,7 +417,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                     cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.ContainsKey(
                         newBBIEName))
                 {
-                    richtextStatus.Text = "WARNING: The name of the BBIE couldn't be changed since the current ABIE alreday contains another BBIE named \"{0}\". Please choose a different name before proceeding to edit the name of the BBIE.".Replace("{0}", newBBIEName);
+                    richtextStatus.Text =
+                        "WARNING: The name of the BBIE couldn't be changed since the current ABIE alreday contains another BBIE named \"{0}\". Please choose a different name before proceeding to edit the name of the BBIE."
+                            .Replace("{0}", newBBIEName);
                 }
                 else
                 {
@@ -531,9 +534,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                                       }))
             {
                 bool nameAlreadyExists = false;
-                foreach(string curName in editboxBDTNameList)
+                foreach (string curName in editboxBDTNameList)
                 {
-                    if(curName == selectedBDTName)
+                    if (curName == selectedBDTName)
                         nameAlreadyExists = true;
                 }
                 if (nameAlreadyExists || selectedBDTName.StartsWith("Create new BDT"))
@@ -556,7 +559,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             string newBDTName = editboxBDTName.Text;
 
             //if(newBDTName.StartsWith("Create new BDT"))
-                //return;
+            //return;
 
             foreach (cBDTLibrary bdtl in cache.BDTLs.Values)
             {
@@ -567,7 +570,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
 
-            foreach (var item in checkedlistboxBDTs.Items)
+            foreach (object item in checkedlistboxBDTs.Items)
             {
                 if (item.ToString().Equals(newBDTName))
                 {
@@ -621,7 +624,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void KeyPressedEditBDTName(object sender, KeyPressEventArgs e)
         {
-          if (e.KeyChar == 13)
+            if (e.KeyChar == 13)
             {
                 UpdateBDTName();
                 editboxBDTNameEsc = true;
@@ -669,27 +672,24 @@ namespace VIENNAAddIn.upcc3.Wizards
             if (wizardModeCreate)
             {
                 GatherUserInput();
-                IBIELibrary selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
-                
+                var selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+
                 /* get the selected ACC which we as a basis to generate the new ABIE */
                 IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-                
+
                 ABIESpec abieSpec = createABISpec(selectedACC);
                 IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
                                                         new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
 
                 richtextStatus.Text = "SUCCESS: an ABIE named " + newABIE.Name + " has been created.";
-                buttonGenerate.Enabled = false;
-                //textABIEName.Text = "";
-                //textABIEName.Text = newABIE.Name;
             }
             else
             {
                 GatherUserInput();
-                IBIELibrary selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+                var selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
 
-                /* get the selected ACC which we as a basis to generate the new ABIE */
+                /* get the selected ACC which we use as a basis to generate the new ABIE */
                 IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
                 ABIESpec abieSpec = createABISpec(selectedACC);
                 IABIE newABIE = selectedBIEL.UpdateElement(abie, abieSpec);
@@ -704,7 +704,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                     ResetForm(0);
                 }
             }
-
+            buttonGenerate.Enabled = false;
+            #region old, unused diagram update code (does not work!)
             //// update diagrams
             //// TODO: check which diagrams are currently opened an update them
             //var repo = repository.EARepository;
@@ -727,7 +728,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             //{
             //    richtextStatus.Text = "No open BIEL Diagram found.";
             //}
-            
+
             //var packageBDTL = FindPackage(comboBDTLs.SelectedItem.ToString(), packageModel);
             //try
             //{
@@ -746,7 +747,8 @@ namespace VIENNAAddIn.upcc3.Wizards
             //{
             //    richtextStatus.Text = "No open BDTL Diagram found.";
             //}
-            ////repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true);
+            ////repo.GetProjectInterface().LayoutDiagramEx(diagramBDTL.DiagramGUID, 0, 4, 20, 20, true); 
+            #endregion
         }
 
         //private Package FindPackage(string packageName, Package where)
@@ -815,22 +817,29 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             int indexBrace = selectedASCCName.IndexOf('(');
             string asccName = selectedASCCName.Substring(0, indexBrace - 1);
-
-            if (cache.PathIsValid(CacheConstants.PATH_ASCCs, new[] {selectedCCLName, selectedACCName, asccName}))
+       
+           if (cache.PathIsValid(CacheConstants.PATH_ASCCs, new[] {selectedCCLName, selectedACCName, asccName}))
             {
-                cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs[asccName].State = e.NewValue;
+                if (mouseDownPosX > MARGIN)
+                {
+                    e.NewValue = e.CurrentValue;
+                }
+                else
+                {
+                    cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs[asccName].State = e.NewValue;
 
-                //foreach (cASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
-                //{
-                //    foreach (cABIE abie in ascc.ABIEs.Values)
-                //    {
-                //        if (abie.Name == abieName)
-                //        {
-                //            ascc.State = e.NewValue;
-                //            return;
-                //        }
-                //    }
-                //}
+                    //foreach (cASCC ascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
+                    //{
+                    //    foreach (cABIE abie in ascc.ABIEs.Values)
+                    //    {
+                    //        if (abie.Name == abieName)
+                    //        {
+                    //            ascc.State = e.NewValue;
+                    //            return;
+                    //        }
+                    //    }
+                    //}
+                }
             }
 
             CheckIfConfigurationValid();
@@ -1171,7 +1180,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             checkedlistboxBBIEs.Items.Clear();
 
-            if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] { selectedCCLName, selectedACCName, selectedBCCName }))
+            if (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName, selectedBCCName}))
             {
                 foreach (
                     cBBIE bbie in
@@ -1179,26 +1188,25 @@ namespace VIENNAAddIn.upcc3.Wizards
                 {
                     checkedlistboxBBIEs.Items.Add(bbie.Name, bbie.State);
                 }
-                SetSafeIndex(checkedlistboxBBIEs, oldIndex);
 
-                MirrorBDTsToUI();
                 if (!wizardModeCreate) // add all BBIEs that already belong to the ABIE and were created by the user
                 {
                     foreach (BBIE bbie in abie.BBIEs)
                     {
-                        cBBIE newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Type.Id, CheckState.Checked);
-                        cBBIE testBBIE = new cBBIE();
-                        if (! cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.TryGetValue(newBBIE.Name, out testBBIE))
+                        var newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Type.Id, CheckState.Checked);
+                        cBBIE testBBIE;
+                        if (
+                            ! cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.TryGetValue(
+                                  newBBIE.Name, out testBBIE))
                         {
                             checkedlistboxBBIEs.Items.Add(newBBIE.Name, CheckState.Checked);
                             cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.Add(
                                 newBBIE.Name, newBBIE);
                         }
-                    }
-                    SetSafeIndex(checkedlistboxBBIEs, oldIndex);
-
-                    MirrorBDTsToUI();
+                    }    
                 }
+                SetSafeIndex(checkedlistboxBBIEs, oldIndex);
+                MirrorBDTsToUI();
             }
             else
             {
@@ -1222,8 +1230,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             if (cache.PathIsValid(CacheConstants.PATH_BCCs,
                                   new[] {selectedCCLName, selectedACCName, selectedBCCName, selectedBBIEName}))
             {
-               ICDT baseCDT = repository.GetCDT(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type);
-               foreach (
+                ICDT baseCDT =
+                    repository.GetCDT(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type);
+                foreach (
                     cBDT bdt in
                         cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].
                             BDTs)
@@ -1318,8 +1327,6 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
-
-
         private ABIESpec createABISpec(IACC selectedACC)
         {
             ABIESpec abieSpec = null;
@@ -1327,10 +1334,10 @@ namespace VIENNAAddIn.upcc3.Wizards
                 (cache.PathIsValid(CacheConstants.PATH_BIELs, new[] {selectedBIELName})) &&
                 (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName})))
             {
-                IBDTLibrary selectedBDTL = (IBDTLibrary) repository.GetLibrary(cache.BDTLs[selectedBDTLName].Id);
+                var selectedBDTL = (IBDTLibrary) repository.GetLibrary(cache.BDTLs[selectedBDTLName].Id);
 
 
-                List<BBIESpec> newBBIEs = new List<BBIESpec>();
+                var newBBIEs = new List<BBIESpec>();
                 IDictionary<string, cBDT> generatedBDTs = new Dictionary<string, cBDT>();
 
                 foreach (cBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
@@ -1358,14 +1365,14 @@ namespace VIENNAAddIn.upcc3.Wizards
                                             // check if BDT exists already in the library
                                             bool exists = false;
                                             bdtUsed = null;
-                                            foreach(var curbdtl in cache.BDTLs.Values)
+                                            foreach (cBDTLibrary curbdtl in cache.BDTLs.Values)
                                             {
-                                                foreach(var curbdt in curbdtl.BDTs.Values)
+                                                foreach (cBDT curbdt in curbdtl.BDTs.Values)
                                                 {
-                                                    if(bdt.Name.Equals(curbdt.Name) && curbdt.Id != -1)
+                                                    if (bdt.Name.Equals(curbdt.Name) && curbdt.Id != -1)
                                                     {
                                                         exists = true;
-                                                        bdtUsed = repository.GetBDT(curbdt.Id); 
+                                                        bdtUsed = repository.GetBDT(curbdt.Id);
                                                         break;
                                                     }
                                                 }
@@ -1480,7 +1487,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             int correctCCL = -1;
             foreach (cCCLibrary ccl in cache.CCLs.Values)
             {
-                ICCLibrary realCCL = repository.LibraryByName<ICCLibrary>(ccl.Name);
+                var realCCL = repository.LibraryByName<ICCLibrary>(ccl.Name);
                 correctCCL++;
                 foreach (IACC acc in realCCL.Elements)
                 {
@@ -1494,6 +1501,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
             return false;
         }
+
         private void richtextStatus_TextChanged(object sender, EventArgs e)
         {
         }
