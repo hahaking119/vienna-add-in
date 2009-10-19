@@ -104,7 +104,7 @@
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoaderTests.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTests.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValueTests.cs" />
-    <Compile Include="upcc3\import\cctsndr\BDTImporterTests.cs" />
+    <Compile Include="upcc3\import\cctsndr\BDTXsdImporterTests.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />

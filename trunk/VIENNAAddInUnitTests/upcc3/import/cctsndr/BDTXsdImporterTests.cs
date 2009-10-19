@@ -15,7 +15,7 @@ using VIENNAAddInUnitTests.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
 {
     [TestFixture]
-    public class BDTImporterTests
+    public class BDTXsdImporterTests
     {
         private const string SimpleTypeSchema = "BusinessDataType_simple_type.xsd";
         private const string ComplexTypeSchema = "BusinessDataType_complex_type.xsd";
