@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
+using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {
@@ -21,12 +22,21 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             {
                 if (currentElement is XmlSchemaComplexType)
                 {
-                    var bdtType = new BDTComplexType((XmlSchemaComplexType)currentElement, this);
+                    var complexType = (XmlSchemaComplexType) currentElement;
+                    BDTComplexType bdtType;
+                    if (complexType.ContentModel.Content is XmlSchemaSimpleContentRestriction)
+                    {
+                        bdtType = new BDTRestrictionComplexType(complexType, this);
+                    }
+                    else
+                    {
+                        bdtType = new BDTExtensionComplexType(complexType, this);
+                    }
                     bdtTypes[bdtType.XsdTypeName] = bdtType;
                 }
                 else if (currentElement is XmlSchemaSimpleType)
                 {
-                    var bdtType = new BDTSimpleType((XmlSchemaSimpleType)currentElement, this);
+                    var bdtType = new BDTSimpleType((XmlSchemaSimpleType) currentElement, this);
                     bdtTypes[bdtType.XsdTypeName] = bdtType;
                 }
             }
@@ -34,7 +44,6 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             {
                 bdtType.CreateBDT();
             }
-
         }
 
         public string CCTSNamespacePrefix
@@ -51,6 +60,25 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                 }
                 throw new Exception("CCTS namespace not defined: " + NDR.CCTSNamespace);
             }
+        }
+
+        public IBDT GetBDTByXsdTypeName(string typeName)
+        {
+            BDTXsdType bdtType;
+            if (bdtTypes.TryGetValue(typeName, out bdtType))
+            {
+                if (bdtType.BDT == null)
+                {
+                    bdtType.CreateBDT();
+                }
+                return bdtType.BDT;
+            }
+            throw new Exception(string.Format("Invalid XSD type name: <{0}>.", typeName));
+        }
+
+        public BDTXsdType GetBDTXsdType(string xsdTypeName)
+        {
+            return bdtTypes[xsdTypeName];
         }
     }
 }
