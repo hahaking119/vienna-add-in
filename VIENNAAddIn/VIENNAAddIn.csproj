@@ -182,9 +182,12 @@
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTComplexType.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\BDTExtensionComplexType.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\BDTRestrictionComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTSchema.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTSimpleType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
+    <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>

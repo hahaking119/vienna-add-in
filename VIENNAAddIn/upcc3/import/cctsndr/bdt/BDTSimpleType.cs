@@ -15,11 +15,14 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             get { return (XmlSchemaSimpleType) XsdType; }
         }
 
+        public override string ContentComponentXsdTypeName
+        {
+            get { return ((XmlSchemaSimpleTypeRestriction) SimpleType.Content).BaseTypeName.Name; }
+        }
+
         public override void CreateBDT()
         {
-            var simpleContent = (XmlSchemaSimpleTypeRestriction) SimpleType.Content;
-            string conPrimName = NDR.ConvertXsdTypeNameToBasicTypeName(simpleContent.BaseTypeName.Name);
-            CreateBDT(conPrimName, new List<SUPSpec>());
+            CreateBDT(new List<SUPSpec>());
         }
     }
 }

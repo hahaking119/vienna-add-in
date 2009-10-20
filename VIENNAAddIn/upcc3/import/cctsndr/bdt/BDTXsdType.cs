@@ -10,7 +10,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {
     public abstract class BDTXsdType
     {
-        private readonly BDTSchema bdtSchema;
+        protected readonly BDTSchema bdtSchema;
 
         protected BDTXsdType(XmlSchemaType xsdType, BDTSchema bdtSchema)
         {
@@ -42,15 +42,12 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             return prim;
         }
 
-        private CONSpec SpecifyCON(string primName)
+        protected IBDT GetBDTByXsdTypeName(string typeName)
         {
-            return new CONSpec
-                   {
-                       BasicType = FindPRIM(primName)
-                   };
+            return bdtSchema.GetBDTByXsdTypeName(typeName);
         }
 
-        protected void CreateBDT(string conPrimName, IEnumerable<SUPSpec> sups)
+        protected void CreateBDT(IEnumerable<SUPSpec> sups)
         {
             string bdtName = GetBdtNameFromXsdType();
             ICDT cdt = Context.CDTLibrary.ElementByName(GetDataTypeTerm());
@@ -58,11 +55,14 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                           {
                               BasedOn = cdt,
                               Name = bdtName,
-                              CON = SpecifyCON(conPrimName),
+                              CON = SpecifyCON(),
                               SUPs = new List<SUPSpec>(sups),
                           };
-            Context.BDTLibrary.CreateElement(bdtSpec);
+            BDT = Context.BDTLibrary.CreateElement(bdtSpec);
         }
+
+        public IBDT BDT { get; private set; }
+        public abstract string ContentComponentXsdTypeName { get; }
 
         private string GetDataTypeTerm()
         {
@@ -118,6 +118,14 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                 }
             }
             return qualifiers;
+        }
+
+        protected virtual CONSpec SpecifyCON()
+        {
+            return new CONSpec
+                   {
+                       BasicType = FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName))
+                   };
         }
     }
 }

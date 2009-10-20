@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using Moq;
@@ -17,12 +18,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
     [TestFixture]
     public class BDTXsdImporterTests
     {
-        private const string SimpleTypeSchema = "BusinessDataType_simple_type.xsd";
-        private const string ComplexTypeSchema = "BusinessDataType_complex_type.xsd";
+        private const string SimpleType = "simple_type";
+        private const string ComplexType = "complex_type";
 
-        private static IImporterContext CreateContext(string schemaFile)
+        private static IImporterContext CreateContext(string testCase)
         {
-            XmlSchema bdtSchema = XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"..\upcc3\import\cctsndr\BDTImporterTestResources\" + schemaFile)), null);
+            XmlSchema bdtSchema = XmlSchema.Read(XmlReader.Create(TestUtils.RelativePathToTestResource(typeof(BDTXsdImporterTests), string.Format(@"BDTImporterTestResources\BusinessDataType_{0}.xsd", testCase))), null);
 
             var eaRepository = new EARepository();
             eaRepository.AddModel("Model", m => m.AddPackage("bLibrary", bLibrary =>
@@ -32,6 +33,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
                                                                                                                 {
                                                                                                                     primLib.Element.Stereotype = Stereotype.PRIMLibrary;
                                                                                                                     primLib.AddPRIM("String");
+                                                                                                                    primLib.AddPRIM("Decimal");
                                                                                                                     primLib.AddPRIM("Date");
                                                                                                                 });
                                                                              bLibrary.AddPackage("CDTLibrary", cdtLib =>
@@ -55,10 +57,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             return contextMock.Object;
         }
 
-        private static IBDT AssertThatBDTLibraryContainsBDT(IBDTLibrary bdtLibrary, string bdtName)
+        private static IBDT AssertThatBDTLibraryContainsBDT(IImporterContext context, string bdtName, string conBasicTypeName)
         {
-            IBDT bdtText = bdtLibrary.ElementByName(bdtName);
+            var expectedCONBasicType = context.PRIMLibrary.ElementByName(conBasicTypeName);
+            IBDT bdtText = context.BDTLibrary.ElementByName(bdtName);
             Assert.That(bdtText, Is.Not.Null, string.Format("Expected BDT named '{0}' not generated.", bdtName));
+            Assert.That(bdtText.CON, Is.Not.Null, string.Format("CON of BDT {0} is null", bdtName));
+            Assert.That(bdtText.CON.BasicType, Is.Not.Null, string.Format("BasicType of BDT {0} is null", bdtName));
+            Assert.That(bdtText.CON.BasicType.Id, Is.EqualTo(expectedCONBasicType.Id), string.Format("Wrong basic type for CON of BDT {0}:\nExpected: <{1}>\nBut was: <{2}>", bdtName, expectedCONBasicType.Name, bdtText.CON.BasicType.Name));
             return bdtText;
         }
 
@@ -75,12 +81,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void CreatesBDTsWithoutSUPsForSimpleTypes()
         {
-            IImporterContext context = CreateContext(SimpleTypeSchema);
+            IImporterContext context = CreateContext(SimpleType);
 
             BDTXsdImporter.ImportXsd(context);
 
-            var bdtText = AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Text");
-            Assert.That(bdtText.SUPs, Is.Empty);
+            var bdtText = AssertThatBDTLibraryContainsBDT(context, "Text", "String");
+            AssertHasSUPs(bdtText, 0);
         }
 
         /// <summary>
@@ -95,37 +101,33 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void SetsTheCONsBasicTypeToTheBuiltinDatatypesOfSimpleTypes()
         {
-            IImporterContext context = CreateContext(SimpleTypeSchema);
+            IImporterContext context = CreateContext(SimpleType);
 
             BDTXsdImporter.ImportXsd(context);
 
-            var bdtText = AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Text");
-
-            var primString = context.PRIMLibrary.ElementByName("String");
-            Assert.That(bdtText.CON, Is.Not.Null, "CON is null");
-            Assert.That(bdtText.CON.BasicType, Is.Not.Null, "BasicType is null");
-            Assert.That(bdtText.CON.BasicType.Id, Is.EqualTo(primString.Id), string.Format("Wrong basic type for CON:\nExpected: <{0}>\nBut was: <{1}>", primString.Name, bdtText.CON.BasicType.Name));
+            AssertThatBDTLibraryContainsBDT(context, "Text", "String");
         }
 
         [Test]
         public void SetsBasedOnDependencyForImportedBDTs()
         {
-            IImporterContext context = CreateContext(SimpleTypeSchema);
+            IImporterContext context = CreateContext(SimpleType);
 
             BDTXsdImporter.ImportXsd(context);
 
-            var bdtText = AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Text");
+            var bdtText = AssertThatBDTLibraryContainsBDT(context, "Text", "String");
+            AssertBDTIsBasedOn(context, bdtText, "Text");
 
-            var cdtText = context.CDTLibrary.ElementByName("Text");
-            Assert.That(bdtText.BasedOn, Is.Not.Null, "BasedOn is null");
-            Assert.That(bdtText.BasedOn.CDT, Is.Not.Null, "BasedOn.CDT is null");
-            Assert.That(bdtText.BasedOn.CDT.Id, Is.EqualTo(cdtText.Id), string.Format("Based on wrong CDT:\nExpected: <{0}>\nBut was:  <{1}>", cdtText.Name, bdtText.BasedOn.CDT.Name));
+            var bdtQualifiedText = AssertThatBDTLibraryContainsBDT(context, "Qualified_Text", "String");
+            AssertBDTIsBasedOn(context, bdtQualifiedText, "Text");
+        }
 
-            var bdtQualifiedText = AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Qualified_Text");
-
-            Assert.That(bdtQualifiedText.BasedOn, Is.Not.Null, "BasedOn is null");
-            Assert.That(bdtQualifiedText.BasedOn.CDT, Is.Not.Null, "BasedOn.CDT is null");
-            Assert.That(bdtQualifiedText.BasedOn.CDT.Id, Is.EqualTo(cdtText.Id), string.Format("Based on wrong CDT:\nExpected: <{0}>\nBut was:  <{1}>", cdtText.Name, bdtQualifiedText.BasedOn.CDT.Name));
+        private static void AssertBDTIsBasedOn(IImporterContext context, IBDT bdt, string cdtName)
+        {
+            var cdt = context.CDTLibrary.ElementByName(cdtName);
+            Assert.That(bdt.BasedOn, Is.Not.Null, "BasedOn is null");
+            Assert.That(bdt.BasedOn.CDT, Is.Not.Null, "BasedOn.CDT is null");
+            Assert.That(bdt.BasedOn.CDT.Id, Is.EqualTo(cdt.Id), string.Format("Based on wrong CDT:\nExpected: <{0}>\nBut was:  <{1}>", cdt.Name, bdt.BasedOn.CDT.Name));
         }
 
         /// <summary>
@@ -149,13 +151,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void ResolvesBDTTypeNamesAccordingToTheNDR()
         {
-            IImporterContext context = CreateContext(SimpleTypeSchema);
+            IImporterContext context = CreateContext(SimpleType);
 
             BDTXsdImporter.ImportXsd(context);
 
-            AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Text");
-            AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Qualified_Text");
-            AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Qualifier1_Qualifier2_Text");
+            AssertThatBDTLibraryContainsBDT(context, "Text", "String");
+            AssertThatBDTLibraryContainsBDT(context, "Qualified_Text", "String");
+            AssertThatBDTLibraryContainsBDT(context, "Qualifier1_Qualifier2_Text", "String");
         }
 
         /// <summary>
@@ -177,17 +179,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void CreatesSUPsForXsdAttributesInComplexTypes()
         {
-            IImporterContext context = CreateContext(ComplexTypeSchema);
+            IImporterContext context = CreateContext(ComplexType);
 
             BDTXsdImporter.ImportXsd(context);
 
-            var bdtText = AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Text");
-            Assert.That(bdtText.SUPs, Is.Not.Null);
-            Assert.That(bdtText.SUPs.Count(), Is.EqualTo(1));
-            var sup = bdtText.SUPs.ElementAt(0);
-            var primString = context.PRIMLibrary.ElementByName("String");
-            Assert.That(sup.Name, Is.EqualTo("propertyTermName"));
-            Assert.That(sup.BasicType.Id, Is.EqualTo(primString.Id));
+            var bdtText = AssertThatBDTLibraryContainsBDT(context, "Text", "String");
+            AssertHasSUPs(bdtText, 1);
+            AssertHasSUP(context, bdtText, 0, "String", "propertyTermName");
         }
         /// <summary>
         /// [R BBCB]
@@ -201,17 +199,90 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void SetsTheCONsBasicTypeToTheBuiltinDatatypesOfTheSimpleContentExtensionOfComplexTypes()
         {
-            IImporterContext context = CreateContext(ComplexTypeSchema);
+            IImporterContext context = CreateContext(ComplexType);
 
             BDTXsdImporter.ImportXsd(context);
 
-            var bdtText = AssertThatBDTLibraryContainsBDT(context.BDTLibrary, "Text");
-
-            var primString = context.PRIMLibrary.ElementByName("String");
-            Assert.That(bdtText.CON, Is.Not.Null, "CON is null");
-            Assert.That(bdtText.CON.BasicType, Is.Not.Null, "BasicType is null");
-            Assert.That(bdtText.CON.BasicType.Id, Is.EqualTo(primString.Id), string.Format("Wrong basic type for CON:\nExpected: <{0}>\nBut was: <{1}>", primString.Name, bdtText.CON.BasicType.Name));
+            AssertThatBDTLibraryContainsBDT(context, "Text", "String");
         }
 
+        [Test]
+        public void SUPBasicTypesAreDeterminedFromXsdTypes()
+        {
+            IImporterContext context = CreateContext(MethodBase.GetCurrentMethod().Name);
+
+            BDTXsdImporter.ImportXsd(context);
+
+            var bdtText = AssertThatBDTLibraryContainsBDT(context, "BDT", "String");
+            AssertHasSUPs(bdtText, 2);
+            AssertHasSUP(context, bdtText, 0, "Decimal", "decimalSUP");
+            AssertHasSUP(context, bdtText, 1, "String", "stringSUP");
+        }
+
+        [Test]
+        public void BDTInheritsCONFromParentBDT()
+        {
+            IImporterContext context = CreateContext("BDTInheritsCONFromParentBDT");
+
+            BDTXsdImporter.ImportXsd(context);
+
+            AssertThatBDTLibraryContainsBDT(context, "Text", "Decimal");
+            AssertThatBDTLibraryContainsBDT(context, "Restricted_Text", "Decimal");
+        }
+
+        [Test]
+        public void BDTInheritsSUPsFromParentBDT()
+        {
+            IImporterContext context = CreateContext("BDTInheritsSUPsFromParentBDT");
+
+            BDTXsdImporter.ImportXsd(context);
+
+            var bdtText = AssertThatBDTLibraryContainsBDT(context, "Text", "String");
+            AssertHasSUPs(bdtText, 1);
+            AssertHasSUP(context, bdtText, 0, "String", "sup");
+
+            var bdtRestrictedText = AssertThatBDTLibraryContainsBDT(context, "Restricted_Text", "String");
+            AssertHasSUPs(bdtRestrictedText, 1);
+            AssertHasSUP(context, bdtRestrictedText, 0, "String", "sup");
+        }
+
+        [Test]
+        public void BDTCanProhibitInheritanceOfSUPFromParentBDT()
+        {
+            IImporterContext context = CreateContext("BDTCanProhibitInheritanceOfSUPFromParentBDT");
+
+            BDTXsdImporter.ImportXsd(context);
+
+            var bdtText = AssertThatBDTLibraryContainsBDT(context, "Text", "Decimal");
+            AssertHasSUPs(bdtText, 1);
+            AssertHasSUP(context, bdtText, 0, "String", "sup");
+
+            var bdtRestrictedText = AssertThatBDTLibraryContainsBDT(context, "Restricted_Text", "Decimal");
+            AssertHasSUPs(bdtRestrictedText, 0);
+        }
+
+        private static void AssertHasSUP(IImporterContext context, IBDT bdtText, int index, string basicTypeName, string name)
+        {
+            var expectedBasicType = context.PRIMLibrary.ElementByName(basicTypeName);
+            var sup = bdtText.SUPs.ElementAt(index);
+            Assert.That(sup.Name, Is.EqualTo(name));
+            Assert.That(sup.BasicType.Id, Is.EqualTo(expectedBasicType.Id));
+        }
+
+        private static void AssertHasSUPs(IBDT bdtText, int expectedCount)
+        {
+            if (expectedCount > 0)
+            {
+                Assert.That(bdtText.SUPs, Is.Not.Null, string.Format("Expected {0} SUPs.", expectedCount));
+                Assert.That(bdtText.SUPs.Count(), Is.EqualTo(expectedCount), string.Format("Wrong number of SUPs"));
+            }
+            else
+            {
+                if (bdtText.SUPs != null)
+                {
+                    Assert.That(bdtText.SUPs.Count(), Is.EqualTo(0), "Expected no SUPs.");
+                }
+            }
+        }
     }
 }

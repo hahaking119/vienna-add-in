@@ -1,39 +1,32 @@
-using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {
-    public class BDTComplexType : BDTXsdType
+    public abstract class BDTComplexType : BDTXsdType
     {
-        public BDTComplexType(XmlSchemaComplexType complexType, BDTSchema schema) : base(complexType, schema)
+        protected BDTComplexType(XmlSchemaComplexType complexType, BDTSchema schema) : base(complexType, schema)
         {
         }
 
-        private XmlSchemaComplexType ComplexType
+        protected XmlSchemaComplexType ComplexType
         {
             get { return (XmlSchemaComplexType) XsdType; }
         }
 
-        private IEnumerable<SUPSpec> SpecifySUPs(XmlSchemaObjectCollection xsdAttributes, string conPrimName)
+        protected IEnumerable<SUPSpec> SpecifySUPs(XmlSchemaObjectCollection xsdAttributes)
         {
             foreach (XmlSchemaAttribute attribute in xsdAttributes)
             {
+                string basicTypeName = NDR.ConvertXsdTypeNameToBasicTypeName(attribute.SchemaTypeName.Name);
                 yield return new SUPSpec
                              {
-                                 Name = attribute.Name.Replace(conPrimName, string.Empty),
-                                 BasicType = FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(attribute.SchemaTypeName.ToString().Replace("http://www.w3.org/2001/XMLSchema", string.Empty)))
+                                 Name = attribute.Name.Minus(basicTypeName),
+                                 BasicType = FindPRIM(basicTypeName)
                              };
             }
-        }
-
-        public override void CreateBDT()
-        {
-            var simpleContent = (XmlSchemaSimpleContentExtension) ComplexType.ContentModel.Content;
-            String conPrimName = NDR.ConvertXsdTypeNameToBasicTypeName(simpleContent.BaseTypeName.Name);
-            IEnumerable<SUPSpec> sups = SpecifySUPs(simpleContent.Attributes, conPrimName);
-            CreateBDT(conPrimName, sups);
         }
     }
 }

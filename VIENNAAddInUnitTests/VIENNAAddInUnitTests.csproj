@@ -177,7 +177,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="upcc3\import\cctsndr\BDTImporterTestResources\" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTCanProhibitInheritanceOfSUPFromParentBDT.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsCONFromParentBDT.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsSUPsFromParentBDT.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_complex_type.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_simple_type.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_SUPBasicTypesAreDeterminedFromXsdTypes.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
