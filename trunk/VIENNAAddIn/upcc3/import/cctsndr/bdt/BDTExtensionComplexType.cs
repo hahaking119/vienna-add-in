@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {
@@ -15,11 +17,18 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             get { return ((XmlSchemaSimpleContentExtension) ComplexType.ContentModel.Content).BaseTypeName.Name; }
         }
 
-        public override void CreateBDT()
+        protected override IEnumerable<SUPSpec> SpecifySUPs()
         {
-            var extension = (XmlSchemaSimpleContentExtension) ComplexType.ContentModel.Content;
-            IEnumerable<SUPSpec> sups = SpecifySUPs(extension.Attributes);
-            CreateBDT(sups);
+            var extension = (XmlSchemaSimpleContentExtension)ComplexType.ContentModel.Content;
+            foreach (XmlSchemaAttribute attribute in extension.Attributes)
+            {
+                string basicTypeName = NDR.ConvertXsdTypeNameToBasicTypeName(attribute.SchemaTypeName.Name);
+                yield return new SUPSpec
+                {
+                    Name = attribute.Name.Minus(basicTypeName),
+                    BasicType = FindPRIM(basicTypeName)
+                };
+            }
         }
     }
 }
