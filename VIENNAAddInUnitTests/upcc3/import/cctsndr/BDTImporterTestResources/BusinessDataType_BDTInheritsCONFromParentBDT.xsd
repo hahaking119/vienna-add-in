@@ -15,4 +15,15 @@
 			<xs:restriction base="bdt:TextType_123456"/>
 		</xs:simpleContent>
 	</xs:complexType>
+	<xs:simpleType name="SimpleTextType_123458">
+		<xs:restriction base="xs:decimal"/>
+	</xs:simpleType>
+	<xs:simpleType name="RestrictedSimpleTextType_123459">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				<ccts:DataTypeQualifierTermName>Restricted</ccts:DataTypeQualifierTermName>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="bdt:SimpleTextType_123458"/>
+	</xs:simpleType>
 </xs:schema>

@@ -495,6 +495,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\StandardLibraryImporterForm.resx">
       <DependentUpon>StandardLibraryImporterForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\UPCCModelWizardForm.resx">
       <DependentUpon>UPCCModelWizardForm.cs</DependentUpon>

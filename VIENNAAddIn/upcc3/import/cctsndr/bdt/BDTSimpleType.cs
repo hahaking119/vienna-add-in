@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
@@ -17,7 +18,16 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 
         public override string ContentComponentXsdTypeName
         {
-            get { return ((XmlSchemaSimpleTypeRestriction) SimpleType.Content).BaseTypeName.Name; }
+            get
+            {
+                var baseTypeName = ((XmlSchemaSimpleTypeRestriction) SimpleType.Content).BaseTypeName;
+                if (NDR.IsXsdDataTypeName(baseTypeName))
+                {
+                    return baseTypeName.Name;
+                }
+                var parent = bdtSchema.GetBDTXsdType(baseTypeName.Name);
+                return parent.ContentComponentXsdTypeName;
+            }
         }
 
         public override void CreateBDT()
