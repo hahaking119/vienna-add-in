@@ -46,7 +46,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             State = initState;
         }
 
-        public CheckState State { get; set; }
+        public virtual CheckState State { get; set; }
     }
 
     public class cABIE : cItem
@@ -275,15 +275,23 @@ namespace VIENNAAddIn.upcc3.Wizards
 
     public class cASCC : cCheckItem
     {
-        public cASCC()
-        {
-            ABIEs = new Dictionary<string, cABIE>();
-        }
-
         public cASCC(string initName, int initId, CheckState initState, IDictionary<string, cABIE> initABIEs)
             : base(initName, initId, initState)
         {
             ABIEs = initABIEs;
+        }
+
+        public override CheckState State
+        {
+            get
+            {
+                return base.State;
+            }
+            set
+            {
+                Console.Out.WriteLine("bla");
+                base.State = value;
+            }
         }
 
         public IDictionary<string, cABIE> ABIEs { get; set; }
@@ -406,6 +414,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                         {                            
                             if (!ASCCs.ContainsKey(ascc.Name))
                             {
+                                //todo: change Checkstate to real state of potential ASBIE
                                 ASCCs.Add(ascc.Name, new cASCC(ascc.Name, ascc.Id, CheckState.Unchecked, relevantABIEs));
                             }
                             else
