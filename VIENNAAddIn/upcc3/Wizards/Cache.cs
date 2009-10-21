@@ -281,19 +281,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             ABIEs = initABIEs;
         }
 
-        public override CheckState State
-        {
-            get
-            {
-                return base.State;
-            }
-            set
-            {
-                Console.Out.WriteLine("bla");
-                base.State = value;
-            }
-        }
-
         public IDictionary<string, cABIE> ABIEs { get; set; }
     }
 
