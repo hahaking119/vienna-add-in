@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using VIENNAAddIn.upcc3.ccts;
@@ -30,9 +29,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             }
         }
 
-        public override void CreateBDT()
+        protected override IEnumerable<SUPSpec> SpecifySUPs()
         {
-            CreateBDT(new List<SUPSpec>());
+            yield break;
         }
     }
 }

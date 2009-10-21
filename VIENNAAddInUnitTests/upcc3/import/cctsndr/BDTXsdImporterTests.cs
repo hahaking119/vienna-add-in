@@ -151,13 +151,17 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         [Test]
         public void ResolvesBDTTypeNamesAccordingToTheNDR()
         {
-            IImporterContext context = CreateContext(SimpleType);
+            IImporterContext context = CreateContext(MethodBase.GetCurrentMethod().Name);
 
             BDTXsdImporter.ImportXsd(context);
 
-            AssertThatBDTLibraryContainsBDT(context, "Text", "String");
-            AssertThatBDTLibraryContainsBDT(context, "Qualified_Text", "String");
-            AssertThatBDTLibraryContainsBDT(context, "Qualifier1_Qualifier2_Text", "String");
+            AssertThatBDTLibraryContainsBDT(context, "SimpleText", "String");
+            AssertThatBDTLibraryContainsBDT(context, "Qualified_SimpleText", "String");
+            AssertThatBDTLibraryContainsBDT(context, "Qualifier1_Qualifier2_SimpleText", "String");
+
+            AssertThatBDTLibraryContainsBDT(context, "ComplexText", "String");
+            AssertThatBDTLibraryContainsBDT(context, "Qualified_ComplexText", "String");
+            AssertThatBDTLibraryContainsBDT(context, "Qualifier1_Qualifier2_ComplexText", "String");
         }
 
         /// <summary>
@@ -265,6 +269,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         }
 
         [Test]
+        [Ignore("Waiting for updated UPCC version")]
         public void CONFacetsAreApplied()
         {
             IImporterContext context = CreateContext(MethodBase.GetCurrentMethod().Name);

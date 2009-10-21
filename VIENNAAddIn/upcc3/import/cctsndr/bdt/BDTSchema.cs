@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
@@ -15,7 +14,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 
         public BDTSchema(IImporterContext context)
         {
-            this.Context = context;
+            Context = context;
         }
 
         public void CreateBDTs()
