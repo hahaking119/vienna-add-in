@@ -137,8 +137,13 @@ namespace VIENNAAddIn.upcc3
                 case "boolean":
                     return "Boolean";
                 default:
-                    return "String";
+                    throw new Exception("Undefined XSD datatype name: " + xsdTypeName);
             }
+        }
+
+        public static bool IsXsdDataTypeName(XmlQualifiedName typeName)
+        {
+            return typeName.Namespace == "http://www.w3.org/2001/XMLSchema";
         }
     }
 }

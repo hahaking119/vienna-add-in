@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
+using System.Xml.Serialization;
 using VIENNAAddIn.upcc3.ccts;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
@@ -60,6 +62,11 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                 }
                 throw new Exception("CCTS namespace not defined: " + NDR.CCTSNamespace);
             }
+        }
+
+        public XmlSerializerNamespaces Namespaces
+        {
+            get { return Context.BDTSchema.Namespaces; }
         }
 
         public IBDT GetBDTByXsdTypeName(string typeName)
