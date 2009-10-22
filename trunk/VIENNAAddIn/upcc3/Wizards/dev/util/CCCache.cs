@@ -7,19 +7,20 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using NUnit.Framework;
-using VIENNAAddIn;
-using VIENNAAddInUnitTests.TestRepository;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.dra;
 
-namespace VIENNAAddInUnitTests.upcc3.Wizards.TestRepository
+namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
-    [TestFixture]
-    public class EARepositoryCache : EARepository
+
+    public class CCCache
     {
-        [Test]
-        public void Test1()
+
+        public CCCache()
         {
-            this.AddModel("test model", m => { });
         }
     }
 }

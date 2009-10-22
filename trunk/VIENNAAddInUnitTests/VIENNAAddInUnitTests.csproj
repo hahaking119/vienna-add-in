@@ -105,9 +105,11 @@
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTests.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValueTests.cs" />
     <Compile Include="upcc3\import\cctsndr\BDTXsdImporterTests.cs" />
+    <Compile Include="upcc3\Wizards\dev\ABIEModelerFormTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CCCacheTest.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
-    <Compile Include="upcc3\Wizards\TestRepository\EARepositoryCache.cs" />
+    <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryCCCache.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryResourceHandler.cs" />
     <Compile Include="upcc3\Wizards\util\UPCCModelWizardFormTest.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceDescriptorTest.cs" />
@@ -132,7 +134,6 @@
     <Compile Include="TestUtils.cs" />
     <Compile Include="upcc3\ccts\dra\DRACCRepositoryTest.cs" />
     <Compile Include="upcc3\ccts\util\AggregationKindTest.cs" />
-    <Compile Include="upcc3\Wizards\CacheTest.cs" />
     <Compile Include="upcc3\Wizards\util\ModelCreatorTest.cs" />
     <Compile Include="upcc3\export\cctsndr\DictionaryExtensionsTest.cs" />
     <Compile Include="upcc3\export\cctsndr\StringExtensionsTest.cs" />
