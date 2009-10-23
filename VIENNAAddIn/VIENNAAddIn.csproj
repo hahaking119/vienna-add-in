@@ -287,7 +287,6 @@
     <Compile Include="upcc3\ccts\dra\UpccAttribute.cs" />
     <Compile Include="upcc3\ccts\dra\UpccClass.cs" />
     <Compile Include="upcc3\ccts\dra\UpccCON.cs" />
-    <Compile Include="upcc3\ccts\IBasedOnDependency.cs" />
     <Compile Include="upcc3\ccts\IBasicType.cs" />
     <Compile Include="upcc3\ccts\ICCTSElement.cs" />
     <Compile Include="upcc3\ccts\ICON.cs" />
@@ -305,7 +304,6 @@
     <Compile Include="upcc3\ccts\dra\ACC.cs" />
     <Compile Include="upcc3\ccts\dra\ASBIE.cs" />
     <Compile Include="upcc3\ccts\dra\ASCC.cs" />
-    <Compile Include="upcc3\ccts\dra\BasedOnDependency.cs" />
     <Compile Include="upcc3\ccts\dra\BBIE.cs" />
     <Compile Include="upcc3\ccts\dra\BCC.cs" />
     <Compile Include="upcc3\ccts\dra\BDT.cs" />

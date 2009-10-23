@@ -126,8 +126,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         {
             var cdt = context.CDTLibrary.ElementByName(cdtName);
             Assert.That(bdt.BasedOn, Is.Not.Null, "BasedOn is null");
-            Assert.That(bdt.BasedOn.CDT, Is.Not.Null, "BasedOn.CDT is null");
-            Assert.That(bdt.BasedOn.CDT.Id, Is.EqualTo(cdt.Id), string.Format("Based on wrong CDT:\nExpected: <{0}>\nBut was:  <{1}>", cdt.Name, bdt.BasedOn.CDT.Name));
+            Assert.That(bdt.BasedOn, Is.Not.Null, "BasedOn.CDT is null");
+            Assert.That(bdt.BasedOn.Id, Is.EqualTo(cdt.Id), string.Format("Based on wrong CDT:\nExpected: <{0}>\nBut was:  <{1}>", cdt.Name, bdt.BasedOn.Name));
         }
 
         /// <summary>
@@ -269,7 +269,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         }
 
         [Test]
-        [Ignore("Waiting for updated UPCC version")]
         public void CONFacetsAreApplied()
         {
             IImporterContext context = CreateContext(MethodBase.GetCurrentMethod().Name);
@@ -277,29 +276,29 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             BDTXsdImporter.ImportXsd(context);
 
             var aRestrictedTextBDT = AssertThatBDTLibraryContainsBDT(context, "A_Restricted_Text", "String");
-            Assert.That(aRestrictedTextBDT.BasedOn.Length, Is.EqualTo(7));
-            Assert.That(aRestrictedTextBDT.BasedOn.Pattern, Is.EqualTo("[abc]*"));
-            Assert.That(aRestrictedTextBDT.BasedOn.WhiteSpace, Is.EqualTo("replace"));
+            Assert.That(aRestrictedTextBDT.CON.Length, Is.EqualTo(7));
+            Assert.That(aRestrictedTextBDT.CON.Pattern, Is.EqualTo("[abc]*"));
+            Assert.That(aRestrictedTextBDT.CON.WhiteSpace, Is.EqualTo("replace"));
 
             var anotherRestrictedTextBDT = AssertThatBDTLibraryContainsBDT(context, "Another_Restricted_Text", "String");
-            Assert.That(anotherRestrictedTextBDT.BasedOn.MinLength, Is.EqualTo(5));
-            Assert.That(anotherRestrictedTextBDT.BasedOn.MaxLength, Is.EqualTo(9));
+            Assert.That(anotherRestrictedTextBDT.CON.MinLength, Is.EqualTo(5));
+            Assert.That(anotherRestrictedTextBDT.CON.MaxLength, Is.EqualTo(9));
 
             var aRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "A_Restricted_Number", "Decimal");
-            Assert.That(aRestrictedNumberBDT.BasedOn.MinInclusive, Is.EqualTo(4));
-            Assert.That(aRestrictedNumberBDT.BasedOn.MaxInclusive, Is.EqualTo(6));
-            Assert.That(aRestrictedNumberBDT.BasedOn.FractionDigits, Is.EqualTo(3));
-            Assert.That(aRestrictedNumberBDT.BasedOn.TotalDigits, Is.EqualTo(5));
+            Assert.That(aRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo(4));
+            Assert.That(aRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo(6));
+            Assert.That(aRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo(3));
+            Assert.That(aRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo(5));
 
             var furtherRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "Further_A_Restricted_Number", "Decimal");
-            Assert.That(furtherRestrictedNumberBDT.BasedOn.MinInclusive, Is.EqualTo(5));
-            Assert.That(furtherRestrictedNumberBDT.BasedOn.MaxInclusive, Is.EqualTo(6));
-            Assert.That(furtherRestrictedNumberBDT.BasedOn.FractionDigits, Is.EqualTo(3));
-            Assert.That(furtherRestrictedNumberBDT.BasedOn.TotalDigits, Is.EqualTo(5));
+            Assert.That(furtherRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo(5));
+            Assert.That(furtherRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo(6));
+            Assert.That(furtherRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo(3));
+            Assert.That(furtherRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo(5));
 
             var anotherRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "Another_Restricted_Number", "Decimal");
-            Assert.That(anotherRestrictedNumberBDT.BasedOn.MinExclusive, Is.EqualTo(6));
-            Assert.That(anotherRestrictedNumberBDT.BasedOn.MaxExclusive, Is.EqualTo(8));
+            Assert.That(anotherRestrictedNumberBDT.CON.MinExclusive, Is.EqualTo(6));
+            Assert.That(anotherRestrictedNumberBDT.CON.MaxExclusive, Is.EqualTo(8));
         }
 
         private static void AssertHasSUP(IImporterContext context, IBDT bdtText, int index, string basicTypeName, string name)

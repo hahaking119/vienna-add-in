@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts
 {
@@ -18,6 +17,17 @@ namespace VIENNAAddIn.upcc3.ccts
             BasicType = dtComponent.BasicType;
             ModificationAllowedIndicator = dtComponent.ModificationAllowedIndicator;
             UsageRules = new List<string>(dtComponent.UsageRules);
+            Pattern = dtComponent.Pattern;
+            FractionDigits = dtComponent.FractionDigits;
+            Length = dtComponent.Length;
+            MaxExclusive = dtComponent.MaxExclusive;
+            MaxInclusive = dtComponent.MaxInclusive;
+            MaxLength = dtComponent.MaxLength;
+            MinExclusive = dtComponent.MinExclusive;
+            MinInclusive = dtComponent.MinInclusive;
+            MinLength = dtComponent.MinLength;
+            TotalDigits = dtComponent.TotalDigits;
+            WhiteSpace = dtComponent.WhiteSpace;
             UpperBound = dtComponent.UpperBound;
             LowerBound = dtComponent.LowerBound;
         }
@@ -33,6 +43,39 @@ namespace VIENNAAddIn.upcc3.ccts
 
         [TaggedValue]
         public IEnumerable<string> UsageRules { get; set; }
+
+        [TaggedValue]
+        public string Pattern { get; set; }
+
+        [TaggedValue]
+        public string FractionDigits { get; set; }
+
+        [TaggedValue]
+        public string Length { get; set; }
+
+        [TaggedValue]
+        public string MaxExclusive { get; set; }
+
+        [TaggedValue]
+        public string MaxInclusive { get; set; }
+
+        [TaggedValue]
+        public string MaxLength { get; set; }
+
+        [TaggedValue]
+        public string MinExclusive { get; set; }
+
+        [TaggedValue]
+        public string MinInclusive { get; set; }
+
+        [TaggedValue]
+        public string MinLength { get; set; }
+
+        [TaggedValue]
+        public string TotalDigits { get; set; }
+
+        [TaggedValue]
+        public string WhiteSpace { get; set; }
 
         public string UpperBound { get; set; }
         public string LowerBound { get; set; }

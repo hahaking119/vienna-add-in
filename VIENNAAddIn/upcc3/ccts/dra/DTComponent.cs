@@ -84,6 +84,61 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
+        public string Pattern
+        {
+            get { return GetTaggedValue(TaggedValues.pattern); }
+        }
+
+        public string FractionDigits
+        {
+            get { return GetTaggedValue(TaggedValues.fractionDigits); }
+        }
+
+        public string Length
+        {
+            get { return GetTaggedValue(TaggedValues.length); }
+        }
+
+        public string MaxExclusive
+        {
+            get { return GetTaggedValue(TaggedValues.maxExclusive); }
+        }
+
+        public string MaxInclusive
+        {
+            get { return GetTaggedValue(TaggedValues.maxInclusive); }
+        }
+
+        public string MaxLength
+        {
+            get { return GetTaggedValue(TaggedValues.maxLength); }
+        }
+
+        public string MinExclusive
+        {
+            get { return GetTaggedValue(TaggedValues.minExclusive); }
+        }
+
+        public string MinInclusive
+        {
+            get { return GetTaggedValue(TaggedValues.minInclusive); }
+        }
+
+        public string MinLength
+        {
+            get { return GetTaggedValue(TaggedValues.minLength); }
+        }
+
+        public string TotalDigits
+        {
+            get { return GetTaggedValue(TaggedValues.totalDigits); }
+        }
+
+        public string WhiteSpace
+        {
+            get { return GetTaggedValue(TaggedValues.whiteSpace); }
+        }
+
         public IBusinessLibrary Library
         {
             get { return DT.Library; }

@@ -11,6 +11,6 @@ namespace VIENNAAddIn.upcc3.ccts
     public interface IBDT : IDT
     {
         IBDT IsEquivalentTo { get; }
-        IBasedOnDependency BasedOn { get; }
+        ICDT BasedOn { get; }        
     }
 }

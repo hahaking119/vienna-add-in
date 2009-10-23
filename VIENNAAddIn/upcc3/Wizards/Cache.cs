@@ -794,7 +794,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                         throw new CacheException("The wizard encountered two BDTs within one BDT library having identical names. Please make sure that all BDTs within each BDT library have unique names before proceeding with the wizard.");
                     }
 
-                    BDTLs[bdtl.Name].BDTs.Add(bdt.Name, new cBDT(bdt.Name, bdt.Id, bdt.BasedOn.CDT.Id, CheckState.Unchecked));
+                    BDTLs[bdtl.Name].BDTs.Add(bdt.Name, new cBDT(bdt.Name, bdt.Id, bdt.BasedOn.Id, CheckState.Unchecked));
                 }
             }
 
