@@ -269,36 +269,69 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         }
 
         [Test]
-        public void CONFacetsAreApplied()
+        public void CONFacetsAreAppliedToComplexTypes()
         {
             IImporterContext context = CreateContext(MethodBase.GetCurrentMethod().Name);
 
             BDTXsdImporter.ImportXsd(context);
 
             var aRestrictedTextBDT = AssertThatBDTLibraryContainsBDT(context, "A_Restricted_Text", "String");
-            Assert.That(aRestrictedTextBDT.CON.Length, Is.EqualTo(7));
+            Assert.That(aRestrictedTextBDT.CON.Length, Is.EqualTo("7"));
             Assert.That(aRestrictedTextBDT.CON.Pattern, Is.EqualTo("[abc]*"));
             Assert.That(aRestrictedTextBDT.CON.WhiteSpace, Is.EqualTo("replace"));
 
             var anotherRestrictedTextBDT = AssertThatBDTLibraryContainsBDT(context, "Another_Restricted_Text", "String");
-            Assert.That(anotherRestrictedTextBDT.CON.MinLength, Is.EqualTo(5));
-            Assert.That(anotherRestrictedTextBDT.CON.MaxLength, Is.EqualTo(9));
+            Assert.That(anotherRestrictedTextBDT.CON.MinLength, Is.EqualTo("5"));
+            Assert.That(anotherRestrictedTextBDT.CON.MaxLength, Is.EqualTo("9"));
 
             var aRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "A_Restricted_Number", "Decimal");
-            Assert.That(aRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo(4));
-            Assert.That(aRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo(6));
-            Assert.That(aRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo(3));
-            Assert.That(aRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo(5));
+            Assert.That(aRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo("4"));
+            Assert.That(aRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo("6"));
+            Assert.That(aRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo("3"));
+            Assert.That(aRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo("5"));
 
             var furtherRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "Further_A_Restricted_Number", "Decimal");
-            Assert.That(furtherRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo(5));
-            Assert.That(furtherRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo(6));
-            Assert.That(furtherRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo(3));
-            Assert.That(furtherRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo(5));
+            Assert.That(furtherRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo("5"));
+            Assert.That(furtherRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo("6"));
+            Assert.That(furtherRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo("3"));
+            Assert.That(furtherRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo("5"));
 
             var anotherRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "Another_Restricted_Number", "Decimal");
-            Assert.That(anotherRestrictedNumberBDT.CON.MinExclusive, Is.EqualTo(6));
-            Assert.That(anotherRestrictedNumberBDT.CON.MaxExclusive, Is.EqualTo(8));
+            Assert.That(anotherRestrictedNumberBDT.CON.MinExclusive, Is.EqualTo("6"));
+            Assert.That(anotherRestrictedNumberBDT.CON.MaxExclusive, Is.EqualTo("8"));
+        }
+
+        [Test]
+        public void CONFacetsAreAppliedToSimpleTypes()
+        {
+            IImporterContext context = CreateContext(MethodBase.GetCurrentMethod().Name);
+
+            BDTXsdImporter.ImportXsd(context);
+
+            var aRestrictedTextBDT = AssertThatBDTLibraryContainsBDT(context, "A_Restricted_Text", "String");
+            Assert.That(aRestrictedTextBDT.CON.Length, Is.EqualTo("7"));
+            Assert.That(aRestrictedTextBDT.CON.Pattern, Is.EqualTo("[abc]*"));
+            Assert.That(aRestrictedTextBDT.CON.WhiteSpace, Is.EqualTo("replace"));
+
+            var anotherRestrictedTextBDT = AssertThatBDTLibraryContainsBDT(context, "Another_Restricted_Text", "String");
+            Assert.That(anotherRestrictedTextBDT.CON.MinLength, Is.EqualTo("5"));
+            Assert.That(anotherRestrictedTextBDT.CON.MaxLength, Is.EqualTo("9"));
+
+            var aRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "A_Restricted_Number", "Decimal");
+            Assert.That(aRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo("4"));
+            Assert.That(aRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo("6"));
+            Assert.That(aRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo("3"));
+            Assert.That(aRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo("5"));
+
+            var furtherRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "Further_A_Restricted_Number", "Decimal");
+            Assert.That(furtherRestrictedNumberBDT.CON.MinInclusive, Is.EqualTo("5"));
+            Assert.That(furtherRestrictedNumberBDT.CON.MaxInclusive, Is.EqualTo("6"));
+            Assert.That(furtherRestrictedNumberBDT.CON.FractionDigits, Is.EqualTo("3"));
+            Assert.That(furtherRestrictedNumberBDT.CON.TotalDigits, Is.EqualTo("5"));
+
+            var anotherRestrictedNumberBDT = AssertThatBDTLibraryContainsBDT(context, "Another_Restricted_Number", "Decimal");
+            Assert.That(anotherRestrictedNumberBDT.CON.MinExclusive, Is.EqualTo("6"));
+            Assert.That(anotherRestrictedNumberBDT.CON.MaxExclusive, Is.EqualTo("8"));
         }
 
         private static void AssertHasSUP(IImporterContext context, IBDT bdtText, int index, string basicTypeName, string name)

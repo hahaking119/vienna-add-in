@@ -19,18 +19,24 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
         private BDTXsdType Parent
         {
             get
-            {
-                var restriction = (XmlSchemaSimpleContentRestriction) ComplexType.ContentModel.Content;
-                string baseTypeName = restriction.BaseTypeName.Name;
+            {                
+                string baseTypeName = Restriction.BaseTypeName.Name;
                 return bdtSchema.GetBDTXsdType(baseTypeName);
             }
         }
 
-        protected override IEnumerable<SUPSpec> SpecifySUPs()
+        private XmlSchemaSimpleContentRestriction Restriction
         {
-            var restriction = (XmlSchemaSimpleContentRestriction)ComplexType.ContentModel.Content;
-            string baseTypeName = restriction.BaseTypeName.Name;
-            var supAttributes = new SUPXsdAttributes(restriction.Attributes);
+            get
+            {
+                return (XmlSchemaSimpleContentRestriction) ComplexType.ContentModel.Content;
+            }
+        }
+
+        protected override IEnumerable<SUPSpec> SpecifySUPs()
+        {            
+            string baseTypeName = Restriction.BaseTypeName.Name;
+            var supAttributes = new SUPXsdAttributes(Restriction.Attributes);
             IBDT parentBDT = GetBDTByXsdTypeName(baseTypeName);
             foreach (ISUP parentSUP in parentBDT.SUPs)
             {
@@ -41,6 +47,66 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                     yield return supSpec;
                 }
             }
+        }
+
+        private CONSpec ApplyCONRestrictions(CONSpec conSpec)
+        {
+            foreach (var facet in Restriction.Facets)
+            {
+                if (facet is XmlSchemaLengthFacet)
+                {
+                    conSpec.Length = ((XmlSchemaFacet) facet).Value;
+                }
+                else if (facet is XmlSchemaMinLengthFacet)
+                {
+                    conSpec.MinLength = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaMaxLengthFacet)
+                {
+                    conSpec.MaxLength = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaPatternFacet)
+                {
+                    conSpec.Pattern = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaMaxInclusiveFacet)
+                {
+                    conSpec.MaxInclusive = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaMaxExclusiveFacet)
+                {
+                    conSpec.MaxExclusive = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaMinInclusiveFacet)
+                {
+                    conSpec.MinInclusive = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaMinExclusiveFacet)
+                {
+                    conSpec.MinExclusive = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaFractionDigitsFacet)
+                {
+                    conSpec.FractionDigits = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaTotalDigitsFacet)
+                {
+                    conSpec.TotalDigits = ((XmlSchemaFacet)facet).Value;
+                }
+                else if (facet is XmlSchemaWhiteSpaceFacet)
+                {
+                    conSpec.WhiteSpace = ((XmlSchemaFacet)facet).Value;
+                }
+            }
+
+            return conSpec;
+        }
+
+        protected override CONSpec SpecifyCON()
+        {
+            IBDT parentBDT = GetBDTByXsdTypeName(Restriction.BaseTypeName.Name);
+
+            return ApplyCONRestrictions(new CONSpec(parentBDT.CON));
         }
     }
 }
