@@ -182,7 +182,9 @@
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsCONFromParentBDT.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsSUPsFromParentBDT.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_complex_type.xsd" />
-    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_CONFacetsAreApplied.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_CONFacetsAreAppliedToComplexTypes.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_CONFacetsAreAppliedToSimpleTypes.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_ResolvesBDTTypeNamesAccordingToTheNDR.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_simple_type.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_SUPBasicTypesAreDeterminedFromXsdTypes.xsd" />
   </ItemGroup>

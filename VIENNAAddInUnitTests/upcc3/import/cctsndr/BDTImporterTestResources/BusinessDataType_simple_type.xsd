@@ -15,7 +15,7 @@
 				<ccts:DataTypeQualifierTermName>Qualified</ccts:DataTypeQualifierTermName>
 			</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string"/>
+		<xs:restriction base="TextType_123456"/>
 	</xs:simpleType>
 	<xs:simpleType name="Qualifier1Qualifier2TextType_123458">
 		<xs:annotation>
@@ -30,6 +30,6 @@
 				<ccts:DataTypeQualifierTermName>Qualifier2</ccts:DataTypeQualifierTermName>
 			</xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:string"/>
+		<xs:restriction base="QualifiedTextType_123457"/>
 	</xs:simpleType>
 </xs:schema>
