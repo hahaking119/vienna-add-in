@@ -261,7 +261,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 IBDT newBDT = bdtl.CreateElement(bdtSpec);
 
-                cache.BDTLs[selectedBDTLName].BDTs.Add(newBDT.Name, new cBDT(newBDT.Name, newBDT.Id, newBDT.BasedOn.CDT.Id, CheckState.Unchecked));
+                cache.BDTLs[selectedBDTLName].BDTs.Add(newBDT.Name, new cBDT(newBDT.Name, newBDT.Id, newBDT.BasedOn.Id, CheckState.Unchecked));
 
                 textBDTName.Text = "";
                 textBDTName.Text = newBDT.Name;

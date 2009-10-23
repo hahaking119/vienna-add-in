@@ -8,7 +8,7 @@
 // *******************************************************************************
 namespace VIENNAAddIn.upcc3.ccts
 {
-    public interface IDTComponent : ICCTSElement, IHasUsageRules, IHasMultiplicity
+    public interface IDTComponent : ICCTSElement, IHasUsageRules, IHasMultiplicity, IPRIMRestrictions
     {
         IBasicType BasicType { get; }
         bool ModificationAllowedIndicator { get; }

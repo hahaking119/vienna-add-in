@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.ccts
     {
         public BDTSpec(IBDT bdt) : base(bdt)
         {
-            BasedOn = bdt.BasedOn.CDT;
+            BasedOn = bdt.BasedOn;
         }
 
         public BDTSpec()

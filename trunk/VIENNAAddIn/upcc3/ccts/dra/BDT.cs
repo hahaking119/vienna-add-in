@@ -39,12 +39,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBasedOnDependency BasedOn
+        public ICDT BasedOn
         {
             get
             {
                 Connector connector = Connectors.FirstOrDefault(Stereotype.IsBasedOn);
-                return connector != null ? new BasedOnDependency(repository, connector) : null;
+                return connector != null ? repository.GetCDT(connector.SupplierID) : null;
             }
         }
 

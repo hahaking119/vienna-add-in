@@ -1366,7 +1366,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                                                     generatedBDTs.Add(newBDT.Name,
                                                                       new cBDT(newBDT.Name, newBDT.Id,
-                                                                               newBDT.BasedOn.CDT.Id,
+                                                                               newBDT.BasedOn.Id,
                                                                                CheckState.Unchecked));
                                                 }
                                                 else
