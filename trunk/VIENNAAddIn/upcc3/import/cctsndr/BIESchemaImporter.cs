@@ -11,8 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using VIENNAAddIn.upcc3.ccts;
-using VIENNAAddIn.upcc3.ccts.util;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.import.util;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using VIENNAAddIn.upcc3.ccts;
+using UPCCRepositoryInterface;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {

@@ -10,9 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EA;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -51,7 +53,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 return
-                    Attributes.Where(Stereotype.IsSUP).Convert(
+                    Attributes.Where(EAAttributeExtensions.IsSUP).Convert(
                         a => (ISUP) new SUP(repository, a, this));
             }
         }
@@ -60,7 +62,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get
             {
-                Attribute conAttribute = Attributes.FirstOrDefault(Stereotype.IsCON);
+                Attribute conAttribute = Attributes.FirstOrDefault(EAAttributeExtensions.IsCON);
                 if (conAttribute == null)
                 {
                     throw new Exception("data type contains no attribute with stereotype <<CON>>");

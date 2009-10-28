@@ -9,6 +9,9 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using UPCCRepositoryInterface;
+using VIENNAAddInUtils;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -117,6 +120,66 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static bool HasTaggedValue(this Package package, string name)
         {
             return package.GetTaggedValueByName(name) != null;
+        }
+
+        /// <returns>True if the package has the given stereotype, false otherwise.</returns>
+        public static bool IsA(this Package package, string stereotype)
+        {
+            return package != null && package.Element != null && package.Element.Stereotype == stereotype;
+        }
+
+        /// <returns>True if the attribute has the CCLibrary stereotype, false otherwise.</returns>
+        public static bool IsCCLibrary(this Package package)
+        {
+            return package.IsA(Stereotype.CCLibrary);
+        }
+
+        /// <returns>True if the attribute has the CDTLibrary stereotype, false otherwise.</returns>
+        public static bool IsCDTLibrary(this Package package)
+        {
+            return package.IsA(Stereotype.CDTLibrary);
+        }
+
+        /// <returns>True if the attribute has the BIELibrary stereotype, false otherwise.</returns>
+        public static bool IsBIELibrary(this Package package)
+        {
+            return package.IsA(Stereotype.BIELibrary);
+        }
+
+        /// <returns>True if the attribute has the BDTLibrary stereotype, false otherwise.</returns>
+        public static bool IsBDTLibrary(this Package package)
+        {
+            return package.IsA(Stereotype.BDTLibrary);
+        }
+
+        /// <returns>True if the attribute has the PRIMLibrary stereotype, false otherwise.</returns>
+        public static bool IsPRIMLibrary(this Package package)
+        {
+            return package.IsA(Stereotype.PRIMLibrary);
+        }
+
+        /// <returns>True if the attribute has the ENUMLibrary stereotype, false otherwise.</returns>
+        public static bool IsENUMLibrary(this Package package)
+        {
+            return package.IsA(Stereotype.ENUMLibrary);
+        }
+
+        /// <returns>True if the attribute has the DOCLibrary stereotype, false otherwise.</returns>
+        public static bool IsDOCLibrary(this Package package)
+        {
+            return package.IsA(Stereotype.DOCLibrary);
+        }
+
+        /// <returns>True if the attribute has the bLibrary stereotype, false otherwise.</returns>
+        public static bool IsBLibrary(this Package package)
+        {
+            return package.IsA(Stereotype.bLibrary);
+        }
+
+        /// <returns>True if the attribute has the bInformationV stereotype, false otherwise.</returns>
+        public static bool IsBInformationV(this Package package)
+        {
+            return package.IsA(Stereotype.BInformationV);
         }
     }
 }

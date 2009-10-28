@@ -14,7 +14,7 @@ using VIENNAAddIn;
 using VIENNAAddIn.upcc3.Wizards.util;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
-using Path=VIENNAAddIn.upcc3.ccts.Path;
+using Path=VIENNAAddInUtils.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {

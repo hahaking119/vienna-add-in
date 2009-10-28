@@ -6,7 +6,7 @@ using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.validator.upcc3.onTheFly;
 using VIENNAAddInUnitTests.TestRepository;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddInUnitTests.validator.upcc3.onTheFly
 {

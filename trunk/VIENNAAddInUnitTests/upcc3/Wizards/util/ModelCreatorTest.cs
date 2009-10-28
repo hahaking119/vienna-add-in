@@ -13,7 +13,7 @@ using NUnit.Framework;
 using VIENNAAddIn.upcc3.Wizards.util;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
-using Path=VIENNAAddIn.upcc3.ccts.Path;
+using Path=VIENNAAddInUtils.Path;
 using VIENNAAddIn;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util

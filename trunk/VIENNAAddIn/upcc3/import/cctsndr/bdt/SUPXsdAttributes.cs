@@ -1,5 +1,5 @@
 using System.Xml.Schema;
-using VIENNAAddIn.upcc3.ccts;
+using UPCCRepositoryInterface;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 {

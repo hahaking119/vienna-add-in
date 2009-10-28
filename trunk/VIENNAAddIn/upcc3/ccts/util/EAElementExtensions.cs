@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using UPCCRepositoryInterface;
 using Attribute=EA.Attribute;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -180,6 +182,48 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static bool HasTaggedValue(this Element element, string name)
         {
             return element.GetTaggedValueByName(name) != null;
+        }
+
+        /// <returns>True if the element has the given stereotype, false otherwise.</returns>
+        public static bool IsA(this Element element, string stereotype)
+        {
+            return element != null && element.Stereotype == stereotype;
+        }
+
+        /// <returns>True if the element has the ACC stereotype, false otherwise.</returns>
+        public static bool IsACC(this Element element)
+        {
+            return element.IsA(Stereotype.ACC);
+        }
+
+        /// <returns>True if the element has the CDT stereotype, false otherwise.</returns>
+        public static bool IsCDT(this Element element)
+        {
+            return element.IsA(Stereotype.CDT);
+        }
+
+        /// <returns>True if the element has the ABIE stereotype, false otherwise.</returns>
+        public static bool IsABIE(this Element element)
+        {
+            return element.IsA(Stereotype.ABIE);
+        }
+
+        /// <returns>True if the element has the BDT stereotype, false otherwise.</returns>
+        public static bool IsBDT(this Element element)
+        {
+            return element.IsA(Stereotype.BDT);
+        }
+
+        /// <returns>True if the element has the PRIM stereotype, false otherwise.</returns>
+        public static bool IsPRIM(this Element element)
+        {
+            return element.IsA(Stereotype.PRIM);
+        }
+
+        /// <returns>True if the element has the ENUM stereotype, false otherwise.</returns>
+        public static bool IsENUM(this Element element)
+        {
+            return element.IsA(Stereotype.ENUM);
         }
     }
 }

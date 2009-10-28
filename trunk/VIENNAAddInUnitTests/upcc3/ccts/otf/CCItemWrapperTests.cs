@@ -1,7 +1,6 @@
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.ccts;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.otf;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using EA;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.Settings;
-using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using Attribute=System.Attribute;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.validator.upcc3.onTheFly
 {
