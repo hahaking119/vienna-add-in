@@ -1,89 +1,154 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.Wizards.dev.util;
+using VIENNAAddInUnitTests.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
-{
-    /// <summary>
-    /// The purpose of the unit test CCCacheTest is to test the caching 
-    /// functionality of the CCCache class which serves as a basis to 
-    /// improve the performance of loading Core Components from the 
-    /// repository. The following draft shows the five-layer architecture 
-    /// that the CCCache is embedded in:
-    /// <code>
-    ///           +-------------------------------------+
-    ///   (5)     |           ABIEModelerForm           |
-    ///           +-------------------------------------+
-    ///           +------------------+ +----------------+
-    ///   (4)     |  TemporaryModel  | |  PersistModel  |
-    ///           +------------------+ +----------------+
-    ///           +-------------------------------------+
-    ///   (3)     |                CCCache              |
-    ///           +-------------------------------------+
-    ///           +-------------------------------------+
-    ///   (2)     |             CCRepository            |
-    ///           +-------------------------------------+
-    ///           +-------------------------------------+
-    ///   (1)     |             EARepository            |
-    ///           +-------------------------------------+ 
-    /// </code>
-    /// </summary>
-
+{  
     [TestFixture]
     public class CCCacheTest
     {
+        private EARepository1 eaRepository;
+        private CCRepository ccRepository;
+
+        #region Test SetUp/TearDown
+
+        [SetUp]
+        public void Setup()
+        {
+            eaRepository = new EARepository1();
+            ccRepository = new CCRepository(eaRepository);
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            eaRepository = null;
+            ccRepository = null;
+        }
+
+        #endregion
+        
         [Test]
         [Ignore]
-        public void CachesCDTLibrariesFromRepository()
+        public void ShouldRetrieveAndCacheCDTLibraries()
         {
-            // TODO: Are all CDT libraries from the repository available within the cache?
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            ICDTLibrary cdtLibrary = ccCache.CDTLibraryByName("ctdLib1");
+
+            // cdtLibrary.ElementByName("abc") --> CRAP! --> sollte nicht funktionieren!
+
+            //ccCache.LibraryByName<ICDTLibrary>("abc");
+            //ccRepository.CreateElement(targetLib, elementSpec);
+
+            Assert.That(cdtLibrary, Is.Not.Null);
+        }
+        
+        [Test]
+        [Ignore]
+        public void ShouldRetrieveAndCacheACCLibraries()
+        {
+            // ccCache.RetrieveLibraries<ICDTLibrary>();
+            // ccCache.LibraryByName<ICDTLibrary>("cdtLib1");
         }
 
         [Test]
         [Ignore]
-        public void CachesCDTsForSpecificCDTLibraryFromRepository()
+        public void ShouldRetrieveAndCacheBDTLibraries()
         {
-            // TODO: Are all CDTs of the particular CDT library available within the cache?
         }
 
         [Test]
         [Ignore]
-        public void CachesCCLibrariesFromRepository()        
+        public void ShouldRetrieveAndCacheBIELibraries()
         {
-            // TODO: Are all CC libraries from the repository available within the cache?
         }
 
         [Test]
         [Ignore]
-        public void CachesACCsForSpecificCCLibraryFromRepository()
+        public void ShouldRetrieveElementsForCDTLibrary()
         {
-            // TODO: Are all ACCs of the particular CC library available within the cache?
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            CDTLibraryCache cdtLibCache = ccCache.CDTLibraryCacheByName("cdtLib1");
+
+
+            ICDT cdt = cdtLibCache.ElementByName("Text");
+            Assert.That(cdt, Is.Not.Null);
+            Assert.That(cdt.Name, Is.EqualTo("Text"));
+
+            List<ICDT> allCDTs = cdtLibCache.AllElements();
+            Assert.That(allCDTs.Count, Is.EqualTo(5));
+         }
+
+        [Test]
+        [Ignore]
+        public void ShouldRetrieveElementsForACCLibrary()
+        {
         }
 
         [Test]
         [Ignore]
-        public void CachesBDTLibrariesFromRepository()
+        public void ShouldRetrieveElementsForBDTLibrary()
         {
-            // TODO: Are all BDT libraries from the repository available within the cache?
         }
 
         [Test]
         [Ignore]
-        public void CachesBDTsForSpecificBDTLibraryFromRepository()
+        public void ShouldRetrieveElementsForBIELibrary()
         {
-            // TODO: Are all BDTs of the particular CC library available within the cache?
         }
 
         [Test]
         [Ignore]
-        public void CachesBIELibrariesFromRepository()
-        {
-            // TODO: Are all BIE libraries from the repository available within the cache?
+        public void ShouldAddElementToBDTLibraryCache()
+        {                       
+            //IBDT bdtText = (IBDT) ccRepository.FindByPath(EARepository1.PathToBDTText());
+            //BDTSpec bdtSpec = new BDTSpec(bdtText);
+            //bdtSpec.Name = "AnotherText";
+
+            //IBDTLibrary bdtLibrary = ccRepository.LibraryByName<IBDTLibrary>("bdtlib1");
+            //IBDT newBdtText = bdtLibrary.CreateElement(bdtSpec);
+
+            //CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            //BDTLibraryCache bdtLibCache = ccCache.BDTLibraryCacheByName("bdtlib1");
+
+            //bdtLibCache.AddElementToCache(newBdtText);
+
+            //IBDT bdt = bdtLibCache.ElementByName("AnotherText");
+            //Assert.That(bdt, Is.Not.Null);
+            //Assert.That(bdt.Name, Is.EqualTo("AnotherText"));
+
+            //List<ICDT> allBDTs = bdtLibCache.AllElements();
+            //Assert.That(allBDTs.Count, Is.EqualTo(7));         
         }
 
         [Test]
         [Ignore]
-        public void CachesBIEsForSpecificBIELibraryFromRepository()
+        public void ShouldAddElementToBIELibraryCache()
         {
-            // TODO: Are all BIEs of the particular CC library available within the cache?
+        }
+
+        [Test]
+        [Ignore]
+        public void ShouldRetrieveCorrectLibrariesForParticularABIE()
+        {
+            //IABIE abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+
+            //CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            //ccCache.RetrieveAllLibrariesForABIE(abiePerson);
+
+            // richtige cc lib
+            // richtige cdt lib
+            // richtige bdt lib
+            // richtige bie lib
+            // in jeder lib muessen die entsprechenden elemente vorhanden sein - aber nicht alle!
         }
     }
 }
