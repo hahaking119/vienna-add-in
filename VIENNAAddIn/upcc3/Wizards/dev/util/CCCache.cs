@@ -9,18 +9,52 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
-
     public class CCCache
     {
+        //cdtLibCache.RetrieveElements();
+        // 1. frage: hab ich's?
+        // 2. versuch laden
+        // 3. falls nicht gefunden -> exception
 
-        public CCCache()
+
+        private CCCache()
         {
+            
+        }
+
+        public static CCCache GetInstance(CCRepository ccRepository)
+        {
+            // Singleton Implementierung
+
+            throw new NotImplementedException();
+        }
+
+        public ICDTLibrary CDTLibraryByName(string libraryName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CDTLibraryCache CDTLibraryCacheByName(string libraryName)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CDTLibraryCache
+    {
+        public ICDT ElementByName(string cdtName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ICDT> AllElements()
+        {
+            throw new NotImplementedException();
         }
     }
 }
