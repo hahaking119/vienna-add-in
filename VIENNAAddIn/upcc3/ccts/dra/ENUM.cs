@@ -10,9 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EA;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -61,7 +62,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get
             {
-                Connector connector = Connectors.FirstOrDefault(Stereotype.IsIsEquivalentTo);
+                Connector connector = Connectors.FirstOrDefault(EAConnectorExtensions.IsIsEquivalentTo);
                 return connector != null ? repository.GetENUM(connector.SupplierID) : null;
             }
         }

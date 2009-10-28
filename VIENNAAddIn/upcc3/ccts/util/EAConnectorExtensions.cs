@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using UPCCRepositoryInterface;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -64,6 +66,36 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static ConnectorEnd GetAssociatingEnd(this Connector connector, int associatingElementId)
         {
             return connector.ClientID == associatingElementId ? connector.ClientEnd : connector.SupplierEnd;
+        }
+
+        /// <returns>True if the connector has the given stereotype, false otherwise.</returns>
+        public static bool IsA(this Connector connector, string stereotype)
+        {
+            return connector != null && connector.Stereotype == stereotype;
+        }
+
+        /// <returns>True if the connector has the isEquivalentTo stereotype, false otherwise.</returns>
+        public static bool IsIsEquivalentTo(this Connector con)
+        {
+            return con.IsA(Stereotype.IsEquivalentTo);
+        }
+
+        /// <returns>True if the connector has the basedOn stereotype, false otherwise.</returns>
+        public static bool IsBasedOn(this Connector con)
+        {
+            return con.IsA(Stereotype.BasedOn);
+        }
+
+        /// <returns>True if the connector has the ASBIE stereotype, false otherwise.</returns>
+        public static bool IsASBIE(this Connector con)
+        {
+            return con.Stereotype == Stereotype.ASBIE;
+        }
+
+        /// <returns>True if the connector has the ASCC stereotype, false otherwise.</returns>
+        public static bool IsASCC(this Connector con)
+        {
+            return con.IsA(Stereotype.ASCC);
         }
     }
 }

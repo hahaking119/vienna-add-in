@@ -2,9 +2,9 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
-using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.Wizards.util;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddIn
 {

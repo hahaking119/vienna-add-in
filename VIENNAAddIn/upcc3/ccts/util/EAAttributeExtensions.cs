@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using UPCCRepositoryInterface;
 using Attribute=EA.Attribute;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -48,6 +50,24 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 }
             }
             return null;
+        }
+
+        /// <returns>True if the attribute has the given stereotype, false otherwise.</returns>
+        public static bool IsA(this Attribute attribute, string stereotype)
+        {
+            return attribute != null && attribute.Stereotype == stereotype;
+        }
+
+        /// <returns>True if the attribute has the CON stereotype, false otherwise.</returns>
+        public static bool IsCON(this Attribute attribute)
+        {
+            return attribute.IsA(Stereotype.CON);
+        }
+
+        /// <returns>True if the attribute has the SUP stereotype, false otherwise.</returns>
+        public static bool IsSUP(this Attribute attribute)
+        {
+            return attribute.Stereotype == Stereotype.SUP;
         }
     }
 }

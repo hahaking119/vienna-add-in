@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using EA;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards

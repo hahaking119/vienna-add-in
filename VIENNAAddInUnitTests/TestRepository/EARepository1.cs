@@ -7,10 +7,11 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using EA;
+using UPCCRepositoryInterface;
 using VIENNAAddIn;
-using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.util;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using VIENNAAddInUtils;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {

@@ -122,16 +122,7 @@
     <Compile Include="Exceptions\UnexpectedElementException.cs" />
     <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
-    <Compile Include="upcc3\ccts\ACCSpec.cs" />
-    <Compile Include="upcc3\ccts\ASCCSpec.cs" />
-    <Compile Include="upcc3\ccts\AttributeSpec.cs" />
-    <Compile Include="upcc3\ccts\BCCSpec.cs" />
-    <Compile Include="upcc3\ccts\CCSpec.cs" />
-    <Compile Include="upcc3\ccts\ConnectorSpec.cs" />
     <Compile Include="upcc3\ccts\dra\ElementLibrary.cs" />
-    <Compile Include="upcc3\ccts\ENUMSpec.cs" />
-    <Compile Include="upcc3\ccts\IBLibrary.cs" />
-    <Compile Include="upcc3\ccts\IElementLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAItem.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAPackage.cs" />
     <Compile Include="upcc3\ccts\otf\BDTLibrary.cs" />
@@ -174,13 +165,11 @@
     <Compile Include="upcc3\ccts\otf\ValidationService.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BLibraryValidator.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentMustBeModelOrBInformationVOrBLibrary.cs" />
-    <Compile Include="upcc3\ccts\PRIMSpec.cs" />
     <Compile Include="upcc3\ccts\util\EAAttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAConnectorExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EADiagramExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTExtensionComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTRestrictionComplexType.cs" />
@@ -276,29 +265,11 @@
     <Compile Include="Settings\SynchStereotypesForm.Designer.cs">
       <DependentUpon>SynchStereotypesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\ccts\ABIESpec.cs" />
-    <Compile Include="upcc3\ccts\ASBIESpec.cs" />
-    <Compile Include="upcc3\ccts\BBIESpec.cs" />
-    <Compile Include="upcc3\ccts\BIESpec.cs" />
-    <Compile Include="upcc3\ccts\CCTSElementSpec.cs" />
-    <Compile Include="upcc3\ccts\CCTSSpec.cs" />
     <Compile Include="upcc3\ccts\dra\SUP.cs" />
     <Compile Include="upcc3\ccts\dra\UpccAssociation.cs" />
     <Compile Include="upcc3\ccts\dra\UpccAttribute.cs" />
     <Compile Include="upcc3\ccts\dra\UpccClass.cs" />
     <Compile Include="upcc3\ccts\dra\UpccCON.cs" />
-    <Compile Include="upcc3\ccts\IBasicType.cs" />
-    <Compile Include="upcc3\ccts\ICCTSElement.cs" />
-    <Compile Include="upcc3\ccts\ICON.cs" />
-    <Compile Include="upcc3\ccts\IHasMultiplicity.cs" />
-    <Compile Include="upcc3\ccts\IHasUsageRules.cs" />
-    <Compile Include="upcc3\ccts\IPRIMRestrictions.cs" />
-    <Compile Include="upcc3\ccts\ISequenced.cs" />
-    <Compile Include="upcc3\ccts\ISUP.cs" />
-    <Compile Include="upcc3\ccts\LibrarySpec.cs" />
-    <Compile Include="upcc3\ccts\BDTSpec.cs" />
-    <Compile Include="upcc3\ccts\CDTSpec.cs" />
-    <Compile Include="upcc3\ccts\CONSpec.cs" />
     <Compile Include="upcc3\ccts\dra\ABIE.cs" />
     <Compile Include="upcc3\ccts\dra\AbstractDT.cs" />
     <Compile Include="upcc3\ccts\dra\ACC.cs" />
@@ -321,42 +292,9 @@
     <Compile Include="upcc3\ccts\dra\ENUMLibrary.cs" />
     <Compile Include="upcc3\ccts\dra\PRIM.cs" />
     <Compile Include="upcc3\ccts\dra\PRIMLibrary.cs" />
-    <Compile Include="upcc3\ccts\DTComponentSpec.cs" />
-    <Compile Include="upcc3\ccts\DTSpec.cs" />
-    <Compile Include="upcc3\ccts\IABIE.cs" />
-    <Compile Include="upcc3\ccts\IACC.cs" />
-    <Compile Include="upcc3\ccts\IASBIE.cs" />
-    <Compile Include="upcc3\ccts\IASCC.cs" />
-    <Compile Include="upcc3\ccts\IBBIE.cs" />
-    <Compile Include="upcc3\ccts\IBCC.cs" />
-    <Compile Include="upcc3\ccts\IBDT.cs" />
-    <Compile Include="upcc3\ccts\IBDTLibrary.cs" />
-    <Compile Include="upcc3\ccts\IBIE.cs" />
-    <Compile Include="upcc3\ccts\IBIELibrary.cs" />
-    <Compile Include="upcc3\ccts\ICC.cs" />
-    <Compile Include="upcc3\ccts\ICCLibrary.cs" />
-    <Compile Include="upcc3\ccts\ICDT.cs" />
-    <Compile Include="upcc3\ccts\ICDTLibrary.cs" />
-    <Compile Include="upcc3\ccts\IDOCLibrary.cs" />
-    <Compile Include="upcc3\ccts\IENUM.cs" />
-    <Compile Include="upcc3\ccts\IENUMLibrary.cs" />
-    <Compile Include="upcc3\ccts\IPRIM.cs" />
-    <Compile Include="upcc3\ccts\IPRIMLibrary.cs" />
-    <Compile Include="upcc3\ccts\Path.cs" />
-    <Compile Include="upcc3\ccts\SUPSpec.cs" />
-    <Compile Include="upcc3\ccts\TaggedValueSpec.cs" />
-    <Compile Include="upcc3\ccts\util\EAAggregationKind.cs" />
     <Compile Include="upcc3\ccts\util\EACollectionExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\EAConnectorTypes.cs" />
     <Compile Include="upcc3\ccts\util\EAException.cs" />
-    <Compile Include="upcc3\ccts\util\EnumerableExtension.cs" />
     <Compile Include="upcc3\ccts\util\EAPackageExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\Stereotype.cs" />
-    <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
-    <Compile Include="upcc3\ccts\IBusinessLibrary.cs" />
-    <Compile Include="upcc3\ccts\ICCRepository.cs" />
-    <Compile Include="upcc3\ccts\IDT.cs" />
-    <Compile Include="upcc3\ccts\IDTComponent.cs" />
     <Compile Include="upcc3\Wizards\ABIEWizardForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -574,6 +512,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UPCCRepository\UPCCRepositoryInterface.csproj">
+      <Project>{D788A632-CD92-4C8A-AE54-A37CD5871368}</Project>
+      <Name>UPCCRepositoryInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VIENNAAddInUtils\VIENNAAddInUtils.csproj">
+      <Project>{3C1352B8-1B53-46F9-BC18-BFF48115A606}</Project>
+      <Name>VIENNAAddInUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />

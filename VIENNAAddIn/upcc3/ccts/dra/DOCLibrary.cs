@@ -8,6 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using EA;
+using UPCCRepositoryInterface;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {

@@ -9,7 +9,7 @@
 
 using System;
 using EA;
-using VIENNAAddIn.upcc3.ccts;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards.util

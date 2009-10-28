@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using UPCCRepositoryInterface;
 using VIENNAAddIn;
-using VIENNAAddIn.upcc3.ccts;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;

@@ -4,7 +4,7 @@ using System.Linq;
 using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using VIENNAAddIn.upcc3.ccts;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUnitTests.TestRepository;

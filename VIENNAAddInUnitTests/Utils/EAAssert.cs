@@ -4,7 +4,7 @@ using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 using EA;
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.ccts;
+using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.Utils

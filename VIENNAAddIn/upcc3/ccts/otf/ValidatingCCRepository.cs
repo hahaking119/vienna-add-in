@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using EA;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.otf.validators;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using VIENNAAddInUtils;
+using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {

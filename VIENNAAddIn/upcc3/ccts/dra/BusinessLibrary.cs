@@ -8,7 +8,9 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using EA;
+using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -161,7 +163,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
             libraryPackage.Update();
 
-            if (util.Stereotype.bLibrary == stereotype)
+            if (UPCCRepositoryInterface.Stereotype.bLibrary == stereotype)
             {
                 var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
                 packageDiagram.Update();

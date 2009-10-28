@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts;
+using UPCCRepositoryInterface;
 
 namespace CCLImporter
 {

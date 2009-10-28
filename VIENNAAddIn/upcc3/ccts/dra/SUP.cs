@@ -7,7 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
-using VIENNAAddIn.upcc3.ccts.util;
+using UPCCRepositoryInterface;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
