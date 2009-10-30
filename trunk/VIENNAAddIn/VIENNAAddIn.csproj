@@ -184,6 +184,10 @@
     <Compile Include="upcc3\Wizards\dev\ABIEModelerForm.Designer.cs">
       <DependentUpon>ABIEModelerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\util\CacheItemBDTLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CacheItemBIELibraries.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CacheItemCCLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CacheItemCDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\util\CCCache.cs" />
     <Compile Include="upcc3\Wizards\dev\util\TemporaryModel.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">

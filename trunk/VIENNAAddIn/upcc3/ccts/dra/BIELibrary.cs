@@ -11,7 +11,7 @@ using UPCCRepositoryInterface;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class BIELibrary : ElementLibrary<IABIE, ABIE, ABIESpec>, IBIELibrary
+    public class BIELibrary : ElementLibrary<IABIE, ABIE, ABIESpec>, IBIELibrary
     {
         public BIELibrary(CCRepository repository, Package package)
             : base(repository, package)

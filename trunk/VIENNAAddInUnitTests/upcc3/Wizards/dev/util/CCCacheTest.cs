@@ -4,14 +4,14 @@ using NUnit.Framework.SyntaxHelpers;
 using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
-using VIENNAAddInUnitTests.TestRepository;
+using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
 {  
     [TestFixture]
     public class CCCacheTest
     {
-        private EARepository1 eaRepository;
+        private EARepositoryCCCache eaRepository;
         private CCRepository ccRepository;
 
         #region Test SetUp/TearDown
@@ -19,7 +19,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         [SetUp]
         public void Setup()
         {
-            eaRepository = new EARepository1();
+            eaRepository = new EARepositoryCCCache();
             ccRepository = new CCRepository(eaRepository);
         }
 
@@ -31,118 +31,130 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         }
 
         #endregion
-        
+
         [Test]
-        [Ignore]
-        public void ShouldRetrieveAndCacheCDTLibraries()
+        public void ShouldGetAndCacheCDTLibraries()
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            ICDTLibrary cdtLibrary = ccCache.CDTLibraryByName("ctdLib1");
+            List<CDTLibrary> cdtLibraries = ccCache.GetCDTLibraries();
 
-            // cdtLibrary.ElementByName("abc") --> CRAP! --> sollte nicht funktionieren!
-
-            //ccCache.LibraryByName<ICDTLibrary>("abc");
-            //ccRepository.CreateElement(targetLib, elementSpec);
-
-            Assert.That(cdtLibrary, Is.Not.Null);
-        }
-        
-        [Test]
-        [Ignore]
-        public void ShouldRetrieveAndCacheACCLibraries()
-        {
-            // ccCache.RetrieveLibraries<ICDTLibrary>();
-            // ccCache.LibraryByName<ICDTLibrary>("cdtLib1");
+            Assert.That(cdtLibraries, Is.Not.Null);
+            Assert.That(cdtLibraries.Count, Is.EqualTo(1));
         }
 
         [Test]
-        [Ignore]
-        public void ShouldRetrieveAndCacheBDTLibraries()
-        {
-        }
-
-        [Test]
-        [Ignore]
-        public void ShouldRetrieveAndCacheBIELibraries()
-        {
-        }
-
-        [Test]
-        [Ignore]
-        public void ShouldRetrieveElementsForCDTLibrary()
+        public void ShouldGetAndCacheCCLibraries()
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            CDTLibraryCache cdtLibCache = ccCache.CDTLibraryCacheByName("cdtLib1");
+            List<CCLibrary> ccLibraries = ccCache.GetCCLibraries();
 
+            Assert.That(ccLibraries, Is.Not.Null);
+            Assert.That(ccLibraries.Count, Is.EqualTo(1));
+        }
 
-            ICDT cdt = cdtLibCache.ElementByName("Text");
+        [Test]
+        public void ShouldGetAndCacheBDTLibraries()
+        {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            List<BDTLibrary> bdtLibraries = ccCache.GetBDTLibraries();
+
+            Assert.That(bdtLibraries, Is.Not.Null);
+            Assert.That(bdtLibraries.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ShouldGetAndCacheBIELibraries()
+        {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            List<BIELibrary> bieLibraries = ccCache.GetBIELibraries();
+
+            Assert.That(bieLibraries, Is.Not.Null);
+            Assert.That(bieLibraries.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ShouldGetAllCDTsFromCDTLibrary()
+        {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            List<CDT> cdts = ccCache.GetCDTsFromCDTLibrary("cdtlib1");
+
+            Assert.That(cdts.Count, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void ShouldGetParticularCDTFromCDTLibrary()
+        {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            CDT cdt = ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
+
             Assert.That(cdt, Is.Not.Null);
-            Assert.That(cdt.Name, Is.EqualTo("Text"));
+            Assert.That(cdt.Name, Is.EqualTo("Text"));            
+        }
 
-            List<ICDT> allCDTs = cdtLibCache.AllElements();
-            Assert.That(allCDTs.Count, Is.EqualTo(5));
-         }
+
 
         [Test]
-        [Ignore]
-        public void ShouldRetrieveElementsForACCLibrary()
+        public void ShouldGetAllCCsFromCCLibrary()
         {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            List<ACC> ccs = ccCache.GetCCsFromCCLibrary("cclib1");
+
+            Assert.That(ccs.Count, Is.EqualTo(2));
         }
 
         [Test]
-        [Ignore]
-        public void ShouldRetrieveElementsForBDTLibrary()
+        public void ShouldGetParticularCCFromCCLibrary()
         {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            ACC cc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
+
+            Assert.That(cc, Is.Not.Null);
+            Assert.That(cc.Name, Is.EqualTo("Address"));
         }
 
         [Test]
-        [Ignore]
-        public void ShouldRetrieveElementsForBIELibrary()
+        public void ShouldGetBDTLibraryByName()
         {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
+
+            BIELibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
+
+            Assert.That(bdtLibrary, Is.Not.Null);
+            Assert.That(bdtLibrary.Name, Is.EqualTo("bdtlib1"));
         }
 
         [Test]
-        [Ignore]
-        public void ShouldAddElementToBDTLibraryCache()
-        {                       
-            //IBDT bdtText = (IBDT) ccRepository.FindByPath(EARepository1.PathToBDTText());
-            //BDTSpec bdtSpec = new BDTSpec(bdtText);
-            //bdtSpec.Name = "AnotherText";
+        public void ShouldGetBIELibraryByName()
+        {
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            //IBDTLibrary bdtLibrary = ccRepository.LibraryByName<IBDTLibrary>("bdtlib1");
-            //IBDT newBdtText = bdtLibrary.CreateElement(bdtSpec);
+            BIELibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
 
-            //CCCache ccCache = CCCache.GetInstance(ccRepository);
-
-            //BDTLibraryCache bdtLibCache = ccCache.BDTLibraryCacheByName("bdtlib1");
-
-            //bdtLibCache.AddElementToCache(newBdtText);
-
-            //IBDT bdt = bdtLibCache.ElementByName("AnotherText");
-            //Assert.That(bdt, Is.Not.Null);
-            //Assert.That(bdt.Name, Is.EqualTo("AnotherText"));
-
-            //List<ICDT> allBDTs = bdtLibCache.AllElements();
-            //Assert.That(allBDTs.Count, Is.EqualTo(7));         
+            Assert.That(bieLibrary, Is.Not.Null);
+            Assert.That(bieLibrary.Name, Is.EqualTo("bielib1"));
         }
+        
 
         [Test]
-        [Ignore]
-        public void ShouldAddElementToBIELibraryCache()
+        public void ShouldPrepareCCCacheForParticularABIE()
         {
-        }
+            IABIE abiePerson = (IABIE)ccRepository.FindByPath(EARepositoryCCCache.PathToBIEPerson());
 
-        [Test]
-        [Ignore]
-        public void ShouldRetrieveCorrectLibrariesForParticularABIE()
-        {
-            //IABIE abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+            CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            //CCCache ccCache = CCCache.GetInstance(ccRepository);
+            ccCache.PrepareForABIE(abiePerson);
 
-            //ccCache.RetrieveAllLibrariesForABIE(abiePerson);
+            // TODO: wie testen wir hier am besten, dass der cache die richtigen elemente enthaelt?
+            // TODO: denn falls wir auf die libraries mittels e.g. "GetCCLibraries" zugreifen, versucht
+            // TODO: der cache im aktuellen design natuerlich auf das Repository zuzugreifen!?
 
             // richtige cc lib
             // richtige cdt lib
