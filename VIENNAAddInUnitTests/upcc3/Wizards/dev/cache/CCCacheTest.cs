@@ -3,11 +3,11 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.Wizards.dev.util;
+using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 
-namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
-{  
+namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
+{
     [TestFixture]
     public class CCCacheTest
     {
