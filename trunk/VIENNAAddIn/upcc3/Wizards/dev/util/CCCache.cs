@@ -59,17 +59,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         }
 
         private CDTLibrary CacheItemCDTLibraryToCDTLibrary(CacheItemCDTLibrary cacheItemCDTLibrary)
-        {
-            //cdtLibCache.RetrieveElements();
-            // 1. frage: hab ich's?
-            // 2. versuch laden
-            // 3. falls nicht gefunden -> exception
-            
+        {           
             return cacheItemCDTLibrary.CDTLibrary;
         }
 
         public List<CCLibrary> GetCCLibraries()
         {
+            //cdtLibCache.RetrieveElements();
+            // 1. frage: hab ich's?
+            // 2. versuch laden
+            // 3. falls nicht gefunden -> exception
+
             throw new NotImplementedException();
         }
 
