@@ -17,7 +17,7 @@ using Stereotype=UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ABIE : UpccClass<ABIESpec>, IABIE
+    public class ABIE : UpccClass<ABIESpec>, IABIE
     {
         public ABIE(CCRepository repository, Element element) : base(repository, element, Stereotype.ABIE)
         {

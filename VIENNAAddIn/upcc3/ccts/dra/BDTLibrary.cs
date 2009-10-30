@@ -11,7 +11,7 @@ using UPCCRepositoryInterface;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class BDTLibrary : ElementLibrary<IBDT, BDT, BDTSpec>, IBDTLibrary
+    public class BDTLibrary : ElementLibrary<IBDT, BDT, BDTSpec>, IBDTLibrary
     {
         public BDTLibrary(CCRepository repository, Package package)
             : base(repository, package)
