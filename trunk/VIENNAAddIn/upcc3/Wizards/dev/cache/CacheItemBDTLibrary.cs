@@ -5,12 +5,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemBDTLibrary
     {
-        private BDTLibrary bdtLibrary;
-        private List<BDT> bdtsInLibrary;
+        internal BDTLibrary BDTLibrary { get; set; }
 
-        internal CacheItemBDTLibrary()
+        internal List<BDT> BDTsInLibrary { get; set; }
+
+        internal CacheItemBDTLibrary(BDTLibrary library)
         {
-            
+            BDTLibrary = library;
         }
     }
 }
