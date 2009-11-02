@@ -80,10 +80,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         public void ShouldGetAllCDTsFromCDTLibrary()
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
-
             List<CDT> cdts = ccCache.GetCDTsFromCDTLibrary("cdtlib1");
-
-            Assert.That(cdts.Count, Is.EqualTo(5));
+            Assert.That(cdts.Count, Is.EqualTo(4));
         }
 
         [Test]
@@ -125,7 +123,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            BIELibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
+            BDTLibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
 
             Assert.That(bdtLibrary, Is.Not.Null);
             Assert.That(bdtLibrary.Name, Is.EqualTo("bdtlib1"));
