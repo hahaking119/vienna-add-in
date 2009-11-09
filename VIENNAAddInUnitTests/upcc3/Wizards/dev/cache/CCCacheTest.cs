@@ -149,15 +149,19 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
             ccCache.PrepareForABIE(abiePerson);
+            BIELibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
+            //Don't know how to test this.. inserted a Debug message to show if bie library cache loading was forced at any time. If it was not,
+            //Library did get loaded from abie successfully.
+            Assert.That(bieLibrary, Is.Not.Null);
 
             // TODO: wie testen wir hier am besten, dass der cache die richtigen elemente enthaelt?
             // TODO: denn falls wir auf die libraries mittels e.g. "GetCCLibraries" zugreifen, versucht
             // TODO: der cache im aktuellen design natuerlich auf das Repository zuzugreifen!?
 
-            // richtige cc lib
-            // richtige cdt lib
-            // richtige bdt lib
-            // richtige bie lib
+            // richtige cc lib -> abie.basedOn.library, only the underlying ACC
+            // richtige cdt lib -> bbie.type.basedOn.library, all CDTs are possible!
+            // richtige bdt lib -> bbie.type.library, all BDTs are possible!
+            // richtige bie lib -> abie.library, only the current ABIE
             // in jeder lib muessen die entsprechenden elemente vorhanden sein - aber nicht alle!
         }
     }
