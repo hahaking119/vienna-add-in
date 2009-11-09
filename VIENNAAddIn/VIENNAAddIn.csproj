@@ -185,7 +185,7 @@
       <DependentUpon>ABIEModelerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemBDTLibrary.cs" />
-    <Compile Include="upcc3\Wizards\dev\cache\CacheItemBIELibraries.cs" />
+    <Compile Include="upcc3\Wizards\dev\cache\CacheItemBIELibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCCLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
