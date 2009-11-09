@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
 
@@ -108,6 +109,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         {
             if(bieLibraries == null)
             {
+                Debug.WriteLine("BIE Cache Load triggered.");
                 bieLibraries = new List<CacheItemBIELibrary>();
                 foreach (BIELibrary bieLibrary in ccRepository.Libraries<BIELibrary>())
                 {
@@ -246,14 +248,32 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 
         public void PrepareForABIE(IABIE abie)
         {
-            var BIELibrary = abie.Library;
-            IACC basedONACC = abie.BasedOn;
-            var CClibrary = basedONACC.Library;
+            bieLibraries = new List<CacheItemBIELibrary>();
+            ccLibraries = new List<CacheItemCCLibrary>();
+            bdtLibraries = new List<CacheItemBDTLibrary>();
+            cdtLibraries = new List<CacheItemCDTLibrary>();
+            bieLibraries.Add(new CacheItemBIELibrary((BIELibrary) abie.Library));
+            ccLibraries.Add(new CacheItemCCLibrary((CCLibrary) abie.BasedOn.Library));
+            CacheItemCDTLibrary cdtLibrary = null;
+            CacheItemBDTLibrary bdtLibrary = null;
+            //because a ABIE can have multiple BBIEs with maybe different underlying BDT and CDT Libraries we look at each BBIE and check if the containing
+            //Library is already in the cache. If not we add it now.
             foreach (IBBIE bbie in abie.BBIEs)
             {
+               if(bdtLibrary == null || bdtLibrary.BDTLibrary.Name != bbie.Type.Name)
+                {
+                    bdtLibrary = new CacheItemBDTLibrary((BDTLibrary)bbie.Type.Library);
+                    bdtLibraries.Add(bdtLibrary);
+                }
+                if (cdtLibrary == null || cdtLibrary.CDTLibrary.Name != bbie.Type.BasedOn.Library.Name)
+                {
+                    cdtLibrary = new CacheItemCDTLibrary((CDTLibrary)bbie.Type.BasedOn.Library);
+                    bdtLibraries.Add(bdtLibrary);
+                }
                 
             }
-            throw new NotImplementedException();
+            
+            cdtLibraries.Add(cdtLibrary);
         }
     }
 }
