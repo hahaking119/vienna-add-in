@@ -256,6 +256,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             ccLibraries.Add(new CacheItemCCLibrary((CCLibrary) abie.BasedOn.Library));
             CacheItemCDTLibrary cdtLibrary = null;
             CacheItemBDTLibrary bdtLibrary = null;
+
             //because a ABIE can have multiple BBIEs with maybe different underlying BDT and CDT Libraries we look at each BBIE and check if the containing
             //Library is already in the cache. If not we add it now.
             foreach (IBBIE bbie in abie.BBIEs)
