@@ -8,7 +8,7 @@ namespace UPCCRepositoryInterface
         /// <summary>
         /// Separator for multiple values.
         /// </summary>
-        private const char ValueSeparator = '|';
+        public const char ValueSeparator = '|';
 
         public static string Merge(IEnumerable<string> values)
         {
