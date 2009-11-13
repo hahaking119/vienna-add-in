@@ -189,7 +189,7 @@
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCCLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
-    <Compile Include="upcc3\Wizards\FileSelector.cs" />
+    <Compile Include="upcc3\Wizards\util\FileSelector.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>
     </Compile>
