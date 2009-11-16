@@ -144,12 +144,12 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldPrepareCCCacheForParticularABIE()
         {
-            IABIE abiePerson = (IABIE)ccRepository.FindByPath(EARepositoryCCCache.PathToBIEPerson());
+            var abiePerson = (IABIE)ccRepository.FindByPath(EARepositoryCCCache.PathToBIEPerson());
 
-            CCCache ccCache = CCCache.GetInstance(ccRepository);
+            var ccCache = CCCache.GetInstance(ccRepository);
 
             ccCache.PrepareForABIE(abiePerson);
-            BIELibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
+            var bieLibrary = ccCache.GetBIELibraryByName("bielib1");
             //Don't know how to test this.. inserted a Debug message to show if bie library cache loading was forced at any time. If it was not,
             //Library did get loaded from abie successfully.
             Assert.That(bieLibrary, Is.Not.Null);
