@@ -267,6 +267,7 @@
             this.groupboxASBIEs.TabIndex = 0;
             this.groupboxASBIEs.TabStop = false;
             this.groupboxASBIEs.Text = "ABIEs available to associate the new ABIE with";
+            this.groupboxASBIEs.Enter += new System.EventHandler(this.groupboxASBIEs_Enter);
             // 
             // checkedlistboxASCCs
             // 

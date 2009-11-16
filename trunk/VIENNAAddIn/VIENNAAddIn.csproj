@@ -178,6 +178,9 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
+    <Compile Include="upcc3\Wizards\dev\ABIEModeler.xaml.cs">
+      <DependentUpon>ABIEModeler.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\ABIEModelerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -189,15 +192,15 @@
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCCLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
+    <Compile Include="upcc3\Wizards\ImporterWizard.xaml.cs">
+      <DependentUpon>ImporterWizard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\util\FileSelector.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="upcc3\Wizards\ImporterWizardForm.Designer.cs">
       <DependentUpon>ImporterWizardForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="upcc3\Wizards\ImporterWizard.xaml.cs">
-      <DependentUpon>ImporterWizard.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\StandardLibraryImporterForm.cs">
       <SubType>Form</SubType>
@@ -512,9 +515,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="upcc3\Wizards\ImporterWizard.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="upcc3\Wizards\dev\ABIEModeler.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\ImporterWizard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
