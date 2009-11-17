@@ -1,4 +1,4 @@
-﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.ABIEModeler"
+﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.ABIEModeler"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="627" Width="589" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="False" ResizeMode="CanResize" Title="ABIE Modeler">

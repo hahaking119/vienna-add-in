@@ -192,6 +192,7 @@
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCCLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\TemporaryABIEModel.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizard.xaml.cs">
       <DependentUpon>ImporterWizard.xaml</DependentUpon>
     </Compile>
@@ -537,6 +538,5 @@
   <ItemGroup>
     <Folder Include="doc\" />
     <Folder Include="images\" />
-    <Folder Include="upcc3\Wizards\dev\util\" />
   </ItemGroup>
 </Project>

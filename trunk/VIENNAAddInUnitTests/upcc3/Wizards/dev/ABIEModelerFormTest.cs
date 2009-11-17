@@ -2,7 +2,6 @@ using System.Threading;
 using System.Windows;
 using NUnit.Framework;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.Wizards;
 using VIENNAAddIn.upcc3.Wizards.dev;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;

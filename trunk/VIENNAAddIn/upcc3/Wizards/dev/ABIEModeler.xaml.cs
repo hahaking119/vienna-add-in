@@ -2,7 +2,7 @@
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 
-namespace VIENNAAddIn.upcc3.Wizards
+namespace VIENNAAddIn.upcc3.Wizards.dev
 {
     /// <summary>
     /// Interaction logic for ImporterWizard.xaml
