@@ -28,7 +28,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         private Dictionary<string, TemporaryBDT> BDTs;
         private string BIELibStore;
         private string CCLinUse;
-        private 
 
         private Dictionary<string, TemporaryASBIE> potentialASBIEs;
 
@@ -76,7 +75,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                 Checkstate = false;
             }
         }
-        public internal class TemporaryBBIE
+        public class TemporaryBBIE
         {
             internal IBBIE bbie { get; set; }
             internal Boolean Checkstate { get; set; }
