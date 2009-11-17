@@ -12,5 +12,10 @@ namespace UPCCRepositoryInterface
     {
         IBDT Type { get; }
         IABIE Container { get; }
+
+        /// <summary>
+        /// Returns the BCC on which the BBIE is based or <c>null</c>, if the BCC cannot be determined.
+        /// </summary>
+        IBCC BasedOn { get; }
     }
 }
