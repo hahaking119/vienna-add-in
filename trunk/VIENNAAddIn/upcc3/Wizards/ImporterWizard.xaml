@@ -1,7 +1,7 @@
 ﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.ImporterWizard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Height="410" Width="516" WindowStyle="SingleBorderWindow" ShowInTaskbar="False" ResizeMode="CanResize" Title="XML Schema Importer Wizard">
+    Height="500" Width="516" WindowStyle="SingleBorderWindow" ShowInTaskbar="False" ResizeMode="CanResize" Title="XML Schema Importer Wizard">
     <DockPanel Background="#FFD4D0C8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,5,5">
             <Button HorizontalAlignment="Left" Height="23" Name="buttonImport" Width="175" Click="buttonImport_Click">_Import XML Schemas</Button>
@@ -20,6 +20,26 @@
                         <Label DockPanel.Dock="Top" Height="23" Name="label12">Select ebInterface Schema:</Label>
                         <StackPanel Name="mappedSchemaFileSelectorPanel" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="5,0,5,0" />
                         <Label DockPanel.Dock="Top" Name="label3" Height="23">Select mapping files:</Label>
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                            <Label Height="23" Width="150">Qualifier:</Label>
+                            <TextBox Name="qualifierTextBox" Width="305">ebInterface</TextBox>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                            <Label Height="23" Width="150">Message Assembly Name:</Label>
+                            <TextBox Name="rootElementNameTextBox" Width="305">Invoice</TextBox>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                            <Label Height="23" Width="150">BDT Library Name:</Label>
+                            <TextBox Name="bdtLibraryNameTextBox" Width="305">ebInterface BDTLibrary</TextBox>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+                            <Label Height="23" Width="150">BIE Library Name:</Label>
+                            <TextBox Name="bieLibraryNameTextBox" Width="305">ebInterface BIELibrary</TextBox>
+                        </StackPanel>
+                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,5,0,0">
+                            <Label Height="23" Width="150">DOC Library Name:</Label>
+                            <TextBox Name="docLibraryNameTextBox" Width="305">ebInterface Invoice</TextBox>
+                        </StackPanel>
                         <Border BorderThickness="1" BorderBrush="Gray" Margin="5,0,5,0">
                             <ScrollViewer Name="mappingFileSelectorScrollViewer" Margin="5" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
                             </ScrollViewer>
