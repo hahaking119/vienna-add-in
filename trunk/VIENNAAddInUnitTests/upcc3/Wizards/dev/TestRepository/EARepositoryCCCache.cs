@@ -17,9 +17,9 @@ using Stereotype = UPCCRepositoryInterface.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
 {
-    public class EARepositoryCCCache : EARepository
+    public class EARepositoryCCCache : EARepository       
     {
-        private Element accAddress;
+       private Element accAddress;
         private Element accPerson;
         private Element bdtABCCode;
         private Element bdtCode;
@@ -352,5 +352,5 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
         }
 
         #endregion
-    }
+   }
 }

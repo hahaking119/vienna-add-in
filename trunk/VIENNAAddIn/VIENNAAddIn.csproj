@@ -178,14 +178,8 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
-    <Compile Include="upcc3\Wizards\dev\ABIEModeler.xaml.cs">
-      <DependentUpon>ABIEModeler.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="upcc3\Wizards\dev\ABIEModelerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="upcc3\Wizards\dev\ABIEModelerForm.Designer.cs">
-      <DependentUpon>ABIEModelerForm.cs</DependentUpon>
+    <Compile Include="upcc3\Wizards\dev\ABIEEditor.xaml.cs">
+      <DependentUpon>ABIEEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemBDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemBIELibrary.cs" />
@@ -437,10 +431,6 @@
       <DependentUpon>BDTWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="upcc3\Wizards\dev\ABIEModelerForm.resx">
-      <DependentUpon>ABIEModelerForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\GeneratorWizardForm.resx">
       <DependentUpon>GeneratorWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -516,7 +506,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="upcc3\Wizards\dev\ABIEModeler.xaml">
+    <Page Include="upcc3\Wizards\dev\ABIEEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
