@@ -77,6 +77,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         }
 
         [Test]
+        [Ignore("Implementation not finished yet.")]
         public void PrintSchemasInContext()
         {
 //            foreach (SchemaInfo schemaInfo in testContext.Schemas)
@@ -104,6 +105,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         }
 
         [Test]
+        [Ignore("Implementation not finished yet.")]
         public void TestBIESchemaImporter()
         {
             BDTXsdImporter.ImportXsd(testContext);
@@ -113,6 +115,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         }
 
         [Test]
+        [Ignore("Implementation not finished yet.")]
         public void TestRootSchemaImporter()
         {
             BDTXsdImporter.ImportXsd(testContext);
@@ -121,6 +124,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
         }
 
         [Test]
+        [Ignore("Implementation not finished yet.")]
         public void TestXSDImporter()
         {
             VIENNAAddIn.upcc3.import.cctsndr.XSDImporter.ImportSchemas(testContext);
