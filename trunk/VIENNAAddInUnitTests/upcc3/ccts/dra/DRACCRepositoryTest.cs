@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EA;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddInUnitTests.TestRepository;
@@ -418,14 +419,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             var abiePerson = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEPerson());
             var abiePersonASBIEs = new List<IASBIE>(abiePerson.ASBIEs);
-            Assert.AreEqual("homeAddress", abiePersonASBIEs[0].Name);
+            Assert.AreEqual("My_homeAddress", abiePersonASBIEs[0].Name);
             Assert.AreEqual("1", abiePersonASBIEs[0].LowerBound);
             Assert.AreEqual("1", abiePersonASBIEs[0].UpperBound);
-            Assert.AreEqual("workAddress", abiePersonASBIEs[1].Name);
+            Assert.AreEqual("My_workAddress", abiePersonASBIEs[1].Name);
             Assert.AreEqual("0", abiePersonASBIEs[1].LowerBound);
             Assert.AreEqual("*", abiePersonASBIEs[1].UpperBound);
             var biePerson = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEPerson());
-            Assert.AreEqual("homeAddress", biePerson.ASBIEs.First().Name);
+            Assert.AreEqual("My_homeAddress", biePerson.ASBIEs.First().Name);
 
             var enumAbcCodes = (IENUM) ccRepository.FindByPath(EARepository1.PathToEnumAbcCodes());
             Assert.IsNotNull(enumAbcCodes, "enum ABC_Codes not found");
@@ -583,5 +584,51 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertBBIE(bdtText, personBCCs[0], personBBIEs[0]);
             AssertBBIE(bdtText, personBCCs[1], personBBIEs[1]);
         }
+
+        [Test]
+        public void ResolvesAbieBasedOnDependencies()
+        {
+            var accPerson = (IACC)ccRepository.FindByPath(EARepository1.PathToACCPerson());
+            Assert.That(accPerson, Is.Not.Null, "ACC not found");
+
+            var abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+            Assert.That(abiePerson, Is.Not.Null, "ABIE not found");
+
+            Assert.That(abiePerson.BasedOn, Is.Not.Null, "ABIE basedOn dependency is null");
+            Assert.That(abiePerson.BasedOn.Id, Is.EqualTo(accPerson.Id), "ABIE basedOn dependency not correctly resolved");
+        }
+
+        [Test]
+        public void ResolvesBbieBasedOnDependencies()
+        {
+            var accPerson = (IACC)ccRepository.FindByPath(EARepository1.PathToACCPerson());
+            var abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+
+            var bccFirstName = accPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "FirstName");
+            Assert.That(bccFirstName, Is.Not.Null, "BCC not found");
+
+            var bbieMyFirstName = abiePerson.BBIEs.FirstOrDefault(bbie => bbie.Name == "My_FirstName");
+            Assert.That(bbieMyFirstName, Is.Not.Null, "BBIE not found");
+
+            Assert.That(bbieMyFirstName.BasedOn, Is.Not.Null, "BBIE basedOn dependency is null");
+            Assert.That(bbieMyFirstName.BasedOn.Id, Is.EqualTo(bccFirstName.Id), "BBIE basedOn dependency not correctly resolved");
+        }
+
+        [Test]
+        public void ResolvesAsbieBasedOnDependencies()
+        {
+            var accPerson = (IACC)ccRepository.FindByPath(EARepository1.PathToACCPerson());
+            var abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+
+            var asccHomeAddress = accPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "homeAddress");
+            Assert.That(asccHomeAddress, Is.Not.Null, "ASCC not found");
+
+            var asbieMyHomeAddress = abiePerson.ASBIEs.FirstOrDefault(asbie => asbie.Name == "My_homeAddress");
+            Assert.That(asbieMyHomeAddress, Is.Not.Null, "ASBIE not found");
+
+            Assert.That(asbieMyHomeAddress.BasedOn, Is.Not.Null, "ASBIE basedOn dependency is null");
+            Assert.That(asbieMyHomeAddress.BasedOn.Id, Is.EqualTo(asccHomeAddress.Id), "ASBIE basedOn dependency not correctly resolved");
+        }
+
     }
 }

@@ -25,12 +25,36 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return repository.GetBDT(attribute.ClassifierID); }
         }
 
+        public IBCC BasedOn
+        {
+            get
+            {
+                if (Container == null)
+                {
+                    return null;
+                }
+                IACC acc = Container.BasedOn;
+                if (acc == null)
+                {
+                    return null;
+                }
+                string nameWithoutQualifiers = Name.Substring(Name.LastIndexOf('_') + 1);
+                foreach (IBCC bcc in acc.BCCs)
+                {
+                    if (nameWithoutQualifiers == bcc.Name)
+                    {
+                        return bcc;
+                    }
+                }
+                return null;
+            }
+        }
+
         #endregion
 
         protected override string GetTypeName()
         {
             return Type.Name;
         }
-
     }
 }

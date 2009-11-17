@@ -13,5 +13,10 @@ namespace UPCCRepositoryInterface
         IABIE AssociatingElement { get; }
         IABIE AssociatedElement { get; }
         EAAggregationKind AggregationKind { get; }
+
+        /// <summary>
+        /// Returns the ASCC on which the ASBIE is based or <c>null</c>, if the ASCC cannot be determined.
+        /// </summary>
+        IASCC BasedOn { get; }
     }
 }

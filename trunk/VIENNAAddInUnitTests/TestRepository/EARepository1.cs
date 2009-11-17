@@ -45,12 +45,13 @@ namespace VIENNAAddInUnitTests.TestRepository
             bdtDate.AddBasedOnDependency(cdtDate);
             bdtText.AddBasedOnDependency(cdtText);
             bieMyAddress.AddBasedOnDependency(accAddress);
+            bieMyPerson.AddBasedOnDependency(accPerson);
 
             accPerson.AddASCC(accAddress, "homeAddress");
             accPerson.AddASCC(accAddress, "workAddress", "0", "*");
 
-            bieMyPerson.AddASBIE(bieMyAddress, "homeAddress", EAAggregationKind.Shared);
-            bieMyPerson.AddASBIE(bieMyAddress, "workAddress", EAAggregationKind.Composite, "0", "*");
+            bieMyPerson.AddASBIE(bieMyAddress, "My_homeAddress", EAAggregationKind.Shared);
+            bieMyPerson.AddASBIE(bieMyAddress, "My_workAddress", EAAggregationKind.Composite, "0", "*");
             bieInvoice.AddASBIE(bieInvoiceInfo, "info", EAAggregationKind.Shared);
             bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", EAAggregationKind.Shared);
         }
@@ -242,7 +243,7 @@ namespace VIENNAAddInUnitTests.TestRepository
                                                                    postcode.LowerBound = "0";
                                                                    postcode.UpperBound = "*";
                                                                }));
-            bieMyPerson = bieLib1.AddClass("MyPerson").With(ElementStereotype(Stereotype.ABIE), BBIEs(bdtText, "FirstName", "LastName"));
+            bieMyPerson = bieLib1.AddClass("MyPerson").With(ElementStereotype(Stereotype.ABIE), BBIEs(bdtText, "My_FirstName", "My_LastName"));
             AddInvalidElement(bieLib1);
         }
 
