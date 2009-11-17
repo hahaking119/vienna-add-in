@@ -1,4 +1,4 @@
-﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.ABIEModeler"
+﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.ABIEEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Height="627" Width="589" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="False" ResizeMode="CanResize" Title="ABIE Modeler">
@@ -7,16 +7,16 @@
         
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelCCLs">Choose CC Library containing ACCs:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboCCLs"></ComboBox>
+            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboCCLs" SelectionChanged="comboCCLs_SelectionChanged"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelACCs">Choose ACC used to generate the ABIE:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboACCs"></ComboBox>
+            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboACCs" SelectionChanged="comboACCs_SelectionChanged"></ComboBox>
         </DockPanel>
         
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,1,1,1">
-            <Button HorizontalAlignment="Center" Width="100" Name="buttonSave" Margin="5,5,5,5">_Generate ABIE</Button>
-            <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5">_Close</Button>
+            <Button HorizontalAlignment="Center" Width="100" Name="buttonSave" Margin="5,5,5,5" Click="buttonSave_Click">_Generate ABIE</Button>
+            <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Height="23" Name="labelStatus">Status:</Label>
@@ -24,19 +24,19 @@
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBIELs">BIE Library used to store the ABIE:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBIELs"></ComboBox>
+            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboBIELs_SelectionChanged"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBDTLs">BDT Library used to store the BDTs:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs"></ComboBox>
+            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs" SelectionChanged="comboBDTLs_SelectionChanged"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelABIEName">Name of the generated ABIE:</Label>
-            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textABIEName" />
+            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textABIEName" TextChanged="textABIEName_TextChanged" />
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,5,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelPrefix">Prefix used for the generated Artifacts:</Label>
-            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textPrefix" />
+            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textPrefix" TextChanged="textPrefix_TextChanged" />
         </DockPanel>
 
 
@@ -47,22 +47,22 @@
                         <UniformGrid Rows="1" Columns="3">
                             <GroupBox Header="BCCs used as BBIEs" Margin="0,0,0,0">
                                 <DockPanel>
-                                    <CheckBox DockPanel.Dock="Bottom" Name="checkboxBCCs" Margin="0,3,0,0">Select all BCCs</CheckBox>
-                                    <ListBox Name="checkedlistboxBCCs" Margin="0,3,0,0"></ListBox>
+                                    <CheckBox DockPanel.Dock="Bottom" Name="checkboxBCCs" Margin="0,3,0,0" Checked="checkboxBCCs_Checked" Unchecked="checkboxBCCs_Unchecked">Select all BCCs</CheckBox>
+                                    <ListBox Name="checkedlistboxBCCs" Margin="0,3,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged"></ListBox>
                                 </DockPanel>
                             </GroupBox>
                             <GroupBox Header="BBIEs based on BCCs" Margin="-2,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,3,0,0">
-                                        <Button Name="buttonAddBBIE" Height="20" Width="20">+</Button>
+                                        <Button Name="buttonAddBBIE" Height="20" Width="20" Click="buttonAddBBIE_Click">+</Button>
                                         <Label>Add another BBIE</Label>
                                     </StackPanel>
-                                    <ListBox Name="checkedlistboxBBIEs" Margin="0,3,0,0"></ListBox>
+                                    <ListBox Name="checkedlistboxBBIEs" Margin="0,3,0,0" SelectionChanged="checkedlistboxBBIEs_SelectionChanged"></ListBox>
                                 </DockPanel>
                             </GroupBox>
                             <GroupBox Header="BDTs available to typify the BBIEs" Margin="-2,0,0,0">
                                 <DockPanel>
-                                    <ListBox Name="checkedlistboxBDTs" Margin="0,3,0,0"></ListBox>
+                                    <ListBox Name="checkedlistboxBDTs" Margin="0,3,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged"></ListBox>
                                 </DockPanel>
                             </GroupBox>
                         </UniformGrid>
@@ -73,12 +73,12 @@
                         <UniformGrid Rows="1" Columns="2">
                             <GroupBox Header="ABIEs available to associate the new ABIE with" Margin="0,0,0,0">
                                 <DockPanel>
-                                    <ListBox Name="checkedlistboxABIEs" Margin="0,3,0,0"></ListBox>
+                                    <ListBox Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="checkedlistboxABIEs_SelectionChanged"></ListBox>
                                 </DockPanel>
                             </GroupBox>
                             <GroupBox Header="ASCCs available to associate the two ABIEs" Margin="-2,0,0,0">
                                 <DockPanel>
-                                    <ListBox Name="checkedlistboxASCCs" Margin="0,3,0,0"></ListBox>
+                                    <ListBox Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="checkedlistboxASCCs_SelectionChanged"></ListBox>
                                 </DockPanel>
                             </GroupBox>
                         </UniformGrid>
