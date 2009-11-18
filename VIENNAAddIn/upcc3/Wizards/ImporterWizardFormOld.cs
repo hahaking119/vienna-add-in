@@ -6,11 +6,11 @@ using VIENNAAddIn.upcc3.import.cctsndr;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
-    public partial class ImporterWizardForm : Form
+    public partial class ImporterWizardFormOld : Form
     {
         private readonly CCRepository CcRepository;
 
-        public ImporterWizardForm()
+        public ImporterWizardFormOld()
         {
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             comboModels.Items.Add("CCTS");
         }
 
-        public ImporterWizardForm(EA.Repository eaRepository)
+        public ImporterWizardFormOld(EA.Repository eaRepository)
         {
             InitializeComponent();
 
@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowImporterWizard(AddInContext context)
         {            
-            new ImporterWizardForm(context.EARepository).Show();
+            new ImporterWizardFormOld(context.EARepository).Show();
         }
 
         private void ImporterWizardForm_Load(object sender, EventArgs e)
