@@ -188,8 +188,8 @@
     <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
     <Compile Include="upcc3\Wizards\dev\util\RenameTextBox.cs" />
     <Compile Include="upcc3\Wizards\dev\util\TemporaryABIEModel.cs" />
-    <Compile Include="upcc3\Wizards\ImporterWizard.xaml.cs">
-      <DependentUpon>ImporterWizard.xaml</DependentUpon>
+    <Compile Include="upcc3\Wizards\XsdImporterForm.xaml.cs">
+      <DependentUpon>XsdImporterForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\util\FileSelector.cs" />
     <Compile Include="upcc3\Wizards\ImporterWizardFormOld.cs">
@@ -511,7 +511,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="upcc3\Wizards\ImporterWizard.xaml">
+    <Page Include="upcc3\Wizards\XsdImporterForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -12,16 +12,16 @@ using VIENNAAddIn.upcc3.Wizards.util;
 namespace VIENNAAddIn.upcc3.Wizards
 {
     /// <summary>
-    /// Interaction logic for ImporterWizard.xaml
+    /// Interaction logic for XsdImporterForm.xaml
     /// </summary>
-    public partial class ImporterWizard : Window
+    public partial class XsdImporterForm : Window
     {
         private readonly CCRepository ccRepository;
         private readonly FileSelector cctsSchemaFileSelector;
         private readonly FileSelector mappedSchemaFileSelector;
         private readonly MultipleFilesSelector mappingFilesSelector;
 
-        public ImporterWizard(Repository eaRepository)
+        public XsdImporterForm(Repository eaRepository)
         {
             ccRepository = new CCRepository(eaRepository);
 
@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowForm(AddInContext context)
         {
-            new ImporterWizard(context.EARepository).Show();
+            new XsdImporterForm(context.EARepository).Show();
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
