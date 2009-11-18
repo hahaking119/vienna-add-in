@@ -27,6 +27,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         private Dictionary<string, TemporaryBCC> BCCs;
         private Dictionary<string, TemporaryBDT> BDTs;
         private string BIELibStore;
+        private string BDTLibStore;
         private string CCLinUse;
 
         private Dictionary<string, TemporaryASBIE> potentialASBIEs;

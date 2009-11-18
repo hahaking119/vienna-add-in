@@ -9,14 +9,15 @@ using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 using CheckBox=System.Windows.Controls.CheckBox;
 using KeyEventArgs=System.Windows.Input.KeyEventArgs;
-using KeyEventHandler=System.Windows.Input.KeyEventHandler;
+using ListBox=System.Windows.Controls.ListBox;
+using TextBox=System.Windows.Controls.TextBox;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev
 {
     /// <summary>
     /// Interaction logic for ABIEEditor.xaml
     /// </summary>
-    public partial class ABIEEditor : Window
+    public partial class ABIEEditor
     {
         private readonly CCCache cache;
         private bool renameInProgress;
@@ -38,6 +39,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// Constructor for ABIE modification wizard
         /// </summary>
         /// <param name="eaRepository">The current repository</param>
+        /// <param name="abie"></param>
         public ABIEEditor(Repository eaRepository, IABIE abie)
         {
             cache = CCCache.GetInstance(new CCRepository(eaRepository));
@@ -48,89 +50,164 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             WindowLoaded();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public static void ShowForm(AddInContext context)
         {
             new ABIEEditor(context.EARepository).Show();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void WindowLoaded()
         {
             foreach (CCLibrary ccl in cache.GetCCLibraries())
             {
-                ComboBoxItem item = new ComboBoxItem();
-                item.Content = ccl.Name;
+                var item = new ComboBoxItem {Content = ccl.Name};
                 comboCCLs.Items.Add(item);
             }
+            //BDTs
             // start rename listbox-item test
-            CheckBox testitemA = new CheckBox();
-            testitemA.Content = "TestA";
+            var testitemA = new CheckBox {Content = "TestA"};
+            testitemA.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
             checkedlistboxBBIEs.Items.Add(testitemA);
-            CheckBox testitem1 = new CheckBox();
-            testitem1.Content = "Test1";
-            testitem1.MouseDoubleClick += new MouseButtonEventHandler(checkboxRename_MouseDoubleClick);
-            CheckBox testitem2 = new CheckBox();
-            testitem2.Content = "Test2";
-            testitem2.MouseDoubleClick += new MouseButtonEventHandler(checkboxRename_MouseDoubleClick);
-            CheckBox testitem3 = new CheckBox();
-            testitem3.Content = "Test3";
-            testitem3.MouseDoubleClick += new MouseButtonEventHandler(checkboxRename_MouseDoubleClick);
+            var testitem1 = new CheckBox {Content = "Test1"};
+            testitem1.MouseDoubleClick += checkboxRename_MouseDoubleClick;
+            testitem1.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
+            
+            var testitem2 = new CheckBox {Content = "Test2"};
+            testitem2.MouseDoubleClick += checkboxRename_MouseDoubleClick;
+            testitem2.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
+            var testitem3 = new CheckBox {Content = "Test3"};
+            testitem3.MouseDoubleClick += checkboxRename_MouseDoubleClick;
+            testitem3.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
             checkedlistboxBDTs.Items.Add(testitem1);
             checkedlistboxBDTs.Items.Add(testitem2);
             checkedlistboxBDTs.Items.Add(testitem3);
             // end rename listbox-item test
+
+            //BCCs
+            var testpanel = new StackPanel
+                                {
+                                    Orientation = Orientation.Horizontal
+                                };
+            var coolcheckbox = new CheckBox {VerticalAlignment = VerticalAlignment.Center};
+            var cooltextbox = new TextBox {Text = "BCC1", BorderThickness = new Thickness(0)};
+            cooltextbox.PreviewMouseLeftButtonDown += SelectTextBoxItemOnMouseSingleClick;
+            cooltextbox.KeyUp += textboxKeyUp;
+            cooltextbox.UndoLimit = 1;
+            cooltextbox.Background = System.Windows.Media.Brushes.Transparent;
+            testpanel.Children.Add(coolcheckbox);
+            testpanel.Children.Add(cooltextbox);
+            checkedlistboxBCCs.Items.Add(testpanel);
+            //
         }
 
-        // start rename listbox-item test
-        private void checkboxRename_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void textboxKeyUp(object sender, KeyEventArgs e)
         {
-            if(!renameInProgress)
+            var textbox = (TextBox) sender;
+            switch (e.Key)
             {
-                CheckBox checkbox = (CheckBox) sender;
+                case Key.Tab:
+                case Key.Return:
+                    textbox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                    break;
+                case Key.Escape:
+                    textbox.Undo();
+                    textbox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void SelectTextBoxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        {
+            var textbox = (TextBox) sender;
+            textbox.Background = System.Windows.Media.Brushes.Transparent;
+            var stackpanel = (StackPanel) textbox.Parent;
+            var listbox = (ListBox) stackpanel.Parent;
+            listbox.SelectedItem = stackpanel;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void SelectCheckboxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        {
+            var checkbox = (CheckBox)sender;
+            var listbox = (ListBox) checkbox.Parent;
+            listbox.SelectedItem = checkbox;
+        }
+        // start rename listbox-item test
+        private void checkboxRename_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!renameInProgress)
+            {
+                var checkbox = (CheckBox) sender;
                 string oldName = checkbox.Content.ToString();
                 int index = checkedlistboxBDTs.Items.IndexOf(sender);
 
-                RenameTextBox textbox = new RenameTextBox();
-                textbox.Text = oldName;
-                textbox.OldText = oldName;
-                textbox.ListIndex = index;
-                textbox.CheckState = (bool) checkbox.IsChecked;
-                textbox.Width = 150;
+                var textbox = new RenameTextBox
+                                  {
+                                      Text = oldName,
+                                      OldText = oldName,
+                                      ListIndex = index,
+                                      CheckState = (!(bool) checkbox.IsChecked),
+                                      Width = 150
+                                  };
+                //checkstate has to be inverted because of double click action!
                 checkedlistboxBDTs.Items.RemoveAt(index);
                 checkedlistboxBDTs.Items.Insert(index, textbox);
                 textbox.BorderThickness = new Thickness(1.0);
 
-                textbox.LostFocus += new RoutedEventHandler(textRename_LostFocus);
-                textbox.KeyUp += new KeyEventHandler(textRename_KeyUp);
+                //textbox.LostFocus += textRename_LostFocus;
+                textbox.KeyUp += textRename_KeyUp;
                 renameInProgress = true;
             }
         }
 
         private void textRename_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.Key == System.Windows.Input.Key.Return)
+
+            if (e.Key == Key.Return || e.Key == Key.Tab)
             {
                 textRenameApply(sender);
             }
-            else if(e.Key == System.Windows.Input.Key.Escape)
+            else if (e.Key == Key.Escape)
             {
                 textRenameRevert(sender);
             }
         }
 
-        private void textRename_LostFocus(object sender, RoutedEventArgs e)
-        {
-            textRenameApply(sender);
-        }
+        //Unfortunal this does not include the outside click event!
+        //private void textRename_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //   textRenameApply(sender);
+         
+        //}
 
         private void textRenameApply(object sender)
         {
-            RenameTextBox textbox = (RenameTextBox)sender;
+            var textbox = (RenameTextBox) sender;
             string newName = textbox.Text;
             int index = textbox.ListIndex;
-            CheckBox item = new CheckBox();
-            item.Content = newName;
-            item.IsChecked = textbox.CheckState;
-            item.MouseDoubleClick += new MouseButtonEventHandler(checkboxRename_MouseDoubleClick);
+            var item = new CheckBox {Content = newName, IsChecked = textbox.CheckState};
+            item.MouseDoubleClick += checkboxRename_MouseDoubleClick;
+            item.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
             checkedlistboxBDTs.Items.RemoveAt(index);
             checkedlistboxBDTs.Items.Insert(index, item);
             renameInProgress = false;
@@ -138,96 +215,81 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
         private void textRenameRevert(object sender)
         {
-            RenameTextBox textbox = (RenameTextBox)sender;
-            int index = textbox.ListIndex;
-            CheckBox item = new CheckBox();
-            item.Content = textbox.OldText;
-            item.IsChecked = textbox.CheckState;
-            item.MouseDoubleClick += new MouseButtonEventHandler(checkboxRename_MouseDoubleClick);
+            var textbox = (RenameTextBox) sender;
+            var index = textbox.ListIndex;
+            var item = new CheckBox {Content = textbox.OldText, IsChecked = textbox.CheckState};
+            item.MouseDoubleClick += checkboxRename_MouseDoubleClick;
+            item.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
             checkedlistboxBDTs.Items.RemoveAt(index);
             checkedlistboxBDTs.Items.Insert(index, item);
             renameInProgress = false;
         }
+
         // end rename listbox-item test
 
-        private void comboCCLs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void comboCCLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
-        private void comboACCs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
         private void checkboxBCCs_Checked(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void checkboxBCCs_Unchecked(object sender, RoutedEventArgs e)
         {
-
         }
 
-        private void checkedlistboxBCCs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void checkedlistboxBCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
         private void buttonAddBBIE_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
-        private void checkedlistboxBBIEs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void checkedlistboxBBIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
-        private void checkedlistboxBDTs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void checkedlistboxBDTs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
-        private void checkedlistboxABIEs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void checkedlistboxABIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
-        private void checkedlistboxASCCs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void checkedlistboxASCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
-        private void textPrefix_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void textPrefix_TextChanged(object sender, TextChangedEventArgs e)
         {
-
         }
 
-        private void textABIEName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void textABIEName_TextChanged(object sender, TextChangedEventArgs e)
         {
-
         }
 
-        private void comboBDTLs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void comboBDTLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
-        private void comboBIELs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void comboBIELs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
         }
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }
