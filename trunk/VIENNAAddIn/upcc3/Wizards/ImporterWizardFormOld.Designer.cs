@@ -1,6 +1,6 @@
 ﻿namespace VIENNAAddIn.upcc3.Wizards
 {
-    partial class ImporterWizardForm
+    partial class ImporterWizardFormOld
     {
         /// <summary>
         /// Required designer variable.
