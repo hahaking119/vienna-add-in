@@ -1,8 +1,7 @@
 ﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.ABIEEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Height="627" Width="589" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="False" ResizeMode="CanResize" Title="ABIE Editor">
-    
+    Height="650" Width="620" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="False" ResizeMode="CanResize" Title="ABIE Editor">
     <DockPanel Background="#FFD4D0C8" Margin="2,5,5,5">
         
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
@@ -50,7 +49,12 @@
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
                                         <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" Checked="checkboxBCCs_Checked" Unchecked="checkboxBCCs_Unchecked">Select all BCCs</CheckBox>
                                     </StackPanel>
-                                    <ListBox Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged"></ListBox>
+                                    <ListBox Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged">
+                                        <ListBox.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
+                                        </ListBox.Resources>
+                                    </ListBox>
                                 </DockPanel>
                             </GroupBox>
                             <GroupBox Header="BBIEs based on BCCs" Margin="-2,0,0,0">
@@ -65,7 +69,12 @@
                             <GroupBox Header="BDTs available to typify the BBIEs" Margin="-2,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0" />
-                                    <ListBox Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged"></ListBox>
+                                    <ListBox Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged">
+                                    <ListBox.Resources>
+                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
+                                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
+                                    </ListBox.Resources>
+                                    </ListBox>
                                 </DockPanel>
                             </GroupBox>
                         </UniformGrid>
