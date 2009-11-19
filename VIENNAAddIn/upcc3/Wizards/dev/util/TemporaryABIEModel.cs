@@ -9,37 +9,44 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using CctsRepository;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.Wizards.dev.cache;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
    
     public class TemporaryABIEModel
     { 
-        private IACC BasedOnACC { get; set; }
         private IABIE existingABIE;
         private string ABIEName;
         private string ABIEPrefix;
+        private Dictionary<string, TemporaryACC> ACCs;
         private Dictionary<string, TemporaryBBIE> BBIEs;
         private Dictionary<string, TemporaryBCC> BCCs;
         private Dictionary<string, TemporaryBDT> BDTs;
         private Dictionary<string, TemporaryCCL> CCLs;
-        private string BIELibStore;
-        private string BDTLibStore;
-        private string CCLinUse;
+        private Dictionary<string, TemporaryBIEL> BIELibStore;
+        private Dictionary<string, TemporaryBDTL> BDTLibStore;
+        private CCCache temporaryCache;
 
         private Dictionary<string, TemporaryASBIE> potentialASBIEs;
 
-        public TemporaryABIEModel()
+        public TemporaryABIEModel(CCRepository ccRepository)
         {
+            temporaryCache = CCCache.GetInstance(ccRepository);
             existingABIE = null;
         }
         public IEnumerable<string> getCCLs()
         {
+            if(CCLs ==null)
+            {
+                CCLs = new Dictionary<string, TemporaryCCL>();
+                foreach (CCLibrary ccLibrary in temporaryCache.GetCCLibraries())
+                {
+                    CCLs.Add(ccLibrary.Name,new TemporaryCCL(ccLibrary));
+                }
+            }
             foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
             {
                 yield return keyValuePair.Key;
@@ -68,12 +75,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         
         public IACC GetBasedOnACC()
         {
-            return BasedOnACC;
+            foreach (KeyValuePair<string, TemporaryACC> keyValuePair in ACCs)
+            {
+                if (keyValuePair.Value.Checkstate)
+                {
+                    return keyValuePair.Value.acc;
+                }
+            }
+            return null;
         }
 
         public void SetTargetACC(IACC acc)
         {
-            BasedOnACC = acc;
+            foreach (KeyValuePair<string, TemporaryACC> keyValuePair in ACCs)
+            {
+                if(keyValuePair.Value.Equals(acc))
+                {
+                    keyValuePair.Value.Checkstate = true;
+                }
+            }
         }
         internal class TemporaryASBIE
         {
@@ -128,6 +148,39 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             public TemporaryCCL(ICCLibrary newccl)
             {
                 ccl = newccl;
+                Checkstate = false;
+            }
+        }
+
+        public class TemporaryBIEL
+        {
+            internal IBIELibrary bieLibrary { get; set; }
+            internal Boolean Checkstate { get; set; }
+            public TemporaryBIEL(IBIELibrary newbiel)
+            {
+                bieLibrary = newbiel;
+                Checkstate = false;
+            }
+        }
+
+        public class TemporaryBDTL
+        {
+            internal IBDTLibrary bdtLibrary { get; set; }
+            internal Boolean Checkstate { get; set; }
+            public TemporaryBDTL(IBDTLibrary newbdtl)
+            {
+                bdtLibrary = newbdtl;
+                Checkstate = false;
+            }
+        }
+
+        public class TemporaryACC
+        {
+            internal IACC acc { get; set; }
+            internal Boolean Checkstate { get; set; }
+            public TemporaryACC(IACC newacc)
+            {
+                acc = newacc;
                 Checkstate = false;
             }
         }
