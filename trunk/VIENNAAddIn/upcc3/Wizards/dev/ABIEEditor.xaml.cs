@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EA;
@@ -68,6 +69,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             {
                 var item = new ComboBoxItem {Content = ccl.Name};
                 comboCCLs.Items.Add(item);
+            }
+            foreach (BDTLibrary bdtLibrary in cache.GetBDTLibraries())
+            {
+                var item = new ComboBoxItem {Content = bdtLibrary.Name};
+                comboBDTLs.Items.Add(item);
+            }
+            foreach (BIELibrary bieLibrary in cache.GetBIELibraries())
+            {
+                var item = new ComboBoxItem { Content = bieLibrary.Name };
+                comboBIELs.Items.Add(item);
             }
             //BDTs
             // start rename listbox-item test
@@ -236,6 +247,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
         private void comboCCLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            foreach (ComboBoxItem selection in e.AddedItems)
+            {
+                foreach (ACC acc in cache.GetCCsFromCCLibrary((String)selection.Content))
+                {
+                    comboACCs.Items.Add(acc.Name);
+                }
+            }
         }
 
         private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
