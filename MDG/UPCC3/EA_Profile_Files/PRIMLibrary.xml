@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="4E318D8B-F" name="UPCC3 - PRIMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - PRIMLibrary Abstract Syntax"/>
+	<Documentation id="9D302467-6" name="UPCC3 - PRIMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - PRIMLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="PRIM" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="PRIM" notes="" cx="169" cy="258" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
@@ -13,8 +13,8 @@
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
 					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
-					<Tag name="pattern" type="String" description="" unit="" values="" default=""/>
-					<Tag name="fractionDigits" type="String" description="" unit="" values="" default=""/>
+					<Tag name="fractionalDigits" type="String" description="" unit="" values="" default=""/>
+					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 					<Tag name="length" type="String" description="" unit="" values="" default=""/>
 					<Tag name="maxExclusive" type="String" description="" unit="" values="" default=""/>
 					<Tag name="maxInclusive" type="String" description="" unit="" values="" default=""/>
@@ -22,14 +22,14 @@
 					<Tag name="minExclusive" type="String" description="" unit="" values="" default=""/>
 					<Tag name="minInclusive" type="String" description="" unit="" values="" default=""/>
 					<Tag name="minLength" type="String" description="" unit="" values="" default=""/>
+					<Tag name="pattern" type="String" description="" unit="" values="" default=""/>
 					<Tag name="totalDigits" type="String" description="" unit="" values="" default=""/>
-					<Tag name="whiteSpace" type="String" description="" unit="" values="" default=""/>
 					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+					<Tag name="whiteSpace" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="isEquivalentTo" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Dependency">
 						<Property name="direction" value="Source -&gt; Destination"/>

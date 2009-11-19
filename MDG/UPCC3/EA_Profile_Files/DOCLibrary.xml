@@ -1,67 +1,18 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="8A3D7940-A" name="UPCC3 - DOCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - DOCLibrary Abstract Syntax"/>
+	<Documentation id="A098C9B2-4" name="UPCC3 - DOCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - DOCLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="ABIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="MA" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
 					</Apply>
 				</AppliesTo>
-				<TaggedValues>
-					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
-					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
-				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="ASBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="ASMA" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="Association">
-						<Property name="direction" value="Source -&gt; Destination"/>
-						<Property name="SourceRole.Aggregation" value="shared"/>
-					</Apply>
-				</AppliesTo>
-				<TaggedValues>
-					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="sequencingKey" type="String" description="" unit="" values="" default=""/>
-					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
-					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
-				</TaggedValues>
-			</Stereotype>
-			<Stereotype name="BBIE" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Attribute"/>
-				</AppliesTo>
-				<TaggedValues>
-					<Tag name="sequencingKey" type="String" description="" unit="" values="" default=""/>
-					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
-					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
-				</TaggedValues>
-			</Stereotype>
-			<Stereotype name="basedOn" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Dependency">
-						<Property name="direction" value="Source -&gt; Destination"/>
-					</Apply>
-				</AppliesTo>
-			</Stereotype>
-			<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Dependency">
+					<Apply type="Composition">
 						<Property name="direction" value="Source -&gt; Destination"/>
 					</Apply>
 				</AppliesTo>

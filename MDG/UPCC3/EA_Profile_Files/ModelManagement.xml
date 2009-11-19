@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="B4E9032E-0" name="UPCC3 - Model Management Abstract Syntax" version="1.0" notes="UPCC3 - Model Management Abstract Syntax"/>
+	<Documentation id="49AA3A7C-6" name="UPCC3 - Model Management Abstract Syntax" version="1.0" notes="UPCC3 - Model Management Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="bLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="bLibrary" notes="" cx="741" cy="126" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Package"/>
 				</AppliesTo>
@@ -17,13 +17,48 @@
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BIELibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="CDTLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="BDTLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="DOCLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="PRIMLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="ENUMLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
-			<Stereotype name="CCLibrary" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary"/>
+			<Stereotype name="BIELibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+				<TaggedValues>
+					<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
+					<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="CDTLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+				<TaggedValues>
+					<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
+					<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="BDTLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+				<TaggedValues>
+					<Tag name=" baseURN" type="String" description="" unit="" values="" default=""/>
+					<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="DOCLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+				<TaggedValues>
+					<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
+					<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="PRIMLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+				<TaggedValues>
+					<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
+					<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="ENUMLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+				<TaggedValues>
+					<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
+					<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="CCLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+				<TaggedValues>
+					<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
+					<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
 		</Stereotypes>
 		<TaggedValueTypes/>
 	</Content>

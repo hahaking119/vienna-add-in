@@ -1,36 +1,62 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="47A919F5-7" name="UPCC3 - ENUMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - ENUMLibrary Abstract Syntax"/>
+	<Documentation id="ABF01053-6" name="UPCC3 - ENUMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - ENUMLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="ENUM" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="ENUM" notes="" cx="229" cy="219" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Enumeration"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="restrictedPrimitive" type="String" description="" unit="" values="" default=""/>
+					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+					<Tag name="codeListAgencyIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="codeListAgencyName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="codeListIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="codeListName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="enumerationURI" type="String" description="" unit="" values="" default=""/>
+					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
+					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
+					<Tag name="status" type="String" description="" unit="" values="" default=""/>
+					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="isEquivalentTo" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Dependency">
+						<Property name="direction" value="Source -&gt; Destination"/>
+					</Apply>
+				</AppliesTo>
+			</Stereotype>
+			<Stereotype name="CodelistEntry" notes="" cx="113" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Attribute"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="codeName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="status" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="IDSCHEME" notes="" cx="249" cy="179" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="codeListName" type="String" description="" unit="" values="" default=""/>
-					<Tag name="codeListIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="agencyIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="agencyName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="identifierSchemeAgencyIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="identifierSchemeAgencyName" type="String" description="" unit="" values="" default=""/>
+					<Tag name="pattern" type="String" description="" unit="" values="" default=""/>
+					<Tag name="restrictedPrimitive" type="String" description="" unit="" values="" default=""/>
+					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="enumerationURI" type="String" description="" unit="" values="" default=""/>
-					<Tag name="allowedPrimitives" type="String" description="" unit="" values="" default=""/>
-					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
-					<Tag name="coreValueDomainDefaultIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
+					<Tag name="modifcationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 				</TaggedValues>
-			</Stereotype>
-			<Stereotype name="isEquivalentTo" notes="" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Dependency">
-						<Property name="direction" value="Source -&gt; Destination"/>
-					</Apply>
-				</AppliesTo>
 			</Stereotype>
 		</Stereotypes>
 		<TaggedValueTypes/>
