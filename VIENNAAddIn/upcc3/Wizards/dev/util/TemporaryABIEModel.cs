@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using UPCCRepositoryInterface;
@@ -26,6 +27,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         private Dictionary<string, TemporaryBBIE> BBIEs;
         private Dictionary<string, TemporaryBCC> BCCs;
         private Dictionary<string, TemporaryBDT> BDTs;
+        private Dictionary<string, TemporaryCCL> CCLs;
         private string BIELibStore;
         private string BDTLibStore;
         private string CCLinUse;
@@ -35,6 +37,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         public TemporaryABIEModel()
         {
             existingABIE = null;
+        }
+        public IEnumerable<string> getCCLs()
+        {
+            foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
+            {
+                yield return keyValuePair.Key;
+            }
         }
 
         public TemporaryABIEModel(IABIE abie)
@@ -110,6 +119,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         public void createBBIE(string underlyingBCCName, string BBIEName, List<string> bdts)
         {
             throw new NotImplementedException();
+        }
+
+        public class TemporaryCCL
+        {
+            internal ICCLibrary ccl { get; set; }
+            internal Boolean Checkstate { get; set; }
+            public TemporaryCCL(ICCLibrary newccl)
+            {
+                ccl = newccl;
+                Checkstate = false;
+            }
         }
     }
 }
