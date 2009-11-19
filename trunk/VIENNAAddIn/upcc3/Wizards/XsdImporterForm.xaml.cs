@@ -27,6 +27,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             InitializeComponent();
 
+            new VIENNAAddInWpfUserControls.FileSelector();
+
             cctsSchemaFileSelector = new FileSelector(".xsc", "XML Schema files (.xsd)|*.xsd")
                                      {
                                          Width = 415,

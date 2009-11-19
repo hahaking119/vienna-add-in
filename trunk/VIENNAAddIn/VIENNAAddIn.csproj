@@ -525,6 +525,10 @@
       <Project>{3C1352B8-1B53-46F9-BC18-BFF48115A606}</Project>
       <Name>VIENNAAddInUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VIENNAAddInWpfUserControls\VIENNAAddInWpfUserControls.csproj">
+      <Project>{D2B72E74-9717-42E0-9D43-0964D8B781BD}</Project>
+      <Name>VIENNAAddInWpfUserControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
