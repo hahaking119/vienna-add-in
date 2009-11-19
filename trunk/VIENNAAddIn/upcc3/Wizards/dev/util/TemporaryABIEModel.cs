@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             string[] tempArray = abie.Name.Split('_');
             ABIEName = tempArray[0];
             ABIEPrefix = tempArray[1];
-            SetTargetACC(abie.BasedOn);
+            SetTargetACC(abie.BasedOn.Name);
 
             foreach (IBBIE bbie in abie.BBIEs)
             {
@@ -68,11 +68,36 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
 
         }
 
-        public Dictionary<string, TemporaryBBIE> GetBBIEs()
+        public IEnumerator<string> GetBBIEs()
         {
-            return BBIEs;
+            foreach (KeyValuePair<string, TemporaryBBIE> keyValuePair in BBIEs)
+            {
+                yield return keyValuePair.Key;
+            }
         }
         
+        public ICCLibrary GetCCLInUse()
+        {
+            foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
+            {
+                if (keyValuePair.Value.Checkstate)
+                {
+                    return keyValuePair.Value.ccl;
+                }
+            }
+            return null;
+        }
+        public void setCCLInUse(string CCL)
+        {
+            foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
+            {
+                if (keyValuePair.Key.Equals(CCL))
+                {
+                    keyValuePair.Value.Checkstate = true;
+                }
+            }
+
+        }
         public IACC GetBasedOnACC()
         {
             foreach (KeyValuePair<string, TemporaryACC> keyValuePair in ACCs)
@@ -85,11 +110,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             return null;
         }
 
-        public void SetTargetACC(IACC acc)
+        public void SetTargetACC(string acc)
         {
             foreach (KeyValuePair<string, TemporaryACC> keyValuePair in ACCs)
             {
-                if(keyValuePair.Value.Equals(acc))
+                if(keyValuePair.Key.Equals(acc))
                 {
                     keyValuePair.Value.Checkstate = true;
                 }

@@ -21,6 +21,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
     public partial class ABIEEditor
     {
         private readonly CCCache cache;
+        private TemporaryABIEModel tempModel;
         private bool renameInProgress;
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="eaRepository">The current repository</param>
         public ABIEEditor(Repository eaRepository)
         {
-            cache = CCCache.GetInstance(new CCRepository(eaRepository));
+            tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
             renameInProgress = false;
 
             InitializeComponent();
@@ -43,8 +44,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="abie"></param>
         public ABIEEditor(Repository eaRepository, IABIE abie)
         {
-            cache = CCCache.GetInstance(new CCRepository(eaRepository));
-            cache.PrepareForABIE(abie);
+            tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
+            //cache.PrepareForABIE(abie);
             renameInProgress = false;
 
             InitializeComponent();
@@ -65,21 +66,20 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         private void WindowLoaded()
         {
-            foreach (CCLibrary ccl in cache.GetCCLibraries())
+            foreach (var cclname in tempModel.getCCLs())
             {
-                var item = new ComboBoxItem {Content = ccl.Name};
-                comboCCLs.Items.Add(item);
+                comboCCLs.Items.Add(cclname);
             }
-            foreach (BDTLibrary bdtLibrary in cache.GetBDTLibraries())
-            {
-                var item = new ComboBoxItem {Content = bdtLibrary.Name};
-                comboBDTLs.Items.Add(item);
-            }
-            foreach (BIELibrary bieLibrary in cache.GetBIELibraries())
-            {
-                var item = new ComboBoxItem { Content = bieLibrary.Name };
-                comboBIELs.Items.Add(item);
-            }
+            //foreach (BDTLibrary bdtLibrary in cache.GetBDTLibraries())
+            //{
+            //    var item = new ComboBoxItem {Content = bdtLibrary.Name};
+            //    comboBDTLs.Items.Add(item);
+            //}
+            //foreach (BIELibrary bieLibrary in cache.GetBIELibraries())
+            //{
+            //    var item = new ComboBoxItem { Content = bieLibrary.Name };
+            //    comboBIELs.Items.Add(item);
+            //}
             //BDTs
             // start rename listbox-item test
             var testitemA = new CheckBox {Content = "TestA"};
@@ -247,13 +247,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
         private void comboCCLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            foreach (ComboBoxItem selection in e.AddedItems)
-            {
-                foreach (ACC acc in cache.GetCCsFromCCLibrary((String)selection.Content))
-                {
-                    comboACCs.Items.Add(acc.Name);
-                }
-            }
+            ComboBox comboBox = (ComboBox) sender;
+            tempModel.setCCLInUse(comboBox.SelectionBoxItemStringFormat);
+            //foreach (string selection in e.AddedItems)
+            //{
+            //    foreach (ACC acc in cache.GetCCsFromCCLibrary(selection))
+            //    {
+            //        comboACCs.Items.Add(acc.Name);
+            //    }
+            //}
         }
 
         private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
