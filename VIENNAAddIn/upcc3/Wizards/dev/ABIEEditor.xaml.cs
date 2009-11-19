@@ -103,7 +103,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             testpanel.Children.Add(coolcheckbox);
             testpanel.Children.Add(cooltextbox);
             checkedlistboxBCCs.Items.Add(testpanel);
+            checkedlistboxBCCs.MouseDown += checkedlistboxtboxBCCs_MouseDown;
             //
+        }
+
+        private static void checkedlistboxtboxBCCs_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var listbox = (ListBox) sender;
+            listbox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
         /// <summary>
