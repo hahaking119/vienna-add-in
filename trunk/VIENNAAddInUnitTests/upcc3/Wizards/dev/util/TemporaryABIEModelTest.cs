@@ -28,7 +28,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         {
             eaRepository = new EARepositoryCCCache();
             ccRepository = new CCRepository(eaRepository);
-            temporaryABIEModel = new TemporaryABIEModel();
+            temporaryABIEModel = new TemporaryABIEModel(ccRepository);
             ccCache = CCCache.GetInstance(ccRepository);
         }
 
