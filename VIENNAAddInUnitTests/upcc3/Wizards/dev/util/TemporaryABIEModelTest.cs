@@ -101,11 +101,12 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         {
             throw new NotImplementedException();
         }
-        [TestMethod]
+        [Test]
         public void ShouldSetTargetACC()
         {
             ACC acc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
-            temporaryABIEModel.SetTargetACC(acc);
+            
+            temporaryABIEModel.SetTargetACC("Person");
 
             Assert.Equals(acc, temporaryABIEModel.GetBasedOnACC());
         }
