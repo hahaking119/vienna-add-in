@@ -34,6 +34,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             renameInProgress = false;
 
             InitializeComponent();
+
+            ListModel listModel = this.Resources["listModelCCL"] as ListModel;
+            CheckedListModel checkedListModel = this.Resources["checkedListModelCCL"] as CheckedListModel;
+            this.tempModel.Initialize(listModel, checkedListModel);
+
             WindowLoaded();
         }
 
@@ -66,10 +71,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         private void WindowLoaded()
         {
-            foreach (var cclname in tempModel.getCCLs())
+            /*foreach (var cclname in tempModel.getCCLs())
             {
                 comboCCLs.Items.Add(cclname);
-            }
+            }*/
+
             //foreach (BDTLibrary bdtLibrary in cache.GetBDTLibraries())
             //{
             //    var item = new ComboBoxItem {Content = bdtLibrary.Name};
@@ -82,9 +88,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             //}
             //BDTs
             // start rename listbox-item test
-            var testitemA = new CheckBox {Content = "TestA"};
-            testitemA.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
-            checkedlistboxBBIEs.Items.Add(testitemA);
             var testitem1 = new CheckBox {Content = "Test1"};
             testitem1.MouseDoubleClick += checkboxRename_MouseDoubleClick;
             testitem1.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
