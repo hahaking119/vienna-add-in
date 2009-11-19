@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using CctsRepository;
 using VIENNAAddInUtils;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     ///<summary>
     ///</summary>

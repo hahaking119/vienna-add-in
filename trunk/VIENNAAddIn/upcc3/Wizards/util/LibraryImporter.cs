@@ -11,7 +11,7 @@ using System;
 using System.Diagnostics;
 using EA;
 using VIENNAAddIn.Settings;
-using Stereotype=UPCCRepositoryInterface.Stereotype;
+using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {

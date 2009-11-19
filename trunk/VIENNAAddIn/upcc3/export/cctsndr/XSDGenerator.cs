@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr

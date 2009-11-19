@@ -9,8 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using CctsRepository;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public abstract class CCTSSpec
     {

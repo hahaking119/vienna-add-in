@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using CctsRepository;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public class ConnectorSpec
     {

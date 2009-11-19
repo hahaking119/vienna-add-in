@@ -1,5 +1,5 @@
+using CctsRepository;
 using NUnit.Framework;
-using UPCCRepositoryInterface;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf.validators
 {

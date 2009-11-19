@@ -9,7 +9,7 @@
 using System.Collections.Generic;
 using VIENNAAddInUtils;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public class ABIESpec : BIESpec
     {

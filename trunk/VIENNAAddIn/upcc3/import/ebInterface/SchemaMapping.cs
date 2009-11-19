@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using System.Linq;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface

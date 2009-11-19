@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using Path=System.IO.Path;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr

@@ -1,4 +1,4 @@
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.otf

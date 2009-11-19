@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
 

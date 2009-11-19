@@ -6,7 +6,9 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-namespace UPCCRepositoryInterface
+using CctsRepository;
+
+namespace CctsRepository
 {
     public interface IDTComponent : ICCTSElement, IHasUsageRules, IHasMultiplicity, IPRIMRestrictions
     {

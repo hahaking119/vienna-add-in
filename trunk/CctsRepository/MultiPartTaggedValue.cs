@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VIENNAAddInUtils;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public static class MultiPartTaggedValue
     {

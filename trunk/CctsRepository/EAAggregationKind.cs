@@ -1,4 +1,4 @@
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     /// <summary>
     /// Represents EA's aggregation kind values (which are ints) as an ENUM.

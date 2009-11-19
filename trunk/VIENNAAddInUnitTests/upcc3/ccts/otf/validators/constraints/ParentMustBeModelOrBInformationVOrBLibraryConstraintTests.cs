@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using CctsRepository;
 using NUnit.Framework;
-using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.otf.validators.constraints;
 

@@ -1,4 +1,6 @@
-namespace UPCCRepositoryInterface
+using CctsRepository;
+
+namespace CctsRepository
 {
     public class BCCSpec : CCSpec
     {

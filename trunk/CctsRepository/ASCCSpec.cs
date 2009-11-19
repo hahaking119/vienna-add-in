@@ -1,6 +1,6 @@
 using System;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     ///<summary>
     ///</summary>
@@ -38,10 +38,7 @@ namespace UPCCRepositoryInterface
 
         public IACC AssociatedACC
         {
-            get
-            {
-                return ResolveAssociatedACC();
-            }
+            get { return ResolveAssociatedACC(); }
         }
 
         /// <summary>

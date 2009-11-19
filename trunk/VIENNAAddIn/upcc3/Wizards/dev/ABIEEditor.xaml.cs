@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using EA;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
