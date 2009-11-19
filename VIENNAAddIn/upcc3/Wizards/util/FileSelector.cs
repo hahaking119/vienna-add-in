@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
@@ -145,4 +146,28 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             }
         }
     }
+
+    public class ViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void SetProperty<T>(ref T backingField, T newValue, string propertyName)
+        {
+            if (Equals(backingField, newValue))
+            {
+                return;
+            }
+            backingField = newValue;
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
+    public class ImporterWizard : ViewModel
+    {
+        
+    }
+
 }
