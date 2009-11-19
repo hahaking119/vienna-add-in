@@ -186,6 +186,10 @@
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCCLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CheckedListModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\util\ListModel.cs" />
     <Compile Include="upcc3\Wizards\dev\util\RenameTextBox.cs" />
     <Compile Include="upcc3\Wizards\dev\util\TemporaryABIEModel.cs" />
     <Compile Include="upcc3\Wizards\XsdImporterForm.xaml.cs">

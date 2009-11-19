@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CctsRepository;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
@@ -31,6 +32,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         private CCCache temporaryCache;
 
         private Dictionary<string, TemporaryASBIE> potentialASBIEs;
+
+        private ListModel listModelCCL;
+        private CheckedListModel checkedListModelCCL;
+
+        public void Initialize(ListModel listModel, CheckedListModel checkedListModel)
+        {
+            this.listModelCCL = listModel;
+            this.listModelCCL.Content = new ObservableCollection<string>(new List<string>(this.getCCLs()));
+            this.checkedListModelCCL = checkedListModel;
+            this.checkedListModelCCL.Content = new ObservableCollection<CheckedListItem>();
+            foreach(string name in getCCLs())
+            {
+                this.checkedListModelCCL.Content.Add(new CheckedListItem(name, true));
+            }
+        }
 
         public TemporaryABIEModel(CCRepository ccRepository)
         {
