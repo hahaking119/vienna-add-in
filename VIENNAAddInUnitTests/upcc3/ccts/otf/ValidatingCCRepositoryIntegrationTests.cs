@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using CctsRepository;
 using EA;
 using NUnit.Framework;
-using UPCCRepositoryInterface;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
-using Stereotype=UPCCRepositoryInterface.Stereotype;
+using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {

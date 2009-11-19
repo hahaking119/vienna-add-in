@@ -1,6 +1,6 @@
 using System;
 using EA;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.ea

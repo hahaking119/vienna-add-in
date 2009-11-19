@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using CctsRepository;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public class ENUMSpec : CCTSElementSpec
     {
@@ -39,7 +40,7 @@ namespace UPCCRepositoryInterface
                 foreach (var value in Values)
                 {
                     var attributeSpec = new AttributeSpec("", value.Key, "String", 0, "1", "1", new TaggedValueSpec[0])
-                                            {DefaultValue = value.Value};
+                                        {DefaultValue = value.Value};
                     yield return attributeSpec;
                 }
             }

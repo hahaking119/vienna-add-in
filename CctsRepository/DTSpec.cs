@@ -8,9 +8,10 @@
 // *******************************************************************************
 using System;
 using System.Collections.Generic;
+using CctsRepository;
 using VIENNAAddInUtils;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public abstract class DTSpec : CCTSElementSpec
     {

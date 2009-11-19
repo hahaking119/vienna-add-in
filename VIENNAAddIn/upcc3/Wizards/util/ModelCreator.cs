@@ -8,8 +8,8 @@
 // *******************************************************************************
 
 using System;
+using CctsRepository;
 using EA;
-using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards.util

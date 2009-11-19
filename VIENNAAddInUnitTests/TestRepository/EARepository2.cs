@@ -1,8 +1,8 @@
 using EA;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
-using Stereotype=UPCCRepositoryInterface.Stereotype;
+using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {

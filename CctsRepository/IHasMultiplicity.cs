@@ -1,4 +1,4 @@
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public interface IHasMultiplicity
     {

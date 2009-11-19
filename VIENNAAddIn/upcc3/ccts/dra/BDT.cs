@@ -9,9 +9,9 @@
 using System;
 using System.Linq;
 using EA;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.upcc3.ccts.util;
-using Stereotype=UPCCRepositoryInterface.Stereotype;
+using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {

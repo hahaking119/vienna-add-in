@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public abstract class CCSpec : CCTSElementSpec
     {

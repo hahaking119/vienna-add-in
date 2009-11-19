@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddInUnitTests.upcc3.newrepo.ccts;
 using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 

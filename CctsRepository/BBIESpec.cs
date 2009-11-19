@@ -7,8 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+using CctsRepository;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public class BBIESpec : BIESpec
     {

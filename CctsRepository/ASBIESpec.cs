@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using CctsRepository;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public class ASBIESpec : BIESpec
     {
@@ -54,39 +55,39 @@ namespace UPCCRepositoryInterface
         public static ASBIESpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
         {
             return new ASBIESpec
-                       {
-                           BusinessTerms = new List<string>(ascc.BusinessTerms),
-                           Definition = ascc.Definition,
-                           DictionaryEntryName = ascc.DictionaryEntryName,
-                           LanguageCode = ascc.LanguageCode,
-                           SequencingKey = ascc.SequencingKey,
-                           UniqueIdentifier = ascc.UniqueIdentifier,
-                           UsageRules = new List<string>(ascc.UsageRules),
-                           VersionIdentifier = ascc.VersionIdentifier,
-                           Name = name,
-                           AssociatedABIEId = associatedABIEId,
-                           LowerBound = ascc.LowerBound,
-                           UpperBound = ascc.UpperBound,
-                       };
+                   {
+                       BusinessTerms = new List<string>(ascc.BusinessTerms),
+                       Definition = ascc.Definition,
+                       DictionaryEntryName = ascc.DictionaryEntryName,
+                       LanguageCode = ascc.LanguageCode,
+                       SequencingKey = ascc.SequencingKey,
+                       UniqueIdentifier = ascc.UniqueIdentifier,
+                       UsageRules = new List<string>(ascc.UsageRules),
+                       VersionIdentifier = ascc.VersionIdentifier,
+                       Name = name,
+                       AssociatedABIEId = associatedABIEId,
+                       LowerBound = ascc.LowerBound,
+                       UpperBound = ascc.UpperBound,
+                   };
         }
 
         public static ASBIESpec CloneASCC(IASCC ascc, string name, Func<IABIE> associatedABIEResolver)
         {
             return new ASBIESpec
-                       {
-                           BusinessTerms = new List<string>(ascc.BusinessTerms),
-                           Definition = ascc.Definition,
-                           DictionaryEntryName = ascc.DictionaryEntryName,
-                           LanguageCode = ascc.LanguageCode,
-                           SequencingKey = ascc.SequencingKey,
-                           UniqueIdentifier = ascc.UniqueIdentifier,
-                           UsageRules = new List<string>(ascc.UsageRules),
-                           VersionIdentifier = ascc.VersionIdentifier,
-                           Name = name,
-                           ResolveAssociatedABIE = associatedABIEResolver,
-                           LowerBound = ascc.LowerBound,
-                           UpperBound = ascc.UpperBound,
-                       };
+                   {
+                       BusinessTerms = new List<string>(ascc.BusinessTerms),
+                       Definition = ascc.Definition,
+                       DictionaryEntryName = ascc.DictionaryEntryName,
+                       LanguageCode = ascc.LanguageCode,
+                       SequencingKey = ascc.SequencingKey,
+                       UniqueIdentifier = ascc.UniqueIdentifier,
+                       UsageRules = new List<string>(ascc.UsageRules),
+                       VersionIdentifier = ascc.VersionIdentifier,
+                       Name = name,
+                       ResolveAssociatedABIE = associatedABIEResolver,
+                       LowerBound = ascc.LowerBound,
+                       UpperBound = ascc.UpperBound,
+                   };
         }
     }
 }

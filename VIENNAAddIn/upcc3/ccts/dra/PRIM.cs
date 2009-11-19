@@ -8,10 +8,10 @@
 // *******************************************************************************
 using System;
 using System.Linq;
+using CctsRepository;
 using EA;
-using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.util;
-using Stereotype=UPCCRepositoryInterface.Stereotype;
+using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {

@@ -9,9 +9,9 @@ http://vienna-add-in.googlecode.com
 using System;
 using System.Collections.Generic;
 using EA;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.upcc3.ccts.util;
-using Stereotype=UPCCRepositoryInterface.Stereotype;
+using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddIn.Settings
 {

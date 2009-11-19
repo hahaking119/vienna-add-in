@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIENNAAddInUtils", "VIENNAA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIENNAAddInWpfUserControls", "VIENNAAddInWpfUserControls\VIENNAAddInWpfUserControls.csproj", "{D2B72E74-9717-42E0-9D43-0964D8B781BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UPCCRepositoryInterface", "CctsRepository\UPCCRepositoryInterface.csproj", "{D788A632-CD92-4C8A-AE54-A37CD5871368}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CctsRepository", "CctsRepository\CctsRepository.csproj", "{D788A632-CD92-4C8A-AE54-A37CD5871368}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

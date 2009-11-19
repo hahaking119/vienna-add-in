@@ -8,8 +8,9 @@
 // *******************************************************************************
 using System;
 using System.Collections.Generic;
+using CctsRepository;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     ///<summary>
     /// Definition of stereotype strings for UPCC elements.
@@ -105,16 +106,16 @@ namespace UPCCRepositoryInterface
         }
 
         private static readonly List<string> BusinessLibraryStereotypes = new List<string>
-                                                                              {
-                                                                                  bLibrary,
-                                                                                  PRIMLibrary,
-                                                                                  ENUMLibrary,
-                                                                                  CDTLibrary,
-                                                                                  CCLibrary,
-                                                                                  BDTLibrary,
-                                                                                  BIELibrary,
-                                                                                  DOCLibrary
-                                                                              };
+                                                                          {
+                                                                              bLibrary,
+                                                                              PRIMLibrary,
+                                                                              ENUMLibrary,
+                                                                              CDTLibrary,
+                                                                              CCLibrary,
+                                                                              BDTLibrary,
+                                                                              BIELibrary,
+                                                                              DOCLibrary
+                                                                          };
 
         /// <returns>True if the given stereotype is one of the stereotypes for business libraries, false otherwise.</returns>
         public static bool IsBusinessLibraryStereotype(string stereotype)

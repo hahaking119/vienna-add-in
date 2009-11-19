@@ -1,4 +1,4 @@
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     /// <summary>
     /// Represents EA's connector types values (which are strings) as an ENUM.

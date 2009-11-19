@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.upcc3.ccts.otf;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf.validators

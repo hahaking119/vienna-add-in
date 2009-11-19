@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUnitTests.TestRepository;

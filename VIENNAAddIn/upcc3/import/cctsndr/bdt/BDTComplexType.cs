@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Schema;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt

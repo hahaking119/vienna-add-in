@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using EA;
-using UPCCRepositoryInterface;
+using CctsRepository;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using EA;
-using UPCCRepositoryInterface;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         where TCCTSElement : UpccClass<TCCTSElementSpec>, TICCTSElement
         where TCCTSElementSpec : CCTSElementSpec
     {
-        private static readonly string ElementStereotype = UPCCRepositoryInterface.Stereotype.GetStereotype<TICCTSElement>();
+        private static readonly string ElementStereotype = CctsRepository.Stereotype.GetStereotype<TICCTSElement>();
 
         protected ElementLibrary(CCRepository repository, Package package) : base(repository, package)
         {

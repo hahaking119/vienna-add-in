@@ -8,7 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public interface IABIE : IBIE
     {

@@ -7,9 +7,10 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+using CctsRepository;
 using VIENNAAddInUtils;
 
-namespace UPCCRepositoryInterface
+namespace CctsRepository
 {
     public class BDTSpec : DTSpec
     {

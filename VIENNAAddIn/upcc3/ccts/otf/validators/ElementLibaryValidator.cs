@@ -1,5 +1,5 @@
 using System;
-using UPCCRepositoryInterface;
+using CctsRepository;
 using VIENNAAddIn.upcc3.ccts.otf.validators.constraints;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators
