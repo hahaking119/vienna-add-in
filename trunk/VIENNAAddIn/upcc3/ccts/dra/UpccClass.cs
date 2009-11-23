@@ -142,7 +142,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public void Update(TSpec spec)
         {
             element.Name = spec.Name;
-            foreach (TaggedValueSpec taggedValueSpec in spec.GetTaggedValues())
+            foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
             {
                 element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
             }
@@ -155,7 +155,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
             }
             element.Connectors.Refresh();
-            foreach (var connector in spec.GetConnectors(repository))
+            foreach (var connector in GetConnectorSpecs(spec))
             {
                 element.AddConnector(connector);
             }
@@ -166,7 +166,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 element.Attributes.Delete(i);
             }
             element.Attributes.Refresh();
-            foreach (var attribute in spec.GetAttributes())
+            foreach (var attribute in GetAttributeSpecs(spec))
             {
                 element.AddAttribute(attribute);
             }
@@ -175,6 +175,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Update();
             element.Refresh();
         }
+
+        protected abstract IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(TSpec spec);
+
+        protected abstract IEnumerable<AttributeSpec> GetAttributeSpecs(TSpec spec);
+
+        protected abstract IEnumerable<ConnectorSpec> GetConnectorSpecs(TSpec spec);
 
         protected abstract bool DeleteConnectorOnUpdate(Connector connector);
     }

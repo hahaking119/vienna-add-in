@@ -42,10 +42,8 @@ namespace CctsRepository
             set { asbies = new List<ASBIESpec>(value); }
         }
 
-        [Dependency]
         public IABIE IsEquivalentTo { get; set; }
 
-        [Dependency]
         public IACC BasedOn { get; set; }
 
         public void AddASBIE(ASBIESpec spec)
@@ -66,31 +64,6 @@ namespace CctsRepository
         public void RemoveBBIE(string name)
         {
             bbies.RemoveAll(bbie => bbie.Name == name);
-        }
-
-        public override IEnumerable<ConnectorSpec> GetCustomConnectors(ICCRepository repository)
-        {
-            if (ASBIEs != null)
-            {
-                foreach (ASBIESpec asbie in ASBIEs)
-                {
-                    yield return
-                        ConnectorSpec.CreateAggregation(asbie.AggregationKind, Stereotype.ASBIE, asbie.Name,
-                                                        asbie.AssociatedABIEId, asbie.LowerBound, asbie.UpperBound, asbie.GetTaggedValues());
-                }
-            }
-        }
-
-        public override IEnumerable<AttributeSpec> GetAttributes()
-        {
-            if (BBIEs != null)
-            {
-                foreach (BBIESpec bbie in BBIEs)
-                {
-                    yield return new AttributeSpec(Stereotype.BBIE, bbie.Name, bbie.Type.Name, bbie.Type.Id, bbie.LowerBound, bbie.UpperBound, bbie.GetTaggedValues());
-                }
-            }
-
         }
     }
 }

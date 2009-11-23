@@ -42,13 +42,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 {
                     if (element.IsA(ElementStereotype))
                     {
-                        yield return CreateCCTSElement(element);
+                        yield return WrapEaElement(element);
                     }
                 }
             }
         }
 
-        protected abstract TCCTSElement CreateCCTSElement(Element element);
+        protected abstract TCCTSElement WrapEaElement(Element element);
 
         ///<summary>
         /// Creates a new element in this library, based on the given specification.
@@ -62,7 +62,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.PackageID = Id;
             package.Elements.Refresh();
             AddElementToDiagram(element);
-            var cctsElement = CreateCCTSElement(element);
+            var cctsElement = WrapEaElement(element);
             cctsElement.Update(spec);
             return cctsElement;
         }

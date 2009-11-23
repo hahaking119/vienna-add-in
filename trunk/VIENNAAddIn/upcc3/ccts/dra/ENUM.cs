@@ -81,5 +81,20 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ENUMSpec spec)
+        {
+            return spec.GetTaggedValues();
+        }
+
+        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(ENUMSpec spec)
+        {
+            return spec.GetAttributes();
+        }
+
+        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(ENUMSpec spec)
+        {
+            return spec.GetConnectors(repository);
+        }
     }
 }

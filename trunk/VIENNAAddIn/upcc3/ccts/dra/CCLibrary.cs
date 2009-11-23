@@ -27,7 +27,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-        protected override ACC CreateCCTSElement(Element element)
+        protected override ACC WrapEaElement(Element element)
         {
             return new ACC(repository, element);
         }

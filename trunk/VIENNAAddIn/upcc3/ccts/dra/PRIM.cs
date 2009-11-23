@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
 using EA;
@@ -106,5 +107,39 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #endregion
+
+        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(PRIMSpec spec)
+        {
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                       new TaggedValueSpec(TaggedValues.pattern, spec.Pattern),
+                       new TaggedValueSpec(TaggedValues.fractionDigits, spec.FractionDigits),
+                       new TaggedValueSpec(TaggedValues.length, spec.Length),
+                       new TaggedValueSpec(TaggedValues.maxExclusive, spec.MaxExclusive),
+                       new TaggedValueSpec(TaggedValues.maxInclusive, spec.MaxInclusive),
+                       new TaggedValueSpec(TaggedValues.maxLength, spec.MaxLength),
+                       new TaggedValueSpec(TaggedValues.minExclusive, spec.MinExclusive),
+                       new TaggedValueSpec(TaggedValues.minInclusive, spec.MinInclusive),
+                       new TaggedValueSpec(TaggedValues.minLength, spec.MinLength),
+                       new TaggedValueSpec(TaggedValues.totalDigits, spec.TotalDigits),
+                       new TaggedValueSpec(TaggedValues.whiteSpace, spec.WhiteSpace),
+                   };
+        }
+
+        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(PRIMSpec spec)
+        {
+            yield break;
+        }
+
+        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(PRIMSpec spec)
+        {
+            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+        }
     }
 }

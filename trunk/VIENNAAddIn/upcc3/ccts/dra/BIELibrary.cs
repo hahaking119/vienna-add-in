@@ -18,7 +18,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-        protected override ABIE CreateCCTSElement(Element element)
+        protected override ABIE WrapEaElement(Element element)
         {
             return new ABIE(repository, element);
         }

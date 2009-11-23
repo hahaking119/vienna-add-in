@@ -100,6 +100,51 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         }
 
         [Test]
+        public void ResolvesAbieBasedOnDependencies()
+        {
+            var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());
+            Assert.That(accPerson, Is.Not.Null, "ACC not found");
+
+            var abiePerson = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+            Assert.That(abiePerson, Is.Not.Null, "ABIE not found");
+
+            Assert.That(abiePerson.BasedOn, Is.Not.Null, "ABIE basedOn dependency is null");
+            Assert.That(abiePerson.BasedOn.Id, Is.EqualTo(accPerson.Id), "ABIE basedOn dependency not correctly resolved");
+        }
+
+        [Test]
+        public void ResolvesAsbieBasedOnDependencies()
+        {
+            var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());
+            var abiePerson = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+
+            IASCC asccHomeAddress = accPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "homeAddress");
+            Assert.That(asccHomeAddress, Is.Not.Null, "ASCC not found");
+
+            IASBIE asbieMyHomeAddress = abiePerson.ASBIEs.FirstOrDefault(asbie => asbie.Name == "My_homeAddress");
+            Assert.That(asbieMyHomeAddress, Is.Not.Null, "ASBIE not found");
+
+            Assert.That(asbieMyHomeAddress.BasedOn, Is.Not.Null, "ASBIE basedOn dependency is null");
+            Assert.That(asbieMyHomeAddress.BasedOn.Id, Is.EqualTo(asccHomeAddress.Id), "ASBIE basedOn dependency not correctly resolved");
+        }
+
+        [Test]
+        public void ResolvesBbieBasedOnDependencies()
+        {
+            var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());
+            var abiePerson = (IABIE) ccRepository.FindByPath(EARepository1.PathToBIEPerson());
+
+            IBCC bccFirstName = accPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "FirstName");
+            Assert.That(bccFirstName, Is.Not.Null, "BCC not found");
+
+            IBBIE bbieMyFirstName = abiePerson.BBIEs.FirstOrDefault(bbie => bbie.Name == "My_FirstName");
+            Assert.That(bbieMyFirstName, Is.Not.Null, "BBIE not found");
+
+            Assert.That(bbieMyFirstName.BasedOn, Is.Not.Null, "BBIE basedOn dependency is null");
+            Assert.That(bbieMyFirstName.BasedOn.Id, Is.EqualTo(bccFirstName.Id), "BBIE basedOn dependency not correctly resolved");
+        }
+
+        [Test]
         public void TestABIEEquals()
         {
             object abie1 = ccRepository.FindByPath(EARepository1.PathToBIEAddress());
@@ -187,9 +232,155 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         }
 
         [Test]
+        public void TestCreateACC()
+        {
+            var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());
+            Assert.IsNotNull(accPerson, "ACC Person not found");
+
+            var accAddress = (IACC) ccRepository.FindByPath(EARepository1.PathToACCAddress());
+            Assert.IsNotNull(accAddress, "ACC Address not found");
+
+            var cdtText = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTText());
+            Assert.IsNotNull(cdtText, "CDT Text not found");
+
+            var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTDate());
+            Assert.IsNotNull(cdtDate, "CDT Date not found");
+
+            ICCLibrary ccLibrary = ccRepository.Libraries<ICCLibrary>().First();
+
+            var accSpec = new ACCSpec
+                          {
+                              Name = "TestPerson",
+                              DictionaryEntryName = "overriding default dictionary entry name",
+                              Definition = "a test person",
+                              UniqueIdentifier = "my unique identifier",
+                              VersionIdentifier = "my version identifier",
+                              LanguageCode = "my language code",
+                              BusinessTerms = new[] {"business term 1", "business term 2"},
+                              UsageRules = new[] {"usage rule 1", "usage rule 2"},
+                              IsEquivalentTo = accPerson,
+                          };
+            var bccFirstNameSpec = new BCCSpec
+                                   {
+                                       Name = "FirstName",
+                                       Type = cdtText,
+                                       BusinessTerms = new[] {"businessTerms"},
+                                       Definition = "definition",
+                                       DictionaryEntryName = "dictionaryEntryName",
+                                       LanguageCode = "languageCode",
+                                       SequencingKey = "sequencingKey",
+                                       UniqueIdentifier = "uniqueIdentifier",
+                                       UsageRules = new[] {"usageRules"},
+                                       VersionIdentifier = "versionIdentifier",
+                                       LowerBound = "1",
+                                       UpperBound = "3",
+                                   };
+            accSpec.AddBCC(bccFirstNameSpec);
+            accSpec.AddBCC(new BCCSpec
+                           {
+                               Name = "LastName",
+                               Type = cdtText
+                           });
+            accSpec.AddBCC(new BCCSpec
+                           {
+                               Name = "Some",
+                               Type = cdtText
+                           });
+            accSpec.AddBCC(new BCCSpec
+                           {
+                               Name = "Some",
+                               Type = cdtDate
+                           });
+
+            var asccHomeAddressSpec = new ASCCSpec
+                                      {
+                                          Name = "HomeAddress",
+                                          ResolveAssociatedACC = () => accAddress,
+                                          BusinessTerms = new[] {"businessTerms"},
+                                          Definition = "definition",
+                                          DictionaryEntryName = "dictionaryEntryName",
+                                          LanguageCode = "languageCode",
+                                          SequencingKey = "sequencingKey",
+                                          UniqueIdentifier = "uniqueIdentifier",
+                                          UsageRules = new[] {"usageRules"},
+                                          VersionIdentifier = "versionIdentifier",
+                                          LowerBound = "1",
+                                          UpperBound = "3",
+                                      };
+            accSpec.AddASCC(asccHomeAddressSpec);
+            accSpec.AddASCC(new ASCCSpec
+                            {
+                                Name = "WorkAddress",
+                                ResolveAssociatedACC = () => accAddress,
+                            });
+            accSpec.AddASCC(new ASCCSpec
+                            {
+                                Name = "Some",
+                                ResolveAssociatedACC = () => accAddress,
+                            });
+            accSpec.AddASCC(new ASCCSpec
+                            {
+                                Name = "Some",
+                                ResolveAssociatedACC = () => accPerson,
+                            });
+
+            IACC accTestPerson = ccLibrary.CreateElement(accSpec);
+            Assert.IsNotNull(accTestPerson, "ACC is null");
+            Assert.AreEqual(ccLibrary.Id, accTestPerson.Library.Id);
+
+            Assert.AreEqual(accSpec.Name, accTestPerson.Name);
+            Assert.AreEqual(accSpec.DictionaryEntryName, accTestPerson.DictionaryEntryName);
+            Assert.AreEqual(accSpec.Definition, accTestPerson.Definition);
+            Assert.AreEqual(accSpec.UniqueIdentifier, accTestPerson.UniqueIdentifier);
+            Assert.AreEqual(accSpec.VersionIdentifier, accTestPerson.VersionIdentifier);
+            Assert.AreEqual(accSpec.LanguageCode, accTestPerson.LanguageCode);
+            Assert.AreEqual(accSpec.BusinessTerms, accTestPerson.BusinessTerms);
+            Assert.AreEqual(accSpec.UsageRules, accTestPerson.UsageRules);
+
+            Assert.IsNotNull(accTestPerson.IsEquivalentTo, "IsEquivalentTo is null");
+            Assert.AreEqual(accPerson.Id, accTestPerson.IsEquivalentTo.Id);
+
+            Assert.AreEqual(accSpec.BCCs.Count(), accTestPerson.BCCs.Count());
+            IBCC bccFirstName = accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == bccFirstNameSpec.Name);
+            Assert.That(bccFirstName, Is.Not.Null, "BCC FirstName not generated");
+            Assert.AreEqual(cdtText.Id, bccFirstName.Type.Id);
+            Assert.AreEqual(asccHomeAddressSpec.Definition, bccFirstName.Definition);
+            Assert.AreEqual(asccHomeAddressSpec.DictionaryEntryName, bccFirstName.DictionaryEntryName);
+            Assert.AreEqual(asccHomeAddressSpec.LanguageCode, bccFirstName.LanguageCode);
+            Assert.AreEqual(asccHomeAddressSpec.UniqueIdentifier, bccFirstName.UniqueIdentifier);
+            Assert.AreEqual(asccHomeAddressSpec.VersionIdentifier, bccFirstName.VersionIdentifier);
+            Assert.AreEqual(asccHomeAddressSpec.UsageRules, bccFirstName.UsageRules);
+            Assert.AreEqual(asccHomeAddressSpec.BusinessTerms, bccFirstName.BusinessTerms);
+            Assert.AreEqual(asccHomeAddressSpec.LowerBound, bccFirstName.LowerBound);
+            Assert.AreEqual(asccHomeAddressSpec.UpperBound, bccFirstName.UpperBound);
+
+            Assert.That(accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "LastName"), Is.Not.Null, "BCC 'LastName' not generated");
+            Assert.That(accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "SomeText"), Is.Not.Null, "Type not appended to BCC 'Some' with type 'Text'");
+            Assert.That(accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "SomeDate"), Is.Not.Null, "Type not appended to BCC 'Some' with type 'Date'");
+
+            Assert.AreEqual(accSpec.ASCCs.Count(), accTestPerson.ASCCs.Count());
+            IASCC asccHomeAddress = accTestPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == asccHomeAddressSpec.Name);
+            Assert.That(asccHomeAddress, Is.Not.Null, "ASCC HomeAddress not generated");
+            Assert.AreEqual(accAddress.Id, asccHomeAddress.AssociatedElement.Id);
+            Assert.AreEqual(asccHomeAddress.Definition, asccHomeAddress.Definition);
+            Assert.AreEqual(asccHomeAddress.DictionaryEntryName, asccHomeAddress.DictionaryEntryName);
+            Assert.AreEqual(asccHomeAddress.LanguageCode, asccHomeAddress.LanguageCode);
+            Assert.AreEqual(asccHomeAddress.UniqueIdentifier, asccHomeAddress.UniqueIdentifier);
+            Assert.AreEqual(asccHomeAddress.VersionIdentifier, asccHomeAddress.VersionIdentifier);
+            Assert.AreEqual(asccHomeAddress.UsageRules, asccHomeAddress.UsageRules);
+            Assert.AreEqual(asccHomeAddress.BusinessTerms, asccHomeAddress.BusinessTerms);
+            Assert.AreEqual(asccHomeAddress.LowerBound, asccHomeAddress.LowerBound);
+            Assert.AreEqual(asccHomeAddress.UpperBound, asccHomeAddress.UpperBound);
+
+            Assert.That(accTestPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "WorkAddress"), Is.Not.Null, "ASCC 'WorkAddress' not generated");
+            Assert.That(accTestPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "SomeAddress"), Is.Not.Null, "Type not appended to ASCC 'Some' with type 'Address'");
+            Assert.That(accTestPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "SomePerson"), Is.Not.Null, "Type not appended to ASCC 'Some' with type 'Person'");
+        }
+
+        [Test]
         public void TestCreateBDT()
         {
-            var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToDate());
+            var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
             IBDTLibrary bdtLibrary = ccRepository.Libraries<IBDTLibrary>().First();
@@ -321,6 +512,64 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         }
 
         [Test]
+        public void TestCreatePRIM()
+        {
+            var primString = (IPRIM) ccRepository.FindByPath(EARepository1.PathToString());
+            Assert.IsNotNull(primString, "PRIM String not found");
+
+            IPRIMLibrary primLibrary = ccRepository.Libraries<IPRIMLibrary>().First();
+
+            var primSpec = new PRIMSpec
+                           {
+                               Name = "Zeichenkette",
+                               DictionaryEntryName = "overriding default dictionary entry name",
+                               Definition = "a test person",
+                               UniqueIdentifier = "my unique identifier",
+                               VersionIdentifier = "my version identifier",
+                               LanguageCode = "my language code",
+                               BusinessTerms = new[] {"business term 1", "business term 2"},
+                               Pattern = "pattern",
+                               FractionDigits = "3",
+                               Length = "4",
+                               MaxExclusive = "5",
+                               MaxInclusive = "6",
+                               MaxLength = "7",
+                               MinExclusive = "8",
+                               MinInclusive = "9",
+                               MinLength = "10",
+                               TotalDigits = "11",
+                               WhiteSpace = "preserve",
+                               IsEquivalentTo = primString,
+                           };
+
+            IPRIM primZeichenkette = primLibrary.CreateElement(primSpec);
+            Assert.IsNotNull(primZeichenkette, "PRIM is null");
+            Assert.AreEqual(primLibrary.Id, primZeichenkette.Library.Id);
+
+            Assert.AreEqual(primSpec.Name, primZeichenkette.Name);
+            Assert.AreEqual(primSpec.DictionaryEntryName, primZeichenkette.DictionaryEntryName);
+            Assert.AreEqual(primSpec.Definition, primZeichenkette.Definition);
+            Assert.AreEqual(primSpec.UniqueIdentifier, primZeichenkette.UniqueIdentifier);
+            Assert.AreEqual(primSpec.VersionIdentifier, primZeichenkette.VersionIdentifier);
+            Assert.AreEqual(primSpec.LanguageCode, primZeichenkette.LanguageCode);
+            Assert.AreEqual(primSpec.BusinessTerms, primZeichenkette.BusinessTerms);
+            Assert.AreEqual(primSpec.Pattern, primZeichenkette.Pattern);
+            Assert.AreEqual(primSpec.FractionDigits, primZeichenkette.FractionDigits);
+            Assert.AreEqual(primSpec.Length, primZeichenkette.Length);
+            Assert.AreEqual(primSpec.MaxExclusive, primZeichenkette.MaxExclusive);
+            Assert.AreEqual(primSpec.MaxInclusive, primZeichenkette.MaxInclusive);
+            Assert.AreEqual(primSpec.MaxLength, primZeichenkette.MaxLength);
+            Assert.AreEqual(primSpec.MinExclusive, primZeichenkette.MinExclusive);
+            Assert.AreEqual(primSpec.MinInclusive, primZeichenkette.MinInclusive);
+            Assert.AreEqual(primSpec.MinLength, primZeichenkette.MinLength);
+            Assert.AreEqual(primSpec.TotalDigits, primZeichenkette.TotalDigits);
+            Assert.AreEqual(primSpec.WhiteSpace, primZeichenkette.WhiteSpace);
+
+            Assert.IsNotNull(primZeichenkette.IsEquivalentTo, "IsEquivalentTo is null");
+            Assert.AreEqual(primString.Id, primZeichenkette.IsEquivalentTo.Id);
+        }
+
+        [Test]
         public void TestFindCDTs()
         {
             foreach (ICDTLibrary library in ccRepository.Libraries<ICDTLibrary>())
@@ -385,7 +634,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Postcode", bccPostcode.Name);
             Assert.AreEqual("0", bccPostcode.LowerBound);
             Assert.AreEqual("*", bccPostcode.UpperBound);
-            var cdtText = (ICDT) ccRepository.FindByPath(EARepository1.PathToText());
+            var cdtText = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTText());
             Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
 
             var accPerson = (IACC) ccRepository.FindByPath(EARepository1.PathToACCPerson());
@@ -584,51 +833,5 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             AssertBBIE(bdtText, personBCCs[0], personBBIEs[0]);
             AssertBBIE(bdtText, personBCCs[1], personBBIEs[1]);
         }
-
-        [Test]
-        public void ResolvesAbieBasedOnDependencies()
-        {
-            var accPerson = (IACC)ccRepository.FindByPath(EARepository1.PathToACCPerson());
-            Assert.That(accPerson, Is.Not.Null, "ACC not found");
-
-            var abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
-            Assert.That(abiePerson, Is.Not.Null, "ABIE not found");
-
-            Assert.That(abiePerson.BasedOn, Is.Not.Null, "ABIE basedOn dependency is null");
-            Assert.That(abiePerson.BasedOn.Id, Is.EqualTo(accPerson.Id), "ABIE basedOn dependency not correctly resolved");
-        }
-
-        [Test]
-        public void ResolvesBbieBasedOnDependencies()
-        {
-            var accPerson = (IACC)ccRepository.FindByPath(EARepository1.PathToACCPerson());
-            var abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
-
-            var bccFirstName = accPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "FirstName");
-            Assert.That(bccFirstName, Is.Not.Null, "BCC not found");
-
-            var bbieMyFirstName = abiePerson.BBIEs.FirstOrDefault(bbie => bbie.Name == "My_FirstName");
-            Assert.That(bbieMyFirstName, Is.Not.Null, "BBIE not found");
-
-            Assert.That(bbieMyFirstName.BasedOn, Is.Not.Null, "BBIE basedOn dependency is null");
-            Assert.That(bbieMyFirstName.BasedOn.Id, Is.EqualTo(bccFirstName.Id), "BBIE basedOn dependency not correctly resolved");
-        }
-
-        [Test]
-        public void ResolvesAsbieBasedOnDependencies()
-        {
-            var accPerson = (IACC)ccRepository.FindByPath(EARepository1.PathToACCPerson());
-            var abiePerson = (IABIE)ccRepository.FindByPath(EARepository1.PathToBIEPerson());
-
-            var asccHomeAddress = accPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "homeAddress");
-            Assert.That(asccHomeAddress, Is.Not.Null, "ASCC not found");
-
-            var asbieMyHomeAddress = abiePerson.ASBIEs.FirstOrDefault(asbie => asbie.Name == "My_homeAddress");
-            Assert.That(asbieMyHomeAddress, Is.Not.Null, "ASBIE not found");
-
-            Assert.That(asbieMyHomeAddress.BasedOn, Is.Not.Null, "ASBIE basedOn dependency is null");
-            Assert.That(asbieMyHomeAddress.BasedOn.Id, Is.EqualTo(asccHomeAddress.Id), "ASBIE basedOn dependency not correctly resolved");
-        }
-
     }
 }
