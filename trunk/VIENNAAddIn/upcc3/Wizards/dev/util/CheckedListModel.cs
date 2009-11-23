@@ -32,17 +32,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
     {
         public string Name { get; set; }
         public bool Check { get; set; }
+        public bool Changeable { get; set; }
 
         public CheckedListItem()
         {
             Name = "";
             Check = false;
+            Changeable = false;
         }
 
         public CheckedListItem(string _name, bool _check)
         {
             Name = _name;
             Check = _check;
+            Changeable = true;
+        }
+
+        public CheckedListItem(string _name, bool _check, bool _changeable)
+        {
+            Name = _name;
+            Check = _check;
+            Changeable = _changeable;
         }
     }
 }

@@ -16,9 +16,9 @@ using VIENNAAddIn.upcc3.Wizards.dev.cache;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
-   
+
     public class TemporaryABIEModel
-    { 
+    {
         private IABIE existingABIE;
         private string ABIEName;
         private string ABIEPrefix;
@@ -116,10 +116,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                 yield return keyValuePair.Key;
             }
         }
-        
+
         public IEnumerable<CheckedListItem> getBCCs()
         {
-            if(BCCs == null)
+            if (BCCs == null)
             {
                 BCCs = new Dictionary<string, TemporaryBCC>();
                 if (GetBasedOnACC() != null)
@@ -132,7 +132,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             }
             foreach (var keyValuePair in BCCs)
             {
-                yield return new CheckedListItem(keyValuePair.Key,keyValuePair.Value.Checkstate);
+                yield return new CheckedListItem(keyValuePair.Key, keyValuePair.Value.Checkstate);
             }
         }
 
@@ -148,7 +148,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                 yield return keyValuePair.Key;
             }
         }
-        
+
         public ICCLibrary GetCCLInUse()
         {
             foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
@@ -185,18 +185,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
 
         public void SetTargetACC(string acc)
         {
-            foreach (KeyValuePair<string, TemporaryACC> keyValuePair in ACCs)
-            {
-                if(keyValuePair.Key.Equals(acc))
-                {
-                    keyValuePair.Value.Checkstate = true;
-                }
-            }
+            ACCs[acc].Checkstate = true;
             checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(getBCCs()));
         }
         internal class TemporaryASBIE
         {
-            internal IASBIE asbie { get; set;}
+            internal IASBIE asbie { get; set; }
             internal Boolean Checkstate { get; set; }
             public TemporaryASBIE(IASBIE newasbie)
             {

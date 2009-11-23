@@ -59,12 +59,14 @@
                             <GroupBox Header="BCCs used as BBIEs" Margin="0,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
-                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" Checked="checkboxBCCs_Checked" Unchecked="checkboxBCCs_Unchecked" KeyboardNavigation.TabIndex="0">Select all BCCs</CheckBox>
+                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" KeyboardNavigation.TabIndex="0">Select all BCCs</CheckBox>
                                     </StackPanel>
                                     <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelBCC}}" Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding Check}" />
+                                                <CheckBox IsChecked="{Binding Check}">
+                                                    <TextBox Text="{Binding Name}" IsEnabled="{Binding Changeable}" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                         <ListBox.Resources>
@@ -83,7 +85,9 @@
                                     <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelBBIE}}" Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBBIEs_SelectionChanged" KeyboardNavigation.TabIndex="3">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding Check}" />
+                                                <CheckBox IsChecked="{Binding Check}">
+                                                    <TextBox Text="{Binding Name}" IsEnabled="{Binding Changeable}" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                         <ListBox.Resources>
@@ -99,7 +103,9 @@
                                     <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelBDT}}" Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged" KeyboardNavigation.TabIndex="4">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding Check}" />
+                                                <CheckBox IsChecked="{Binding Check}">
+                                                    <TextBox Text="{Binding Name}" IsReadOnly="{Binding Changeable}" />
+                                                </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                         <ListBox.Resources>
@@ -120,7 +126,9 @@
                                     <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelABIE}}" Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="checkedlistboxABIEs_SelectionChanged" KeyboardNavigation.TabIndex="0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding Check}" />
+                                                <CheckBox IsChecked="{Binding Check}">
+                                                    <TextBox Text="{Binding Name}" IsReadOnly="{Binding Changeable}" />
+                                                </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                         <ListBox.Resources>
@@ -135,7 +143,9 @@
                                     <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelASCC}}" Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="checkedlistboxASCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding Check}" />
+                                                <CheckBox IsChecked="{Binding Check}">
+                                                    <TextBox Text="{Binding Name}" IsReadOnly="{Binding Changeable}" />
+                                                </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                         <ListBox.Resources>
