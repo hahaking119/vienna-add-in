@@ -264,17 +264,17 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         #region Paths
 
-        public static Path PathToDate()
+        public static Path PathToCDTDate()
         {
             return (Path) "test model"/"blib1"/"cdtlib1"/"Date";
         }
 
-        public static Path PathToCode()
+        public static Path PathToCDTCode()
         {
             return (Path) "test model"/"blib1"/"cdtlib1"/"Code";
         }
 
-        public static Path PathToText()
+        public static Path PathToCDTText()
         {
             return (Path) "test model"/"blib1"/"cdtlib1"/"Text";
         }
@@ -319,7 +319,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             return (Path) "test model"/"blib1"/"primlib1"/"String";
         }
 
-        public static Path PathToAddress()
+        public static Path PathToACCAddress()
         {
             return (Path) "test model"/"blib1"/"cclib1"/"Address";
         }

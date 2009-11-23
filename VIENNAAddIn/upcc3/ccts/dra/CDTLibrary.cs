@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-        protected override CDT CreateCCTSElement(Element element)
+        protected override CDT WrapEaElement(Element element)
         {
             return new CDT(repository, element);
         }

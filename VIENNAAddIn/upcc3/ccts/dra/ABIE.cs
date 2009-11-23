@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
@@ -36,11 +35,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
                 return value;
             }
-        }
-
-        protected override bool DeleteConnectorOnUpdate(Connector connector)
-        {
-            return connector.IsBasedOn() || connector.IsIsEquivalentTo() || IsASBIE(connector);
         }
 
         public IEnumerable<string> UsageRules
@@ -86,6 +80,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
+        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        {
+            return connector.IsBasedOn() || connector.IsIsEquivalentTo() || IsASBIE(connector);
+        }
+
         private bool IsASBIE(Connector connector)
         {
             if (connector.IsASBIE())
@@ -100,6 +99,77 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 }
             }
             return false;
+        }
+
+        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ABIESpec spec)
+        {
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                   };
+        }
+
+        private static IEnumerable<TaggedValueSpec> GetBbieTaggedValueSpecs(BBIESpec spec)
+        {
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.sequencingKey, spec.SequencingKey),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                   };
+        }
+
+        private static IEnumerable<TaggedValueSpec> GetAsbieTaggedValueSpecs(ASBIESpec spec)
+        {
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.sequencingKey, spec.SequencingKey),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                   };
+        }
+
+        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(ABIESpec spec)
+        {
+            var bbieSpecs = spec.BBIEs;
+            if (bbieSpecs != null)
+            {
+                foreach (BBIESpec bbieSpec in bbieSpecs)
+                {
+                    yield return new AttributeSpec(Stereotype.BBIE, bbieSpec.Name, bbieSpec.Type.Name, bbieSpec.Type.Id, bbieSpec.LowerBound, bbieSpec.UpperBound, GetBbieTaggedValueSpecs(bbieSpec));
+                }
+            }
+        }
+
+        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(ABIESpec spec)
+        {
+            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+            if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
+
+            var asbieSpecs = spec.ASBIEs;
+            if (asbieSpecs != null)
+            {
+                foreach (ASBIESpec asbieSpec in asbieSpecs)
+                {
+                    yield return ConnectorSpec.CreateAggregation(asbieSpec.AggregationKind, Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedABIEId, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
+                }
+            }
         }
     }
 }

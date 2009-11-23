@@ -18,7 +18,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-        protected override PRIM CreateCCTSElement(Element element)
+        protected override PRIM WrapEaElement(Element element)
         {
             return new PRIM(repository, element);
         }

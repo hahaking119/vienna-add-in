@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using CctsRepository;
 
 namespace CctsRepository
 {
@@ -112,15 +111,6 @@ namespace CctsRepository
                     }
                 }
             }
-            foreach (ConnectorSpec connector in GetCustomConnectors(repository))
-            {
-                yield return connector;
-            }
-        }
-
-        public virtual IEnumerable<ConnectorSpec> GetCustomConnectors(ICCRepository repository)
-        {
-            yield break;
         }
     }
 

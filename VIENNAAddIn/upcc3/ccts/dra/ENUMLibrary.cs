@@ -18,7 +18,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-        protected override ENUM CreateCCTSElement(Element element)
+        protected override ENUM WrapEaElement(Element element)
         {
             return new ENUM(repository, element);
         }

@@ -1,5 +1,3 @@
-using CctsRepository;
-
 namespace CctsRepository
 {
     public class PRIMSpec : CCTSElementSpec
@@ -24,40 +22,18 @@ namespace CctsRepository
         {
         }
 
-        [TaggedValue]
         public string Pattern { get; set; }
-
-        [TaggedValue]
         public string FractionDigits { get; set; }
-
-        [TaggedValue]
         public string Length { get; set; }
-
-        [TaggedValue]
         public string MaxExclusive { get; set; }
-
-        [TaggedValue]
         public string MaxInclusive { get; set; }
-
-        [TaggedValue]
         public string MaxLength { get; set; }
-
-        [TaggedValue]
         public string MinExclusive { get; set; }
-
-        [TaggedValue]
         public string MinInclusive { get; set; }
-
-        [TaggedValue]
         public string MinLength { get; set; }
-
-        [TaggedValue]
         public string TotalDigits { get; set; }
-
-        [TaggedValue]
         public string WhiteSpace { get; set; }
 
-        [Dependency]
         public IPRIM IsEquivalentTo { get; set; }
     }
 }
