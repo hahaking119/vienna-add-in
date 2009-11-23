@@ -199,7 +199,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     //elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
                 }
 
-                if (asbie.AggregationKind == EAAggregationKind.Shared)
+                if (asbie.AggregationKind == AggregationKind.Shared)
                 {
                     // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
                     XmlSchemaElement refASBIE = new XmlSchemaElement();
@@ -209,7 +209,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     sequence.Items.Add(refASBIE);
                     schema.Items.Add(elementASBIE);
                 }
-                else if (asbie.AggregationKind == EAAggregationKind.Composite)
+                else if (asbie.AggregationKind == AggregationKind.Composite)
                 {
                     //R 9025: ASBIEs with Aggregation Kind = composite a local element for the
                     //        associated ABIE must be declared in the associating ABIE complex type.

@@ -12,7 +12,7 @@ namespace CctsRepository
     {
         IABIE AssociatingElement { get; }
         IABIE AssociatedElement { get; }
-        EAAggregationKind AggregationKind { get; }
+        AggregationKind AggregationKind { get; }
 
         /// <summary>
         /// Returns the ASCC on which the ASBIE is based or <c>null</c>, if the ASCC cannot be determined.

@@ -6,8 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using CctsRepository;
-
 namespace CctsRepository
 {
     public interface ICC : ICCTSElement, IHasUsageRules

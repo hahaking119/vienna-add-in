@@ -1,4 +1,4 @@
-namespace CctsRepository
+namespace VIENNAAddIn.upcc3.ccts.dra
 {
     /// <summary>
     /// Represents EA's connector types values (which are strings) as an ENUM.

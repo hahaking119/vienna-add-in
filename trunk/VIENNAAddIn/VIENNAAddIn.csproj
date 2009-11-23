@@ -122,10 +122,14 @@
     <Compile Include="Exceptions\UnexpectedElementException.cs" />
     <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
+    <Compile Include="upcc3\ccts\dra\AttributeSpec.cs" />
     <Compile Include="upcc3\ccts\dra\BDTSupplementaryComponent.cs" />
     <Compile Include="upcc3\ccts\dra\CDTContentComponent.cs" />
     <Compile Include="upcc3\ccts\dra\CodelistEntry.cs" />
+    <Compile Include="upcc3\ccts\dra\ConnectorSpec.cs" />
+    <Compile Include="upcc3\ccts\dra\EAConnectorTypes.cs" />
     <Compile Include="upcc3\ccts\dra\ElementLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\TaggedValueSpec.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAItem.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAPackage.cs" />
     <Compile Include="upcc3\ccts\otf\BDTLibrary.cs" />

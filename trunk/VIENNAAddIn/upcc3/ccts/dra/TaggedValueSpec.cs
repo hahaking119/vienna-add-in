@@ -7,8 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+using CctsRepository;
 
-namespace CctsRepository
+namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class TaggedValueSpec
     {

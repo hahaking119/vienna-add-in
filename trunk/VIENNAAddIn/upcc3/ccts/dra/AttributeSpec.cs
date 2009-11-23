@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CctsRepository
+namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class AttributeSpec
     {

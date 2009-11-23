@@ -34,16 +34,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return associatingClass; }
         }
 
-        public EAAggregationKind AggregationKind
+        public AggregationKind AggregationKind
         {
             get
             {
                 int value = connector.GetAssociatingEnd(AssociatingElement.Id).Aggregation;
-                if (Enum.IsDefined(typeof (EAAggregationKind), value))
+                if (Enum.IsDefined(typeof (AggregationKind), value))
                 {
-                    return (EAAggregationKind) Enum.ToObject(typeof (EAAggregationKind), value);
+                    return (AggregationKind) Enum.ToObject(typeof (AggregationKind), value);
                 }
-                return EAAggregationKind.None;
+                return AggregationKind.None;
             }
         }
 

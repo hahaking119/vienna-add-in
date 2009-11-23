@@ -1,6 +1,7 @@
 using System;
 using EA;
 using CctsRepository;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 using Stereotype=CctsRepository.Stereotype;
@@ -93,19 +94,19 @@ namespace VIENNAAddInUnitTests.TestRepository
             client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
                                                                                {
                                                                                    c.Stereotype = Stereotype.ASCC;
-                                                                                   c.ClientEnd.Aggregation = (int) EAAggregationKind.Shared;
+                                                                                   c.ClientEnd.Aggregation = (int) AggregationKind.Shared;
                                                                                    c.SupplierID = supplier.ElementID;
                                                                                    c.SupplierEnd.Role = name;
                                                                                    c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
                                                                                });
         }
 
-        public static void AddASBIE(this Element client, Element supplier, string name, EAAggregationKind aggregationKind)
+        public static void AddASBIE(this Element client, Element supplier, string name, AggregationKind aggregationKind)
         {
             AddASBIE(client, supplier, name, aggregationKind, "1", "1");
         }
 
-        public static void AddASBIE(this Element client, Element supplier, string name, EAAggregationKind aggregationKind, string lowerBound, string upperBound)
+        public static void AddASBIE(this Element client, Element supplier, string name, AggregationKind aggregationKind, string lowerBound, string upperBound)
         {
             client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
                                                                                {
@@ -122,7 +123,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             client.AddConnector("basedOn", EAConnectorTypes.Dependency.ToString(), c =>
                                                                                    {
                                                                                        c.Stereotype = Stereotype.BasedOn;
-                                                                                       c.ClientEnd.Aggregation = (int) EAAggregationKind.None;
+                                                                                       c.ClientEnd.Aggregation = (int) AggregationKind.None;
                                                                                        c.SupplierID = supplier.ElementID;
                                                                                        c.SupplierEnd.Role = "basedOn";
                                                                                        c.SupplierEnd.Cardinality = "1";
@@ -134,7 +135,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             client.AddConnector("isEquivalentTo", EAConnectorTypes.Dependency.ToString(), c =>
                                                                                    {
                                                                                        c.Stereotype = Stereotype.IsEquivalentTo;
-                                                                                       c.ClientEnd.Aggregation = (int) EAAggregationKind.None;
+                                                                                       c.ClientEnd.Aggregation = (int) AggregationKind.None;
                                                                                        c.SupplierID = supplier.ElementID;
                                                                                        c.SupplierEnd.Role = "isEquivalentTo";
                                                                                        c.SupplierEnd.Cardinality = "1";

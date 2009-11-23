@@ -167,7 +167,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
                 }
 
-                if (asbie.AggregationKind == EAAggregationKind.Shared)
+                if (asbie.AggregationKind == AggregationKind.Shared)
                 {
                     XmlSchemaElement refASBIE = new XmlSchemaElement();
                     refASBIE.RefName = new XmlQualifiedName(abiePrefix + ":" + elementASBIE.Name);

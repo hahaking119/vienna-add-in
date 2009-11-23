@@ -58,10 +58,10 @@ namespace VIENNAAddInUnitTests.TestRepository
             accPerson.AddASCC(accAddress, "homeAddress");
             accPerson.AddASCC(accAddress, "workAddress", "0", "*");
 
-            abiePerson.AddASBIE(abieAddress, "homeAddress", EAAggregationKind.Shared);
-            abiePerson.AddASBIE(abieAddress, "workAddress", EAAggregationKind.Composite, "0", "*");
-            abieInvoice.AddASBIE(abieInvoiceInfo, "info", EAAggregationKind.Shared);
-            abieInvoiceInfo.AddASBIE(abieAddress, "deliveryAddress", EAAggregationKind.Shared);
+            abiePerson.AddASBIE(abieAddress, "homeAddress", AggregationKind.Shared);
+            abiePerson.AddASBIE(abieAddress, "workAddress", AggregationKind.Composite, "0", "*");
+            abieInvoice.AddASBIE(abieInvoiceInfo, "info", AggregationKind.Shared);
+            abieInvoiceInfo.AddASBIE(abieAddress, "deliveryAddress", AggregationKind.Shared);
         }
 
         private void InitDOCLibrary(Package docLibrary)
