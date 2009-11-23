@@ -48,9 +48,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             listModelCCL = _listModelCCL;
             listModelCCL.Content = new ObservableCollection<string>(new List<string>(getCCLs()));
             listModelACC = _listModelACC;
-            listModelACC.Content = new ObservableCollection<string>(new List<string>(/*getACCs()*/));
             checkedListModelBCC = _checkedListModelBCC;
-            checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(/*getBCCs()*/));
             checkedListModelBBIE = _checkedListModelBBIE;
             checkedListModelBBIE.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(/*getBBIEs()*/));
             checkedListModelBDT = _checkedListModelBDT;
@@ -70,22 +68,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             temporaryCache = CCCache.GetInstance(ccRepository);
             existingABIE = null;
         }
-        public IEnumerable<string> getCCLs()
-        {
-            if(CCLs ==null)
-            {
-                CCLs = new Dictionary<string, TemporaryCCL>();
-                foreach (CCLibrary ccLibrary in temporaryCache.GetCCLibraries())
-                {
-                    CCLs.Add(ccLibrary.Name,new TemporaryCCL(ccLibrary));
-                }
-            }
-            foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
-            {
-                yield return keyValuePair.Key;
-            }
-        }
-
         public TemporaryABIEModel(IABIE abie)
         {
             existingABIE = abie;
@@ -100,9 +82,67 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             }
 
         }
-
-        public IEnumerator<string> GetBBIEs()
+        public IEnumerable<string> getCCLs()
         {
+            if (CCLs == null)
+            {
+                CCLs = new Dictionary<string, TemporaryCCL>();
+                foreach (CCLibrary ccLibrary in temporaryCache.GetCCLibraries())
+                {
+                    CCLs.Add(ccLibrary.Name, new TemporaryCCL(ccLibrary));
+                }
+            }
+            foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
+            {
+                yield return keyValuePair.Key;
+            }
+        }
+
+        public IEnumerable<string> getACCs()
+        {
+            if (ACCs == null)
+            {
+                ACCs = new Dictionary<string, TemporaryACC>();
+                if (GetCCLInUse() != null)
+                {
+                    foreach (ACC acc in temporaryCache.GetCCsFromCCLibrary(GetCCLInUse().Name))
+                    {
+                        ACCs.Add(acc.Name, new TemporaryACC(acc));
+                    }
+                }
+            }
+            foreach (KeyValuePair<string, TemporaryACC> keyValuePair in ACCs)
+            {
+                yield return keyValuePair.Key;
+            }
+        }
+        
+        public IEnumerable<CheckedListItem> getBCCs()
+        {
+            if(BCCs == null)
+            {
+                BCCs = new Dictionary<string, TemporaryBCC>();
+                if (GetBasedOnACC() != null)
+                {
+                    foreach (IBCC bcc in GetBasedOnACC().BCCs)
+                    {
+                        BCCs.Add(bcc.Name, new TemporaryBCC(bcc));
+                    }
+                }
+            }
+            foreach (var keyValuePair in BCCs)
+            {
+                yield return new CheckedListItem(keyValuePair.Key,keyValuePair.Value.Checkstate);
+            }
+        }
+
+        public IEnumerable<string> GetBBIEs()
+        {
+            if (BBIEs == null)
+            {
+                BBIEs = new Dictionary<string, TemporaryBBIE>();
+
+            }
             foreach (KeyValuePair<string, TemporaryBBIE> keyValuePair in BBIEs)
             {
                 yield return keyValuePair.Key;
@@ -129,7 +169,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     keyValuePair.Value.Checkstate = true;
                 }
             }
-
+            listModelACC.Content = new ObservableCollection<string>(new List<string>(getACCs()));
         }
         public IACC GetBasedOnACC()
         {
@@ -152,6 +192,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     keyValuePair.Value.Checkstate = true;
                 }
             }
+            checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(getBCCs()));
         }
         internal class TemporaryASBIE
         {

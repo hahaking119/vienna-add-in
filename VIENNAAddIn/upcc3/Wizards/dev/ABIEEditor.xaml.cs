@@ -148,17 +148,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         {
             ComboBox comboBox = (ComboBox) sender;
             tempModel.setCCLInUse(comboBox.SelectionBoxItemStringFormat);
-            //foreach (string selection in e.AddedItems)
-            //{
-            //    foreach (ACC acc in cache.GetCCsFromCCLibrary(selection))
-            //    {
-            //        comboACCs.Items.Add(acc.Name);
-            //    }
-            //}
         }
 
         private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var comboBox = (ComboBox)sender;
+            tempModel.SetTargetACC(comboBox.SelectionBoxItemStringFormat);
+
         }
 
         private void checkboxBCCs_Checked(object sender, RoutedEventArgs e)
