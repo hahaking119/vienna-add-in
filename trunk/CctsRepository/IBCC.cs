@@ -8,9 +8,12 @@
 // *******************************************************************************
 namespace CctsRepository
 {
-    public interface IBCC : ICC, ISequenced, IHasMultiplicity
+    public interface IBCC : ICC
     {
         ICDT Type { get; }
         IACC Container { get; }
+        string UpperBound { get; }
+        string LowerBound { get; }
+        string SequencingKey { get; }
     }
 }

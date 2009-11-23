@@ -10,12 +10,13 @@ using System.Collections.Generic;
 
 namespace CctsRepository
 {
-    public interface IBDT : ICCTSElement, IHasUsageRules
+    public interface IBDT : ICCTSElement
     {
         IBDTContentComponent CON { get; }
         IEnumerable<IBDTSupplementaryComponent> SUPs { get; }
 
         IBDT IsEquivalentTo { get; }
         ICDT BasedOn { get; }
+        IEnumerable<string> UsageRules { get; }
     }
 }

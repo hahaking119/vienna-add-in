@@ -8,7 +8,7 @@
 // *******************************************************************************
 namespace CctsRepository
 {
-    public interface IASBIE : IBIE, ISequenced, IHasMultiplicity
+    public interface IASBIE : IBIE
     {
         IABIE AssociatingElement { get; }
         IABIE AssociatedElement { get; }
@@ -18,5 +18,9 @@ namespace CctsRepository
         /// Returns the ASCC on which the ASBIE is based or <c>null</c>, if the ASCC cannot be determined.
         /// </summary>
         IASCC BasedOn { get; }
+
+        string UpperBound { get; }
+        string LowerBound { get; }
+        string SequencingKey { get; }
     }
 }

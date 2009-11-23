@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using CctsRepository;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.util
 {

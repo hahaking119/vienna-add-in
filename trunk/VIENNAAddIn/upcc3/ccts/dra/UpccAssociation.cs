@@ -14,8 +14,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal abstract class UpccAssociation<TAssociatingClass> : ICCTSElement, IHasUsageRules, ISequenced,
-                                                                 IHasMultiplicity
+    internal abstract class UpccAssociation<TAssociatingClass> : ICCTSElement
         where TAssociatingClass : ICCTSElement
     {
         private readonly TAssociatingClass associatingClass;
@@ -50,6 +49,26 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         private Cardinality Cardinality
         {
             get { return new Cardinality(connector.GetAssociatedEnd(AssociatingElement.Id).Cardinality); }
+        }
+
+        public string UpperBound
+        {
+            get { return Cardinality.UpperBound; }
+        }
+
+        public string LowerBound
+        {
+            get { return Cardinality.LowerBound; }
+        }
+
+        public IEnumerable<string> UsageRules
+        {
+            get { return connector.GetTaggedValues(TaggedValues.usageRule); }
+        }
+
+        public string SequencingKey
+        {
+            get { return GetTaggedValue(TaggedValues.sequencingKey); }
         }
 
         #region ICCTSElement Members
@@ -102,38 +121,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IBusinessLibrary Library
         {
             get { return associatingClass.Library; }
-        }
-
-        #endregion
-
-        #region IHasMultiplicity Members
-
-        public string UpperBound
-        {
-            get { return Cardinality.UpperBound; }
-        }
-
-        public string LowerBound
-        {
-            get { return Cardinality.LowerBound; }
-        }
-
-        #endregion
-
-        #region IHasUsageRules Members
-
-        public IEnumerable<string> UsageRules
-        {
-            get { return connector.GetTaggedValues(TaggedValues.usageRule); }
-        }
-
-        #endregion
-
-        #region ISequenced Members
-
-        public string SequencingKey
-        {
-            get { return GetTaggedValue(TaggedValues.sequencingKey); }
         }
 
         #endregion

@@ -87,15 +87,10 @@
     <Compile Include="IElementLibrary.cs" />
     <Compile Include="IENUM.cs" />
     <Compile Include="IENUMLibrary.cs" />
-    <Compile Include="IHasMultiplicity.cs" />
-    <Compile Include="IHasUsageRules.cs" />
     <Compile Include="IPRIM.cs" />
     <Compile Include="IPRIMLibrary.cs" />
-    <Compile Include="IPRIMRestrictions.cs" />
-    <Compile Include="ISequenced.cs" />
     <Compile Include="IBDTSupplementaryComponent.cs" />
     <Compile Include="LibrarySpec.cs" />
-    <Compile Include="MultiPartTaggedValue.cs" />
     <Compile Include="PRIMSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stereotype.cs" />
