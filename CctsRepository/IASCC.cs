@@ -8,10 +8,13 @@
 // *******************************************************************************
 namespace CctsRepository
 {
-    public interface IASCC : ICC, ISequenced, IHasMultiplicity
+    public interface IASCC : ICC
     {
         IACC AssociatingElement { get; }
         IACC AssociatedElement { get; }
         AggregationKind AggregationKind { get; }
+        string UpperBound { get; }
+        string LowerBound { get; }
+        string SequencingKey { get; }
     }
 }

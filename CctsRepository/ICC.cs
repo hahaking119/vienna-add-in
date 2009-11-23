@@ -6,9 +6,12 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System.Collections.Generic;
+
 namespace CctsRepository
 {
-    public interface ICC : ICCTSElement, IHasUsageRules
+    public interface ICC : ICCTSElement
     {
+        IEnumerable<string> UsageRules { get; }
     }
 }

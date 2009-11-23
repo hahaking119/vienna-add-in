@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VIENNAAddInUtils;
 
-namespace CctsRepository
+namespace VIENNAAddIn.upcc3.ccts.util
 {
     public static class MultiPartTaggedValue
     {
@@ -16,8 +16,8 @@ namespace CctsRepository
             {
                 return string.Empty;
             }
-            var stringArray = new List<string>(values.Convert(v => (v == null ? "" : v.ToString()))).ToArray();
-            return string.Join("" + ValueSeparator, stringArray);
+            var stringArray = new List<string>(values.Convert(v => (v == null ? string.Empty : v.ToString()))).ToArray();
+            return string.Join(string.Empty + ValueSeparator, stringArray);
         }
 
         public static IEnumerable<string> Split(string value)
