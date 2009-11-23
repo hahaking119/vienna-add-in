@@ -1,9 +1,9 @@
 namespace CctsRepository
 {
     /// <summary>
-    /// Represents EA's aggregation kind values (which are ints) as an ENUM.
+    /// Represents UML aggregation kind values as an ENUM.
     /// </summary>
-    public enum EAAggregationKind
+    public enum AggregationKind
     {
         None,
         Shared,

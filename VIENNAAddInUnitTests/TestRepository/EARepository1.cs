@@ -50,10 +50,10 @@ namespace VIENNAAddInUnitTests.TestRepository
             accPerson.AddASCC(accAddress, "homeAddress");
             accPerson.AddASCC(accAddress, "workAddress", "0", "*");
 
-            bieMyPerson.AddASBIE(bieMyAddress, "My_homeAddress", EAAggregationKind.Shared);
-            bieMyPerson.AddASBIE(bieMyAddress, "My_workAddress", EAAggregationKind.Composite, "0", "*");
-            bieInvoice.AddASBIE(bieInvoiceInfo, "info", EAAggregationKind.Shared);
-            bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", EAAggregationKind.Shared);
+            bieMyPerson.AddASBIE(bieMyAddress, "My_homeAddress", AggregationKind.Shared);
+            bieMyPerson.AddASBIE(bieMyAddress, "My_workAddress", AggregationKind.Composite, "0", "*");
+            bieInvoice.AddASBIE(bieInvoiceInfo, "info", AggregationKind.Shared);
+            bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", AggregationKind.Shared);
         }
 
         private void InitTestModel(Package m)

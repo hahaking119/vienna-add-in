@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using EA;
 using CctsRepository;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.ea

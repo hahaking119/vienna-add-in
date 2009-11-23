@@ -86,7 +86,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                                                       {
                                                           new ASBIESpec
                                                           {
-                                                              AggregationKind = EAAggregationKind.Composite,
+                                                              AggregationKind = AggregationKind.Composite,
                                                               Name = rootComplexTypeMapping.BIEName,
                                                               ResolveAssociatedABIE = DeferredABIEResolver(rootComplexTypeMapping),
                                                           }

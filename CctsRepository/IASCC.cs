@@ -12,6 +12,6 @@ namespace CctsRepository
     {
         IACC AssociatingElement { get; }
         IACC AssociatedElement { get; }
-        EAAggregationKind AggregationKind { get; }
+        AggregationKind AggregationKind { get; }
     }
 }

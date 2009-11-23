@@ -51,11 +51,11 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
             accPerson.AddASCC(accAddress, "homeAddress");
             accPerson.AddASCC(accAddress, "workAddress", "0", "*");
 
-            bieMyPerson.AddASBIE(bieMyAddress, "homeAddress", EAAggregationKind.Shared);
+            bieMyPerson.AddASBIE(bieMyAddress, "homeAddress", AggregationKind.Shared);
             bieMyPerson.AddBasedOnDependency(accPerson);
-            bieMyPerson.AddASBIE(bieMyAddress, "workAddress", EAAggregationKind.Composite, "0", "*");
-            bieInvoice.AddASBIE(bieInvoiceInfo, "info", EAAggregationKind.Shared);
-            bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", EAAggregationKind.Shared);
+            bieMyPerson.AddASBIE(bieMyAddress, "workAddress", AggregationKind.Composite, "0", "*");
+            bieInvoice.AddASBIE(bieInvoiceInfo, "info", AggregationKind.Shared);
+            bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", AggregationKind.Shared);
         }
 
         private void InitTestModel(Package m)

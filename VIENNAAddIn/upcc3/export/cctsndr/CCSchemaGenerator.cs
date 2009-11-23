@@ -139,7 +139,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     elementASCC.Annotation = GetASCCAnnotiation(ascc);
                 }
 
-                if (ascc.AggregationKind == EAAggregationKind.Shared)
+                if (ascc.AggregationKind == AggregationKind.Shared)
                 {
                     // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
                     XmlSchemaElement refASCC = new XmlSchemaElement();

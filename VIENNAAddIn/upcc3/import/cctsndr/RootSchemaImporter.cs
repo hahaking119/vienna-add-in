@@ -162,7 +162,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                                                                     (element.Ref.Name).Length -
                                                                     associatedABIEName.Length);
 
-                    ASBIESpec asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, EAAggregationKind.Shared);
+                    ASBIESpec asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, AggregationKind.Shared);
 
                     newAsbieSpecs.Add(asbieSpec);
                 }
@@ -179,7 +179,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                         string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
                         ASBIESpec asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie,
-                                                                EAAggregationKind.Composite);
+                                                                AggregationKind.Composite);
 
                         newAsbieSpecs.Add(asbieSpec);
                     }
@@ -211,7 +211,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         /// <paramref name="element"/> and <paramref name="associatedAbie"/>.
         ///</returns>
         public static ASBIESpec CumulateAsbieSpec(Element element, string asbieName, IABIE associatedAbie,
-                                                  EAAggregationKind aggregationKind)
+                                                  AggregationKind aggregationKind)
         {
             var asbieSpec = new ASBIESpec
                             {
