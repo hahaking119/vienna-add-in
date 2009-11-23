@@ -8,10 +8,10 @@ using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
-using CheckBox=System.Windows.Controls.CheckBox;
-using KeyEventArgs=System.Windows.Input.KeyEventArgs;
-using ListBox=System.Windows.Controls.ListBox;
-using TextBox=System.Windows.Controls.TextBox;
+using CheckBox = System.Windows.Controls.CheckBox;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using ListBox = System.Windows.Controls.ListBox;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev
 {
@@ -91,9 +91,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             checkedlistboxBCCs.MouseDown += checkedlistboxtboxBCCs_MouseDown;*/
         }
 
-        private static void checkedlistboxtboxBCCs_MouseDown(object sender, MouseButtonEventArgs e)
+        private void checkedlistboxtboxBCCs_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var listbox = (ListBox) sender;
+            var listbox = (ListBox)sender;
             listbox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
 
@@ -102,9 +102,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private static void textboxKeyUp(object sender, KeyEventArgs e)
+        private void textboxKeyUp(object sender, KeyEventArgs e)
         {
-            var textbox = (TextBox) sender;
+            var textbox = (TextBox)sender;
             switch (e.Key)
             {
                 case Key.Tab:
@@ -125,10 +125,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="e"></param>
         private static void SelectTextBoxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var textbox = (TextBox) sender;
+            var textbox = (TextBox)sender;
             textbox.Background = System.Windows.Media.Brushes.Transparent;
-            var stackpanel = (StackPanel) textbox.Parent;
-            var listbox = (ListBox) stackpanel.Parent;
+            var stackpanel = (StackPanel)textbox.Parent;
+            var listbox = (ListBox)stackpanel.Parent;
             listbox.SelectedItem = stackpanel;
         }
 
@@ -137,23 +137,31 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private static void SelectCheckboxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        private void SelectBCCCheckboxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var checkbox = (CheckBox)sender;
-            var listbox = (ListBox) checkbox.Parent;
-            listbox.SelectedItem = checkbox;
+            var textBox = (TextBox)sender;
+            int i = 0;
+            foreach (CheckedListItem item in checkedlistboxBCCs.Items)
+            {
+                if (item.Name.Equals(textBox.Text))
+                {
+                    checkedlistboxBCCs.SelectedIndex = i;
+                    break;
+                }
+                i++;
+            }
         }
 
         private void comboCCLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox comboBox = (ComboBox) sender;
-            tempModel.setCCLInUse(comboBox.SelectionBoxItemStringFormat);
+            var comboBox = (ComboBox)sender;
+            tempModel.setCCLInUse(comboBox.SelectedItem.ToString());
         }
 
         private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
-            tempModel.SetTargetACC(comboBox.SelectionBoxItemStringFormat);
+            tempModel.SetTargetACC(comboBox.SelectedItem.ToString());
 
         }
 
