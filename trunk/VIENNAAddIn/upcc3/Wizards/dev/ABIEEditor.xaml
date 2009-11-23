@@ -11,11 +11,11 @@
         
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelCCLs">Choose CC Library containing ACCs:</Label>
-            <ComboBox ItemsSource="{Binding Content, Source={StaticResource listModelCCL}}" HorizontalAlignment="Stretch" Height="23" Name="comboCCLs" SelectionChanged="comboCCLs_SelectionChanged"></ComboBox>
+            <ComboBox ItemsSource="{Binding Content, Source={StaticResource listModelCCL}}" HorizontalAlignment="Stretch" Height="23" Name="comboCCLs" SelectionChanged="comboCCLs_SelectionChanged" KeyboardNavigation.TabIndex="0"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelACCs">Choose ACC used to generate the ABIE:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboACCs" SelectionChanged="comboACCs_SelectionChanged"></ComboBox>
+            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboACCs" SelectionChanged="comboACCs_SelectionChanged" KeyboardNavigation.TabIndex="1"></ComboBox>
         </DockPanel>
         
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,1,1,1">
@@ -28,19 +28,19 @@
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBIELs">BIE Library used to store the ABIE:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboBIELs_SelectionChanged"></ComboBox>
+            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboBIELs_SelectionChanged" KeyboardNavigation.TabIndex="6"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBDTLs">BDT Library used to store the BDTs:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs" SelectionChanged="comboBDTLs_SelectionChanged"></ComboBox>
+            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs" SelectionChanged="comboBDTLs_SelectionChanged" KeyboardNavigation.TabIndex="5"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelABIEName">Name of the generated ABIE:</Label>
-            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textABIEName" TextChanged="textABIEName_TextChanged" />
+            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textABIEName" TextChanged="textABIEName_TextChanged" KeyboardNavigation.TabIndex="4"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,5,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelPrefix">Prefix used for the generated Artifacts:</Label>
-            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textPrefix" TextChanged="textPrefix_TextChanged" />
+            <TextBox HorizontalAlignment="Stretch" Height="23" Name="textPrefix" TextChanged="textPrefix_TextChanged" KeyboardNavigation.TabIndex="3"/>
         </DockPanel>
 
 
@@ -52,9 +52,9 @@
                             <GroupBox Header="BCCs used as BBIEs" Margin="0,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
-                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" Checked="checkboxBCCs_Checked" Unchecked="checkboxBCCs_Unchecked">Select all BCCs</CheckBox>
+                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" Checked="checkboxBCCs_Checked" Unchecked="checkboxBCCs_Unchecked" KeyboardNavigation.TabIndex="0">Select all BCCs</CheckBox>
                                     </StackPanel>
-                                    <ListBox Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged">
+                                    <ListBox Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
                                         <ListBox.Resources>
                                             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
                                             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
@@ -65,10 +65,10 @@
                             <GroupBox Header="BBIEs based on BCCs" Margin="-2,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
-                                        <Button Name="buttonAddBBIE" Height="15" Width="15" Click="buttonAddBBIE_Click" FontSize="8">+</Button>
+                                        <Button Name="buttonAddBBIE" Height="15" Width="15" Click="buttonAddBBIE_Click" FontSize="8" KeyboardNavigation.TabIndex="2">+</Button>
                                         <Label Margin="0,-2,0,0">Add another BBIE</Label>
                                     </StackPanel>
-                                    <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelCCL}}" Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBBIEs_SelectionChanged">
+                                    <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelCCL}}" Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBBIEs_SelectionChanged" KeyboardNavigation.TabIndex="3">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox Content="{Binding Name}" IsChecked="{Binding Check}" />
@@ -80,7 +80,7 @@
                             <GroupBox Header="BDTs available to typify the BBIEs" Margin="-2,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0" />
-                                    <ListBox Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged">
+                                    <ListBox Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged" KeyboardNavigation.TabIndex="4">
                                         <ListBox.Resources>
                                             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
                                             <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
@@ -96,12 +96,12 @@
                         <UniformGrid Rows="1" Columns="2">
                             <GroupBox Header="ABIEs available to associate the new ABIE with" Margin="0,0,0,0">
                                 <DockPanel>
-                                    <ListBox Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="checkedlistboxABIEs_SelectionChanged"></ListBox>
+                                    <ListBox Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="checkedlistboxABIEs_SelectionChanged" KeyboardNavigation.TabIndex="0"></ListBox>
                                 </DockPanel>
                             </GroupBox>
                             <GroupBox Header="ASCCs available to associate the two ABIEs" Margin="-2,0,0,0">
                                 <DockPanel>
-                                    <ListBox Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="checkedlistboxASCCs_SelectionChanged"></ListBox>
+                                    <ListBox Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="checkedlistboxASCCs_SelectionChanged" KeyboardNavigation.TabIndex="1"></ListBox>
                                 </DockPanel>
                             </GroupBox>
                         </UniformGrid>

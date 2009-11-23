@@ -40,12 +40,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         {
             this.listModelCCL = listModel;
             this.listModelCCL.Content = new ObservableCollection<string>(new List<string>(this.getCCLs()));
-            this.checkedListModelCCL = checkedListModel;
-            this.checkedListModelCCL.Content = new ObservableCollection<CheckedListItem>();
-            foreach(string name in getCCLs())
-            {
-                this.checkedListModelCCL.Content.Add(new CheckedListItem(name, true));
-            }
+            //this.checkedListModelCCL = checkedListModel;
+            //this.checkedListModelCCL.Content = new ObservableCollection<CheckedListItem>();
+            //foreach(string name in getCCLs())
+            //{
+            //    this.checkedListModelCCL.Content.Add(new CheckedListItem(name, true));
+            //}
         }
 
         public TemporaryABIEModel(CCRepository ccRepository)
