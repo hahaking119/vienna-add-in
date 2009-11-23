@@ -71,7 +71,7 @@
                                     <ListBox ItemsSource="{Binding Content, Source={StaticResource checkedListModelCCL}}" Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBBIEs_SelectionChanged">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding Name}" Checked="{Binding Check}" />
+                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding Check}" />
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
                                     </ListBox>
