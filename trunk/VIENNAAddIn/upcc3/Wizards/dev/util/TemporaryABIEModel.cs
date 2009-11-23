@@ -34,18 +34,35 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         private Dictionary<string, TemporaryASBIE> potentialASBIEs;
 
         private ListModel listModelCCL;
-        private CheckedListModel checkedListModelCCL;
+        private ListModel listModelACC;
+        private CheckedListModel checkedListModelBCC;
+        private CheckedListModel checkedListModelBBIE;
+        private CheckedListModel checkedListModelBDT;
+        private CheckedListModel checkedListModelABIE;
+        private CheckedListModel checkedListModelASCC;
+        private ListModel listModelBIEL;
+        private ListModel listModelBDTL;
 
-        public void Initialize(ListModel listModel, CheckedListModel checkedListModel)
+        public void Initialize(ListModel _listModelCCL, ListModel _listModelACC, CheckedListModel _checkedListModelBCC, CheckedListModel _checkedListModelBBIE, CheckedListModel _checkedListModelBDT, CheckedListModel _checkedListModelABIE, CheckedListModel _checkedListModelASCC, ListModel _listModelBIEL, ListModel _listModelBDTL)
         {
-            this.listModelCCL = listModel;
-            this.listModelCCL.Content = new ObservableCollection<string>(new List<string>(this.getCCLs()));
-            //this.checkedListModelCCL = checkedListModel;
-            //this.checkedListModelCCL.Content = new ObservableCollection<CheckedListItem>();
-            //foreach(string name in getCCLs())
-            //{
-            //    this.checkedListModelCCL.Content.Add(new CheckedListItem(name, true));
-            //}
+            listModelCCL = _listModelCCL;
+            listModelCCL.Content = new ObservableCollection<string>(new List<string>(getCCLs()));
+            listModelACC = _listModelACC;
+            listModelACC.Content = new ObservableCollection<string>(new List<string>(/*getACCs()*/));
+            checkedListModelBCC = _checkedListModelBCC;
+            checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(/*getBCCs()*/));
+            checkedListModelBBIE = _checkedListModelBBIE;
+            checkedListModelBBIE.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(/*getBBIEs()*/));
+            checkedListModelBDT = _checkedListModelBDT;
+            checkedListModelBDT.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(/*getBDTs()*/));
+            checkedListModelABIE = _checkedListModelABIE;
+            checkedListModelABIE.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(/*getABIEs()*/));
+            checkedListModelASCC = _checkedListModelASCC;
+            checkedListModelASCC.Content = new ObservableCollection<CheckedListItem>(new List<CheckedListItem>(/*getASCCs()*/));
+            listModelBIEL = _listModelBIEL;
+            listModelBIEL.Content = new ObservableCollection<string>(new List<string>(/*getBIELs()*/));
+            listModelBDTL = _listModelBDTL;
+            listModelBDTL.Content = new ObservableCollection<string>(new List<string>(/*getBDTLs()*/));
         }
 
         public TemporaryABIEModel(CCRepository ccRepository)

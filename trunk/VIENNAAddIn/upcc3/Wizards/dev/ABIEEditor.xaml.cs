@@ -22,7 +22,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
     {
         private readonly CCCache cache;
         private TemporaryABIEModel tempModel;
-        private bool renameInProgress;
 
         /// <summary>
         /// Constructor for ABIE creation wizard
@@ -31,13 +30,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         public ABIEEditor(Repository eaRepository)
         {
             tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
-            renameInProgress = false;
 
             InitializeComponent();
 
-            ListModel listModel = this.Resources["listModelCCL"] as ListModel;
-            CheckedListModel checkedListModel = this.Resources["checkedListModelCCL"] as CheckedListModel;
-            this.tempModel.Initialize(listModel, checkedListModel);
+            ListModel listModelCCL = this.Resources["listModelCCL"] as ListModel;
+            ListModel listModelACC = this.Resources["listModelACC"] as ListModel;
+            CheckedListModel checkedListModelBCC = this.Resources["checkedListModelBCC"] as CheckedListModel;
+            CheckedListModel checkedListModelBBIE = this.Resources["checkedListModelBBIE"] as CheckedListModel;
+            CheckedListModel checkedListModelBDT = this.Resources["checkedListModelBDT"] as CheckedListModel;
+            CheckedListModel checkedListModelABIE = this.Resources["checkedListModelABIE"] as CheckedListModel;
+            CheckedListModel checkedListModelASCC = this.Resources["checkedListModelASCC"] as CheckedListModel;
+            ListModel listModelBIEL = this.Resources["listModelBIEL"] as ListModel;
+            ListModel listModelBDTL = this.Resources["listModelBDTL"] as ListModel;
+            tempModel.Initialize(listModelCCL, listModelACC, checkedListModelBCC, checkedListModelBBIE, checkedListModelBDT, checkedListModelABIE, checkedListModelASCC, listModelBIEL, listModelBDTL);
 
             WindowLoaded();
         }
@@ -51,7 +56,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         {
             tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
             //cache.PrepareForABIE(abie);
-            renameInProgress = false;
 
             InitializeComponent();
             WindowLoaded();
@@ -71,40 +75,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         private void WindowLoaded()
         {
-            /*foreach (var cclname in tempModel.getCCLs())
-            {
-                comboCCLs.Items.Add(cclname);
-            }*/
-
-            //foreach (BDTLibrary bdtLibrary in cache.GetBDTLibraries())
-            //{
-            //    var item = new ComboBoxItem {Content = bdtLibrary.Name};
-            //    comboBDTLs.Items.Add(item);
-            //}
-            //foreach (BIELibrary bieLibrary in cache.GetBIELibraries())
-            //{
-            //    var item = new ComboBoxItem { Content = bieLibrary.Name };
-            //    comboBIELs.Items.Add(item);
-            //}
-            //BDTs
-            // start rename listbox-item test
-            var testitem1 = new CheckBox {Content = "Test1"};
-            testitem1.MouseDoubleClick += checkboxRename_MouseDoubleClick;
-            testitem1.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
-            
-            var testitem2 = new CheckBox {Content = "Test2"};
-            testitem2.MouseDoubleClick += checkboxRename_MouseDoubleClick;
-            testitem2.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
-            var testitem3 = new CheckBox {Content = "Test3"};
-            testitem3.MouseDoubleClick += checkboxRename_MouseDoubleClick;
-            testitem3.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
-            checkedlistboxBDTs.Items.Add(testitem1);
-            checkedlistboxBDTs.Items.Add(testitem2);
-            checkedlistboxBDTs.Items.Add(testitem3);
-            // end rename listbox-item test
-
-            //BCCs
-            var testpanel = new StackPanel
+            /*var testpanel = new StackPanel
                                 {
                                     Orientation = Orientation.Horizontal
                                 };
@@ -117,8 +88,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             testpanel.Children.Add(coolcheckbox);
             testpanel.Children.Add(cooltextbox);
             checkedlistboxBCCs.Items.Add(testpanel);
-            checkedlistboxBCCs.MouseDown += checkedlistboxtboxBCCs_MouseDown;
-            //
+            checkedlistboxBCCs.MouseDown += checkedlistboxtboxBCCs_MouseDown;*/
         }
 
         private static void checkedlistboxtboxBCCs_MouseDown(object sender, MouseButtonEventArgs e)
@@ -173,80 +143,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             var listbox = (ListBox) checkbox.Parent;
             listbox.SelectedItem = checkbox;
         }
-        // start rename listbox-item test
-        private void checkboxRename_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (!renameInProgress)
-            {
-                var checkbox = (CheckBox) sender;
-                string oldName = checkbox.Content.ToString();
-                int index = checkedlistboxBDTs.Items.IndexOf(sender);
-
-                var textbox = new RenameTextBox
-                                  {
-                                      Text = oldName,
-                                      OldText = oldName,
-                                      ListIndex = index,
-                                      CheckState = (!(bool) checkbox.IsChecked),
-                                      Width = 150
-                                  };
-                //checkstate has to be inverted because of double click action!
-                checkedlistboxBDTs.Items.RemoveAt(index);
-                checkedlistboxBDTs.Items.Insert(index, textbox);
-                textbox.BorderThickness = new Thickness(1.0);
-
-                //textbox.LostFocus += textRename_LostFocus;
-                textbox.KeyUp += textRename_KeyUp;
-                renameInProgress = true;
-            }
-        }
-
-        private void textRename_KeyUp(object sender, KeyEventArgs e)
-        {
-
-            if (e.Key == Key.Return || e.Key == Key.Tab)
-            {
-                textRenameApply(sender);
-            }
-            else if (e.Key == Key.Escape)
-            {
-                textRenameRevert(sender);
-            }
-        }
-
-        //Unfortunal this does not include the outside click event!
-        //private void textRename_LostFocus(object sender, RoutedEventArgs e)
-        //{
-        //   textRenameApply(sender);
-         
-        //}
-
-        private void textRenameApply(object sender)
-        {
-            var textbox = (RenameTextBox) sender;
-            string newName = textbox.Text;
-            int index = textbox.ListIndex;
-            var item = new CheckBox {Content = newName, IsChecked = textbox.CheckState};
-            item.MouseDoubleClick += checkboxRename_MouseDoubleClick;
-            item.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
-            checkedlistboxBDTs.Items.RemoveAt(index);
-            checkedlistboxBDTs.Items.Insert(index, item);
-            renameInProgress = false;
-        }
-
-        private void textRenameRevert(object sender)
-        {
-            var textbox = (RenameTextBox) sender;
-            var index = textbox.ListIndex;
-            var item = new CheckBox {Content = textbox.OldText, IsChecked = textbox.CheckState};
-            item.MouseDoubleClick += checkboxRename_MouseDoubleClick;
-            item.PreviewMouseLeftButtonDown += SelectCheckboxItemOnMouseSingleClick;
-            checkedlistboxBDTs.Items.RemoveAt(index);
-            checkedlistboxBDTs.Items.Insert(index, item);
-            renameInProgress = false;
-        }
-
-        // end rename listbox-item test
 
         private void comboCCLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
