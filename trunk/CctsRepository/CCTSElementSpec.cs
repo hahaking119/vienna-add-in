@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CctsRepository
 {
-    public abstract class CCTSElementSpec : CCTSSpec
+    public abstract class CCTSElementSpec
     {
         protected CCTSElementSpec(ICCTSElement cctsElement)
         {
@@ -28,28 +28,11 @@ namespace CctsRepository
         }
 
         public string Name { get; set; }
-
-        [TaggedValue]
         public string DictionaryEntryName { get; set; }
-
-        [TaggedValue]
         public string Definition { get; set; }
-
-        [TaggedValue]
         public string UniqueIdentifier { get; set; }
-
-        [TaggedValue]
         public string VersionIdentifier { get; set; }
-
-        [TaggedValue]
         public string LanguageCode { get; set; }
-
-        [TaggedValue]
         public IEnumerable<string> BusinessTerms { get; set; }
-
-        public virtual IEnumerable<AttributeSpec> GetAttributes()
-        {
-            yield break;
-        }
     }
 }

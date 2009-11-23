@@ -6,15 +6,13 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using CctsRepository;
-
 namespace CctsRepository
 {
-    public interface IDTComponent : ICCTSElement, IHasUsageRules, IHasMultiplicity, IPRIMRestrictions
+    public interface IBDTSupplementaryComponent : ICCTSElement, IHasUsageRules, IHasMultiplicity, IPRIMRestrictions
     {
+        IBDT BDT { get; }
         IBasicType BasicType { get; }
         bool ModificationAllowedIndicator { get; }
         bool IsOptional();
-        IDT DT { get; }
     }
 }

@@ -226,7 +226,7 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
             ValidateStereotype(element);
             ValidateDuplicateNames(element);
             ValidateIsEquivalentToDependencies(element);
-            prims.Add(new ValidatingPRIM(element));
+//            prims.Add(new ValidatingPRIM(element));
         }
 
         private void ValidateIsEquivalentToDependencies(Element element)
@@ -295,205 +295,205 @@ namespace VIENNAAddIn.validator.upcc3.onTheFly
         }
     }
 
-    public class ValidatingPRIM : IPRIM
-    {
-        private readonly Element element;
-        private readonly string dictionaryEntryName;
-
-        private static List<TaggedValueProperty> taggedValueProperties;
-
-        static ValidatingPRIM()
-        {
-            Type type = typeof(ValidatingPRIM);
-            taggedValueProperties = new List<TaggedValueProperty>();
-            PropertyInfo[] properties = type.GetProperties();
-            foreach (PropertyInfo property in properties)
-            {
-                object[] attributes = property.GetCustomAttributes(typeof(TaggedValueAttribute), true);
-                if (attributes.Length > 0)
-                {
-                    var attribute = (TaggedValueAttribute)attributes[0];
-                    TaggedValues taggedValue = DetermineTaggedValue(property, attribute);
-                    if (property.PropertyType == typeof(string))
-                    {
-                        taggedValueProperties.Add(new StringTaggedValueProperty(taggedValue, property));
-                    }
-                    else if (property.PropertyType == typeof(IEnumerable<string>))
-                    {
-                        taggedValueProperties.Add(new MultiStringTaggedValueProperty(taggedValue, property));
-                    }
-                    else if (property.PropertyType == typeof(bool))
-                    {
-                        taggedValueProperties.Add(new BooleanTaggedValueProperty(taggedValue, property));
-                    }
-                }
-            }
-        }
-
-        private static TaggedValues DetermineTaggedValue(PropertyInfo property, TaggedValueAttribute attribute)
-        {
-            TaggedValues taggedValue = attribute.Key;
-            if (taggedValue == TaggedValues.undefined)
-            {
-                taggedValue = GetTaggedValue(property.Name);
-            }
-            if (taggedValue == TaggedValues.undefined && property.Name.EndsWith("s"))
-            {
-                taggedValue = GetTaggedValue(property.Name.Substring(0, property.Name.Length - 1));
-            }
-            if (taggedValue == TaggedValues.undefined)
-            {
-                throw new Exception("cannot determine tagged value of property " + property.DeclaringType.Name + "." + property.Name);
-            }
-            return taggedValue;
-        }
-
-        private static TaggedValues GetTaggedValue(string propertyName)
-        {
-            TaggedValues taggedValue;
-            try
-            {
-                taggedValue = (TaggedValues)Enum.Parse(typeof(TaggedValues), propertyName, true);
-            }
-            catch (ArgumentException)
-            {
-                taggedValue = TaggedValues.undefined;
-            }
-            return taggedValue;
-        }
-
-        public ValidatingPRIM(Element element)
-        {
-            this.element = element;
-            foreach (var taggedValueProperty in taggedValueProperties)
-            {
-                taggedValueProperty.LoadFromElement(this, element);
-            }
-        }
-
-        #region IPRIM Members
-
-        public int Id
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string GUID
-        {
-            get { return element.ElementGUID; }
-        }
-
-        public string Name
-        {
-            get { return element.Name; }
-        }
-
-        [OptionalTaggedValue]
-        public string DictionaryEntryName
-        {
-            get
-            {
-                string value = dictionaryEntryName;
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = Name;
-                }
-                return value;
-            }
-        }
-
-        public string Definition
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string UniqueIdentifier
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string VersionIdentifier
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string LanguageCode
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<string> BusinessTerms
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IBusinessLibrary Library
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string Pattern
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string FractionDigits
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string Length
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string MaxExclusive
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string MaxInclusive
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string MaxLength
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string MinExclusive
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string MinInclusive
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string MinLength
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string TotalDigits
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public string WhiteSpace
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IPRIM IsEquivalentTo
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
-    }
+//    public class ValidatingPRIM : IPRIM
+//    {
+//        private readonly Element element;
+//        private readonly string dictionaryEntryName;
+//
+//        private static List<TaggedValueProperty> taggedValueProperties;
+//
+//        static ValidatingPRIM()
+//        {
+//            Type type = typeof(ValidatingPRIM);
+//            taggedValueProperties = new List<TaggedValueProperty>();
+//            PropertyInfo[] properties = type.GetProperties();
+//            foreach (PropertyInfo property in properties)
+//            {
+//                object[] attributes = property.GetCustomAttributes(typeof(TaggedValueAttribute), true);
+//                if (attributes.Length > 0)
+//                {
+//                    var attribute = (TaggedValueAttribute)attributes[0];
+//                    TaggedValues taggedValue = DetermineTaggedValue(property, attribute);
+//                    if (property.PropertyType == typeof(string))
+//                    {
+//                        taggedValueProperties.Add(new StringTaggedValueProperty(taggedValue, property));
+//                    }
+//                    else if (property.PropertyType == typeof(IEnumerable<string>))
+//                    {
+//                        taggedValueProperties.Add(new MultiStringTaggedValueProperty(taggedValue, property));
+//                    }
+//                    else if (property.PropertyType == typeof(bool))
+//                    {
+//                        taggedValueProperties.Add(new BooleanTaggedValueProperty(taggedValue, property));
+//                    }
+//                }
+//            }
+//        }
+//
+//        private static TaggedValues DetermineTaggedValue(PropertyInfo property, TaggedValueAttribute attribute)
+//        {
+//            TaggedValues taggedValue = attribute.Key;
+//            if (taggedValue == TaggedValues.undefined)
+//            {
+//                taggedValue = GetTaggedValue(property.Name);
+//            }
+//            if (taggedValue == TaggedValues.undefined && property.Name.EndsWith("s"))
+//            {
+//                taggedValue = GetTaggedValue(property.Name.Substring(0, property.Name.Length - 1));
+//            }
+//            if (taggedValue == TaggedValues.undefined)
+//            {
+//                throw new Exception("cannot determine tagged value of property " + property.DeclaringType.Name + "." + property.Name);
+//            }
+//            return taggedValue;
+//        }
+//
+//        private static TaggedValues GetTaggedValue(string propertyName)
+//        {
+//            TaggedValues taggedValue;
+//            try
+//            {
+//                taggedValue = (TaggedValues)Enum.Parse(typeof(TaggedValues), propertyName, true);
+//            }
+//            catch (ArgumentException)
+//            {
+//                taggedValue = TaggedValues.undefined;
+//            }
+//            return taggedValue;
+//        }
+//
+//        public ValidatingPRIM(Element element)
+//        {
+//            this.element = element;
+//            foreach (var taggedValueProperty in taggedValueProperties)
+//            {
+//                taggedValueProperty.LoadFromElement(this, element);
+//            }
+//        }
+//
+//        #region IPRIM Members
+//
+//        public int Id
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string GUID
+//        {
+//            get { return element.ElementGUID; }
+//        }
+//
+//        public string Name
+//        {
+//            get { return element.Name; }
+//        }
+//
+//        [OptionalTaggedValue]
+//        public string DictionaryEntryName
+//        {
+//            get
+//            {
+//                string value = dictionaryEntryName;
+//                if (string.IsNullOrEmpty(value))
+//                {
+//                    value = Name;
+//                }
+//                return value;
+//            }
+//        }
+//
+//        public string Definition
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string UniqueIdentifier
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string VersionIdentifier
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string LanguageCode
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public IEnumerable<string> BusinessTerms
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public IBusinessLibrary Library
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string Pattern
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string FractionDigits
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string Length
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string MaxExclusive
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string MaxInclusive
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string MaxLength
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string MinExclusive
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string MinInclusive
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string MinLength
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string TotalDigits
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public string WhiteSpace
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        public IPRIM IsEquivalentTo
+//        {
+//            get { throw new NotImplementedException(); }
+//        }
+//
+//        #endregion
+//    }
 
     internal class BooleanTaggedValueProperty : TaggedValueProperty
     {

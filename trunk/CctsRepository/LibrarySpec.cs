@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CctsRepository
 {
-    public class LibrarySpec : CCTSSpec
+    public class LibrarySpec
     {
         public LibrarySpec(IBusinessLibrary businessLibrary)
         {
@@ -32,31 +32,14 @@ namespace CctsRepository
 
         public string Name { get; set; }
 
-        [TaggedValue]
         public string Status { get; set; }
-
-        [TaggedValue]
         public string UniqueIdentifier { get; set; }
-
-        [TaggedValue]
         public string VersionIdentifier { get; set; }
-
-        [TaggedValue]
         public string BaseURN { get; set; }
-
-        [TaggedValue]
         public string NamespacePrefix { get; set; }
-
-        [TaggedValue]
         public IEnumerable<string> BusinessTerms { get; set; }
-
-        [TaggedValue]
         public IEnumerable<string> Copyrights { get; set; }
-
-        [TaggedValue]
         public IEnumerable<string> Owners { get; set; }
-
-        [TaggedValue]
         public IEnumerable<string> References { get; set; }
     }
 }

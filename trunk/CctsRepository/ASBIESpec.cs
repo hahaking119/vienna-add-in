@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace CctsRepository
 {
-    public class ASBIESpec : BIESpec
+    public class ASBIESpec : CCTSElementSpec
     {
         private EAAggregationKind aggregationKind = EAAggregationKind.Composite;
         private int associatedABIEId;
 
         public ASBIESpec(IASBIE asbie) : base(asbie)
         {
+            UsageRules = new List<string>(asbie.UsageRules);
             SequencingKey = asbie.SequencingKey;
             AssociatedABIEId = asbie.AssociatedElement.Id;
             LowerBound = asbie.LowerBound;
@@ -21,7 +22,6 @@ namespace CctsRepository
         {
         }
 
-        [TaggedValue]
         public string SequencingKey { get; set; }
 
         public int AssociatedABIEId
@@ -50,6 +50,8 @@ namespace CctsRepository
             get { return aggregationKind; }
             set { aggregationKind = value; }
         }
+
+        public IEnumerable<string> UsageRules { get; set; }
 
         public static ASBIESpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
         {

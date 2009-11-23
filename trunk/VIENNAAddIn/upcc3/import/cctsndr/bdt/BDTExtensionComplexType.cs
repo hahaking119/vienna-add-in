@@ -16,13 +16,13 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             get { return ((XmlSchemaSimpleContentExtension) ComplexType.ContentModel.Content).BaseTypeName.Name; }
         }
 
-        protected override IEnumerable<SUPSpec> SpecifySUPs()
+        protected override IEnumerable<BDTSupplementaryComponentSpec> SpecifySUPs()
         {
             var extension = (XmlSchemaSimpleContentExtension) ComplexType.ContentModel.Content;
             foreach (XmlSchemaAttribute attribute in extension.Attributes)
             {
                 string basicTypeName = NDR.ConvertXsdTypeNameToBasicTypeName(attribute.SchemaTypeName.Name);
-                yield return new SUPSpec
+                yield return new BDTSupplementaryComponentSpec
                                  {
                                      Name = attribute.Name.Minus(basicTypeName),
                                      BasicType = FindPRIM(basicTypeName)
@@ -30,9 +30,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             }
         }
 
-        protected override CONSpec SpecifyCON()
+        protected override BDTContentComponentSpec SpecifyCON()
         {
-            return new CONSpec
+            return new BDTContentComponentSpec()
                        {
                            BasicType =
                                FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName))

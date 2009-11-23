@@ -12,10 +12,17 @@ namespace CctsRepository
 {
     public interface IENUM : IBasicType
     {
-        string AgencyIdentifier { get; }
-        string AgencyName { get; }
+        string CodeListAgencyIdentifier { get; }
+        string CodeListAgencyName { get; }
+        string CodeListIdentifier { get; }
+        string CodeListName { get; }
         string EnumerationURI { get; }
+        bool ModificationAllowedIndicator { get; }
+        string RestrictedPrimitive { get; }
+        string Status { get; }
+
         IENUM IsEquivalentTo { get; }
-        IDictionary<string, string> Values { get; }
+
+        IEnumerable<ICodelistEntry> CodelistEntries { get; }
     }
 }

@@ -6,21 +6,35 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using CctsRepository;
+using System.Collections.Generic;
+using VIENNAAddInUtils;
 
 namespace CctsRepository
 {
-    public class CDTSpec : DTSpec
+    public class CDTSpec : CCTSElementSpec
     {
         public CDTSpec(ICDT cdt) : base(cdt)
         {
+            UsageRules = new List<string>(cdt.UsageRules);
+            CON = new CDTContentComponentSpec(cdt.CON);
+            SUPs = new List<CDTSupplementaryComponentSpec>(cdt.SUPs.Convert(sup => new CDTSupplementaryComponentSpec(sup)));
         }
 
         public CDTSpec()
         {
+            SUPs = new List<CDTSupplementaryComponentSpec>();
         }
 
-        [Dependency]
         public ICDT IsEquivalentTo { get; set; }
+
+        public IEnumerable<string> UsageRules { get; set; }
+
+        public List<CDTSupplementaryComponentSpec> SUPs { get; set; }
+        public CDTContentComponentSpec CON { get; set; }
+
+        public void RemoveSUP(string name)
+        {
+            SUPs.RemoveAll(sup => sup.Name == name);
+        }
     }
 }

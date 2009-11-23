@@ -61,21 +61,26 @@ namespace VIENNAAddInUnitTests.TestRepository
             return primLib1.AddClass(name).With(EARepository.ElementStereotype(Stereotype.PRIM));
         }
 
-        public static Element AddENUM(this Package enumLib1, string name, Element type, params string[] values)
+        public static Element AddENUM(this Package enumLib1, string name, Element type, params string[][] codelistEntries)
         {
             return enumLib1.AddClass(name).With(EARepository.ElementStereotype(Stereotype.ENUM),
                                                 e =>
                                                 {
-                                                    for (int i = 0; i < values.Length; i += 2)
+                                                    foreach (var codelistEntry in codelistEntries)
                                                     {
-                                                        AddENUMValue(e, values[i], values[i + 1], type);
+                                                        AddENUMValue(e, codelistEntry[0], codelistEntry[1], codelistEntry[2]);
                                                     }
                                                 });
         }
 
-        public static void AddENUMValue(this Element e, string name, string value, Element type)
+        public static void AddENUMValue(this Element e, string name, string codeName, string status)
         {
-            e.AddAttribute(name, type).With(a => { a.Default = value; });
+            e.AddAttribute(name, "string").With(a =>
+                                                {
+                                                    a.Stereotype = Stereotype.CodelistEntry;
+                                                    a.AddTaggedValue(TaggedValues.codeName.ToString()).WithValue(codeName);
+                                                    a.AddTaggedValue(TaggedValues.status.ToString()).WithValue(status);
+                                                });
         }
 
         public static void AddASCC(this Element client, Element supplier, string name)

@@ -170,7 +170,10 @@ namespace VIENNAAddInUnitTests.TestRepository
             enumLibrary.Element.Stereotype = Stereotype.ENUMLibrary;
             enumLibrary.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:enumlibrary");
             enumLibrary.AddDiagram("ENUMLibrary", "Class");
-            enumABCCodes = enumLibrary.AddENUM("ABCCodes", primString, "ABC Code 1", "abc1", "ABC Code 2", "abc2", "ABC Code 3", "abc3");
+            enumABCCodes = enumLibrary.AddENUM("ABCCodes", primString,
+                                               new[] {"ABC Code 1", "abc1", "status"},
+                                               new[] {"ABC Code 2", "abc2", "status"},
+                                               new[] {"ABC Code 3", "abc3", "status"});
         }
 
         private void InitPRIMLibrary(Package primLibrary)

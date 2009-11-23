@@ -51,15 +51,23 @@ namespace VIENNAAddIn.Settings
 
             taggedValues[Stereotype.ENUM] = new List<TaggedValues>
                                             {
-                                                TaggedValues.agencyIdentifier,
-                                                TaggedValues.agencyName,
+                                                TaggedValues.codeListAgencyIdentifier,
+                                                TaggedValues.codeListAgencyName,
+                                                TaggedValues.codeListIdentifier,
+                                                TaggedValues.codeListName,
                                                 TaggedValues.businessTerm,
                                                 TaggedValues.languageCode,
                                                 TaggedValues.uniqueIdentifier,
                                                 TaggedValues.versionIdentifier,
                                                 TaggedValues.dictionaryEntryName,
                                                 TaggedValues.enumerationURI,
+                                                TaggedValues.restrictedPrimitive,
                                             };
+            taggedValues[Stereotype.CodelistEntry] = new List<TaggedValues>
+                                                     {
+                                                         TaggedValues.codeName,
+                                                         TaggedValues.status,
+                                                     };
 
             taggedValues[Stereotype.PRIM] = new List<TaggedValues>
                                             {

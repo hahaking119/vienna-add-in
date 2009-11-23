@@ -37,44 +37,98 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         private ICCRepository ccRepository;
         private Repository eaRepository;
 
-        private static void AssertSUPs(IDT expectedDT, IDT actualDT)
+        private static void AssertCDTSUPs(ICDT expectedCDT, ICDT actualCDT)
         {
-            Assert.AreEqual(expectedDT.SUPs.Count(), actualDT.SUPs.Count());
-            IEnumerator<ISUP> bdtSups = actualDT.SUPs.GetEnumerator();
-            foreach (ISUP cdtSup in expectedDT.SUPs)
+            Assert.AreEqual(expectedCDT.SUPs.Count(), actualCDT.SUPs.Count());
+            var actualSUPs = actualCDT.SUPs.GetEnumerator();
+            foreach (var expectedSUP in expectedCDT.SUPs)
             {
-                bdtSups.MoveNext();
-                ISUP bdtSup = bdtSups.Current;
-                AssertSUP(cdtSup, actualDT, bdtSup);
+                actualSUPs.MoveNext();
+                AssertCDTSUP(expectedSUP, actualCDT, actualSUPs.Current);
             }
         }
 
-        private static void AssertSUP(ISUP expectedSUP, IDT expectedDT, ISUP actualSUP)
+        private static void AssertCDTSUP(ICDTSupplementaryComponent expectedSUP, ICDT actualCDT, ICDTSupplementaryComponent actualSUP)
         {
-            AssertDTComponent(expectedSUP, expectedDT, expectedSUP.Name, actualSUP);
+            Assert.AreSame(actualCDT, actualSUP.CDT);
+            Assert.AreEqual(expectedSUP.Name, actualSUP.Name);
+            Assert.AreEqual(expectedSUP.BasicType.Id, actualSUP.BasicType.Id);
+            Assert.AreEqual(expectedSUP.Definition, actualSUP.Definition);
+            Assert.AreEqual(expectedSUP.DictionaryEntryName, actualSUP.DictionaryEntryName);
+            Assert.AreEqual(expectedSUP.LanguageCode, actualSUP.LanguageCode);
+            Assert.AreEqual(expectedSUP.UniqueIdentifier, actualSUP.UniqueIdentifier);
+            Assert.AreEqual(expectedSUP.VersionIdentifier, actualSUP.VersionIdentifier);
+            Assert.AreEqual(expectedSUP.LowerBound, actualSUP.LowerBound);
+            Assert.AreEqual(expectedSUP.ModificationAllowedIndicator, actualSUP.ModificationAllowedIndicator);
+            Assert.AreEqual(expectedSUP.UpperBound, actualSUP.UpperBound);
+            Assert.AreEqual(expectedSUP.UsageRules, actualSUP.UsageRules);
+            Assert.AreEqual(expectedSUP.BusinessTerms, actualSUP.BusinessTerms);
         }
 
-        private static void AssertCON(IDT expectedDT, IDT actualDT)
+        private static void AssertCDTCON(ICDT expectedCDT, ICDT actualBDT)
         {
-            AssertDTComponent(expectedDT.CON, actualDT, "Content", actualDT.CON);
+            ICDTContentComponent expectedCON = expectedCDT.CON;
+            ICDTContentComponent actualCON = actualBDT.CON;
+            Assert.AreSame(actualBDT, actualCON.CDT);
+            Assert.AreEqual("Content", actualCON.Name);
+            Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
+            Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
+            Assert.AreEqual(expectedCON.DictionaryEntryName, actualCON.DictionaryEntryName);
+            Assert.AreEqual(expectedCON.LanguageCode, actualCON.LanguageCode);
+            Assert.AreEqual(expectedCON.UniqueIdentifier, actualCON.UniqueIdentifier);
+            Assert.AreEqual(expectedCON.VersionIdentifier, actualCON.VersionIdentifier);
+            Assert.AreEqual(expectedCON.LowerBound, actualCON.LowerBound);
+            Assert.AreEqual(expectedCON.ModificationAllowedIndicator, actualCON.ModificationAllowedIndicator);
+            Assert.AreEqual(expectedCON.UpperBound, actualCON.UpperBound);
+            Assert.AreEqual(expectedCON.UsageRules, actualCON.UsageRules);
+            Assert.AreEqual(expectedCON.BusinessTerms, actualCON.BusinessTerms);
         }
 
-        private static void AssertDTComponent(IDTComponent expected, IDT expectedDT, string expectedName,
-                                              IDTComponent actual)
+        private static void AssertBDTSUPs(ICDT cdt, IBDT bdt)
         {
-            Assert.AreEqual(expectedName, actual.Name);
-            Assert.AreSame(expectedDT, actual.DT);
-            Assert.AreEqual(expected.BasicType.Id, actual.BasicType.Id);
-            Assert.AreEqual(expected.Definition, actual.Definition);
-            Assert.AreEqual(expected.DictionaryEntryName, actual.DictionaryEntryName);
-            Assert.AreEqual(expected.LanguageCode, actual.LanguageCode);
-            Assert.AreEqual(expected.UniqueIdentifier, actual.UniqueIdentifier);
-            Assert.AreEqual(expected.VersionIdentifier, actual.VersionIdentifier);
-            Assert.AreEqual(expected.LowerBound, actual.LowerBound);
-            Assert.AreEqual(expected.ModificationAllowedIndicator, actual.ModificationAllowedIndicator);
-            Assert.AreEqual(expected.UpperBound, actual.UpperBound);
-            Assert.AreEqual(expected.UsageRules, actual.UsageRules);
-            Assert.AreEqual(expected.BusinessTerms, actual.BusinessTerms);
+            Assert.AreEqual(cdt.SUPs.Count(), bdt.SUPs.Count());
+            IEnumerator<IBDTSupplementaryComponent> bdtSups = bdt.SUPs.GetEnumerator();
+            foreach (ICDTSupplementaryComponent cdtSup in cdt.SUPs)
+            {
+                bdtSups.MoveNext();
+                AssertBDTSUP(cdtSup, bdt, bdtSups.Current);
+            }
+        }
+
+        private static void AssertBDTSUP(ICDTSupplementaryComponent cdtSUP, IBDT expectedBDT, IBDTSupplementaryComponent bdtSUP)
+        {
+            Assert.AreEqual(cdtSUP.Name, bdtSUP.Name);
+            Assert.AreSame(expectedBDT, bdtSUP.BDT);
+            Assert.AreEqual(cdtSUP.BasicType.Id, bdtSUP.BasicType.Id);
+            Assert.AreEqual(cdtSUP.Definition, bdtSUP.Definition);
+            Assert.AreEqual(cdtSUP.DictionaryEntryName, bdtSUP.DictionaryEntryName);
+            Assert.AreEqual(cdtSUP.LanguageCode, bdtSUP.LanguageCode);
+            Assert.AreEqual(cdtSUP.UniqueIdentifier, bdtSUP.UniqueIdentifier);
+            Assert.AreEqual(cdtSUP.VersionIdentifier, bdtSUP.VersionIdentifier);
+            Assert.AreEqual(cdtSUP.LowerBound, bdtSUP.LowerBound);
+            Assert.AreEqual(cdtSUP.ModificationAllowedIndicator, bdtSUP.ModificationAllowedIndicator);
+            Assert.AreEqual(cdtSUP.UpperBound, bdtSUP.UpperBound);
+            Assert.AreEqual(cdtSUP.UsageRules, bdtSUP.UsageRules);
+            Assert.AreEqual(cdtSUP.BusinessTerms, bdtSUP.BusinessTerms);
+        }
+
+        private static void AssertBDTCON(ICDT cdt, IBDT bdt)
+        {
+            ICDTContentComponent expectedCON = cdt.CON;
+            IBDTContentComponent actualCON = bdt.CON;
+            Assert.AreSame(bdt, actualCON.BDT);
+            Assert.AreEqual("Content", actualCON.Name);
+            Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
+            Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
+            Assert.AreEqual(expectedCON.DictionaryEntryName, actualCON.DictionaryEntryName);
+            Assert.AreEqual(expectedCON.LanguageCode, actualCON.LanguageCode);
+            Assert.AreEqual(expectedCON.UniqueIdentifier, actualCON.UniqueIdentifier);
+            Assert.AreEqual(expectedCON.VersionIdentifier, actualCON.VersionIdentifier);
+            Assert.AreEqual(expectedCON.LowerBound, actualCON.LowerBound);
+            Assert.AreEqual(expectedCON.ModificationAllowedIndicator, actualCON.ModificationAllowedIndicator);
+            Assert.AreEqual(expectedCON.UpperBound, actualCON.UpperBound);
+            Assert.AreEqual(expectedCON.UsageRules, actualCON.UsageRules);
+            Assert.AreEqual(expectedCON.BusinessTerms, actualCON.BusinessTerms);
         }
 
         private static void AssertASBIE(string name, string lowerBound, string upperBound, IASBIE asbie)
@@ -378,6 +432,41 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         }
 
         [Test]
+        public void TestCreateCDT()
+        {
+            var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTDate());
+            Assert.IsNotNull(cdtDate, "CDT Date not found");
+
+            var cdtLibrary = ccRepository.Libraries<ICDTLibrary>().First();
+
+            var cdtSpec = new CDTSpec(cdtDate)
+                          {
+                              Name = "Datum",
+                              IsEquivalentTo = cdtDate
+                          };
+            var cdtDatum = cdtLibrary.CreateElement(cdtSpec);
+
+            Assert.IsNotNull(cdtDatum, "CDT is null");
+            Assert.AreEqual(cdtLibrary.Id, cdtDatum.Library.Id);
+
+            Assert.AreEqual(cdtSpec.Name, cdtDatum.Name);
+
+            Assert.AreEqual(cdtDate.Definition, cdtDatum.Definition);
+            Assert.AreEqual(cdtDate.DictionaryEntryName, cdtDatum.DictionaryEntryName);
+            Assert.AreEqual(cdtDate.LanguageCode, cdtDatum.LanguageCode);
+            Assert.AreEqual(cdtDate.UniqueIdentifier, cdtDatum.UniqueIdentifier);
+            Assert.AreEqual(cdtDate.VersionIdentifier, cdtDatum.VersionIdentifier);
+            Assert.AreEqual(cdtDate.BusinessTerms, cdtDatum.BusinessTerms);
+            Assert.AreEqual(cdtDate.UsageRules, cdtDatum.UsageRules);
+
+            Assert.IsNotNull(cdtDatum.IsEquivalentTo, "IsEquivalentTo is null");
+            Assert.AreEqual(cdtDate.Id, cdtDatum.IsEquivalentTo.Id);
+
+            AssertCDTCON(cdtDate, cdtDatum);
+            AssertCDTSUPs(cdtDate, cdtDatum);
+        }
+
+        [Test]
         public void TestCreateBDT()
         {
             var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTDate());
@@ -404,9 +493,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.IsNotNull(bdtDate.BasedOn, "BasedOn is null");
             Assert.AreEqual(cdtDate.Id, bdtDate.BasedOn.Id);
 
-            AssertCON(cdtDate, bdtDate);
-
-            AssertSUPs(cdtDate, bdtDate);
+            AssertBDTCON(cdtDate, bdtDate);
+            AssertBDTSUPs(cdtDate, bdtDate);
         }
 
         [Test]
@@ -476,6 +564,81 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 Element myAddressElement = repository.GetElementByID(myAddress.Id);
                 var attribute = (Attribute) myAddressElement.Attributes.GetAt(0);
                 Assert.AreEqual(8, attribute.TaggedValues.Count);
+            }
+        }
+
+        [Test]
+        public void TestCreateENUM()
+        {
+            var enumAbcCodes = (IENUM) ccRepository.FindByPath(EARepository1.PathToEnumAbcCodes());
+            Assert.IsNotNull(enumAbcCodes, "ENUM ABC_Codes not found");
+
+            IENUMLibrary enumLibrary = ccRepository.Libraries<IENUMLibrary>().First();
+
+            var enumSpec = new ENUMSpec
+                           {
+                               Name = "My_ABC_Codes",
+                               DictionaryEntryName = "overriding default dictionary entry name",
+                               Definition = "a test enum",
+                               UniqueIdentifier = "my unique identifier",
+                               VersionIdentifier = "my version identifier",
+                               LanguageCode = "my language code",
+                               BusinessTerms = new[] {"business term 1", "business term 2"},
+                               CodeListAgencyIdentifier = "code list agency identifier",
+                               CodeListAgencyName = "code list agency name",
+                               CodeListIdentifier = "code list identifier",
+                               CodeListName = "code list name",
+                               EnumerationURI = "enumeration URI",
+                               ModificationAllowedIndicator = true,
+                               RestrictedPrimitive = "String",
+                               Status = "status",
+                               IsEquivalentTo = enumAbcCodes,
+                           };
+            enumSpec.AddCodelistEntry(new CodelistEntrySpec
+                                      {
+                                          Name = "a",
+                                          CodeName = "aa",
+                                          Status = "status",
+                                      });
+            enumSpec.AddCodelistEntry(new CodelistEntrySpec
+                                      {
+                                          Name = "b",
+                                          CodeName = "bb",
+                                          Status = "status",
+                                      });
+
+            IENUM enumMyAbcCodes = enumLibrary.CreateElement(enumSpec);
+            Assert.IsNotNull(enumMyAbcCodes, "ENUM is null");
+            Assert.AreEqual(enumLibrary.Id, enumMyAbcCodes.Library.Id);
+
+            Assert.AreEqual(enumSpec.Name, enumMyAbcCodes.Name);
+            Assert.AreEqual(enumSpec.DictionaryEntryName, enumMyAbcCodes.DictionaryEntryName);
+            Assert.AreEqual(enumSpec.Definition, enumMyAbcCodes.Definition);
+            Assert.AreEqual(enumSpec.UniqueIdentifier, enumMyAbcCodes.UniqueIdentifier);
+            Assert.AreEqual(enumSpec.VersionIdentifier, enumMyAbcCodes.VersionIdentifier);
+            Assert.AreEqual(enumSpec.LanguageCode, enumMyAbcCodes.LanguageCode);
+            Assert.AreEqual(enumSpec.BusinessTerms, enumMyAbcCodes.BusinessTerms);
+            Assert.AreEqual(enumSpec.CodeListAgencyIdentifier, enumMyAbcCodes.CodeListAgencyIdentifier);
+            Assert.AreEqual(enumSpec.CodeListAgencyName, enumMyAbcCodes.CodeListAgencyName);
+            Assert.AreEqual(enumSpec.CodeListIdentifier, enumMyAbcCodes.CodeListIdentifier);
+            Assert.AreEqual(enumSpec.CodeListName, enumMyAbcCodes.CodeListName);
+            Assert.AreEqual(enumSpec.EnumerationURI, enumMyAbcCodes.EnumerationURI);
+            Assert.AreEqual(enumSpec.ModificationAllowedIndicator, enumMyAbcCodes.ModificationAllowedIndicator);
+            Assert.AreEqual(enumSpec.RestrictedPrimitive, enumMyAbcCodes.RestrictedPrimitive);
+            Assert.AreEqual(enumSpec.Status, enumMyAbcCodes.Status);
+
+            Assert.IsNotNull(enumMyAbcCodes.IsEquivalentTo, "IsEquivalentTo is null");
+            Assert.AreEqual(enumAbcCodes.Id, enumMyAbcCodes.IsEquivalentTo.Id);
+
+            Assert.AreEqual(enumSpec.CodelistEntries.Count(), enumMyAbcCodes.CodelistEntries.Count());
+            IEnumerator<CodelistEntrySpec> expectedCodelistEntries = enumSpec.CodelistEntries.GetEnumerator();
+            foreach (ICodelistEntry codelistEntry in enumMyAbcCodes.CodelistEntries)
+            {
+                expectedCodelistEntries.MoveNext();
+                CodelistEntrySpec expectedCodelistEntry = expectedCodelistEntries.Current;
+                Assert.AreEqual(expectedCodelistEntry.Name, codelistEntry.Name);
+                Assert.AreEqual(expectedCodelistEntry.CodeName, codelistEntry.CodeName);
+                Assert.AreEqual(expectedCodelistEntry.Status, codelistEntry.Status);
             }
         }
 
@@ -614,9 +777,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(4, cdts.Count);
             ICDT date = cdts[1];
             Assert.AreEqual(stringType.Id, date.CON.BasicType.Id);
-            var dateSups = new List<ISUP>(date.SUPs);
+            var dateSups = new List<ICDTSupplementaryComponent>(date.SUPs);
             Assert.AreEqual(1, dateSups.Count);
-            ISUP dateFormat = dateSups[0];
+            var dateFormat = dateSups[0];
             Assert.AreEqual("Format", dateFormat.Name);
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
@@ -680,10 +843,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var enumAbcCodes = (IENUM) ccRepository.FindByPath(EARepository1.PathToEnumAbcCodes());
             Assert.IsNotNull(enumAbcCodes, "enum ABC_Codes not found");
             Assert.AreEqual("ABC_Codes", enumAbcCodes.Name);
-            IDictionary<string, string> enumAbcCodesValues = enumAbcCodes.Values;
+            var enumAbcCodesValues = new List<ICodelistEntry>(enumAbcCodes.CodelistEntries);
             Assert.AreEqual(2, enumAbcCodesValues.Count);
-            Assert.AreEqual("abc1", enumAbcCodesValues["ABC Code 1"]);
-            Assert.AreEqual("abc2", enumAbcCodesValues["ABC Code 2"]);
+            Assert.AreEqual("ABC Code 1", enumAbcCodesValues[0].Name);
+            Assert.AreEqual("ABC Code 2", enumAbcCodesValues[1].Name);
 
             var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
             var docLibraryABIEs = new List<IABIE>(docLibrary.Elements);
@@ -692,27 +855,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(1, docLibraryRootElements.Count);
             IABIE invoice = docLibraryRootElements[0];
             Assert.AreEqual("Invoice", invoice.Name);
-        }
-
-        [Test]
-        public void TestSpecTaggedValues()
-        {
-            var spec = new BBIESpec
-                       {
-                           BusinessTerms = new[] {"bt1", "bt2"},
-                           Definition = "def",
-                           DictionaryEntryName = "den",
-                           LanguageCode = "lc",
-                           Name = "name",
-                           UniqueIdentifier = "ui",
-                           VersionIdentifier = "vi",
-                           SequencingKey = "sk",
-                           UsageRules = new[] {"ur1", "ur2"},
-                       };
-            foreach (TaggedValueSpec tv in spec.GetTaggedValues())
-            {
-                Console.WriteLine(tv);
-            }
         }
 
         [Test]

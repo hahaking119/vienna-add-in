@@ -8,7 +8,6 @@
 // *******************************************************************************
 using System;
 using System.Collections.Generic;
-using CctsRepository;
 
 namespace CctsRepository
 {
@@ -40,6 +39,7 @@ namespace CctsRepository
         public const string SUP = "SUP";
         public const string PRIM = "PRIM";
         public const string ENUM = "ENUM";
+        public const string CodelistEntry = "codelistEntry";
 
         /// <summary>
         /// Returns the correct version of a given stereotype string by fixing case.
@@ -100,6 +100,8 @@ namespace CctsRepository
                     return PRIM;
                 case "enum":
                     return ENUM;
+                case "codelistentry":
+                    return CodelistEntry;
                 default:
                     return stereotype;
             }
@@ -201,13 +203,25 @@ namespace CctsRepository
             {
                 return ENUM;
             }
-            if (typeof (T) == typeof (ISUP))
+            if (typeof (T) == typeof (ICDTSupplementaryComponent))
             {
                 return SUP;
             }
-            if (typeof (T) == typeof (ICON))
+            if (typeof (T) == typeof (ICDTContentComponent))
             {
                 return CON;
+            }
+            if (typeof (T) == typeof (IBDTSupplementaryComponent))
+            {
+                return SUP;
+            }
+            if (typeof (T) == typeof (IBDTContentComponent))
+            {
+                return CON;
+            }
+            if (typeof (T) == typeof (ICodelistEntry))
+            {
+                return CodelistEntry;
             }
             return String.Empty;
         }
