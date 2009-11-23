@@ -147,7 +147,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<returns></returns>
         public static Package CreateLibraryPackage(LibrarySpec spec, Package parentPackage, string stereotype)
         {
-            var libraryPackage = (Package) parentPackage.Packages.AddNew(spec.Name, "");
+            var libraryPackage = (Package) parentPackage.Packages.AddNew(spec.Name, string.Empty);
             libraryPackage.Update();
             libraryPackage.ParentID = parentPackage.PackageID;
             libraryPackage.Element.Stereotype = stereotype;
@@ -185,7 +185,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             var diagram = (Diagram)package.Diagrams.GetByName(Name);
             if (diagram != null)
             {
-                var newDiagramObject = (DiagramObject) diagram.DiagramObjects.AddNew("", "");
+                var newDiagramObject = (DiagramObject) diagram.DiagramObjects.AddNew(string.Empty, string.Empty);
                 newDiagramObject.DiagramID = diagram.DiagramID;
                 newDiagramObject.ElementID = element.ElementID;
                 newDiagramObject.Update();

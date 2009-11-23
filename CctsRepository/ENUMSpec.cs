@@ -1,50 +1,54 @@
-using System;
 using System.Collections.Generic;
-using CctsRepository;
+using VIENNAAddInUtils;
 
 namespace CctsRepository
 {
     public class ENUMSpec : CCTSElementSpec
     {
+        private List<CodelistEntrySpec> codelistEntries;
+
         public ENUMSpec(IENUM @enum) : base(@enum)
         {
-            AgencyIdentifier = @enum.AgencyIdentifier;
-            AgencyName = @enum.AgencyName;
+            CodeListAgencyIdentifier = @enum.CodeListAgencyIdentifier;
+            CodeListAgencyName = @enum.CodeListAgencyName;
+            CodeListIdentifier = @enum.CodeListIdentifier;
+            CodeListName = @enum.CodeListName;
+            ModificationAllowedIndicator = @enum.ModificationAllowedIndicator;
             EnumerationURI = @enum.EnumerationURI;
             IsEquivalentTo = @enum.IsEquivalentTo;
-            Values = new Dictionary<string, string>(@enum.Values);
+            codelistEntries = new List<CodelistEntrySpec>(@enum.CodelistEntries.Convert(codelistEntry => new CodelistEntrySpec(codelistEntry)));
         }
 
         public ENUMSpec()
         {
+            codelistEntries = new List<CodelistEntrySpec>();
         }
 
-        [TaggedValue]
-        public string AgencyIdentifier { get; set; }
-
-        [TaggedValue]
-        public string AgencyName { get; set; }
-
-        [TaggedValue]
+        public string CodeListAgencyIdentifier { get; set; }
+        public string CodeListAgencyName { get; set; }
+        public string CodeListIdentifier { get; set; }
+        public string CodeListName { get; set; }
         public string EnumerationURI { get; set; }
+        public bool ModificationAllowedIndicator { get; set; }
+        public string RestrictedPrimitive { get; set; }
+        public string Status { get; set; }
 
-        [Dependency]
         public IENUM IsEquivalentTo { get; set; }
 
-        public IDictionary<string, string> Values { get; set; }
-
-        public override IEnumerable<AttributeSpec> GetAttributes()
+        public IEnumerable<CodelistEntrySpec> CodelistEntries
         {
-            if (Values != null)
-            {
-                foreach (var value in Values)
-                {
-                    var attributeSpec = new AttributeSpec("", value.Key, "String", 0, "1", "1", new TaggedValueSpec[0])
-                                        {DefaultValue = value.Value};
-                    yield return attributeSpec;
-                }
-            }
+            get { return codelistEntries; }
+            set { codelistEntries = new List<CodelistEntrySpec>(value); }
+        }
 
+        public void AddCodelistEntry(CodelistEntrySpec spec)
+        {
+            codelistEntries.Add(spec);
+        }
+
+        public void RemoveBBIE(string name)
+        {
+            codelistEntries.RemoveAll(entry => entry.Name == name);
         }
     }
 }

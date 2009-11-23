@@ -3,18 +3,14 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository
 {
-    ///<summary>
-    ///</summary>
-    public class ACCSpec : CCSpec
+    public class ACCSpec : CCTSElementSpec
     {
         private readonly List<ASCCSpec> asccs;
         private readonly List<BCCSpec> bccs;
 
-        ///<summary>
-        ///</summary>
-        ///<param name="acc"></param>
         public ACCSpec(IACC acc) : base(acc)
         {
+            UsageRules = new List<string>(acc.UsageRules);
             bccs = new List<BCCSpec>(acc.BCCs.Convert(bcc => new BCCSpec(bcc)));
             asccs = new List<ASCCSpec>(acc.ASCCs.Convert(ascc => new ASCCSpec(ascc)));
             IsEquivalentTo = acc.IsEquivalentTo;
@@ -36,13 +32,9 @@ namespace CctsRepository
             get { return asccs; }
         }
 
-        ///<summary>
-        ///</summary>
         public IACC IsEquivalentTo { get; set; }
+        public IEnumerable<string> UsageRules { get; set; }
 
-        ///<summary>
-        ///</summary>
-        ///<param name="name"></param>
         public void RemoveASCC(string name)
         {
             asccs.RemoveAll(ascc => ascc.Name == name);

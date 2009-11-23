@@ -12,6 +12,7 @@ using System.Linq;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 using Attribute=EA.Attribute;
 using Stereotype=CctsRepository.Stereotype;
 
@@ -38,24 +39,44 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        public string CodeListAgencyIdentifier
         {
-            return connector.IsIsEquivalentTo();
+            get { return GetTaggedValue(TaggedValues.codeListAgencyIdentifier); }
         }
 
-        public string AgencyIdentifier
+        public string CodeListAgencyName
         {
-            get { return GetTaggedValue(TaggedValues.agencyIdentifier); }
+            get { return GetTaggedValue(TaggedValues.codeListAgencyName); }
         }
 
-        public string AgencyName
+        public string CodeListIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.agencyName); }
+            get { return GetTaggedValue(TaggedValues.codeListIdentifier); }
+        }
+
+        public string CodeListName
+        {
+            get { return GetTaggedValue(TaggedValues.codeListName); }
         }
 
         public string EnumerationURI
         {
             get { return GetTaggedValue(TaggedValues.enumerationURI); }
+        }
+
+        public bool ModificationAllowedIndicator
+        {
+            get { return "true" == GetTaggedValue(TaggedValues.modificationAllowedIndicator).DefaultTo("true").ToLower(); }
+        }
+
+        public string RestrictedPrimitive
+        {
+            get { return GetTaggedValue(TaggedValues.restrictedPrimitive); }
+        }
+
+        public string Status
+        {
+            get { return GetTaggedValue(TaggedValues.status); }
         }
 
         public IENUM IsEquivalentTo
@@ -67,14 +88,17 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IDictionary<string, string> Values
+        public IEnumerable<ICodelistEntry> CodelistEntries
         {
             get
             {
-                var values = new Dictionary<string, string>();
+                var values = new List<ICodelistEntry>();
                 foreach (Attribute attribute in Attributes)
                 {
-                    values[attribute.Name] = attribute.Default;
+                    if (attribute.Stereotype == Stereotype.CodelistEntry)
+                    {
+                        values.Add(new CodelistEntry(attribute));
+                    }
                 }
                 return values;
             }
@@ -82,19 +106,57 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
+        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        {
+            return connector.IsIsEquivalentTo();
+        }
+
         protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ENUMSpec spec)
         {
-            return spec.GetTaggedValues();
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.codeListAgencyIdentifier, spec.CodeListAgencyIdentifier),
+                       new TaggedValueSpec(TaggedValues.codeListAgencyName, spec.CodeListAgencyName),
+                       new TaggedValueSpec(TaggedValues.codeListIdentifier, spec.CodeListIdentifier),
+                       new TaggedValueSpec(TaggedValues.codeListName, spec.CodeListName),
+                       new TaggedValueSpec(TaggedValues.enumerationURI, spec.EnumerationURI),
+                       new TaggedValueSpec(TaggedValues.modificationAllowedIndicator, spec.ModificationAllowedIndicator),
+                       new TaggedValueSpec(TaggedValues.restrictedPrimitive, spec.RestrictedPrimitive),
+                       new TaggedValueSpec(TaggedValues.status, spec.Status),
+                   };
         }
 
         protected override IEnumerable<AttributeSpec> GetAttributeSpecs(ENUMSpec spec)
         {
-            return spec.GetAttributes();
+            var codelistEntrySpecs = spec.CodelistEntries;
+            if (codelistEntrySpecs != null)
+            {
+                foreach (var codelistEntrySpec in codelistEntrySpecs)
+                {
+                    yield return new AttributeSpec(Stereotype.CodelistEntry, codelistEntrySpec.Name, "string", 0, "1", "1", GetCodelistEntryTaggedValueSpecs(codelistEntrySpec));
+                }
+            }
+        }
+
+        private static IEnumerable<TaggedValueSpec> GetCodelistEntryTaggedValueSpecs(CodelistEntrySpec spec)
+        {
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.codeName, spec.CodeName),
+                       new TaggedValueSpec(TaggedValues.status, spec.Status),
+                   };
+
         }
 
         protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(ENUMSpec spec)
         {
-            return spec.GetConnectors(repository);
+            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
         }
     }
 }

@@ -27,6 +27,13 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return attribute;
         }
 
+        public static Attribute AddAttribute(this Element element, string name, string typeName)
+        {
+            var attribute = (Attribute) element.Attributes.AddNew(name, typeName);
+            attribute.Update();
+            return attribute;
+        }
+
         public static TaggedValue AddTaggedValue(this Element element, string name)
         {
             var taggedValue = (TaggedValue) element.TaggedValues.AddNew(name, "");

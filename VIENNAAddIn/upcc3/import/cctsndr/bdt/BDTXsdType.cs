@@ -42,13 +42,13 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                                   BasedOn = cdt,
                                   Name = bdtName,
                                   CON = SpecifyCON(),
-                                  SUPs = new List<SUPSpec>(SpecifySUPs()),
+                                  SUPs = new List<BDTSupplementaryComponentSpec>(SpecifySUPs()),
                               };
 
             BDT = Context.BDTLibrary.CreateElement(bdtSpec);
         }
 
-        protected abstract IEnumerable<SUPSpec> SpecifySUPs();
+        protected abstract IEnumerable<BDTSupplementaryComponentSpec> SpecifySUPs();
 
         protected IPRIM FindPRIM(string primName)
         {
@@ -121,6 +121,6 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             return qualifiers;
         }
 
-        protected abstract CONSpec SpecifyCON();
+        protected abstract BDTContentComponentSpec SpecifyCON();
     }
 }

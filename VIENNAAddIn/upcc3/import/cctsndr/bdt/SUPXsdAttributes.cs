@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             this.xsdAttributes = xsdAttributes;
         }
 
-        private XmlSchemaAttribute FindSUPAttribute(SUPSpec supSpec)
+        private XmlSchemaAttribute FindSUPAttribute(BDTSupplementaryComponentSpec supSpec)
         {
             string attributeName = GetXsdAttributeNameFromSUPSpec(supSpec);
             foreach (XmlSchemaAttribute attribute in xsdAttributes)
@@ -25,18 +25,18 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             return null;
         }
 
-        private static string GetXsdAttributeNameFromSUPSpec(SUPSpec supSpec)
+        private static string GetXsdAttributeNameFromSUPSpec(BDTSupplementaryComponentSpec supSpec)
         {
             return supSpec.Name + supSpec.BasicType.Name;
         }
 
-        public bool IsProhibited(SUPSpec supSpec)
+        public bool IsProhibited(BDTSupplementaryComponentSpec supSpec)
         {
             XmlSchemaAttribute supAttribute = FindSUPAttribute(supSpec);
             return supAttribute != null && supAttribute.Use == XmlSchemaUse.Prohibited;
         }
 
-        public void ApplyRestrictions(SUPSpec supSpec)
+        public void ApplyRestrictions(BDTSupplementaryComponentSpec supSpec)
         {
         }
     }

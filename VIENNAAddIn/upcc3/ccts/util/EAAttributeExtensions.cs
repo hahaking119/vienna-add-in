@@ -28,6 +28,14 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return attribute;
         }
 
+        public static AttributeTag AddTaggedValue(this Attribute attribute, string name)
+        {
+            var taggedValue = (AttributeTag) attribute.TaggedValues.AddNew(name, string.Empty);
+            taggedValue.Value = string.Empty;
+            taggedValue.Update();
+            return taggedValue;
+        }
+
         /// <returns>
         /// En enumeration of the values of a multi-valued tagged value of the attribute. The values must be separated with '|'.
         /// If the tagged value is not defined or empty, an empty enumeration is returned.

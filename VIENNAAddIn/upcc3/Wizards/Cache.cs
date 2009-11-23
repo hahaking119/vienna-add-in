@@ -125,7 +125,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 CON.Id = cdt.CON.Id;
                 CON.State = CheckState.Checked;
 
-                foreach (ISUP sup in cdt.SUPs)
+                foreach (var sup in cdt.SUPs)
                 {
                     SUPs.Add(sup.Name, new cSUP(sup.Name, sup.Id, CheckState.Unchecked));
                 }

@@ -11,13 +11,14 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository
 {
-    public class ABIESpec : BIESpec
+    public class ABIESpec : CCTSElementSpec
     {
         private List<ASBIESpec> asbies;
         private List<BBIESpec> bbies;
 
         public ABIESpec(IABIE abie) : base(abie)
         {
+            UsageRules = new List<string>(abie.UsageRules);
             BBIEs = abie.BBIEs.Convert(bbie => new BBIESpec(bbie));
             ASBIEs = abie.ASBIEs.Convert(asbie => new ASBIESpec(asbie));
             IsEquivalentTo = abie.IsEquivalentTo;
@@ -45,6 +46,7 @@ namespace CctsRepository
         public IABIE IsEquivalentTo { get; set; }
 
         public IACC BasedOn { get; set; }
+        public IEnumerable<string> UsageRules { get; set; }
 
         public void AddASBIE(ASBIESpec spec)
         {

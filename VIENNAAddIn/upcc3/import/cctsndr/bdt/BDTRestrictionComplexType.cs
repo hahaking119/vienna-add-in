@@ -33,14 +33,14 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             }
         }
 
-        protected override IEnumerable<SUPSpec> SpecifySUPs()
+        protected override IEnumerable<BDTSupplementaryComponentSpec> SpecifySUPs()
         {            
             string baseTypeName = Restriction.BaseTypeName.Name;
             var supAttributes = new SUPXsdAttributes(Restriction.Attributes);
             IBDT parentBDT = GetBDTByXsdTypeName(baseTypeName);
-            foreach (ISUP parentSUP in parentBDT.SUPs)
+            foreach (IBDTSupplementaryComponent parentSUP in parentBDT.SUPs)
             {
-                var supSpec = new SUPSpec(parentSUP);
+                var supSpec = new BDTSupplementaryComponentSpec(parentSUP);
                 if (!supAttributes.IsProhibited(supSpec))
                 {
                     supAttributes.ApplyRestrictions(supSpec);
@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             }
         }
 
-        private CONSpec ApplyCONRestrictions(CONSpec conSpec)
+        private BDTContentComponentSpec ApplyCONRestrictions(BDTContentComponentSpec conSpec)
         {
             foreach (var facet in Restriction.Facets)
             {
@@ -102,11 +102,11 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             return conSpec;
         }
 
-        protected override CONSpec SpecifyCON()
+        protected override BDTContentComponentSpec SpecifyCON()
         {
             IBDT parentBDT = GetBDTByXsdTypeName(Restriction.BaseTypeName.Name);
 
-            return ApplyCONRestrictions(new CONSpec(parentBDT.CON));
+            return ApplyCONRestrictions(new BDTContentComponentSpec(parentBDT.CON));
         }
     }
 }

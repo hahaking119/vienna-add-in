@@ -118,7 +118,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
             enumLib1.Element.Stereotype = Stereotype.ENUMLibrary;
             enumLib1.AddDiagram("enumlib1", "Class");
             enumLib1.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:enumlib1");
-            enumLib1.AddENUM("ABC_Codes", primString, "ABC Code 1", "abc1", "ABC Code 2", "abc2");
+            enumLib1.AddENUM("ABC_Codes", primString, new[] {"ABC Code 1", "abc1", "status"}, new[] {"ABC Code 2", "abc2", "status"});
             AddInvalidElement(enumLib1);
         }
 

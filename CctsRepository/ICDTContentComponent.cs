@@ -8,7 +8,11 @@
 // *******************************************************************************
 namespace CctsRepository
 {
-    public interface ICON : IDTComponent
+    public interface ICDTContentComponent : ICCTSElement, IHasUsageRules, IHasMultiplicity
     {
+        ICDT CDT { get; }
+        IBasicType BasicType { get; }
+        bool ModificationAllowedIndicator { get; }
+        bool IsOptional();
     }
 }

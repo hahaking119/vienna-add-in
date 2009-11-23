@@ -44,9 +44,13 @@ namespace CctsRepository
         whiteSpace,
         applyTo,
         sequencingKey,
-        agencyIdentifier,
-        agencyName,
+        codeListAgencyIdentifier,
+        codeListAgencyName,
+        codeListIdentifier,
+        codeListName,
         enumerationURI,
+        restrictedPrimitive,
+        codeName,
 #pragma warning restore 1591
     }
 }

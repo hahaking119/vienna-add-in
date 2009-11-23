@@ -53,15 +53,13 @@
     <Compile Include="BBIESpec.cs" />
     <Compile Include="BCCSpec.cs" />
     <Compile Include="BDTSpec.cs" />
-    <Compile Include="BIESpec.cs" />
-    <Compile Include="CCSpec.cs" />
     <Compile Include="CCTSElementSpec.cs" />
-    <Compile Include="CCTSSpec.cs" />
+    <Compile Include="CDTContentComponentSpec.cs" />
     <Compile Include="CDTSpec.cs" />
+    <Compile Include="CDTSupplementaryComponentSpec.cs" />
+    <Compile Include="CodelistEntrySpec.cs" />
     <Compile Include="ConnectorSpec.cs" />
-    <Compile Include="CONSpec.cs" />
-    <Compile Include="DTComponentSpec.cs" />
-    <Compile Include="DTSpec.cs" />
+    <Compile Include="BDTContentComponentSpec.cs" />
     <Compile Include="EAAggregationKind.cs" />
     <Compile Include="EAConnectorTypes.cs" />
     <Compile Include="ENUMSpec.cs" />
@@ -73,6 +71,7 @@
     <Compile Include="IBBIE.cs" />
     <Compile Include="IBCC.cs" />
     <Compile Include="IBDT.cs" />
+    <Compile Include="IBDTContentComponent.cs" />
     <Compile Include="IBDTLibrary.cs" />
     <Compile Include="IBIE.cs" />
     <Compile Include="IBIELibrary.cs" />
@@ -84,10 +83,10 @@
     <Compile Include="ICCTSElement.cs" />
     <Compile Include="ICDT.cs" />
     <Compile Include="ICDTLibrary.cs" />
-    <Compile Include="ICON.cs" />
+    <Compile Include="ICDTSupplementaryComponent.cs" />
+    <Compile Include="ICodelistEntry.cs" />
+    <Compile Include="ICDTContentComponent.cs" />
     <Compile Include="IDOCLibrary.cs" />
-    <Compile Include="IDT.cs" />
-    <Compile Include="IDTComponent.cs" />
     <Compile Include="IElementLibrary.cs" />
     <Compile Include="IENUM.cs" />
     <Compile Include="IENUMLibrary.cs" />
@@ -97,13 +96,13 @@
     <Compile Include="IPRIMLibrary.cs" />
     <Compile Include="IPRIMRestrictions.cs" />
     <Compile Include="ISequenced.cs" />
-    <Compile Include="ISUP.cs" />
+    <Compile Include="IBDTSupplementaryComponent.cs" />
     <Compile Include="LibrarySpec.cs" />
     <Compile Include="MultiPartTaggedValue.cs" />
     <Compile Include="PRIMSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stereotype.cs" />
-    <Compile Include="SUPSpec.cs" />
+    <Compile Include="BDTSupplementaryComponentSpec.cs" />
     <Compile Include="TaggedValues.cs" />
     <Compile Include="TaggedValueSpec.cs" />
   </ItemGroup>

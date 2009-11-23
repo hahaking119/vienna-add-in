@@ -16,12 +16,12 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             get { return (XmlSchemaComplexType) XsdType; }
         }
 
-        protected IEnumerable<SUPSpec> SpecifySUPs(XmlSchemaObjectCollection xsdAttributes)
+        protected IEnumerable<BDTSupplementaryComponentSpec> SpecifySUPs(XmlSchemaObjectCollection xsdAttributes)
         {
             foreach (XmlSchemaAttribute attribute in xsdAttributes)
             {
                 string basicTypeName = NDR.ConvertXsdTypeNameToBasicTypeName(attribute.SchemaTypeName.Name);
-                yield return new SUPSpec
+                yield return new BDTSupplementaryComponentSpec
                              {
                                  Name = attribute.Name.Minus(basicTypeName),
                                  BasicType = FindPRIM(basicTypeName)

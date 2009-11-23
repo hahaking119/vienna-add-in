@@ -7,27 +7,32 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository;
 using VIENNAAddInUtils;
 
 namespace CctsRepository
 {
-    public class BDTSpec : DTSpec
+    public class BDTSpec : CCTSElementSpec
     {
         public BDTSpec(IBDT bdt) : base(bdt)
         {
+            UsageRules = new List<string>(bdt.UsageRules);
+            CON = new BDTContentComponentSpec(bdt.CON);
+            SUPs = new List<BDTSupplementaryComponentSpec>(bdt.SUPs.Convert(sup => new BDTSupplementaryComponentSpec(sup)));
             BasedOn = bdt.BasedOn;
         }
 
         public BDTSpec()
         {
+            SUPs = new List<BDTSupplementaryComponentSpec>();
         }
 
-        [Dependency]
         public ICDT BasedOn { get; set; }
-
-        [Dependency]
         public IBDT IsEquivalentTo { get; set; }
+
+        public IEnumerable<string> UsageRules { get; set; }
+
+        public List<BDTSupplementaryComponentSpec> SUPs { get; set; }
+        public BDTContentComponentSpec CON { get; set; }
 
         public static BDTSpec CloneCDT(ICDT cdt, string name)
         {
@@ -42,9 +47,14 @@ namespace CctsRepository
                            UniqueIdentifier = cdt.UniqueIdentifier,
                            UsageRules = new List<string>(cdt.UsageRules),
                            VersionIdentifier = cdt.VersionIdentifier,
-                           CON = new CONSpec(cdt.CON),
-                           SUPs = new List<SUPSpec>(cdt.SUPs.Convert(sup => new SUPSpec(sup))),
+                           CON = new BDTContentComponentSpec(cdt.CON),
+                           SUPs = new List<BDTSupplementaryComponentSpec>(cdt.SUPs.Convert(sup => new BDTSupplementaryComponentSpec(sup))),
                        };
+        }
+
+        public void RemoveSUP(string name)
+        {
+            SUPs.RemoveAll(sup => sup.Name == name);
         }
     }
 }

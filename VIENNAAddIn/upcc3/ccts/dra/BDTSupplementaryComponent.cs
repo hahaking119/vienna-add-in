@@ -1,11 +1,3 @@
-// *******************************************************************************
-// This file is part of the VIENNAAddIn project
-// 
-// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
-// 
-// For further information on the VIENNAAddIn project please visit 
-// http://vienna-add-in.googlecode.com
-// *******************************************************************************
 using System;
 using System.Collections.Generic;
 using CctsRepository;
@@ -15,20 +7,43 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal abstract class DTComponent : IDTComponent
+    internal class BDTSupplementaryComponent : IBDTSupplementaryComponent
     {
         private readonly Attribute attribute;
-        private readonly IDT dt;
+        private readonly IBDT bdt;
         private readonly CCRepository repository;
 
-        protected DTComponent(CCRepository repository, Attribute attribute, IDT dt)
+        public BDTSupplementaryComponent(CCRepository repository, Attribute attribute, IBDT bdt)
         {
             this.repository = repository;
             this.attribute = attribute;
-            this.dt = dt;
+            this.bdt = bdt;
         }
 
-        #region IDTComponent Members
+        #region IBDTSupplementaryComponent Members
+
+        public string DictionaryEntryName
+        {
+            get
+            {
+                string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
+                if (string.IsNullOrEmpty(value))
+                {
+                    value = BDT.Name + ". " + Name + ". " + BasicType.Name;
+                }
+                return value;
+            }
+        }
+
+        public IBusinessLibrary Library
+        {
+            get { return BDT.Library; }
+        }
+
+        public IBDT BDT
+        {
+            get { return bdt; }
+        }
 
         public int Id
         {
@@ -53,11 +68,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string Definition
         {
             get { return GetTaggedValue(TaggedValues.definition); }
-        }
-
-        public virtual string DictionaryEntryName
-        {
-            get { return GetTaggedValue(TaggedValues.dictionaryEntryName); }
         }
 
         public string LanguageCode
@@ -140,11 +150,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.whiteSpace); }
         }
 
-        public IBusinessLibrary Library
-        {
-            get { return DT.Library; }
-        }
-
         public IEnumerable<string> UsageRules
         {
             get { return attribute.GetTaggedValues(TaggedValues.usageRule); }
@@ -158,11 +163,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string LowerBound
         {
             get { return attribute.LowerBound; }
-        }
-
-        public IDT DT
-        {
-            get { return dt; }
         }
 
         public bool IsOptional()

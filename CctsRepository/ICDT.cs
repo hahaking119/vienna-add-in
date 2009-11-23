@@ -6,12 +6,15 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using CctsRepository;
+using System.Collections.Generic;
 
 namespace CctsRepository
 {
-    public interface ICDT : IDT
+    public interface ICDT : ICCTSElement, IHasUsageRules
     {
+        ICDTContentComponent CON { get; }
+        IEnumerable<ICDTSupplementaryComponent> SUPs { get; }
+
         ICDT IsEquivalentTo { get; }
     }
 }

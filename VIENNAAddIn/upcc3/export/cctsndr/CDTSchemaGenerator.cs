@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 
             foreach (ICDT cdt in cdts)
             {
-                var sups = new List<ISUP>(cdt.SUPs);
+                var sups = new List<ICDTSupplementaryComponent>(cdt.SUPs);
                 if (sups.Count == 0)
                 {
                     var simpleType = new XmlSchemaSimpleType { Name = GetTypeName(cdt) };
@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                                                  {
                                                      BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType)
                                                  };
-                    foreach (ISUP sup in sups)
+                    foreach (ICDTSupplementaryComponent sup in sups)
                     {
                         var attribute = new XmlSchemaAttribute
                                         {
@@ -81,7 +81,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         
         }
 
-        private static XmlSchemaAnnotation GetAttributeAnnotation(ISUP sup)
+        private static XmlSchemaAnnotation GetAttributeAnnotation(ICDTSupplementaryComponent sup)
         {
             var xml = new XmlDocument();
             // Deviation from rule [R 9C95]: Generating only a subset of the defined annotations and added some additional annotations.
@@ -89,7 +89,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             AddAnnotation(xml, annNodes, "PropertyTermName", sup.Name);
             AddAnnotation(xml, annNodes, "RepresentationTermName", sup.BasicType.Name);
             AddAnnotation(xml, annNodes, "PrimitiveTypeName", sup.BasicType.Name);
-            AddAnnotation(xml, annNodes, "DataTypeName", sup.DT.Name);
+            AddAnnotation(xml, annNodes, "DataTypeName", sup.CDT.Name);
             AddAnnotation(xml, annNodes, "UniqueID", sup.UniqueIdentifier);
             AddAnnotation(xml, annNodes, "VersionID", sup.VersionIdentifier);
             AddAnnotation(xml, annNodes, "DictionaryEntryName", sup.DictionaryEntryName);
@@ -147,7 +147,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             return new XmlQualifiedName(GetXSDType(basicType.Name), "http://www.w3.org/2001/XMLSchema");
         }
 
-        private static string GetAttributeName(ISUP sup)
+        private static string GetAttributeName(ICDTSupplementaryComponent sup)
         {
             string name = sup.Name + sup.BasicType.Name;
             return name.Replace(".", "");

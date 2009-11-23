@@ -35,4 +35,37 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return taggedValue => taggedValue.Value = value;
         }
     }
+
+    ///<summary>
+    ///</summary>
+    public static class EAAttributeTagExtensions
+    {
+        ///<summary>
+        ///</summary>
+        ///<param name="taggedValue"></param>
+        ///<param name="doSomething"></param>
+        ///<returns></returns>
+        public static AttributeTag With(this AttributeTag taggedValue, params Action<AttributeTag>[] doSomething)
+        {
+            foreach (var doNextThingWith in doSomething)
+            {
+                doNextThingWith(taggedValue);
+            }
+            taggedValue.Update();
+            return taggedValue;
+        }
+
+        public static AttributeTag WithValue(this AttributeTag taggedValue, string value)
+        {
+            return taggedValue.With(SetAttributeTag.Value(value));
+        }
+    }
+
+    public static class SetAttributeTag
+    {
+        public static Action<AttributeTag> Value(string value)
+        {
+            return taggedValue => taggedValue.Value = value;
+        }
+    }
 }
