@@ -183,7 +183,6 @@
     <Compile Include="TestRepository\EARepositoryTest.cs" />
     <Compile Include="upcc3\export\cctsndr\XSDGeneratorTest.cs" />
     <Compile Include="menu\MenuManagerTest.cs" />
-    <Compile Include="validator\upcc3\onTheFly\ValidatingPRIMLibraryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />

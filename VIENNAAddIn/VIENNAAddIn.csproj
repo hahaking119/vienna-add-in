@@ -370,17 +370,6 @@
     <Compile Include="validator\upcc3\CDTLibraryValidator.cs" />
     <Compile Include="validator\upcc3\DOCLibraryValidator.cs" />
     <Compile Include="validator\upcc3\ENUMLibraryValidator.cs" />
-    <Compile Include="validator\upcc3\onTheFly\DuplicateElementName.cs" />
-    <Compile Include="validator\upcc3\onTheFly\InvalidElementStereotype.cs" />
-    <Compile Include="validator\upcc3\onTheFly\BackgroundOnTheFlyValidator.cs" />
-    <Compile Include="validator\upcc3\onTheFly\InvalidSupplierForIsEquivalentTo.cs" />
-    <Compile Include="validator\upcc3\onTheFly\OnTheFlyValidator.cs" />
-    <Compile Include="validator\upcc3\onTheFly\OnTheFlyValidatorImpl.cs" />
-    <Compile Include="validator\upcc3\onTheFly\ProcessItemRequest.cs" />
-    <Compile Include="validator\upcc3\onTheFly\QuickFix.cs" />
-    <Compile Include="validator\upcc3\onTheFly\RenameElementQuickFix.cs" />
-    <Compile Include="validator\upcc3\onTheFly\SetElementStereotypeQuickFix.cs" />
-    <Compile Include="validator\upcc3\onTheFly\ValidationIssue.cs" />
     <Compile Include="validator\upcc3\PRIMLibraryValidator.cs" />
     <Compile Include="validator\upcc3\UPCCValidator.cs" />
     <Compile Include="validator\ValidationMessageAddedEventArgs.cs" />
