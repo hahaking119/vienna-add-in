@@ -156,7 +156,7 @@ Actual output file: {2}",
             var ccRepository = new CCRepository(new EARepository2());
             var context = new GeneratorContext(ccRepository, "urn:test:namespace", "test", true, true, "C:\\dump\\", docLibraryMock.Object, null);
             BIESchemaGenerator.GenerateXSD(context,
-                                           VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.CollectBIEs(context));
+                                           VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.CollectABIEs(context));
             Assert.AreEqual(1, context.Schemas.Count);
             XmlSchema schema = context.Schemas[0].Schema;
 //            schema.Write(Console.Out);

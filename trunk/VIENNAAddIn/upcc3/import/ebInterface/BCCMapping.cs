@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             this.sourceElement = sourceElement;
             this.targetElement = targetElement;
-            BCC = (IBCC) targetElement.Reference;
+            BCC = targetElement.Bcc;
             ACC = BCC.Container;
             ElementName = sourceElement.Name;
         }
@@ -37,7 +37,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.sourceElement.Key, sourceElement.Key) && Equals(other.targetElement.Reference.Id, targetElement.Reference.Id) && Equals(other.ACC.Id, ACC.Id);
+            return Equals(other.sourceElement.Key, sourceElement.Key) && Equals(other.targetElement.Bcc.Id, targetElement.Bcc.Id) && Equals(other.ACC.Id, ACC.Id);
         }
 
         public override bool Equals(object obj)

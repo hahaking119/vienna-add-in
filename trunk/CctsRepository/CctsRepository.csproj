@@ -69,11 +69,9 @@
     <Compile Include="BdtLibrary\IBDT.cs" />
     <Compile Include="BdtLibrary\IBDTContentComponent.cs" />
     <Compile Include="BdtLibrary\IBDTLibrary.cs" />
-    <Compile Include="BieLibrary\IBIE.cs" />
     <Compile Include="BieLibrary\IBIELibrary.cs" />
     <Compile Include="bLibrary\IBLibrary.cs" />
     <Compile Include="IBusinessLibrary.cs" />
-    <Compile Include="CcLibrary\ICC.cs" />
     <Compile Include="CcLibrary\ICCLibrary.cs" />
     <Compile Include="ICCRepository.cs" />
     <Compile Include="CdtLibrary\ICDT.cs" />
