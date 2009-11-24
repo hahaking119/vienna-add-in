@@ -8,8 +8,9 @@
 // *******************************************************************************
 using System;
 using System.Collections.Generic;
+using CctsRepository;
 
-namespace CctsRepository
+namespace VIENNAAddIn.upcc3.ccts.util
 {
     ///<summary>
     /// Definition of stereotype strings for UPCC elements.

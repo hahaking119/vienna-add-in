@@ -7,14 +7,28 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository;
 
 namespace CctsRepository
 {
-    ///<summary>
-    ///</summary>
-    public interface IDOCLibrary : IElementLibrary<IABIE, ABIESpec>
+    public interface IDOCLibrary : IBusinessLibrary
     {
+        IEnumerable<IABIE> Elements { get; }
+
+        ///<summary>
+        /// Retrieves an element by name.
+        ///</summary>
+        IABIE ElementByName(string name);
+
+        ///<summary>
+        /// Creates a new element in this library, based on the given specification.
+        ///</summary>
+        IABIE CreateElement(ABIESpec spec);
+
+        ///<summary>
+        /// Updates the given element of this library to match the given specification.
+        ///</summary>
+        IABIE UpdateElement(IABIE element, ABIESpec spec);
+
         ///<summary>
         /// Returns the root elements of documents defined in this DOCLibrary.
         ///</summary>

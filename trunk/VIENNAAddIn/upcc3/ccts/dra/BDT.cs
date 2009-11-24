@@ -14,7 +14,7 @@ using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
-using Stereotype=CctsRepository.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {

@@ -8,7 +8,7 @@ using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using Attribute=System.Attribute;
-using Stereotype=CctsRepository.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.validator.upcc3.onTheFly
 {

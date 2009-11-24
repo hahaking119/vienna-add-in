@@ -254,20 +254,26 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private static Func<T> DeferredABIEResolver<T, S>(IElementLibrary<T, S> elementLibrary, string abieName)
+        private static Func<IABIE> DeferredABIEResolver(IBIELibrary bieLibrary, string abieName)
         {
-            return () => elementLibrary.ElementByName(abieName);
+            return () => bieLibrary.ElementByName(abieName);
+        }
+
+        private static Func<IABIE> DeferredABIEResolver(IDOCLibrary docLibrary, string abieName)
+        {
+            return () => docLibrary.ElementByName(abieName);
         }
 
         private Func<IABIE> DeferredABIEResolver(ComplexTypeMapping complexTypeMapping)
         {
-            var elementLibrary = DetermineTargetLibrary(complexTypeMapping);
-            return DeferredABIEResolver(elementLibrary, complexTypeMapping.BIEName);
-        }
-
-        private IElementLibrary<IABIE, ABIESpec> DetermineTargetLibrary(ComplexTypeMapping complexTypeMapping)
-        {
-            return complexTypeMapping.Library == ComplexTypeMapping.LibraryType.BIE ? (IElementLibrary<IABIE, ABIESpec>) bieLibrary : docLibrary;
+            if (complexTypeMapping.Library == ComplexTypeMapping.LibraryType.BIE)
+            {
+                return DeferredABIEResolver(bieLibrary, complexTypeMapping.BIEName);
+            }
+            else
+            {
+                return DeferredABIEResolver(docLibrary, complexTypeMapping.BIEName);
+            }
         }
     }
 }

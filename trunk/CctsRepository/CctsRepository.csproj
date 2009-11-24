@@ -84,7 +84,6 @@
     <Compile Include="ICodelistEntry.cs" />
     <Compile Include="ICDTContentComponent.cs" />
     <Compile Include="IDOCLibrary.cs" />
-    <Compile Include="IElementLibrary.cs" />
     <Compile Include="IENUM.cs" />
     <Compile Include="IENUMLibrary.cs" />
     <Compile Include="IPRIM.cs" />
@@ -93,15 +92,21 @@
     <Compile Include="LibrarySpec.cs" />
     <Compile Include="PRIMSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stereotype.cs" />
     <Compile Include="BDTSupplementaryComponentSpec.cs" />
-    <Compile Include="TaggedValues.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VIENNAAddInUtils\VIENNAAddInUtils.csproj">
       <Project>{3C1352B8-1B53-46F9-BC18-BFF48115A606}</Project>
       <Name>VIENNAAddInUtils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bdt\" />
+    <Folder Include="bie\" />
+    <Folder Include="cc\" />
+    <Folder Include="cdt\" />
+    <Folder Include="enum\" />
+    <Folder Include="prim\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

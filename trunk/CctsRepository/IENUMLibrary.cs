@@ -6,13 +6,27 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using CctsRepository;
+using System.Collections.Generic;
 
 namespace CctsRepository
 {
-    ///<summary>
-    ///</summary>
-    public interface IENUMLibrary : IElementLibrary<IENUM, ENUMSpec>
+    public interface IENUMLibrary : IBusinessLibrary
     {
+        IEnumerable<IENUM> Elements { get; }
+
+        ///<summary>
+        /// Retrieves an element by name.
+        ///</summary>
+        IENUM ElementByName(string name);
+
+        ///<summary>
+        /// Creates a new element in this library, based on the given specification.
+        ///</summary>
+        IENUM CreateElement(ENUMSpec spec);
+
+        ///<summary>
+        /// Updates the given element of this library to match the given specification.
+        ///</summary>
+        IENUM UpdateElement(IENUM element, ENUMSpec spec);
     }
 }

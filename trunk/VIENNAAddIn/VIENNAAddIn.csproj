@@ -178,6 +178,8 @@
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
+    <Compile Include="upcc3\ccts\util\Stereotype.cs" />
+    <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTExtensionComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTRestrictionComplexType.cs" />
