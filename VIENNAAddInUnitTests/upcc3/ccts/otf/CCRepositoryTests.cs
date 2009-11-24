@@ -1,6 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.bLibrary;
+using CctsRepository.cc;
+using CctsRepository.cdt;
+using CctsRepository.doc;
+using CctsRepository.@enum;
+using CctsRepository.prim;
 using NUnit.Framework;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.otf;

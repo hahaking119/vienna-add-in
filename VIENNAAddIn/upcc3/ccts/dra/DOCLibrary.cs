@@ -7,7 +7,8 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository;
+using CctsRepository.bie;
+using CctsRepository.doc;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra

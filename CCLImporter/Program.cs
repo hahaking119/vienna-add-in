@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using CctsRepository;
+using CctsRepository.bLibrary;
+using CctsRepository.cc;
+using CctsRepository.cdt;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 using File=System.IO.File;

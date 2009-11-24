@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CctsRepository;
+using CctsRepository.cc;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CctsRepository;
+using CctsRepository.cc;
 using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface

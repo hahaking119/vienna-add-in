@@ -7,7 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository;
+using CctsRepository.@enum;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr
 {

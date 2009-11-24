@@ -8,6 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using CctsRepository;
+using CctsRepository.bLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;

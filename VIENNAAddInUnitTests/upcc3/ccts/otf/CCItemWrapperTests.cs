@@ -1,4 +1,11 @@
-using CctsRepository;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.bLibrary;
+using CctsRepository.cc;
+using CctsRepository.cdt;
+using CctsRepository.doc;
+using CctsRepository.@enum;
+using CctsRepository.prim;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.util;

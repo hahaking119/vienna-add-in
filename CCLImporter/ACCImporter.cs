@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using CctsRepository;
+using CctsRepository.cc;
 
 namespace CCLImporter
 {

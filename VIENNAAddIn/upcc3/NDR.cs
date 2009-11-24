@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
-using CctsRepository;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.cc;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddIn.upcc3.import.util;
 

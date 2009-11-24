@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CctsRepository;
+using CctsRepository.prim;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddInUnitTests.upcc3.newrepo.ccts;

@@ -45,68 +45,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABIESpec.cs" />
-    <Compile Include="ACCSpec.cs" />
-    <Compile Include="ASBIESpec.cs" />
-    <Compile Include="ASCCSpec.cs" />
-    <Compile Include="BBIESpec.cs" />
-    <Compile Include="BCCSpec.cs" />
-    <Compile Include="BDTSpec.cs" />
+    <Compile Include="bie\ABIESpec.cs" />
+    <Compile Include="cc\ACCSpec.cs" />
+    <Compile Include="bie\ASBIESpec.cs" />
+    <Compile Include="cc\ASCCSpec.cs" />
+    <Compile Include="bie\BBIESpec.cs" />
+    <Compile Include="cc\BCCSpec.cs" />
+    <Compile Include="bdt\BDTSpec.cs" />
     <Compile Include="CCTSElementSpec.cs" />
-    <Compile Include="CDTContentComponentSpec.cs" />
-    <Compile Include="CDTSpec.cs" />
-    <Compile Include="CDTSupplementaryComponentSpec.cs" />
-    <Compile Include="CodelistEntrySpec.cs" />
-    <Compile Include="BDTContentComponentSpec.cs" />
+    <Compile Include="cdt\CDTContentComponentSpec.cs" />
+    <Compile Include="cdt\CDTSpec.cs" />
+    <Compile Include="cdt\CDTSupplementaryComponentSpec.cs" />
+    <Compile Include="enum\CodelistEntrySpec.cs" />
+    <Compile Include="bdt\BDTContentComponentSpec.cs" />
     <Compile Include="AggregationKind.cs" />
-    <Compile Include="ENUMSpec.cs" />
-    <Compile Include="IABIE.cs" />
-    <Compile Include="IACC.cs" />
-    <Compile Include="IASBIE.cs" />
-    <Compile Include="IASCC.cs" />
+    <Compile Include="enum\ENUMSpec.cs" />
+    <Compile Include="bie\IABIE.cs" />
+    <Compile Include="cc\IACC.cs" />
+    <Compile Include="bie\IASBIE.cs" />
+    <Compile Include="cc\IASCC.cs" />
     <Compile Include="IBasicType.cs" />
-    <Compile Include="IBBIE.cs" />
-    <Compile Include="IBCC.cs" />
-    <Compile Include="IBDT.cs" />
-    <Compile Include="IBDTContentComponent.cs" />
-    <Compile Include="IBDTLibrary.cs" />
-    <Compile Include="IBIE.cs" />
-    <Compile Include="IBIELibrary.cs" />
-    <Compile Include="IBLibrary.cs" />
+    <Compile Include="bie\IBBIE.cs" />
+    <Compile Include="cc\IBCC.cs" />
+    <Compile Include="bdt\IBDT.cs" />
+    <Compile Include="bdt\IBDTContentComponent.cs" />
+    <Compile Include="bdt\IBDTLibrary.cs" />
+    <Compile Include="bie\IBIE.cs" />
+    <Compile Include="bie\IBIELibrary.cs" />
+    <Compile Include="bLibrary\IBLibrary.cs" />
     <Compile Include="IBusinessLibrary.cs" />
-    <Compile Include="ICC.cs" />
-    <Compile Include="ICCLibrary.cs" />
+    <Compile Include="cc\ICC.cs" />
+    <Compile Include="cc\ICCLibrary.cs" />
     <Compile Include="ICCRepository.cs" />
     <Compile Include="ICCTSElement.cs" />
-    <Compile Include="ICDT.cs" />
-    <Compile Include="ICDTLibrary.cs" />
-    <Compile Include="ICDTSupplementaryComponent.cs" />
-    <Compile Include="ICodelistEntry.cs" />
-    <Compile Include="ICDTContentComponent.cs" />
-    <Compile Include="IDOCLibrary.cs" />
-    <Compile Include="IENUM.cs" />
-    <Compile Include="IENUMLibrary.cs" />
-    <Compile Include="IPRIM.cs" />
-    <Compile Include="IPRIMLibrary.cs" />
-    <Compile Include="IBDTSupplementaryComponent.cs" />
-    <Compile Include="LibrarySpec.cs" />
-    <Compile Include="PRIMSpec.cs" />
+    <Compile Include="cdt\ICDT.cs" />
+    <Compile Include="cdt\ICDTLibrary.cs" />
+    <Compile Include="cdt\ICDTSupplementaryComponent.cs" />
+    <Compile Include="enum\ICodelistEntry.cs" />
+    <Compile Include="cdt\ICDTContentComponent.cs" />
+    <Compile Include="doc\IDOCLibrary.cs" />
+    <Compile Include="enum\IENUM.cs" />
+    <Compile Include="enum\IENUMLibrary.cs" />
+    <Compile Include="prim\IPRIM.cs" />
+    <Compile Include="prim\IPRIMLibrary.cs" />
+    <Compile Include="bdt\IBDTSupplementaryComponent.cs" />
+    <Compile Include="bLibrary\LibrarySpec.cs" />
+    <Compile Include="prim\PRIMSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BDTSupplementaryComponentSpec.cs" />
+    <Compile Include="bdt\BDTSupplementaryComponentSpec.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VIENNAAddInUtils\VIENNAAddInUtils.csproj">
       <Project>{3C1352B8-1B53-46F9-BC18-BFF48115A606}</Project>
       <Name>VIENNAAddInUtils</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bdt\" />
-    <Folder Include="bie\" />
-    <Folder Include="cc\" />
-    <Folder Include="cdt\" />
-    <Folder Include="enum\" />
-    <Folder Include="prim\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

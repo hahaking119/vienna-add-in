@@ -1,6 +1,14 @@
 using System;
 using System.Collections.Generic;
 using CctsRepository;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.bLibrary;
+using CctsRepository.cc;
+using CctsRepository.cdt;
+using CctsRepository.doc;
+using CctsRepository.@enum;
+using CctsRepository.prim;
 using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc

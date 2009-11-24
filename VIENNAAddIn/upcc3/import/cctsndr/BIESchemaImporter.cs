@@ -12,6 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using CctsRepository;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.cc;
 using VIENNAAddIn.upcc3.import.util;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr

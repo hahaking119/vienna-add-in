@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using CctsRepository;
+using CctsRepository.bie;
+using CctsRepository.doc;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
