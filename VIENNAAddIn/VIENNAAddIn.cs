@@ -17,6 +17,7 @@ using VIENNAAddIn.menu;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.Wizards;
+using VIENNAAddIn.upcc3.Wizards.dev;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.workflow;
@@ -52,7 +53,7 @@ namespace VIENNAAddIn
 
             MenuAction createUPCCStructure =
                 "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm);
-            MenuAction createABIE = "Create new &ABIE".OnClick(ABIEWizardForm.ShowABIEWizard);
+            MenuAction createABIE = "Create new &ABIE".OnClick(/*ABIEEditor.ShowForm*/ABIEWizardForm.ShowABIEWizard);
             MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
             MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
             MenuAction validate = "&Validate".OnClick(ValidatorForm.ShowValidator);
