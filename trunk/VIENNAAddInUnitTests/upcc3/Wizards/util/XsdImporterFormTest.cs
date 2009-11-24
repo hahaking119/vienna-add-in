@@ -7,7 +7,7 @@ using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 {
     [TestFixture]
-    public class ImporterWizardFormTest
+    public class XsdImporterFormTest
     {
         [Test]
         [Ignore]
