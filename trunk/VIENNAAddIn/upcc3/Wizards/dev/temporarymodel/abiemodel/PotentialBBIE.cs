@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     {
         internal string Name { get; set; }
         internal Boolean Checked { get; set; }
-        private Dictionary<string, PotentialBDT> PotentialBDTs;
+        internal Dictionary<string, PotentialBDT> PotentialBDTs { get; set; }
 
         public PotentialBBIE(string name)
         {

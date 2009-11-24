@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CctsRepository.BieLibrary;
@@ -9,7 +8,6 @@ using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
-using CheckBox = System.Windows.Controls.CheckBox;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using ListBox = System.Windows.Controls.ListBox;
 using TextBox = System.Windows.Controls.TextBox;
