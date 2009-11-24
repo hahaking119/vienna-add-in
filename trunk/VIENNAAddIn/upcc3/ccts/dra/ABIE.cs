@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
@@ -13,30 +14,39 @@ using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddInUtils;
+using Attribute=EA.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class ABIE : UpccClass<ABIESpec>, IABIE
+    public class ABIE : IABIE, IEquatable<ABIE>
     {
-        public ABIE(CCRepository repository, Element element) : base(repository, element, Stereotype.ABIE)
+        private readonly Element element;
+        private readonly CCRepository repository;
+
+        public ABIE(CCRepository repository, Element element)
         {
+            this.repository = repository;
+            this.element = element;
+        }
+
+        private IEnumerable<Attribute> Attributes
+        {
+            get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        private IEnumerable<Connector> Connectors
+        {
+            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region IABIE Members
 
-        public override string DictionaryEntryName
+        public string DictionaryEntryName
         {
-            get
-            {
-                string value = base.DictionaryEntryName;
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = Name + ". Details";
-                }
-                return value;
-            }
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).DefaultTo(Name + ". Details"); }
         }
 
         public IEnumerable<string> UsageRules
@@ -80,9 +90,74 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        ///<summary>
+        ///</summary>
+        public int Id
+        {
+            get { return element.ElementID; }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string Name
+        {
+            get { return element.Name; }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IBusinessLibrary Library
+        {
+            get { return repository.GetLibrary(element.PackageID); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IEnumerable<string> BusinessTerms
+        {
+            get { return element.GetTaggedValues(TaggedValues.businessTerm); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string Definition
+        {
+            get { return GetTaggedValue(TaggedValues.definition); }
+        }
+
+        public string UniqueIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string VersionIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string LanguageCode
+        {
+            get { return GetTaggedValue(TaggedValues.languageCode); }
+        }
+
         #endregion
 
-        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        #region IEquatable<ABIE> Members
+
+        public bool Equals(ABIE other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.element.ElementID, element.ElementID);
+        }
+
+        #endregion
+
+        private bool DeleteConnectorOnUpdate(Connector connector)
         {
             return connector.IsBasedOn() || connector.IsIsEquivalentTo() || IsASBIE(connector);
         }
@@ -103,7 +178,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return false;
         }
 
-        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ABIESpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ABIESpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -147,9 +222,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(ABIESpec spec)
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(ABIESpec spec)
         {
-            var bbieSpecs = spec.BBIEs;
+            IEnumerable<BBIESpec> bbieSpecs = spec.BBIEs;
             if (bbieSpecs != null)
             {
                 foreach (BBIESpec bbieSpec in bbieSpecs)
@@ -159,12 +234,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(ABIESpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(ABIESpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
             if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
 
-            var asbieSpecs = spec.ASBIEs;
+            IEnumerable<ASBIESpec> asbieSpecs = spec.ASBIEs;
             if (asbieSpecs != null)
             {
                 foreach (ASBIESpec asbieSpec in asbieSpecs)
@@ -172,6 +247,61 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     yield return ConnectorSpec.CreateAggregation(asbieSpec.AggregationKind, Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedABIEId, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
                 }
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is ABIE) return Equals((ABIE) obj);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (element != null ? element.GetHashCode() : 0);
+        }
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return element.GetTaggedValue(key) ?? string.Empty;
+        }
+
+        public void Update(ABIESpec spec)
+        {
+            element.Name = spec.Name;
+            foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
+            {
+                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
+
+            for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)
+            {
+                if (DeleteConnectorOnUpdate((Connector) element.Connectors.GetAt(i)))
+                {
+                    element.Connectors.Delete(i);
+                }
+            }
+            element.Connectors.Refresh();
+            foreach (ConnectorSpec connector in GetConnectorSpecs(spec))
+            {
+                element.AddConnector(connector);
+            }
+            element.Connectors.Refresh();
+
+            for (var i = (short) (element.Attributes.Count - 1); i >= 0; i--)
+            {
+                element.Attributes.Delete(i);
+            }
+            element.Attributes.Refresh();
+            foreach (AttributeSpec attribute in GetAttributeSpecs(spec))
+            {
+                element.AddAttribute(attribute);
+            }
+            element.Attributes.Refresh();
+
+            element.Update();
+            element.Refresh();
         }
     }
 }

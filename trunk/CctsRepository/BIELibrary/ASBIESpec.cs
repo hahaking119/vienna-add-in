@@ -4,13 +4,20 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public class ASBIESpec : CCTSElementSpec
+    public class ASBIESpec
     {
         private AggregationKind aggregationKind = CctsRepository.AggregationKind.Composite;
         private int associatedABIEId;
 
-        public ASBIESpec(IASBIE asbie) : base(asbie)
+        public ASBIESpec(IASBIE asbie)
         {
+            Name = asbie.Name;
+            DictionaryEntryName = asbie.DictionaryEntryName;
+            Definition = asbie.Definition;
+            UniqueIdentifier = asbie.UniqueIdentifier;
+            VersionIdentifier = asbie.VersionIdentifier;
+            LanguageCode = asbie.LanguageCode;
+            BusinessTerms = new List<string>(asbie.BusinessTerms);
             UsageRules = new List<string>(asbie.UsageRules);
             SequencingKey = asbie.SequencingKey;
             AssociatedABIEId = asbie.AssociatedElement.Id;
@@ -53,6 +60,13 @@ namespace CctsRepository.BieLibrary
         }
 
         public IEnumerable<string> UsageRules { get; set; }
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
 
         public static ASBIESpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
         {

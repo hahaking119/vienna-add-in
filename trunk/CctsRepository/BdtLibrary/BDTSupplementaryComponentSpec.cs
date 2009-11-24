@@ -11,10 +11,18 @@ using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.BdtLibrary
 {
-    public class BDTSupplementaryComponentSpec : CCTSElementSpec
+    public class BDTSupplementaryComponentSpec
     {
-        public BDTSupplementaryComponentSpec(ICDTSupplementaryComponent cdtSup) : base(cdtSup)
+        public BDTSupplementaryComponentSpec(ICDTSupplementaryComponent cdtSup)
         {
+            Name = cdtSup.Name;
+            DictionaryEntryName = cdtSup.DictionaryEntryName;
+            Definition = cdtSup.Definition;
+            UniqueIdentifier = cdtSup.UniqueIdentifier;
+            VersionIdentifier = cdtSup.VersionIdentifier;
+            LanguageCode = cdtSup.LanguageCode;
+            BusinessTerms = new List<string>(cdtSup.BusinessTerms);
+
             BasicType = cdtSup.BasicType;
 
             UpperBound = cdtSup.UpperBound;
@@ -24,8 +32,16 @@ namespace CctsRepository.BdtLibrary
             UsageRules = new List<string>(cdtSup.UsageRules);
         }
 
-        public BDTSupplementaryComponentSpec(IBDTSupplementaryComponent bdtSup) : base(bdtSup)
+        public BDTSupplementaryComponentSpec(IBDTSupplementaryComponent bdtSup)
         {
+            Name = bdtSup.Name;
+            DictionaryEntryName = bdtSup.DictionaryEntryName;
+            Definition = bdtSup.Definition;
+            UniqueIdentifier = bdtSup.UniqueIdentifier;
+            VersionIdentifier = bdtSup.VersionIdentifier;
+            LanguageCode = bdtSup.LanguageCode;
+            BusinessTerms = new List<string>(bdtSup.BusinessTerms);
+
             BasicType = bdtSup.BasicType;
 
             UpperBound = bdtSup.UpperBound;
@@ -68,5 +84,12 @@ namespace CctsRepository.BdtLibrary
         public string MinLength { get; set; }
         public string TotalDigits { get; set; }
         public string WhiteSpace { get; set; }
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
     }
 }

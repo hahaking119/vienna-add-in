@@ -124,6 +124,7 @@
     <Compile Include="menu\AddInContext.cs" />
     <Compile Include="upcc3\ccts\dra\AttributeSpec.cs" />
     <Compile Include="upcc3\ccts\dra\BDTSupplementaryComponent.cs" />
+    <Compile Include="upcc3\ccts\dra\Cardinality.cs" />
     <Compile Include="upcc3\ccts\dra\CDTContentComponent.cs" />
     <Compile Include="upcc3\ccts\dra\CodelistEntry.cs" />
     <Compile Include="upcc3\ccts\dra\ConnectorSpec.cs" />
@@ -282,9 +283,6 @@
       <DependentUpon>SynchStereotypesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\ccts\dra\CDTSupplementaryComponent.cs" />
-    <Compile Include="upcc3\ccts\dra\UpccAssociation.cs" />
-    <Compile Include="upcc3\ccts\dra\UpccAttribute.cs" />
-    <Compile Include="upcc3\ccts\dra\UpccClass.cs" />
     <Compile Include="upcc3\ccts\dra\BDTContentComponent.cs" />
     <Compile Include="upcc3\ccts\dra\ABIE.cs" />
     <Compile Include="upcc3\ccts\dra\ACC.cs" />

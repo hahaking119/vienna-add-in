@@ -52,7 +52,6 @@
     <Compile Include="BieLibrary\BBIESpec.cs" />
     <Compile Include="CcLibrary\BCCSpec.cs" />
     <Compile Include="BdtLibrary\BDTSpec.cs" />
-    <Compile Include="CCTSElementSpec.cs" />
     <Compile Include="CdtLibrary\CDTContentComponentSpec.cs" />
     <Compile Include="CdtLibrary\CDTSpec.cs" />
     <Compile Include="CdtLibrary\CDTSupplementaryComponentSpec.cs" />
@@ -77,7 +76,6 @@
     <Compile Include="CcLibrary\ICC.cs" />
     <Compile Include="CcLibrary\ICCLibrary.cs" />
     <Compile Include="ICCRepository.cs" />
-    <Compile Include="ICCTSElement.cs" />
     <Compile Include="CdtLibrary\ICDT.cs" />
     <Compile Include="CdtLibrary\ICDTLibrary.cs" />
     <Compile Include="CdtLibrary\ICDTSupplementaryComponent.cs" />

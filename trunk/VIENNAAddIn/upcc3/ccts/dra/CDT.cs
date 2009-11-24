@@ -9,19 +9,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using CctsRepository.CdtLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class CDT : UpccClass<CDTSpec> , ICDT
+    public class CDT : ICDT, IEquatable<CDT>
     {
-        public CDT(CCRepository repository, Element element) : base(repository, element, Stereotype.CDT)
+        private readonly Element element;
+        private readonly CCRepository repository;
+
+        public CDT(CCRepository repository, Element element)
         {
+            this.repository = repository;
+            this.element = element;
+        }
+
+        private IEnumerable<Attribute> Attributes
+        {
+            get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        private IEnumerable<Connector> Connectors
+        {
+            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region ICDT Members
@@ -35,17 +52,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public override string DictionaryEntryName
+        public string DictionaryEntryName
         {
-            get
-            {
-                string value = base.DictionaryEntryName;
-                if (string.IsNullOrEmpty(value))
-                {
-                    return Name + ". Type";
-                }
-                return value;
-            }
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).DefaultTo(Name + ". Type"); }
         }
 
         public IEnumerable<string> UsageRules
@@ -75,14 +84,76 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        #endregion
-
-        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        ///<summary>
+        ///</summary>
+        public int Id
         {
-            return false;
+            get { return element.ElementID; }
         }
 
-        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(CDTSpec spec)
+        ///<summary>
+        ///</summary>
+        public string Name
+        {
+            get { return element.Name; }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IBusinessLibrary Library
+        {
+            get { return repository.GetLibrary(element.PackageID); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IEnumerable<string> BusinessTerms
+        {
+            get { return element.GetTaggedValues(TaggedValues.businessTerm); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string Definition
+        {
+            get { return GetTaggedValue(TaggedValues.definition); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string UniqueIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string VersionIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string LanguageCode
+        {
+            get { return GetTaggedValue(TaggedValues.languageCode); }
+        }
+
+        #endregion
+
+        #region IEquatable<CDT> Members
+
+        public bool Equals(CDT other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.element.ElementID, element.ElementID);
+        }
+
+        #endregion
+
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(CDTSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -126,27 +197,74 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(CDTSpec spec)
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(CDTSpec spec)
         {
-            var conSpec = spec.CON;
+            CDTContentComponentSpec conSpec = spec.CON;
             if (conSpec != null)
             {
                 // TODO throw exception if null
                 yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
             }
-            var supSpecs = spec.SUPs;
+            List<CDTSupplementaryComponentSpec> supSpecs = spec.SUPs;
             if (supSpecs != null)
             {
-                foreach (var supSpec in supSpecs)
+                foreach (CDTSupplementaryComponentSpec supSpec in supSpecs)
                 {
                     yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec));
                 }
             }
         }
 
-        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(CDTSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(CDTSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is CDT) return Equals((CDT) obj);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (element != null ? element.GetHashCode() : 0);
+        }
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return element.GetTaggedValue(key) ?? string.Empty;
+        }
+
+        public void Update(CDTSpec spec)
+        {
+            element.Name = spec.Name;
+            foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
+            {
+                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
+
+            foreach (ConnectorSpec connector in GetConnectorSpecs(spec))
+            {
+                element.AddConnector(connector);
+            }
+            element.Connectors.Refresh();
+
+            for (var i = (short) (element.Attributes.Count - 1); i >= 0; i--)
+            {
+                element.Attributes.Delete(i);
+            }
+            element.Attributes.Refresh();
+            foreach (AttributeSpec attribute in GetAttributeSpecs(spec))
+            {
+                element.AddAttribute(attribute);
+            }
+            element.Attributes.Refresh();
+
+            element.Update();
+            element.Refresh();
         }
     }
 }

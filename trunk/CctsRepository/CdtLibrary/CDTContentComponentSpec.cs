@@ -2,10 +2,18 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CdtLibrary
 {
-    public class CDTContentComponentSpec : CCTSElementSpec
+    public class CDTContentComponentSpec
     {
-        public CDTContentComponentSpec(ICDTContentComponent con): base(con)
+        public CDTContentComponentSpec(ICDTContentComponent con)
         {
+            Name = con.Name;
+            DictionaryEntryName = con.DictionaryEntryName;
+            Definition = con.Definition;
+            UniqueIdentifier = con.UniqueIdentifier;
+            VersionIdentifier = con.VersionIdentifier;
+            LanguageCode = con.LanguageCode;
+            BusinessTerms = new List<string>(con.BusinessTerms);
+
             BasicType = con.BasicType;
 
             UpperBound = con.UpperBound;
@@ -26,5 +34,12 @@ namespace CctsRepository.CdtLibrary
 
         public bool ModificationAllowedIndicator { get; set; }
         public IEnumerable<string> UsageRules { get; set; }
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
     }
 }

@@ -23,11 +23,6 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlClass.Id; }
         }
 
-        public string GUID
-        {
-            get { return umlClass.GUID; }
-        }
-
         public string Name
         {
             get { return umlClass.Name; }

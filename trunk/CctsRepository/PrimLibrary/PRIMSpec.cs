@@ -1,9 +1,19 @@
+using System.Collections.Generic;
+
 namespace CctsRepository.PrimLibrary
 {
-    public class PRIMSpec : CCTSElementSpec
+    public class PRIMSpec
     {
-        public PRIMSpec(IPRIM prim) : base(prim)
+        public PRIMSpec(IPRIM prim)
         {
+            Name = prim.Name;
+            DictionaryEntryName = prim.DictionaryEntryName;
+            Definition = prim.Definition;
+            UniqueIdentifier = prim.UniqueIdentifier;
+            VersionIdentifier = prim.VersionIdentifier;
+            LanguageCode = prim.LanguageCode;
+            BusinessTerms = new List<string>(prim.BusinessTerms);
+
             Pattern = prim.Pattern;
             FractionDigits = prim.FractionDigits;
             Length = prim.Length;
@@ -35,5 +45,12 @@ namespace CctsRepository.PrimLibrary
         public string WhiteSpace { get; set; }
 
         public IPRIM IsEquivalentTo { get; set; }
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
     }
 }

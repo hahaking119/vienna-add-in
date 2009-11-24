@@ -10,10 +10,11 @@ using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class DOCLibrary : ElementLibrary<IABIE, ABIE, ABIESpec>, IDOCLibrary
+    internal class DOCLibrary : BusinessLibrary, IDOCLibrary
     {
         public DOCLibrary(CCRepository repository, Package package)
             : base(repository, package)
@@ -43,9 +44,64 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public IEnumerable<IABIE> Elements
+        {
+            get
+            {
+                foreach (Element element in package.Elements)
+                {
+                    if (element.IsA(util.Stereotype.ABIE))
+                    {
+                        yield return WrapEaElement(element);
+                    }
+                }
+            }
+        }
+
+        public IABIE ElementByName(string name)
+        {
+            foreach (IABIE element in Elements)
+            {
+                if (((ABIE) element).Name == name)
+                {
+                    return element;
+                }
+            }
+            return default(IABIE);
+        }
+
+        ///<summary>
+        /// Creates a new element in this library, based on the given specification.
+        ///</summary>
+        ///<param name="spec"></param>
+        ///<returns></returns>
+        public IABIE CreateElement(ABIESpec spec)
+        {
+            var element = (Element) package.Elements.AddNew(spec.Name, "Class");
+            element.Stereotype = util.Stereotype.ABIE;
+            element.PackageID = Id;
+            package.Elements.Refresh();
+            AddElementToDiagram(element);
+            ABIE cctsElement = WrapEaElement(element);
+            cctsElement.Update(spec);
+            return cctsElement;
+        }
+
+        ///<summary>
+        /// Updates the given element of this library to match the given specification.
+        ///</summary>
+        ///<param name="element"></param>
+        ///<param name="spec"></param>
+        ///<returns></returns>
+        public IABIE UpdateElement(IABIE element, ABIESpec spec)
+        {
+            ((ABIE) element).Update(spec);
+            return element;
+        }
+
         #endregion
 
-        protected override ABIE WrapEaElement(Element element)
+        private ABIE WrapEaElement(Element element)
         {
             return new ABIE(repository, element);
         }

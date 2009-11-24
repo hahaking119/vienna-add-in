@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CctsRepository.BdtLibrary
 {
-    public interface IBDTSupplementaryComponent : ICCTSElement
+    public interface IBDTSupplementaryComponent
     {
         IBDT BDT { get; }
         IBasicType BasicType { get; }
@@ -29,6 +29,43 @@ namespace CctsRepository.BdtLibrary
         string MinLength { get; }
         string TotalDigits { get; }
         string WhiteSpace { get; }
+
+        ///<summary>
+        ///</summary>
+        int Id { get; }
+
+        ///<summary>
+        ///</summary>
+        string Name { get; }
+
+        ///<summary>
+        ///</summary>
+        string DictionaryEntryName { get; }
+
+        ///<summary>
+        ///</summary>
+        string Definition { get; }
+
+        ///<summary>
+        ///</summary>
+        string UniqueIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string VersionIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string LanguageCode { get; }
+
+        ///<summary>
+        ///</summary>
+        IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        ///</summary>
+        IBusinessLibrary Library { get; }
+
         bool IsOptional();
     }
 }

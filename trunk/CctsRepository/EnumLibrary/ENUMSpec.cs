@@ -3,12 +3,20 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository.EnumLibrary
 {
-    public class ENUMSpec : CCTSElementSpec
+    public class ENUMSpec
     {
         private List<CodelistEntrySpec> codelistEntries;
 
-        public ENUMSpec(IENUM @enum) : base(@enum)
+        public ENUMSpec(IENUM @enum)
         {
+            Name = @enum.Name;
+            DictionaryEntryName = @enum.DictionaryEntryName;
+            Definition = @enum.Definition;
+            UniqueIdentifier = @enum.UniqueIdentifier;
+            VersionIdentifier = @enum.VersionIdentifier;
+            LanguageCode = @enum.LanguageCode;
+            BusinessTerms = new List<string>(@enum.BusinessTerms);
+
             CodeListAgencyIdentifier = @enum.CodeListAgencyIdentifier;
             CodeListAgencyName = @enum.CodeListAgencyName;
             CodeListIdentifier = @enum.CodeListIdentifier;
@@ -40,6 +48,14 @@ namespace CctsRepository.EnumLibrary
             get { return codelistEntries; }
             set { codelistEntries = new List<CodelistEntrySpec>(value); }
         }
+
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
 
         public void AddCodelistEntry(CodelistEntrySpec spec)
         {

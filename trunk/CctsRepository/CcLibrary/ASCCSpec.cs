@@ -3,10 +3,17 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CcLibrary
 {
-    public class ASCCSpec : CCTSElementSpec
+    public class ASCCSpec
     {
-        public ASCCSpec(IASCC ascc) : base(ascc)
+        public ASCCSpec(IASCC ascc)
         {
+            Name = ascc.Name;
+            DictionaryEntryName = ascc.DictionaryEntryName;
+            Definition = ascc.Definition;
+            UniqueIdentifier = ascc.UniqueIdentifier;
+            VersionIdentifier = ascc.VersionIdentifier;
+            LanguageCode = ascc.LanguageCode;
+            BusinessTerms = new List<string>(ascc.BusinessTerms);
             UsageRules = new List<string>(ascc.UsageRules);
             SequencingKey = ascc.SequencingKey;
             ResolveAssociatedACC = () => ascc.AssociatedElement;
@@ -35,5 +42,12 @@ namespace CctsRepository.CcLibrary
         public Func<IACC> ResolveAssociatedACC { get; set; }
 
         public IEnumerable<string> UsageRules { get; set; }
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
     }
 }

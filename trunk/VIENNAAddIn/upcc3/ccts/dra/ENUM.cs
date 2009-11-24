@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using CctsRepository.EnumLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -18,25 +19,32 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ENUM : UpccClass<ENUMSpec>, IENUM
+    internal class ENUM : IENUM, IEquatable<ENUM>
     {
-        public ENUM(CCRepository repository, Element element) : base(repository, element, Stereotype.ENUM)
+        private readonly Element element;
+        private readonly CCRepository repository;
+
+        public ENUM(CCRepository repository, Element element)
         {
+            this.repository = repository;
+            this.element = element;
+        }
+
+        private IEnumerable<Attribute> Attributes
+        {
+            get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        private IEnumerable<Connector> Connectors
+        {
+            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region IENUM Members
 
-        public override string DictionaryEntryName
+        public string DictionaryEntryName
         {
-            get
-            {
-                string value = base.DictionaryEntryName;
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = Name;
-                }
-                return value;
-            }
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).DefaultTo(Name); }
         }
 
         public string CodeListAgencyIdentifier
@@ -104,14 +112,76 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        #endregion
-
-        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        ///<summary>
+        ///</summary>
+        public int Id
         {
-            return connector.IsIsEquivalentTo();
+            get { return element.ElementID; }
         }
 
-        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ENUMSpec spec)
+        ///<summary>
+        ///</summary>
+        public string Name
+        {
+            get { return element.Name; }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IBusinessLibrary Library
+        {
+            get { return repository.GetLibrary(element.PackageID); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IEnumerable<string> BusinessTerms
+        {
+            get { return element.GetTaggedValues(TaggedValues.businessTerm); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string Definition
+        {
+            get { return GetTaggedValue(TaggedValues.definition); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string UniqueIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string VersionIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string LanguageCode
+        {
+            get { return GetTaggedValue(TaggedValues.languageCode); }
+        }
+
+        #endregion
+
+        #region IEquatable<ENUM> Members
+
+        public bool Equals(ENUM other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.element.ElementID, element.ElementID);
+        }
+
+        #endregion
+
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ENUMSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -132,12 +202,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(ENUMSpec spec)
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(ENUMSpec spec)
         {
-            var codelistEntrySpecs = spec.CodelistEntries;
+            IEnumerable<CodelistEntrySpec> codelistEntrySpecs = spec.CodelistEntries;
             if (codelistEntrySpecs != null)
             {
-                foreach (var codelistEntrySpec in codelistEntrySpecs)
+                foreach (CodelistEntrySpec codelistEntrySpec in codelistEntrySpecs)
                 {
                     yield return new AttributeSpec(Stereotype.CodelistEntry, codelistEntrySpec.Name, "string", 0, "1", "1", GetCodelistEntryTaggedValueSpecs(codelistEntrySpec));
                 }
@@ -151,12 +221,66 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                        new TaggedValueSpec(TaggedValues.codeName, spec.CodeName),
                        new TaggedValueSpec(TaggedValues.status, spec.Status),
                    };
-
         }
 
-        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(ENUMSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(ENUMSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is ENUM) return Equals((ENUM) obj);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (element != null ? element.GetHashCode() : 0);
+        }
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return element.GetTaggedValue(key) ?? string.Empty;
+        }
+
+        public void Update(ENUMSpec spec)
+        {
+            element.Name = spec.Name;
+            foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
+            {
+                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
+
+            for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)
+            {
+                if (((Connector) element.Connectors.GetAt(i)).IsIsEquivalentTo())
+                {
+                    element.Connectors.Delete(i);
+                }
+            }
+            element.Connectors.Refresh();
+            foreach (ConnectorSpec connector in GetConnectorSpecs(spec))
+            {
+                element.AddConnector(connector);
+            }
+            element.Connectors.Refresh();
+
+            for (var i = (short) (element.Attributes.Count - 1); i >= 0; i--)
+            {
+                element.Attributes.Delete(i);
+            }
+            element.Attributes.Refresh();
+            foreach (AttributeSpec attribute in GetAttributeSpecs(spec))
+            {
+                element.AddAttribute(attribute);
+            }
+            element.Attributes.Refresh();
+
+            element.Update();
+            element.Refresh();
         }
     }
 }

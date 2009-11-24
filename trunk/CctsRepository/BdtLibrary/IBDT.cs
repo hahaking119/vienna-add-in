@@ -11,7 +11,7 @@ using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.BdtLibrary
 {
-    public interface IBDT : ICCTSElement
+    public interface IBDT
     {
         IBDTContentComponent CON { get; }
         IEnumerable<IBDTSupplementaryComponent> SUPs { get; }
@@ -19,5 +19,41 @@ namespace CctsRepository.BdtLibrary
         IBDT IsEquivalentTo { get; }
         ICDT BasedOn { get; }
         IEnumerable<string> UsageRules { get; }
+
+        ///<summary>
+        ///</summary>
+        int Id { get; }
+
+        ///<summary>
+        ///</summary>
+        string Name { get; }
+
+        ///<summary>
+        ///</summary>
+        string DictionaryEntryName { get; }
+
+        ///<summary>
+        ///</summary>
+        string Definition { get; }
+
+        ///<summary>
+        ///</summary>
+        string UniqueIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string VersionIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string LanguageCode { get; }
+
+        ///<summary>
+        ///</summary>
+        IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        ///</summary>
+        IBusinessLibrary Library { get; }
     }
 }

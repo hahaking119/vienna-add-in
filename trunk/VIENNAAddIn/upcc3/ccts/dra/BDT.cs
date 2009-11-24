@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.CdtLibrary;
 using EA;
@@ -16,19 +17,29 @@ using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    ///<summary>
-    ///</summary>
-    public class BDT : UpccClass<BDTSpec>, IBDT
+    public class BDT : IBDT, IEquatable<BDT>
     {
-        ///<summary>
-        ///</summary>
-        ///<param name="repository"></param>
-        ///<param name="element"></param>
-        public BDT(CCRepository repository, Element element) : base(repository, element, "BDT")
+        private readonly Element element;
+        private readonly CCRepository repository;
+
+        public BDT(CCRepository repository, Element element)
         {
+            this.repository = repository;
+            this.element = element;
+        }
+
+        private IEnumerable<Attribute> Attributes
+        {
+            get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        private IEnumerable<Connector> Connectors
+        {
+            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region IBDT Members
@@ -53,17 +64,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public override string DictionaryEntryName
+        public string DictionaryEntryName
         {
-            get
-            {
-                string value = base.DictionaryEntryName;
-                if (string.IsNullOrEmpty(value))
-                {
-                    return Name + ". Type";
-                }
-                return value;
-            }
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).DefaultTo(Name + ". Type"); }
         }
 
         public IEnumerable<string> UsageRules
@@ -93,14 +96,76 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        #endregion
-
-        protected override bool DeleteConnectorOnUpdate(Connector connector)
+        ///<summary>
+        ///</summary>
+        public int Id
         {
-            return connector.IsBasedOn();
+            get { return element.ElementID; }
         }
 
-        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(BDTSpec spec)
+        ///<summary>
+        ///</summary>
+        public string Name
+        {
+            get { return element.Name; }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IBusinessLibrary Library
+        {
+            get { return repository.GetLibrary(element.PackageID); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IEnumerable<string> BusinessTerms
+        {
+            get { return element.GetTaggedValues(TaggedValues.businessTerm); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string Definition
+        {
+            get { return GetTaggedValue(TaggedValues.definition); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string UniqueIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string VersionIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string LanguageCode
+        {
+            get { return GetTaggedValue(TaggedValues.languageCode); }
+        }
+
+        #endregion
+
+        #region IEquatable<BDT> Members
+
+        public bool Equals(BDT other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.element.ElementID, element.ElementID);
+        }
+
+        #endregion
+
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(BDTSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -166,7 +231,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(BDTSpec spec)
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(BDTSpec spec)
         {
             BDTContentComponentSpec conSpec = spec.CON;
             if (conSpec != null)
@@ -184,10 +249,65 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(BDTSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(BDTSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
             if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is BDT) return Equals((BDT) obj);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (element != null ? element.GetHashCode() : 0);
+        }
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return element.GetTaggedValue(key) ?? string.Empty;
+        }
+
+        public void Update(BDTSpec spec)
+        {
+            element.Name = spec.Name;
+            foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
+            {
+                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
+
+            for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)
+            {
+                if (((Connector) element.Connectors.GetAt(i)).IsBasedOn())
+                {
+                    element.Connectors.Delete(i);
+                }
+            }
+            element.Connectors.Refresh();
+            foreach (ConnectorSpec connector in GetConnectorSpecs(spec))
+            {
+                element.AddConnector(connector);
+            }
+            element.Connectors.Refresh();
+
+            for (var i = (short) (element.Attributes.Count - 1); i >= 0; i--)
+            {
+                element.Attributes.Delete(i);
+            }
+            element.Attributes.Refresh();
+            foreach (AttributeSpec attribute in GetAttributeSpecs(spec))
+            {
+                element.AddAttribute(attribute);
+            }
+            element.Attributes.Refresh();
+
+            element.Update();
+            element.Refresh();
         }
     }
 }

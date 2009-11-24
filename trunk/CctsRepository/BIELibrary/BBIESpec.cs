@@ -12,10 +12,17 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public class BBIESpec : CCTSElementSpec
+    public class BBIESpec
     {
-        public BBIESpec(IBBIE bbie) : base(bbie)
+        public BBIESpec(IBBIE bbie)
         {
+            Name = bbie.Name;
+            DictionaryEntryName = bbie.DictionaryEntryName;
+            Definition = bbie.Definition;
+            UniqueIdentifier = bbie.UniqueIdentifier;
+            VersionIdentifier = bbie.VersionIdentifier;
+            LanguageCode = bbie.LanguageCode;
+            BusinessTerms = new List<string>(bbie.BusinessTerms);
             UsageRules = new List<string>(bbie.UsageRules);
             SequencingKey = bbie.SequencingKey;
             Type = bbie.Type;
@@ -34,6 +41,13 @@ namespace CctsRepository.BieLibrary
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
         public IEnumerable<string> UsageRules { get; set; }
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
 
         public static BBIESpec CloneBCC(IBCC bcc, IBDT type)
         {
