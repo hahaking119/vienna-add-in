@@ -52,7 +52,7 @@ namespace VIENNAAddIn
                           };
 
             MenuAction createUPCCStructure =
-                "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm);
+                "&Create initial UPCC3 model structure".OnClick(/*UPCCModelGenerator.ShowForm*/UpccModelWizardForm.ShowForm);
             MenuAction createABIE = "Create new &ABIE".OnClick(/*ABIEEditor.ShowForm*/ABIEWizardForm.ShowABIEWizard);
             MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
             MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
