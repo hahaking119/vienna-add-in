@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Microsoft.Win32;
 
 namespace VIENNAAddInWpfUserControls
@@ -12,11 +14,30 @@ namespace VIENNAAddInWpfUserControls
         public FileSelector()
         {
             InitializeComponent();
+            fileNameTextBox.SetBinding(TextBox.TextProperty, new Binding("FileName")
+                                                             {
+                                                                 Source = this,
+                                                                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                                                             });
         }
 
         public string Filter { get; set; }
 
         public string DefaultExt { get; set; }
+
+        public static readonly DependencyProperty FileNameProperty = DependencyProperty.Register("FileName", typeof(string), typeof(FileSelector));
+
+        public string FileName
+        {
+            get
+            {
+                return (string) GetValue(FileNameProperty);
+            }
+            set
+            {
+                SetValue(FileNameProperty, value);
+            }
+        }
 
         private void openFileDialogButton_Click(object sender, RoutedEventArgs e)
         {

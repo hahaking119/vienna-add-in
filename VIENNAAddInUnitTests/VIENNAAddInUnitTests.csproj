@@ -140,7 +140,7 @@
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryCCCache.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryResourceHandler.cs" />
-    <Compile Include="upcc3\Wizards\util\ImporterWizardFormTest.cs" />
+    <Compile Include="upcc3\Wizards\util\XsdImporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\util\UPCCModelWizardFormTest.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceDescriptorTest.cs" />
     <Compile Include="upcc3\Wizards\util\ResourceHandlerTest.cs" />
