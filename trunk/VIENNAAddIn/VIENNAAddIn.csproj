@@ -204,6 +204,9 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBDT.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBDTModel.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\TemporaryModel.cs" />
+    <Compile Include="upcc3\Wizards\dev\UPCCModelGenerator.xaml.cs">
+      <DependentUpon>UPCCModelGenerator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\util\CheckedListModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -512,6 +515,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="upcc3\Wizards\dev\ABIEEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\UPCCModelGenerator.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
