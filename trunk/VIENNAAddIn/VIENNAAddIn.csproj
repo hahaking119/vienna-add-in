@@ -200,7 +200,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\util\ListModel.cs" />
-    <Compile Include="upcc3\Wizards\dev\util\RenameTextBox.cs" />
     <Compile Include="upcc3\Wizards\dev\util\TemporaryABIEModel.cs" />
     <Compile Include="upcc3\Wizards\XsdImporterForm.xaml.cs">
       <DependentUpon>XsdImporterForm.xaml</DependentUpon>
