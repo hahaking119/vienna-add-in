@@ -12,13 +12,20 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository.BieLibrary
 {
-    public class ABIESpec : CCTSElementSpec
+    public class ABIESpec
     {
         private List<ASBIESpec> asbies;
         private List<BBIESpec> bbies;
 
-        public ABIESpec(IABIE abie) : base(abie)
+        public ABIESpec(IABIE abie)
         {
+            Name = abie.Name;
+            DictionaryEntryName = abie.DictionaryEntryName;
+            Definition = abie.Definition;
+            UniqueIdentifier = abie.UniqueIdentifier;
+            VersionIdentifier = abie.VersionIdentifier;
+            LanguageCode = abie.LanguageCode;
+            BusinessTerms = new List<string>(abie.BusinessTerms);
             UsageRules = new List<string>(abie.UsageRules);
             BBIEs = abie.BBIEs.Convert(bbie => new BBIESpec(bbie));
             ASBIEs = abie.ASBIEs.Convert(asbie => new ASBIESpec(asbie));
@@ -48,6 +55,13 @@ namespace CctsRepository.BieLibrary
 
         public IACC BasedOn { get; set; }
         public IEnumerable<string> UsageRules { get; set; }
+        public string Name { get; set; }
+        public string DictionaryEntryName { get; set; }
+        public string Definition { get; set; }
+        public string UniqueIdentifier { get; set; }
+        public string VersionIdentifier { get; set; }
+        public string LanguageCode { get; set; }
+        public IEnumerable<string> BusinessTerms { get; set; }
 
         public void AddASBIE(ASBIESpec spec)
         {

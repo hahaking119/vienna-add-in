@@ -13,41 +13,45 @@ using CctsRepository;
 using CctsRepository.CcLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddInUtils;
+using Attribute=EA.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
     ///<summary>
     ///</summary>
-    public class ACC : UpccClass<ACCSpec>, IACC
+    public class ACC : IACC, IEquatable<ACC>
     {
+        private readonly Element element;
+        private readonly CCRepository repository;
+
         ///<summary>
         ///</summary>
         ///<param name="repository"></param>
         ///<param name="element"></param>
-        public ACC(CCRepository repository, Element element) : base(repository, element, Stereotype.ACC)
+        public ACC(CCRepository repository, Element element)
         {
+            this.repository = repository;
+            this.element = element;
+        }
+
+        private IEnumerable<Attribute> Attributes
+        {
+            get { return element.Attributes.AsEnumerable<Attribute>(); }
+        }
+
+        private IEnumerable<Connector> Connectors
+        {
+            get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
         #region IACC Members
 
-        public override string DictionaryEntryName
+        public string DictionaryEntryName
         {
-            get
-            {
-                string value = base.DictionaryEntryName;
-                if (string.IsNullOrEmpty(value))
-                {
-                    value = Name + ". Details";
-                }
-                return value;
-            }
-        }
-
-        protected override bool DeleteConnectorOnUpdate(Connector connector)
-        {
-            return connector.IsIsEquivalentTo() || IsASCC(connector);
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).DefaultTo(Name + ". Details"); }
         }
 
         ///<summary>
@@ -82,14 +86,84 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        ///<summary>
+        ///</summary>
+        public int Id
+        {
+            get { return element.ElementID; }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string Name
+        {
+            get { return element.Name; }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IBusinessLibrary Library
+        {
+            get { return repository.GetLibrary(element.PackageID); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public IEnumerable<string> BusinessTerms
+        {
+            get { return element.GetTaggedValues(TaggedValues.businessTerm); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string Definition
+        {
+            get { return GetTaggedValue(TaggedValues.definition); }
+        }
+
+        public string UniqueIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string VersionIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.versionIdentifier); }
+        }
+
+        ///<summary>
+        ///</summary>
+        public string LanguageCode
+        {
+            get { return GetTaggedValue(TaggedValues.languageCode); }
+        }
+
         #endregion
+
+        #region IEquatable<ACC> Members
+
+        public bool Equals(ACC other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.element.ElementID, element.ElementID);
+        }
+
+        #endregion
+
+        private bool DeleteConnectorOnUpdate(Connector connector)
+        {
+            return connector.IsIsEquivalentTo() || IsASCC(connector);
+        }
 
         private bool IsASCC(Connector connector)
         {
             return connector.IsASCC() && connector.GetAssociatingEnd(element.ElementID).Aggregation != (int) AggregationKind.None;
         }
 
-        protected override IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ACCSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ACCSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -133,15 +207,15 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        protected override IEnumerable<AttributeSpec> GetAttributeSpecs(ACCSpec spec)
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(ACCSpec spec)
         {
-            var bccSpecs = spec.BCCs;
+            IEnumerable<BCCSpec> bccSpecs = spec.BCCs;
             if (bccSpecs != null)
             {
-                var duplicateBccNames = GetDuplicates(bccSpecs.Select(bccSpec => bccSpec.Name));
+                HashSet<string> duplicateBccNames = GetDuplicates(bccSpecs.Select(bccSpec => bccSpec.Name));
                 foreach (BCCSpec bccSpec in bccSpecs)
                 {
-                    var name = bccSpec.Name;
+                    string name = bccSpec.Name;
                     if (duplicateBccNames.Contains(name))
                     {
                         name = name + bccSpec.Type.Name;
@@ -165,23 +239,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return duplicates;
         }
 
-        protected override IEnumerable<ConnectorSpec> GetConnectorSpecs(ACCSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(ACCSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
 
-            var asccSpecs = spec.ASCCs;
+            IEnumerable<ASCCSpec> asccSpecs = spec.ASCCs;
             if (asccSpecs != null)
             {
-                var duplicateAsccNames = GetDuplicates(asccSpecs.Select(asccSpec => asccSpec.Name));
+                HashSet<string> duplicateAsccNames = GetDuplicates(asccSpecs.Select(asccSpec => asccSpec.Name));
                 foreach (ASCCSpec asccSpec in asccSpecs)
                 {
-                    var associatedACC = asccSpec.AssociatedACC;
+                    IACC associatedACC = asccSpec.AssociatedACC;
                     if (associatedACC == null)
                     {
                         // TODO throw meaningful exception instead
                         continue;
                     }
-                    var name = asccSpec.Name;
+                    string name = asccSpec.Name;
                     if (duplicateAsccNames.Contains(name))
                     {
                         name = name + associatedACC.Name;
@@ -191,6 +265,61 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                                                         asccSpec.AssociatedACC.Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec));
                 }
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is ACC) return Equals((ACC) obj);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (element != null ? element.GetHashCode() : 0);
+        }
+
+        private string GetTaggedValue(TaggedValues key)
+        {
+            return element.GetTaggedValue(key) ?? string.Empty;
+        }
+
+        public void Update(ACCSpec spec)
+        {
+            element.Name = spec.Name;
+            foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
+            {
+                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
+
+            for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)
+            {
+                if (DeleteConnectorOnUpdate((Connector) element.Connectors.GetAt(i)))
+                {
+                    element.Connectors.Delete(i);
+                }
+            }
+            element.Connectors.Refresh();
+            foreach (ConnectorSpec connector in GetConnectorSpecs(spec))
+            {
+                element.AddConnector(connector);
+            }
+            element.Connectors.Refresh();
+
+            for (var i = (short) (element.Attributes.Count - 1); i >= 0; i--)
+            {
+                element.Attributes.Delete(i);
+            }
+            element.Attributes.Refresh();
+            foreach (AttributeSpec attribute in GetAttributeSpecs(spec))
+            {
+                element.AddAttribute(attribute);
+            }
+            element.Attributes.Refresh();
+
+            element.Update();
+            element.Refresh();
         }
     }
 }
