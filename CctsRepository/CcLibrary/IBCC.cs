@@ -6,16 +6,54 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System.Collections.Generic;
 using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.CcLibrary
 {
-    public interface IBCC : ICC
+    public interface IBCC
     {
         ICDT Type { get; }
         IACC Container { get; }
         string UpperBound { get; }
         string LowerBound { get; }
         string SequencingKey { get; }
+        IEnumerable<string> UsageRules { get; }
+
+        ///<summary>
+        ///</summary>
+        int Id { get; }
+
+        ///<summary>
+        ///</summary>
+        string Name { get; }
+
+        ///<summary>
+        ///</summary>
+        string DictionaryEntryName { get; }
+
+        ///<summary>
+        ///</summary>
+        string Definition { get; }
+
+        ///<summary>
+        ///</summary>
+        string UniqueIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string VersionIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string LanguageCode { get; }
+
+        ///<summary>
+        ///</summary>
+        IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        ///</summary>
+        IBusinessLibrary Library { get; }
     }
 }

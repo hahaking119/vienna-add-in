@@ -30,7 +30,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
                 else
                 {
-                    var rootTargetCCElement = CreateTargetCCElement(entry, acc);
+                    var rootTargetCCElement = CreateTargetCCElementForAcc(entry, acc);
                     CreateChildren(rootTargetCCElement, entry, acc);
                 }
             }
@@ -44,14 +44,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 var bcc = GetBCC(acc, subEntry.Name);
                 if (bcc != null)
                 {
-                    targetCCElement.AddChild(CreateTargetCCElement(subEntry, bcc));
+                    targetCCElement.AddChild(CreateTargetCCElementForBcc(subEntry, bcc));
                 }
                 else
                 {
                     var ascc = GetASCC(acc, subEntry.Name);
                     if (ascc != null)
                     {
-                        var targetASCCElement = CreateTargetCCElement(subEntry, ascc);
+                        var targetASCCElement = CreateTargetCCElementForAscc(subEntry, ascc);
                         CreateChildren(targetASCCElement, subEntry, ascc.AssociatedElement);
                         targetCCElement.AddChild(targetASCCElement);
                     }
@@ -63,9 +63,23 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private TargetCCElement CreateTargetCCElement(Entry entry, ICC cc)
+        private TargetCCElement CreateTargetCCElementForBcc(Entry entry, IBCC bcc)
         {
-            var targetCCElement = new TargetCCElement(entry.Name, cc);
+            var targetCCElement = TargetCCElement.ForBcc(entry.Name, bcc);
+            AddToIndex(entry, targetCCElement);
+            return targetCCElement;
+        }
+
+        private TargetCCElement CreateTargetCCElementForAscc(Entry entry, IASCC ascc)
+        {
+            var targetCCElement = TargetCCElement.ForAscc(entry.Name, ascc);
+            AddToIndex(entry, targetCCElement);
+            return targetCCElement;
+        }
+
+        private TargetCCElement CreateTargetCCElementForAcc(Entry entry, IACC acc)
+        {
+            var targetCCElement = TargetCCElement.ForAcc(entry.Name, acc);
             AddToIndex(entry, targetCCElement);
             return targetCCElement;
         }

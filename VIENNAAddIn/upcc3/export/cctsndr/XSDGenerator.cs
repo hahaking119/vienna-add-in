@@ -27,7 +27,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         public static GeneratorContext GenerateSchemas(GeneratorContext context)
         {
             BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context));
-            BIESchemaGenerator.GenerateXSD(context, CollectBIEs(context));
+            BIESchemaGenerator.GenerateXSD(context, CollectABIEs(context));
             RootSchemaGenerator.GenerateXSD(context);
 
             if(context.Allschemas)
@@ -113,13 +113,13 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<IBIE> CollectBIEs(GeneratorContext context)
+        public static IEnumerable<IABIE> CollectABIEs(GeneratorContext context)
         {
             foreach (IBIELibrary bieLibrary in context.Repository.Libraries<IBIELibrary>())
             {
-                foreach (IABIE bie in bieLibrary.Elements)
+                foreach (IABIE abie in bieLibrary.Elements)
                 {
-                    yield return bie;
+                    yield return abie;
                 }
             }
         }

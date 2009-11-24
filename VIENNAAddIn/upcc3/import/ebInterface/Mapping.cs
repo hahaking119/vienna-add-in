@@ -1,10 +1,10 @@
 using System;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class Mapping : IEquatable<Mapping>
     {
-        private TargetBIEElement targetBIE;
         public static readonly ElementMapping NullElementMapping = new NullMapping();
         public static readonly ComplexTypeMapping NullComplexTypeMapping = new NullComplexTypeMapping();
 
@@ -18,16 +18,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public SourceElement Source { get; private set; }
         public TargetCCElement TargetCC { get; private set; }
-
-        public TargetBIEElement TargetBIE
-        {
-            get { return targetBIE; }
-            set
-            {
-                targetBIE = value;
-                targetBIE.Mapping = this;
-            }
-        }
 
         #region IEquatable<Mapping> Members
 
@@ -68,7 +58,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("{0} -> {1} ({2})", Source.Name, TargetCC.Name, TargetCC.Reference.GetType().Name);
+            string referencedType = "invalid";
+            if (TargetCC.IsBCC) referencedType = Stereotype.BCC;
+            if (TargetCC.IsASCC) referencedType = Stereotype.ASCC;
+            if (TargetCC.IsACC) referencedType = Stereotype.ACC;
+            return string.Format("{0} -> {1} ({2})", Source.Name, TargetCC.Name, referencedType);
         }
     }
 }

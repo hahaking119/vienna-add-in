@@ -51,8 +51,8 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
-        ///<param name="bies"></param>
-        public static void GenerateXSD(GeneratorContext context, IEnumerable<IBIE> bies)
+        ///<param name="abies"></param>
+        public static void GenerateXSD(GeneratorContext context, IEnumerable<IABIE> abies)
         {
             // Create XML schema file and prepare the XML schema header
             // R 88E2: all XML schema files must use UTF-8 encoding
@@ -84,7 +84,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             bdtInclude.SchemaLocation = "BusinessDataType_" + schema.Version + ".xsd";
             schema.Includes.Add(bdtInclude);
 
-            foreach (IABIE abie in bies.OrderBy(a => a.Name))
+            foreach (IABIE abie in abies.OrderBy(a => a.Name))
             {
                 // finally add the complex type to the schema
                 schema.Items.Add(GenerateComplexTypeABIE(context, schema, abie));

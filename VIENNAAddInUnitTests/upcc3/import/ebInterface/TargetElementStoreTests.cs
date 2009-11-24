@@ -32,30 +32,32 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         private IBCC bccPartyName;
         private IASCC asccPartyResidence;
 
-        private void ShouldContainTargetACCElement(TargetElementStore targetElementStore, string name, ICC referencedCC, string parentName, params string[] childNames)
+        private void ShouldContainTargetACCElement(TargetElementStore targetElementStore, string name, IACC referencedAcc, string parentName, params string[] childNames)
         {
-            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedCC, parentName, childNames);
+            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, parentName, childNames);
+            Assert.That(targetCCElement.Acc.Id, Is.EqualTo(referencedAcc.Id));
             Assert.IsTrue(targetCCElement.IsACC);
         }
 
-        private void ShouldContainTargetBCCElement(TargetElementStore targetElementStore, string name, ICC referencedCC, string parentName, params string[] childNames)
+        private void ShouldContainTargetBCCElement(TargetElementStore targetElementStore, string name, IBCC referencedBcc, string parentName, params string[] childNames)
         {
-            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedCC, parentName, childNames);
+            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, parentName, childNames);
+            Assert.That(targetCCElement.Bcc.Id, Is.EqualTo(referencedBcc.Id));
             Assert.IsTrue(targetCCElement.IsBCC);
         }
 
-        private void ShouldContainTargetASCCElement(TargetElementStore targetElementStore, string name, ICC referencedCC, string parentName, params string[] childNames)
+        private void ShouldContainTargetASCCElement(TargetElementStore targetElementStore, string name, IASCC referencedAscc, string parentName, params string[] childNames)
         {
-            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedCC, parentName, childNames);
+            TargetCCElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, parentName, childNames);
+            Assert.That(targetCCElement.Ascc.Id, Is.EqualTo(referencedAscc.Id));
             Assert.IsTrue(targetCCElement.IsASCC);
         }
 
-        private TargetCCElement ShouldContainTargetCCElement(string name, TargetElementStore targetElementStore, ICC referencedCC, string parentName, string[] childNames)
+        private TargetCCElement ShouldContainTargetCCElement(string name, TargetElementStore targetElementStore, string parentName, string[] childNames)
         {
             string entryKey = GetTargetEntryKey(name);
             TargetCCElement targetCCElement = targetElementStore.GetTargetElement(entryKey);
             Assert.That(targetCCElement, Is.Not.Null, "Target element '" + name + "' not found");
-            Assert.That(targetCCElement.Reference.Id, Is.EqualTo(referencedCC.Id));
             if (string.IsNullOrEmpty(parentName))
             {
                 Assert.That(targetCCElement.Parent, Is.Null);
@@ -117,7 +119,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             ShouldContainTargetACCElement(targetElementStore, "Party", accParty, null, "Name", "ResidenceAddress");
             ShouldContainTargetBCCElement(targetElementStore, "Name", bccPartyName, "Party");
             ShouldContainTargetASCCElement(targetElementStore, "ResidenceAddress", asccPartyResidence, "Party", "CityName");
-            ShouldContainTargetBCCElement(targetElementStore, "CityName", asccPartyResidence, "ResidenceAddress");
         }
     }
 }

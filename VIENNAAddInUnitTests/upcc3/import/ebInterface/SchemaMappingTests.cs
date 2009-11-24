@@ -66,7 +66,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var homeAddressMapping = new ComplexTypeMapping("HomeAddress",
                                                             new List<ElementMapping>
                                                             {
-                                                                new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "78432424")), new TargetCCElement("CityName", bccCityName)),
+                                                                new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "78432424")), TargetCCElement.ForBcc("CityName", bccCityName)),
                                                             });
             var expectedMappings = new List<IMapping>
                                    {
@@ -74,8 +74,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        new ComplexTypeMapping("Person",
                                                               new List<ElementMapping>
                                                               {
-                                                                  new BCCMapping(new SourceElement("Name", InputOutputKey.PrependPrefix(mappingFileName, "84559328")), new TargetCCElement("Name", bccPartyName)),
-                                                                  new ASCCMapping(new SourceElement("HomeAddress", InputOutputKey.PrependPrefix(mappingFileName, "84558664")), new TargetCCElement("ResidenceAddress", asccPartyResidenceAddress), homeAddressMapping),
+                                                                  new BCCMapping(new SourceElement("Name", InputOutputKey.PrependPrefix(mappingFileName, "84559328")), TargetCCElement.ForBcc("Name", bccPartyName)),
+                                                                  new ASCCMapping(new SourceElement("HomeAddress", InputOutputKey.PrependPrefix(mappingFileName, "84558664")), TargetCCElement.ForAscc("ResidenceAddress", asccPartyResidenceAddress), homeAddressMapping),
                                                               }),
                                    };
             Console.Out.WriteLine("=================================================================================");
@@ -117,8 +117,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        new ComplexTypeMapping("Address",
                                                               new List<ElementMapping>
                                                               {
-                                                                  new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "80085696")), new TargetCCElement("CityName", bccCityName)),
-                                                                  new BCCMapping(new SourceElement("PersonName", InputOutputKey.PrependPrefix(mappingFileName, "80065224")), new TargetCCElement("Name", bccPartyName)),
+                                                                  new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "80085696")), TargetCCElement.ForBcc("CityName", bccCityName)),
+                                                                  new BCCMapping(new SourceElement("PersonName", InputOutputKey.PrependPrefix(mappingFileName, "80065224")), TargetCCElement.ForBcc("Name", bccPartyName)),
                                                               }),
                                    };
             Assert.That(complexTypeMappings, Is.EquivalentTo(expectedMappings));

@@ -11,11 +11,48 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public interface IABIE : IBIE
+    public interface IABIE
     {
         IEnumerable<IBBIE> BBIEs { get; }
         IEnumerable<IASBIE> ASBIEs { get; }
         IACC BasedOn { get; }
         IABIE IsEquivalentTo { get; }
+        IEnumerable<string> UsageRules { get; }
+
+        ///<summary>
+        ///</summary>
+        int Id { get; }
+
+        ///<summary>
+        ///</summary>
+        string Name { get; }
+
+        ///<summary>
+        ///</summary>
+        string DictionaryEntryName { get; }
+
+        ///<summary>
+        ///</summary>
+        string Definition { get; }
+
+        ///<summary>
+        ///</summary>
+        string UniqueIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string VersionIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string LanguageCode { get; }
+
+        ///<summary>
+        ///</summary>
+        IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        ///</summary>
+        IBusinessLibrary Library { get; }
     }
 }
