@@ -6,9 +6,9 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using CctsRepository.cdt;
+using CctsRepository.CdtLibrary;
 
-namespace CctsRepository.cc
+namespace CctsRepository.CcLibrary
 {
     public interface IBCC : ICC
     {

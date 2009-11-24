@@ -6,7 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using CctsRepository.bdt;
+using CctsRepository.BdtLibrary;
 using EA;
 
 namespace VIENNAAddIn.upcc3.ccts.dra

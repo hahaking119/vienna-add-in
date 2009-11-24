@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VIENNAAddInUtils;
 
-namespace CctsRepository.cc
+namespace CctsRepository.CcLibrary
 {
     public class ACCSpec : CCTSElementSpec
     {

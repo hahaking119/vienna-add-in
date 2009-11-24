@@ -13,10 +13,10 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
-using CctsRepository.bdt;
-using CctsRepository.bie;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
-using CctsRepository.doc;
+using CctsRepository.DocLibrary;
 using VIENNAAddIn.upcc3.import.util;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr

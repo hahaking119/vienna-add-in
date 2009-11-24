@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CctsRepository.bdt;
+using CctsRepository.BdtLibrary;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {

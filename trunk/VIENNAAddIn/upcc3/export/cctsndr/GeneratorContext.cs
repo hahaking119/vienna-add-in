@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using CctsRepository;
-using CctsRepository.bie;
-using CctsRepository.doc;
+using CctsRepository.BieLibrary;
+using CctsRepository.DocLibrary;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr
 {

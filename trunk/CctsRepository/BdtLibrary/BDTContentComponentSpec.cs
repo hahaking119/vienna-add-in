@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using CctsRepository.cdt;
+using CctsRepository.CdtLibrary;
 
-namespace CctsRepository.bdt
+namespace CctsRepository.BdtLibrary
 {
     public class BDTContentComponentSpec : CCTSElementSpec
     {

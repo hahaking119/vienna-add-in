@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using CctsRepository.prim;
+using CctsRepository.PrimLibrary;
 using EA;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts.util;

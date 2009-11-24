@@ -8,7 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 
-namespace CctsRepository.bdt
+namespace CctsRepository.BdtLibrary
 {
     public interface IBDTSupplementaryComponent : ICCTSElement
     {

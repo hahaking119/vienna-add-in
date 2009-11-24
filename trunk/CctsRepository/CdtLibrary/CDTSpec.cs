@@ -9,7 +9,7 @@
 using System.Collections.Generic;
 using VIENNAAddInUtils;
 
-namespace CctsRepository.cdt
+namespace CctsRepository.CdtLibrary
 {
     public class CDTSpec : CCTSElementSpec
     {

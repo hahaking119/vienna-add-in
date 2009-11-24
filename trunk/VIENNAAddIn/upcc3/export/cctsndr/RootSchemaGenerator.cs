@@ -4,8 +4,8 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
-using CctsRepository.bie;
-using CctsRepository.doc;
+using CctsRepository.BieLibrary;
+using CctsRepository.DocLibrary;
 
 // XML Naming and Design Rules that are currently not considered:
 //

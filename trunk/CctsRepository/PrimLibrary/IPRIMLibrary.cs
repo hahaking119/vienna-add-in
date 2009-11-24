@@ -8,7 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 
-namespace CctsRepository.prim
+namespace CctsRepository.PrimLibrary
 {
     public interface IPRIMLibrary : IBusinessLibrary
     {

@@ -1,4 +1,4 @@
-namespace CctsRepository.prim
+namespace CctsRepository.PrimLibrary
 {
     public class PRIMSpec : CCTSElementSpec
     {
