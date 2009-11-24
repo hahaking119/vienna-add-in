@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
+using CctsRepository.bie;
+using CctsRepository.doc;
 using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;

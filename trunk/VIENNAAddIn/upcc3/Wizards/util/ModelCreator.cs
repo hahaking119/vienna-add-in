@@ -8,7 +8,7 @@
 // *******************************************************************************
 
 using System;
-using CctsRepository;
+using CctsRepository.bLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 

@@ -2,6 +2,12 @@ using System;
 using System.Collections.Generic;
 using CctsRepository;
 using System.Linq;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.bLibrary;
+using CctsRepository.cc;
+using CctsRepository.cdt;
+using CctsRepository.doc;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {

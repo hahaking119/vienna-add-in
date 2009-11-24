@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CctsRepository;
+using CctsRepository.@enum;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.export.cctsndr;

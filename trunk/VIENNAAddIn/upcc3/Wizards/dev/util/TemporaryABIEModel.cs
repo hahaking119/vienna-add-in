@@ -10,7 +10,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using CctsRepository;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.cc;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 

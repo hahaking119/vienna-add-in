@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
+using CctsRepository.cdt;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr
 {

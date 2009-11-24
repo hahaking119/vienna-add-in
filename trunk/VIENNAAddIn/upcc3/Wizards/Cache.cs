@@ -10,7 +10,11 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using CctsRepository;
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.cc;
+using CctsRepository.cdt;
+using CctsRepository.doc;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards

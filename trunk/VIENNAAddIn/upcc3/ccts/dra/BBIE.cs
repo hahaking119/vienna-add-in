@@ -6,8 +6,10 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using CctsRepository.bdt;
+using CctsRepository.bie;
+using CctsRepository.cc;
 using EA;
-using CctsRepository;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {

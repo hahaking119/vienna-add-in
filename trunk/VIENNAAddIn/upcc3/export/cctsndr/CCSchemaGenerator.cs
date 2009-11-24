@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
+using CctsRepository.cc;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr
 {

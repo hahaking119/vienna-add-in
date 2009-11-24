@@ -9,8 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository.cdt;
 using EA;
-using CctsRepository;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;

@@ -1,4 +1,4 @@
-using CctsRepository;
+using CctsRepository.@enum;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 
