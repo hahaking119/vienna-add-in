@@ -1,4 +1,4 @@
-namespace CctsRepository.@enum
+namespace CctsRepository.EnumLibrary
 {
     public interface ICodelistEntry
     {

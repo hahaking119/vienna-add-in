@@ -4,12 +4,12 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
-using CctsRepository.bdt;
-using CctsRepository.bie;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
-using CctsRepository.cc;
-using CctsRepository.cdt;
-using CctsRepository.prim;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.PrimLibrary;
 using Path=System.IO.Path;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr

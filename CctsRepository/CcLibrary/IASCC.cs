@@ -6,7 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-namespace CctsRepository.cc
+namespace CctsRepository.CcLibrary
 {
     public interface IASCC : ICC
     {

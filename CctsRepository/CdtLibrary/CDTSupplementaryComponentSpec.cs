@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CctsRepository.cdt
+namespace CctsRepository.CdtLibrary
 {
     public class CDTSupplementaryComponentSpec : CCTSElementSpec
     {

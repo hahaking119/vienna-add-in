@@ -7,9 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository.bie;
+using CctsRepository.BieLibrary;
 
-namespace CctsRepository.doc
+namespace CctsRepository.DocLibrary
 {
     public interface IDOCLibrary : IBusinessLibrary
     {

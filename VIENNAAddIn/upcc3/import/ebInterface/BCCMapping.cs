@@ -1,5 +1,5 @@
 using System;
-using CctsRepository.cc;
+using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {

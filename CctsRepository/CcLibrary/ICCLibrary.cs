@@ -8,7 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 
-namespace CctsRepository.cc
+namespace CctsRepository.CcLibrary
 {
     public interface ICCLibrary : IBusinessLibrary
     {

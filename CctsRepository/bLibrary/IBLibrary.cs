@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using CctsRepository.bdt;
-using CctsRepository.bie;
-using CctsRepository.cc;
-using CctsRepository.cdt;
-using CctsRepository.doc;
-using CctsRepository.@enum;
-using CctsRepository.prim;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
 
 namespace CctsRepository.bLibrary
 {

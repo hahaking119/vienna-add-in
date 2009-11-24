@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using CctsRepository;
-using CctsRepository.cdt;
+using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using Attribute=EA.Attribute;

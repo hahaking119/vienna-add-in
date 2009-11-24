@@ -8,7 +8,7 @@
 // *******************************************************************************
 using System.Collections.Generic;
 
-namespace CctsRepository.@enum
+namespace CctsRepository.EnumLibrary
 {
     public interface IENUMLibrary : IBusinessLibrary
     {

@@ -10,9 +10,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using CctsRepository.bie;
-using CctsRepository.cc;
-using CctsRepository.cdt;
+using CctsRepository.BieLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache

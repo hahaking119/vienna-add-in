@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using VIENNAAddInUtils;
 
-namespace CctsRepository.@enum
+namespace CctsRepository.EnumLibrary
 {
     public class ENUMSpec : CCTSElementSpec
     {
