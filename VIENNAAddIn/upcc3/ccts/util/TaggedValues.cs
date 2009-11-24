@@ -6,7 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-namespace CctsRepository
+namespace VIENNAAddIn.upcc3.ccts.util
 {
     /// <summary>
     /// Tagged value keys defined by UPCC.

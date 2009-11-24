@@ -21,7 +21,7 @@ using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.workflow;
 using MenuItem=VIENNAAddIn.menu.MenuItem;
-using Stereotype=CctsRepository.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn
 {

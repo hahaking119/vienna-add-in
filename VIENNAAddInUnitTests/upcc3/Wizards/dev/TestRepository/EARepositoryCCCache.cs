@@ -13,7 +13,7 @@ using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUtils;
-using Stereotype = CctsRepository.Stereotype;
+using Stereotype = VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
 {

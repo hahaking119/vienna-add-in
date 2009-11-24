@@ -9,9 +9,7 @@
 using System;
 using System.Collections.Generic;
 using EA;
-using CctsRepository;
 using VIENNAAddInUtils;
-using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {

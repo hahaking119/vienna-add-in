@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using EA;
 using NUnit.Framework;
-using CctsRepository;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
-using Stereotype=CctsRepository.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {

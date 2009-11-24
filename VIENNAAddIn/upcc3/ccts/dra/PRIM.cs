@@ -12,7 +12,7 @@ using System.Linq;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
-using Stereotype=CctsRepository.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {

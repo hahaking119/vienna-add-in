@@ -163,7 +163,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
             libraryPackage.Update();
 
-            if (CctsRepository.Stereotype.bLibrary == stereotype)
+            if (util.Stereotype.bLibrary == stereotype)
             {
                 var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
                 packageDiagram.Update();

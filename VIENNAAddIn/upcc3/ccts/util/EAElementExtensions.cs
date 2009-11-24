@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using CctsRepository;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 using Attribute=EA.Attribute;
-using Stereotype=CctsRepository.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {

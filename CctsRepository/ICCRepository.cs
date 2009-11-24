@@ -11,8 +11,6 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository
 {
-    ///<summary>
-    ///</summary>
     public interface ICCRepository
     {
         IBusinessLibrary GetLibrary(int id);

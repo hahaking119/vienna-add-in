@@ -63,42 +63,42 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IBLibrary CreateBLibrary(LibrarySpec spec)
         {
-            return new BLibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.bLibrary));
+            return new BLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.bLibrary));
         }
 
         public ICDTLibrary CreateCDTLibrary(LibrarySpec spec)
         {
-            return new CDTLibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.CDTLibrary));
+            return new CDTLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.CDTLibrary));
         }
 
         public ICCLibrary CreateCCLibrary(LibrarySpec spec)
         {
-            return new CCLibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.CCLibrary));
+            return new CCLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.CCLibrary));
         }
 
         public IBDTLibrary CreateBDTLibrary(LibrarySpec spec)
         {
-            return new BDTLibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.BDTLibrary));
+            return new BDTLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BDTLibrary));
         }
 
         public IBIELibrary CreateBIELibrary(LibrarySpec spec)
         {
-            return new BIELibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.BIELibrary));
+            return new BIELibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BIELibrary));
         }
 
         public IPRIMLibrary CreatePRIMLibrary(LibrarySpec spec)
         {
-            return new PRIMLibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.PRIMLibrary));
+            return new PRIMLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.PRIMLibrary));
         }
 
         public IENUMLibrary CreateENUMLibrary(LibrarySpec spec)
         {
-            return new ENUMLibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.ENUMLibrary));
+            return new ENUMLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.ENUMLibrary));
         }
 
         public IDOCLibrary CreateDOCLibrary(LibrarySpec spec)
         {
-            return new DOCLibrary(repository, CreateLibraryPackage(spec, CctsRepository.Stereotype.DOCLibrary));
+            return new DOCLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.DOCLibrary));
         }
 
         #endregion

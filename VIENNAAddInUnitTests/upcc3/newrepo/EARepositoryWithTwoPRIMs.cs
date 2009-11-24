@@ -1,10 +1,9 @@
 using EA;
-using CctsRepository;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
 using EAPackageExtensions=VIENNAAddIn.upcc3.ccts.util.EAPackageExtensions;
-using Stereotype=CctsRepository.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo
 {

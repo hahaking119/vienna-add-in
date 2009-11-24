@@ -6,16 +6,11 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    ///<summary>
-    ///</summary>
-    ///<typeparam name="TICCTSElement"></typeparam>
-    ///<typeparam name="TCCTSElement"></typeparam>
-    ///<typeparam name="TCCTSElementSpec"></typeparam>
-    public abstract class ElementLibrary<TICCTSElement, TCCTSElement, TCCTSElementSpec> : BusinessLibrary, IElementLibrary<TICCTSElement, TCCTSElementSpec>
+    public abstract class ElementLibrary<TICCTSElement, TCCTSElement, TCCTSElementSpec> : BusinessLibrary
         where TCCTSElement : UpccClass<TCCTSElementSpec>, TICCTSElement
         where TCCTSElementSpec : CCTSElementSpec
     {
-        private static readonly string ElementStereotype = CctsRepository.Stereotype.GetStereotype<TICCTSElement>();
+        private static readonly string ElementStereotype = util.Stereotype.GetStereotype<TICCTSElement>();
 
         protected ElementLibrary(CCRepository repository, Package package) : base(repository, package)
         {
