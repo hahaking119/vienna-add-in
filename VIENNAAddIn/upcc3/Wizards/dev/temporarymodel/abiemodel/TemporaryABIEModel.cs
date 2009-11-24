@@ -24,15 +24,42 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private Dictionary<string, CandidateBCC> CandidateBCCs;
         private Dictionary<string, CandidateABIE> CandidateABIEs;
 
-        public TemporaryABIEModel(string name, string prefix)
+        public TemporaryABIEModel(IACC candidateACC, string name, string prefix)
         {
             Name = name;
             Prefix = prefix;
+
+            PrepareTemporaryABIEModel(candidateACC);
         }
 
+        private void PrepareTemporaryABIEModel(IACC acc)
+        {
+            CandidateBCCs = new Dictionary<string, CandidateBCC>();
+            foreach (IBCC bcc in acc.BCCs)
+            {
+                var candidateBCC = new CandidateBCC(bcc);
+                var potentialBBIE = new PotentialBBIE(candidateBCC.OriginalBCC.Name);
+                potentialBBIE.PotentialBDTs.Add(candidateBCC.OriginalBCC.Type.Name,new PotentialBDT(candidateBCC.OriginalBCC.Name));
+                candidateBCC.PotentialBBIEs.Add(candidateBCC.OriginalBCC.Name,potentialBBIE);
+                CandidateBCCs.Add(bcc.Name,candidateBCC);
+            }
+        }
 
+        private void AddBBIE(string bcc, string potentialBBIEName)
+        {
+            CandidateBCCs[bcc].PotentialBBIEs.Add(potentialBBIEName,new PotentialBBIE(potentialBBIEName));
+        }
 
-
+        private void AddBDT (string potentialBDTName)
+        {
+            foreach (KeyValuePair<string, CandidateBCC> candidateBCC in CandidateBCCs)
+            {
+                foreach (KeyValuePair<string, PotentialBBIE> keyValuePair in candidateBCC.Value.PotentialBBIEs)
+                {
+                    keyValuePair.Value.PotentialBDTs.Add(potentialBDTName,new PotentialBDT(potentialBDTName));
+                }
+            }
+        }
 //        private CCCache temporaryCache;
 
         private ListModel listModelCCL;
