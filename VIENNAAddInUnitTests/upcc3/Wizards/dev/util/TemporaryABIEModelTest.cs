@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
-using VIENNAAddIn.upcc3.Wizards.dev.util;
+using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 using Assert=Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -68,7 +68,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         public void ShouldCreateBBIE()
         {
             List<string> BDTs = new List<string>();
-            temporaryABIEModel.createBBIE("underlyingBCCName", "BBIEName", BDTs);
+            //temporaryABIEModel.createBBIE("underlyingBCCName", "BBIEName", BDTs);
             throw new NotImplementedException();
         }
         [TestMethod]
