@@ -41,17 +41,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return associatingClass; }
         }
 
-        public AggregationKind AggregationKind
+        public AsbieAggregationKind AggregationKind
         {
             get
             {
                 int value = connector.GetAssociatingEnd(AssociatingElement.Id).Aggregation;
-                if (Enum.IsDefined(typeof (AggregationKind), value))
-                {
-                    return (AggregationKind) Enum.ToObject(typeof (AggregationKind), value);
-                }
-                return AggregationKind.None;
+                return AsbieAggregationKindFromInt(value);
             }
+        }
+
+        private static AsbieAggregationKind AsbieAggregationKindFromInt(int value)
+        {
+            if (Enum.IsDefined(typeof (AsbieAggregationKind), value))
+            {
+                return (AsbieAggregationKind) Enum.ToObject(typeof (AsbieAggregationKind), value);
+            }
+            return AsbieAggregationKind.Composite;
         }
 
         public string UpperBound

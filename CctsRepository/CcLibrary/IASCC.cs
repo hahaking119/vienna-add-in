@@ -14,7 +14,6 @@ namespace CctsRepository.CcLibrary
     {
         IACC AssociatingElement { get; }
         IACC AssociatedElement { get; }
-        AggregationKind AggregationKind { get; }
         string UpperBound { get; }
         string LowerBound { get; }
         string SequencingKey { get; }

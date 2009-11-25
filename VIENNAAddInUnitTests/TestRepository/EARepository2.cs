@@ -1,5 +1,4 @@
 using EA;
-using CctsRepository;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
@@ -58,10 +57,10 @@ namespace VIENNAAddInUnitTests.TestRepository
             accPerson.AddASCC(accAddress, "homeAddress");
             accPerson.AddASCC(accAddress, "workAddress", "0", "*");
 
-            abiePerson.AddASBIE(abieAddress, "homeAddress", AggregationKind.Shared);
-            abiePerson.AddASBIE(abieAddress, "workAddress", AggregationKind.Composite, "0", "*");
-            abieInvoice.AddASBIE(abieInvoiceInfo, "info", AggregationKind.Shared);
-            abieInvoiceInfo.AddASBIE(abieAddress, "deliveryAddress", AggregationKind.Shared);
+            abiePerson.AddASBIE(abieAddress, "homeAddress", EaAggregationKind.Shared);
+            abiePerson.AddASBIE(abieAddress, "workAddress", EaAggregationKind.Composite, "0", "*");
+            abieInvoice.AddASBIE(abieInvoiceInfo, "info", EaAggregationKind.Shared);
+            abieInvoiceInfo.AddASBIE(abieAddress, "deliveryAddress", EaAggregationKind.Shared);
         }
 
         private void InitDOCLibrary(Package docLibrary)

@@ -160,7 +160,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private bool IsASCC(Connector connector)
         {
-            return connector.IsASCC() && connector.GetAssociatingEnd(element.ElementID).Aggregation != (int) AggregationKind.None;
+            return connector.IsASCC() && connector.GetAssociatingEnd(element.ElementID).Aggregation != (int) EaAggregationKind.None;
         }
 
         private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ACCSpec spec)
@@ -261,7 +261,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                         name = name + associatedACC.Name;
                     }
                     yield return
-                        ConnectorSpec.CreateAggregation(AggregationKind.Shared, Stereotype.ASCC, name,
+                        ConnectorSpec.CreateAggregation(EaAggregationKind.Shared, Stereotype.ASCC, name,
                                                         asccSpec.AssociatedACC.Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec));
                 }
             }

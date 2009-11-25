@@ -168,11 +168,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 if (connector.ClientID == element.ElementID)
                 {
-                    return connector.ClientEnd.Aggregation != (int) AggregationKind.None;
+                    return connector.ClientEnd.Aggregation != (int) EaAggregationKind.None;
                 }
                 if (connector.SupplierID == element.ElementID)
                 {
-                    return connector.SupplierEnd.Aggregation != (int) AggregationKind.None;
+                    return connector.SupplierEnd.Aggregation != (int) EaAggregationKind.None;
                 }
             }
             return false;
@@ -244,8 +244,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (ASBIESpec asbieSpec in asbieSpecs)
                 {
-                    yield return ConnectorSpec.CreateAggregation(asbieSpec.AggregationKind, Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedABIEId, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
+                    yield return ConnectorSpec.CreateAggregation(AsbieAggregationKindToEaAggregationKind(asbieSpec.AggregationKind), Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedABIEId, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
                 }
+            }
+        }
+
+        private static EaAggregationKind AsbieAggregationKindToEaAggregationKind(AsbieAggregationKind asbieAggregationKind)
+        {
+            switch (asbieAggregationKind)
+            {
+                case AsbieAggregationKind.Shared:
+                    return EaAggregationKind.Shared;
+                case AsbieAggregationKind.Composite:
+                    return EaAggregationKind.Composite;
+                default:
+                    return EaAggregationKind.None;
             }
         }
 

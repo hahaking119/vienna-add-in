@@ -317,7 +317,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                     if (asbieSpec == null)
                     {
-                        asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, AggregationKind.Shared);
+                        asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, AsbieAggregationKind.Shared);
                     }
 
                     newAsbieSpecs.Add(asbieSpec);
@@ -339,7 +339,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                         if (asbieSpec == null)
                         {
                             asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie,
-                                                          AggregationKind.Composite);
+                                                          AsbieAggregationKind.Composite);
                         }
 
                         newAsbieSpecs.Add(asbieSpec);
@@ -366,7 +366,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</param>
         ///<returns>
         ///</returns>
-        public static ASBIESpec CumulateAsbieSpec(Element element, string asbieName, IABIE associatedAbie, AggregationKind aggregationKind)
+        public static ASBIESpec CumulateAsbieSpec(Element element, string asbieName, IABIE associatedAbie, AsbieAggregationKind aggregationKind)
         {
             ASBIESpec asbieSpec = new ASBIESpec
                                   {

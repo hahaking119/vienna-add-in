@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsbieAggregationKind.cs" />
     <Compile Include="BieLibrary\ABIESpec.cs" />
     <Compile Include="CcLibrary\ACCSpec.cs" />
     <Compile Include="BieLibrary\ASBIESpec.cs" />
@@ -57,7 +58,6 @@
     <Compile Include="CdtLibrary\CDTSupplementaryComponentSpec.cs" />
     <Compile Include="EnumLibrary\CodelistEntrySpec.cs" />
     <Compile Include="BdtLibrary\BDTContentComponentSpec.cs" />
-    <Compile Include="AggregationKind.cs" />
     <Compile Include="EnumLibrary\ENUMSpec.cs" />
     <Compile Include="BieLibrary\IABIE.cs" />
     <Compile Include="CcLibrary\IACC.cs" />
