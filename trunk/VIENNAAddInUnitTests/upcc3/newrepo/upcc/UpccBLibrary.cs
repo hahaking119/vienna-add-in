@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
@@ -84,57 +83,82 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { throw new NotImplementedException(); }
         }
 
-        public IEnumerable<IBusinessLibrary> Children
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumerable<IBusinessLibrary> AllChildren
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IBusinessLibrary FindChildByName(string name)
+        public IEnumerable<IBLibrary> GetBLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IBLibrary CreateBLibrary(LibrarySpec spec)
+        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public ICDTLibrary CreateCDTLibrary(LibrarySpec spec)
+        public IEnumerable<IENUMLibrary> GetEnumLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public ICCLibrary CreateCCLibrary(LibrarySpec spec)
+        public IEnumerable<ICDTLibrary> GetCdtLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IBDTLibrary CreateBDTLibrary(LibrarySpec spec)
+        public IEnumerable<ICCLibrary> GetCcLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IBIELibrary CreateBIELibrary(LibrarySpec spec)
+        public IEnumerable<IBDTLibrary> GetBdtLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IPRIMLibrary CreatePRIMLibrary(LibrarySpec spec)
+        public IEnumerable<IBIELibrary> GetBieLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IENUMLibrary CreateENUMLibrary(LibrarySpec spec)
+        public IEnumerable<IDOCLibrary> GetDocLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IDOCLibrary CreateDOCLibrary(LibrarySpec spec)
+        public IBLibrary CreateBLibrary(BLibrarySpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICDTLibrary CreateCDTLibrary(CdtLibrarySpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICCLibrary CreateCCLibrary(CcLibrarySpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBDTLibrary CreateBDTLibrary(BdtLibrarySpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBIELibrary CreateBIELibrary(BieLibrarySpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPRIMLibrary CreatePRIMLibrary(PrimLibrarySpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IENUMLibrary CreateENUMLibrary(EnumLibrarySpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDOCLibrary CreateDOCLibrary(DocLibrarySpec spec)
         {
             throw new NotImplementedException();
         }

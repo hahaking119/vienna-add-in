@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using CctsRepository;
 using CctsRepository.PrimLibrary;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
@@ -58,9 +57,9 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlClass.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
         }
 
-        public IBusinessLibrary Library
+        public IPRIMLibrary Library
         {
-            get { return new UpccBLibrary(umlClass.Package); }
+            get { return new UpccPrimLibrary(umlClass.Package); }
         }
 
         public string Pattern

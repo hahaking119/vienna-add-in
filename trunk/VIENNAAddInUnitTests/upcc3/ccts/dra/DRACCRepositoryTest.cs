@@ -228,7 +228,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var bdtText = (IBDT) ccRepository.FindByPath(EARepository1.PathToBDTText());
             Assert.IsNotNull(bdtText, "BDT Text not found");
 
-            IBIELibrary bieLibrary = ccRepository.Libraries<IBIELibrary>().First();
+            IBIELibrary bieLibrary = ccRepository.GetBieLibraries().First();
 
             var bccs = new List<IBCC>(accPerson.BCCs);
             var asccs = new List<IASCC>(accPerson.ASCCs);
@@ -308,7 +308,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
-            ICCLibrary ccLibrary = ccRepository.Libraries<ICCLibrary>().First();
+            ICCLibrary ccLibrary = ccRepository.GetCcLibraries().First();
 
             var accSpec = new ACCSpec
                           {
@@ -445,7 +445,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
-            var cdtLibrary = ccRepository.Libraries<ICDTLibrary>().First();
+            var cdtLibrary = ccRepository.GetCdtLibraries().First();
 
             var cdtSpec = new CDTSpec(cdtDate)
                           {
@@ -480,7 +480,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtDate = (ICDT) ccRepository.FindByPath(EARepository1.PathToCDTDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
-            IBDTLibrary bdtLibrary = ccRepository.Libraries<IBDTLibrary>().First();
+            IBDTLibrary bdtLibrary = ccRepository.GetBdtLibraries().First();
 
             BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My_" + cdtDate.Name);
             IBDT bdtDate = bdtLibrary.CreateElement(bdtSpec);
@@ -513,9 +513,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             {
                 ccRepository = new CCRepository(repository);
 
-                IBLibrary bLib = ccRepository.Libraries<IBLibrary>().First();
+                IBLibrary bLib = ccRepository.GetBLibraries().First();
                 Assert.IsNotNull(bLib, "bLib not found");
-                IBDTLibrary bdtLib = bLib.CreateBDTLibrary(new LibrarySpec
+                IBDTLibrary bdtLib = bLib.CreateBDTLibrary(new BdtLibrarySpec
                                                            {
                                                                Name = "My_BDTLibrary",
                                                                BaseURN = "my/base/urn",
@@ -529,7 +529,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                                                UniqueIdentifier = "a unique ID",
                                                                VersionIdentifier = "a specific version",
                                                            });
-                IBIELibrary bieLib = bLib.CreateBIELibrary(new LibrarySpec
+                IBIELibrary bieLib = bLib.CreateBIELibrary(new BieLibrarySpec
                                                            {
                                                                Name = "My_BIELibrary",
                                                                BaseURN = "my/base/urn",
@@ -581,7 +581,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var enumAbcCodes = (IENUM) ccRepository.FindByPath(EARepository1.PathToEnumAbcCodes());
             Assert.IsNotNull(enumAbcCodes, "ENUM ABC_Codes not found");
 
-            IENUMLibrary enumLibrary = ccRepository.Libraries<IENUMLibrary>().First();
+            IENUMLibrary enumLibrary = ccRepository.GetEnumLibraries().First();
 
             var enumSpec = new ENUMSpec
                            {
@@ -653,9 +653,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestCreateLibrary()
         {
-            IBLibrary bLib = ccRepository.Libraries<IBLibrary>().First();
+            IBLibrary bLib = ccRepository.GetBLibraries().First();
             Assert.IsNotNull(bLib, "bLib not found");
-            var spec = new LibrarySpec
+            var spec = new BdtLibrarySpec
                        {
                            Name = "MyBDTLibrary",
                            BaseURN = "my/base/urn",
@@ -688,7 +688,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var primString = (IPRIM) ccRepository.FindByPath(EARepository1.PathToString());
             Assert.IsNotNull(primString, "PRIM String not found");
 
-            IPRIMLibrary primLibrary = ccRepository.Libraries<IPRIMLibrary>().First();
+            IPRIMLibrary primLibrary = ccRepository.GetPrimLibraries().First();
 
             var primSpec = new PRIMSpec
                            {
@@ -743,7 +743,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestFindCDTs()
         {
-            foreach (ICDTLibrary library in ccRepository.Libraries<ICDTLibrary>())
+            foreach (ICDTLibrary library in ccRepository.GetCdtLibraries())
             {
                 IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.Elements
                                                                      group cdt by cdt.CON.BasicType;
@@ -761,14 +761,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestReadAccess()
         {
-            var libraries = new List<IBusinessLibrary>(ccRepository.AllLibraries());
-            Assert.AreEqual(10, libraries.Count);
-
-            IBusinessLibrary bLib1 = ccRepository.Libraries<IBLibrary>().First();
+            var bLib1 = ccRepository.GetBLibraries().First();
             Assert.AreEqual("blib1", bLib1.Name);
             Assert.AreEqual("urn:test:blib1", bLib1.BaseURN);
 
-            IPRIMLibrary primLib1 = ccRepository.Libraries<IPRIMLibrary>().First();
+            IPRIMLibrary primLib1 = ccRepository.GetPrimLibraries().First();
             Assert.AreEqual("primlib1", primLib1.Name);
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
             var prims = new List<IPRIM>(primLib1.Elements);
@@ -778,7 +775,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IPRIM decimalType = prims[0];
             Assert.AreEqual("Decimal", decimalType.Name);
 
-            ICDTLibrary cdtLib1 = ccRepository.Libraries<ICDTLibrary>().First();
+            ICDTLibrary cdtLib1 = ccRepository.GetCdtLibraries().First();
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("urn:test:blib1:cdtlib1", cdtLib1.BaseURN);
             var cdts = new List<ICDT>(cdtLib1.Elements);
@@ -791,7 +788,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Format", dateFormat.Name);
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
-            ICCLibrary ccLib1 = ccRepository.Libraries<ICCLibrary>().First();
+            ICCLibrary ccLib1 = ccRepository.GetCcLibraries().First();
             IACC accAddress = ccLib1.Elements.First();
             var accAddressBCCs = new List<IBCC>(accAddress.BCCs);
 
@@ -856,7 +853,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("ABC Code 1", enumAbcCodesValues[0].Name);
             Assert.AreEqual("ABC Code 2", enumAbcCodesValues[1].Name);
 
-            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
+            var docLibrary = (IDOCLibrary) ccRepository.FindByPath((Path) "test model"/"blib1"/"DOCLibrary");
             var docLibraryABIEs = new List<IABIE>(docLibrary.Elements);
             Assert.AreEqual(2, docLibraryABIEs.Count);
             var docLibraryRootElements = new List<IABIE>(docLibrary.RootElements);
@@ -877,7 +874,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var bdtText = (IBDT) ccRepository.FindByPath(EARepository1.PathToBDTText());
             Assert.IsNotNull(bdtText, "BDT Text not found");
 
-            IBIELibrary bieLibrary = ccRepository.Libraries<IBIELibrary>().First();
+            IBIELibrary bieLibrary = ccRepository.GetBieLibraries().First();
 
             var bccs = new List<IBCC>(accPerson.BCCs);
             var asccs = new List<IASCC>(accPerson.ASCCs);

@@ -11,13 +11,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using EA;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -29,7 +29,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private const string DEFAULT_PREFIX = "My";
         private const int MARGIN = 15;
-        private readonly ABIE abie;
+        private readonly IABIE abie;
         private readonly List<string> editboxBDTNameList = new List<string>();
         private readonly bool wizardModeCreate = true;
         private Cache cache;
@@ -38,7 +38,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private TextBox editboxBDTName;
         private bool editboxBDTNameEsc;
         private int mouseDownPosX;
-        private CCRepository repository;
+        private ICCRepository repository;
         private string selectedACCName;
         private string selectedASCCName;
         private string selectedBBIEName;
@@ -59,14 +59,16 @@ namespace VIENNAAddIn.upcc3.Wizards
         /// wizard has one input parameter which is the EA repository that the 
         /// wizard operates on. 
         ///</summary>
-        ///<param name="eaRepository">
-        /// The EA repository that the wizard operates on. 
+        ///<param name="repository">
+        /// The CCTS repository that the wizard operates on. 
         ///</param>
-        private ABIEWizardForm(Repository eaRepository)
+        private ABIEWizardForm(ICCRepository repository)
         {
+            this.repository = repository;
+
             InitializeComponent();
 
-            InitializeWizardCache(eaRepository);
+            InitializeWizardCache();
         }
 
         ///<summary>
@@ -75,20 +77,22 @@ namespace VIENNAAddIn.upcc3.Wizards
         /// ABIE wizard has two input parameters which include (1) the EA repository 
         /// that the wizard operates on and (2) the ABIE to be modified. 
         ///</summary>
-        ///<param name="eaRepo">
-        /// The EA repository that the wizard operates on.
+        ///<param name="repository">
+        /// The CC repository that the wizard operates on.
         ///</param>
         ///<param name="element">
         /// The ABIE to be modified. 
         ///</param>
-        private ABIEWizardForm(Repository eaRepo, Element element)
+        private ABIEWizardForm(ICCRepository repository, Element element)
         {
+            this.repository = repository;
+
             InitializeComponent();
 
-            InitializeWizardCache(eaRepo);
+            InitializeWizardCache();
 
             // retrieve the current ABIE to be edited 
-            abie = (ABIE) repository.GetABIE(element.ElementID);
+            abie = repository.GetAbieById(element.ElementID);
             wizardModeCreate = false;
         }
 
@@ -99,17 +103,10 @@ namespace VIENNAAddIn.upcc3.Wizards
         /// from the EA repository passed through the parameter eaRepo.
         /// The method is used by the constructors only. 
         ///</summary>
-        ///<param name="eaRepo">
-        /// Specifies an EA repository that the wizard operates on. 
-        /// eaRepo an EA repository that the wizard
-        /// cache is created for. 
-        ///</param>
-        private void InitializeWizardCache(Repository eaRepo)
+        private void InitializeWizardCache()
         {
             try
             {
-                repository = new CCRepository(eaRepo);
-
                 cache = new Cache();
 
                 cache.LoadCCLs(repository);
@@ -139,7 +136,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowABIEWizard(AddInContext context)
         {
-            new ABIEWizardForm(context.EARepository).Show();
+            new ABIEWizardForm(context.CCRepository).Show();
         }
 
         ///<summary>
@@ -149,7 +146,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowModifyABIEWizard(AddInContext context)
         {
-            new ABIEWizardForm(context.EARepository, (Element) context.SelectedItem).Show();
+            new ABIEWizardForm(context.CCRepository, (Element) context.SelectedItem).Show();
         }
 
         #endregion
@@ -651,10 +648,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             if (wizardModeCreate)
             {
                 GatherUserInput();
-                var selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+                var selectedBIEL = repository.GetBieLibraryById(cache.BIELs[selectedBIELName].Id);
 
                 /* get the selected ACC which we as a basis to generate the new ABIE */
-                IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                IACC selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
 
                 ABIESpec abieSpec = createABISpec(selectedACC);
                 IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
@@ -666,10 +663,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             else
             {
                 GatherUserInput();
-                var selectedBIEL = (IBIELibrary) repository.GetLibrary(cache.BIELs[selectedBIELName].Id);
+                var selectedBIEL = repository.GetBieLibraryById(cache.BIELs[selectedBIELName].Id);
 
                 /* get the selected ACC which we use as a basis to generate the new ABIE */
-                IACC selectedACC = repository.GetACC(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                IACC selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
                 ABIESpec abieSpec = createABISpec(selectedACC);
                 IABIE newABIE = selectedBIEL.UpdateElement(abie, abieSpec);
                 //todo: find a better way to update internal cache
@@ -1170,7 +1167,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (!wizardModeCreate) // add all BBIEs that already belong to the ABIE and were created by the user
                 {
-                    foreach (BBIE bbie in abie.BBIEs)
+                    foreach (IBBIE bbie in abie.BBIEs)
                     {
                         var newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Type.Id, CheckState.Checked);
                         cBBIE testBBIE;
@@ -1210,7 +1207,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                   new[] {selectedCCLName, selectedACCName, selectedBCCName, selectedBBIEName}))
             {
                 ICDT baseCDT =
-                    repository.GetCDT(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type);
+                    repository.GetCdtById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type);
                 foreach (
                     cBDT bdt in
                         cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs[selectedBBIEName].
@@ -1313,7 +1310,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 (cache.PathIsValid(CacheConstants.PATH_BIELs, new[] {selectedBIELName})) &&
                 (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName})))
             {
-                var selectedBDTL = (IBDTLibrary) repository.GetLibrary(cache.BDTLs[selectedBDTLName].Id);
+                var selectedBDTL = repository.GetBdtLibraryById(cache.BDTLs[selectedBDTLName].Id);
 
 
                 var newBBIEs = new List<BBIESpec>();
@@ -1351,7 +1348,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                     if (bdt.Name.Equals(curbdt.Name) && curbdt.Id != -1)
                                                     {
                                                         exists = true;
-                                                        bdtUsed = repository.GetBDT(curbdt.Id);
+                                                        bdtUsed = repository.GetBdtById(curbdt.Id);
                                                         break;
                                                     }
                                                 }
@@ -1362,7 +1359,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                 if (!(generatedBDTs.ContainsKey(bdt.Name)))
                                                 {
                                                     /* the BDT to be used is to be created based on the CDT used in the BCC */
-                                                    ICDT baseCDT = repository.GetCDT(bcc.Type);
+                                                    ICDT baseCDT = repository.GetCdtById(bcc.Type);
                                                     BDTSpec bdtSpec = BDTSpec.CloneCDT(baseCDT, bdt.Name);
                                                     IBDT newBDT = selectedBDTL.CreateElement(bdtSpec);
                                                     bdtUsed = newBDT;
@@ -1374,13 +1371,13 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                 }
                                                 else
                                                 {
-                                                    bdtUsed = repository.GetBDT(generatedBDTs[bdt.Name].Id);
+                                                    bdtUsed = repository.GetBdtById(generatedBDTs[bdt.Name].Id);
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            bdtUsed = repository.GetBDT(bdt.Id);
+                                            bdtUsed = repository.GetBdtById(bdt.Id);
                                         }
 
                                         foreach (IBCC currentBCC in selectedACC.BCCs)
@@ -1412,7 +1409,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                         {
                             // get the original ACC that we currently process
                             int accId = cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id;
-                            IACC acc = repository.GetACC(accId);
+                            IACC acc = repository.GetAccById(accId);
 
                             // get the original ASCC of the above ACC that we currently process
                             IASCC origASCC = null;
@@ -1466,7 +1463,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             int correctCCL = -1;
             foreach (cCCLibrary ccl in cache.CCLs.Values)
             {
-                var realCCL = repository.LibraryByName<ICCLibrary>(ccl.Name);
+                var realCCL = repository.GetCcLibraryById(ccl.Id);
                 correctCCL++;
                 foreach (IACC acc in realCCL.Elements)
                 {

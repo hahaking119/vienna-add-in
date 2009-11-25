@@ -54,10 +54,6 @@ namespace CctsRepository.BdtLibrary
         ///</summary>
         IEnumerable<string> BusinessTerms { get; }
 
-        ///<summary>
-        ///</summary>
-        IBusinessLibrary Library { get; }
-
         bool IsOptional();
     }
 }

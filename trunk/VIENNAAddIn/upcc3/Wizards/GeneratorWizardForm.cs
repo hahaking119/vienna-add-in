@@ -282,11 +282,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 if (document.State == CheckState.Checked)
                 {
-                    relevantDocuments.Add(ccR.GetABIE(document.Id));
+                    relevantDocuments.Add(ccR.GetAbieById(document.Id));
                 }
             }
             
-            IDOCLibrary docl = (IDOCLibrary)ccR.GetLibrary(currentBIV.Id);
+            IDOCLibrary docl = ccR.GetDocLibraryById(currentBIV.Id);
 
             // TODO: xsd generator needs to be adapted - currently all doc libraries are being generated whereas
             // only the ones that are checked should be generated.. 

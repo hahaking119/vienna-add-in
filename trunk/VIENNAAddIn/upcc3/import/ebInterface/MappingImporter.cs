@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using CctsRepository.CcLibrary;
-using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -39,9 +39,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// The newly generated libraries (BDT, BIE, DOC) will be added to the CCLibrary's parent bLibrary.
         /// </summary>
         /// <param name="ccRepository"></param>
-        public void ImportMapping(CCRepository ccRepository)
+        public void ImportMapping(ICCRepository ccRepository)
         {
-            var ccLibrary = ccRepository.Libraries<ICCLibrary>().FirstOrDefault();
+            var ccLibrary = ccRepository.GetCcLibraries().FirstOrDefault();
             if (ccLibrary == null)
             {
                 throw new Exception("No CCLibary found in repository.");

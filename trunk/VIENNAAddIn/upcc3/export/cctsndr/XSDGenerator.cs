@@ -100,7 +100,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<returns></returns>
         public static IEnumerable<IBDT> CollectBDTs(GeneratorContext context)
         {
-            foreach (IBDTLibrary bdtLibrary in context.Repository.Libraries<IBDTLibrary>())
+            foreach (IBDTLibrary bdtLibrary in context.Repository.GetBdtLibraries())
             {
                 foreach (IBDT bdt in bdtLibrary.Elements)
                 {
@@ -115,7 +115,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<returns></returns>
         public static IEnumerable<IABIE> CollectABIEs(GeneratorContext context)
         {
-            foreach (IBIELibrary bieLibrary in context.Repository.Libraries<IBIELibrary>())
+            foreach (IBIELibrary bieLibrary in context.Repository.GetBieLibraries())
             {
                 foreach (IABIE abie in bieLibrary.Elements)
                 {
@@ -130,7 +130,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<returns></returns>
         public static IEnumerable<IACC> CollectACCs(GeneratorContext context)
         {
-            foreach (ICCLibrary ccLibrary in context.Repository.Libraries<ICCLibrary>())
+            foreach (ICCLibrary ccLibrary in context.Repository.GetCcLibraries())
             {
                 foreach (IACC acc in ccLibrary.Elements)
                 {
@@ -146,7 +146,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<returns></returns>
         public static IEnumerable<ICDT> CollectCDTs(GeneratorContext context)
         {
-            foreach (ICDTLibrary cdtLibrary in context.Repository.Libraries<ICDTLibrary>())
+            foreach (ICDTLibrary cdtLibrary in context.Repository.GetCdtLibraries())
             {
                 foreach (ICDT cdt in cdtLibrary.Elements)
                 {

@@ -14,6 +14,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.import.cctsndr;
 using VIENNAAddIn.upcc3.import.cctsndr.bdt;
 using VIENNAAddInUnitTests.TestRepository;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
 {
@@ -25,7 +26,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
 
         private static IImporterContext CreateContext(string testCase)
         {
-            XmlSchema bdtSchema = XmlSchema.Read(XmlReader.Create(TestUtils.RelativePathToTestResource(typeof(BDTXsdImporterTests), string.Format(@"BDTImporterTestResources\BusinessDataType_{0}.xsd", testCase))), null);
+            XmlSchema bdtSchema = XmlSchema.Read(XmlReader.Create(TestUtils.RelativePathToTestResource(typeof (BDTXsdImporterTests), string.Format(@"BDTImporterTestResources\BusinessDataType_{0}.xsd", testCase))), null);
 
             var eaRepository = new EARepository();
             eaRepository.AddModel("Model", m => m.AddPackage("bLibrary", bLibrary =>
@@ -46,9 +47,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
                                                                              bLibrary.AddPackage("BDTLibrary", bdtLib => { bdtLib.Element.Stereotype = Stereotype.BDTLibrary; });
                                                                          }));
             var ccRepository = new CCRepository(eaRepository);
-            var primLibrary = ccRepository.LibraryByName<IPRIMLibrary>("PRIMLibrary");
-            var bdtLibrary = ccRepository.LibraryByName<IBDTLibrary>("BDTLibrary");
-            var cdtLibrary = ccRepository.LibraryByName<ICDTLibrary>("CDTLibrary");
+            var primLibrary = (IPRIMLibrary) ccRepository.FindByPath((Path) "Model"/"bLibrary"/"PRIMLibrary");
+            var bdtLibrary = (IBDTLibrary) ccRepository.FindByPath((Path) "Model"/"bLibrary"/"BDTLibrary");
+            var cdtLibrary = (ICDTLibrary) ccRepository.FindByPath((Path) "Model"/"bLibrary"/"CDTLibrary");
 
             var contextMock = new Mock<IImporterContext>();
             contextMock.SetupGet(c => c.PRIMLibrary).Returns(primLibrary);
@@ -193,6 +194,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             AssertHasSUPs(bdtText, 1);
             AssertHasSUP(context, bdtText, 0, "String", "propertyTermName");
         }
+
         /// <summary>
         /// [R BBCB]
         /// The xsd:complexType definition of a BDT whose Content

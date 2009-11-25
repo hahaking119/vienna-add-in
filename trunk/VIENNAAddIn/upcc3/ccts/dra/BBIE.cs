@@ -78,11 +78,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
-        public IBusinessLibrary Library
-        {
-            get { return Container.Library; }
-        }
-
         public IEnumerable<string> UsageRules
         {
             get { return attribute.GetTaggedValues(TaggedValues.usageRule); }
@@ -107,7 +102,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IBDT Type
         {
-            get { return repository.GetBDT(attribute.ClassifierID); }
+            get { return repository.GetBdtById(attribute.ClassifierID); }
         }
 
         public IBCC BasedOn

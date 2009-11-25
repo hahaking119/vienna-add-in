@@ -7,6 +7,7 @@ using CctsRepository.CdtLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 using File=System.IO.File;
+using Path=VIENNAAddInUtils.Path;
 
 namespace CCLImporter
 {
@@ -31,8 +32,8 @@ namespace CCLImporter
             File.Copy(originalRepoPath, targetRepoPath, true);
             eaRepository.OpenFile(targetRepoPath);
             var ccRepository = new CCRepository(eaRepository);
-            var bLibrary = ccRepository.LibraryByName<IBLibrary>("bLibrary");
-            var cdtLibrary = (ICDTLibrary) bLibrary.FindChildByName("CDTLibrary");
+            var bLibrary = (IBLibrary) ccRepository.FindByPath("bLibrary");
+            var cdtLibrary = (ICDTLibrary) ccRepository.FindByPath((Path)"bLibrary"/"CDTLibrary");
 
             var cdts = new Dictionary<string, ICDT>();
             foreach (ICDT cdt in cdtLibrary.Elements)
@@ -40,7 +41,7 @@ namespace CCLImporter
                 cdts[cdt.Name] = cdt;
             }
 
-            ICCLibrary ccLibrary = bLibrary.CreateCCLibrary(new LibrarySpec
+            ICCLibrary ccLibrary = bLibrary.CreateCCLibrary(new CcLibrarySpec
                                                             {
                                                                 Name = "CCLibrary",
                                                                 VersionIdentifier = cclVersion

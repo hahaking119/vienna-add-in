@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public ICDT Type
         {
-            get { return repository.GetCDT(attribute.ClassifierID); }
+            get { return repository.GetCdtById(attribute.ClassifierID); }
         }
 
         public int Id
@@ -80,11 +80,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public IEnumerable<string> BusinessTerms
         {
             get { return attribute.GetTaggedValues(TaggedValues.businessTerm); }
-        }
-
-        public IBusinessLibrary Library
-        {
-            get { return Container.Library; }
         }
 
         public IEnumerable<string> UsageRules

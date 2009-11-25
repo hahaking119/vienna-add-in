@@ -54,6 +54,6 @@ namespace CctsRepository.BdtLibrary
 
         ///<summary>
         ///</summary>
-        IBusinessLibrary Library { get; }
+        IBDTLibrary Library { get; }
     }
 }

@@ -9,29 +9,36 @@ using CctsRepository.PrimLibrary;
 
 namespace CctsRepository.bLibrary
 {
-    ///<summary>
-    ///</summary>
-    public interface IBLibrary : IBusinessLibrary
+    public interface IBLibrary
     {
-        /// <summary>
-        /// Returns the direct sub-libraries of this library.
-        /// </summary>
-        IEnumerable<IBusinessLibrary> Children { get; }
+        IEnumerable<IBLibrary> GetBLibraries();
+        IEnumerable<IPRIMLibrary> GetPrimLibraries();
+        IEnumerable<IENUMLibrary> GetEnumLibraries();
+        IEnumerable<ICDTLibrary> GetCdtLibraries();
+        IEnumerable<ICCLibrary> GetCcLibraries();
+        IEnumerable<IBDTLibrary> GetBdtLibraries();
+        IEnumerable<IBIELibrary> GetBieLibraries();
+        IEnumerable<IDOCLibrary> GetDocLibraries();
 
-        /// <summary>
-        /// Returns all of this library's sub-libraries and their sub-libraries (depth-first).
-        /// </summary>
-        IEnumerable<IBusinessLibrary> AllChildren { get; }
-
-        IBusinessLibrary FindChildByName(string name);
-
-        IBLibrary CreateBLibrary(LibrarySpec spec);
-        ICDTLibrary CreateCDTLibrary(LibrarySpec spec);
-        ICCLibrary CreateCCLibrary(LibrarySpec spec);
-        IBDTLibrary CreateBDTLibrary(LibrarySpec spec);
-        IBIELibrary CreateBIELibrary(LibrarySpec spec);
-        IPRIMLibrary CreatePRIMLibrary(LibrarySpec spec);
-        IENUMLibrary CreateENUMLibrary(LibrarySpec spec);
-        IDOCLibrary CreateDOCLibrary(LibrarySpec spec);
+        IBLibrary CreateBLibrary(BLibrarySpec spec);
+        ICDTLibrary CreateCDTLibrary(CdtLibrarySpec spec);
+        ICCLibrary CreateCCLibrary(CcLibrarySpec spec);
+        IBDTLibrary CreateBDTLibrary(BdtLibrarySpec spec);
+        IBIELibrary CreateBIELibrary(BieLibrarySpec spec);
+        IPRIMLibrary CreatePRIMLibrary(PrimLibrarySpec spec);
+        IENUMLibrary CreateENUMLibrary(EnumLibrarySpec spec);
+        IDOCLibrary CreateDOCLibrary(DocLibrarySpec spec);
+        int Id { get; }
+        string Name { get; }
+        IBLibrary Parent { get; }
+        string Status { get; }
+        string UniqueIdentifier { get; }
+        string VersionIdentifier { get; }
+        string BaseURN { get; }
+        string NamespacePrefix { get; }
+        IEnumerable<string> BusinessTerms { get; }
+        IEnumerable<string> Copyrights { get; }
+        IEnumerable<string> Owners { get; }
+        IEnumerable<string> References { get; }
     }
 }

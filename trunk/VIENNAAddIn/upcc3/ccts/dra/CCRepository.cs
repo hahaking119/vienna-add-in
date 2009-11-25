@@ -15,6 +15,7 @@ using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
 using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 using EA;
@@ -42,29 +43,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return eaRepository; }
         }
 
-        #region ICCRepository Members
-
-        public IBusinessLibrary GetLibrary(int id)
+        private IEnumerable<Package> ContainedPackages
         {
-            return id == 0 ? null : GetLibrary(eaRepository.GetPackageByID(id));
-        }
-
-        public IEnumerable<T> Libraries<T>() where T : IBusinessLibrary
-        {
-            return from library in AllLibraries()
-                   where library is T
-                   select (T) library;
-        }
-
-        public T LibraryByName<T>(string name) where T : IBusinessLibrary
-        {
-            var libs = new List<T>(from library in Libraries<T>() where library.Name == name select library);
-            if (libs.Count > 1)
+            get
             {
-                throw new Exception(String.Format("Inconsistent data: found two libraries with name '{0}'.", name));
+                foreach (Package rootBLibraryPackage in AllRootBLibraryPackages())
+                {
+                    foreach (Package package in rootBLibraryPackage.EnumeratePackages())
+                    {
+                        yield return package;
+                    }
+                }
             }
-            return libs.Count == 0 ? default(T) : libs[0];
         }
+
+        #region ICCRepository Members
 
         public object FindByPath(Path path)
         {
@@ -84,17 +77,132 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             throw new Exception("path resolved to an object that's neither an element nor a package");
         }
 
-        public IEnumerable<IBusinessLibrary> AllLibraries()
+        public IEnumerable<IBLibrary> GetBLibraries()
         {
-            foreach (var rootBLibraryPackage in AllRootBLibraryPackages())
-            {
-                var bLibrary = (IBLibrary) GetLibrary(rootBLibraryPackage);
-                yield return bLibrary;
-                foreach (IBusinessLibrary child in bLibrary.AllChildren)
-                {
-                    yield return child;
-                }
-            }
+            return from p in ContainedPackages
+                   where p.IsBLibrary()
+                   select (IBLibrary) new BLibrary(this, p);
+        }
+
+        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
+        {
+            return from p in ContainedPackages
+                   where p.IsPRIMLibrary()
+                   select (IPRIMLibrary) new PRIMLibrary(this, p);
+        }
+
+        public IEnumerable<IENUMLibrary> GetEnumLibraries()
+        {
+            return from p in ContainedPackages
+                   where p.IsENUMLibrary()
+                   select (IENUMLibrary) new ENUMLibrary(this, p);
+        }
+
+        public IEnumerable<ICDTLibrary> GetCdtLibraries()
+        {
+            return from p in ContainedPackages
+                   where p.IsCDTLibrary()
+                   select (ICDTLibrary) new CDTLibrary(this, p);
+        }
+
+        public IEnumerable<ICCLibrary> GetCcLibraries()
+        {
+            return from p in ContainedPackages
+                   where p.IsCCLibrary()
+                   select (ICCLibrary) new CCLibrary(this, p);
+        }
+
+        public IEnumerable<IBDTLibrary> GetBdtLibraries()
+        {
+            return from p in ContainedPackages
+                   where p.IsBDTLibrary()
+                   select (IBDTLibrary) new BDTLibrary(this, p);
+        }
+
+        public IEnumerable<IBIELibrary> GetBieLibraries()
+        {
+            return from p in ContainedPackages
+                   where p.IsBIELibrary()
+                   select (IBIELibrary) new BIELibrary(this, p);
+        }
+
+        public IEnumerable<IDOCLibrary> GetDocLibraries()
+        {
+            return from p in ContainedPackages
+                   where p.IsDOCLibrary()
+                   select (IDOCLibrary) new DOCLibrary(this, p);
+        }
+
+        public IBLibrary GetBLibraryById(int id)
+        {
+            return GetLibraryById(id) as IBLibrary;
+        }
+
+        public IPRIMLibrary GetPrimLibraryById(int id)
+        {
+            return GetLibraryById(id) as IPRIMLibrary;
+        }
+
+        public IENUMLibrary GetEnumLibraryById(int id)
+        {
+            return GetLibraryById(id) as IENUMLibrary;
+        }
+
+        public ICDTLibrary GetCdtLibraryById(int id)
+        {
+            return GetLibraryById(id) as ICDTLibrary;
+        }
+
+        public ICCLibrary GetCcLibraryById(int id)
+        {
+            return GetLibraryById(id) as ICCLibrary;
+        }
+
+        public IBDTLibrary GetBdtLibraryById(int id)
+        {
+            return GetLibraryById(id) as IBDTLibrary;
+        }
+
+        public IBIELibrary GetBieLibraryById(int id)
+        {
+            return GetLibraryById(id) as IBIELibrary;
+        }
+
+        public IDOCLibrary GetDocLibraryById(int id)
+        {
+            return GetLibraryById(id) as IDOCLibrary;
+        }
+
+        public ICDT GetCdtById(int id)
+        {
+            return new CDT(this, eaRepository.GetElementByID(id));
+        }
+
+        public IACC GetAccById(int id)
+        {
+            return new ACC(this, eaRepository.GetElementByID(id));
+        }
+
+        public IBDT GetBdtById(int id)
+        {
+            return new BDT(this, eaRepository.GetElementByID(id));
+        }
+
+        public IABIE GetAbieById(int id)
+        {
+            return new ABIE(this, eaRepository.GetElementByID(id));
+        }
+
+        #endregion
+
+        public IDOCLibrary GetDocLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        private object GetLibraryById(int id)
+        {
+            return id == 0 ? null : GetLibrary(eaRepository.GetPackageByID(id));
         }
 
         private IEnumerable<Package> AllRootBLibraryPackages()
@@ -124,29 +232,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        #endregion
-
-        public ICDT GetCDT(int id)
-        {
-            return new CDT(this, eaRepository.GetElementByID(id));
-        }
-
-        public IACC GetACC(int id)
-        {
-            return new ACC(this, eaRepository.GetElementByID(id));
-        }
-
-        public IBDT GetBDT(int id)
-        {
-            return new BDT(this, eaRepository.GetElementByID(id));
-        }
-
-        public IABIE GetABIE(int id)
-        {
-            return new ABIE(this, eaRepository.GetElementByID(id));
-        }
-
-        public IBusinessLibrary GetLibrary(Package package)
+        public object GetLibrary(Package package)
         {
             if (package == null)
             {
@@ -180,7 +266,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public object GetElement(Element element)
+        private object GetElement(Element element)
         {
             if (element == null)
             {
@@ -239,9 +325,30 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="spec"></param>
         ///<param name="parentPackage"></param>
         ///<returns></returns>
-        public IBLibrary CreateBLibrary(LibrarySpec spec, Package parentPackage)
+        public IBLibrary CreateBLibrary(BLibrarySpec spec, Package parentPackage)
         {
-            return new BLibrary(this, BusinessLibrary.CreateLibraryPackage(spec, parentPackage, Stereotype.bLibrary));
+            var libraryPackage = (Package) parentPackage.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = parentPackage.PackageID;
+            libraryPackage.Element.Stereotype = Stereotype.bLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+
+            var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
+            packageDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            parentPackage.Packages.Refresh();
+            return new BLibrary(this, libraryPackage);
         }
     }
 }

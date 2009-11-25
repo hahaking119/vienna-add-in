@@ -53,6 +53,6 @@ namespace CctsRepository.BieLibrary
 
         ///<summary>
         ///</summary>
-        IBusinessLibrary Library { get; }
+        IBIELibrary Library { get; }
     }
 }

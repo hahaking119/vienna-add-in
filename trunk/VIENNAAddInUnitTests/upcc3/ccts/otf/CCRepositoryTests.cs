@@ -10,10 +10,12 @@ using CctsRepository.DocLibrary;
 using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
@@ -56,41 +58,30 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                                                                                                      });
                                                                              });
                                            });
-            ccRepository = new ValidatingCCRepository(eaRepository);
+            validatingCcRepository = new ValidatingCCRepository(eaRepository);
         }
 
         #endregion
 
-        private ValidatingCCRepository ccRepository;
+        private ValidatingCCRepository validatingCcRepository;
 
         private void WaitUntilRepositoryIsReady()
         {
         }
 
-        private static void VerifyLibraries<TLibrary>(ValidatingCCRepository ccRepository, params string[] expectedLibraryNames) where TLibrary : IBusinessLibrary
-        {
-            var libraries = new List<TLibrary>(ccRepository.Libraries<TLibrary>());
-            Assert.AreEqual(expectedLibraryNames.Count(), libraries.Count);
-            int i = 0;
-            foreach (string libraryName in expectedLibraryNames)
-            {
-                Assert.AreEqual(libraryName, libraries[i++].Name);
-            }
-        }
-
         [Test]
         public void When_it_is_created_Then_it_should_load_all_EA_repository_contents_and_build_an_internal_model()
         {
-            ccRepository.LoadRepositoryContent();
+            validatingCcRepository.LoadRepositoryContent();
             WaitUntilRepositoryIsReady();
-            VerifyLibraries<IBLibrary>(ccRepository, "Package 1", "Package 1.1", "Package 3.1", "Package 3.1.1");
-            VerifyLibraries<IPRIMLibrary>(ccRepository, "Package 1.1.1");
-            VerifyLibraries<IENUMLibrary>(ccRepository, "Package 1.1.2");
-            VerifyLibraries<ICDTLibrary>(ccRepository, "Package 1.1.3");
-            VerifyLibraries<ICCLibrary>(ccRepository, "Package 1.1.4");
-            VerifyLibraries<IBDTLibrary>(ccRepository, "Package 1.1.5");
-            VerifyLibraries<IBIELibrary>(ccRepository, "Package 1.1.6");
-            VerifyLibraries<IDOCLibrary>(ccRepository, "Package 1.1.7");
+            Assert.That(validatingCcRepository.GetBLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1", "Package 1.1", "Package 3.1", "Package 3.1.1"}));
+            Assert.That(validatingCcRepository.GetPrimLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1.1.1"}));
+            Assert.That(validatingCcRepository.GetEnumLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1.1.2"}));
+            Assert.That(validatingCcRepository.GetCdtLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1.1.3"}));
+            Assert.That(validatingCcRepository.GetCcLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1.1.4"}));
+            Assert.That(validatingCcRepository.GetBdtLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1.1.5"}));
+            Assert.That(validatingCcRepository.GetBieLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1.1.6"}));
+            Assert.That(validatingCcRepository.GetDocLibraries().Convert(l => l.Name), Is.EquivalentTo(new[]{"Package 1.1.7"}));
         }
     }
 }

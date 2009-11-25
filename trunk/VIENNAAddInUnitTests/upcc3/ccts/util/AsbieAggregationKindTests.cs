@@ -1,5 +1,6 @@
 using System;
 using CctsRepository;
+using CctsRepository.BieLibrary;
 using NUnit.Framework;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.util

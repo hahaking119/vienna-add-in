@@ -80,7 +80,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
             validatingCCRepository.ItemDeleted(ItemId.ForPackage(newBLibrary1.PackageID));
 
-            var bLibraries = new List<IBLibrary>(validatingCCRepository.Libraries<IBLibrary>());
+            var bLibraries = new List<IBLibrary>(validatingCCRepository.GetBLibraries());
 
             Assert.AreEqual(1, bLibraries.Count, "Wrong number of BLibraries");
             Assert.AreEqual(bLibrary.PackageID, bLibraries[0].Id);
@@ -135,7 +135,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             validatingCCRepository.LoadPackageByID(newBLibrary.PackageID);
 
             validatingCCRepository.ItemDeleted(ItemId.ForPackage(newBLibrary.PackageID));
-            var bLibraries = new List<IBLibrary>(validatingCCRepository.Libraries<IBLibrary>());
+            var bLibraries = new List<IBLibrary>(validatingCCRepository.GetBLibraries());
             Assert.AreEqual(1, bLibraries.Count, "Wrong number of BLibraries");
             Assert.AreEqual(bLibrary.PackageID, bLibraries[0].Id);
         }
@@ -146,7 +146,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
             Package newBLibrary = ABLibraryWithoutIssues("New bLibrary", bLibrary);
 
             validatingCCRepository.LoadPackageByID(newBLibrary.PackageID);
-            var bLibraries = new List<IBLibrary>(validatingCCRepository.Libraries<IBLibrary>());
+            var bLibraries = new List<IBLibrary>(validatingCCRepository.GetBLibraries());
             Assert.AreEqual(2, bLibraries.Count, "Wrong number of BLibraries");
             Assert.AreEqual(bLibrary.PackageID, bLibraries[0].Id);
             Assert.AreEqual(newBLibrary.PackageID, bLibraries[1].Id);

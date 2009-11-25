@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
-using CctsRepository;
 using CctsRepository.bLibrary;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    public abstract class BusinessLibrary : AbstractEAPackage, IBusinessLibrary
+    public abstract class BusinessLibrary : AbstractEAPackage
     {
         protected BusinessLibrary(ItemId id, string name, ItemId parentId, string status, string uniqueIdentifier, string versionIdentifier, string baseUrn, string namespacePrefix, IEnumerable<string> businessTerms, IEnumerable<string> copyrights, IEnumerable<string> owners, IEnumerable<string> references) : base(id, name, parentId)
         {
@@ -19,13 +16,6 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             Copyrights = copyrights;
             Owners = owners;
             References = references;
-        }
-
-        #region IBusinessLibrary Members
-
-        int IBusinessLibrary.Id
-        {
-            get { return Id.Value; }
         }
 
         public IBLibrary Parent
@@ -42,7 +32,5 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         public IEnumerable<string> Copyrights { get; private set; }
         public IEnumerable<string> Owners { get; private set; }
         public IEnumerable<string> References { get; private set; }
-
-        #endregion
     }
 }

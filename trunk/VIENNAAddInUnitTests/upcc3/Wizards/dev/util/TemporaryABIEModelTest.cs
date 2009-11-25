@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CctsRepository.CcLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -104,7 +105,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         [Test]
         public void ShouldSetTargetACC()
         {
-            ACC acc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
+            IACC acc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
             
             temporaryABIEModel.SetTargetACC("Person");
 

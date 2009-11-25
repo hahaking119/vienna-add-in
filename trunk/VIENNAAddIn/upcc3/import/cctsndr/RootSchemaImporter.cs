@@ -56,7 +56,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
             //TODO check whether Document with the specified name does not already exist
             IBLibrary bLibrary = context.BLibrary;
-            DocLibrary = bLibrary.CreateDOCLibrary(new LibrarySpec {Name = docname});
+            DocLibrary = bLibrary.CreateDOCLibrary(new DocLibrarySpec {Name = docname});
 
             var rootDocument = new XmlDocument();
             rootDocument.Load(context.RootSchemaPath);

@@ -9,5 +9,14 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             : base(id, name, parentId, status, uniqueIdentifier, versionIdentifier, baseUrn, namespacePrefix, businessTerms, copyrights, owners, references)
         {
         }
+
+        #region IENUMLibrary Members
+
+        int IENUMLibrary.Id
+        {
+            get { return Id.Value; }
+        }
+
+        #endregion
     }
 }

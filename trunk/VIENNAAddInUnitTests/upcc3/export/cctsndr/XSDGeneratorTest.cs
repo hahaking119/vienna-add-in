@@ -21,6 +21,7 @@ using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddInUnitTests.TestRepository;
 using File=System.IO.File;
+using Path=VIENNAAddInUtils.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.export.cctsndr
 {
@@ -167,7 +168,7 @@ Actual output file: {2}",
         public void TestGenerateSchemas()
         {
             var ccRepository = new CCRepository(new EARepository2());
-            var docLibrary = ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary");
+            var docLibrary = (IDOCLibrary) ccRepository.FindByPath((Path) "test model"/"bLibrary"/"DOCLibrary");
             string outputDirectory = PathToTestResource(
                 "\\XSDGeneratorTest\\all");
             AddInSettings.LoadRegistryEntries();
@@ -181,7 +182,8 @@ Actual output file: {2}",
             using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
             {
                 var ccRepository = new CCRepository(tempFileBasedRepository);
-                var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary"), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary").RootElements));
+                var docLibrary = (IDOCLibrary) ccRepository.FindByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
+                var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", docLibrary, new List<IABIE>(docLibrary.RootElements));
                 RootSchemaGenerator.GenerateXSD(context);
                 Assert.AreEqual(1, context.Schemas.Count);
                 XmlSchema schema = context.Schemas[0].Schema;
@@ -198,8 +200,9 @@ Actual output file: {2}",
             using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
             {
                 var ccRepository = new CCRepository(tempFileBasedRepository);
+                var docLibrary = (IDOCLibrary) ccRepository.FindByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
                 AddInSettings.LoadRegistryEntries();
-                var context = VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary"), new List<IABIE>(ccRepository.LibraryByName<IDOCLibrary>("DOCLibrary").RootElements)));
+                var context = VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", docLibrary, new List<IABIE>(docLibrary.RootElements)));
                 Assert.AreEqual(5, context.Schemas.Count);
                 XmlSchema schema = context.Schemas[1].Schema;
                 schema.Write(Console.Out);

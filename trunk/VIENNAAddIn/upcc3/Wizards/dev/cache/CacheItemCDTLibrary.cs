@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.dra;
+using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemCDTLibrary
     {
-        internal CDTLibrary CDTLibrary { get; set; }
+        internal ICDTLibrary CDTLibrary { get; set; }
 
-        internal List<CDT> CDTsInLibrary { get; set; }
+        internal List<ICDT> CDTsInLibrary { get; set; }
 
-        internal CacheItemCDTLibrary(CDTLibrary library)
+        internal CacheItemCDTLibrary(ICDTLibrary library)
         {
             CDTLibrary = library;
         }

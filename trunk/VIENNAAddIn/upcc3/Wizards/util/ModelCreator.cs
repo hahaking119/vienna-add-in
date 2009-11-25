@@ -8,7 +8,14 @@
 // *******************************************************************************
 
 using System;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 
@@ -119,7 +126,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             Package model = GetEmptyRootModel();
 
             SendStatusChanged("Creating bLibrary.");
-            IBLibrary bLibrary = ccRepository.CreateBLibrary(new LibrarySpec {Name = modelName}, model);
+            IBLibrary bLibrary = ccRepository.CreateBLibrary(new BLibrarySpec {Name = modelName}, model);
 
             importCCLibraries(bLibrary);
 
@@ -201,17 +208,17 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             if (!bdtLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating BDT Library.");
-                bLibrary.CreateBDTLibrary(new LibrarySpec {Name = bdtLibraryName});
+                bLibrary.CreateBDTLibrary(new BdtLibrarySpec {Name = bdtLibraryName});
             }
             if (!bieLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating BIE Library.");
-                bLibrary.CreateBIELibrary(new LibrarySpec {Name = bieLibraryName});
+                bLibrary.CreateBIELibrary(new BieLibrarySpec {Name = bieLibraryName});
             }
             if (!docLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating DOC Library.");
-                bLibrary.CreateDOCLibrary(new LibrarySpec {Name = docLibraryName});
+                bLibrary.CreateDOCLibrary(new DocLibrarySpec {Name = docLibraryName});
             }
         }
 
@@ -246,22 +253,22 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             if (!primLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating PRIM Library.");                
-                bLibrary.CreatePRIMLibrary(new LibrarySpec {Name = primLibraryName});
+                bLibrary.CreatePRIMLibrary(new PrimLibrarySpec {Name = primLibraryName});
             }
             if (!enumLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating ENUM Library.");
-                bLibrary.CreateENUMLibrary(new LibrarySpec {Name = enumLibraryName});
+                bLibrary.CreateENUMLibrary(new EnumLibrarySpec {Name = enumLibraryName});
             }
             if (!cdtLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating CDT Library.");
-                bLibrary.CreateCDTLibrary(new LibrarySpec {Name = cdtLibraryName});
+                bLibrary.CreateCDTLibrary(new CdtLibrarySpec {Name = cdtLibraryName});
             }
             if (!ccLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating CC Library.");
-                bLibrary.CreateCCLibrary(new LibrarySpec {Name = ccLibraryName});
+                bLibrary.CreateCCLibrary(new CcLibrarySpec {Name = ccLibraryName});
             }
         }
 

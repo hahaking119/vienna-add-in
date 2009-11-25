@@ -10,12 +10,12 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
-using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -118,12 +118,12 @@ namespace VIENNAAddIn.upcc3.Wizards
         public IDictionary<string, cSUP> SUPs { get; set; }
         public CheckState AllSUPs { get; set; }
 
-        public void LoadCONAndSUPs(CCRepository repository)
+        public void LoadCONAndSUPs(ICCRepository repository)
         {
             if ((CON.Name.Equals("") && SUPs.Count < 1))
             {
                 int cdtId = Id;
-                ICDT cdt = repository.GetCDT(cdtId);
+                ICDT cdt = repository.GetCdtById(cdtId);
 
                 CON.Name = cdt.CON.Name;
                 CON.Id = cdt.CON.Id;
@@ -158,11 +158,11 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cCDT> CDTs { get; set; }
 
-        public void LoadCDTs(CCRepository repository)
+        public void LoadCDTs(ICCRepository repository)
         {
             if (CDTs.Count == 0)
             {
-                ICDTLibrary cdtl = (ICDTLibrary)repository.GetLibrary(Id);
+                ICDTLibrary cdtl = repository.GetCdtLibraryById(Id);
 
                 foreach (ICDT cdt in cdtl.Elements)
                 {
@@ -314,11 +314,11 @@ namespace VIENNAAddIn.upcc3.Wizards
         public IDictionary<string, cBCC> BCCs { get; set; }
         public IDictionary<string, cASCC> ASCCs { get; set; }
 
-        public void LoadBCCsAndCreateDefaults(CCRepository repository, IDictionary<string, cBDTLibrary> bdtls)
+        public void LoadBCCsAndCreateDefaults(ICCRepository repository, IDictionary<string, cBDTLibrary> bdtls)
         {
             if (!HasBCCs())
             {
-                IACC acc = repository.GetACC(Id);
+                IACC acc = repository.GetAccById(Id);
 
                 foreach (IBCC bcc in acc.BCCs)
                 {
@@ -337,11 +337,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadBCCsAndBBIEs(CCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IABIE abie)
+        public void LoadBCCsAndBBIEs(ICCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IABIE abie)
         {
             if (!HasBCCs())
             {
-                IACC acc = repository.GetACC(Id);
+                IACC acc = repository.GetAccById(Id);
 
                 foreach (IBCC bcc in acc.BCCs)
                 {
@@ -375,14 +375,14 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadASCCs(CCRepository repository, IDictionary<string, cBIELibrary> biels)
+        public void LoadASCCs(ICCRepository repository, IDictionary<string, cBIELibrary> biels)
         {
             // TODO: temporarily disabled to forace ASCCs
             //if (!HasASCCs())
             //{
                 ASCCs.Clear();
 
-                IACC acc = repository.GetACC(Id);
+                IACC acc = repository.GetAccById(Id);
 
                 foreach (IASCC ascc in acc.ASCCs)
                 {
@@ -465,11 +465,11 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cACC> ACCs { get; set; }
 
-        public void LoadACCs(CCRepository repository)
+        public void LoadACCs(ICCRepository repository)
         {
             if (ACCs.Count == 0)
             {
-                ICCLibrary ccl = (ICCLibrary)repository.GetLibrary(Id);
+                ICCLibrary ccl = repository.GetCcLibraryById(Id);
 
                 foreach (IACC acc in ccl.Elements)
                 {
@@ -560,10 +560,10 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cDOC> DOCs { get; set;}
 
-        public void LoadDOCsInBIV(CCRepository repository)
+        public void LoadDOCsInBIV(ICCRepository repository)
         {
             // doc library containing all the different Documents
-            IDOCLibrary docl = (IDOCLibrary)repository.GetLibrary(Id);
+            IDOCLibrary docl = repository.GetDocLibraryById(Id);
 
             // check if previously cached
             if (DOCs.Count == 0)
@@ -710,9 +710,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             return true;
         }
 
-        public void LoadCCLs(CCRepository repository)
+        public void LoadCCLs(ICCRepository repository)
         {
-            foreach (ICCLibrary ccl in repository.Libraries<CCLibrary>())
+            foreach (ICCLibrary ccl in repository.GetCcLibraries())
             {
                 if (CCLs.ContainsKey(ccl.Name))
                 {
@@ -729,9 +729,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadCDTLs(CCRepository repository)
+        public void LoadCDTLs(ICCRepository repository)
         {
-            foreach (ICDTLibrary cdtl in repository.Libraries<CDTLibrary>())
+            foreach (ICDTLibrary cdtl in repository.GetCdtLibraries())
             {                
                 if (CDTLs.ContainsKey(cdtl.Name))
                 {
@@ -748,9 +748,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
 
         
-        public void LoadBIELsAndTheirABIEs(CCRepository repository)
+        public void LoadBIELsAndTheirABIEs(ICCRepository repository)
         {
-            foreach (IBIELibrary biel in repository.Libraries<IBIELibrary>())
+            foreach (IBIELibrary biel in repository.GetBieLibraries())
             {
                 if (BIELs.ContainsKey(biel.Name))
                 {
@@ -778,9 +778,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadBDTLsAndTheirBDTs(CCRepository repository)
+        public void LoadBDTLsAndTheirBDTs(ICCRepository repository)
         {
-            foreach (IBDTLibrary bdtl in repository.Libraries<IBDTLibrary>())
+            foreach (IBDTLibrary bdtl in repository.GetBdtLibraries())
             {
                 if (BDTLs.ContainsKey(bdtl.Name))
                 {
@@ -808,9 +808,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }        
 
-        public void LoadBIVs(CCRepository repository)
+        public void LoadBIVs(ICCRepository repository)
         {
-            foreach (IDOCLibrary docl in repository.Libraries<IDOCLibrary>())
+            foreach (IDOCLibrary docl in repository.GetDocLibraries())
             {
                 if (BIVs.ContainsKey(docl.Name))
                 {
