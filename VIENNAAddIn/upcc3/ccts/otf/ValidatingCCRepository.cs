@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.bLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.otf.validators;
 using VIENNAAddInUtils;
@@ -43,28 +51,105 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         #region ICCRepository Members
 
-        public IBusinessLibrary GetLibrary(int id)
+        private object GetLibraryById(int id)
         {
-            return WrapItem(repository.GetItemById(ItemId.ForPackage(id))) as IBusinessLibrary;
+            return WrapItem(repository.GetItemById(ItemId.ForPackage(id)));
         }
 
-        public IEnumerable<IBusinessLibrary> AllLibraries()
+        public IEnumerable<IBLibrary> GetBLibraries()
         {
             return from item in repository.AllItems()
-                   where IsBusinessLibrary(item)
-                   select WrapBusinessLibrary(item);
+                   where item.Stereotype == Stereotype.bLibrary
+                   select WrapItem(item) as IBLibrary;
         }
 
-        public IEnumerable<T> Libraries<T>() where T : IBusinessLibrary
+        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
         {
-            return from library in AllLibraries()
-                   where library is T
-                   select (T) library;
+            return from item in repository.AllItems()
+                   where item.Stereotype == Stereotype.PRIMLibrary
+                   select WrapItem(item) as IPRIMLibrary;
         }
 
-        public T LibraryByName<T>(string name) where T : IBusinessLibrary
+        public IEnumerable<IENUMLibrary> GetEnumLibraries()
         {
-            throw new NotImplementedException();
+            return from item in repository.AllItems()
+                   where item.Stereotype == Stereotype.ENUMLibrary
+                   select WrapItem(item) as IENUMLibrary;
+        }
+
+        public IEnumerable<ICDTLibrary> GetCdtLibraries()
+        {
+            return from item in repository.AllItems()
+                   where item.Stereotype == Stereotype.CDTLibrary
+                   select WrapItem(item) as ICDTLibrary;
+        }
+
+        public IEnumerable<ICCLibrary> GetCcLibraries()
+        {
+            return from item in repository.AllItems()
+                   where item.Stereotype == Stereotype.CCLibrary
+                   select WrapItem(item) as ICCLibrary;
+        }
+
+        public IEnumerable<IBDTLibrary> GetBdtLibraries()
+        {
+            return from item in repository.AllItems()
+                   where item.Stereotype == Stereotype.BDTLibrary
+                   select WrapItem(item) as IBDTLibrary;
+        }
+
+        public IEnumerable<IBIELibrary> GetBieLibraries()
+        {
+            return from item in repository.AllItems()
+                   where item.Stereotype == Stereotype.BIELibrary
+                   select WrapItem(item) as IBIELibrary;
+        }
+
+        public IEnumerable<IDOCLibrary> GetDocLibraries()
+        {
+            return from item in repository.AllItems()
+                   where item.Stereotype == Stereotype.DOCLibrary
+                   select WrapItem(item) as IDOCLibrary;
+        }
+
+        public IBLibrary GetBLibraryById(int id)
+        {
+            return GetLibraryById(id) as IBLibrary;
+        }
+
+        public IPRIMLibrary GetPrimLibraryById(int id)
+        {
+            return GetLibraryById(id) as IPRIMLibrary;
+        }
+
+        public IENUMLibrary GetEnumLibraryById(int id)
+        {
+            return GetLibraryById(id) as IENUMLibrary;
+        }
+
+        public ICDTLibrary GetCdtLibraryById(int id)
+        {
+            return GetLibraryById(id) as ICDTLibrary;
+        }
+
+        public ICCLibrary GetCcLibraryById(int id)
+        {
+            return GetLibraryById(id) as ICCLibrary;
+        }
+
+        public IBDTLibrary GetBdtLibraryById(int id)
+        {
+            return GetLibraryById(id) as IBDTLibrary;
+        }
+
+        public IBIELibrary GetBieLibraryById(int id)
+        {
+            return GetLibraryById(id) as IBIELibrary;
+        }
+
+        public IDOCLibrary GetDocLibraryById(int id)
+        {
+            return GetLibraryById(id) as IDOCLibrary;
         }
 
         public object FindByPath(Path path)
@@ -72,17 +157,27 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
+        public ICDT GetCdtById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IACC GetAccById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBDT GetBdtById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IABIE GetAbieById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
-
-        private static IBusinessLibrary WrapBusinessLibrary(RepositoryItem item)
-        {
-            return WrapItem(item) as IBusinessLibrary;
-        }
-
-        private static bool IsBusinessLibrary(RepositoryItem item)
-        {
-            return Stereotype.IsBusinessLibraryStereotype(item.Stereotype);
-        }
 
         public event Action<IEnumerable<ValidationIssue>> ValidationIssuesUpdated
         {

@@ -48,7 +48,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 Connector connector = Connectors.FirstOrDefault(EAConnectorExtensions.IsIsEquivalentTo);
-                return connector != null ? repository.GetCDT(connector.SupplierID) : null;
+                return connector != null ? repository.GetCdtById(connector.SupplierID) : null;
             }
         }
 
@@ -100,9 +100,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBusinessLibrary Library
+        public ICDTLibrary Library
         {
-            get { return repository.GetLibrary(element.PackageID); }
+            get { return repository.GetCdtLibraryById(element.PackageID); }
         }
 
         ///<summary>

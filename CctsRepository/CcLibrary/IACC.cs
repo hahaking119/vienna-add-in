@@ -51,6 +51,6 @@ namespace CctsRepository.CcLibrary
 
         ///<summary>
         ///</summary>
-        IBusinessLibrary Library { get; }
+        ICCLibrary Library { get; }
     }
 }

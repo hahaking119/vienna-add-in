@@ -47,6 +47,13 @@
   <ItemGroup>
     <Compile Include="BieLibrary\AsbieAggregationKind.cs" />
     <Compile Include="BieLibrary\ABIESpec.cs" />
+    <Compile Include="BdtLibrary\BdtLibrarySpec.cs" />
+    <Compile Include="BieLibrary\BieLibrarySpec.cs" />
+    <Compile Include="bLibrary\BLibrarySpec.cs" />
+    <Compile Include="CcLibrary\CcLibrarySpec.cs" />
+    <Compile Include="CdtLibrary\CdtLibrarySpec.cs" />
+    <Compile Include="EnumLibrary\EnumLibrarySpec.cs" />
+    <Compile Include="PrimLibrary\PrimLibrarySpec.cs" />
     <Compile Include="CcLibrary\ACCSpec.cs" />
     <Compile Include="BieLibrary\ASBIESpec.cs" />
     <Compile Include="CcLibrary\ASCCSpec.cs" />
@@ -71,7 +78,6 @@
     <Compile Include="BdtLibrary\IBDTLibrary.cs" />
     <Compile Include="BieLibrary\IBIELibrary.cs" />
     <Compile Include="bLibrary\IBLibrary.cs" />
-    <Compile Include="IBusinessLibrary.cs" />
     <Compile Include="CcLibrary\ICCLibrary.cs" />
     <Compile Include="ICCRepository.cs" />
     <Compile Include="CdtLibrary\ICDT.cs" />
@@ -85,7 +91,7 @@
     <Compile Include="PrimLibrary\IPRIM.cs" />
     <Compile Include="PrimLibrary\IPRIMLibrary.cs" />
     <Compile Include="BdtLibrary\IBDTSupplementaryComponent.cs" />
-    <Compile Include="bLibrary\LibrarySpec.cs" />
+    <Compile Include="DocLibrary\DocLibrarySpec.cs" />
     <Compile Include="PrimLibrary\PRIMSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BdtLibrary\BDTSupplementaryComponentSpec.cs" />

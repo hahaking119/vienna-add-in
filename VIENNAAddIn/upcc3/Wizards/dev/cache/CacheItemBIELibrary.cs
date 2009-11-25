@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.dra;
+using CctsRepository.BieLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemBIELibrary
     {
-        internal BIELibrary bieLibrary { get; set; }
+        internal IBIELibrary bieLibrary { get; set; }
 
-        internal List<ABIE> abiesInLibrary { get; set; }
+        internal List<IABIE> abiesInLibrary { get; set; }
 
-        internal CacheItemBIELibrary(BIELibrary library)
+        internal CacheItemBIELibrary(IBIELibrary library)
         {
             bieLibrary = library;
         }

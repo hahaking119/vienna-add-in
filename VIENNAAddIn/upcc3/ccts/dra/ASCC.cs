@@ -100,14 +100,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return connector.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
-        public IBusinessLibrary Library
-        {
-            get { return associatingAcc.Library; }
-        }
-
         public IACC AssociatedElement
         {
-            get { return repository.GetACC(connector.GetAssociatedElementId(AssociatingElement.Id)); }
+            get { return repository.GetAccById(connector.GetAssociatedElementId(AssociatingElement.Id)); }
         }
 
         #endregion

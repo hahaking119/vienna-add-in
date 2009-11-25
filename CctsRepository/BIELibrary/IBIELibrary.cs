@@ -7,12 +7,25 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+using CctsRepository.bLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public interface IBIELibrary : IBusinessLibrary
+    public interface IBIELibrary
     {
         IEnumerable<IABIE> Elements { get; }
+        int Id { get; }
+        string Name { get; }
+        IBLibrary Parent { get; }
+        string Status { get; }
+        string UniqueIdentifier { get; }
+        string VersionIdentifier { get; }
+        string BaseURN { get; }
+        string NamespacePrefix { get; }
+        IEnumerable<string> BusinessTerms { get; }
+        IEnumerable<string> Copyrights { get; }
+        IEnumerable<string> Owners { get; }
+        IEnumerable<string> References { get; }
 
         ///<summary>
         /// Retrieves an element by name.

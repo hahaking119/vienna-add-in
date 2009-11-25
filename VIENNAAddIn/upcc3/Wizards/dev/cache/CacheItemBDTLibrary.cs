@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.dra;
+using CctsRepository.BdtLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemBDTLibrary
     {
-        internal BDTLibrary BDTLibrary { get; set; }
+        internal IBDTLibrary BDTLibrary { get; set; }
 
-        internal List<BDT> BDTsInLibrary { get; set; }
+        internal List<IBDT> BDTsInLibrary { get; set; }
 
-        internal CacheItemBDTLibrary(BDTLibrary library)
+        internal CacheItemBDTLibrary(IBDTLibrary library)
         {
             BDTLibrary = library;
         }

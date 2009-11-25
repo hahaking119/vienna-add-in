@@ -138,9 +138,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBusinessLibrary Library
+        public IPRIMLibrary Library
         {
-            get { return repository.GetLibrary(element.PackageID); }
+            get { return repository.GetPrimLibraryById(element.PackageID); }
         }
 
         ///<summary>

@@ -7,7 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository;
+using System.Linq;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
@@ -17,6 +17,7 @@ using CctsRepository.DocLibrary;
 using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -26,102 +27,291 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
+        private IEnumerable<Package> ContainedPackages
+        {
+            get { return package.EnumerateContainedPackages(); }
+        }
+
         #region IBLibrary Members
 
-        public IEnumerable<IBusinessLibrary> Children
+        public IEnumerable<IBLibrary> GetBLibraries()
         {
-            get
-            {
-                foreach (Package childPackage in package.Packages)
-                {
-                    yield return repository.GetLibrary(childPackage);
-                }
-            }
+            return from p in ContainedPackages
+                   where p.IsBLibrary()
+                   select (IBLibrary) new BLibrary(repository, p);
         }
 
-        public IEnumerable<IBusinessLibrary> AllChildren
+        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
         {
-            get
-            {
-                foreach (IBusinessLibrary childLib in Children)
-                {
-                    yield return childLib;
-                    if (childLib is IBLibrary)
-                    {
-                        foreach (IBusinessLibrary grandChild in ((IBLibrary) childLib).AllChildren)
-                        {
-                            yield return grandChild;
-                        }
-                    }
-                }
-            }
+            return from p in ContainedPackages
+                   where p.IsPRIMLibrary()
+                   select (IPRIMLibrary) new PRIMLibrary(repository, p);
         }
 
-        public IBusinessLibrary FindChildByName(string name)
+        public IEnumerable<IENUMLibrary> GetEnumLibraries()
         {
-            foreach (IBusinessLibrary child in Children)
-            {
-                if (child.Name == name)
-                {
-                    return child;
-                }
-            }
-            return null;
+            return from p in ContainedPackages
+                   where p.IsENUMLibrary()
+                   select (IENUMLibrary) new ENUMLibrary(repository, p);
         }
 
-        public IBLibrary CreateBLibrary(LibrarySpec spec)
+        public IEnumerable<ICDTLibrary> GetCdtLibraries()
         {
-            return new BLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.bLibrary));
+            return from p in ContainedPackages
+                   where p.IsCDTLibrary()
+                   select (ICDTLibrary) new CDTLibrary(repository, p);
         }
 
-        public ICDTLibrary CreateCDTLibrary(LibrarySpec spec)
+        public IEnumerable<ICCLibrary> GetCcLibraries()
         {
-            return new CDTLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.CDTLibrary));
+            return from p in ContainedPackages
+                   where p.IsCCLibrary()
+                   select (ICCLibrary) new CCLibrary(repository, p);
         }
 
-        public ICCLibrary CreateCCLibrary(LibrarySpec spec)
+        public IEnumerable<IBDTLibrary> GetBdtLibraries()
         {
-            return new CCLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.CCLibrary));
+            return from p in ContainedPackages
+                   where p.IsBDTLibrary()
+                   select (IBDTLibrary) new BDTLibrary(repository, p);
         }
 
-        public IBDTLibrary CreateBDTLibrary(LibrarySpec spec)
+        public IEnumerable<IBIELibrary> GetBieLibraries()
         {
-            return new BDTLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BDTLibrary));
+            return from p in ContainedPackages
+                   where p.IsBIELibrary()
+                   select (IBIELibrary) new BIELibrary(repository, p);
         }
 
-        public IBIELibrary CreateBIELibrary(LibrarySpec spec)
+        public IEnumerable<IDOCLibrary> GetDocLibraries()
         {
-            return new BIELibrary(repository, CreateLibraryPackage(spec, util.Stereotype.BIELibrary));
+            return from p in ContainedPackages
+                   where p.IsDOCLibrary()
+                   select (IDOCLibrary) new DOCLibrary(repository, p);
         }
 
-        public IPRIMLibrary CreatePRIMLibrary(LibrarySpec spec)
+        public IBLibrary CreateBLibrary(BLibrarySpec spec)
         {
-            return new PRIMLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.PRIMLibrary));
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.bLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+
+            var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
+            packageDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new BLibrary(repository, libraryPackage);
         }
 
-        public IENUMLibrary CreateENUMLibrary(LibrarySpec spec)
+        public ICDTLibrary CreateCDTLibrary(CdtLibrarySpec spec)
         {
-            return new ENUMLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.ENUMLibrary));
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.CDTLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+
+            var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+            classDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new CDTLibrary(repository, libraryPackage);
         }
 
-        public IDOCLibrary CreateDOCLibrary(LibrarySpec spec)
+        public ICCLibrary CreateCCLibrary(CcLibrarySpec spec)
         {
-            return new DOCLibrary(repository, CreateLibraryPackage(spec, util.Stereotype.DOCLibrary));
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.CCLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+            
+            var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+            classDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new CCLibrary(repository, libraryPackage);
+        }
+
+        public IBDTLibrary CreateBDTLibrary(BdtLibrarySpec spec)
+        {
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.BDTLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+            
+            var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+            classDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new BDTLibrary(repository, libraryPackage);
+        }
+
+        public IBIELibrary CreateBIELibrary(BieLibrarySpec spec)
+        {
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.BIELibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+            
+            var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+            classDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new BIELibrary(repository, libraryPackage);
+        }
+
+        public IPRIMLibrary CreatePRIMLibrary(PrimLibrarySpec spec)
+        {
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.PRIMLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+            
+            var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+            classDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new PRIMLibrary(repository, libraryPackage);
+        }
+
+        public IENUMLibrary CreateENUMLibrary(EnumLibrarySpec spec)
+        {
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.ENUMLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+            
+            var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+            classDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new ENUMLibrary(repository, libraryPackage);
+        }
+
+        public IDOCLibrary CreateDOCLibrary(DocLibrarySpec spec)
+        {
+            var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = package.PackageID;
+            libraryPackage.Element.Stereotype = util.Stereotype.DOCLibrary;
+
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+            
+            var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Class");
+            classDiagram.Update();
+            libraryPackage.Diagrams.Refresh();
+
+            package.Packages.Refresh();
+            AddPackageToDiagram(libraryPackage);
+            return new DOCLibrary(repository, libraryPackage);
         }
 
         #endregion
 
-        private Package CreateLibraryPackage(LibrarySpec spec, string stereotype)
-        {
-            Package libraryPackage = CreateLibraryPackage(spec, package, stereotype);
-            AddPackageToDiagram(libraryPackage);
-            return libraryPackage;
-        }
-
         private void AddPackageToDiagram(Package libraryPackage)
         {
             var diagram = (Diagram) package.Diagrams.GetByName(Name);
-            var newDiagramObject = (DiagramObject) diagram.DiagramObjects.AddNew("", "");
+            var newDiagramObject = (DiagramObject) diagram.DiagramObjects.AddNew(string.Empty, string.Empty);
             newDiagramObject.DiagramID = diagram.DiagramID;
             newDiagramObject.ElementID = libraryPackage.Element.ElementID;
             newDiagramObject.Update();

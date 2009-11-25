@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.dra;
+using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemCCLibrary
     {
-        internal CCLibrary CCLibrary { get; set; }
+        internal ICCLibrary CCLibrary { get; set; }
 
-        internal List<ACC> CCsInLibrary { get; set; }
+        internal List<IACC> CCsInLibrary { get; set; }
 
-        internal CacheItemCCLibrary(CCLibrary library)
+        internal CacheItemCCLibrary(ICCLibrary library)
         {
             CCLibrary = library;
         }

@@ -5,11 +5,13 @@ using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using EA;
+using Moq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUnitTests.TestRepository;
+using VIENNAAddInUtils;
 using File=System.IO.File;
 
 namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
@@ -68,11 +70,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return (from asbie in abie.ASBIEs select new ASBIEDescriptor(asbie.Name, asbie.AssociatedElement.Id)).ToArray();
         }
 
-        private TLibrary ShouldContainLibrary<TLibrary>(string name) where TLibrary : IBusinessLibrary
+        private TLibrary ShouldContainLibrary<TLibrary>(string name) where TLibrary : class
         {
-            var docLibrary = ccRepository.LibraryByName<TLibrary>(name);
-            Assert.That(docLibrary, Is.Not.Null, typeof (TLibrary).Name + " '" + name + "' not generated");
-            return docLibrary;
+            Type libraryType = typeof (TLibrary);
+            var library = ccRepository.FindByPath((Path) "test"/"bLibrary"/name);
+            Assert.That(library, Is.InstanceOfType(libraryType));
+            Assert.That(library, Is.Not.Null, libraryType.Name + " '" + name + "' not generated");
+            return library as TLibrary;
         }
 
         private static IABIE ShouldContainABIE(IBIELibrary bieLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
@@ -168,7 +172,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-input-to-flat-output-mapping.mfd");
 
-            new MappingImporter(new[]{mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] {mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
@@ -196,7 +200,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd");
 
-            new MappingImporter(new[] { mappingFile }, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] {mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
@@ -222,7 +226,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.mfd");
 
-            new MappingImporter(new[] { mappingFile }, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] {mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
@@ -250,7 +254,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping.mfd");
 
-            new MappingImporter(new[] { mappingFile }, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] {mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
             IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
@@ -267,7 +271,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping-2-target-components.mfd");
 
-            new MappingImporter(new[] { mappingFile }, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] {mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainLibrary<IBIELibrary>(BIELibraryName);
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);
@@ -291,7 +295,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.mfd");
 
-            new MappingImporter(new[] { mappingFile }, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] {mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             ShouldContainLibrary<IBIELibrary>(BIELibraryName);
             var docLibrary = ShouldContainLibrary<IDOCLibrary>(DOCLibraryName);

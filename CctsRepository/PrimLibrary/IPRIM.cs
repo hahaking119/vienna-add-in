@@ -6,6 +6,8 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System.Collections.Generic;
+
 namespace CctsRepository.PrimLibrary
 {
     public interface IPRIM :  IBasicType
@@ -22,5 +24,29 @@ namespace CctsRepository.PrimLibrary
         string MinLength { get; }
         string TotalDigits { get; }
         string WhiteSpace { get; }
+
+        ///<summary>
+        ///</summary>
+        string Definition { get; }
+
+        ///<summary>
+        ///</summary>
+        string UniqueIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string VersionIdentifier { get; }
+
+        ///<summary>
+        ///</summary>
+        string LanguageCode { get; }
+
+        ///<summary>
+        ///</summary>
+        IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        ///</summary>
+        IPRIMLibrary Library { get; }
     }
 }

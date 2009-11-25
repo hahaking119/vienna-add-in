@@ -10,11 +10,45 @@ using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddInUtils;
+using System.Linq;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
     public static class EAPackageExtensions
     {
+        /// <summary>
+        /// Enumerates the given package and all packages contained within this package (or any of its sub-packages).
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public static IEnumerable<Package> EnumeratePackages(this Package package)
+        {
+            yield return package;
+            foreach (Package subPackage in package.Packages)
+            {
+                foreach (var containedPackage in subPackage.EnumeratePackages())
+                {
+                    yield return containedPackage;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enumerates all packages contained within the given package (or any of its sub-packages), but not the package itself.
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public static IEnumerable<Package> EnumerateContainedPackages(this Package package)
+        {
+            foreach (Package subPackage in package.Packages)
+            {
+                foreach (var containedPackage in subPackage.EnumeratePackages())
+                {
+                    yield return containedPackage;
+                }
+            }
+        }
+
         public static Path GetPath(this Package package, Repository repository)
         {
             int parentId = package.ParentID;

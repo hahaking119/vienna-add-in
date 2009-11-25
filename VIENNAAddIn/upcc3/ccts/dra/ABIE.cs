@@ -77,7 +77,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 Connector connector = Connectors.FirstOrDefault(EAConnectorExtensions.IsBasedOn);
-                return connector != null ? repository.GetACC(connector.SupplierID) : null;
+                return connector != null ? repository.GetAccById(connector.SupplierID) : null;
             }
         }
 
@@ -86,7 +86,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 Connector connector = Connectors.FirstOrDefault(EAConnectorExtensions.IsIsEquivalentTo);
-                return connector != null ? repository.GetABIE(connector.SupplierID) : null;
+                return connector != null ? repository.GetAbieById(connector.SupplierID) : null;
             }
         }
 
@@ -106,9 +106,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBusinessLibrary Library
+        public IBIELibrary Library
         {
-            get { return repository.GetLibrary(element.PackageID); }
+            get { return repository.GetBieLibraryById(element.PackageID); }
         }
 
         ///<summary>

@@ -8,10 +8,11 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
+using CctsRepository.bLibrary;
 
 namespace CctsRepository.DocLibrary
 {
-    public interface IDOCLibrary : IBusinessLibrary
+    public interface IDOCLibrary
     {
         IEnumerable<IABIE> Elements { get; }
 
@@ -34,5 +35,18 @@ namespace CctsRepository.DocLibrary
         /// Returns the root elements of documents defined in this DOCLibrary.
         ///</summary>
         IEnumerable<IABIE> RootElements { get; }
+
+        int Id { get; }
+        string Name { get; }
+        IBLibrary Parent { get; }
+        string Status { get; }
+        string UniqueIdentifier { get; }
+        string VersionIdentifier { get; }
+        string BaseURN { get; }
+        string NamespacePrefix { get; }
+        IEnumerable<string> BusinessTerms { get; }
+        IEnumerable<string> Copyrights { get; }
+        IEnumerable<string> Owners { get; }
+        IEnumerable<string> References { get; }
     }
 }

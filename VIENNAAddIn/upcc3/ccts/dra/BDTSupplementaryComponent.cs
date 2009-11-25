@@ -36,11 +36,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IBusinessLibrary Library
-        {
-            get { return BDT.Library; }
-        }
-
         public IBDT BDT
         {
             get { return bdt; }

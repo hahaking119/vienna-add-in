@@ -5,6 +5,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 {
@@ -17,7 +18,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public void CreateExpectedSourceElementTree()
         {
             var ccRepository = new CCRepository(new MappingTestRepository());
-            ccLibrary = ccRepository.LibraryByName<ICCLibrary>("CCLibrary");
+            ccLibrary = (ICCLibrary) ccRepository.FindByPath((Path) "test"/"bLibrary"/"CCLibrary");
             accParty = ccLibrary.ElementByName("Party");
             bccPartyName = accParty.BCCs.First(bcc => bcc.Name == "Name");
             asccPartyResidence = accParty.ASCCs.First(ascc => ascc.Name == "Residence");

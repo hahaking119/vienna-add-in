@@ -40,14 +40,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             this.schemaMapping = schemaMapping;
         }
 
-        private static LibrarySpec SpecifyLibraryNamed(string name)
-        {
-            return new LibrarySpec
-                   {
-                       Name = name
-                   };
-        }
-
         /// <summary>
         /// Retrieves the BDT based on the given CDT from the BDT library. If the BDT does not yet exist, it is created.
         /// </summary>
@@ -71,9 +63,18 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// </summary>
         public void GenerateLibraries()
         {
-            bdtLibrary = bLibrary.CreateBDTLibrary(SpecifyLibraryNamed(bdtLibraryName));
-            bieLibrary = bLibrary.CreateBIELibrary(SpecifyLibraryNamed(bieLibraryName));
-            docLibrary = bLibrary.CreateDOCLibrary(SpecifyLibraryNamed(docLibraryName));
+            bdtLibrary = bLibrary.CreateBDTLibrary(new BdtLibrarySpec
+                                                   {
+                                                       Name = bdtLibraryName
+                                                   });
+            bieLibrary = bLibrary.CreateBIELibrary(new BieLibrarySpec
+                                                   {
+                                                       Name = bieLibraryName
+                                                   });
+            docLibrary = bLibrary.CreateDOCLibrary(new DocLibrarySpec
+                                                   {
+                                                       Name = docLibraryName
+                                                   });
             GenerateBDTsAndABIEs();
             GenerateRootABIE();
         }

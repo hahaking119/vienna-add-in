@@ -119,14 +119,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return connector.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
-        public IBusinessLibrary Library
-        {
-            get { return associatingClass.Library; }
-        }
-
         public IABIE AssociatedElement
         {
-            get { return repository.GetABIE(connector.GetAssociatedElementId(AssociatingElement.Id)); }
+            get { return repository.GetAbieById(connector.GetAssociatedElementId(AssociatingElement.Id)); }
         }
 
         public IASCC BasedOn

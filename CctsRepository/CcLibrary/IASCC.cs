@@ -50,9 +50,5 @@ namespace CctsRepository.CcLibrary
         ///<summary>
         ///</summary>
         IEnumerable<string> BusinessTerms { get; }
-
-        ///<summary>
-        ///</summary>
-        IBusinessLibrary Library { get; }
     }
 }
