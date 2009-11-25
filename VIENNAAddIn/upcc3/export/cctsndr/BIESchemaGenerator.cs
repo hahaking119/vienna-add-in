@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
-using CctsRepository;
 using CctsRepository.BieLibrary;
 
 // XML Naming and Design Rules that are currently not considered:

@@ -1,4 +1,4 @@
-namespace CctsRepository
+namespace CctsRepository.BieLibrary
 {
     /// <summary>
     /// Represents possible values of ASBIE aggregation kind, as specified by the UPCC.

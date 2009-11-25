@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsbieAggregationKind.cs" />
+    <Compile Include="BieLibrary\AsbieAggregationKind.cs" />
     <Compile Include="BieLibrary\ABIESpec.cs" />
     <Compile Include="CcLibrary\ACCSpec.cs" />
     <Compile Include="BieLibrary\ASBIESpec.cs" />
