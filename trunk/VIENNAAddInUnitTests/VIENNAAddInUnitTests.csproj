@@ -88,6 +88,7 @@
     <Compile Include="TestRepository\EmptyEARepository.cs" />
     <Compile Include="TestRepository\IDFactory.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
+    <Compile Include="upcc3\ccts\util\AsbieAggregationKindTests.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlDependency.cs" />
     <Compile Include="upcc3\newrepo\upcc\UpccBLibrary.cs" />
     <Compile Include="upcc3\newrepo\NewRepoTests.cs" />

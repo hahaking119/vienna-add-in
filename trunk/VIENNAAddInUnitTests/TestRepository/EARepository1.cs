@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using EA;
-using CctsRepository;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;
@@ -50,10 +49,10 @@ namespace VIENNAAddInUnitTests.TestRepository
             accPerson.AddASCC(accAddress, "homeAddress");
             accPerson.AddASCC(accAddress, "workAddress", "0", "*");
 
-            bieMyPerson.AddASBIE(bieMyAddress, "My_homeAddress", AggregationKind.Shared);
-            bieMyPerson.AddASBIE(bieMyAddress, "My_workAddress", AggregationKind.Composite, "0", "*");
-            bieInvoice.AddASBIE(bieInvoiceInfo, "info", AggregationKind.Shared);
-            bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", AggregationKind.Shared);
+            bieMyPerson.AddASBIE(bieMyAddress, "My_homeAddress", EaAggregationKind.Shared);
+            bieMyPerson.AddASBIE(bieMyAddress, "My_workAddress", EaAggregationKind.Composite, "0", "*");
+            bieInvoice.AddASBIE(bieInvoiceInfo, "info", EaAggregationKind.Shared);
+            bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", EaAggregationKind.Shared);
         }
 
         private void InitTestModel(Package m)

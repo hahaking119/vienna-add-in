@@ -6,7 +6,7 @@ namespace CctsRepository.BieLibrary
 {
     public class ASBIESpec
     {
-        private AggregationKind aggregationKind = CctsRepository.AggregationKind.Composite;
+        private AsbieAggregationKind aggregationKind = AsbieAggregationKind.Composite;
         private int associatedABIEId;
 
         public ASBIESpec(IASBIE asbie)
@@ -53,7 +53,7 @@ namespace CctsRepository.BieLibrary
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
 
-        public AggregationKind AggregationKind
+        public AsbieAggregationKind AggregationKind
         {
             get { return aggregationKind; }
             set { aggregationKind = value; }

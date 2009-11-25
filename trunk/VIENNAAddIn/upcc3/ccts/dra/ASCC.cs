@@ -40,19 +40,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return associatingAcc; }
         }
 
-        public AggregationKind AggregationKind
-        {
-            get
-            {
-                int value = connector.GetAssociatingEnd(AssociatingElement.Id).Aggregation;
-                if (Enum.IsDefined(typeof (AggregationKind), value))
-                {
-                    return (AggregationKind) Enum.ToObject(typeof (AggregationKind), value);
-                }
-                return AggregationKind.None;
-            }
-        }
-
         public string UpperBound
         {
             get { return Cardinality.UpperBound; }

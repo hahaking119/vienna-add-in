@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
-using CctsRepository;
 using CctsRepository.CcLibrary;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr
 {
@@ -140,26 +140,18 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     elementASCC.Annotation = GetASCCAnnotiation(ascc);
                 }
 
-                if (ascc.AggregationKind == AggregationKind.Shared)
-                {
-                    // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
-                    XmlSchemaElement refASCC = new XmlSchemaElement();
-                    refASCC.RefName = new XmlQualifiedName(accPrefix + ":" + elementASCC.Name);
+                // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
+                // ASCCs are always shared (as defined in UPCC)
+                XmlSchemaElement refASCC = new XmlSchemaElement();
+                refASCC.RefName = new XmlQualifiedName(accPrefix + ":" + elementASCC.Name);
 
-                    // every shared ASCC may only appear once in the XSD file
-                    if (!globalASCCs.Contains(elementASCC.Name))
-                    {     
-                        schema.Items.Add(elementASCC);
-                        globalASCCs.Add(elementASCC.Name);
-                    }
-                    sequenceBCCs.Items.Add(refASCC);
+                // every shared ASCC may only appear once in the XSD file
+                if (!globalASCCs.Contains(elementASCC.Name))
+                {     
+                    schema.Items.Add(elementASCC);
+                    globalASCCs.Add(elementASCC.Name);
                 }
-                else
-                {
-                    //R 9025: ASBIEs with Aggregation Kind = composite a local element for the
-                    //        associated ABIE must be declared in the associating ABIE complex type.
-                    sequenceBCCs.Items.Add(elementASCC);
-                }
+                sequenceBCCs.Items.Add(refASCC);
             }
 
             // add the sequence created to the complex type
@@ -232,7 +224,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             AddDocumentation(documentation, "DictionaryEntryName", ascc.DictionaryEntryName);
             AddDocumentation(documentation, "Definition", ascc.Definition);
             AddDocumentation(documentation, "BusinessTermName", ascc.BusinessTerms);
-            AddDocumentation(documentation, "AssociationType", ascc.AggregationKind.ToString());
+            AddDocumentation(documentation, "AssociationType", EaAggregationKind.Shared.ToString());
             AddDocumentation(documentation, "PropertyTermName", ascc.Name);
             // PropertyQualifierName could be extracted from the PropertyTermName (e.g. "My" in 
             // "My_Address") but is not implement at this point 
