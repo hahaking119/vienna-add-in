@@ -12,7 +12,7 @@ namespace CctsRepository.DocLibrary
 {
     public class DocLibrarySpec
     {
-        public DocLibrarySpec(IDOCLibrary docLibrary)
+        public DocLibrarySpec(IDocLibrary docLibrary)
         {
             Name = docLibrary.Name;
             Status = docLibrary.Status;

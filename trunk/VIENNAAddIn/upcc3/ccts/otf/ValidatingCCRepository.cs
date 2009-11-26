@@ -100,11 +100,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                    select WrapItem(item) as IBieLibrary;
         }
 
-        public IEnumerable<IDOCLibrary> GetDocLibraries()
+        public IEnumerable<IDocLibrary> GetDocLibraries()
         {
             return from item in repository.AllItems()
                    where item.Stereotype == Stereotype.DOCLibrary
-                   select WrapItem(item) as IDOCLibrary;
+                   select WrapItem(item) as IDocLibrary;
         }
 
         public IBLibrary GetBLibraryById(int id)
@@ -142,9 +142,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return GetLibraryById(id) as IBieLibrary;
         }
 
-        public IDOCLibrary GetDocLibraryById(int id)
+        public IDocLibrary GetDocLibraryById(int id)
         {
-            return GetLibraryById(id) as IDOCLibrary;
+            return GetLibraryById(id) as IDocLibrary;
         }
 
         public IPrim GetPrimById(int id)
@@ -227,7 +227,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IDOCLibrary GetDocLibraryByPath(Path path)
+        public IDocLibrary GetDocLibraryByPath(Path path)
         {
             throw new NotImplementedException();
         }

@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     ///</summary>
     public class RootSchemaImporter
     {
-        private static IDOCLibrary DocLibrary;
+        private static IDocLibrary DocLibrary;
         private static IBdtLibrary ExistingBdts;
 
         ///<summary>

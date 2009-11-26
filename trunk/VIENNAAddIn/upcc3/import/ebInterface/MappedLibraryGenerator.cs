@@ -27,7 +27,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly List<AbieSpec> docABIESpecs = new List<AbieSpec>();
         private IBdtLibrary bdtLibrary;
         private IBieLibrary bieLibrary;
-        private IDOCLibrary docLibrary;
+        private IDocLibrary docLibrary;
 
         public MappedLibraryGenerator(SchemaMapping schemaMapping, IBLibrary bLibrary, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
         {
@@ -265,7 +265,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return () => bieLibrary.ElementByName(abieName);
         }
 
-        private static Func<IAbie> DeferredABIEResolver(IDOCLibrary docLibrary, string abieName)
+        private static Func<IAbie> DeferredABIEResolver(IDocLibrary docLibrary, string abieName)
         {
             return () => docLibrary.ElementByName(abieName);
         }

@@ -107,7 +107,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             schema.Items.Add(root);
         }
 
-        private static void AddRootTypeDefinition(XmlSchema schema, IAbie abie, GeneratorContext context, IDOCLibrary docLibrary)
+        private static void AddRootTypeDefinition(XmlSchema schema, IAbie abie, GeneratorContext context, IDocLibrary docLibrary)
         {
             XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie, NSPREFIX_BIE);
             XmlSchemaElement element;
@@ -174,7 +174,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
         }
 
-        private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IAbie abie, GeneratorContext context, IDOCLibrary docLibrary)
+        private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IAbie abie, GeneratorContext context, IDocLibrary docLibrary)
         {
             IList<IAbie> temp = new List<IAbie>(docLibrary.Elements);
 
@@ -223,7 +223,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 
         }
 
-        private static void AddImports(XmlSchema schema, GeneratorContext context, IDOCLibrary docLibrary)
+        private static void AddImports(XmlSchema schema, GeneratorContext context, IDocLibrary docLibrary)
         {
             if (context.Annotate)
             {
@@ -237,7 +237,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }            
         }
 
-        private static void AddIncludes(XmlSchema schema, GeneratorContext context, IDOCLibrary docLibrary)
+        private static void AddIncludes(XmlSchema schema, GeneratorContext context, IDocLibrary docLibrary)
         {
             foreach (SchemaInfo si in context.Schemas)
             {

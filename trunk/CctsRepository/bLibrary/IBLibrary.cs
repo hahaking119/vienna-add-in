@@ -18,7 +18,7 @@ namespace CctsRepository.bLibrary
         IEnumerable<ICcLibrary> GetCcLibraries();
         IEnumerable<IBdtLibrary> GetBdtLibraries();
         IEnumerable<IBieLibrary> GetBieLibraries();
-        IEnumerable<IDOCLibrary> GetDocLibraries();
+        IEnumerable<IDocLibrary> GetDocLibraries();
 
         IBLibrary CreateBLibrary(BLibrarySpec spec);
         ICdtLibrary CreateCDTLibrary(CdtLibrarySpec spec);
@@ -27,7 +27,7 @@ namespace CctsRepository.bLibrary
         IBieLibrary CreateBIELibrary(BieLibrarySpec spec);
         IPrimLibrary CreatePRIMLibrary(PrimLibrarySpec spec);
         IEnumLibrary CreateENUMLibrary(EnumLibrarySpec spec);
-        IDOCLibrary CreateDOCLibrary(DocLibrarySpec spec);
+        IDocLibrary CreateDOCLibrary(DocLibrarySpec spec);
         int Id { get; }
         string Name { get; }
         IBLibrary Parent { get; }

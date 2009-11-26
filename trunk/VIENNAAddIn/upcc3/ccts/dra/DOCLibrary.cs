@@ -14,14 +14,14 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class DOCLibrary : BusinessLibrary, IDOCLibrary
+    internal class DOCLibrary : BusinessLibrary, IDocLibrary
     {
         public DOCLibrary(CCRepository repository, Package package)
             : base(repository, package)
         {
         }
 
-        #region IDOCLibrary Members
+        #region IDocLibrary Members
 
         public IEnumerable<IAbie> RootElements
         {

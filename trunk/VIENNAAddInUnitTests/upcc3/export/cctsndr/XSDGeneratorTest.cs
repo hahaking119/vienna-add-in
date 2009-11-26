@@ -135,7 +135,7 @@ Actual output file: {2}",
         [Test]
         public void TestBDTSchemaGenerator()
         {
-            var docLibraryMock = new Mock<IDOCLibrary>();
+            var docLibraryMock = new Mock<IDocLibrary>();
             docLibraryMock.SetupGet(l => l.VersionIdentifier).Returns("2");
 
             var ccRepository = new CCRepository(new EARepository2());
@@ -151,7 +151,7 @@ Actual output file: {2}",
         [Test]
         public void TestBIESchemaGenerator()
         {
-            var docLibraryMock = new Mock<IDOCLibrary>();
+            var docLibraryMock = new Mock<IDocLibrary>();
             docLibraryMock.SetupGet(l => l.VersionIdentifier).Returns("2");
 
             var ccRepository = new CCRepository(new EARepository2());

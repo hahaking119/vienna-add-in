@@ -151,7 +151,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return CDTLibrary;
             }
-            if (typeof (T) == typeof (IDOCLibrary))
+            if (typeof (T) == typeof (IDocLibrary))
             {
                 return DOCLibrary;
             }

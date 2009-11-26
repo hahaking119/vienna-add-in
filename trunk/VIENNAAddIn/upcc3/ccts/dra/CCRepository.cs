@@ -108,11 +108,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (IBieLibrary) new BIELibrary(this, p);
         }
 
-        public IEnumerable<IDOCLibrary> GetDocLibraries()
+        public IEnumerable<IDocLibrary> GetDocLibraries()
         {
             return from p in ContainedPackages
                    where p.IsDOCLibrary()
-                   select (IDOCLibrary) new DOCLibrary(this, p);
+                   select (IDocLibrary) new DOCLibrary(this, p);
         }
 
         public IBLibrary GetBLibraryById(int id)
@@ -157,7 +157,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new BIELibrary(this, package);
         }
 
-        public IDOCLibrary GetDocLibraryById(int id)
+        public IDocLibrary GetDocLibraryById(int id)
         {
             Package package = eaRepository.GetPackageByID(id);
             return package == null ? null : new DOCLibrary(this, package);
@@ -241,7 +241,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new BIELibrary(this, package);
         }
 
-        public IDOCLibrary GetDocLibraryByPath(Path path)
+        public IDocLibrary GetDocLibraryByPath(Path path)
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new DOCLibrary(this, package);

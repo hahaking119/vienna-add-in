@@ -77,7 +77,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return library;
         }
 
-        private IDOCLibrary ShouldContainDocLibrary(string name)
+        private IDocLibrary ShouldContainDocLibrary(string name)
         {
             var library = ccRepository.GetDocLibraryByPath((Path) "test"/"bLibrary"/name);
             Assert.That(library, Is.Not.Null, "DOCLibrary '" + name + "' not generated");
@@ -91,7 +91,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return abie;
         }
 
-        private static IAbie ShouldContainABIE(IDOCLibrary docLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
+        private static IAbie ShouldContainABIE(IDocLibrary docLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
         {
             IAbie abie = docLibrary.ElementByName(name);
             VerifyABIE(name, abie, accName, bbieNames, asbieDescriptors);

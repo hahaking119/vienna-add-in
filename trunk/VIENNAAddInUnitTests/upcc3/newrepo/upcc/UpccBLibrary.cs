@@ -118,7 +118,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IDOCLibrary> GetDocLibraries()
+        public IEnumerable<IDocLibrary> GetDocLibraries()
         {
             throw new NotImplementedException();
         }
@@ -158,7 +158,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public IDOCLibrary CreateDOCLibrary(DocLibrarySpec spec)
+        public IDocLibrary CreateDOCLibrary(DocLibrarySpec spec)
         {
             throw new NotImplementedException();
         }
