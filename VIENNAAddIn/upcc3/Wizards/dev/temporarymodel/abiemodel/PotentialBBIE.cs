@@ -13,6 +13,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             Name = name;
             Checked = false;
+            PotentialBDTs = new Dictionary<string, PotentialBDT>();
         }
     }
 }
