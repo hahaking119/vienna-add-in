@@ -97,7 +97,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         }
 
 
-        public TemporaryABIEModel(ICCRepository x)
+        public TemporaryABIEModel(ICctsRepository x)
         {
             
         }

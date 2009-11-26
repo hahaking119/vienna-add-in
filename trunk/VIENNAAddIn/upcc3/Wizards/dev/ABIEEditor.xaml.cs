@@ -26,10 +26,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <summary>
         /// Constructor for ABIE creation wizard
         /// </summary>
-        /// <param name="ccRepository">The current repository</param>
-        public ABIEEditor(ICCRepository ccRepository)
+        /// <param name="cctsRepository">The current repository</param>
+        public ABIEEditor(ICctsRepository cctsRepository)
         {
-            tempModel = new TemporaryABIEModel(ccRepository);
+            tempModel = new TemporaryABIEModel(cctsRepository);
 
             InitializeComponent();
 
@@ -50,11 +50,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <summary>
         /// Constructor for ABIE modification wizard
         /// </summary>
-        /// <param name="ccRepository">The current repository</param>
+        /// <param name="cctsRepository">The current repository</param>
         /// <param name="abie"></param>
-        public ABIEEditor(ICCRepository ccRepository, IAbie abie)
+        public ABIEEditor(ICctsRepository cctsRepository, IAbie abie)
         {
-            tempModel = new TemporaryABIEModel(ccRepository);
+            tempModel = new TemporaryABIEModel(cctsRepository);
             //cache.PrepareForABIE(abie);
 
             InitializeComponent();
@@ -67,7 +67,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="context"></param>
         public static void ShowForm(AddInContext context)
         {
-            new ABIEEditor(context.CCRepository).Show();
+            new ABIEEditor(context.CctsRepository).Show();
         }
 
         /// <summary>

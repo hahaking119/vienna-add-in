@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private bool importStandardLibraries;
 
         private readonly Repository repository;
-        private readonly ICCRepository ccRepository;
+        private readonly ICctsRepository cctsRepository;
         private FileBasedVersionHandler versionHandler;
 
         #endregion
@@ -46,11 +46,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// which is part of the same class. 
         /// </summary>
         /// <param name="eaRepository">The current repository</param>
-        private UPCCModelGenerator(Repository eaRepository, ICCRepository ccRepository)
+        private UPCCModelGenerator(Repository eaRepository, ICctsRepository cctsRepository)
         {
             InitializeComponent();
             repository = eaRepository;
-            this.ccRepository = ccRepository;
+            this.cctsRepository = cctsRepository;
             WindowLoaded();
         }
 
@@ -63,7 +63,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         ///</param>
         public static void ShowForm(AddInContext context)
         {
-            new UPCCModelGenerator(context.EARepository, context.CCRepository).ShowDialog();
+            new UPCCModelGenerator(context.EARepository, context.CctsRepository).ShowDialog();
         }
 
         #region Convenience Methods
@@ -436,7 +436,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
             GatherUserInput();
 
-            ModelCreator creator = new ModelCreator(repository, ccRepository);
+            ModelCreator creator = new ModelCreator(repository, cctsRepository);
             creator.StatusChanged += OnStatusChanged;
 
             if (checkboxImportStandardLibraries.IsChecked == true)

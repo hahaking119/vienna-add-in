@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     public class ModelCreator
     {
         private readonly Repository repository;
-        private ICCRepository ccRepository;
+        private ICctsRepository cctsRepository;
 
         ///<summary>
         /// The constructor of the ModelCreator requires one input parameter specifying the EA 
@@ -46,11 +46,11 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///<param name="eaRepository">
         /// An EA repository representing the repository that the ModelCreator operates on. 
         /// </param>
-        ///<param name="ccRepository"></param>
-        public ModelCreator(Repository eaRepository, ICCRepository ccRepository)
+        ///<param name="cctsRepository"></param>
+        public ModelCreator(Repository eaRepository, ICctsRepository cctsRepository)
         {
             repository = eaRepository;
-            this.ccRepository = ccRepository;
+            this.cctsRepository = cctsRepository;
         }
 
         #region Class Methods
@@ -144,7 +144,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             var emptyModelPath = GetEmptyModelPath();
 
             SendStatusChanged("Creating bLibrary.");
-            return ccRepository.CreateRootBLibrary(emptyModelPath, new BLibrarySpec
+            return cctsRepository.CreateRootBLibrary(emptyModelPath, new BLibrarySpec
                                                           {
                                                               Name = bLibraryName
                                                           });

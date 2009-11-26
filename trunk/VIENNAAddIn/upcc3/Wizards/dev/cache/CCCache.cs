@@ -21,7 +21,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
     public class CCCache
     {
         private static CCCache ClassInstance;
-        private readonly ICCRepository ccRepository;
+        private readonly ICctsRepository cctsRepository;
         private List<CacheItemBDTLibrary> bdtLibraries;
         private List<CacheItemBIELibrary> bieLibraries;
         private List<CacheItemCCLibrary> ccLibraries;
@@ -31,25 +31,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Saves Representations of EA Elements in lists and implements "Lazy Loading" from repository
         /// </summary>
         /// <param name="repository">The Repository where Elements are stored in.</param>
-        private CCCache(ICCRepository repository)
+        private CCCache(ICctsRepository repository)
         {
             cdtLibraries = null;
             ccLibraries = null;
             bdtLibraries = null;
             bieLibraries = null;
-            ccRepository = repository;
+            cctsRepository = repository;
         }
 
         /// <summary>
         /// Create a new Instance of CCCache automatically
         /// </summary>
-        /// <param name="ccRepository">The repository where Elements are stored in.</param>
+        /// <param name="cctsRepository">The repository where Elements are stored in.</param>
         /// <returns>An instance of CCCache.</returns>
-        public static CCCache GetInstance(ICCRepository ccRepository)
+        public static CCCache GetInstance(ICctsRepository cctsRepository)
         {
             if (ClassInstance == null)
             {
-                ClassInstance = new CCCache(ccRepository);
+                ClassInstance = new CCCache(cctsRepository);
             }
             return ClassInstance;
         }
@@ -63,7 +63,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             if (ccLibraries == null)
             {
                 ccLibraries = new List<CacheItemCCLibrary>();
-                foreach (ICcLibrary ccLibrary in ccRepository.GetCcLibraries())
+                foreach (ICcLibrary ccLibrary in cctsRepository.GetCcLibraries())
                 {
                     ccLibraries.Add(new CacheItemCCLibrary(ccLibrary));
                 }
@@ -81,7 +81,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             {
                 cdtLibraries = new List<CacheItemCDTLibrary>();
 
-                foreach (ICDTLibrary cdtLibrary in ccRepository.GetCdtLibraries())
+                foreach (ICDTLibrary cdtLibrary in cctsRepository.GetCdtLibraries())
                 {
                     cdtLibraries.Add(new CacheItemCDTLibrary(cdtLibrary));
                 }
@@ -104,7 +104,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             if (bdtLibraries == null)
             {
                 bdtLibraries = new List<CacheItemBDTLibrary>();
-                foreach (IBdtLibrary bdtLibrary in ccRepository.GetBdtLibraries())
+                foreach (IBdtLibrary bdtLibrary in cctsRepository.GetBdtLibraries())
                 {
                     bdtLibraries.Add(new CacheItemBDTLibrary(bdtLibrary));
                 }
@@ -123,7 +123,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             {
                 Debug.WriteLine("BIE Cache Load triggered.");
                 bieLibraries = new List<CacheItemBIELibrary>();
-                foreach (IBieLibrary bieLibrary in ccRepository.GetBieLibraries())
+                foreach (IBieLibrary bieLibrary in cctsRepository.GetBieLibraries())
                 {
                     bieLibraries.Add(new CacheItemBIELibrary(bieLibrary));
                 }
@@ -381,7 +381,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
     public class SimplifiedCCCache
     {
         private static SimplifiedCCCache ClassInstance;
-        private readonly ICCRepository ccRepository;
+        private readonly ICctsRepository cctsRepository;
         private List<CacheItemBDTLibrary> bdtLibraries;
         private List<CacheItemBIELibrary> bieLibraries;
         private List<CacheItemCCLibrary> ccLibraries;
@@ -391,25 +391,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Saves Representations of EA Elements in lists and implements "Lazy Loading" from repository
         /// </summary>
         /// <param name="repository">The Repository where Elements are stored in.</param>
-        private SimplifiedCCCache(ICCRepository repository)
+        private SimplifiedCCCache(ICctsRepository repository)
         {
             cdtLibraries = null;
             ccLibraries = null;
             bdtLibraries = null;
             bieLibraries = null;
-            ccRepository = repository;
+            cctsRepository = repository;
         }
 
         /// <summary>
         /// Create a new Instance of CCCache automatically
         /// </summary>
-        /// <param name="ccRepository">The repository where Elements are stored in.</param>
+        /// <param name="cctsRepository">The repository where Elements are stored in.</param>
         /// <returns>An instance of CCCache.</returns>
-        public static SimplifiedCCCache GetInstance(ICCRepository ccRepository)
+        public static SimplifiedCCCache GetInstance(ICctsRepository cctsRepository)
         {
             if (ClassInstance == null)
             {
-                ClassInstance = new SimplifiedCCCache(ccRepository);
+                ClassInstance = new SimplifiedCCCache(cctsRepository);
             }
             return ClassInstance;
         }
@@ -423,7 +423,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             if (ccLibraries == null)
             {
                 ccLibraries = new List<CacheItemCCLibrary>();
-                foreach (ICcLibrary ccLibrary in ccRepository.GetCcLibraries())
+                foreach (ICcLibrary ccLibrary in cctsRepository.GetCcLibraries())
                 {
                     ccLibraries.Add(new CacheItemCCLibrary(ccLibrary));
                 }
@@ -441,7 +441,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             {
                 cdtLibraries = new List<CacheItemCDTLibrary>();
 
-                foreach (ICDTLibrary cdtLibrary in ccRepository.GetCdtLibraries())
+                foreach (ICDTLibrary cdtLibrary in cctsRepository.GetCdtLibraries())
                 {
                     cdtLibraries.Add(new CacheItemCDTLibrary(cdtLibrary));
                 }
@@ -464,7 +464,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             if (bdtLibraries == null)
             {
                 bdtLibraries = new List<CacheItemBDTLibrary>();
-                foreach (IBdtLibrary bdtLibrary in ccRepository.GetBdtLibraries())
+                foreach (IBdtLibrary bdtLibrary in cctsRepository.GetBdtLibraries())
                 {
                     bdtLibraries.Add(new CacheItemBDTLibrary(bdtLibrary));
                 }
@@ -483,7 +483,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             {
                 Debug.WriteLine("BIE Cache Load triggered.");
                 bieLibraries = new List<CacheItemBIELibrary>();
-                foreach (IBieLibrary bieLibrary in ccRepository.GetBieLibraries())
+                foreach (IBieLibrary bieLibrary in cctsRepository.GetBieLibraries())
                 {
                     bieLibraries.Add(new CacheItemBIELibrary(bieLibrary));
                 }

@@ -20,12 +20,12 @@ namespace VIENNAAddIn.upcc3.Wizards
     /// </summary>
     public partial class XsdImporterForm : Window
     {
-        private readonly ICCRepository ccRepository;
+        private readonly ICctsRepository cctsRepository;
         private readonly MultipleFilesSelector mappingFilesSelector;
 
-        public XsdImporterForm(ICCRepository ccRepository)
+        public XsdImporterForm(ICctsRepository cctsRepository)
         {
-            this.ccRepository = ccRepository;
+            this.cctsRepository = cctsRepository;
 
             InitializeComponent();
 
@@ -38,7 +38,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowForm(AddInContext context)
         {
-            new XsdImporterForm(context.CCRepository).Show();
+            new XsdImporterForm(context.CctsRepository).Show();
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
@@ -62,10 +62,10 @@ namespace VIENNAAddIn.upcc3.Wizards
             switch (tabControl1.SelectedIndex)
             {
                 case 0: // ebInterface
-                    new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(ccRepository);
+                    new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(cctsRepository);
                     break;
                 case 1: // CCTS
-                    XSDImporter.ImportSchemas(new ImporterContext(ccRepository, cctsSchemaFileSelector.FileName));
+                    XSDImporter.ImportSchemas(new ImporterContext(cctsRepository, cctsSchemaFileSelector.FileName));
                     break;
             }
 

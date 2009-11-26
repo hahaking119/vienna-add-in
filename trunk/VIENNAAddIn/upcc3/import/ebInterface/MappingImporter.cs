@@ -38,10 +38,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// 
         /// The newly generated libraries (BDT, BIE, DOC) will be added to the CCLibrary's parent bLibrary.
         /// </summary>
-        /// <param name="ccRepository"></param>
-        public void ImportMapping(ICCRepository ccRepository)
+        /// <param name="cctsRepository"></param>
+        public void ImportMapping(ICctsRepository cctsRepository)
         {
-            var ccLibrary = ccRepository.GetCcLibraries().FirstOrDefault();
+            var ccLibrary = cctsRepository.GetCcLibraries().FirstOrDefault();
             if (ccLibrary == null)
             {
                 throw new Exception("No CCLibary found in repository.");

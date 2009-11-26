@@ -38,7 +38,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private TextBox editboxBDTName;
         private bool editboxBDTNameEsc;
         private int mouseDownPosX;
-        private ICCRepository repository;
+        private ICctsRepository repository;
         private string selectedACCName;
         private string selectedASCCName;
         private string selectedBBIEName;
@@ -62,7 +62,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="repository">
         /// The CCTS repository that the wizard operates on. 
         ///</param>
-        private ABIEWizardForm(ICCRepository repository)
+        private ABIEWizardForm(ICctsRepository repository)
         {
             this.repository = repository;
 
@@ -83,7 +83,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="element">
         /// The ABIE to be modified. 
         ///</param>
-        private ABIEWizardForm(ICCRepository repository, Element element)
+        private ABIEWizardForm(ICctsRepository repository, Element element)
         {
             this.repository = repository;
 
@@ -136,7 +136,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowABIEWizard(AddInContext context)
         {
-            new ABIEWizardForm(context.CCRepository).Show();
+            new ABIEWizardForm(context.CctsRepository).Show();
         }
 
         ///<summary>
@@ -146,7 +146,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="context"></param>
         public static void ShowModifyABIEWizard(AddInContext context)
         {
-            new ABIEWizardForm(context.CCRepository, (Element) context.SelectedItem).Show();
+            new ABIEWizardForm(context.CctsRepository, (Element) context.SelectedItem).Show();
         }
 
         #endregion
