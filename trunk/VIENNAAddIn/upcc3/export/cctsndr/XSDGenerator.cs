@@ -144,11 +144,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<ICDT> CollectCDTs(GeneratorContext context)
+        public static IEnumerable<ICdt> CollectCDTs(GeneratorContext context)
         {
-            foreach (ICDTLibrary cdtLibrary in context.Repository.GetCdtLibraries())
+            foreach (ICdtLibrary cdtLibrary in context.Repository.GetCdtLibraries())
             {
-                foreach (ICDT cdt in cdtLibrary.Elements)
+                foreach (ICdt cdt in cdtLibrary.Elements)
                 {
                     yield return cdt;
                 }

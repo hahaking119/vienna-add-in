@@ -38,7 +38,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
         public void CreateBDT()
         {
             string bdtName = GetBdtNameFromXsdType();
-            ICDT cdt = Context.CDTLibrary.ElementByName(GetDataTypeTerm());
+            ICdt cdt = Context.CDTLibrary.ElementByName(GetDataTypeTerm());
             var bdtSpec = new BdtSpec
                               {
                                   BasedOn = cdt,

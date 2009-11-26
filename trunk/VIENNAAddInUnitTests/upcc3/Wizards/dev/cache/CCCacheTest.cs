@@ -41,7 +41,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(cctsRepository);
 
-            List<ICDTLibrary> cdtLibraries = ccCache.GetCDTLibraries();
+            List<ICdtLibrary> cdtLibraries = ccCache.GetCDTLibraries();
 
             Assert.That(cdtLibraries, Is.Not.Null);
             Assert.That(cdtLibraries.Count, Is.EqualTo(1));
@@ -84,7 +84,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         public void ShouldGetAllCDTsFromCDTLibrary()
         {
             CCCache ccCache = CCCache.GetInstance(cctsRepository);
-            List<ICDT> cdts = ccCache.GetCDTsFromCDTLibrary("cdtlib1");
+            List<ICdt> cdts = ccCache.GetCDTsFromCDTLibrary("cdtlib1");
             Assert.That(cdts.Count, Is.EqualTo(4));
         }
 
@@ -93,7 +93,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(cctsRepository);
 
-            ICDT cdt = ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
+            ICdt cdt = ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
 
             Assert.That(cdt, Is.Not.Null);
             Assert.That(cdt.Name, Is.EqualTo("Text"));            

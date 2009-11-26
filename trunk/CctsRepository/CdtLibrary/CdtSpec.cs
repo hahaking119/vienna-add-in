@@ -11,9 +11,9 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository.CdtLibrary
 {
-    public class CDTSpec
+    public class CdtSpec
     {
-        public CDTSpec(ICDT cdt)
+        public CdtSpec(ICdt cdt)
         {
             Name = cdt.Name;
             DictionaryEntryName = cdt.DictionaryEntryName;
@@ -24,21 +24,21 @@ namespace CctsRepository.CdtLibrary
             BusinessTerms = new List<string>(cdt.BusinessTerms);
 
             UsageRules = new List<string>(cdt.UsageRules);
-            CON = new CDTContentComponentSpec(cdt.CON);
-            SUPs = new List<CDTSupplementaryComponentSpec>(cdt.SUPs.Convert(sup => new CDTSupplementaryComponentSpec(sup)));
+            CON = new CdtConSpec(cdt.CON);
+            SUPs = new List<CdtSupSpec>(cdt.SUPs.Convert(sup => new CdtSupSpec(sup)));
         }
 
-        public CDTSpec()
+        public CdtSpec()
         {
-            SUPs = new List<CDTSupplementaryComponentSpec>();
+            SUPs = new List<CdtSupSpec>();
         }
 
-        public ICDT IsEquivalentTo { get; set; }
+        public ICdt IsEquivalentTo { get; set; }
 
         public IEnumerable<string> UsageRules { get; set; }
 
-        public List<CDTSupplementaryComponentSpec> SUPs { get; set; }
-        public CDTContentComponentSpec CON { get; set; }
+        public List<CdtSupSpec> SUPs { get; set; }
+        public CdtConSpec CON { get; set; }
         public string Name { get; set; }
         public string DictionaryEntryName { get; set; }
         public string Definition { get; set; }

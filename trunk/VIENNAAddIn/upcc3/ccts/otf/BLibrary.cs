@@ -40,7 +40,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ICDTLibrary> GetCdtLibraries()
+        public IEnumerable<ICdtLibrary> GetCdtLibraries()
         {
             throw new NotImplementedException();
         }
@@ -70,7 +70,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public ICDTLibrary CreateCDTLibrary(CdtLibrarySpec spec)
+        public ICdtLibrary CreateCDTLibrary(CdtLibrarySpec spec)
         {
             throw new NotImplementedException();
         }

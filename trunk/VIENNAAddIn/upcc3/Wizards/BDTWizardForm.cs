@@ -247,7 +247,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             if ((cache.PathIsValid(CacheConstants.PATH_CDTs, new[] {selectedCDTLName, selectedCDTName})) &&
                 (cache.PathIsValid(CacheConstants.PATH_BDTLs, new[] {selectedBDTLName})))
             {
-                ICDT cdt = repository.GetCdtById(cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].Id);
+                ICdt cdt = repository.GetCdtById(cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].Id);
                 IBdtLibrary bdtl = repository.GetBdtLibraryById(cache.BDTLs[selectedBDTLName].Id);
 
                 BdtSpec bdtSpec = BdtSpec.CloneCDT(cdt, textBDTName.Text);

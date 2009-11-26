@@ -55,7 +55,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public ICDT BasedOn
+        public ICdt BasedOn
         {
             get
             {

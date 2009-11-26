@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     ///<summary>
     ///</summary>
-    public class CDTLibrary : BusinessLibrary, ICDTLibrary
+    public class CDTLibrary : BusinessLibrary, ICdtLibrary
     {
         ///<summary>
         ///</summary>
@@ -26,9 +26,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
         }
 
-        #region ICDTLibrary Members
+        #region ICdtLibrary Members
 
-        public IEnumerable<ICDT> Elements
+        public IEnumerable<ICdt> Elements
         {
             get
             {
@@ -42,16 +42,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public ICDT ElementByName(string name)
+        public ICdt ElementByName(string name)
         {
-            foreach (ICDT element in Elements)
+            foreach (ICdt element in Elements)
             {
                 if (((CDT) element).Name == name)
                 {
                     return element;
                 }
             }
-            return default(ICDT);
+            return default(ICdt);
         }
 
         ///<summary>
@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public ICDT CreateElement(CDTSpec spec)
+        public ICdt CreateElement(CdtSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.CDT;
@@ -77,7 +77,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public ICDT UpdateElement(ICDT element, CDTSpec spec)
+        public ICdt UpdateElement(ICdt element, CdtSpec spec)
         {
             ((CDT) element).Update(spec);
             return element;

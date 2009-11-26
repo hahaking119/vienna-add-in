@@ -20,7 +20,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         string RootSchemaFileName { get; }
         XmlSchema BDTSchema { get; }
         string BIESchemaPath { get; }
-        ICDTLibrary CDTLibrary { get; }
+        ICdtLibrary CDTLibrary { get; }
         ICcLibrary CCLibrary { get; }
         IBdtLibrary BDTLibrary { get; }
         IBieLibrary BIELibrary { get; }
@@ -79,7 +79,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
         public string BIESchemaPath { get; private set; }
 
-        public ICDTLibrary CDTLibrary { get; private set; }
+        public ICdtLibrary CDTLibrary { get; private set; }
         
         public ICcLibrary CCLibrary { get; private set; }
 

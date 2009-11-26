@@ -30,7 +30,7 @@ namespace CctsRepository.CcLibrary
         public string UpperBound { get; set; }
         public string LowerBound { get; set; }
 
-        public ICDT Type { get; set; }
+        public ICdt Type { get; set; }
         public IEnumerable<string> UsageRules { get; set; }
         public string Name { get; set; }
         public string DictionaryEntryName { get; set; }

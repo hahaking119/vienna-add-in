@@ -29,7 +29,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IBcc Members
 
-        public ICDT Cdt
+        public ICdt Cdt
         {
             get { return repository.GetCdtById(attribute.ClassifierID); }
         }

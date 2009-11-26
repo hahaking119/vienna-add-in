@@ -123,7 +123,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             if ((CON.Name.Equals("") && SUPs.Count < 1))
             {
                 int cdtId = Id;
-                ICDT cdt = repository.GetCdtById(cdtId);
+                ICdt cdt = repository.GetCdtById(cdtId);
 
                 CON.Name = cdt.CON.Name;
                 CON.Id = cdt.CON.Id;
@@ -162,9 +162,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             if (CDTs.Count == 0)
             {
-                ICDTLibrary cdtl = repository.GetCdtLibraryById(Id);
+                ICdtLibrary cdtl = repository.GetCdtLibraryById(Id);
 
-                foreach (ICDT cdt in cdtl.Elements)
+                foreach (ICdt cdt in cdtl.Elements)
                 {
                     if (CDTs.ContainsKey(cdt.Name))
                     {
@@ -731,7 +731,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public void LoadCDTLs(ICctsRepository repository)
         {
-            foreach (ICDTLibrary cdtl in repository.GetCdtLibraries())
+            foreach (ICdtLibrary cdtl in repository.GetCdtLibraries())
             {                
                 if (CDTLs.ContainsKey(cdtl.Name))
                 {

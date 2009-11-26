@@ -45,7 +45,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         private ICctsRepository cctsRepository;
         private Repository eaRepository;
 
-        private static void AssertCDTSUPs(ICDT expectedCDT, ICDT actualCDT)
+        private static void AssertCDTSUPs(ICdt expectedCDT, ICdt actualCDT)
         {
             Assert.AreEqual(expectedCDT.SUPs.Count(), actualCDT.SUPs.Count());
             var actualSUPs = actualCDT.SUPs.GetEnumerator();
@@ -56,7 +56,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             }
         }
 
-        private static void AssertCDTSUP(ICDTSupplementaryComponent expectedSUP, ICDT actualCDT, ICDTSupplementaryComponent actualSUP)
+        private static void AssertCDTSUP(ICdtSup expectedSUP, ICdt actualCDT, ICdtSup actualSUP)
         {
             Assert.AreSame(actualCDT, actualSUP.CDT);
             Assert.AreEqual(expectedSUP.Name, actualSUP.Name);
@@ -73,10 +73,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(expectedSUP.BusinessTerms, actualSUP.BusinessTerms);
         }
 
-        private static void AssertCDTCON(ICDT expectedCDT, ICDT actualBDT)
+        private static void AssertCDTCON(ICdt expectedCDT, ICdt actualBDT)
         {
-            ICDTContentComponent expectedCON = expectedCDT.CON;
-            ICDTContentComponent actualCON = actualBDT.CON;
+            ICdtCon expectedCON = expectedCDT.CON;
+            ICdtCon actualCON = actualBDT.CON;
             Assert.AreSame(actualBDT, actualCON.CDT);
             Assert.AreEqual("Content", actualCON.Name);
             Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
@@ -92,18 +92,18 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(expectedCON.BusinessTerms, actualCON.BusinessTerms);
         }
 
-        private static void AssertBDTSUPs(ICDT cdt, IBdt bdt)
+        private static void AssertBDTSUPs(ICdt cdt, IBdt bdt)
         {
             Assert.AreEqual(cdt.SUPs.Count(), bdt.SUPs.Count());
             IEnumerator<IBdtSup> bdtSups = bdt.SUPs.GetEnumerator();
-            foreach (ICDTSupplementaryComponent cdtSup in cdt.SUPs)
+            foreach (ICdtSup cdtSup in cdt.SUPs)
             {
                 bdtSups.MoveNext();
                 AssertBDTSUP(cdtSup, bdt, bdtSups.Current);
             }
         }
 
-        private static void AssertBDTSUP(ICDTSupplementaryComponent cdtSUP, IBdt expectedBDT, IBdtSup bdtSUP)
+        private static void AssertBDTSUP(ICdtSup cdtSUP, IBdt expectedBDT, IBdtSup bdtSUP)
         {
             Assert.AreEqual(cdtSUP.Name, bdtSUP.Name);
             Assert.AreSame(expectedBDT, bdtSUP.BDT);
@@ -120,9 +120,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(cdtSUP.BusinessTerms, bdtSUP.BusinessTerms);
         }
 
-        private static void AssertBDTCON(ICDT cdt, IBdt bdt)
+        private static void AssertBDTCON(ICdt cdt, IBdt bdt)
         {
-            ICDTContentComponent expectedCON = cdt.CON;
+            ICdtCon expectedCON = cdt.CON;
             IBdtCon actualCON = bdt.CON;
             Assert.AreSame(bdt, actualCON.BDT);
             Assert.AreEqual("Content", actualCON.Name);
@@ -447,7 +447,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             var cdtLibrary = cctsRepository.GetCdtLibraries().First();
 
-            var cdtSpec = new CDTSpec(cdtDate)
+            var cdtSpec = new CdtSpec(cdtDate)
                           {
                               Name = "Datum",
                               IsEquivalentTo = cdtDate
@@ -743,14 +743,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         [Test]
         public void TestFindCDTs()
         {
-            foreach (ICDTLibrary library in cctsRepository.GetCdtLibraries())
+            foreach (ICdtLibrary library in cctsRepository.GetCdtLibraries())
             {
-                IEnumerable<IGrouping<IBasicType, ICDT>> cdtByType = from cdt in library.Elements
+                IEnumerable<IGrouping<IBasicType, ICdt>> cdtByType = from cdt in library.Elements
                                                                      group cdt by cdt.CON.BasicType;
                 foreach (var cdtGroup in cdtByType)
                 {
                     Console.WriteLine(cdtGroup.Key);
-                    foreach (ICDT cdt in cdtGroup)
+                    foreach (ICdt cdt in cdtGroup)
                     {
                         Console.WriteLine("  " + cdt.Name);
                     }
@@ -775,14 +775,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IPRIM decimalType = prims[0];
             Assert.AreEqual("Decimal", decimalType.Name);
 
-            ICDTLibrary cdtLib1 = cctsRepository.GetCdtLibraries().First();
+            ICdtLibrary cdtLib1 = cctsRepository.GetCdtLibraries().First();
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("urn:test:blib1:cdtlib1", cdtLib1.BaseURN);
-            var cdts = new List<ICDT>(cdtLib1.Elements);
+            var cdts = new List<ICdt>(cdtLib1.Elements);
             Assert.AreEqual(4, cdts.Count);
-            ICDT date = cdts[1];
+            ICdt date = cdts[1];
             Assert.AreEqual(stringType.Id, date.CON.BasicType.Id);
-            var dateSups = new List<ICDTSupplementaryComponent>(date.SUPs);
+            var dateSups = new List<ICdtSup>(date.SUPs);
             Assert.AreEqual(1, dateSups.Count);
             var dateFormat = dateSups[0];
             Assert.AreEqual("Format", dateFormat.Name);

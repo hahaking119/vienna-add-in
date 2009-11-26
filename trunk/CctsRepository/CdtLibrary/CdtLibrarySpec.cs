@@ -4,7 +4,7 @@ namespace CctsRepository.CdtLibrary
 {
     public class CdtLibrarySpec
     {
-        public CdtLibrarySpec(ICDTLibrary cdtLibrary)
+        public CdtLibrarySpec(ICdtLibrary cdtLibrary)
         {
             Name = cdtLibrary.Name;
             Status = cdtLibrary.Status;

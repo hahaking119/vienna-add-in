@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<param name="cdts"></param>
-        public static void GenerateXSD(GeneratorContext context, IEnumerable<ICDT> cdts)
+        public static void GenerateXSD(GeneratorContext context, IEnumerable<ICdt> cdts)
         {
             var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
@@ -23,9 +23,9 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             schema.Namespaces.Add("ccts", "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
             schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
 
-            foreach (ICDT cdt in cdts)
+            foreach (ICdt cdt in cdts)
             {
-                var sups = new List<ICDTSupplementaryComponent>(cdt.SUPs);
+                var sups = new List<ICdtSup>(cdt.SUPs);
                 if (sups.Count == 0)
                 {
                     var simpleType = new XmlSchemaSimpleType { Name = GetTypeName(cdt) };
@@ -52,7 +52,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                                                  {
                                                      BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType)
                                                  };
-                    foreach (ICDTSupplementaryComponent sup in sups)
+                    foreach (ICdtSup sup in sups)
                     {
                         var attribute = new XmlSchemaAttribute
                                         {
@@ -82,7 +82,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         
         }
 
-        private static XmlSchemaAnnotation GetAttributeAnnotation(ICDTSupplementaryComponent sup)
+        private static XmlSchemaAnnotation GetAttributeAnnotation(ICdtSup sup)
         {
             var xml = new XmlDocument();
             // Deviation from rule [R 9C95]: Generating only a subset of the defined annotations and added some additional annotations.
@@ -105,7 +105,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             return ann;
         }
 
-        private static XmlSchemaAnnotation GetTypeAnnotation(ICDT cdt)
+        private static XmlSchemaAnnotation GetTypeAnnotation(ICdt cdt)
         {
             var xml = new XmlDocument();
             // Deviation from rule [R BFE5]: Generating only a subset of the defined annotations and added some additional annotations.
@@ -148,13 +148,13 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             return new XmlQualifiedName(GetXSDType(basicType.Name), "http://www.w3.org/2001/XMLSchema");
         }
 
-        private static string GetAttributeName(ICDTSupplementaryComponent sup)
+        private static string GetAttributeName(ICdtSup sup)
         {
             string name = sup.Name + sup.BasicType.Name;
             return name.Replace(".", "");
         }
 
-        private static string GetTypeName(ICDT cdt)
+        private static string GetTypeName(ICdt cdt)
         {
             return cdt.Name + cdt.CON.BasicType.Name + "Type";
         }

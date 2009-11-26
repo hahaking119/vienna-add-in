@@ -17,7 +17,7 @@ namespace CctsRepository.BdtLibrary
         IEnumerable<IBdtSup> SUPs { get; }
 
         IBdt IsEquivalentTo { get; }
-        ICDT BasedOn { get; }
+        ICdt BasedOn { get; }
         IEnumerable<string> UsageRules { get; }
 
         ///<summary>
