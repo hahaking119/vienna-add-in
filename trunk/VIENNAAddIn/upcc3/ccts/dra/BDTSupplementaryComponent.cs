@@ -53,7 +53,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IBasicType BasicType
         {
-            get { return repository.GetIType(attribute.ClassifierID); }
+            get { return repository.GetBasicTypeById(attribute.ClassifierID); }
         }
 
         public string Definition

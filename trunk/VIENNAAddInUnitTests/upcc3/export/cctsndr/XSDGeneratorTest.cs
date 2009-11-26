@@ -168,7 +168,7 @@ Actual output file: {2}",
         public void TestGenerateSchemas()
         {
             var ccRepository = new CCRepository(new EARepository2());
-            var docLibrary = (IDOCLibrary) ccRepository.FindByPath((Path) "test model"/"bLibrary"/"DOCLibrary");
+            var docLibrary = ccRepository.GetDocLibraryByPath((Path) "test model"/"bLibrary"/"DOCLibrary");
             string outputDirectory = PathToTestResource(
                 "\\XSDGeneratorTest\\all");
             AddInSettings.LoadRegistryEntries();
@@ -182,7 +182,7 @@ Actual output file: {2}",
             using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
             {
                 var ccRepository = new CCRepository(tempFileBasedRepository);
-                var docLibrary = (IDOCLibrary) ccRepository.FindByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
+                var docLibrary = ccRepository.GetDocLibraryByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
                 var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", docLibrary, new List<IABIE>(docLibrary.RootElements));
                 RootSchemaGenerator.GenerateXSD(context);
                 Assert.AreEqual(1, context.Schemas.Count);
@@ -200,7 +200,7 @@ Actual output file: {2}",
             using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
             {
                 var ccRepository = new CCRepository(tempFileBasedRepository);
-                var docLibrary = (IDOCLibrary) ccRepository.FindByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
+                var docLibrary = ccRepository.GetDocLibraryByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
                 AddInSettings.LoadRegistryEntries();
                 var context = VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", docLibrary, new List<IABIE>(docLibrary.RootElements)));
                 Assert.AreEqual(5, context.Schemas.Count);

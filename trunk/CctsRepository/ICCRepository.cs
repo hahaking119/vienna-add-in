@@ -6,6 +6,8 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -39,11 +41,30 @@ namespace CctsRepository
         IBIELibrary GetBieLibraryById(int id);
         IDOCLibrary GetDocLibraryById(int id);
 
+        IPRIM GetPrimById(int id);
+        IENUM GetEnumById(int id);
         ICDT GetCdtById(int id);
         IACC GetAccById(int id);
         IBDT GetBdtById(int id);
         IABIE GetAbieById(int id);
 
-        object FindByPath(Path path);
+        IBLibrary GetBLibraryByPath(Path path);
+        IPRIMLibrary GetPrimLibraryByPath(Path path);
+        IENUMLibrary GetEnumLibraryByPath(Path path);
+        ICDTLibrary GetCdtLibraryByPath(Path path);
+        ICCLibrary GetCcLibraryByPath(Path path);
+        IBDTLibrary GetBdtLibraryByPath(Path path);
+        IBIELibrary GetBieLibraryByPath(Path path);
+        IDOCLibrary GetDocLibraryByPath(Path path);
+
+        IPRIM GetPrimByPath(Path path);
+        IENUM GetEnumByPath(Path path);
+        ICDT GetCdtByPath(Path path);
+        IACC GetAccByPath(Path path);
+        IBDT GetBdtByPath(Path path);
+        IABIE GetAbieByPath(Path path);
+
+        IEnumerable<Path> GetRootLocations();
+        IBLibrary CreateRootBLibrary(Path rootLocation, BLibrarySpec spec);
     }
 }

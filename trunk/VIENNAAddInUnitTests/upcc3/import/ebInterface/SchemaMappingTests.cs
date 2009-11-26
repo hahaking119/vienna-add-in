@@ -19,7 +19,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public void CreateExpectedSourceElementTree()
         {
             var ccRepository = new CCRepository(new MappingTestRepository());
-            ccl = (ICCLibrary) ccRepository.FindByPath((Path) "test"/"bLibrary"/"CCLibrary");
+            ccl = ccRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
             accAddress = ccl.ElementByName("Address");
             bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
 

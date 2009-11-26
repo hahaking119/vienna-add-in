@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CctsRepository;
 using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -19,12 +20,12 @@ namespace VIENNAAddIn.upcc3.Wizards
     /// </summary>
     public partial class XsdImporterForm : Window
     {
-        private readonly CCRepository ccRepository;
+        private readonly ICCRepository ccRepository;
         private readonly MultipleFilesSelector mappingFilesSelector;
 
-        public XsdImporterForm(Repository eaRepository)
+        public XsdImporterForm(ICCRepository ccRepository)
         {
-            ccRepository = new CCRepository(eaRepository);
+            this.ccRepository = ccRepository;
 
             InitializeComponent();
 
@@ -37,7 +38,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowForm(AddInContext context)
         {
-            new XsdImporterForm(context.EARepository).Show();
+            new XsdImporterForm(context.CCRepository).Show();
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)

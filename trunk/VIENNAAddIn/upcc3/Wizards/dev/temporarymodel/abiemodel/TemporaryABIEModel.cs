@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -96,7 +97,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         }
 
 
-        public TemporaryABIEModel(CCRepository x)
+        public TemporaryABIEModel(ICCRepository x)
         {
             
         }

@@ -148,7 +148,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldPrepareCCCacheForParticularABIE()
         {
-            var abiePerson = (IABIE)ccRepository.FindByPath(EARepositoryCCCache.PathToBIEPerson());
+            var abiePerson = ccRepository.GetAbieByPath(EARepositoryCCCache.PathToBIEPerson());
 
             var ccCache = CCCache.GetInstance(ccRepository);
 

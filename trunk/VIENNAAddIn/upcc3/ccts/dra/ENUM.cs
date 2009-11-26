@@ -92,7 +92,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 Connector connector = Connectors.FirstOrDefault(EAConnectorExtensions.IsIsEquivalentTo);
-                return connector != null ? repository.GetENUM(connector.SupplierID) : null;
+                return connector != null ? repository.GetEnumById(connector.SupplierID) : null;
             }
         }
 
