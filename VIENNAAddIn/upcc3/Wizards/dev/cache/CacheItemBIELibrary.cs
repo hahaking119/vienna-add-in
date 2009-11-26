@@ -5,11 +5,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemBIELibrary
     {
-        internal IBIELibrary bieLibrary { get; set; }
+        internal IBieLibrary bieLibrary { get; set; }
 
-        internal List<IABIE> abiesInLibrary { get; set; }
+        internal List<IAbie> abiesInLibrary { get; set; }
 
-        internal CacheItemBIELibrary(IBIELibrary library)
+        internal CacheItemBIELibrary(IBieLibrary library)
         {
             bieLibrary = library;
         }

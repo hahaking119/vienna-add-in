@@ -4,12 +4,12 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public class ASBIESpec
+    public class AsbieSpec
     {
         private AsbieAggregationKind aggregationKind = AsbieAggregationKind.Composite;
         private int associatedABIEId;
 
-        public ASBIESpec(IASBIE asbie)
+        public AsbieSpec(IAsbie asbie)
         {
             Name = asbie.Name;
             DictionaryEntryName = asbie.DictionaryEntryName;
@@ -26,7 +26,7 @@ namespace CctsRepository.BieLibrary
             AggregationKind = asbie.AggregationKind;
         }
 
-        public ASBIESpec()
+        public AsbieSpec()
         {
         }
 
@@ -48,7 +48,7 @@ namespace CctsRepository.BieLibrary
         /// <summary>
         /// Set a function to resolve the associated ACC.
         /// </summary>
-        public Func<IABIE> ResolveAssociatedABIE { get; set; }
+        public Func<IAbie> ResolveAssociatedABIE { get; set; }
 
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
@@ -68,9 +68,9 @@ namespace CctsRepository.BieLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public static ASBIESpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
+        public static AsbieSpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
         {
-            return new ASBIESpec
+            return new AsbieSpec
                    {
                        BusinessTerms = new List<string>(ascc.BusinessTerms),
                        Definition = ascc.Definition,
@@ -87,9 +87,9 @@ namespace CctsRepository.BieLibrary
                    };
         }
 
-        public static ASBIESpec CloneASCC(IASCC ascc, string name, Func<IABIE> associatedABIEResolver)
+        public static AsbieSpec CloneASCC(IASCC ascc, string name, Func<IAbie> associatedABIEResolver)
         {
-            return new ASBIESpec
+            return new AsbieSpec
                    {
                        BusinessTerms = new List<string>(ascc.BusinessTerms),
                        Definition = ascc.Definition,

@@ -11,12 +11,12 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public interface IABIE
+    public interface IAbie
     {
-        IEnumerable<IBBIE> BBIEs { get; }
-        IEnumerable<IASBIE> ASBIEs { get; }
+        IEnumerable<IBbie> BBIEs { get; }
+        IEnumerable<IAsbie> ASBIEs { get; }
         IACC BasedOn { get; }
-        IABIE IsEquivalentTo { get; }
+        IAbie IsEquivalentTo { get; }
         IEnumerable<string> UsageRules { get; }
 
         ///<summary>
@@ -53,6 +53,6 @@ namespace CctsRepository.BieLibrary
 
         ///<summary>
         ///</summary>
-        IBIELibrary Library { get; }
+        IBieLibrary Library { get; }
     }
 }

@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BieLibrary\AsbieAggregationKind.cs" />
-    <Compile Include="BieLibrary\ABIESpec.cs" />
+    <Compile Include="BieLibrary\AbieSpec.cs" />
     <Compile Include="BdtLibrary\BdtLibrarySpec.cs" />
     <Compile Include="BieLibrary\BieLibrarySpec.cs" />
     <Compile Include="bLibrary\BLibrarySpec.cs" />
@@ -55,9 +55,9 @@
     <Compile Include="EnumLibrary\EnumLibrarySpec.cs" />
     <Compile Include="PrimLibrary\PrimLibrarySpec.cs" />
     <Compile Include="CcLibrary\ACCSpec.cs" />
-    <Compile Include="BieLibrary\ASBIESpec.cs" />
+    <Compile Include="BieLibrary\AsbieSpec.cs" />
     <Compile Include="CcLibrary\ASCCSpec.cs" />
-    <Compile Include="BieLibrary\BBIESpec.cs" />
+    <Compile Include="BieLibrary\BbieSpec.cs" />
     <Compile Include="CcLibrary\BCCSpec.cs" />
     <Compile Include="BdtLibrary\BdtSpec.cs" />
     <Compile Include="CdtLibrary\CDTContentComponentSpec.cs" />
@@ -66,17 +66,17 @@
     <Compile Include="EnumLibrary\CodelistEntrySpec.cs" />
     <Compile Include="BdtLibrary\BdtConSpec.cs" />
     <Compile Include="EnumLibrary\ENUMSpec.cs" />
-    <Compile Include="BieLibrary\IABIE.cs" />
+    <Compile Include="BieLibrary\IAbie.cs" />
     <Compile Include="CcLibrary\IACC.cs" />
-    <Compile Include="BieLibrary\IASBIE.cs" />
+    <Compile Include="BieLibrary\IAsbie.cs" />
     <Compile Include="CcLibrary\IASCC.cs" />
     <Compile Include="IBasicType.cs" />
-    <Compile Include="BieLibrary\IBBIE.cs" />
+    <Compile Include="BieLibrary\IBbie.cs" />
     <Compile Include="CcLibrary\IBCC.cs" />
     <Compile Include="BdtLibrary\IBdt.cs" />
     <Compile Include="BdtLibrary\IBdtCon.cs" />
     <Compile Include="BdtLibrary\IBdtLibrary.cs" />
-    <Compile Include="BieLibrary\IBIELibrary.cs" />
+    <Compile Include="BieLibrary\IBieLibrary.cs" />
     <Compile Include="bLibrary\IBLibrary.cs" />
     <Compile Include="CcLibrary\ICCLibrary.cs" />
     <Compile Include="ICCRepository.cs" />

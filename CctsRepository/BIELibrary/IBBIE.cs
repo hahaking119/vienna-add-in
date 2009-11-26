@@ -12,10 +12,10 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public interface IBBIE
+    public interface IBbie
     {
         IBdt Type { get; }
-        IABIE Container { get; }
+        IAbie Container { get; }
 
         /// <summary>
         /// Returns the BCC on which the BBIE is based or <c>null</c>, if the BCC cannot be determined.

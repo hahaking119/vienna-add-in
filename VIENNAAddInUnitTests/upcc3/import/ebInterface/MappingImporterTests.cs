@@ -55,7 +55,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         /// </summary>
         /// <param name="abie"></param>
         /// <returns></returns>
-        private static string[] BBIENames(IABIE abie)
+        private static string[] BBIENames(IAbie abie)
         {
             return (from bbie in abie.BBIEs select bbie.Name).ToArray();
         }
@@ -65,12 +65,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         /// </summary>
         /// <param name="abie"></param>
         /// <returns></returns>
-        private static ASBIEDescriptor[] ASBIEDescriptors(IABIE abie)
+        private static ASBIEDescriptor[] ASBIEDescriptors(IAbie abie)
         {
             return (from asbie in abie.ASBIEs select new ASBIEDescriptor(asbie.Name, asbie.AssociatedElement.Id)).ToArray();
         }
 
-        private IBIELibrary ShouldContainBieLibrary(string name)
+        private IBieLibrary ShouldContainBieLibrary(string name)
         {
             var library = ccRepository.GetBieLibraryByPath((Path) "test"/"bLibrary"/name);
             Assert.That(library, Is.Not.Null, "BIELibrary '" + name + "' not generated");
@@ -84,21 +84,21 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return library;
         }
 
-        private static IABIE ShouldContainABIE(IBIELibrary bieLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
+        private static IAbie ShouldContainABIE(IBieLibrary bieLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
         {
-            IABIE abie = bieLibrary.ElementByName(name);
+            IAbie abie = bieLibrary.ElementByName(name);
             VerifyABIE(name, abie, accName, bbieNames, asbieDescriptors);
             return abie;
         }
 
-        private static IABIE ShouldContainABIE(IDOCLibrary docLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
+        private static IAbie ShouldContainABIE(IDOCLibrary docLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
         {
-            IABIE abie = docLibrary.ElementByName(name);
+            IAbie abie = docLibrary.ElementByName(name);
             VerifyABIE(name, abie, accName, bbieNames, asbieDescriptors);
             return abie;
         }
 
-        private static void VerifyABIE(string name, IABIE abie, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
+        private static void VerifyABIE(string name, IAbie abie, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
         {
             Assert.IsNotNull(abie, "ABIE '" + name + "' not generated");
             if (accName != null)
@@ -182,15 +182,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BIELibraryName);
             var docLibrary = ShouldContainDocLibrary(DOCLibraryName);
 
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address_Address", "Address", new[] {"Town_CityName"}, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name_Name"}, null);
+            IAbie bieAddress = ShouldContainABIE(bieLibrary, "Address_Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name_Name"}, null);
 
-            IABIE docBIEAddress = ShouldContainABIE(docLibrary, "Address", null, null, new[]
+            IAbie docBIEAddress = ShouldContainABIE(docLibrary, "Address", null, null, new[]
                                                                                        {
                                                                                            new ASBIEDescriptor("Address", bieAddress.Id),
                                                                                            new ASBIEDescriptor("Person", biePerson.Id),
                                                                                        });
-            IABIE docBIEInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+            IAbie docBIEInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
                                                                                        {
                                                                                            new ASBIEDescriptor("Address", docBIEAddress.Id),
                                                                                        });
@@ -210,13 +210,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BIELibraryName);
             var docLibrary = ShouldContainDocLibrary(DOCLibraryName);
 
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Party", new[] {"Name_Name"}, new[]
+            IAbie bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie biePerson = ShouldContainABIE(bieLibrary, "Person", "Party", new[] {"Name_Name"}, new[]
                                                                                                     {
                                                                                                         new ASBIEDescriptor("Address_Residence", bieAddress.Id),
                                                                                                     });
 
-            IABIE bieInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+            IAbie bieInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
                                                                                     {
                                                                                         new ASBIEDescriptor("Person", biePerson.Id),
                                                                                     });
@@ -236,15 +236,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BIELibraryName);
             var docLibrary = ShouldContainDocLibrary(DOCLibraryName);
 
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address_Address", "Address", new[] {"Town_CityName"}, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary, "Address_Person", "Person", new[] {"PersonName_Name"}, null);
+            IAbie bieAddress = ShouldContainABIE(bieLibrary, "Address_Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie biePerson = ShouldContainABIE(bieLibrary, "Address_Person", "Person", new[] {"PersonName_Name"}, null);
 
-            IABIE docBIEAddress = ShouldContainABIE(docLibrary, "Address", null, null, new[]
+            IAbie docBIEAddress = ShouldContainABIE(docLibrary, "Address", null, null, new[]
                                                                                        {
                                                                                            new ASBIEDescriptor("Address", bieAddress.Id),
                                                                                            new ASBIEDescriptor("Person", biePerson.Id),
                                                                                        });
-            IABIE docBIEInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+            IAbie docBIEInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
                                                                                        {
                                                                                            new ASBIEDescriptor("Address", docBIEAddress.Id),
                                                                                        });
@@ -262,7 +262,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             new MappingImporter(new[] {mappingFile}, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BIELibraryName);
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
 
             var docLibrary = ShouldContainDocLibrary(DOCLibraryName);
             ShouldContainABIE(docLibrary, "ebInterface_Invoice", null, null, new[]
@@ -281,10 +281,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BIELibraryName);
             var docLibrary = ShouldContainDocLibrary(DOCLibraryName);
 
-            IABIE bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
-            IABIE biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name_Name"}, null);
+            IAbie bieAddress = ShouldContainABIE(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie biePerson = ShouldContainABIE(bieLibrary, "Person", "Person", new[] {"Name_Name"}, null);
 
-            IABIE bieInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
+            IAbie bieInvoice = ShouldContainABIE(docLibrary, "Invoice", null, null, new[]
                                                                                     {
                                                                                         new ASBIEDescriptor("Address", bieAddress.Id),
                                                                                         new ASBIEDescriptor("Person", biePerson.Id),

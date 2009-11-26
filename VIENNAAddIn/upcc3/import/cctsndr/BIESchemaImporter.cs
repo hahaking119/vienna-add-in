@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     {
         private static ICCLibrary ExistingAccs;
         private static IBdtLibrary ExistingBdts;
-        private static IBIELibrary BieLibrary;
+        private static IBieLibrary BieLibrary;
         
         ///<summary>
         /// The static method imports an XML schema containing Business Information 
@@ -76,7 +76,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                 {
                     ComplexType abieComplexType = (ComplexType)item;
 
-                    ABIESpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType);
+                    AbieSpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType);
 
                     BieLibrary.CreateElement(singleAbieSpec);
                 }
@@ -100,12 +100,12 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                     string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
-                    IABIE abieToBeUpdated = BieLibrary.ElementByName(abieName);
-                    ABIESpec updatedAbieSpec = new ABIESpec(abieToBeUpdated);
+                    IAbie abieToBeUpdated = BieLibrary.ElementByName(abieName);
+                    AbieSpec updatedAbieSpec = new AbieSpec(abieToBeUpdated);
 
-                    IList<ASBIESpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
+                    IList<AsbieSpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
 
-                    foreach (ASBIESpec newAsbieSpec in newAsbieSpecs)
+                    foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
                     {
                         updatedAbieSpec.AddASBIE(newAsbieSpec);                        
                     }
@@ -227,16 +227,16 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         /// The method returns an ABIESpec for the complex type passed to the method through the 
         /// parameter <paramref name="abieComplexType"/>
         ///</returns>
-        public static ABIESpec CumulateAbieSpecFromComplexType(ComplexType abieComplexType)
+        public static AbieSpec CumulateAbieSpecFromComplexType(ComplexType abieComplexType)
         {
-            ABIESpec singleAbieSpec = new ABIESpec();
+            AbieSpec singleAbieSpec = new AbieSpec();
 
             string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
             singleAbieSpec.Name = abieName;
             singleAbieSpec.BasedOn = FindBaseACCForABIE(abieName);
 
-            List<BBIESpec> bbieSpecs = new List<BBIESpec>();
+            List<BbieSpec> bbieSpecs = new List<BbieSpec>();
 
             foreach (object ctItem in abieComplexType.Items)
             {
@@ -248,7 +248,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     {
                         if (element.Type.Prefix.Equals("bdt"))
                         {
-                            BBIESpec bbieSpec = new BBIESpec();
+                            BbieSpec bbieSpec = new BbieSpec();
 
                             bbieSpec.Name = element.Name;
                             bbieSpec.LowerBound = ResolveMinOccurs(element.MinOccurs);
@@ -294,9 +294,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</param>
         ///<returns>
         ///</returns>
-        public static IList<ASBIESpec> CumulateAbiesSpecsFromComplexType(ComplexType abieComplexType, IDictionary<string, string> allElementDefinitions)
+        public static IList<AsbieSpec> CumulateAbiesSpecsFromComplexType(ComplexType abieComplexType, IDictionary<string, string> allElementDefinitions)
         {
-            IList<ASBIESpec> newAsbieSpecs = new List<ASBIESpec>();
+            IList<AsbieSpec> newAsbieSpecs = new List<AsbieSpec>();
 
             string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
@@ -307,11 +307,11 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     string associatedABIEName = allElementDefinitions[element.Ref.Name];
                     associatedABIEName = associatedABIEName.Substring(0, associatedABIEName.Length - 4);
 
-                    IABIE associatedAbie = BieLibrary.ElementByName(associatedABIEName);
+                    IAbie associatedAbie = BieLibrary.ElementByName(associatedABIEName);
 
                     string asbieName = NDR.GetAsbieNameFromXsdElement(element, associatedABIEName);
 
-                    ASBIESpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
+                    AsbieSpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
                                                            associatedAbie.Id);
 
                     if (asbieSpec == null)
@@ -328,11 +328,11 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                         string associatedAbieName = element.Type.Name;
                         associatedAbieName = associatedAbieName.Substring(0, associatedAbieName.Length - 4);
 
-                        IABIE associatedAbie = BieLibrary.ElementByName(associatedAbieName);
+                        IAbie associatedAbie = BieLibrary.ElementByName(associatedAbieName);
 
                         string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
 
-                        ASBIESpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
+                        AsbieSpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
                                                                associatedAbie.Id);
 
                         if (asbieSpec == null)
@@ -349,7 +349,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
             return newAsbieSpecs;
         }
 
-        public static IABIE getElementByName(string abieName)
+        public static IAbie getElementByName(string abieName)
         {
             return BieLibrary.ElementByName(abieName);
         }
@@ -365,9 +365,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</param>
         ///<returns>
         ///</returns>
-        public static ASBIESpec CumulateAsbieSpec(Element element, string asbieName, IABIE associatedAbie, AsbieAggregationKind aggregationKind)
+        public static AsbieSpec CumulateAsbieSpec(Element element, string asbieName, IAbie associatedAbie, AsbieAggregationKind aggregationKind)
         {
-            ASBIESpec asbieSpec = new ASBIESpec
+            AsbieSpec asbieSpec = new AsbieSpec
                                   {
                                       AssociatedABIEId = associatedAbie.Id,
                                       Name = asbieName,
@@ -401,13 +401,13 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</param>
         ///<returns>
         ///</returns>
-        private static ASBIESpec MatchAsbieToAscc(IACC acc, string asbieName, int associatedAbie)
+        private static AsbieSpec MatchAsbieToAscc(IACC acc, string asbieName, int associatedAbie)
         {
             foreach (IASCC ascc in acc.ASCCs)
             {
                 if (ascc.Name.Equals(asbieName))
                 {
-                    return ASBIESpec.CloneASCC(ascc, asbieName, associatedAbie);
+                    return AsbieSpec.CloneASCC(ascc, asbieName, associatedAbie);
                 }
             }
 

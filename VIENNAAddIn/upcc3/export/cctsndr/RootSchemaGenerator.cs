@@ -28,7 +28,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         public static void GenerateXSD(GeneratorContext context)
         {
 
-            foreach (IABIE abie in context.RootElements)
+            foreach (IAbie abie in context.RootElements)
             {
                 var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
                 schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
@@ -57,10 +57,10 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
         }
 
-        private static void AddGlobalElementDeclarations(XmlSchema schema, IEnumerable<IABIE> abies,
+        private static void AddGlobalElementDeclarations(XmlSchema schema, IEnumerable<IAbie> abies,
                                                          GeneratorContext context)
         {
-            foreach (IABIE abie in abies)
+            foreach (IAbie abie in abies)
             {
                 XmlSchemaElement element = new XmlSchemaElement
                                            {
@@ -75,26 +75,26 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
         }
 
-        private static void AddGlobalTypeDefinitions(XmlSchema schema, IEnumerable<IABIE> abies, GeneratorContext context)
+        private static void AddGlobalTypeDefinitions(XmlSchema schema, IEnumerable<IAbie> abies, GeneratorContext context)
         {
-            foreach (IABIE abie in abies)
+            foreach (IAbie abie in abies)
             {
                 schema.Items.Add(BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie, context.NamespacePrefix));
             }
 
         }
 
-        private static IList<IABIE> removeRootElements(IEnumerable<IABIE> abies, IEnumerable<IABIE> rootelements)
+        private static IList<IAbie> removeRootElements(IEnumerable<IAbie> abies, IEnumerable<IAbie> rootelements)
         {
-            IList<IABIE> temp = new List<IABIE>(abies);
-            foreach (IABIE rootelement in rootelements)
+            IList<IAbie> temp = new List<IAbie>(abies);
+            foreach (IAbie rootelement in rootelements)
             {
                 temp.Remove(rootelement);
             }
             return temp;
         }
 
-        private static void AddRootElemntDeclaration(XmlSchema schema, IABIE abie, GeneratorContext context)
+        private static void AddRootElemntDeclaration(XmlSchema schema, IAbie abie, GeneratorContext context)
         {
             XmlSchemaElement root = new XmlSchemaElement
                                     {
@@ -107,12 +107,12 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             schema.Items.Add(root);
         }
 
-        private static void AddRootTypeDefinition(XmlSchema schema, IABIE abie, GeneratorContext context, IDOCLibrary docLibrary)
+        private static void AddRootTypeDefinition(XmlSchema schema, IAbie abie, GeneratorContext context, IDOCLibrary docLibrary)
         {
             XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie, NSPREFIX_BIE);
             XmlSchemaElement element;
             schema.Items.Add(type);
-            IList<IABIE> temp = new List<IABIE>(docLibrary.Elements);
+            IList<IAbie> temp = new List<IAbie>(docLibrary.Elements);
             XmlSchemaSequence sequence = type.Particle as XmlSchemaSequence;
 
             if (sequence != null)
@@ -122,7 +122,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     {
                         element = item as XmlSchemaElement;
 
-                        foreach (IASBIE asbie in abie.ASBIEs)
+                        foreach (IAsbie asbie in abie.ASBIEs)
                         {
                             // this condition makes sure only docLibraryLevel ABIEs get selected
                             if (temp.Contains(asbie.AssociatedElement))
@@ -174,11 +174,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
         }
 
-        private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IABIE abie, GeneratorContext context, IDOCLibrary docLibrary)
+        private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IAbie abie, GeneratorContext context, IDOCLibrary docLibrary)
         {
-            IList<IABIE> temp = new List<IABIE>(docLibrary.Elements);
+            IList<IAbie> temp = new List<IAbie>(docLibrary.Elements);
 
-            foreach (IASBIE asbie in abie.ASBIEs)
+            foreach (IAsbie asbie in abie.ASBIEs)
             {
                 XmlSchemaElement elementASBIE = new XmlSchemaElement();
 
@@ -250,7 +250,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
         }
 
-        private static XmlSchemaAnnotation GetRootAnnotation(IABIE abie)
+        private static XmlSchemaAnnotation GetRootAnnotation(IAbie abie)
         {
             // Contains all the documentation items such as DictionaryEntryName
             IList<XmlNode> documentation = new List<XmlNode>();

@@ -337,7 +337,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadBCCsAndBBIEs(ICCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IABIE abie)
+        public void LoadBCCsAndBBIEs(ICCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IAbie abie)
         {
             if (!HasBCCs())
             {
@@ -354,7 +354,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Cdt.Id, CheckState.Unchecked));
 
                     int bbieCount = 0;
-                    foreach (IBBIE bbie in abie.BBIEs)
+                    foreach (IBbie bbie in abie.BBIEs)
                     {
                         if (bbie.Name.Contains(bcc.Name))
                         {                            
@@ -568,7 +568,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             // check if previously cached
             if (DOCs.Count == 0)
             {
-                foreach (IABIE document in docl.RootElements)                
+                foreach (IAbie document in docl.RootElements)                
                 {
                     cDOC newDOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
                     DOCs.Add(document.Name, newDOC);
@@ -750,7 +750,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         
         public void LoadBIELsAndTheirABIEs(ICCRepository repository)
         {
-            foreach (IBIELibrary biel in repository.GetBieLibraries())
+            foreach (IBieLibrary biel in repository.GetBieLibraries())
             {
                 if (BIELs.ContainsKey(biel.Name))
                 {
@@ -760,7 +760,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 BIELs.Add(biel.Name, new cBIELibrary(biel.Name, biel.Id));
 
-                foreach (IABIE abie in biel.Elements)
+                foreach (IAbie abie in biel.Elements)
                 {
                     if (BIELs[biel.Name].ABIEs.ContainsKey(abie.Name))
                     {

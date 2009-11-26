@@ -17,14 +17,14 @@ namespace CctsRepository.bLibrary
         IEnumerable<ICDTLibrary> GetCdtLibraries();
         IEnumerable<ICCLibrary> GetCcLibraries();
         IEnumerable<IBdtLibrary> GetBdtLibraries();
-        IEnumerable<IBIELibrary> GetBieLibraries();
+        IEnumerable<IBieLibrary> GetBieLibraries();
         IEnumerable<IDOCLibrary> GetDocLibraries();
 
         IBLibrary CreateBLibrary(BLibrarySpec spec);
         ICDTLibrary CreateCDTLibrary(CdtLibrarySpec spec);
         ICCLibrary CreateCCLibrary(CcLibrarySpec spec);
         IBdtLibrary CreateBDTLibrary(BdtLibrarySpec spec);
-        IBIELibrary CreateBIELibrary(BieLibrarySpec spec);
+        IBieLibrary CreateBIELibrary(BieLibrarySpec spec);
         IPRIMLibrary CreatePRIMLibrary(PrimLibrarySpec spec);
         IENUMLibrary CreateENUMLibrary(EnumLibrarySpec spec);
         IDOCLibrary CreateDOCLibrary(DocLibrarySpec spec);

@@ -16,13 +16,13 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ASBIE : IASBIE
+    internal class ASBIE : IAsbie
     {
-        private readonly IABIE associatingClass;
+        private readonly IAbie associatingClass;
         private readonly Connector connector;
         private readonly CCRepository repository;
 
-        public ASBIE(CCRepository repository, Connector connector, IABIE associatingBIE)
+        public ASBIE(CCRepository repository, Connector connector, IAbie associatingBIE)
         {
             this.repository = repository;
             this.connector = connector;
@@ -34,9 +34,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return new Cardinality(connector.GetAssociatedEnd(AssociatingElement.Id).Cardinality); }
         }
 
-        #region IASBIE Members
+        #region IAsbie Members
 
-        public IABIE AssociatingElement
+        public IAbie AssociatingElement
         {
             get { return associatingClass; }
         }
@@ -119,7 +119,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return connector.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
-        public IABIE AssociatedElement
+        public IAbie AssociatedElement
         {
             get { return repository.GetAbieById(connector.GetAssociatedElementId(AssociatingElement.Id)); }
         }

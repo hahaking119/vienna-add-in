@@ -11,9 +11,9 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public interface IBIELibrary
+    public interface IBieLibrary
     {
-        IEnumerable<IABIE> Elements { get; }
+        IEnumerable<IAbie> Elements { get; }
         int Id { get; }
         string Name { get; }
         IBLibrary Parent { get; }
@@ -30,16 +30,16 @@ namespace CctsRepository.BieLibrary
         ///<summary>
         /// Retrieves an element by name.
         ///</summary>
-        IABIE ElementByName(string name);
+        IAbie ElementByName(string name);
 
         ///<summary>
         /// Creates a new element in this library, based on the given specification.
         ///</summary>
-        IABIE CreateElement(ABIESpec spec);
+        IAbie CreateElement(AbieSpec spec);
 
         ///<summary>
         /// Updates the given element of this library to match the given specification.
         ///</summary>
-        IABIE UpdateElement(IABIE element, ABIESpec spec);
+        IAbie UpdateElement(IAbie element, AbieSpec spec);
     }
 }

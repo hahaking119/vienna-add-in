@@ -172,7 +172,7 @@ Actual output file: {2}",
             string outputDirectory = PathToTestResource(
                 "\\XSDGeneratorTest\\all");
             AddInSettings.LoadRegistryEntries();
-            VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "urn:test:namespace", "test", true, true, outputDirectory, docLibrary, new List<IABIE>(docLibrary.RootElements)));
+            VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "urn:test:namespace", "test", true, true, outputDirectory, docLibrary, new List<IAbie>(docLibrary.RootElements)));
         }
 
         [Test]
@@ -183,7 +183,7 @@ Actual output file: {2}",
             {
                 var ccRepository = new CCRepository(tempFileBasedRepository);
                 var docLibrary = ccRepository.GetDocLibraryByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
-                var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", docLibrary, new List<IABIE>(docLibrary.RootElements));
+                var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", docLibrary, new List<IAbie>(docLibrary.RootElements));
                 RootSchemaGenerator.GenerateXSD(context);
                 Assert.AreEqual(1, context.Schemas.Count);
                 XmlSchema schema = context.Schemas[0].Schema;
@@ -202,7 +202,7 @@ Actual output file: {2}",
                 var ccRepository = new CCRepository(tempFileBasedRepository);
                 var docLibrary = ccRepository.GetDocLibraryByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
                 AddInSettings.LoadRegistryEntries();
-                var context = VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", docLibrary, new List<IABIE>(docLibrary.RootElements)));
+                var context = VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", docLibrary, new List<IAbie>(docLibrary.RootElements)));
                 Assert.AreEqual(5, context.Schemas.Count);
                 XmlSchema schema = context.Schemas[1].Schema;
                 schema.Write(Console.Out);

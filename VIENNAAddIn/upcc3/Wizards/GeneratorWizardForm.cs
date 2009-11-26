@@ -277,7 +277,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             cBIV currentBIV = cache.BIVs[selectedBIVName];
 
             // TODO: check if path is valid
-            IList<IABIE> relevantDocuments = new List<IABIE>();
+            IList<IAbie> relevantDocuments = new List<IAbie>();
             foreach (cDOC document in currentBIV.DOCs.Values)
             {
                 if (document.State == CheckState.Checked)

@@ -11,10 +11,10 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public interface IASBIE
+    public interface IAsbie
     {
-        IABIE AssociatingElement { get; }
-        IABIE AssociatedElement { get; }
+        IAbie AssociatingElement { get; }
+        IAbie AssociatedElement { get; }
         AsbieAggregationKind AggregationKind { get; }
 
         /// <summary>

@@ -55,7 +55,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IBIELibrary> GetBieLibraries()
+        public IEnumerable<IBieLibrary> GetBieLibraries()
         {
             throw new NotImplementedException();
         }
@@ -85,7 +85,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IBIELibrary CreateBIELibrary(BieLibrarySpec spec)
+        public IBieLibrary CreateBIELibrary(BieLibrarySpec spec)
         {
             throw new NotImplementedException();
         }

@@ -113,11 +113,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<IABIE> CollectABIEs(GeneratorContext context)
+        public static IEnumerable<IAbie> CollectABIEs(GeneratorContext context)
         {
-            foreach (IBIELibrary bieLibrary in context.Repository.GetBieLibraries())
+            foreach (IBieLibrary bieLibrary in context.Repository.GetBieLibraries())
             {
-                foreach (IABIE abie in bieLibrary.Elements)
+                foreach (IAbie abie in bieLibrary.Elements)
                 {
                     yield return abie;
                 }
