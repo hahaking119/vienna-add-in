@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using CctsRepository;
 using CctsRepository.BieLibrary;
+using CctsRepository.CcLibrary;
 using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -22,39 +24,53 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
     {
         private readonly CCCache cache;
         private TemporaryABIEModel tempModel;
-
+        private ListModel listModelACC;
+        private CheckedListModel checkedListModelBCC;
+        private CheckedListModel checkedListModelBBIE;
+        private CheckedListModel checkedListModelBDT;
+        private CheckedListModel checkedListModelABIE;
+        private CheckedListModel checkedListModelASCC;
+        private ListModel listModelBIEL;
+        private ListModel listModelBDTL;
+        private ListModel listModelCCL;
         /// <summary>
         /// Constructor for ABIE creation wizard
         /// </summary>
-        /// <param name="cctsRepository">The current repository</param>
-        public ABIEEditor(ICctsRepository cctsRepository)
+        /// <param name="eaRepository">The current repository</param>
+        public ABIEEditor(Repository eaRepository)
         {
-            tempModel = new TemporaryABIEModel(cctsRepository);
-
+            cache = CCCache.GetInstance(new CCRepository(eaRepository));
             InitializeComponent();
 
-            ListModel listModelCCL = this.Resources["listModelCCL"] as ListModel;
-            ListModel listModelACC = this.Resources["listModelACC"] as ListModel;
-            CheckedListModel checkedListModelBCC = this.Resources["checkedListModelBCC"] as CheckedListModel;
-            CheckedListModel checkedListModelBBIE = this.Resources["checkedListModelBBIE"] as CheckedListModel;
-            CheckedListModel checkedListModelBDT = this.Resources["checkedListModelBDT"] as CheckedListModel;
-            CheckedListModel checkedListModelABIE = this.Resources["checkedListModelABIE"] as CheckedListModel;
-            CheckedListModel checkedListModelASCC = this.Resources["checkedListModelASCC"] as CheckedListModel;
-            ListModel listModelBIEL = this.Resources["listModelBIEL"] as ListModel;
-            ListModel listModelBDTL = this.Resources["listModelBDTL"] as ListModel;
-            tempModel.Initialize(listModelCCL, listModelACC, checkedListModelBCC, checkedListModelBBIE, checkedListModelBDT, checkedListModelABIE, checkedListModelASCC, listModelBIEL, listModelBDTL);
-
+            
+            listModelCCL = this.Resources["listModelCCL"] as ListModel;
+            listModelACC = this.Resources["listModelACC"] as ListModel;
+            checkedListModelBCC = this.Resources["checkedListModelBCC"] as CheckedListModel;
+            checkedListModelBBIE = this.Resources["checkedListModelBBIE"] as CheckedListModel;
+            
+            checkedListModelBDT = this.Resources["checkedListModelBDT"] as CheckedListModel;
+            
+            checkedListModelABIE = this.Resources["checkedListModelABIE"] as CheckedListModel;
+            
+            checkedListModelASCC = this.Resources["checkedListModelASCC"] as CheckedListModel;
+            
+            listModelBIEL = this.Resources["listModelBIEL"] as ListModel;
+            
+            listModelBDTL = this.Resources["listModelBDTL"] as ListModel;
+            //tempModel.Initialize(listModelCCL, listModelACC, checkedListModelBCC, checkedListModelBBIE, checkedListModelBDT, checkedListModelABIE, checkedListModelASCC, listModelBIEL, listModelBDTL);
+            listModelCCL.Content = new ObservableCollection<string>(new List<string>(cache.GetCCLibraries().ConvertAll(
+                                                                                         delegate(ICCLibrary iccLibrary) { return iccLibrary.Name; })));
             WindowLoaded();
         }
 
         /// <summary>
         /// Constructor for ABIE modification wizard
         /// </summary>
-        /// <param name="cctsRepository">The current repository</param>
+        /// <param name="eaRepository">The current repository</param>
         /// <param name="abie"></param>
-        public ABIEEditor(ICctsRepository cctsRepository, IAbie abie)
+        public ABIEEditor(Repository eaRepository, IABIE abie)
         {
-            tempModel = new TemporaryABIEModel(cctsRepository);
+            tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
             //cache.PrepareForABIE(abie);
 
             InitializeComponent();
@@ -67,7 +83,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="context"></param>
         public static void ShowForm(AddInContext context)
         {
-            new ABIEEditor(context.CctsRepository).Show();
+            new ABIEEditor(context.EARepository).Show();
         }
 
         /// <summary>
@@ -155,18 +171,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private void comboCCLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
-            tempModel.setCCLInUse(comboBox.SelectedItem.ToString());
+            listModelACC.Content = new ObservableCollection<string>(new List<string>(cache.GetCCsFromCCLibrary(comboBox.SelectedItem.ToString()).ConvertAll(
+                                                                                         delegate(IACC acc) { return acc.Name; })));
+            //tempModel.setCCLInUse(comboBox.SelectedItem.ToString());
         }
 
         private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var comboBox = (ComboBox)sender;
-            tempModel.SetTargetACC(comboBox.SelectedItem.ToString());
-
+            tempModel = new TemporaryABIEModel(cache.GetCCFromCCLibrary(comboCCLs.SelectedItem.ToString(),comboACCs.SelectedItem.ToString()),textABIEName.Text,textPrefix.Text);
+            checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(tempModel.BCCs);
+            //tempModel.SetTargetACC(comboBox.SelectedItem.ToString());
         }
 
         private void checkboxBCCs_Checked(object sender, RoutedEventArgs e)
         {
+
         }
 
         private void checkboxBCCs_Unchecked(object sender, RoutedEventArgs e)
@@ -175,14 +194,36 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
         private void checkedlistboxBCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var listbox = (ListBox)sender;
+            var checkedListItem = (CheckedListItem)listbox.SelectedItem;
+            if (checkedListItem == null)
+            {
+                listbox.SelectedIndex = 0;
+                checkedListItem = (CheckedListItem)listbox.SelectedItem;
+            }
+            checkedListModelBBIE.Content =
+                    new ObservableCollection<CheckedListItem>(tempModel.GetBBIEs(checkedListItem.Name));
+                //hack to force BDT Loading on BCC selection!
+            checkedlistboxBBIEs.SelectedIndex = 0;
         }
 
         private void buttonAddBBIE_Click(object sender, RoutedEventArgs e)
         {
+            var checkedItem = (CheckedListItem) checkedlistboxBCCs.SelectedItem;
+            tempModel.AddBBIE(checkedItem.Name,"New"+checkedItem.Name + checkedlistboxBBIEs.Items.Count);
         }
 
         private void checkedlistboxBBIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var listbox = (ListBox)sender;
+            var checkedListItem = (CheckedListItem)listbox.SelectedItem;
+            if (checkedListItem != null)
+            {
+                checkedListModelBDT.Content =
+                    new ObservableCollection<CheckedListItem>(tempModel.GetBDTs(checkedListItem.Name));
+                //select first BDT as default for BBIE
+                checkedlistboxBDTs.SelectedIndex = 0;
+            }
         }
 
         private void checkedlistboxBDTs_SelectionChanged(object sender, SelectionChangedEventArgs e)
