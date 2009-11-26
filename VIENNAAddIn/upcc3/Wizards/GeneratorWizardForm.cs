@@ -16,10 +16,10 @@ namespace VIENNAAddIn.upcc3.Wizards
     {
         //public Repository Repository
         //{
-        //    set { ccR = new CCRepository(value); }
+        //    set { cctsR = new CCRepository(value); }
         //}
 
-        private ICCRepository ccR;
+        private ICctsRepository cctsR;
         private Cache cache;
         private string selectedBIVName;
         private string selectedDOCName;
@@ -30,16 +30,16 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         ///<summary>
         ///</summary>
-        ///<param name="ccRepository"></param>
-        public GeneratorWizardForm(ICCRepository ccRepository)
+        ///<param name="cctsRepository"></param>
+        public GeneratorWizardForm(ICctsRepository cctsRepository)
         {
             InitializeComponent();
 
-            ccR = ccRepository;
+            cctsR = cctsRepository;
 
             cache = new Cache();
 
-            cache.LoadBIVs(ccR);
+            cache.LoadBIVs(cctsR);
 
             comboBIVs.DropDownStyle = ComboBoxStyle.DropDownList;
             comboModels.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -113,7 +113,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             // todo: extend PathIsValid 
             GatherUserInput();
 
-            cache.BIVs[selectedBIVName].LoadDOCsInBIV(ccR);
+            cache.BIVs[selectedBIVName].LoadDOCsInBIV(cctsR);
 
             // model
             // todo: set default value for document model and select afterwards
@@ -282,11 +282,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 if (document.State == CheckState.Checked)
                 {
-                    relevantDocuments.Add(ccR.GetAbieById(document.Id));
+                    relevantDocuments.Add(cctsR.GetAbieById(document.Id));
                 }
             }
             
-            IDOCLibrary docl = ccR.GetDocLibraryById(currentBIV.Id);
+            IDOCLibrary docl = cctsR.GetDocLibraryById(currentBIV.Id);
 
             // TODO: xsd generator needs to be adapted - currently all doc libraries are being generated whereas
             // only the ones that are checked should be generated.. 
@@ -297,7 +297,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             string namespacePrefix = textPrefixTargetNS.Text;
             bool annotate = checkboxAnnotations.CheckState == CheckState.Checked ? true : false;
             bool allschemas = checkboxAllschemas.CheckState == CheckState.Checked ? true : false;
-            var generationContext = new GeneratorContext(ccR, targetNamespace,
+            var generationContext = new GeneratorContext(cctsR, targetNamespace,
                                                 namespacePrefix, annotate, allschemas,
                                                 outputDirectory, docl, relevantDocuments);
             generationContext.SchemaAdded += HandleSchemaAdded;
@@ -378,7 +378,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             try
             {
-                new GeneratorWizardForm(context.CCRepository).Show();
+                new GeneratorWizardForm(context.CctsRepository).Show();
             }
             catch (CacheException ce)
             {

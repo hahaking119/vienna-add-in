@@ -118,7 +118,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         public IDictionary<string, cSUP> SUPs { get; set; }
         public CheckState AllSUPs { get; set; }
 
-        public void LoadCONAndSUPs(ICCRepository repository)
+        public void LoadCONAndSUPs(ICctsRepository repository)
         {
             if ((CON.Name.Equals("") && SUPs.Count < 1))
             {
@@ -158,7 +158,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cCDT> CDTs { get; set; }
 
-        public void LoadCDTs(ICCRepository repository)
+        public void LoadCDTs(ICctsRepository repository)
         {
             if (CDTs.Count == 0)
             {
@@ -314,7 +314,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         public IDictionary<string, cBCC> BCCs { get; set; }
         public IDictionary<string, cASCC> ASCCs { get; set; }
 
-        public void LoadBCCsAndCreateDefaults(ICCRepository repository, IDictionary<string, cBDTLibrary> bdtls)
+        public void LoadBCCsAndCreateDefaults(ICctsRepository repository, IDictionary<string, cBDTLibrary> bdtls)
         {
             if (!HasBCCs())
             {
@@ -337,7 +337,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadBCCsAndBBIEs(ICCRepository repository, IDictionary<string, cBDTLibrary> bdtls, IAbie abie)
+        public void LoadBCCsAndBBIEs(ICctsRepository repository, IDictionary<string, cBDTLibrary> bdtls, IAbie abie)
         {
             if (!HasBCCs())
             {
@@ -375,7 +375,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadASCCs(ICCRepository repository, IDictionary<string, cBIELibrary> biels)
+        public void LoadASCCs(ICctsRepository repository, IDictionary<string, cBIELibrary> biels)
         {
             // TODO: temporarily disabled to forace ASCCs
             //if (!HasASCCs())
@@ -465,7 +465,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cACC> ACCs { get; set; }
 
-        public void LoadACCs(ICCRepository repository)
+        public void LoadACCs(ICctsRepository repository)
         {
             if (ACCs.Count == 0)
             {
@@ -560,7 +560,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public IDictionary<string, cDOC> DOCs { get; set;}
 
-        public void LoadDOCsInBIV(ICCRepository repository)
+        public void LoadDOCsInBIV(ICctsRepository repository)
         {
             // doc library containing all the different Documents
             IDOCLibrary docl = repository.GetDocLibraryById(Id);
@@ -710,7 +710,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             return true;
         }
 
-        public void LoadCCLs(ICCRepository repository)
+        public void LoadCCLs(ICctsRepository repository)
         {
             foreach (ICcLibrary ccl in repository.GetCcLibraries())
             {
@@ -729,7 +729,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadCDTLs(ICCRepository repository)
+        public void LoadCDTLs(ICctsRepository repository)
         {
             foreach (ICDTLibrary cdtl in repository.GetCdtLibraries())
             {                
@@ -748,7 +748,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
 
         
-        public void LoadBIELsAndTheirABIEs(ICCRepository repository)
+        public void LoadBIELsAndTheirABIEs(ICctsRepository repository)
         {
             foreach (IBieLibrary biel in repository.GetBieLibraries())
             {
@@ -778,7 +778,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }
 
-        public void LoadBDTLsAndTheirBDTs(ICCRepository repository)
+        public void LoadBDTLsAndTheirBDTs(ICctsRepository repository)
         {
             foreach (IBdtLibrary bdtl in repository.GetBdtLibraries())
             {
@@ -808,7 +808,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
         }        
 
-        public void LoadBIVs(ICCRepository repository)
+        public void LoadBIVs(ICctsRepository repository)
         {
             foreach (IDOCLibrary docl in repository.GetDocLibraries())
             {

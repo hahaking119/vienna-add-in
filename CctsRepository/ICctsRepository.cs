@@ -6,8 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -21,7 +19,7 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository
 {
-    public interface ICCRepository
+    public interface ICctsRepository
     {
         IEnumerable<IBLibrary> GetBLibraries();
         IEnumerable<IPRIMLibrary> GetPrimLibraries();

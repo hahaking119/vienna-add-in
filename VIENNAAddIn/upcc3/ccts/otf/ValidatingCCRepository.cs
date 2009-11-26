@@ -17,7 +17,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    public class ValidatingCCRepository : ICCRepository
+    public class ValidatingCCRepository : ICctsRepository
     {
         private readonly RepositoryContentLoader contentLoader;
         private readonly HierarchicalRepository repository;
@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return validationService.ValidationIssues; }
         }
 
-        #region ICCRepository Members
+        #region ICctsRepository Members
 
         public IEnumerable<IBLibrary> GetBLibraries()
         {

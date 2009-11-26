@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.Wizards
     ///</summary>
     public partial class BDTWizardForm : Form
     {
-        private ICCRepository repository;
+        private ICctsRepository repository;
         private Cache cache;
         private string selectedCDTLName;
         private string selectedCDTName;
@@ -30,11 +30,11 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<summary>
         ///</summary>
         ///<param name="eaRepository"></param>
-        public BDTWizardForm(ICCRepository ccRepository)
+        public BDTWizardForm(ICctsRepository cctsRepository)
         {
             InitializeComponent();
 
-            repository = ccRepository;
+            repository = cctsRepository;
 
             cache = new Cache();
 
@@ -394,7 +394,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowBDTWizard(AddInContext context)
         {
-            new BDTWizardForm(context.CCRepository).Show();
+            new BDTWizardForm(context.CctsRepository).Show();
         }
 
         private void checkboxAttributes_MouseDown(object sender, MouseEventArgs e)

@@ -47,10 +47,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
                                                                                                                });
                                                                              bLibrary.AddPackage("BDTLibrary", bdtLib => { bdtLib.Element.Stereotype = Stereotype.BDTLibrary; });
                                                                          }));
-            ICCRepository ccRepository = new CCRepository(eaRepository);
-            var primLibrary = ccRepository.GetPrimLibraryByPath((Path) "Model"/"bLibrary"/"PRIMLibrary");
-            var bdtLibrary = ccRepository.GetBdtLibraryByPath((Path) "Model"/"bLibrary"/"BDTLibrary");
-            var cdtLibrary = ccRepository.GetCdtLibraryByPath((Path) "Model"/"bLibrary"/"CDTLibrary");
+            ICctsRepository cctsRepository = new CCRepository(eaRepository);
+            var primLibrary = cctsRepository.GetPrimLibraryByPath((Path) "Model"/"bLibrary"/"PRIMLibrary");
+            var bdtLibrary = cctsRepository.GetBdtLibraryByPath((Path) "Model"/"bLibrary"/"BDTLibrary");
+            var cdtLibrary = cctsRepository.GetCdtLibraryByPath((Path) "Model"/"bLibrary"/"CDTLibrary");
 
             var contextMock = new Mock<IImporterContext>();
             contextMock.SetupGet(c => c.PRIMLibrary).Returns(primLibrary);

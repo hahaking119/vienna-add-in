@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     public class ImporterContext : IImporterContext
     {
         /// <exception cref="Exception">Root schema does not include a BIE schema.</exception>
-        public ImporterContext(ICCRepository ccRepository, string rootSchemaPath)
+        public ImporterContext(ICctsRepository cctsRepository, string rootSchemaPath)
         {
             RootSchemaPath = rootSchemaPath;
             RootSchemaFileName = Path.GetFileName(rootSchemaPath);
@@ -58,12 +58,12 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                 throw new Exception("Root schema does not include a BIE schema.");
             }
 
-            CDTLibrary = ccRepository.GetCdtLibraries().ElementAt(0);
-            CCLibrary = ccRepository.GetCcLibraries().ElementAt(0);
-            BDTLibrary = ccRepository.GetBdtLibraries().ElementAt(0);
-            BIELibrary = ccRepository.GetBieLibraries().ElementAt(0);
-            PRIMLibrary = ccRepository.GetPrimLibraries().ElementAt(0);
-            BLibrary = ccRepository.GetBLibraries().ElementAt(0);
+            CDTLibrary = cctsRepository.GetCdtLibraries().ElementAt(0);
+            CCLibrary = cctsRepository.GetCcLibraries().ElementAt(0);
+            BDTLibrary = cctsRepository.GetBdtLibraries().ElementAt(0);
+            BIELibrary = cctsRepository.GetBieLibraries().ElementAt(0);
+            PRIMLibrary = cctsRepository.GetPrimLibraries().ElementAt(0);
+            BLibrary = cctsRepository.GetBLibraries().ElementAt(0);
         }
 
         public string RootSchemaPath { get; private set; }

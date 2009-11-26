@@ -10,7 +10,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 {
     public partial class ImporterWizardFormOld : Form
     {
-        private readonly ICCRepository CcRepository;
+        private readonly ICctsRepository cctsRepository;
 
         public ImporterWizardFormOld()
         {
@@ -37,11 +37,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             comboModels.Items.Add("CCTS");
         }
 
-        public ImporterWizardFormOld(ICCRepository ccRepository)
+        public ImporterWizardFormOld(ICctsRepository cctsRepository)
         {
             InitializeComponent();
 
-            CcRepository = ccRepository;
+            this.cctsRepository = cctsRepository;
 
             comboModels.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -52,7 +52,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowImporterWizard(AddInContext context)
         {
-            new ImporterWizardFormOld(context.CCRepository).Show();
+            new ImporterWizardFormOld(context.CctsRepository).Show();
         }
 
         private void ImporterWizardForm_Load(object sender, EventArgs e)
@@ -70,7 +70,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             Cursor.Current = Cursors.WaitCursor;
             buttonImport.Enabled = false;
 
-            ImporterContext context = new ImporterContext(CcRepository, textboxRootSchema.Text);
+            ImporterContext context = new ImporterContext(cctsRepository, textboxRootSchema.Text);
             import.cctsndr.XSDImporter.ImportSchemas(context);
 
             progressBar.Minimum = 0;

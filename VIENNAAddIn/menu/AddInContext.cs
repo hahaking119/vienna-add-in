@@ -48,9 +48,9 @@ namespace VIENNAAddIn.menu
         public MenuLocation MenuLocation { get; private set; }
 
         ///<summary>
-        /// A CCRepository wrapped around the EA repository.
+        /// A CctsRepository wrapped around the EA repository.
         ///</summary>
-        public ICCRepository CCRepository
+        public ICctsRepository CctsRepository
         {
             get { return new CCRepository(EARepository); }
         }
