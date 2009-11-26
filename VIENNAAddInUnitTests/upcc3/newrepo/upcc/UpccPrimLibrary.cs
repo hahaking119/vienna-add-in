@@ -28,7 +28,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlPackage.Name; }
         }
 
-        public IBLibrary Parent
+        public IBLibrary BLibrary
         {
             get { return new UpccBLibrary(umlPackage.Parent); }
         }
