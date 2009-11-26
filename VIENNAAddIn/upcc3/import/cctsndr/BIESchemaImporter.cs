@@ -101,13 +101,13 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
                     IAbie abieToBeUpdated = BieLibrary.ElementByName(abieName);
-                    AbieSpec updatedAbieSpec = new AbieSpec(abieToBeUpdated);
+                    AbieSpec updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
 
                     IList<AsbieSpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
 
                     foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
                     {
-                        updatedAbieSpec.AddASBIE(newAsbieSpec);                        
+                        updatedAbieSpec.AddAsbie(newAsbieSpec);                        
                     }
 
                     BieLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
@@ -275,7 +275,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     }
                 }
             }
-            singleAbieSpec.BBIEs = bbieSpecs;
+            singleAbieSpec.Bbies = bbieSpecs;
 
             return singleAbieSpec;
         }

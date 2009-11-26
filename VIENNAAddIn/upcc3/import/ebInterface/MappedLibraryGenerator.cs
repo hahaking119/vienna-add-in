@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 docLibrary.CreateElement(new AbieSpec
                                          {
                                              Name = qualifier + "_" + rootElementName,
-                                             ASBIEs = new List<AsbieSpec>
+                                             Asbies = new List<AsbieSpec>
                                                       {
                                                           new AsbieSpec
                                                           {
@@ -106,7 +106,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                                          {
                                              BasedOn = bccMapping.ACC,
                                              Name = qualifier + "_" + rootElementName,
-                                             BBIEs = GenerateBCCMappings(new List<BCCMapping>{bccMapping}),
+                                             Bbies = GenerateBCCMappings(new List<BCCMapping>{bccMapping}),
                                          });
             }
             else
@@ -145,9 +145,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                                             UsageRules = spec.UsageRules,
                                             VersionIdentifier = spec.VersionIdentifier
                                         };
-                foreach (BbieSpec bbieSpec in spec.BBIEs)
+                foreach (BbieSpec bbieSpec in spec.Bbies)
                 {
-                    specWithoutASBIEs.AddBBIE(bbieSpec);
+                    specWithoutASBIEs.AddBbie(bbieSpec);
                 }
                 abies[spec.Name] = bieLibrary.CreateElement(specWithoutASBIEs);
             }
@@ -178,9 +178,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                                             UsageRules = spec.UsageRules,
                                             VersionIdentifier = spec.VersionIdentifier
                                         };
-                foreach (BbieSpec bbieSpec in spec.BBIEs)
+                foreach (BbieSpec bbieSpec in spec.Bbies)
                 {
-                    specWithoutASBIEs.AddBBIE(bbieSpec);
+                    specWithoutASBIEs.AddBbie(bbieSpec);
                 }
                 abies[spec.Name] = docLibrary.CreateElement(specWithoutASBIEs);
             }
@@ -220,7 +220,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 docABIESpecs.Add(new AbieSpec
                                  {
                                      Name = abieMapping.ComplexTypeName,
-                                     ASBIEs = asbieSpecs,
+                                     Asbies = asbieSpecs,
                                  });
             }
         }
@@ -231,8 +231,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                            {
                                BasedOn = acc,
                                Name = name,
-                               BBIEs = GenerateBCCMappings(abieMapping.BCCMappings(acc)),
-                               ASBIEs = GenerateASCCMappings(abieMapping.ASCCMappings(acc)),
+                               Bbies = GenerateBCCMappings(abieMapping.BCCMappings(acc)),
+                               Asbies = GenerateASCCMappings(abieMapping.ASCCMappings(acc)),
                            };
             bieABIESpecs.Add(abieSpec);
             return abieSpec;

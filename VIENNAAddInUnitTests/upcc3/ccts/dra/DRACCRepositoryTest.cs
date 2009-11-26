@@ -243,8 +243,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                BusinessTerms = new[] {"business term 1", "business term 2"},
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                BasedOn = accPerson,
-                               BBIEs = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
-                               ASBIEs = new List<AsbieSpec>
+                               Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
+                               Asbies = new List<AsbieSpec>
                                         {
                                             AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress.Id),
                                             AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress.Id)
@@ -565,7 +565,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                    BusinessTerms = new[] {"business term 1", "business term 2"},
                                    UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                    BasedOn = accAddress,
-                                   BBIEs = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
+                                   Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
                                };
                 IAbie myAddress = bieLib.CreateElement(abieSpec);
                 Element myAddressElement = repository.GetElementByID(myAddress.Id);
@@ -889,8 +889,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                BusinessTerms = new[] {"business term 1", "business term 2"},
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                BasedOn = accPerson,
-                               BBIEs = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
-                               ASBIEs = new List<AsbieSpec>
+                               Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
+                               Asbies = new List<AsbieSpec>
                                         {
                                             AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress.Id),
                                             AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress.Id)
@@ -939,15 +939,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             //-------------------
 
-            var updatedPersonSpec = new AbieSpec(abiePerson)
-                                    {
-                                        Name = "Another_Person",
-                                        Definition = "Another kind of person.",
-                                        BusinessTerms = new[] {"human being", "living thing"}
-                                    };
-            updatedPersonSpec.RemoveASBIE("My_workAddress");
-            updatedPersonSpec.RemoveBBIE("NickName");
-            Assert.AreEqual(2, updatedPersonSpec.BBIEs.Count());
+            var updatedPersonSpec = AbieSpec.CloneAbie(abiePerson);
+            updatedPersonSpec.Name = "Another_Person";
+            updatedPersonSpec.Definition = "Another kind of person.";
+            updatedPersonSpec.BusinessTerms = new[] {"human being", "living thing"};
+            updatedPersonSpec.RemoveAsbie("My_workAddress");
+            updatedPersonSpec.RemoveBbie("NickName");
+            Assert.AreEqual(2, updatedPersonSpec.Bbies.Count());
 
             abiePerson = bieLibrary.UpdateElement(abiePerson, updatedPersonSpec);
 
