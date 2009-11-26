@@ -321,7 +321,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             {
                 if (bdtLibrary == null || bdtLibrary.BDTLibrary.Name != bbie.Type.Name)
                 {
-                    bdtLibrary = new CacheItemBDTLibrary(bbie.Type.Library);
+                    bdtLibrary = new CacheItemBDTLibrary(bbie.Type.BdtLibrary);
                     bdtLibraries.Add(bdtLibrary);
                 }
                 if (cdtLibrary == null || cdtLibrary.CDTLibrary.Name != bbie.Type.BasedOn.Library.Name)
@@ -681,7 +681,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             {
                 if (bdtLibrary == null || bdtLibrary.BDTLibrary.Name != bbie.Type.Name)
                 {
-                    bdtLibrary = new CacheItemBDTLibrary(bbie.Type.Library);
+                    bdtLibrary = new CacheItemBDTLibrary(bbie.Type.BdtLibrary);
                     bdtLibraries.Add(bdtLibrary);
                 }
                 if (cdtLibrary == null || cdtLibrary.CDTLibrary.Name != bbie.Type.BasedOn.Library.Name)

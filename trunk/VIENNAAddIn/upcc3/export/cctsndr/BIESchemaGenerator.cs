@@ -136,7 +136,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 //         representation term of the basic business information entity (BBIE) it represents
                 //         with the word 'Type' appended. 
                 elementBBIE.SchemaTypeName =
-                    new XmlQualifiedName(NSPREFIX_BDT + ":" + bbie.Type.Name + bbie.Type.CON.BasicType.Name + "Type");
+                    new XmlQualifiedName(NSPREFIX_BDT + ":" + bbie.Type.Name + bbie.Type.Con.BasicType.Name + "Type");
 
 
                 // R 90F9: cardinality of elements within the ABIE

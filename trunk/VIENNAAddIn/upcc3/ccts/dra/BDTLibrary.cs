@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IBdtLibrary Members
 
-        public IEnumerable<IBdt> Elements
+        public IEnumerable<IBdt> Bdts
         {
             get
             {
@@ -36,7 +36,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IBdt ElementByName(string name)
+        public IBdt GetBdtByName(string name)
         {
             Element eaElement = package.ElementByName(name);
             if (eaElement != null && eaElement.IsA(util.Stereotype.BDT))
@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IBdt CreateElement(BdtSpec spec)
+        public IBdt CreateBdt(BdtSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.BDT;
@@ -69,7 +69,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IBdt UpdateElement(IBdt element, BdtSpec spec)
+        public IBdt UpdateBdt(IBdt element, BdtSpec spec)
         {
             ((BDT) element).Update(spec);
             return element;

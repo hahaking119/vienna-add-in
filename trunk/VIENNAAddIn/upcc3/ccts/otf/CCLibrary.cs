@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
-    public class CCLibrary : ElementLibrary<IAcc, AccSpec>, ICcLibrary
+    public class CCLibrary : BusinessLibrary, ICcLibrary
     {
         public CCLibrary(ItemId id, string name, ItemId parentId, string status, string uniqueIdentifier, string versionIdentifier, string baseUrn, string namespacePrefix, IEnumerable<string> businessTerms, IEnumerable<string> copyrights, IEnumerable<string> owners, IEnumerable<string> references)
             : base(id, name, parentId, status, uniqueIdentifier, versionIdentifier, baseUrn, namespacePrefix, businessTerms, copyrights, owners, references)
@@ -17,6 +18,26 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
+        public IEnumerable<IAcc> Elements
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
+
+        public IAcc ElementByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAcc CreateElement(AccSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAcc UpdateElement(IAcc element, AccSpec spec)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

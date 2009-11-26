@@ -287,11 +287,11 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                             string bdtName = element.Type.Name.Substring(0, element.Type.Name.Length - 4);
 
-                            foreach (IBdt bdt in ExistingBdts.Elements)
+                            foreach (IBdt bdt in ExistingBdts.Bdts)
                             {
-                                if ((bdt.Name + bdt.CON.BasicType.DictionaryEntryName).Equals(bdtName))
+                                if ((bdt.Name + bdt.Con.BasicType.DictionaryEntryName).Equals(bdtName))
                                 {
-                                    bbieSpec.Type = bdt;
+                                    bbieSpec.Bdt = bdt;
                                     break;
                                 }
                             }

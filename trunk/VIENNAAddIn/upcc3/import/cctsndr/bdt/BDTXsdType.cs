@@ -43,11 +43,11 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                               {
                                   BasedOn = cdt,
                                   Name = bdtName,
-                                  CON = SpecifyCON(),
-                                  SUPs = new List<BdtSupSpec>(SpecifySUPs()),
+                                  Con = SpecifyCON(),
                               };
+            bdtSpec.AddSups(SpecifySUPs());
 
-            BDT = Context.BDTLibrary.CreateElement(bdtSpec);
+            BDT = Context.BDTLibrary.CreateBdt(bdtSpec);
         }
 
         protected abstract IEnumerable<BdtSupSpec> SpecifySUPs();

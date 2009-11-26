@@ -23,6 +23,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
+        public IBLibrary Parent
+        {
+            get { return BLibrary; }
+        }
+
         #region IBLibrary Members
 
         public IEnumerable<IBLibrary> GetBLibraries()

@@ -74,7 +74,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
-        public IEnumerable<IBdtSup> SUPs
+        public IEnumerable<IBdtSup> Sups
         {
             get
             {
@@ -83,7 +83,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IBdtCon CON
+        public IBdtCon Con
         {
             get
             {
@@ -112,7 +112,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBdtLibrary Library
+        public IBdtLibrary BdtLibrary
         {
             get { return repository.GetBdtLibraryById(element.PackageID); }
         }
@@ -233,13 +233,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private static IEnumerable<AttributeSpec> GetAttributeSpecs(BdtSpec spec)
         {
-            BdtConSpec conSpec = spec.CON;
+            BdtConSpec conSpec = spec.Con;
             if (conSpec != null)
             {
                 // TODO throw exception if null
                 yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
             }
-            List<BdtSupSpec> supSpecs = spec.SUPs;
+            List<BdtSupSpec> supSpecs = spec.Sups;
             if (supSpecs != null)
             {
                 foreach (BdtSupSpec supSpec in supSpecs)

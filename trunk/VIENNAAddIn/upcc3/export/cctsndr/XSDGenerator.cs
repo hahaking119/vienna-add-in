@@ -102,7 +102,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         {
             foreach (IBdtLibrary bdtLibrary in context.Repository.GetBdtLibraries())
             {
-                foreach (IBdt bdt in bdtLibrary.Elements)
+                foreach (IBdt bdt in bdtLibrary.Bdts)
                 {
                     yield return bdt;
                 }

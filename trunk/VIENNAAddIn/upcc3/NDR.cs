@@ -109,7 +109,7 @@ namespace VIENNAAddIn.upcc3
         /// <returns></returns>
         public static string GetXsdTypeNameFromBdt(IBdt bdt)
         {
-            return bdt.Name + bdt.CON.BasicType.Name + "Type";
+            return bdt.Name + bdt.Con.BasicType.Name + "Type";
         }
 
         public static string ConvertXsdTypeNameToBasicTypeName(string xsdTypeName)

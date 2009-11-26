@@ -27,7 +27,7 @@ namespace CctsRepository.BieLibrary
             LanguageCode = abie.LanguageCode;
             BusinessTerms = new List<string>(abie.BusinessTerms);
             UsageRules = new List<string>(abie.UsageRules);
-            BBIEs = abie.BBIEs.Convert(bbie => new BbieSpec(bbie));
+            BBIEs = abie.BBIEs.Convert(bbie => BbieSpec.CloneBbie(bbie));
             ASBIEs = abie.ASBIEs.Convert(asbie => new AsbieSpec(asbie));
             IsEquivalentTo = abie.IsEquivalentTo;
             BasedOn = abie.BasedOn;

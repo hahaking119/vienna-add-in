@@ -102,7 +102,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             BDTXsdType parent = Parent;
             if (parent != null)
             {
-                conSpec = new BdtConSpec(parent.BDT.CON);
+                conSpec = BdtConSpec.CloneBdtCon(parent.BDT.Con);
             }
             else
             {

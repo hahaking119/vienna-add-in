@@ -178,7 +178,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.BDTLibrary;
 
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseUrn);
             libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
             libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
             libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
@@ -304,6 +304,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
             return new DOCLibrary(repository, libraryPackage);
+        }
+
+        public IBLibrary Parent
+        {
+            get { return BLibrary; }
         }
 
         #endregion

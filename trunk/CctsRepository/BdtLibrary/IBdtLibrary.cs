@@ -13,10 +13,12 @@ namespace CctsRepository.BdtLibrary
 {
     public interface IBdtLibrary
     {
-        IEnumerable<IBdt> Elements { get; }
         int Id { get; }
         string Name { get; }
-        IBLibrary Parent { get; }
+
+        IBLibrary BLibrary { get; }
+        IEnumerable<IBdt> Bdts { get; }
+
         string Status { get; }
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }
@@ -27,19 +29,13 @@ namespace CctsRepository.BdtLibrary
         IEnumerable<string> Owners { get; }
         IEnumerable<string> References { get; }
 
-        ///<summary>
-        /// Retrieves an element by name.
-        ///</summary>
-        IBdt ElementByName(string name);
+        IBdt GetBdtByName(string name);
+
+        IBdt CreateBdt(BdtSpec spec);
 
         ///<summary>
-        /// Creates a new element in this library, based on the given specification.
+        /// Updates the given BDT to match the given specification.
         ///</summary>
-        IBdt CreateElement(BdtSpec spec);
-
-        ///<summary>
-        /// Updates the given element of this library to match the given specification.
-        ///</summary>
-        IBdt UpdateElement(IBdt element, BdtSpec spec);
+        IBdt UpdateBdt(IBdt element, BdtSpec spec);
     }
 }

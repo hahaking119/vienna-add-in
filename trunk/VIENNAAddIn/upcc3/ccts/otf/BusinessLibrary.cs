@@ -18,7 +18,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             References = references;
         }
 
-        public IBLibrary Parent
+        public IBLibrary BLibrary
         {
             get { return ParentPackage as IBLibrary; }
         }

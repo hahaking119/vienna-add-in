@@ -38,13 +38,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = BDT.Name + ". Content";
+                    value = Bdt.Name + ". Content";
                 }
                 return value;
             }
         }
 
-        public IBdt BDT
+        public IBdt Bdt
         {
             get { return bdt; }
         }
@@ -52,11 +52,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public int Id
         {
             get { return attribute.AttributeID; }
-        }
-
-        public string Name
-        {
-            get { return attribute.Name; }
         }
 
         public IBasicType BasicType
