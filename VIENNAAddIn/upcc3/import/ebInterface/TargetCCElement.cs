@@ -6,34 +6,34 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class TargetCCElement : IEquatable<TargetCCElement>
     {
-        public static TargetCCElement ForBcc(string name, IBCC reference)
+        public static TargetCCElement ForBcc(string name, IBcc reference)
         {
             return new TargetCCElement(name, reference);
         }
 
-        public static TargetCCElement ForAscc(string name, IASCC reference)
+        public static TargetCCElement ForAscc(string name, IAscc reference)
         {
             return new TargetCCElement(name, reference);
         }
 
-        public static TargetCCElement ForAcc(string name, IACC reference)
+        public static TargetCCElement ForAcc(string name, IAcc reference)
         {
             return new TargetCCElement(name, reference);
         }
 
         public string Name { get; private set; }
         private readonly object reference;
-        public IBCC Bcc
+        public IBcc Bcc
         {
-            get { return (IBCC) reference; }
+            get { return (IBcc) reference; }
         }
-        public IACC Acc
+        public IAcc Acc
         {
-            get { return (IACC) reference; }
+            get { return (IAcc) reference; }
         }
-        public IASCC Ascc
+        public IAscc Ascc
         {
-            get { return (IASCC) reference; }
+            get { return (IAscc) reference; }
         }
 
         private readonly List<TargetCCElement> children;
@@ -86,17 +86,17 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public bool IsACC
         {
-            get { return reference is IACC; }
+            get { return reference is IAcc; }
         }
 
         public bool IsBCC
         {
-            get { return reference is IBCC; }
+            get { return reference is IBcc; }
         }
 
         public bool IsASCC
         {
-            get { return reference is IASCC; }
+            get { return reference is IAscc; }
         }
 
         public Mapping Mapping { get; set; }

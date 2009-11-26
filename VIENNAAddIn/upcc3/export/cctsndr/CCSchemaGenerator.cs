@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<param name="accs"></param>
-        public static void GenerateXSD(GeneratorContext context, IEnumerable<IACC> accs)
+        public static void GenerateXSD(GeneratorContext context, IEnumerable<IAcc> accs)
         {
             // Create XML schema file and prepare the XML schema header
             // R 88E2: all XML schema files must use UTF-8 encoding
@@ -56,7 +56,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             cdtInclude.SchemaLocation = "CoreDataType_" + schema.Version + ".xsd";
             schema.Includes.Add(cdtInclude);
 
-            foreach (IACC acc in accs.OrderBy(a => a.Name))
+            foreach (IAcc acc in accs.OrderBy(a => a.Name))
             {
                 // finally add the complex type to the schema
                 schema.Items.Add(GenerateComplexTypeACC(context, schema, acc));
@@ -75,12 +75,12 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             context.AddSchema(schema, "CoreComponent_" + schema.Version + ".xsd");
         }
 
-        internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneratorContext context, XmlSchema schema, IACC acc)
+        internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneratorContext context, XmlSchema schema, IAcc acc)
         {
             return GenerateComplexTypeACC(context, schema, acc, context.NamespacePrefix);
         }
 
-        internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneratorContext context, XmlSchema schema, IACC acc, string accPrefix)
+        internal static XmlSchemaComplexType GenerateComplexTypeACC(GeneratorContext context, XmlSchema schema, IAcc acc, string accPrefix)
         {
             // R A4CE, R AF95: a complex type must be defined for each ABIE   
             XmlSchemaComplexType complexTypeACC = new XmlSchemaComplexType();
@@ -97,7 +97,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             // create the sequence for the BBIEs within the ABIE
             XmlSchemaSequence sequenceBCCs = new XmlSchemaSequence();
 
-            foreach (IBCC bcc in acc.BCCs.OrderBy(a => a.Name))
+            foreach (IBcc bcc in acc.BCCs.OrderBy(a => a.Name))
             {
                 // R 89A6: for every BBIE a named element must be locally declared
                 XmlSchemaElement elementBCC = new XmlSchemaElement();
@@ -126,7 +126,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
 
 
-            foreach (IASCC ascc in acc.ASCCs.OrderBy(a => a.Name))
+            foreach (IAscc ascc in acc.ASCCs.OrderBy(a => a.Name))
             {
                 XmlSchemaElement elementASCC = new XmlSchemaElement();
 
@@ -163,7 +163,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="bbie"></param>
         ///<returns></returns>
-        public static XmlSchemaAnnotation GetBCCAnnotation(IBCC bcc)
+        public static XmlSchemaAnnotation GetBCCAnnotation(IBcc bcc)
         {
             // Contains all the documentation items such as DictionaryEntryName
             IList<XmlNode> documentation = new List<XmlNode>();
@@ -188,7 +188,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<summary>
         ///</summary>
         ///<param name="abie"></param>
-        public static XmlSchemaAnnotation GetACCAnnotation(IACC acc)
+        public static XmlSchemaAnnotation GetACCAnnotation(IAcc acc)
         {
             // Contains all the documentation items such as DictionaryEntryName
             IList<XmlNode> documentation = new List<XmlNode>();
@@ -212,7 +212,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="asbie"></param>
         ///<returns></returns>
-        public static XmlSchemaAnnotation GetASCCAnnotiation(IASCC ascc)
+        public static XmlSchemaAnnotation GetASCCAnnotiation(IAscc ascc)
         {
             // Contains all the documentation items such as DictionaryEntryName
             IList<XmlNode> documentation = new List<XmlNode>();

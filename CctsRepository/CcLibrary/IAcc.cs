@@ -10,11 +10,11 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CcLibrary
 {
-    public interface IACC
+    public interface IAcc
     {
-        IEnumerable<IBCC> BCCs { get; }
-        IEnumerable<IASCC> ASCCs { get; }
-        IACC IsEquivalentTo { get; }
+        IEnumerable<IBcc> BCCs { get; }
+        IEnumerable<IAscc> ASCCs { get; }
+        IAcc IsEquivalentTo { get; }
         IEnumerable<string> UsageRules { get; }
 
         ///<summary>
@@ -51,6 +51,6 @@ namespace CctsRepository.CcLibrary
 
         ///<summary>
         ///</summary>
-        ICCLibrary Library { get; }
+        ICcLibrary Library { get; }
     }
 }

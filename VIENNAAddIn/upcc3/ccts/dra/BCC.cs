@@ -15,19 +15,19 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class BCC : IBCC
+    internal class BCC : IBcc
     {
         private readonly Attribute attribute;
         private readonly CCRepository repository;
 
-        public BCC(CCRepository repository, Attribute attribute, IACC container)
+        public BCC(CCRepository repository, Attribute attribute, IAcc container)
         {
             this.repository = repository;
             this.attribute = attribute;
             Acc = container;
         }
 
-        #region IBCC Members
+        #region IBcc Members
 
         public ICDT Cdt
         {
@@ -92,7 +92,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.sequencingKey); }
         }
 
-        public IACC Acc { get; protected set; }
+        public IAcc Acc { get; protected set; }
 
         public string UpperBound
         {

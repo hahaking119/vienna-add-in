@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CcLibrary
 {
-    public class ASCCSpec
+    public class AsccSpec
     {
-        public ASCCSpec(IASCC ascc)
+        public AsccSpec(IAscc ascc)
         {
             Name = ascc.Name;
             DictionaryEntryName = ascc.DictionaryEntryName;
@@ -21,7 +21,7 @@ namespace CctsRepository.CcLibrary
             UpperBound = ascc.UpperBound;
         }
 
-        public ASCCSpec()
+        public AsccSpec()
         {
         }
 
@@ -31,7 +31,7 @@ namespace CctsRepository.CcLibrary
 
         public string UpperBound { get; set; }
 
-        public IACC AssociatedACC
+        public IAcc AssociatedACC
         {
             get { return ResolveAssociatedACC(); }
         }
@@ -39,7 +39,7 @@ namespace CctsRepository.CcLibrary
         /// <summary>
         /// Set a function to resolve the associated ACC.
         /// </summary>
-        public Func<IACC> ResolveAssociatedACC { get; set; }
+        public Func<IAcc> ResolveAssociatedACC { get; set; }
 
         public IEnumerable<string> UsageRules { get; set; }
         public string Name { get; set; }

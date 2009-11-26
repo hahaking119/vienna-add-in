@@ -36,16 +36,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
         #endregion
 
-        private ICCLibrary ccl;
-        private IACC accAddress;
-        private IBCC bccCityName;
+        private ICcLibrary ccl;
+        private IAcc accAddress;
+        private IBcc bccCityName;
 
         private SourceElement expectedAddress;
         private SourceElement expectedTown;
         private MapForceMapping mapForceMapping;
-        private IACC accParty;
-        private IBCC bccPartyName;
-        private IASCC asccPartyResidenceAddress;
+        private IAcc accParty;
+        private IBcc bccPartyName;
+        private IAscc asccPartyResidenceAddress;
 
         private static void AssertTreesAreEqual(SourceElement expected, SourceElement actual, string path)
         {

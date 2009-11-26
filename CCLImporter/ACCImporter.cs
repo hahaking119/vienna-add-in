@@ -6,16 +6,16 @@ namespace CCLImporter
 {
     public static class ACCImporter
     {
-        public static void ImportACCs(ICCLibrary ccLibrary, IEnumerable<ACCSpec> accSpecs)
+        public static void ImportACCs(ICcLibrary ccLibrary, IEnumerable<AccSpec> accSpecs)
         {
             // need two passes:
             //  (1) create the ACCs
             //  (2) create the ASCCs
-            var accs = new Dictionary<string, IACC>();
-            foreach (ACCSpec spec in accSpecs)
+            var accs = new Dictionary<string, IAcc>();
+            foreach (AccSpec spec in accSpecs)
             {
                 Console.WriteLine("INFO: Importing ACC " + spec.Name + ".");
-                var specWithoutASCCs = new ACCSpec
+                var specWithoutASCCs = new AccSpec
                                        {
                                            BusinessTerms = spec.BusinessTerms,
                                            Definition = spec.Definition,
@@ -27,16 +27,16 @@ namespace CCLImporter
                                            UsageRules = spec.UsageRules,
                                            VersionIdentifier = spec.VersionIdentifier
                                        };
-                foreach (BCCSpec bccSpec in spec.BCCs)
+                foreach (BccSpec bccSpec in spec.BCCs)
                 {
                     specWithoutASCCs.AddBCC(bccSpec);
                 }
                 accs[spec.Name] = ccLibrary.CreateElement(specWithoutASCCs);
             }
-            foreach (ACCSpec spec in accSpecs)
+            foreach (AccSpec spec in accSpecs)
             {
                 Console.WriteLine("INFO: Importing ASCCs for ACC " + spec.Name + ".");
-                IACC acc = accs[spec.Name];
+                IAcc acc = accs[spec.Name];
                 ccLibrary.UpdateElement(acc, spec);
             }
         }

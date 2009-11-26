@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private Dictionary<string, CandidateBCC> CandidateBCCs;
         private Dictionary<string, CandidateABIE> CandidateABIEs;
 
-        public TemporaryABIEModel(IACC candidateACC, string name, string prefix)
+        public TemporaryABIEModel(IAcc candidateACC, string name, string prefix)
         {
             Name = name;
             Prefix = prefix;
@@ -33,10 +33,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             PrepareTemporaryABIEModel(candidateACC);
         }
 
-        private void PrepareTemporaryABIEModel(IACC acc)
+        private void PrepareTemporaryABIEModel(IAcc acc)
         {
             CandidateBCCs = new Dictionary<string, CandidateBCC>();
-            foreach (IBCC bcc in acc.BCCs)
+            foreach (IBcc bcc in acc.BCCs)
             {
                 var candidateBCC = new CandidateBCC(bcc);
                 var potentialBBIE = new PotentialBBIE(candidateBCC.OriginalBCC.Name);
@@ -159,7 +159,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             //    BCCs = new Dictionary<string, TemporaryBCC>();
             //    if (GetBasedOnACC() != null)
             //    {
-            //        foreach (IBCC bcc in GetBasedOnACC().BCCs)
+            //        foreach (IBcc bcc in GetBasedOnACC().BCCs)
             //        {
             //            BCCs.Add(bcc.Name, new TemporaryBCC(bcc));
             //        }
@@ -186,7 +186,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             throw new NotImplementedException();
         }
 
-        public ICCLibrary GetCCLInUse()
+        public ICcLibrary GetCCLInUse()
         {
             //foreach (KeyValuePair<string, TemporaryCCL> keyValuePair in CCLs)
             //{
@@ -208,7 +208,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             //}
             //listModelACC.Content = new ObservableCollection<string>(new List<string>(getACCs()));
         }
-        public IACC GetBasedOnACC()
+        public IAcc GetBasedOnACC()
         {
             //foreach (KeyValuePair<string, TemporaryACC> keyValuePair in ACCs)
             //{

@@ -20,7 +20,7 @@ namespace VIENNAAddIn.upcc3
         private const string Indicator = "Indicator";
         private const string Text = "Text";
 
-        public static string GenerateBCCName(IBCC bcc)
+        public static string GenerateBCCName(IBcc bcc)
         {
             return GenerateBCCOrBBIEName(bcc.Name, bcc.Cdt.Name, bcc.DictionaryEntryName);
         }
@@ -63,7 +63,7 @@ namespace VIENNAAddIn.upcc3
             return propertyTerm + representationTerm;
         }
 
-        public static string GenerateASCCName(IASCC ascc)
+        public static string GenerateASCCName(IAscc ascc)
         {
             return ascc.Name + ascc.AssociatedElement.Name;
         }

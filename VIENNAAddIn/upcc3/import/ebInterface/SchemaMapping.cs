@@ -12,7 +12,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly MapForceSourceElementTree sourceElementStore;
         private readonly TargetElementStore targetElementStore;
 
-        public SchemaMapping(MapForceMapping mapForceMapping, ICCLibrary ccLibrary)
+        public SchemaMapping(MapForceMapping mapForceMapping, ICcLibrary ccLibrary)
         {
             sourceElementStore = new MapForceSourceElementTree(mapForceMapping);
             targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
@@ -64,8 +64,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     if (complexTypeMapping.IsMappedToSingleACC)
                     {
-                        IACC complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
-                        IACC targetACC = GetTargetElement(element).Ascc.AssociatedElement;
+                        IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
+                        IAcc targetACC = GetTargetElement(element).Ascc.AssociatedElement;
                         if (complexTypeACC.Id == targetACC.Id)
                         {
                             return new ASCCMapping(element, GetTargetElement(element), complexTypeMapping);

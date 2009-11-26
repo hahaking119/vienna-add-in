@@ -200,7 +200,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             else
             {
                 var asbieSpecs = new List<AsbieSpec>();
-                foreach (IACC acc in abieMapping.TargetACCs)
+                foreach (IAcc acc in abieMapping.TargetACCs)
                 {
                     var accABIESpec = GenerateBIELibraryABIESpec(abieMapping, acc, abieMapping.ComplexTypeName + "_" + acc.Name);
                     asbieSpecs.Add(new AsbieSpec
@@ -225,7 +225,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private AbieSpec GenerateBIELibraryABIESpec(ComplexTypeMapping abieMapping, IACC acc, string name)
+        private AbieSpec GenerateBIELibraryABIESpec(ComplexTypeMapping abieMapping, IAcc acc, string name)
         {
             var abieSpec = new AbieSpec
                            {

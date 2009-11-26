@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     ///<summary>
     ///</summary>
-    public class ACC : IACC, IEquatable<ACC>
+    public class ACC : IAcc, IEquatable<ACC>
     {
         private readonly Element element;
         private readonly CCRepository repository;
@@ -47,7 +47,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
-        #region IACC Members
+        #region IAcc Members
 
         public string DictionaryEntryName
         {
@@ -63,21 +63,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IEnumerable<IBCC> BCCs
+        public IEnumerable<IBcc> BCCs
         {
-            get { return Attributes.Convert(a => (IBCC) new BCC(repository, a, this)); }
+            get { return Attributes.Convert(a => (IBcc) new BCC(repository, a, this)); }
         }
 
         ///<summary>
         ///</summary>
-        public IEnumerable<IASCC> ASCCs
+        public IEnumerable<IAscc> ASCCs
         {
-            get { return Connectors.Where(IsASCC).Convert(c => (IASCC) new ASCC(repository, c, this)); }
+            get { return Connectors.Where(IsASCC).Convert(c => (IAscc) new ASCC(repository, c, this)); }
         }
 
         ///<summary>
         ///</summary>
-        public IACC IsEquivalentTo
+        public IAcc IsEquivalentTo
         {
             get
             {
@@ -102,7 +102,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public ICCLibrary Library
+        public ICcLibrary Library
         {
             get { return repository.GetCcLibraryById(element.PackageID); }
         }
@@ -163,7 +163,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return connector.IsASCC() && connector.GetAssociatingEnd(element.ElementID).Aggregation != (int) EaAggregationKind.None;
         }
 
-        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ACCSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(AccSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -177,22 +177,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<TaggedValueSpec> GetBccTaggedValueSpecs(BCCSpec spec)
-        {
-            return new List<TaggedValueSpec>
-                   {
-                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
-                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
-                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
-                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
-                       new TaggedValueSpec(TaggedValues.sequencingKey, spec.SequencingKey),
-                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
-                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
-                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
-                   };
-        }
-
-        private static IEnumerable<TaggedValueSpec> GetAsccTaggedValueSpecs(ASCCSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetBccTaggedValueSpecs(BccSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -207,13 +192,28 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<AttributeSpec> GetAttributeSpecs(ACCSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetAsccTaggedValueSpecs(AsccSpec spec)
         {
-            IEnumerable<BCCSpec> bccSpecs = spec.BCCs;
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.sequencingKey, spec.SequencingKey),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                   };
+        }
+
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(AccSpec spec)
+        {
+            IEnumerable<BccSpec> bccSpecs = spec.BCCs;
             if (bccSpecs != null)
             {
                 HashSet<string> duplicateBccNames = GetDuplicates(bccSpecs.Select(bccSpec => bccSpec.Name));
-                foreach (BCCSpec bccSpec in bccSpecs)
+                foreach (BccSpec bccSpec in bccSpecs)
                 {
                     string name = bccSpec.Name;
                     if (duplicateBccNames.Contains(name))
@@ -239,17 +239,17 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return duplicates;
         }
 
-        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(ACCSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(AccSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
 
-            IEnumerable<ASCCSpec> asccSpecs = spec.ASCCs;
+            IEnumerable<AsccSpec> asccSpecs = spec.ASCCs;
             if (asccSpecs != null)
             {
                 HashSet<string> duplicateAsccNames = GetDuplicates(asccSpecs.Select(asccSpec => asccSpec.Name));
-                foreach (ASCCSpec asccSpec in asccSpecs)
+                foreach (AsccSpec asccSpec in asccSpecs)
                 {
-                    IACC associatedACC = asccSpec.AssociatedACC;
+                    IAcc associatedACC = asccSpec.AssociatedACC;
                     if (associatedACC == null)
                     {
                         // TODO throw meaningful exception instead
@@ -285,7 +285,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element.GetTaggedValue(key) ?? string.Empty;
         }
 
-        public void Update(ACCSpec spec)
+        public void Update(AccSpec spec)
         {
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))

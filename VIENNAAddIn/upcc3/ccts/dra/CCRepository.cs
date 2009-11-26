@@ -87,11 +87,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (ICDTLibrary) new CDTLibrary(this, p);
         }
 
-        public IEnumerable<ICCLibrary> GetCcLibraries()
+        public IEnumerable<ICcLibrary> GetCcLibraries()
         {
             return from p in ContainedPackages
                    where p.IsCCLibrary()
-                   select (ICCLibrary) new CCLibrary(this, p);
+                   select (ICcLibrary) new CCLibrary(this, p);
         }
 
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
@@ -139,7 +139,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new CDTLibrary(this, package);
         }
 
-        public ICCLibrary GetCcLibraryById(int id)
+        public ICcLibrary GetCcLibraryById(int id)
         {
             Package package = eaRepository.GetPackageByID(id);
             return package == null ? null : new CCLibrary(this, package);
@@ -181,7 +181,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new CDT(this, element);
         }
 
-        public IACC GetAccById(int id)
+        public IAcc GetAccById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             return element == null ? null : new ACC(this, element);
@@ -223,7 +223,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new CDTLibrary(this, package);
         }
 
-        public ICCLibrary GetCcLibraryByPath(Path path)
+        public ICcLibrary GetCcLibraryByPath(Path path)
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new CCLibrary(this, package);
@@ -265,7 +265,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new CDT(this, element);
         }
 
-        public IACC GetAccByPath(Path path)
+        public IAcc GetAccByPath(Path path)
         {
             var element = eaRepository.Resolve<Element>(path);
             return element == null ? null : new ACC(this, element);

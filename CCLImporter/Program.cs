@@ -42,7 +42,7 @@ namespace CCLImporter
                 cdts[cdt.Name] = cdt;
             }
 
-            ICCLibrary ccLibrary = bLibrary.CreateCCLibrary(new CcLibrarySpec
+            ICcLibrary ccLibrary = bLibrary.CreateCCLibrary(new CcLibrarySpec
                                                             {
                                                                 Name = "CCLibrary",
                                                                 VersionIdentifier = cclVersion
@@ -52,8 +52,8 @@ namespace CCLImporter
 
             StreamReader reader = File.OpenText(string.Format(@"..\..\resources\{0}\{0}-CCs.txt", cclVersion));
             String line;
-            var accSpecs = new List<ACCSpec>();
-            ACCSpec accSpec = null;
+            var accSpecs = new List<AccSpec>();
+            AccSpec accSpec = null;
             while ((line = reader.ReadLine()) != null)
             {
                 LineNumber++;
@@ -70,7 +70,7 @@ namespace CCLImporter
                 {
                     case "ACC":
                         CheckACCRecord(record);
-                        accSpec = new ACCSpec
+                        accSpec = new AccSpec
                                   {
                                       UniqueIdentifier = record.UniqueUNAssignedID,
                                       Name = GetACCName(record),
@@ -87,7 +87,7 @@ namespace CCLImporter
                             throw new Exception("The first record must specify an ACC.");
                         }
                         CheckBCCRecord(record, accSpec.Name);
-                        var bccSpec = new BCCSpec
+                        var bccSpec = new BccSpec
                                       {
                                           UniqueIdentifier = record.UniqueUNAssignedID,
                                           Definition = record.Definition.LimitTo(MaximumTaggedValueLength),
@@ -114,7 +114,7 @@ namespace CCLImporter
                             throw new Exception("The first record must specify an ACC.");
                         }
                         CheckASCCRecord(record, accSpec.Name);
-                        var asccSpec = new ASCCSpec
+                        var asccSpec = new AsccSpec
                                        {
                                            UniqueIdentifier = record.UniqueUNAssignedID,
                                            Definition = record.Definition.LimitTo(MaximumTaggedValueLength),
@@ -282,25 +282,25 @@ namespace CCLImporter
 
     internal class ACCResolver
     {
-        private readonly ICCLibrary ccLibrary;
-        private Dictionary<string, IACC> accs;
+        private readonly ICcLibrary ccLibrary;
+        private Dictionary<string, IAcc> accs;
 
-        public ACCResolver(ICCLibrary ccLibrary)
+        public ACCResolver(ICcLibrary ccLibrary)
         {
             this.ccLibrary = ccLibrary;
         }
 
-        private IACC GetACC(string name)
+        private IAcc GetACC(string name)
         {
             if (accs == null)
             {
-                accs = new Dictionary<string, IACC>();
-                foreach (IACC acc in ccLibrary.Elements)
+                accs = new Dictionary<string, IAcc>();
+                foreach (IAcc acc in ccLibrary.Elements)
                 {
                     accs[acc.Name] = acc;
                 }
             }
-            IACC result;
+            IAcc result;
             if (!accs.TryGetValue(name, out result))
             {
                 Console.WriteLine("WARNING: ACC " + name + " not found.");
@@ -308,7 +308,7 @@ namespace CCLImporter
             return result;
         }
 
-        public Func<IACC> ResolveACC(string name)
+        public Func<IAcc> ResolveACC(string name)
         {
             return () => GetACC(name);
         }

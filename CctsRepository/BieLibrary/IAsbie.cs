@@ -20,7 +20,7 @@ namespace CctsRepository.BieLibrary
         /// <summary>
         /// Returns the ASCC on which the ASBIE is based or <c>null</c>, if the ASCC cannot be determined.
         /// </summary>
-        IASCC BasedOn { get; }
+        IAscc BasedOn { get; }
 
         string UpperBound { get; }
         string LowerBound { get; }

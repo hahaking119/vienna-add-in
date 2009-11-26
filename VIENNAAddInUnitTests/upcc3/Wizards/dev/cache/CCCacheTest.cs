@@ -52,7 +52,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            List<ICCLibrary> ccLibraries = ccCache.GetCCLibraries();
+            List<ICcLibrary> ccLibraries = ccCache.GetCCLibraries();
 
             Assert.That(ccLibraries, Is.Not.Null);
             Assert.That(ccLibraries.Count, Is.EqualTo(1));
@@ -106,7 +106,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            List<IACC> ccs = ccCache.GetCCsFromCCLibrary("cclib1");
+            List<IAcc> ccs = ccCache.GetCCsFromCCLibrary("cclib1");
 
             Assert.That(ccs.Count, Is.EqualTo(2));
         }
@@ -116,7 +116,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            IACC cc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
+            IAcc cc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
 
             Assert.That(cc, Is.Not.Null);
             Assert.That(cc.Name, Is.EqualTo("Address"));

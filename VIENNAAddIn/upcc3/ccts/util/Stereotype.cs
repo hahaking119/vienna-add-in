@@ -143,7 +143,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return bLibrary;
             }
-            if (typeof (T) == typeof (ICCLibrary))
+            if (typeof (T) == typeof (ICcLibrary))
             {
                 return CCLibrary;
             }
@@ -175,15 +175,15 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return CDT;
             }
-            if (typeof (T) == typeof (IACC))
+            if (typeof (T) == typeof (IAcc))
             {
                 return ACC;
             }
-            if (typeof (T) == typeof (IASCC))
+            if (typeof (T) == typeof (IAscc))
             {
                 return ASCC;
             }
-            if (typeof (T) == typeof (IBCC))
+            if (typeof (T) == typeof (IBcc))
             {
                 return BCC;
             }

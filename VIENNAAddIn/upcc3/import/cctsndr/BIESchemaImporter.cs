@@ -29,7 +29,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     ///</summary>
     public static class BIESchemaImporter
     {
-        private static ICCLibrary ExistingAccs;
+        private static ICcLibrary ExistingAccs;
         private static IBdtLibrary ExistingBdts;
         private static IBieLibrary BieLibrary;
         
@@ -280,7 +280,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
             return singleAbieSpec;
         }
 
-        private static IACC FindBaseACCForABIE(string abieName)
+        private static IAcc FindBaseACCForABIE(string abieName)
         {
             string accName = abieName.Split('_').Last();
             return ExistingAccs.ElementByName(accName);
@@ -401,9 +401,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</param>
         ///<returns>
         ///</returns>
-        private static AsbieSpec MatchAsbieToAscc(IACC acc, string asbieName, int associatedAbie)
+        private static AsbieSpec MatchAsbieToAscc(IAcc acc, string asbieName, int associatedAbie)
         {
-            foreach (IASCC ascc in acc.ASCCs)
+            foreach (IAscc ascc in acc.ASCCs)
             {
                 if (ascc.Name.Equals(asbieName))
                 {

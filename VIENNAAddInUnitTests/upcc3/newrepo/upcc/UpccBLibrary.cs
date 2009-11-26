@@ -103,7 +103,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ICCLibrary> GetCcLibraries()
+        public IEnumerable<ICcLibrary> GetCcLibraries()
         {
             throw new NotImplementedException();
         }
@@ -133,7 +133,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public ICCLibrary CreateCCLibrary(CcLibrarySpec spec)
+        public ICcLibrary CreateCCLibrary(CcLibrarySpec spec)
         {
             throw new NotImplementedException();
         }

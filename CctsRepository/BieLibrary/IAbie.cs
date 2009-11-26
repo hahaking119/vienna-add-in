@@ -15,7 +15,7 @@ namespace CctsRepository.BieLibrary
     {
         IEnumerable<IBbie> BBIEs { get; }
         IEnumerable<IAsbie> ASBIEs { get; }
-        IACC BasedOn { get; }
+        IAcc BasedOn { get; }
         IAbie IsEquivalentTo { get; }
         IEnumerable<string> UsageRules { get; }
 

@@ -318,9 +318,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             if (!HasBCCs())
             {
-                IACC acc = repository.GetAccById(Id);
+                IAcc acc = repository.GetAccById(Id);
 
-                foreach (IBCC bcc in acc.BCCs)
+                foreach (IBcc bcc in acc.BCCs)
                 {
                     if (BCCs.ContainsKey(bcc.Name))
                     {
@@ -341,9 +341,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             if (!HasBCCs())
             {
-                IACC acc = repository.GetAccById(Id);
+                IAcc acc = repository.GetAccById(Id);
 
-                foreach (IBCC bcc in acc.BCCs)
+                foreach (IBcc bcc in acc.BCCs)
                 {
                     if (BCCs.ContainsKey(bcc.Name))
                     {
@@ -382,9 +382,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             //{
                 ASCCs.Clear();
 
-                IACC acc = repository.GetAccById(Id);
+                IAcc acc = repository.GetAccById(Id);
 
-                foreach (IASCC ascc in acc.ASCCs)
+                foreach (IAscc ascc in acc.ASCCs)
                 {
                     IDictionary<string, cABIE> relevantABIEs = new Dictionary<string, cABIE>();
 
@@ -469,9 +469,9 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             if (ACCs.Count == 0)
             {
-                ICCLibrary ccl = repository.GetCcLibraryById(Id);
+                ICcLibrary ccl = repository.GetCcLibraryById(Id);
 
-                foreach (IACC acc in ccl.Elements)
+                foreach (IAcc acc in ccl.Elements)
                 {
                     if (ACCs.ContainsKey(acc.Name))
                     {
@@ -712,7 +712,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public void LoadCCLs(ICCRepository repository)
         {
-            foreach (ICCLibrary ccl in repository.GetCcLibraries())
+            foreach (ICcLibrary ccl in repository.GetCcLibraries())
             {
                 if (CCLs.ContainsKey(ccl.Name))
                 {

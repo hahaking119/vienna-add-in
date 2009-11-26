@@ -20,7 +20,7 @@ namespace CctsRepository.BieLibrary
         /// <summary>
         /// Returns the BCC on which the BBIE is based or <c>null</c>, if the BCC cannot be determined.
         /// </summary>
-        IBCC BasedOn { get; }
+        IBcc BasedOn { get; }
 
         string UpperBound { get; }
         string LowerBound { get; }

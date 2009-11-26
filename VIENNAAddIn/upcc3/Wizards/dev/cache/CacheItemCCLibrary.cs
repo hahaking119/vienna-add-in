@@ -5,11 +5,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemCCLibrary
     {
-        internal ICCLibrary CCLibrary { get; set; }
+        internal ICcLibrary CCLibrary { get; set; }
 
-        internal List<IACC> CCsInLibrary { get; set; }
+        internal List<IAcc> CCsInLibrary { get; set; }
 
-        internal CacheItemCCLibrary(ICCLibrary library)
+        internal CacheItemCCLibrary(ICcLibrary library)
         {
             CCLibrary = library;
         }
