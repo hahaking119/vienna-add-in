@@ -28,7 +28,7 @@ namespace CctsRepository
         IEnumerable<ICcLibrary> GetCcLibraries();
         IEnumerable<IBdtLibrary> GetBdtLibraries();
         IEnumerable<IBieLibrary> GetBieLibraries();
-        IEnumerable<IDOCLibrary> GetDocLibraries();
+        IEnumerable<IDocLibrary> GetDocLibraries();
 
         IBLibrary GetBLibraryById(int id);
         IPrimLibrary GetPrimLibraryById(int id);
@@ -37,7 +37,7 @@ namespace CctsRepository
         ICcLibrary GetCcLibraryById(int id);
         IBdtLibrary GetBdtLibraryById(int id);
         IBieLibrary GetBieLibraryById(int id);
-        IDOCLibrary GetDocLibraryById(int id);
+        IDocLibrary GetDocLibraryById(int id);
 
         IPrim GetPrimById(int id);
         IEnum GetEnumById(int id);
@@ -53,7 +53,7 @@ namespace CctsRepository
         ICcLibrary GetCcLibraryByPath(Path path);
         IBdtLibrary GetBdtLibraryByPath(Path path);
         IBieLibrary GetBieLibraryByPath(Path path);
-        IDOCLibrary GetDocLibraryByPath(Path path);
+        IDocLibrary GetDocLibraryByPath(Path path);
 
         IPrim GetPrimByPath(Path path);
         IEnum GetEnumByPath(Path path);

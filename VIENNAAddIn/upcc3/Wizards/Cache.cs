@@ -563,7 +563,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         public void LoadDOCsInBIV(ICctsRepository repository)
         {
             // doc library containing all the different Documents
-            IDOCLibrary docl = repository.GetDocLibraryById(Id);
+            IDocLibrary docl = repository.GetDocLibraryById(Id);
 
             // check if previously cached
             if (DOCs.Count == 0)
@@ -810,7 +810,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public void LoadBIVs(ICctsRepository repository)
         {
-            foreach (IDOCLibrary docl in repository.GetDocLibraries())
+            foreach (IDocLibrary docl in repository.GetDocLibraries())
             {
                 if (BIVs.ContainsKey(docl.Name))
                 {

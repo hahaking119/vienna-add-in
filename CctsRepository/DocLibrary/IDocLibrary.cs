@@ -12,7 +12,7 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.DocLibrary
 {
-    public interface IDOCLibrary
+    public interface IDocLibrary
     {
         IEnumerable<IAbie> Elements { get; }
 

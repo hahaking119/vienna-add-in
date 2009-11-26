@@ -286,7 +286,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
             }
             
-            IDOCLibrary docl = cctsR.GetDocLibraryById(currentBIV.Id);
+            IDocLibrary docl = cctsR.GetDocLibraryById(currentBIV.Id);
 
             // TODO: xsd generator needs to be adapted - currently all doc libraries are being generated whereas
             // only the ones that are checked should be generated.. 

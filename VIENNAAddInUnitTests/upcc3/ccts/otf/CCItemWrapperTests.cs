@@ -83,7 +83,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_with_stereotype_DOCLibrary_is_wrapped_Then_create_an_IDOCLibrary()
         {
-            AssertPackageWithStereotypeIsWrappedAs<IDOCLibrary>(Stereotype.DOCLibrary);
+            AssertPackageWithStereotypeIsWrappedAs<IDocLibrary>(Stereotype.DOCLibrary);
         }
     }
 }

@@ -83,11 +83,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (IBieLibrary) new BIELibrary(repository, p);
         }
 
-        public IEnumerable<IDOCLibrary> GetDocLibraries()
+        public IEnumerable<IDocLibrary> GetDocLibraries()
         {
             return from p in ContainedPackages
                    where p.IsDOCLibrary()
-                   select (IDOCLibrary) new DOCLibrary(repository, p);
+                   select (IDocLibrary) new DOCLibrary(repository, p);
         }
 
         public IBLibrary CreateBLibrary(BLibrarySpec spec)
@@ -279,7 +279,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return new ENUMLibrary(repository, libraryPackage);
         }
 
-        public IDOCLibrary CreateDOCLibrary(DocLibrarySpec spec)
+        public IDocLibrary CreateDOCLibrary(DocLibrarySpec spec)
         {
             var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
             libraryPackage.Update();
