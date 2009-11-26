@@ -1,7 +1,7 @@
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml
 {
-    internal interface IUmlDependency
+    public interface IUmlDependency<TTarget>
     {
-        IUmlClass Target { get; }
+        TTarget Target { get; }
     }
 }

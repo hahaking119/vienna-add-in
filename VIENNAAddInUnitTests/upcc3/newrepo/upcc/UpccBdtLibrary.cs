@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CctsRepository.BdtLibrary;
 using CctsRepository.bLibrary;
 using CctsRepository.PrimLibrary;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -7,16 +8,16 @@ using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 {
-    internal class UpccPrimLibrary : IPrimLibrary
+    internal class UpccBdtLibrary : IBdtLibrary
     {
         private readonly IUmlPackage umlPackage;
 
-        public UpccPrimLibrary(IUmlPackage umlPackage)
+        public UpccBdtLibrary(IUmlPackage umlPackage)
         {
             this.umlPackage = umlPackage;
         }
 
-        #region IPrimLibrary Members
+        #region IBdtLibrary Members
 
         public int Id
         {
@@ -31,6 +32,17 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         public IBLibrary BLibrary
         {
             get { return new UpccBLibrary(umlPackage.Parent); }
+        }
+
+        public IEnumerable<IBdt> Bdts
+        {
+            get
+            {
+                foreach (IUmlClass umlClass in umlPackage.Classes)
+                {
+                    yield return new UpccBdt(umlClass);
+                }
+            }
         }
 
         public string Status
@@ -78,35 +90,24 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlPackage.GetTaggedValue(TaggedValues.reference).SplitValues; }
         }
 
-        public IEnumerable<IPrim> Elements
+        public IBdt GetBdtByName(string name)
         {
-            get
+            foreach (var bdt in Bdts)
             {
-                foreach (var umlDataType in umlPackage.DataTypes)
+                if (bdt.Name == name)
                 {
-                    yield return new UpccPrim(umlDataType);
-                }
-            }
-        }
-
-        public IPrim ElementByName(string name)
-        {
-            foreach (IPrim prim in Elements)
-            {
-                if (prim.Name == name)
-                {
-                    return prim;
+                    return bdt;
                 }
             }
             return null;
         }
 
-        public IPrim CreateElement(PrimSpec spec)
+        public IBdt CreateBdt(BdtSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IPrim UpdateElement(IPrim element, PrimSpec spec)
+        public IBdt UpdateBdt(IBdt element, BdtSpec spec)
         {
             throw new NotImplementedException();
         }
