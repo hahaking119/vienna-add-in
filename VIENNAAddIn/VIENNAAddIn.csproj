@@ -198,6 +198,9 @@
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCCLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCDTLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
+    <Compile Include="upcc3\Wizards\dev\StandardLibraryImporter.xaml.cs">
+      <DependentUpon>StandardLibraryImporter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateABIE.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBCC.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialASBIE.cs" />
@@ -207,6 +210,7 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\TemporaryModel.cs" />
     <Compile Include="upcc3\Wizards\dev\UPCCModelGenerator.xaml.cs">
       <DependentUpon>UPCCModelGenerator.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\util\CheckedListModel.cs">
       <SubType>Code</SubType>
@@ -519,9 +523,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="upcc3\Wizards\dev\UPCCModelGenerator.xaml">
+    <Page Include="upcc3\Wizards\dev\StandardLibraryImporter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\UPCCModelGenerator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="upcc3\Wizards\XsdImporterForm.xaml">
       <Generator>MSBuild:Compile</Generator>
