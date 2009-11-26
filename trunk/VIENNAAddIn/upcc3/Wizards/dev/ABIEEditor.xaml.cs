@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using EA;
@@ -36,10 +37,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <summary>
         /// Constructor for ABIE creation wizard
         /// </summary>
-        /// <param name="eaRepository">The current repository</param>
-        public ABIEEditor(Repository eaRepository)
+        /// <param name="ccRepository">The current repository</param>
+        public ABIEEditor(ICctsRepository ccRepository)
         {
-            cache = CCCache.GetInstance(new CCRepository(eaRepository));
+            cache = CCCache.GetInstance(ccRepository);
             InitializeComponent();
 
             
@@ -59,7 +60,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             listModelBDTL = this.Resources["listModelBDTL"] as ListModel;
             //tempModel.Initialize(listModelCCL, listModelACC, checkedListModelBCC, checkedListModelBBIE, checkedListModelBDT, checkedListModelABIE, checkedListModelASCC, listModelBIEL, listModelBDTL);
             listModelCCL.Content = new ObservableCollection<string>(new List<string>(cache.GetCCLibraries().ConvertAll(
-                                                                                         delegate(ICCLibrary iccLibrary) { return iccLibrary.Name; })));
+                                                                                         delegate(ICcLibrary iccLibrary) { return iccLibrary.Name; })));
             WindowLoaded();
         }
 
@@ -68,7 +69,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         /// <param name="eaRepository">The current repository</param>
         /// <param name="abie"></param>
-        public ABIEEditor(Repository eaRepository, IABIE abie)
+        public ABIEEditor(Repository eaRepository, IAbie abie)
         {
             tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
             //cache.PrepareForABIE(abie);
@@ -83,7 +84,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="context"></param>
         public static void ShowForm(AddInContext context)
         {
-            new ABIEEditor(context.EARepository).Show();
+            new ABIEEditor(context.CctsRepository).Show();
         }
 
         /// <summary>
@@ -172,7 +173,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         {
             var comboBox = (ComboBox)sender;
             listModelACC.Content = new ObservableCollection<string>(new List<string>(cache.GetCCsFromCCLibrary(comboBox.SelectedItem.ToString()).ConvertAll(
-                                                                                         delegate(IACC acc) { return acc.Name; })));
+                                                                                         delegate(IAcc acc) { return acc.Name; })));
             //tempModel.setCCLInUse(comboBox.SelectedItem.ToString());
         }
 
