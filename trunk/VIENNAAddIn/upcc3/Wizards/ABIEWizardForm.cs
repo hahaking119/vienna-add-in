@@ -1451,8 +1451,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                                    BusinessTerms = selectedACC.BusinessTerms,
                                    UsageRules = selectedACC.UsageRules,
                                    BasedOn = selectedACC,
-                                   BBIEs = newBBIEs,
-                                   ASBIEs = newASBIEs,
+                                   Bbies = newBBIEs,
+                                   Asbies = newASBIEs,
                                };
             }
             return abieSpec;

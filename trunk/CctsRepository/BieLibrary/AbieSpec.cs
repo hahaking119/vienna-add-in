@@ -14,38 +14,16 @@ namespace CctsRepository.BieLibrary
 {
     public class AbieSpec
     {
-        private List<AsbieSpec> asbies;
-        private List<BbieSpec> bbies;
+        private List<AsbieSpec> asbies = new List<AsbieSpec>();
+        private List<BbieSpec> bbies = new List<BbieSpec>();
 
-        public AbieSpec(IAbie abie)
-        {
-            Name = abie.Name;
-            DictionaryEntryName = abie.DictionaryEntryName;
-            Definition = abie.Definition;
-            UniqueIdentifier = abie.UniqueIdentifier;
-            VersionIdentifier = abie.VersionIdentifier;
-            LanguageCode = abie.LanguageCode;
-            BusinessTerms = new List<string>(abie.BusinessTerms);
-            UsageRules = new List<string>(abie.UsageRules);
-            BBIEs = abie.BBIEs.Convert(bbie => BbieSpec.CloneBbie(bbie));
-            ASBIEs = abie.ASBIEs.Convert(asbie => new AsbieSpec(asbie));
-            IsEquivalentTo = abie.IsEquivalentTo;
-            BasedOn = abie.BasedOn;
-        }
-
-        public AbieSpec()
-        {
-            bbies = new List<BbieSpec>();
-            asbies = new List<AsbieSpec>();
-        }
-
-        public IEnumerable<BbieSpec> BBIEs
+        public IEnumerable<BbieSpec> Bbies
         {
             get { return bbies; }
             set { bbies = new List<BbieSpec>(value); }
         }
 
-        public IEnumerable<AsbieSpec> ASBIEs
+        public IEnumerable<AsbieSpec> Asbies
         {
             get { return asbies; }
             set { asbies = new List<AsbieSpec>(value); }
@@ -63,22 +41,42 @@ namespace CctsRepository.BieLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public void AddASBIE(AsbieSpec spec)
+        public static AbieSpec CloneAbie(IAbie abie)
+        {
+            return new AbieSpec
+                   {
+                       Name = abie.Name,
+                       DictionaryEntryName = abie.DictionaryEntryName,
+                       Definition = abie.Definition,
+                       UniqueIdentifier = abie.UniqueIdentifier,
+                       VersionIdentifier = abie.VersionIdentifier,
+                       LanguageCode = abie.LanguageCode,
+                       BusinessTerms = new List<string>(abie.BusinessTerms),
+                       UsageRules = new List<string>(abie.UsageRules),
+                       Bbies = abie.BBIEs.Convert(bbie => BbieSpec.CloneBbie(bbie)),
+                       Asbies = abie.ASBIEs.Convert(asbie => new AsbieSpec(asbie)),
+                       IsEquivalentTo = abie.IsEquivalentTo,
+                       BasedOn = abie.BasedOn,
+                   }
+                ;
+        }
+
+        public void AddAsbie(AsbieSpec spec)
         {
             asbies.Add(spec);
         }
 
-        public void RemoveASBIE(string name)
+        public void RemoveAsbie(string name)
         {
             asbies.RemoveAll(asbie => asbie.Name == name);
         }
 
-        public void AddBBIE(BbieSpec spec)
+        public void AddBbie(BbieSpec spec)
         {
             bbies.Add(spec);
         }
 
-        public void RemoveBBIE(string name)
+        public void RemoveBbie(string name)
         {
             bbies.RemoveAll(bbie => bbie.Name == name);
         }

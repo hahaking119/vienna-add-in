@@ -94,27 +94,27 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     if (abieToBeUpdated == null)
                     {
                         abieToBeUpdated = BIESchemaImporter.getElementByName(abieName);
-                        var updatedAbieSpec = new AbieSpec(abieToBeUpdated);
+                        var updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
 
                         IList<AsbieSpec> newAsbieSpecs = CumulateAsbieSpecsFromComplexType(abieComplexType,
                                                                                            allElementDefinitions);
 
                         foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
                         {
-                            updatedAbieSpec.AddASBIE(newAsbieSpec);
+                            updatedAbieSpec.AddAsbie(newAsbieSpec);
                         }
                         DocLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
                     }
                     else
                     {
-                        var updatedAbieSpec = new AbieSpec(abieToBeUpdated);
+                        var updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
 
                         IList<AsbieSpec> newAsbieSpecs = CumulateAsbieSpecsFromComplexType(abieComplexType,
                                                                                            allElementDefinitions);
 
                         foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
                         {
-                            updatedAbieSpec.AddASBIE(newAsbieSpec);
+                            updatedAbieSpec.AddAsbie(newAsbieSpec);
                         }
 
                         DocLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
@@ -301,7 +301,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     }
                 }
             }
-            singleAbieSpec.BBIEs = bbieSpecs;
+            singleAbieSpec.Bbies = bbieSpecs;
 
             return singleAbieSpec;
         }

@@ -224,7 +224,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private static IEnumerable<AttributeSpec> GetAttributeSpecs(AbieSpec spec)
         {
-            IEnumerable<BbieSpec> bbieSpecs = spec.BBIEs;
+            IEnumerable<BbieSpec> bbieSpecs = spec.Bbies;
             if (bbieSpecs != null)
             {
                 foreach (BbieSpec bbieSpec in bbieSpecs)
@@ -239,7 +239,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
             if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
 
-            IEnumerable<AsbieSpec> asbieSpecs = spec.ASBIEs;
+            IEnumerable<AsbieSpec> asbieSpecs = spec.Asbies;
             if (asbieSpecs != null)
             {
                 foreach (AsbieSpec asbieSpec in asbieSpecs)
