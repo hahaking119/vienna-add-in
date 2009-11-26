@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -18,6 +19,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
 
         #region IUmlPackage Members
 
+        public string Stereotype
+        {
+            get { return eaPackage.Element != null ? eaPackage.Element.Stereotype : string.Empty; }
+        }
+
         public IUmlTaggedValue GetTaggedValue(TaggedValues name)
         {
             return EaUmlTaggedValue.ForEaTaggedValue(GetEATaggedValueByName(name.ToString()));
@@ -37,11 +43,17 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
         {
             get
             {
+                // TODO return only classes, not e.g. data types
                 foreach (Element eaElement in eaPackage.Elements)
                 {
                     yield return new EaUmlClass(eaRepository, eaElement);
                 }
             }
+        }
+
+        public IEnumerable<IUmlDataType> DataTypes
+        {
+            get { throw new NotImplementedException(); }
         }
 
         public IUmlPackage Parent

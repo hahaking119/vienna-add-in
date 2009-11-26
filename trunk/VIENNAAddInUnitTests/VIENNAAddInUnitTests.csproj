@@ -90,6 +90,10 @@
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
     <Compile Include="upcc3\ccts\util\AsbieAggregationKindTests.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlDependency.cs" />
+    <Compile Include="upcc3\newrepo\UpccRepositoryTests.cs" />
+    <Compile Include="upcc3\newrepo\upcc\uml\IUmlDataType.cs" />
+    <Compile Include="upcc3\newrepo\upcc\UpccBdt.cs" />
+    <Compile Include="upcc3\newrepo\upcc\UpccBdtLibrary.cs" />
     <Compile Include="upcc3\newrepo\upcc\UpccBLibrary.cs" />
     <Compile Include="upcc3\newrepo\NewRepoTests.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlDependency.cs" />
@@ -97,7 +101,6 @@
     <Compile Include="upcc3\newrepo\ea\EaUmlRepository.cs" />
     <Compile Include="upcc3\newrepo\EARepositoryWithTwoPRIMs.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\EmptyUmlTaggedValue.cs" />
-    <Compile Include="upcc3\newrepo\ccts\ICctsRepository.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlClass.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlPackage.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlRepository.cs" />

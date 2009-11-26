@@ -28,7 +28,10 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 
         public IEnumerable<IBLibrary> GetBLibraries()
         {
-            throw new NotImplementedException();
+            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype(Stereotype.bLibrary))
+            {
+                yield return new UpccBLibrary(umlPackage);
+            }
         }
 
         public IEnumerable<IPrimLibrary> GetPrimLibraries()
@@ -56,7 +59,10 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
-            throw new NotImplementedException();
+            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype(Stereotype.BDTLibrary))
+            {
+                yield return new UpccBdtLibrary(umlPackage);
+            }
         }
 
         public IEnumerable<IBieLibrary> GetBieLibraries()

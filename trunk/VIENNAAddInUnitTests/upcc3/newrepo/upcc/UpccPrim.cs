@@ -8,120 +8,120 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 {
     internal class UpccPrim : IPrim
     {
-        private readonly IUmlClass umlClass;
+        private readonly IUmlDataType umlDataType;
 
-        public UpccPrim(IUmlClass umlClass)
+        public UpccPrim(IUmlDataType umlDataType)
         {
-            this.umlClass = umlClass;
+            this.umlDataType = umlDataType;
         }
 
         #region IPrim Members
 
         public int Id
         {
-            get { return umlClass.Id; }
+            get { return umlDataType.Id; }
         }
 
         public string Name
         {
-            get { return umlClass.Name; }
+            get { return umlDataType.Name; }
         }
 
         public string DictionaryEntryName
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.dictionaryEntryName).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.dictionaryEntryName).Value; }
         }
 
         public string Definition
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.definition).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.definition).Value; }
         }
 
         public string UniqueIdentifier
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
         }
 
         public string VersionIdentifier
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.versionIdentifier).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.versionIdentifier).Value; }
         }
 
         public string LanguageCode
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.languageCode).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.languageCode).Value; }
         }
 
         public IEnumerable<string> BusinessTerms
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
         }
 
         public IPrimLibrary Library
         {
-            get { return new UpccPrimLibrary(umlClass.Package); }
+            get { return new UpccPrimLibrary(umlDataType.Package); }
         }
 
         public string Pattern
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.pattern).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.pattern).Value; }
         }
 
         public string FractionDigits
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.fractionDigits).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.fractionDigits).Value; }
         }
 
         public string Length
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.length).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.length).Value; }
         }
 
         public string MaxExclusive
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.maxExclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.maxExclusive).Value; }
         }
 
         public string MaxInclusive
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.maxInclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.maxInclusive).Value; }
         }
 
         public string MaxLength
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.maxLength).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.maxLength).Value; }
         }
 
         public string MinExclusive
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.minExclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.minExclusive).Value; }
         }
 
         public string MinInclusive
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.minInclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.minInclusive).Value; }
         }
 
         public string MinLength
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.minLength).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.minLength).Value; }
         }
 
         public string TotalDigits
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.totalDigits).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.totalDigits).Value; }
         }
 
         public string WhiteSpace
         {
-            get { return umlClass.GetTaggedValue(TaggedValues.whiteSpace).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.whiteSpace).Value; }
         }
 
         public IPrim IsEquivalentTo
         {
             get
             {
-                var dependencies = umlClass.GetDependenciesByStereotype(Stereotype.IsEquivalentTo);
+                var dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.IsEquivalentTo);
                 return dependencies.Count() == 0 ? null : new UpccPrim(dependencies.First().Target);
             }
         }

@@ -2,7 +2,7 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml
 {
-    internal interface IUmlTaggedValue
+    public interface IUmlTaggedValue
     {
         string Value { get; }
 

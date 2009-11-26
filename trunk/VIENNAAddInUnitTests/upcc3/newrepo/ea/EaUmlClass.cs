@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -39,7 +40,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
             get { return new EaUmlPackage(eaRepository, eaRepository.GetPackageByID(eaElement.PackageID)); }
         }
 
-        public IEnumerable<IUmlDependency> GetDependenciesByStereotype(string stereotype)
+        public IEnumerable<IUmlDependency<IUmlClass>> GetDependenciesByStereotype(string stereotype)
         {
             foreach (Connector connector in eaElement.Connectors)
             {
@@ -47,10 +48,15 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
                 {
                     if (connector.Stereotype == stereotype)
                     {
-                        yield return new EaUmlDependency(eaRepository, connector);
+                        yield return new EaUmlDependency<IUmlClass>(eaRepository, connector, CreateUmlClass);
                     }
                 }
             }
+        }
+
+        private static EaUmlClass CreateUmlClass(Repository repository, Element element)
+        {
+            return new EaUmlClass(repository, element);
         }
 
         public IUmlTaggedValue GetTaggedValue(TaggedValues name)
