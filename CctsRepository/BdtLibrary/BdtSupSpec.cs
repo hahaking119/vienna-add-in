@@ -11,9 +11,9 @@ using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.BdtLibrary
 {
-    public class BDTSupplementaryComponentSpec
+    public class BdtSupSpec
     {
-        public BDTSupplementaryComponentSpec(ICDTSupplementaryComponent cdtSup)
+        public BdtSupSpec(ICDTSupplementaryComponent cdtSup)
         {
             Name = cdtSup.Name;
             DictionaryEntryName = cdtSup.DictionaryEntryName;
@@ -32,7 +32,7 @@ namespace CctsRepository.BdtLibrary
             UsageRules = new List<string>(cdtSup.UsageRules);
         }
 
-        public BDTSupplementaryComponentSpec(IBDTSupplementaryComponent bdtSup)
+        public BdtSupSpec(IBdtSup bdtSup)
         {
             Name = bdtSup.Name;
             DictionaryEntryName = bdtSup.DictionaryEntryName;
@@ -62,7 +62,7 @@ namespace CctsRepository.BdtLibrary
             WhiteSpace = bdtSup.WhiteSpace;
         }
 
-        public BDTSupplementaryComponentSpec()
+        public BdtSupSpec()
         {
         }
 

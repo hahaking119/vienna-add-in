@@ -328,11 +328,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                         throw new CacheException("The wizard encountered two BCCs within one ACC having identical names. Please verify your model!");
                     }
 
-                    BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked));
+                    BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Cdt.Id, CheckState.Unchecked));
 
-                    BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Type.Id, CheckState.Unchecked));
+                    BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Cdt.Id, CheckState.Unchecked));
 
-                    BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls, CheckState.Unchecked);
+                    BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Cdt.Id, bdtls, CheckState.Unchecked);
                 }                
             }
         }
@@ -351,7 +351,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                         throw new CacheException("The wizard encountered two BCCs within one ACC having identical names. Please verify your model!");
                     }
                     
-                    BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Type.Id, CheckState.Unchecked));
+                    BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Cdt.Id, CheckState.Unchecked));
 
                     int bbieCount = 0;
                     foreach (IBBIE bbie in abie.BBIEs)
@@ -360,16 +360,16 @@ namespace VIENNAAddIn.upcc3.Wizards
                         {                            
                             BCCs[bcc.Name].State = CheckState.Checked;
                             BCCs[bcc.Name].BBIEs.Add(bbie.Name,
-                                                     new cBBIE(bbie.Name, -1, bcc.Type.Id, CheckState.Checked));
-                            BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls, CheckState.Checked);
+                                                     new cBBIE(bbie.Name, -1, bcc.Cdt.Id, CheckState.Checked));
+                            BCCs[bcc.Name].BBIEs[bbie.Name].SearchAndAssignRelevantBDTs(bcc.Cdt.Id, bdtls, CheckState.Checked);
 
                             bbieCount++;
                         }
                     }
                     if (bbieCount == 0)
                     {
-                        BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Type.Id, CheckState.Unchecked));
-                        BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Type.Id, bdtls, CheckState.Unchecked);
+                        BCCs[bcc.Name].BBIEs.Add(bcc.Name, new cBBIE(bcc.Name, -1, bcc.Cdt.Id, CheckState.Unchecked));
+                        BCCs[bcc.Name].BBIEs[bcc.Name].SearchAndAssignRelevantBDTs(bcc.Cdt.Id, bdtls, CheckState.Unchecked);
                     }                   
                 }
             }
@@ -780,7 +780,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public void LoadBDTLsAndTheirBDTs(ICCRepository repository)
         {
-            foreach (IBDTLibrary bdtl in repository.GetBdtLibraries())
+            foreach (IBdtLibrary bdtl in repository.GetBdtLibraries())
             {
                 if (BDTLs.ContainsKey(bdtl.Name))
                 {
@@ -790,7 +790,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 BDTLs.Add(bdtl.Name, new cBDTLibrary(bdtl.Name, bdtl.Id));
 
-                foreach (IBDT bdt in bdtl.Elements)
+                foreach (IBdt bdt in bdtl.Elements)
                 {
                     if (BDTLs[bdtl.Name].BDTs.ContainsKey(bdt.Name))
                     {

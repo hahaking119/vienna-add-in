@@ -59,12 +59,12 @@
     <Compile Include="CcLibrary\ASCCSpec.cs" />
     <Compile Include="BieLibrary\BBIESpec.cs" />
     <Compile Include="CcLibrary\BCCSpec.cs" />
-    <Compile Include="BdtLibrary\BDTSpec.cs" />
+    <Compile Include="BdtLibrary\BdtSpec.cs" />
     <Compile Include="CdtLibrary\CDTContentComponentSpec.cs" />
     <Compile Include="CdtLibrary\CDTSpec.cs" />
     <Compile Include="CdtLibrary\CDTSupplementaryComponentSpec.cs" />
     <Compile Include="EnumLibrary\CodelistEntrySpec.cs" />
-    <Compile Include="BdtLibrary\BDTContentComponentSpec.cs" />
+    <Compile Include="BdtLibrary\BdtConSpec.cs" />
     <Compile Include="EnumLibrary\ENUMSpec.cs" />
     <Compile Include="BieLibrary\IABIE.cs" />
     <Compile Include="CcLibrary\IACC.cs" />
@@ -73,9 +73,9 @@
     <Compile Include="IBasicType.cs" />
     <Compile Include="BieLibrary\IBBIE.cs" />
     <Compile Include="CcLibrary\IBCC.cs" />
-    <Compile Include="BdtLibrary\IBDT.cs" />
-    <Compile Include="BdtLibrary\IBDTContentComponent.cs" />
-    <Compile Include="BdtLibrary\IBDTLibrary.cs" />
+    <Compile Include="BdtLibrary\IBdt.cs" />
+    <Compile Include="BdtLibrary\IBdtCon.cs" />
+    <Compile Include="BdtLibrary\IBdtLibrary.cs" />
     <Compile Include="BieLibrary\IBIELibrary.cs" />
     <Compile Include="bLibrary\IBLibrary.cs" />
     <Compile Include="CcLibrary\ICCLibrary.cs" />
@@ -90,11 +90,11 @@
     <Compile Include="EnumLibrary\IENUMLibrary.cs" />
     <Compile Include="PrimLibrary\IPRIM.cs" />
     <Compile Include="PrimLibrary\IPRIMLibrary.cs" />
-    <Compile Include="BdtLibrary\IBDTSupplementaryComponent.cs" />
+    <Compile Include="BdtLibrary\IBdtSup.cs" />
     <Compile Include="DocLibrary\DocLibrarySpec.cs" />
     <Compile Include="PrimLibrary\PRIMSpec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BdtLibrary\BDTSupplementaryComponentSpec.cs" />
+    <Compile Include="BdtLibrary\BdtSupSpec.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VIENNAAddInUtils\VIENNAAddInUtils.csproj">

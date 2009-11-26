@@ -14,7 +14,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<param name="bdts"></param>
-        public static void GenerateXSD(GeneratorContext context, IEnumerable<IBDT> bdts)
+        public static void GenerateXSD(GeneratorContext context, IEnumerable<IBdt> bdts)
         {
             var schema = new XmlSchema {TargetNamespace = context.TargetNamespace};
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
@@ -22,9 +22,9 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             schema.Namespaces.Add("ccts","urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
             schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
 
-            foreach (IBDT bdt in bdts)
+            foreach (IBdt bdt in bdts)
             {
-                var sups = new List<IBDTSupplementaryComponent>(bdt.SUPs);
+                var sups = new List<IBdtSup>(bdt.SUPs);
                 if (sups.Count == 0)
                 {
                     var simpleType = new XmlSchemaSimpleType {Name = NDR.GetXsdTypeNameFromBdt(bdt)};
@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                                                  {
                                                      BaseTypeName = GetXmlQualifiedName(bdt.CON.BasicType)
                                                  };
-                    foreach (IBDTSupplementaryComponent sup in sups)
+                    foreach (IBdtSup sup in sups)
                     {
                         var attribute = new XmlSchemaAttribute
                                         {
@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             context.AddSchema(schema, "BusinessDataType_" + schema.Version + ".xsd");
         }
 
-        private static XmlSchemaAnnotation GetAttributeAnnotation(IBDTSupplementaryComponent sup)
+        private static XmlSchemaAnnotation GetAttributeAnnotation(IBdtSup sup)
         {
             var xml = new XmlDocument();
             // Deviation from rule [R 9C95]: Generating only a subset of the defined annotations and added some additional annotations.
@@ -101,7 +101,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             return ann;
         }
 
-        private static XmlSchemaAnnotation GetTypeAnnotation(IBDT bdt)
+        private static XmlSchemaAnnotation GetTypeAnnotation(IBdt bdt)
         {
             var xml = new XmlDocument();
             // Deviation from rule [R BFE5]: Generating only a subset of the defined annotations and added some additional annotations.
@@ -144,7 +144,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             return new XmlQualifiedName(GetXSDType(basicType.Name), "http://www.w3.org/2001/XMLSchema");
         }
 
-        private static string GetAttributeName(IBDTSupplementaryComponent sup)
+        private static string GetAttributeName(IBdtSup sup)
         {
             string name = sup.Name + sup.BasicType.Name;
             return name.Replace(".", string.Empty);

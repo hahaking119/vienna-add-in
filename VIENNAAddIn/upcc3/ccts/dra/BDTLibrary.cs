@@ -13,16 +13,16 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class BDTLibrary : BusinessLibrary, IBDTLibrary
+    public class BDTLibrary : BusinessLibrary, IBdtLibrary
     {
         public BDTLibrary(CCRepository repository, Package package)
             : base(repository, package)
         {
         }
 
-        #region IBDTLibrary Members
+        #region IBdtLibrary Members
 
-        public IEnumerable<IBDT> Elements
+        public IEnumerable<IBdt> Elements
         {
             get
             {
@@ -36,7 +36,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IBDT ElementByName(string name)
+        public IBdt ElementByName(string name)
         {
             Element eaElement = package.ElementByName(name);
             if (eaElement != null && eaElement.IsA(util.Stereotype.BDT))
@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IBDT CreateElement(BDTSpec spec)
+        public IBdt CreateElement(BdtSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.BDT;
@@ -69,7 +69,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IBDT UpdateElement(IBDT element, BDTSpec spec)
+        public IBdt UpdateElement(IBdt element, BdtSpec spec)
         {
             ((BDT) element).Update(spec);
             return element;

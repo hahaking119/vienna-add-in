@@ -11,12 +11,12 @@ using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.BdtLibrary
 {
-    public interface IBDT
+    public interface IBdt
     {
-        IBDTContentComponent CON { get; }
-        IEnumerable<IBDTSupplementaryComponent> SUPs { get; }
+        IBdtCon CON { get; }
+        IEnumerable<IBdtSup> SUPs { get; }
 
-        IBDT IsEquivalentTo { get; }
+        IBdt IsEquivalentTo { get; }
         ICDT BasedOn { get; }
         IEnumerable<string> UsageRules { get; }
 
@@ -54,6 +54,6 @@ namespace CctsRepository.BdtLibrary
 
         ///<summary>
         ///</summary>
-        IBDTLibrary Library { get; }
+        IBdtLibrary Library { get; }
     }
 }

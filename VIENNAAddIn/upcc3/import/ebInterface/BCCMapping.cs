@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             this.sourceElement = sourceElement;
             this.targetElement = targetElement;
             BCC = targetElement.Bcc;
-            ACC = BCC.Container;
+            ACC = BCC.Acc;
             ElementName = sourceElement.Name;
         }
 

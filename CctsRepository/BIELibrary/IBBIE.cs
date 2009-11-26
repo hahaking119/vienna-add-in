@@ -14,7 +14,7 @@ namespace CctsRepository.BieLibrary
 {
     public interface IBBIE
     {
-        IBDT Type { get; }
+        IBdt Type { get; }
         IABIE Container { get; }
 
         /// <summary>

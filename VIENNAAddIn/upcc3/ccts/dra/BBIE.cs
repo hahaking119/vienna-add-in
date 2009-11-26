@@ -100,7 +100,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.LowerBound; }
         }
 
-        public IBDT Type
+        public IBdt Type
         {
             get { return repository.GetBdtById(attribute.ClassifierID); }
         }

@@ -248,9 +248,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                 (cache.PathIsValid(CacheConstants.PATH_BDTLs, new[] {selectedBDTLName})))
             {
                 ICDT cdt = repository.GetCdtById(cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].Id);
-                IBDTLibrary bdtl = repository.GetBdtLibraryById(cache.BDTLs[selectedBDTLName].Id);
+                IBdtLibrary bdtl = repository.GetBdtLibraryById(cache.BDTLs[selectedBDTLName].Id);
 
-                BDTSpec bdtSpec = BDTSpec.CloneCDT(cdt, textBDTName.Text);
+                BdtSpec bdtSpec = BdtSpec.CloneCDT(cdt, textBDTName.Text);
 
                 foreach (cSUP sup in cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs.Values)
                 {
@@ -260,7 +260,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     }
                 }
 
-                IBDT newBDT = bdtl.CreateElement(bdtSpec);
+                IBdt newBDT = bdtl.CreateElement(bdtSpec);
 
                 cache.BDTLs[selectedBDTLName].BDTs.Add(newBDT.Name, new cBDT(newBDT.Name, newBDT.Id, newBDT.BasedOn.Id, CheckState.Unchecked));
 

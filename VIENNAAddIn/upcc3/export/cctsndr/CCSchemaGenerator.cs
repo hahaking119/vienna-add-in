@@ -109,7 +109,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 //         representation term of the basic business information entity (BBIE) it represents
                 //         with the word 'Type' appended. 
                 elementBCC.SchemaTypeName =
-                    new XmlQualifiedName(NSPREFIX_CDT + ":" + bcc.Type.Name + bcc.Type.CON.BasicType.Name + "Type");
+                    new XmlQualifiedName(NSPREFIX_CDT + ":" + bcc.Cdt.Name + bcc.Cdt.CON.BasicType.Name + "Type");
 
 
                 // R 90F9: cardinality of elements within the ABIE
@@ -176,7 +176,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             AddDocumentation(documentation, "Definition", bcc.Definition);
             AddDocumentation(documentation, "BusinessTermName", bcc.BusinessTerms);
             AddDocumentation(documentation, "PropertyTermName", bcc.Name);
-            AddDocumentation(documentation, "RepresentationTermName", bcc.Type.Name);
+            AddDocumentation(documentation, "RepresentationTermName", bcc.Cdt.Name);
             AddDocumentation(documentation, "AcronymCode", "BCC");
 
             XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();

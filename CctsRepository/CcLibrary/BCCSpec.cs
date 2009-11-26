@@ -18,7 +18,7 @@ namespace CctsRepository.CcLibrary
             SequencingKey = bcc.SequencingKey;
             UpperBound = bcc.UpperBound;
             LowerBound = bcc.LowerBound;
-            Type = bcc.Type;
+            Type = bcc.Cdt;
         }
 
         public BCCSpec()

@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3
 
         public static string GenerateBCCName(IBCC bcc)
         {
-            return GenerateBCCOrBBIEName(bcc.Name, bcc.Type.Name, bcc.DictionaryEntryName);
+            return GenerateBCCOrBBIEName(bcc.Name, bcc.Cdt.Name, bcc.DictionaryEntryName);
         }
 
         public static string GetXsdElementNameFromBbie(IBBIE bbie)
@@ -107,7 +107,7 @@ namespace VIENNAAddIn.upcc3
         /// </summary>
         /// <param name="bdt"></param>
         /// <returns></returns>
-        public static string GetXsdTypeNameFromBdt(IBDT bdt)
+        public static string GetXsdTypeNameFromBdt(IBdt bdt)
         {
             return bdt.Name + bdt.CON.BasicType.Name + "Type";
         }

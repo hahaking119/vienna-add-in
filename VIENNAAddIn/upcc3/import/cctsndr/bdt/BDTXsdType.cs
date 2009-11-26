@@ -32,25 +32,25 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             get { return XsdType.Name; }
         }
 
-        public IBDT BDT { get; private set; }
+        public IBdt BDT { get; private set; }
         public abstract string ContentComponentXsdTypeName { get; }
 
         public void CreateBDT()
         {
             string bdtName = GetBdtNameFromXsdType();
             ICDT cdt = Context.CDTLibrary.ElementByName(GetDataTypeTerm());
-            var bdtSpec = new BDTSpec
+            var bdtSpec = new BdtSpec
                               {
                                   BasedOn = cdt,
                                   Name = bdtName,
                                   CON = SpecifyCON(),
-                                  SUPs = new List<BDTSupplementaryComponentSpec>(SpecifySUPs()),
+                                  SUPs = new List<BdtSupSpec>(SpecifySUPs()),
                               };
 
             BDT = Context.BDTLibrary.CreateElement(bdtSpec);
         }
 
-        protected abstract IEnumerable<BDTSupplementaryComponentSpec> SpecifySUPs();
+        protected abstract IEnumerable<BdtSupSpec> SpecifySUPs();
 
         protected IPRIM FindPRIM(string primName)
         {
@@ -62,7 +62,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             return prim;
         }
 
-        protected IBDT GetBDTByXsdTypeName(string typeName)
+        protected IBdt GetBDTByXsdTypeName(string typeName)
         {
             return bdtSchema.GetBDTByXsdTypeName(typeName);
         }
@@ -123,6 +123,6 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             return qualifiers;
         }
 
-        protected abstract BDTContentComponentSpec SpecifyCON();
+        protected abstract BdtConSpec SpecifyCON();
     }
 }

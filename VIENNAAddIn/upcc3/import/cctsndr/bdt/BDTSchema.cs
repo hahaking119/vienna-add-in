@@ -68,7 +68,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             get { return Context.BDTSchema.Namespaces; }
         }
 
-        public IBDT GetBDTByXsdTypeName(string typeName)
+        public IBdt GetBDTByXsdTypeName(string typeName)
         {
             BDTXsdType bdtType;
             if (bdtTypes.TryGetValue(typeName, out bdtType))

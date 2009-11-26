@@ -38,12 +38,12 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             get { return (XmlSchemaSimpleTypeRestriction) SimpleType.Content; }
         }
 
-        protected override IEnumerable<BDTSupplementaryComponentSpec> SpecifySUPs()
+        protected override IEnumerable<BdtSupSpec> SpecifySUPs()
         {
             yield break;
         }
 
-        private BDTContentComponentSpec ApplyCONRestrictions(BDTContentComponentSpec conSpec)
+        private BdtConSpec ApplyCONRestrictions(BdtConSpec conSpec)
         {
             foreach (XmlSchemaObject facet in Restriction.Facets)
             {
@@ -96,17 +96,17 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             return conSpec;
         }
 
-        protected override BDTContentComponentSpec SpecifyCON()
+        protected override BdtConSpec SpecifyCON()
         {
-            BDTContentComponentSpec conSpec;
+            BdtConSpec conSpec;
             BDTXsdType parent = Parent;
             if (parent != null)
             {
-                conSpec = new BDTContentComponentSpec(parent.BDT.CON);
+                conSpec = new BdtConSpec(parent.BDT.CON);
             }
             else
             {
-                conSpec = new BDTContentComponentSpec
+                conSpec = new BdtConSpec
                           {
                               BasicType =
                                   FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName))

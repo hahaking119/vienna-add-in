@@ -3,9 +3,9 @@ using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.BdtLibrary
 {
-    public class BDTContentComponentSpec
+    public class BdtConSpec
     {
-        public BDTContentComponentSpec(IBDTContentComponent bdtCon)
+        public BdtConSpec(IBdtCon bdtCon)
         {
             Name = bdtCon.Name;
             DictionaryEntryName = bdtCon.DictionaryEntryName;
@@ -35,7 +35,7 @@ namespace CctsRepository.BdtLibrary
             WhiteSpace = bdtCon.WhiteSpace;
         }
 
-        public BDTContentComponentSpec(ICDTContentComponent cdtCon)
+        public BdtConSpec(ICDTContentComponent cdtCon)
         {
             Name = cdtCon.Name;
             DictionaryEntryName = cdtCon.DictionaryEntryName;
@@ -54,7 +54,7 @@ namespace CctsRepository.BdtLibrary
             UsageRules = new List<string>(cdtCon.UsageRules);
         }
 
-        public BDTContentComponentSpec()
+        public BdtConSpec()
         {
         }
 

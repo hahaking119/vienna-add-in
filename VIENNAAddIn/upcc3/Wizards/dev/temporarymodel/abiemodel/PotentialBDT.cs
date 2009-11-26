@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     {
         internal string Name { get; set; }
         internal Boolean Checked { get; set; }
-        internal IBDT OriginalBDT { get; set; }
+        internal IBdt OriginalBDT { get; set; }
 
         public PotentialBDT(string name)
         {
@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             Checked = false;
         }
 
-        public PotentialBDT(string name, IBDT originalBDT)
+        public PotentialBDT(string name, IBdt originalBDT)
             : this(name)
         {
             OriginalBDT = originalBDT;

@@ -32,7 +32,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     public class RootSchemaImporter
     {
         private static IDOCLibrary DocLibrary;
-        private static IBDTLibrary ExistingBdts;
+        private static IBdtLibrary ExistingBdts;
 
         ///<summary>
         /// The static method imports an XML schema containing Aggregated Business Information 
@@ -287,7 +287,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                             string bdtName = element.Type.Name.Substring(0, element.Type.Name.Length - 4);
 
-                            foreach (IBDT bdt in ExistingBdts.Elements)
+                            foreach (IBdt bdt in ExistingBdts.Elements)
                             {
                                 if ((bdt.Name + bdt.CON.BasicType.DictionaryEntryName).Equals(bdtName))
                                 {

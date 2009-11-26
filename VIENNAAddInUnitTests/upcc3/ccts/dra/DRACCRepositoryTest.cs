@@ -92,10 +92,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(expectedCON.BusinessTerms, actualCON.BusinessTerms);
         }
 
-        private static void AssertBDTSUPs(ICDT cdt, IBDT bdt)
+        private static void AssertBDTSUPs(ICDT cdt, IBdt bdt)
         {
             Assert.AreEqual(cdt.SUPs.Count(), bdt.SUPs.Count());
-            IEnumerator<IBDTSupplementaryComponent> bdtSups = bdt.SUPs.GetEnumerator();
+            IEnumerator<IBdtSup> bdtSups = bdt.SUPs.GetEnumerator();
             foreach (ICDTSupplementaryComponent cdtSup in cdt.SUPs)
             {
                 bdtSups.MoveNext();
@@ -103,7 +103,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             }
         }
 
-        private static void AssertBDTSUP(ICDTSupplementaryComponent cdtSUP, IBDT expectedBDT, IBDTSupplementaryComponent bdtSUP)
+        private static void AssertBDTSUP(ICDTSupplementaryComponent cdtSUP, IBdt expectedBDT, IBdtSup bdtSUP)
         {
             Assert.AreEqual(cdtSUP.Name, bdtSUP.Name);
             Assert.AreSame(expectedBDT, bdtSUP.BDT);
@@ -120,10 +120,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(cdtSUP.BusinessTerms, bdtSUP.BusinessTerms);
         }
 
-        private static void AssertBDTCON(ICDT cdt, IBDT bdt)
+        private static void AssertBDTCON(ICDT cdt, IBdt bdt)
         {
             ICDTContentComponent expectedCON = cdt.CON;
-            IBDTContentComponent actualCON = bdt.CON;
+            IBdtCon actualCON = bdt.CON;
             Assert.AreSame(bdt, actualCON.BDT);
             Assert.AreEqual("Content", actualCON.Name);
             Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
@@ -146,7 +146,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(upperBound, asbie.UpperBound);
         }
 
-        private static void AssertBBIE(IBDT type, IBCC bcc, IBBIE bbie)
+        private static void AssertBBIE(IBdt type, IBCC bcc, IBBIE bbie)
         {
             Assert.AreEqual(type.Id, bbie.Type.Id);
             Assert.AreEqual(bcc.Name, bbie.Name);
@@ -405,7 +405,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(accSpec.BCCs.Count(), accTestPerson.BCCs.Count());
             IBCC bccFirstName = accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == bccFirstNameSpec.Name);
             Assert.That(bccFirstName, Is.Not.Null, "BCC FirstName not generated");
-            Assert.AreEqual(cdtText.Id, bccFirstName.Type.Id);
+            Assert.AreEqual(cdtText.Id, bccFirstName.Cdt.Id);
             Assert.AreEqual(asccHomeAddressSpec.Definition, bccFirstName.Definition);
             Assert.AreEqual(asccHomeAddressSpec.DictionaryEntryName, bccFirstName.DictionaryEntryName);
             Assert.AreEqual(asccHomeAddressSpec.LanguageCode, bccFirstName.LanguageCode);
@@ -480,10 +480,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtDate = ccRepository.GetCdtByPath(EARepository1.PathToCDTDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
-            IBDTLibrary bdtLibrary = ccRepository.GetBdtLibraries().First();
+            IBdtLibrary bdtLibrary = ccRepository.GetBdtLibraries().First();
 
-            BDTSpec bdtSpec = BDTSpec.CloneCDT(cdtDate, "My_" + cdtDate.Name);
-            IBDT bdtDate = bdtLibrary.CreateElement(bdtSpec);
+            BdtSpec bdtSpec = BdtSpec.CloneCDT(cdtDate, "My_" + cdtDate.Name);
+            IBdt bdtDate = bdtLibrary.CreateElement(bdtSpec);
 
             Assert.IsNotNull(bdtDate, "BDT is null");
             Assert.AreEqual(bdtLibrary.Id, bdtDate.Library.Id);
@@ -515,7 +515,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
                 IBLibrary bLib = ccRepository.GetBLibraries().First();
                 Assert.IsNotNull(bLib, "bLib not found");
-                IBDTLibrary bdtLib = bLib.CreateBDTLibrary(new BdtLibrarySpec
+                IBdtLibrary bdtLib = bLib.CreateBDTLibrary(new BdtLibrarySpec
                                                            {
                                                                Name = "My_BDTLibrary",
                                                                BaseURN = "my/base/urn",
@@ -546,7 +546,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
                 var cdtText = ccRepository.GetCdtByPath((Path) "Model"/"ebInterface Data Model"/"CDTLibrary"/"Text");
                 Assert.IsNotNull(cdtText, "CDT 'Text' not found.");
-                IBDT bdtText = bdtLib.CreateElement(BDTSpec.CloneCDT(cdtText, "My_Text"));
+                IBdt bdtText = bdtLib.CreateElement(BdtSpec.CloneCDT(cdtText, "My_Text"));
                 Assert.IsNotNull(bdtText.BasedOn);
 
                 var accAddress = ccRepository.GetAccByPath((Path) "Model"/"ebInterface Data Model"/"CCLibrary"/"Address");
@@ -668,7 +668,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                            UniqueIdentifier = "a unique ID",
                            VersionIdentifier = "a specific version",
                        };
-            IBDTLibrary bdtLib = bLib.CreateBDTLibrary(spec);
+            IBdtLibrary bdtLib = bLib.CreateBDTLibrary(spec);
             Assert.AreEqual(bLib.Id, bdtLib.Parent.Id);
             Assert.AreEqual(spec.Name, bdtLib.Name);
             Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
@@ -793,7 +793,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var accAddressBCCs = new List<IBCC>(accAddress.BCCs);
 
             IBCC bccCountryName = accAddressBCCs[1];
-            Assert.AreSame(accAddress, bccCountryName.Container);
+            Assert.AreSame(accAddress, bccCountryName.Acc);
             Assert.AreEqual("CountryName", bccCountryName.Name);
             Assert.AreEqual("1", bccCountryName.LowerBound);
             Assert.AreEqual("1", bccCountryName.UpperBound);
@@ -803,7 +803,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("0", bccPostcode.LowerBound);
             Assert.AreEqual("*", bccPostcode.UpperBound);
             var cdtText = ccRepository.GetCdtByPath(EARepository1.PathToCDTText());
-            Assert.AreEqual(cdtText.Id, bccCountryName.Type.Id);
+            Assert.AreEqual(cdtText.Id, bccCountryName.Cdt.Id);
 
             var accPerson = ccRepository.GetAccByPath(EARepository1.PathToACCPerson());
             var accPersonASCCs = new List<IASCC>(accPerson.ASCCs);

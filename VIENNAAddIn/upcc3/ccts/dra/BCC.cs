@@ -24,12 +24,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             this.repository = repository;
             this.attribute = attribute;
-            Container = container;
+            Acc = container;
         }
 
         #region IBCC Members
 
-        public ICDT Type
+        public ICDT Cdt
         {
             get { return repository.GetCdtById(attribute.ClassifierID); }
         }
@@ -56,7 +56,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = Container.Name + ". " + Name + ". " + Type.Name;
+                    value = Acc.Name + ". " + Name + ". " + Cdt.Name;
                 }
                 return value;
             }
@@ -92,7 +92,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.sequencingKey); }
         }
 
-        public IACC Container { get; protected set; }
+        public IACC Acc { get; protected set; }
 
         public string UpperBound
         {

@@ -94,11 +94,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (ICCLibrary) new CCLibrary(this, p);
         }
 
-        public IEnumerable<IBDTLibrary> GetBdtLibraries()
+        public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
             return from p in ContainedPackages
                    where p.IsBDTLibrary()
-                   select (IBDTLibrary) new BDTLibrary(this, p);
+                   select (IBdtLibrary) new BDTLibrary(this, p);
         }
 
         public IEnumerable<IBIELibrary> GetBieLibraries()
@@ -145,7 +145,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new CCLibrary(this, package);
         }
 
-        public IBDTLibrary GetBdtLibraryById(int id)
+        public IBdtLibrary GetBdtLibraryById(int id)
         {
             Package package = eaRepository.GetPackageByID(id);
             return package == null ? null : new BDTLibrary(this, package);
@@ -187,7 +187,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new ACC(this, element);
         }
 
-        public IBDT GetBdtById(int id)
+        public IBdt GetBdtById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             return element == null ? null : new BDT(this, element);
@@ -229,7 +229,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new CCLibrary(this, package);
         }
 
-        public IBDTLibrary GetBdtLibraryByPath(Path path)
+        public IBdtLibrary GetBdtLibraryByPath(Path path)
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new BDTLibrary(this, package);
@@ -271,7 +271,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new ACC(this, element);
         }
 
-        public IBDT GetBdtByPath(Path path)
+        public IBdt GetBdtByPath(Path path)
         {
             var element = eaRepository.Resolve<Element>(path);
             return element == null ? null : new BDT(this, element);

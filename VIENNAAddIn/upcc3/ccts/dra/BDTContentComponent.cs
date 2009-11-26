@@ -16,20 +16,20 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class BDTContentComponent : IBDTContentComponent
+    internal class BDTContentComponent : IBdtCon
     {
         private readonly Attribute attribute;
-        private readonly IBDT bdt;
+        private readonly IBdt bdt;
         private readonly CCRepository repository;
 
-        public BDTContentComponent(CCRepository repository, Attribute attribute, IBDT bdt)
+        public BDTContentComponent(CCRepository repository, Attribute attribute, IBdt bdt)
         {
             this.repository = repository;
             this.attribute = attribute;
             this.bdt = bdt;
         }
 
-        #region IBDTContentComponent Members
+        #region IBdtCon Members
 
         public string DictionaryEntryName
         {
@@ -44,7 +44,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IBDT BDT
+        public IBdt BDT
         {
             get { return bdt; }
         }
