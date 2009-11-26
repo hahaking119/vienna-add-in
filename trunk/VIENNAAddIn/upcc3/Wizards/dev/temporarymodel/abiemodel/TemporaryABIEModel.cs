@@ -101,7 +101,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             
         }
-        public TemporaryABIEModel(IABIE abie)
+        public TemporaryABIEModel(IAbie abie)
         {
             //existingABIE = abie;
             //string[] tempArray = abie.Name.Split('_');
@@ -109,7 +109,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             //ABIEPrefix = tempArray[1];
             //SetTargetACC(abie.BasedOn.Name);
 
-            //foreach (IBBIE bbie in abie.BBIEs)
+            //foreach (IBbie bbie in abie.BBIEs)
             //{
             //    //createBBIE(bbie.Type, bbie.Name, );
             //}

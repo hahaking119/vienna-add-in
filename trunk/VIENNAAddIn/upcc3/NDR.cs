@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3
             return GenerateBCCOrBBIEName(bcc.Name, bcc.Cdt.Name, bcc.DictionaryEntryName);
         }
 
-        public static string GetXsdElementNameFromBbie(IBBIE bbie)
+        public static string GetXsdElementNameFromBbie(IBbie bbie)
         {
             return GenerateBCCOrBBIEName(bbie.Name, bbie.Type.Name, bbie.DictionaryEntryName);
         }
@@ -68,7 +68,7 @@ namespace VIENNAAddIn.upcc3
             return ascc.Name + ascc.AssociatedElement.Name;
         }
 
-        public static string GetXsdElementNameFromAsbie(IASBIE asbie)
+        public static string GetXsdElementNameFromAsbie(IAsbie asbie)
         {
             return asbie.Name + asbie.AssociatedElement.Name;
         }

@@ -21,7 +21,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class ABIE : IABIE, IEquatable<ABIE>
+    public class ABIE : IAbie, IEquatable<ABIE>
     {
         private readonly Element element;
         private readonly CCRepository repository;
@@ -42,7 +42,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
-        #region IABIE Members
+        #region IAbie Members
 
         public string DictionaryEntryName
         {
@@ -54,21 +54,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
-        public IEnumerable<IBBIE> BBIEs
+        public IEnumerable<IBbie> BBIEs
         {
             get
             {
                 return
-                    Attributes.Convert(a => (IBBIE) new BBIE(repository, a, this));
+                    Attributes.Convert(a => (IBbie) new BBIE(repository, a, this));
             }
         }
 
-        public IEnumerable<IASBIE> ASBIEs
+        public IEnumerable<IAsbie> ASBIEs
         {
             get
             {
                 return
-                    Connectors.Where(IsASBIE).Convert(c => (IASBIE) new ASBIE(repository, c, this));
+                    Connectors.Where(IsASBIE).Convert(c => (IAsbie) new ASBIE(repository, c, this));
             }
         }
 
@@ -81,7 +81,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IABIE IsEquivalentTo
+        public IAbie IsEquivalentTo
         {
             get
             {
@@ -106,7 +106,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBIELibrary Library
+        public IBieLibrary Library
         {
             get { return repository.GetBieLibraryById(element.PackageID); }
         }
@@ -178,7 +178,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return false;
         }
 
-        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ABIESpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(AbieSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -192,22 +192,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<TaggedValueSpec> GetBbieTaggedValueSpecs(BBIESpec spec)
-        {
-            return new List<TaggedValueSpec>
-                   {
-                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
-                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
-                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
-                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
-                       new TaggedValueSpec(TaggedValues.sequencingKey, spec.SequencingKey),
-                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
-                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
-                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
-                   };
-        }
-
-        private static IEnumerable<TaggedValueSpec> GetAsbieTaggedValueSpecs(ASBIESpec spec)
+        private static IEnumerable<TaggedValueSpec> GetBbieTaggedValueSpecs(BbieSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -222,27 +207,42 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<AttributeSpec> GetAttributeSpecs(ABIESpec spec)
+        private static IEnumerable<TaggedValueSpec> GetAsbieTaggedValueSpecs(AsbieSpec spec)
         {
-            IEnumerable<BBIESpec> bbieSpecs = spec.BBIEs;
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.sequencingKey, spec.SequencingKey),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                   };
+        }
+
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(AbieSpec spec)
+        {
+            IEnumerable<BbieSpec> bbieSpecs = spec.BBIEs;
             if (bbieSpecs != null)
             {
-                foreach (BBIESpec bbieSpec in bbieSpecs)
+                foreach (BbieSpec bbieSpec in bbieSpecs)
                 {
                     yield return new AttributeSpec(Stereotype.BBIE, bbieSpec.Name, bbieSpec.Type.Name, bbieSpec.Type.Id, bbieSpec.LowerBound, bbieSpec.UpperBound, GetBbieTaggedValueSpecs(bbieSpec));
                 }
             }
         }
 
-        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(ABIESpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(AbieSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
             if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
 
-            IEnumerable<ASBIESpec> asbieSpecs = spec.ASBIEs;
+            IEnumerable<AsbieSpec> asbieSpecs = spec.ASBIEs;
             if (asbieSpecs != null)
             {
-                foreach (ASBIESpec asbieSpec in asbieSpecs)
+                foreach (AsbieSpec asbieSpec in asbieSpecs)
                 {
                     yield return ConnectorSpec.CreateAggregation(AsbieAggregationKindToEaAggregationKind(asbieSpec.AggregationKind), Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedABIEId, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
                 }
@@ -280,7 +280,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element.GetTaggedValue(key) ?? string.Empty;
         }
 
-        public void Update(ABIESpec spec)
+        public void Update(AbieSpec spec)
         {
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))

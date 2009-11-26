@@ -74,7 +74,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            List<IBIELibrary> bieLibraries = ccCache.GetBIELibraries();
+            List<IBieLibrary> bieLibraries = ccCache.GetBIELibraries();
 
             Assert.That(bieLibraries, Is.Not.Null);
             Assert.That(bieLibraries.Count, Is.EqualTo(1));
@@ -138,7 +138,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            IBIELibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
+            IBieLibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
 
             Assert.That(bieLibrary, Is.Not.Null);
             Assert.That(bieLibrary.Name, Is.EqualTo("bielib1"));

@@ -93,11 +93,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                    select WrapItem(item) as IBdtLibrary;
         }
 
-        public IEnumerable<IBIELibrary> GetBieLibraries()
+        public IEnumerable<IBieLibrary> GetBieLibraries()
         {
             return from item in repository.AllItems()
                    where item.Stereotype == Stereotype.BIELibrary
-                   select WrapItem(item) as IBIELibrary;
+                   select WrapItem(item) as IBieLibrary;
         }
 
         public IEnumerable<IDOCLibrary> GetDocLibraries()
@@ -137,9 +137,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return GetLibraryById(id) as IBdtLibrary;
         }
 
-        public IBIELibrary GetBieLibraryById(int id)
+        public IBieLibrary GetBieLibraryById(int id)
         {
-            return GetLibraryById(id) as IBIELibrary;
+            return GetLibraryById(id) as IBieLibrary;
         }
 
         public IDOCLibrary GetDocLibraryById(int id)
@@ -157,7 +157,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IABIE GetAbieByPath(Path path)
+        public IAbie GetAbieByPath(Path path)
         {
             throw new NotImplementedException();
         }
@@ -187,7 +187,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IABIE GetAbieById(int id)
+        public IAbie GetAbieById(int id)
         {
             throw new NotImplementedException();
         }
@@ -222,7 +222,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IBIELibrary GetBieLibraryByPath(Path path)
+        public IBieLibrary GetBieLibraryByPath(Path path)
         {
             throw new NotImplementedException();
         }

@@ -14,27 +14,27 @@ namespace CctsRepository.DocLibrary
 {
     public interface IDOCLibrary
     {
-        IEnumerable<IABIE> Elements { get; }
+        IEnumerable<IAbie> Elements { get; }
 
         ///<summary>
         /// Retrieves an element by name.
         ///</summary>
-        IABIE ElementByName(string name);
+        IAbie ElementByName(string name);
 
         ///<summary>
         /// Creates a new element in this library, based on the given specification.
         ///</summary>
-        IABIE CreateElement(ABIESpec spec);
+        IAbie CreateElement(AbieSpec spec);
 
         ///<summary>
         /// Updates the given element of this library to match the given specification.
         ///</summary>
-        IABIE UpdateElement(IABIE element, ABIESpec spec);
+        IAbie UpdateElement(IAbie element, AbieSpec spec);
 
         ///<summary>
         /// Returns the root elements of documents defined in this DOCLibrary.
         ///</summary>
-        IEnumerable<IABIE> RootElements { get; }
+        IEnumerable<IAbie> RootElements { get; }
 
         int Id { get; }
         string Name { get; }

@@ -16,19 +16,19 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class BBIE : IBBIE
+    internal class BBIE : IBbie
     {
         private readonly Attribute attribute;
         private readonly CCRepository repository;
 
-        public BBIE(CCRepository repository, Attribute attribute, IABIE container)
+        public BBIE(CCRepository repository, Attribute attribute, IAbie container)
         {
             this.repository = repository;
             this.attribute = attribute;
             Container = container;
         }
 
-        #region IBBIE Members
+        #region IBbie Members
 
         public int Id
         {
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.sequencingKey); }
         }
 
-        public IABIE Container { get; protected set; }
+        public IAbie Container { get; protected set; }
 
         public string UpperBound
         {

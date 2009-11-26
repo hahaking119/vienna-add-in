@@ -12,9 +12,9 @@ using CctsRepository.CcLibrary;
 
 namespace CctsRepository.BieLibrary
 {
-    public class BBIESpec
+    public class BbieSpec
     {
-        public BBIESpec(IBBIE bbie)
+        public BbieSpec(IBbie bbie)
         {
             Name = bbie.Name;
             DictionaryEntryName = bbie.DictionaryEntryName;
@@ -30,7 +30,7 @@ namespace CctsRepository.BieLibrary
             UpperBound = bbie.UpperBound;
         }
 
-        public BBIESpec()
+        public BbieSpec()
         {
         }
 
@@ -49,9 +49,9 @@ namespace CctsRepository.BieLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public static BBIESpec CloneBCC(IBCC bcc, IBdt type)
+        public static BbieSpec CloneBCC(IBCC bcc, IBdt type)
         {
-            return new BBIESpec
+            return new BbieSpec
                    {
                        BusinessTerms = new List<string>(bcc.BusinessTerms),
                        Definition = bcc.Definition,

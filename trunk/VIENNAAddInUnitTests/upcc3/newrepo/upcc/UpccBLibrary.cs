@@ -113,7 +113,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IBIELibrary> GetBieLibraries()
+        public IEnumerable<IBieLibrary> GetBieLibraries()
         {
             throw new NotImplementedException();
         }
@@ -143,7 +143,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public IBIELibrary CreateBIELibrary(BieLibrarySpec spec)
+        public IBieLibrary CreateBIELibrary(BieLibrarySpec spec)
         {
             throw new NotImplementedException();
         }

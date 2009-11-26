@@ -101,11 +101,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (IBdtLibrary) new BDTLibrary(this, p);
         }
 
-        public IEnumerable<IBIELibrary> GetBieLibraries()
+        public IEnumerable<IBieLibrary> GetBieLibraries()
         {
             return from p in ContainedPackages
                    where p.IsBIELibrary()
-                   select (IBIELibrary) new BIELibrary(this, p);
+                   select (IBieLibrary) new BIELibrary(this, p);
         }
 
         public IEnumerable<IDOCLibrary> GetDocLibraries()
@@ -151,7 +151,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new BDTLibrary(this, package);
         }
 
-        public IBIELibrary GetBieLibraryById(int id)
+        public IBieLibrary GetBieLibraryById(int id)
         {
             Package package = eaRepository.GetPackageByID(id);
             return package == null ? null : new BIELibrary(this, package);
@@ -193,7 +193,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new BDT(this, element);
         }
 
-        public IABIE GetAbieById(int id)
+        public IAbie GetAbieById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             return element == null ? null : new ABIE(this, element);
@@ -235,7 +235,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new BDTLibrary(this, package);
         }
 
-        public IBIELibrary GetBieLibraryByPath(Path path)
+        public IBieLibrary GetBieLibraryByPath(Path path)
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new BIELibrary(this, package);
@@ -277,7 +277,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new BDT(this, element);
         }
 
-        public IABIE GetAbieByPath(Path path)
+        public IAbie GetAbieByPath(Path path)
         {
             var element = eaRepository.Resolve<Element>(path);
             return element == null ? null : new ABIE(this, element);

@@ -4,7 +4,7 @@ namespace CctsRepository.BieLibrary
 {
     public class BieLibrarySpec
     {
-        public BieLibrarySpec(IBIELibrary bieLibrary)
+        public BieLibrarySpec(IBieLibrary bieLibrary)
         {
             Name = bieLibrary.Name;
             Status = bieLibrary.Status;

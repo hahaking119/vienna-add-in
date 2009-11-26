@@ -12,12 +12,12 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository.BieLibrary
 {
-    public class ABIESpec
+    public class AbieSpec
     {
-        private List<ASBIESpec> asbies;
-        private List<BBIESpec> bbies;
+        private List<AsbieSpec> asbies;
+        private List<BbieSpec> bbies;
 
-        public ABIESpec(IABIE abie)
+        public AbieSpec(IAbie abie)
         {
             Name = abie.Name;
             DictionaryEntryName = abie.DictionaryEntryName;
@@ -27,31 +27,31 @@ namespace CctsRepository.BieLibrary
             LanguageCode = abie.LanguageCode;
             BusinessTerms = new List<string>(abie.BusinessTerms);
             UsageRules = new List<string>(abie.UsageRules);
-            BBIEs = abie.BBIEs.Convert(bbie => new BBIESpec(bbie));
-            ASBIEs = abie.ASBIEs.Convert(asbie => new ASBIESpec(asbie));
+            BBIEs = abie.BBIEs.Convert(bbie => new BbieSpec(bbie));
+            ASBIEs = abie.ASBIEs.Convert(asbie => new AsbieSpec(asbie));
             IsEquivalentTo = abie.IsEquivalentTo;
             BasedOn = abie.BasedOn;
         }
 
-        public ABIESpec()
+        public AbieSpec()
         {
-            bbies = new List<BBIESpec>();
-            asbies = new List<ASBIESpec>();
+            bbies = new List<BbieSpec>();
+            asbies = new List<AsbieSpec>();
         }
 
-        public IEnumerable<BBIESpec> BBIEs
+        public IEnumerable<BbieSpec> BBIEs
         {
             get { return bbies; }
-            set { bbies = new List<BBIESpec>(value); }
+            set { bbies = new List<BbieSpec>(value); }
         }
 
-        public IEnumerable<ASBIESpec> ASBIEs
+        public IEnumerable<AsbieSpec> ASBIEs
         {
             get { return asbies; }
-            set { asbies = new List<ASBIESpec>(value); }
+            set { asbies = new List<AsbieSpec>(value); }
         }
 
-        public IABIE IsEquivalentTo { get; set; }
+        public IAbie IsEquivalentTo { get; set; }
 
         public IACC BasedOn { get; set; }
         public IEnumerable<string> UsageRules { get; set; }
@@ -63,7 +63,7 @@ namespace CctsRepository.BieLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public void AddASBIE(ASBIESpec spec)
+        public void AddASBIE(AsbieSpec spec)
         {
             asbies.Add(spec);
         }
@@ -73,7 +73,7 @@ namespace CctsRepository.BieLibrary
             asbies.RemoveAll(asbie => asbie.Name == name);
         }
 
-        public void AddBBIE(BBIESpec spec)
+        public void AddBBIE(BbieSpec spec)
         {
             bbies.Add(spec);
         }

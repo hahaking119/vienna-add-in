@@ -117,19 +117,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load BIE Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of BIE Libraries in the repository.</returns>
-        public List<IBIELibrary> GetBIELibraries()
+        public List<IBieLibrary> GetBIELibraries()
         {
             if (bieLibraries == null)
             {
                 Debug.WriteLine("BIE Cache Load triggered.");
                 bieLibraries = new List<CacheItemBIELibrary>();
-                foreach (IBIELibrary bieLibrary in ccRepository.GetBieLibraries())
+                foreach (IBieLibrary bieLibrary in ccRepository.GetBieLibraries())
                 {
                     bieLibraries.Add(new CacheItemBIELibrary(bieLibrary));
                 }
             }
             return
-                bieLibraries.ConvertAll(new Converter<CacheItemBIELibrary, IBIELibrary>(CacheItemBIELibraryToBIELibrary));
+                bieLibraries.ConvertAll(new Converter<CacheItemBIELibrary, IBieLibrary>(CacheItemBIELibraryToBIELibrary));
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="bieLibraryName">The Name of the BIE Library to retrieve.</param>
         /// <returns>A UPCC3 BIE Library Element.</returns>
-        public IBIELibrary GetBIELibraryByName(string bieLibraryName)
+        public IBieLibrary GetBIELibraryByName(string bieLibraryName)
         {
             if (bieLibraries == null)
             {
@@ -304,7 +304,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Prepares the context for the given ABIE. Loads needed CC, BIE, BDT and CDT Libraries.
         /// </summary>
         /// <param name="abie">The ABIE for which the context should be prepared.</param>
-        public void PrepareForABIE(IABIE abie)
+        public void PrepareForABIE(IAbie abie)
         {
             bieLibraries = new List<CacheItemBIELibrary>();
             ccLibraries = new List<CacheItemCCLibrary>();
@@ -317,7 +317,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 
             //because a ABIE can have multiple BBIEs with maybe different underlying BDT and CDT Libraries we look at each BBIE and check if the containing
             //Library is already in the cache. If not we add it now.
-            foreach (IBBIE bbie in abie.BBIEs)
+            foreach (IBbie bbie in abie.BBIEs)
             {
                 if (bdtLibrary == null || bdtLibrary.BDTLibrary.Name != bbie.Type.Name)
                 {
@@ -370,7 +370,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemBIELibrary">A Cache representation of a BIE Library</param>
         /// <returns>A UPCC3 BIE Library Element.</returns>
-        private static IBIELibrary CacheItemBIELibraryToBIELibrary(CacheItemBIELibrary cacheItemBIELibrary)
+        private static IBieLibrary CacheItemBIELibraryToBIELibrary(CacheItemBIELibrary cacheItemBIELibrary)
         {
             return cacheItemBIELibrary.bieLibrary;
         }
@@ -477,19 +477,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load BIE Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of BIE Libraries in the repository.</returns>
-        public List<IBIELibrary> GetBIELibraries()
+        public List<IBieLibrary> GetBIELibraries()
         {
             if (bieLibraries == null)
             {
                 Debug.WriteLine("BIE Cache Load triggered.");
                 bieLibraries = new List<CacheItemBIELibrary>();
-                foreach (IBIELibrary bieLibrary in ccRepository.GetBieLibraries())
+                foreach (IBieLibrary bieLibrary in ccRepository.GetBieLibraries())
                 {
                     bieLibraries.Add(new CacheItemBIELibrary(bieLibrary));
                 }
             }
             return
-                bieLibraries.ConvertAll(new Converter<CacheItemBIELibrary, IBIELibrary>(CacheItemBIELibraryToBIELibrary));
+                bieLibraries.ConvertAll(new Converter<CacheItemBIELibrary, IBieLibrary>(CacheItemBIELibraryToBIELibrary));
         }
 
         /// <summary>
@@ -642,7 +642,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="bieLibraryName">The Name of the BIE Library to retrieve.</param>
         /// <returns>A UPCC3 BIE Library Element.</returns>
-        public IBIELibrary GetBIELibraryByName(string bieLibraryName)
+        public IBieLibrary GetBIELibraryByName(string bieLibraryName)
         {
             if (bieLibraries == null)
             {
@@ -664,7 +664,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Prepares the context for the given ABIE. Loads needed CC, BIE, BDT and CDT Libraries.
         /// </summary>
         /// <param name="abie">The ABIE for which the context should be prepared.</param>
-        public void PrepareForABIE(IABIE abie)
+        public void PrepareForABIE(IAbie abie)
         {
             bieLibraries = new List<CacheItemBIELibrary>();
             ccLibraries = new List<CacheItemCCLibrary>();
@@ -677,7 +677,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 
             //because a ABIE can have multiple BBIEs with maybe different underlying BDT and CDT Libraries we look at each BBIE and check if the containing
             //Library is already in the cache. If not we add it now.
-            foreach (IBBIE bbie in abie.BBIEs)
+            foreach (IBbie bbie in abie.BBIEs)
             {
                 if (bdtLibrary == null || bdtLibrary.BDTLibrary.Name != bbie.Type.Name)
                 {
@@ -730,7 +730,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemBIELibrary">A Cache representation of a BIE Library</param>
         /// <returns>A UPCC3 BIE Library Element.</returns>
-        private static IBIELibrary CacheItemBIELibraryToBIELibrary(CacheItemBIELibrary cacheItemBIELibrary)
+        private static IBieLibrary CacheItemBIELibraryToBIELibrary(CacheItemBIELibrary cacheItemBIELibrary)
         {
             return cacheItemBIELibrary.bieLibrary;
         }

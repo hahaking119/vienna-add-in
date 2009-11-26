@@ -29,7 +29,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private const string DEFAULT_PREFIX = "My";
         private const int MARGIN = 15;
-        private readonly IABIE abie;
+        private readonly IAbie abie;
         private readonly List<string> editboxBDTNameList = new List<string>();
         private readonly bool wizardModeCreate = true;
         private Cache cache;
@@ -653,8 +653,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                 /* get the selected ACC which we as a basis to generate the new ABIE */
                 IACC selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
 
-                ABIESpec abieSpec = createABISpec(selectedACC);
-                IABIE newABIE = selectedBIEL.CreateElement(abieSpec);
+                AbieSpec abieSpec = createABISpec(selectedACC);
+                IAbie newABIE = selectedBIEL.CreateElement(abieSpec);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
                                                         new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
 
@@ -667,8 +667,8 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 /* get the selected ACC which we use as a basis to generate the new ABIE */
                 IACC selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-                ABIESpec abieSpec = createABISpec(selectedACC);
-                IABIE newABIE = selectedBIEL.UpdateElement(abie, abieSpec);
+                AbieSpec abieSpec = createABISpec(selectedACC);
+                IAbie newABIE = selectedBIEL.UpdateElement(abie, abieSpec);
                 //todo: find a better way to update internal cache
                 cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
@@ -1167,7 +1167,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (!wizardModeCreate) // add all BBIEs that already belong to the ABIE and were created by the user
                 {
-                    foreach (IBBIE bbie in abie.BBIEs)
+                    foreach (IBbie bbie in abie.BBIEs)
                     {
                         var newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Type.Id, CheckState.Checked);
                         cBBIE testBBIE;
@@ -1303,9 +1303,9 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
-        private ABIESpec createABISpec(IACC selectedACC)
+        private AbieSpec createABISpec(IACC selectedACC)
         {
-            ABIESpec abieSpec = null;
+            AbieSpec abieSpec = null;
             if ((cache.PathIsValid(CacheConstants.PATH_BDTLs, new[] {selectedBDTLName})) &&
                 (cache.PathIsValid(CacheConstants.PATH_BIELs, new[] {selectedBIELName})) &&
                 (cache.PathIsValid(CacheConstants.PATH_BCCs, new[] {selectedCCLName, selectedACCName})))
@@ -1313,7 +1313,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 var selectedBDTL = repository.GetBdtLibraryById(cache.BDTLs[selectedBDTLName].Id);
 
 
-                var newBBIEs = new List<BBIESpec>();
+                var newBBIEs = new List<BbieSpec>();
                 IDictionary<string, cBDT> generatedBDTs = new Dictionary<string, cBDT>();
 
                 foreach (cBCC bcc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs.Values)
@@ -1385,7 +1385,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                             if (currentBCC.Id == bcc.Id)
                                             {
                                                 /* now create the new bbie */
-                                                BBIESpec x = BBIESpec.CloneBCC(currentBCC, bdtUsed);
+                                                BbieSpec x = BbieSpec.CloneBCC(currentBCC, bdtUsed);
                                                 x.Name = bbie.Name;
                                                 newBBIEs.Add(x);
                                                 break;
@@ -1400,7 +1400,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     }
                 }
 
-                IList<ASBIESpec> newASBIEs = new List<ASBIESpec>();
+                IList<AsbieSpec> newASBIEs = new List<AsbieSpec>();
                 if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].HasASCCs())
                 {
                     foreach (cASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)
@@ -1432,7 +1432,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                 break;
                             }
 
-                            newASBIEs.Add(ASBIESpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name,
+                            newASBIEs.Add(AsbieSpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name,
                                                               cascc.ABIEs[abieName].Id));
                         }
                         // else don't worry about it
@@ -1440,7 +1440,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 }
 
 
-                abieSpec = new ABIESpec
+                abieSpec = new AbieSpec
                                {
                                    Name = textABIEName.Text,
                                    DictionaryEntryName = selectedACC.DictionaryEntryName,

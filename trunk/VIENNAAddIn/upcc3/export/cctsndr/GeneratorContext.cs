@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<param name="docLibrary"></param>
         ///<param name="rootElements"></param>
         public GeneratorContext(ICCRepository repository, string targetNamespace, string namespacePrefix, bool annotate, bool allschemas,
-                                string outputDirectory, IDOCLibrary docLibrary, IList<IABIE> rootElements)
+                                string outputDirectory, IDOCLibrary docLibrary, IList<IAbie> rootElements)
         {
             Allschemas = allschemas;
             Repository = repository;
@@ -77,7 +77,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 
         ///<summary>
         ///</summary>
-        public IList<IABIE> RootElements { get; private set; }
+        public IList<IAbie> RootElements { get; private set; }
 
         ///<summary>
         ///</summary>

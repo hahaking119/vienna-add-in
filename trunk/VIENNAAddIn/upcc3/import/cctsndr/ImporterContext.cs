@@ -23,7 +23,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ICDTLibrary CDTLibrary { get; }
         ICCLibrary CCLibrary { get; }
         IBdtLibrary BDTLibrary { get; }
-        IBIELibrary BIELibrary { get; }
+        IBieLibrary BIELibrary { get; }
         IPRIMLibrary PRIMLibrary { get; }
         IBLibrary BLibrary { get; }
     }
@@ -85,7 +85,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
         public IBdtLibrary BDTLibrary { get; private set; }
 
-        public IBIELibrary BIELibrary { get; private set; }
+        public IBieLibrary BIELibrary { get; private set; }
 
         public IPRIMLibrary PRIMLibrary { get; private set; }
 

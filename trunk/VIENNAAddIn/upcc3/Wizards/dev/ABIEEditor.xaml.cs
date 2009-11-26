@@ -52,7 +52,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         /// <param name="ccRepository">The current repository</param>
         /// <param name="abie"></param>
-        public ABIEEditor(ICCRepository ccRepository, IABIE abie)
+        public ABIEEditor(ICCRepository ccRepository, IAbie abie)
         {
             tempModel = new TemporaryABIEModel(ccRepository);
             //cache.PrepareForABIE(abie);

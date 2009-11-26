@@ -29,7 +29,7 @@ namespace CctsRepository
         IEnumerable<ICDTLibrary> GetCdtLibraries();
         IEnumerable<ICCLibrary> GetCcLibraries();
         IEnumerable<IBdtLibrary> GetBdtLibraries();
-        IEnumerable<IBIELibrary> GetBieLibraries();
+        IEnumerable<IBieLibrary> GetBieLibraries();
         IEnumerable<IDOCLibrary> GetDocLibraries();
 
         IBLibrary GetBLibraryById(int id);
@@ -38,7 +38,7 @@ namespace CctsRepository
         ICDTLibrary GetCdtLibraryById(int id);
         ICCLibrary GetCcLibraryById(int id);
         IBdtLibrary GetBdtLibraryById(int id);
-        IBIELibrary GetBieLibraryById(int id);
+        IBieLibrary GetBieLibraryById(int id);
         IDOCLibrary GetDocLibraryById(int id);
 
         IPRIM GetPrimById(int id);
@@ -46,7 +46,7 @@ namespace CctsRepository
         ICDT GetCdtById(int id);
         IACC GetAccById(int id);
         IBdt GetBdtById(int id);
-        IABIE GetAbieById(int id);
+        IAbie GetAbieById(int id);
 
         IBLibrary GetBLibraryByPath(Path path);
         IPRIMLibrary GetPrimLibraryByPath(Path path);
@@ -54,7 +54,7 @@ namespace CctsRepository
         ICDTLibrary GetCdtLibraryByPath(Path path);
         ICCLibrary GetCcLibraryByPath(Path path);
         IBdtLibrary GetBdtLibraryByPath(Path path);
-        IBIELibrary GetBieLibraryByPath(Path path);
+        IBieLibrary GetBieLibraryByPath(Path path);
         IDOCLibrary GetDocLibraryByPath(Path path);
 
         IPRIM GetPrimByPath(Path path);
@@ -62,7 +62,7 @@ namespace CctsRepository
         ICDT GetCdtByPath(Path path);
         IACC GetAccByPath(Path path);
         IBdt GetBdtByPath(Path path);
-        IABIE GetAbieByPath(Path path);
+        IAbie GetAbieByPath(Path path);
 
         IEnumerable<Path> GetRootLocations();
         IBLibrary CreateRootBLibrary(Path rootLocation, BLibrarySpec spec);
