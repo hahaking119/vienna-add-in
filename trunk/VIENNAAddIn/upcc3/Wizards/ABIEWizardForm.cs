@@ -1331,7 +1331,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                 {
                                     if (bdt.State == CheckState.Checked)
                                     {
-                                        IBDT bdtUsed;
+                                        IBdt bdtUsed;
 
                                         if (bdt.Id == -1)
                                         {
@@ -1360,8 +1360,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                 {
                                                     /* the BDT to be used is to be created based on the CDT used in the BCC */
                                                     ICDT baseCDT = repository.GetCdtById(bcc.Type);
-                                                    BDTSpec bdtSpec = BDTSpec.CloneCDT(baseCDT, bdt.Name);
-                                                    IBDT newBDT = selectedBDTL.CreateElement(bdtSpec);
+                                                    BdtSpec bdtSpec = BdtSpec.CloneCDT(baseCDT, bdt.Name);
+                                                    IBdt newBDT = selectedBDTL.CreateElement(bdtSpec);
                                                     bdtUsed = newBDT;
 
                                                     generatedBDTs.Add(newBDT.Name,

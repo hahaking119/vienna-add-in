@@ -36,7 +36,7 @@ namespace CctsRepository.BieLibrary
 
         public string SequencingKey { get; set; }
 
-        public IBDT Type { get; set; }
+        public IBdt Type { get; set; }
 
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
@@ -49,7 +49,7 @@ namespace CctsRepository.BieLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public static BBIESpec CloneBCC(IBCC bcc, IBDT type)
+        public static BBIESpec CloneBCC(IBCC bcc, IBdt type)
         {
             return new BBIESpec
                    {

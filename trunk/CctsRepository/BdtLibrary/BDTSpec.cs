@@ -12,9 +12,9 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository.BdtLibrary
 {
-    public class BDTSpec
+    public class BdtSpec
     {
-        public BDTSpec(IBDT bdt)
+        public BdtSpec(IBdt bdt)
         {
             Name = bdt.Name;
             DictionaryEntryName = bdt.DictionaryEntryName;
@@ -25,23 +25,23 @@ namespace CctsRepository.BdtLibrary
             BusinessTerms = new List<string>(bdt.BusinessTerms);
 
             UsageRules = new List<string>(bdt.UsageRules);
-            CON = new BDTContentComponentSpec(bdt.CON);
-            SUPs = new List<BDTSupplementaryComponentSpec>(bdt.SUPs.Convert(sup => new BDTSupplementaryComponentSpec(sup)));
+            CON = new BdtConSpec(bdt.CON);
+            SUPs = new List<BdtSupSpec>(bdt.SUPs.Convert(sup => new BdtSupSpec(sup)));
             BasedOn = bdt.BasedOn;
         }
 
-        public BDTSpec()
+        public BdtSpec()
         {
-            SUPs = new List<BDTSupplementaryComponentSpec>();
+            SUPs = new List<BdtSupSpec>();
         }
 
         public ICDT BasedOn { get; set; }
-        public IBDT IsEquivalentTo { get; set; }
+        public IBdt IsEquivalentTo { get; set; }
 
         public IEnumerable<string> UsageRules { get; set; }
 
-        public List<BDTSupplementaryComponentSpec> SUPs { get; set; }
-        public BDTContentComponentSpec CON { get; set; }
+        public List<BdtSupSpec> SUPs { get; set; }
+        public BdtConSpec CON { get; set; }
         public string Name { get; set; }
         public string DictionaryEntryName { get; set; }
         public string Definition { get; set; }
@@ -50,9 +50,9 @@ namespace CctsRepository.BdtLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public static BDTSpec CloneCDT(ICDT cdt, string name)
+        public static BdtSpec CloneCDT(ICDT cdt, string name)
         {
-            return new BDTSpec
+            return new BdtSpec
                    {
                        Name = (string.IsNullOrEmpty(name) ? cdt.Name : name),
                        BasedOn = cdt,
@@ -63,8 +63,8 @@ namespace CctsRepository.BdtLibrary
                        UniqueIdentifier = cdt.UniqueIdentifier,
                        UsageRules = new List<string>(cdt.UsageRules),
                        VersionIdentifier = cdt.VersionIdentifier,
-                       CON = new BDTContentComponentSpec(cdt.CON),
-                       SUPs = new List<BDTSupplementaryComponentSpec>(cdt.SUPs.Convert(sup => new BDTSupplementaryComponentSpec(sup))),
+                       CON = new BdtConSpec(cdt.CON),
+                       SUPs = new List<BdtSupSpec>(cdt.SUPs.Convert(sup => new BdtSupSpec(sup))),
                    };
         }
 

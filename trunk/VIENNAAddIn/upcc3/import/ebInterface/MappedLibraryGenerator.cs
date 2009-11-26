@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly SchemaMapping schemaMapping;
         private readonly List<ABIESpec> bieABIESpecs = new List<ABIESpec>();
         private readonly List<ABIESpec> docABIESpecs = new List<ABIESpec>();
-        private IBDTLibrary bdtLibrary;
+        private IBdtLibrary bdtLibrary;
         private IBIELibrary bieLibrary;
         private IDOCLibrary docLibrary;
 
@@ -45,13 +45,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// </summary>
         /// <param name="cdt"></param>
         /// <returns></returns>
-        private IBDT GetBDT(ICDT cdt)
+        private IBdt GetBDT(ICDT cdt)
         {
             var bdtName = qualifier + "_" + cdt.Name;
             var bdt = bdtLibrary.ElementByName(bdtName);
             if (bdt == null)
             {
-                var bdtSpec = BDTSpec.CloneCDT(cdt, bdtName);
+                var bdtSpec = BdtSpec.CloneCDT(cdt, bdtName);
                 bdt = bdtLibrary.CreateElement(bdtSpec);
             }
             return bdt;
@@ -254,7 +254,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             foreach (var bccMapping in bccMappings)
             {
                 var bcc = bccMapping.BCC;
-                var bbieSpec = BBIESpec.CloneBCC(bcc, GetBDT(bcc.Type));
+                var bbieSpec = BBIESpec.CloneBCC(bcc, GetBDT(bcc.Cdt));
                 bbieSpec.Name = bccMapping.BIEName;
                 yield return bbieSpec;
             }

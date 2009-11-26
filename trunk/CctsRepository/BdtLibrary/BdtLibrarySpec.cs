@@ -4,7 +4,7 @@ namespace CctsRepository.BdtLibrary
 {
     public class BdtLibrarySpec
     {
-        public BdtLibrarySpec(IBDTLibrary bdtLibrary)
+        public BdtLibrarySpec(IBdtLibrary bdtLibrary)
         {
             Name = bdtLibrary.Name;
             Status = bdtLibrary.Status;

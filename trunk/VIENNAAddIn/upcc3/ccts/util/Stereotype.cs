@@ -159,7 +159,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return BIELibrary;
             }
-            if (typeof (T) == typeof (IBDTLibrary))
+            if (typeof (T) == typeof (IBdtLibrary))
             {
                 return BDTLibrary;
             }
@@ -187,7 +187,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return BCC;
             }
-            if (typeof (T) == typeof (IBDT))
+            if (typeof (T) == typeof (IBdt))
             {
                 return BDT;
             }
@@ -219,11 +219,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return CON;
             }
-            if (typeof (T) == typeof (IBDTSupplementaryComponent))
+            if (typeof (T) == typeof (IBdtSup))
             {
                 return SUP;
             }
-            if (typeof (T) == typeof (IBDTContentComponent))
+            if (typeof (T) == typeof (IBdtCon))
             {
                 return CON;
             }

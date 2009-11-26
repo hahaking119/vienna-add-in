@@ -63,7 +63,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            List<IBDTLibrary> bdtLibraries = ccCache.GetBDTLibraries();
+            List<IBdtLibrary> bdtLibraries = ccCache.GetBDTLibraries();
 
             Assert.That(bdtLibraries, Is.Not.Null);
             Assert.That(bdtLibraries.Count, Is.EqualTo(1));
@@ -127,7 +127,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             CCCache ccCache = CCCache.GetInstance(ccRepository);
 
-            IBDTLibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
+            IBdtLibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
 
             Assert.That(bdtLibrary, Is.Not.Null);
             Assert.That(bdtLibrary.Name, Is.EqualTo("bdtlib1"));

@@ -98,11 +98,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<IBDT> CollectBDTs(GeneratorContext context)
+        public static IEnumerable<IBdt> CollectBDTs(GeneratorContext context)
         {
-            foreach (IBDTLibrary bdtLibrary in context.Repository.GetBdtLibraries())
+            foreach (IBdtLibrary bdtLibrary in context.Repository.GetBdtLibraries())
             {
-                foreach (IBDT bdt in bdtLibrary.Elements)
+                foreach (IBdt bdt in bdtLibrary.Elements)
                 {
                     yield return bdt;
                 }

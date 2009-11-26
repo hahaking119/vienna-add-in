@@ -99,18 +99,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load BDT Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of BDT Libraries in the repository.</returns>
-        public List<IBDTLibrary> GetBDTLibraries()
+        public List<IBdtLibrary> GetBDTLibraries()
         {
             if (bdtLibraries == null)
             {
                 bdtLibraries = new List<CacheItemBDTLibrary>();
-                foreach (IBDTLibrary bdtLibrary in ccRepository.GetBdtLibraries())
+                foreach (IBdtLibrary bdtLibrary in ccRepository.GetBdtLibraries())
                 {
                     bdtLibraries.Add(new CacheItemBDTLibrary(bdtLibrary));
                 }
             }
             return
-                bdtLibraries.ConvertAll(new Converter<CacheItemBDTLibrary, IBDTLibrary>(CacheItemBDTLibraryToBDTLibrary));
+                bdtLibraries.ConvertAll(new Converter<CacheItemBDTLibrary, IBdtLibrary>(CacheItemBDTLibraryToBDTLibrary));
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="bdtLibraryName">The Name of the BDT Library to retrieve.</param>
         /// <returns>A UPPC3 BDT Library Element.</returns>
-        public IBDTLibrary GetBDTLibraryByName(string bdtLibraryName)
+        public IBdtLibrary GetBDTLibraryByName(string bdtLibraryName)
         {
             if (bdtLibraries == null)
             {
@@ -360,7 +360,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemBDTLibrary">A Cache representation of a BDT Library</param>
         /// <returns>A UPCC3 BDT Library Element.</returns>
-        private static IBDTLibrary CacheItemBDTLibraryToBDTLibrary(CacheItemBDTLibrary cacheItemBDTLibrary)
+        private static IBdtLibrary CacheItemBDTLibraryToBDTLibrary(CacheItemBDTLibrary cacheItemBDTLibrary)
         {
             return cacheItemBDTLibrary.BDTLibrary;
         }
@@ -459,18 +459,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load BDT Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of BDT Libraries in the repository.</returns>
-        public List<IBDTLibrary> GetBDTLibraries()
+        public List<IBdtLibrary> GetBDTLibraries()
         {
             if (bdtLibraries == null)
             {
                 bdtLibraries = new List<CacheItemBDTLibrary>();
-                foreach (IBDTLibrary bdtLibrary in ccRepository.GetBdtLibraries())
+                foreach (IBdtLibrary bdtLibrary in ccRepository.GetBdtLibraries())
                 {
                     bdtLibraries.Add(new CacheItemBDTLibrary(bdtLibrary));
                 }
             }
             return
-                bdtLibraries.ConvertAll(new Converter<CacheItemBDTLibrary, IBDTLibrary>(CacheItemBDTLibraryToBDTLibrary));
+                bdtLibraries.ConvertAll(new Converter<CacheItemBDTLibrary, IBdtLibrary>(CacheItemBDTLibraryToBDTLibrary));
         }
 
         /// <summary>
@@ -619,7 +619,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="bdtLibraryName">The Name of the BDT Library to retrieve.</param>
         /// <returns>A UPPC3 BDT Library Element.</returns>
-        public IBDTLibrary GetBDTLibraryByName(string bdtLibraryName)
+        public IBdtLibrary GetBDTLibraryByName(string bdtLibraryName)
         {
             if (bdtLibraries == null)
             {
@@ -720,7 +720,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemBDTLibrary">A Cache representation of a BDT Library</param>
         /// <returns>A UPCC3 BDT Library Element.</returns>
-        private static IBDTLibrary CacheItemBDTLibraryToBDTLibrary(CacheItemBDTLibrary cacheItemBDTLibrary)
+        private static IBdtLibrary CacheItemBDTLibraryToBDTLibrary(CacheItemBDTLibrary cacheItemBDTLibrary)
         {
             return cacheItemBDTLibrary.BDTLibrary;
         }

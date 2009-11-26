@@ -21,7 +21,7 @@ using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class BDT : IBDT, IEquatable<BDT>
+    public class BDT : IBdt, IEquatable<BDT>
     {
         private readonly Element element;
         private readonly CCRepository repository;
@@ -42,9 +42,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
-        #region IBDT Members
+        #region IBdt Members
 
-        public IBDT IsEquivalentTo
+        public IBdt IsEquivalentTo
         {
             get
             {
@@ -74,16 +74,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
-        public IEnumerable<IBDTSupplementaryComponent> SUPs
+        public IEnumerable<IBdtSup> SUPs
         {
             get
             {
                 return
-                    Attributes.Where(EAAttributeExtensions.IsSUP).Convert(a => (IBDTSupplementaryComponent) new BDTSupplementaryComponent(repository, a, this));
+                    Attributes.Where(EAAttributeExtensions.IsSUP).Convert(a => (IBdtSup) new BDTSupplementaryComponent(repository, a, this));
             }
         }
 
-        public IBDTContentComponent CON
+        public IBdtCon CON
         {
             get
             {
@@ -112,7 +112,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBDTLibrary Library
+        public IBdtLibrary Library
         {
             get { return repository.GetBdtLibraryById(element.PackageID); }
         }
@@ -165,7 +165,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(BDTSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(BdtSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -179,33 +179,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<TaggedValueSpec> GetCONTaggedValueSpecs(BDTContentComponentSpec spec)
-        {
-            return new List<TaggedValueSpec>
-                   {
-                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
-                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
-                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
-                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
-                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
-                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
-                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
-                       new TaggedValueSpec(TaggedValues.modificationAllowedIndicator, spec.ModificationAllowedIndicator),
-                       new TaggedValueSpec(TaggedValues.pattern, spec.Pattern),
-                       new TaggedValueSpec(TaggedValues.fractionDigits, spec.FractionDigits),
-                       new TaggedValueSpec(TaggedValues.length, spec.Length),
-                       new TaggedValueSpec(TaggedValues.maxExclusive, spec.MaxExclusive),
-                       new TaggedValueSpec(TaggedValues.maxInclusive, spec.MaxInclusive),
-                       new TaggedValueSpec(TaggedValues.maxLength, spec.MaxLength),
-                       new TaggedValueSpec(TaggedValues.minExclusive, spec.MinExclusive),
-                       new TaggedValueSpec(TaggedValues.minInclusive, spec.MinInclusive),
-                       new TaggedValueSpec(TaggedValues.minLength, spec.MinLength),
-                       new TaggedValueSpec(TaggedValues.totalDigits, spec.TotalDigits),
-                       new TaggedValueSpec(TaggedValues.whiteSpace, spec.WhiteSpace),
-                   };
-        }
-
-        private static IEnumerable<TaggedValueSpec> GetSUPTaggedValueSpecs(BDTSupplementaryComponentSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetCONTaggedValueSpecs(BdtConSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -231,25 +205,51 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<AttributeSpec> GetAttributeSpecs(BDTSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetSUPTaggedValueSpecs(BdtSupSpec spec)
         {
-            BDTContentComponentSpec conSpec = spec.CON;
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                       new TaggedValueSpec(TaggedValues.modificationAllowedIndicator, spec.ModificationAllowedIndicator),
+                       new TaggedValueSpec(TaggedValues.pattern, spec.Pattern),
+                       new TaggedValueSpec(TaggedValues.fractionDigits, spec.FractionDigits),
+                       new TaggedValueSpec(TaggedValues.length, spec.Length),
+                       new TaggedValueSpec(TaggedValues.maxExclusive, spec.MaxExclusive),
+                       new TaggedValueSpec(TaggedValues.maxInclusive, spec.MaxInclusive),
+                       new TaggedValueSpec(TaggedValues.maxLength, spec.MaxLength),
+                       new TaggedValueSpec(TaggedValues.minExclusive, spec.MinExclusive),
+                       new TaggedValueSpec(TaggedValues.minInclusive, spec.MinInclusive),
+                       new TaggedValueSpec(TaggedValues.minLength, spec.MinLength),
+                       new TaggedValueSpec(TaggedValues.totalDigits, spec.TotalDigits),
+                       new TaggedValueSpec(TaggedValues.whiteSpace, spec.WhiteSpace),
+                   };
+        }
+
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(BdtSpec spec)
+        {
+            BdtConSpec conSpec = spec.CON;
             if (conSpec != null)
             {
                 // TODO throw exception if null
                 yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
             }
-            List<BDTSupplementaryComponentSpec> supSpecs = spec.SUPs;
+            List<BdtSupSpec> supSpecs = spec.SUPs;
             if (supSpecs != null)
             {
-                foreach (BDTSupplementaryComponentSpec supSpec in supSpecs)
+                foreach (BdtSupSpec supSpec in supSpecs)
                 {
                     yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec));
                 }
             }
         }
 
-        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(BDTSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(BdtSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
             if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
@@ -273,7 +273,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element.GetTaggedValue(key) ?? string.Empty;
         }
 
-        public void Update(BDTSpec spec)
+        public void Update(BdtSpec spec)
         {
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))

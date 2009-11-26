@@ -40,7 +40,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             {
                 var candidateBCC = new CandidateBCC(bcc);
                 var potentialBBIE = new PotentialBBIE(candidateBCC.OriginalBCC.Name);
-                potentialBBIE.PotentialBDTs.Add(candidateBCC.OriginalBCC.Type.Name,new PotentialBDT(candidateBCC.OriginalBCC.Name));
+                potentialBBIE.PotentialBDTs.Add(candidateBCC.OriginalBCC.Cdt.Name,new PotentialBDT(candidateBCC.OriginalBCC.Name));
                 candidateBCC.PotentialBBIEs.Add(candidateBCC.OriginalBCC.Name,potentialBBIE);
                 CandidateBCCs.Add(bcc.Name,candidateBCC);
             }

@@ -61,10 +61,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             return contextMock.Object;
         }
 
-        private static IBDT AssertThatBDTLibraryContainsBDT(IImporterContext context, string bdtName, string conBasicTypeName)
+        private static IBdt AssertThatBDTLibraryContainsBDT(IImporterContext context, string bdtName, string conBasicTypeName)
         {
             var expectedCONBasicType = context.PRIMLibrary.ElementByName(conBasicTypeName);
-            IBDT bdtText = context.BDTLibrary.ElementByName(bdtName);
+            IBdt bdtText = context.BDTLibrary.ElementByName(bdtName);
             Assert.That(bdtText, Is.Not.Null, string.Format("Expected BDT named '{0}' not generated.", bdtName));
             Assert.That(bdtText.CON, Is.Not.Null, string.Format("CON of BDT {0} is null", bdtName));
             Assert.That(bdtText.CON.BasicType, Is.Not.Null, string.Format("BasicType of BDT {0} is null", bdtName));
@@ -126,7 +126,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             AssertBDTIsBasedOn(context, bdtQualifiedText, "Text");
         }
 
-        private static void AssertBDTIsBasedOn(IImporterContext context, IBDT bdt, string cdtName)
+        private static void AssertBDTIsBasedOn(IImporterContext context, IBdt bdt, string cdtName)
         {
             var cdt = context.CDTLibrary.ElementByName(cdtName);
             Assert.That(bdt.BasedOn, Is.Not.Null, "BasedOn is null");
@@ -339,7 +339,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             Assert.That(anotherRestrictedNumberBDT.CON.MaxExclusive, Is.EqualTo("8"));
         }
 
-        private static void AssertHasSUP(IImporterContext context, IBDT bdtText, int index, string basicTypeName, string name)
+        private static void AssertHasSUP(IImporterContext context, IBdt bdtText, int index, string basicTypeName, string name)
         {
             var expectedBasicType = context.PRIMLibrary.ElementByName(basicTypeName);
             var sup = bdtText.SUPs.ElementAt(index);
@@ -347,7 +347,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             Assert.That(sup.BasicType.Id, Is.EqualTo(expectedBasicType.Id));
         }
 
-        private static void AssertHasSUPs(IBDT bdtText, int expectedCount)
+        private static void AssertHasSUPs(IBdt bdtText, int expectedCount)
         {
             if (expectedCount > 0)
             {

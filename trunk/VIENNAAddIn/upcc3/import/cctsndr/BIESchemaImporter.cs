@@ -30,7 +30,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
     public static class BIESchemaImporter
     {
         private static ICCLibrary ExistingAccs;
-        private static IBDTLibrary ExistingBdts;
+        private static IBdtLibrary ExistingBdts;
         private static IBIELibrary BieLibrary;
         
         ///<summary>
@@ -256,7 +256,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                             string bdtName = element.Type.Name.Substring(0, element.Type.Name.Length - 4);
 
-                            foreach (IBDT bdt in ExistingBdts.Elements)
+                            foreach (IBdt bdt in ExistingBdts.Elements)
                             {
                                 if ((bdt.Name + bdt.CON.BasicType.DictionaryEntryName).Equals(bdtName))
                                 {

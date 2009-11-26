@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IBDTLibrary> GetBdtLibraries()
+        public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
             throw new NotImplementedException();
         }
@@ -80,7 +80,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IBDTLibrary CreateBDTLibrary(BdtLibrarySpec spec)
+        public IBdtLibrary CreateBDTLibrary(BdtLibrarySpec spec)
         {
             throw new NotImplementedException();
         }
