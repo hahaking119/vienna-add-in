@@ -58,18 +58,18 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                    select WrapItem(item) as IBLibrary;
         }
 
-        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
+        public IEnumerable<IPrimLibrary> GetPrimLibraries()
         {
             return from item in repository.AllItems()
                    where item.Stereotype == Stereotype.PRIMLibrary
-                   select WrapItem(item) as IPRIMLibrary;
+                   select WrapItem(item) as IPrimLibrary;
         }
 
-        public IEnumerable<IENUMLibrary> GetEnumLibraries()
+        public IEnumerable<IEnumLibrary> GetEnumLibraries()
         {
             return from item in repository.AllItems()
                    where item.Stereotype == Stereotype.ENUMLibrary
-                   select WrapItem(item) as IENUMLibrary;
+                   select WrapItem(item) as IEnumLibrary;
         }
 
         public IEnumerable<ICdtLibrary> GetCdtLibraries()
@@ -112,14 +112,14 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return GetLibraryById(id) as IBLibrary;
         }
 
-        public IPRIMLibrary GetPrimLibraryById(int id)
+        public IPrimLibrary GetPrimLibraryById(int id)
         {
-            return GetLibraryById(id) as IPRIMLibrary;
+            return GetLibraryById(id) as IPrimLibrary;
         }
 
-        public IENUMLibrary GetEnumLibraryById(int id)
+        public IEnumLibrary GetEnumLibraryById(int id)
         {
-            return GetLibraryById(id) as IENUMLibrary;
+            return GetLibraryById(id) as IEnumLibrary;
         }
 
         public ICdtLibrary GetCdtLibraryById(int id)
@@ -147,12 +147,12 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return GetLibraryById(id) as IDOCLibrary;
         }
 
-        public IPRIM GetPrimById(int id)
+        public IPrim GetPrimById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IENUM GetEnumById(int id)
+        public IEnum GetEnumById(int id)
         {
             throw new NotImplementedException();
         }
@@ -197,12 +197,12 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IPRIMLibrary GetPrimLibraryByPath(Path path)
+        public IPrimLibrary GetPrimLibraryByPath(Path path)
         {
             throw new NotImplementedException();
         }
 
-        public IENUMLibrary GetEnumLibraryByPath(Path path)
+        public IEnumLibrary GetEnumLibraryByPath(Path path)
         {
             throw new NotImplementedException();
         }
@@ -232,12 +232,12 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public IPRIM GetPrimByPath(Path path)
+        public IPrim GetPrimByPath(Path path)
         {
             throw new NotImplementedException();
         }
 
-        public IENUM GetEnumByPath(Path path)
+        public IEnum GetEnumByPath(Path path)
         {
             throw new NotImplementedException();
         }

@@ -11,9 +11,9 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.PrimLibrary
 {
-    public interface IPRIMLibrary
+    public interface IPrimLibrary
     {
-        IEnumerable<IPRIM> Elements { get; }
+        IEnumerable<IPrim> Elements { get; }
         int Id { get; }
         string Name { get; }
         IBLibrary Parent { get; }
@@ -30,16 +30,16 @@ namespace CctsRepository.PrimLibrary
         ///<summary>
         /// Retrieves an element by name.
         ///</summary>
-        IPRIM ElementByName(string name);
+        IPrim ElementByName(string name);
 
         ///<summary>
         /// Creates a new element in this library, based on the given specification.
         ///</summary>
-        IPRIM CreateElement(PRIMSpec spec);
+        IPrim CreateElement(PrimSpec spec);
 
         ///<summary>
         /// Updates the given element of this library to match the given specification.
         ///</summary>
-        IPRIM UpdateElement(IPRIM element, PRIMSpec spec);
+        IPrim UpdateElement(IPrim element, PrimSpec spec);
     }
 }

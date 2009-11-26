@@ -11,9 +11,9 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.EnumLibrary
 {
-    public interface IENUMLibrary
+    public interface IEnumLibrary
     {
-        IEnumerable<IENUM> Elements { get; }
+        IEnumerable<IEnum> Elements { get; }
         int Id { get; }
         string Name { get; }
         IBLibrary Parent { get; }
@@ -30,16 +30,16 @@ namespace CctsRepository.EnumLibrary
         ///<summary>
         /// Retrieves an element by name.
         ///</summary>
-        IENUM ElementByName(string name);
+        IEnum ElementByName(string name);
 
         ///<summary>
         /// Creates a new element in this library, based on the given specification.
         ///</summary>
-        IENUM CreateElement(ENUMSpec spec);
+        IEnum CreateElement(EnumSpec spec);
 
         ///<summary>
         /// Updates the given element of this library to match the given specification.
         ///</summary>
-        IENUM UpdateElement(IENUM element, ENUMSpec spec);
+        IEnum UpdateElement(IEnum element, EnumSpec spec);
     }
 }

@@ -7,7 +7,7 @@ using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 {
-    internal class UpccPrimLibrary : IPRIMLibrary
+    internal class UpccPrimLibrary : IPrimLibrary
     {
         private readonly IUmlPackage umlPackage;
 
@@ -16,7 +16,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             this.umlPackage = umlPackage;
         }
 
-        #region IPRIMLibrary Members
+        #region IPrimLibrary Members
 
         public int Id
         {
@@ -78,7 +78,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlPackage.GetTaggedValue(TaggedValues.reference).SplitValues; }
         }
 
-        public IEnumerable<IPRIM> Elements
+        public IEnumerable<IPrim> Elements
         {
             get
             {
@@ -89,9 +89,9 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             }
         }
 
-        public IPRIM ElementByName(string name)
+        public IPrim ElementByName(string name)
         {
-            foreach (IPRIM prim in Elements)
+            foreach (IPrim prim in Elements)
             {
                 if (prim.Name == name)
                 {
@@ -101,12 +101,12 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             return null;
         }
 
-        public IPRIM CreateElement(PRIMSpec spec)
+        public IPrim CreateElement(PrimSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IPRIM UpdateElement(IPRIM element, PRIMSpec spec)
+        public IPrim UpdateElement(IPrim element, PrimSpec spec)
         {
             throw new NotImplementedException();
         }

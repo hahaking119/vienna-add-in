@@ -163,11 +163,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return BDTLibrary;
             }
-            if (typeof (T) == typeof (IPRIMLibrary))
+            if (typeof (T) == typeof (IPrimLibrary))
             {
                 return PRIMLibrary;
             }
-            if (typeof (T) == typeof (IENUMLibrary))
+            if (typeof (T) == typeof (IEnumLibrary))
             {
                 return ENUMLibrary;
             }
@@ -203,11 +203,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return ASBIE;
             }
-            if (typeof (T) == typeof (IPRIM))
+            if (typeof (T) == typeof (IPrim))
             {
                 return PRIM;
             }
-            if (typeof (T) == typeof (IENUM))
+            if (typeof (T) == typeof (IEnum))
             {
                 return ENUM;
             }

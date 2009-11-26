@@ -13,16 +13,16 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class PRIMLibrary : BusinessLibrary, IPRIMLibrary
+    internal class PRIMLibrary : BusinessLibrary, IPrimLibrary
     {
         public PRIMLibrary(CCRepository repository, Package package)
             : base(repository, package)
         {
         }
 
-        #region IPRIMLibrary Members
+        #region IPrimLibrary Members
 
-        public IEnumerable<IPRIM> Elements
+        public IEnumerable<IPrim> Elements
         {
             get
             {
@@ -36,7 +36,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IPRIM ElementByName(string name)
+        public IPrim ElementByName(string name)
         {
             Element eaElement = package.ElementByName(name);
             if (eaElement != null && eaElement.IsA(util.Stereotype.PRIM))
@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IPRIM CreateElement(PRIMSpec spec)
+        public IPrim CreateElement(PrimSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.PRIM;
@@ -69,7 +69,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IPRIM UpdateElement(IPRIM element, PRIMSpec spec)
+        public IPrim UpdateElement(IPrim element, PrimSpec spec)
         {
             ((PRIM) element).Update(spec);
             return element;

@@ -5,6 +5,6 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ccts
 {
     internal interface ICctsRepository
     {
-        IEnumerable<IPRIMLibrary> PRIMLibraries { get; }
+        IEnumerable<IPrimLibrary> PRIMLibraries { get; }
     }
 }

@@ -88,12 +88,12 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
+        public IEnumerable<IPrimLibrary> GetPrimLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IENUMLibrary> GetEnumLibraries()
+        public IEnumerable<IEnumLibrary> GetEnumLibraries()
         {
             throw new NotImplementedException();
         }
@@ -148,12 +148,12 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
-        public IPRIMLibrary CreatePRIMLibrary(PrimLibrarySpec spec)
+        public IPrimLibrary CreatePRIMLibrary(PrimLibrarySpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IENUMLibrary CreateENUMLibrary(EnumLibrarySpec spec)
+        public IEnumLibrary CreateENUMLibrary(EnumLibrarySpec spec)
         {
             throw new NotImplementedException();
         }

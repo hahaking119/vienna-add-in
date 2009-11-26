@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace CctsRepository.EnumLibrary
 {
-    public interface IENUM : IBasicType
+    public interface IEnum : IBasicType
     {
         string CodeListAgencyIdentifier { get; }
         string CodeListAgencyName { get; }
@@ -21,7 +21,7 @@ namespace CctsRepository.EnumLibrary
         string RestrictedPrimitive { get; }
         string Status { get; }
 
-        IENUM IsEquivalentTo { get; }
+        IEnum IsEquivalentTo { get; }
 
         IEnumerable<ICodelistEntry> CodelistEntries { get; }
 
@@ -47,6 +47,6 @@ namespace CctsRepository.EnumLibrary
 
         ///<summary>
         ///</summary>
-        IENUMLibrary Library { get; }
+        IEnumLibrary Library { get; }
     }
 }

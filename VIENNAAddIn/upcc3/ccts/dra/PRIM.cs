@@ -19,7 +19,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class PRIM : IPRIM, IEquatable<PRIM>
+    internal class PRIM : IPrim, IEquatable<PRIM>
     {
         private readonly Element element;
         private readonly CCRepository repository;
@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        #region IPRIM Members
+        #region IPrim Members
 
         public string DictionaryEntryName
         {
@@ -113,7 +113,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.whiteSpace); }
         }
 
-        public IPRIM IsEquivalentTo
+        public IPrim IsEquivalentTo
         {
             get
             {
@@ -138,7 +138,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IPRIMLibrary Library
+        public IPrimLibrary Library
         {
             get { return repository.GetPrimLibraryById(element.PackageID); }
         }
@@ -178,7 +178,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(PRIMSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(PrimSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -202,7 +202,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(PRIMSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(PrimSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
         }
@@ -225,7 +225,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element.GetTaggedValue(key) ?? string.Empty;
         }
 
-        public void Update(PRIMSpec spec)
+        public void Update(PrimSpec spec)
         {
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))

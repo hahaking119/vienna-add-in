@@ -4,7 +4,7 @@ namespace CctsRepository.PrimLibrary
 {
     public class PrimLibrarySpec
     {
-        public PrimLibrarySpec(IPRIMLibrary primLibrary)
+        public PrimLibrarySpec(IPrimLibrary primLibrary)
         {
             Name = primLibrary.Name;
             Status = primLibrary.Status;

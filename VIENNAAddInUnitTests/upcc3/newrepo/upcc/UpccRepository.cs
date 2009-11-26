@@ -17,7 +17,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 
         #region ICctsRepository Members
 
-        public IEnumerable<IPRIMLibrary> PRIMLibraries
+        public IEnumerable<IPrimLibrary> PRIMLibraries
         {
             get
             {

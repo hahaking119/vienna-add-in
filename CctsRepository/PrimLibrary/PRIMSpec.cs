@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace CctsRepository.PrimLibrary
 {
-    public class PRIMSpec
+    public class PrimSpec
     {
-        public PRIMSpec(IPRIM prim)
+        public PrimSpec(IPrim prim)
         {
             Name = prim.Name;
             DictionaryEntryName = prim.DictionaryEntryName;
@@ -28,7 +28,7 @@ namespace CctsRepository.PrimLibrary
             IsEquivalentTo = prim.IsEquivalentTo;
         }
 
-        public PRIMSpec()
+        public PrimSpec()
         {
         }
 
@@ -44,7 +44,7 @@ namespace CctsRepository.PrimLibrary
         public string TotalDigits { get; set; }
         public string WhiteSpace { get; set; }
 
-        public IPRIM IsEquivalentTo { get; set; }
+        public IPrim IsEquivalentTo { get; set; }
         public string Name { get; set; }
         public string DictionaryEntryName { get; set; }
         public string Definition { get; set; }

@@ -13,16 +13,16 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ENUMLibrary : BusinessLibrary, IENUMLibrary
+    internal class ENUMLibrary : BusinessLibrary, IEnumLibrary
     {
         public ENUMLibrary(CCRepository repository, Package package)
             : base(repository, package)
         {
         }
 
-        #region IENUMLibrary Members
+        #region IEnumLibrary Members
 
-        public IEnumerable<IENUM> Elements
+        public IEnumerable<IEnum> Elements
         {
             get
             {
@@ -36,16 +36,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IENUM ElementByName(string name)
+        public IEnum ElementByName(string name)
         {
-            foreach (IENUM element in Elements)
+            foreach (IEnum element in Elements)
             {
                 if (((ENUM) element).Name == name)
                 {
                     return element;
                 }
             }
-            return default(IENUM);
+            return default(IEnum);
         }
 
         ///<summary>
@@ -53,7 +53,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IENUM CreateElement(ENUMSpec spec)
+        public IEnum CreateElement(EnumSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.ENUM;
@@ -71,7 +71,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IENUM UpdateElement(IENUM element, ENUMSpec spec)
+        public IEnum UpdateElement(IEnum element, EnumSpec spec)
         {
             ((ENUM) element).Update(spec);
             return element;
