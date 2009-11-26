@@ -48,7 +48,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mapForceMappingFiles);
             var mappings = new SchemaMapping(mapForceMapping, ccLibrary);
-            var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, ccLibrary.Parent, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
+            var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, ccLibrary.BLibrary, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
             mappedLibraryGenerator.GenerateLibraries();
         }
     }
