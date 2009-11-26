@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using CctsRepository;
+using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.cctsndr;
@@ -8,7 +10,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 {
     public partial class ImporterWizardFormOld : Form
     {
-        private readonly CCRepository CcRepository;
+        private readonly ICCRepository CcRepository;
 
         public ImporterWizardFormOld()
         {
@@ -35,11 +37,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             comboModels.Items.Add("CCTS");
         }
 
-        public ImporterWizardFormOld(EA.Repository eaRepository)
+        public ImporterWizardFormOld(ICCRepository ccRepository)
         {
             InitializeComponent();
 
-            CcRepository = new CCRepository(eaRepository);
+            CcRepository = ccRepository;
 
             comboModels.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -49,8 +51,8 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
 
         public static void ShowImporterWizard(AddInContext context)
-        {            
-            new ImporterWizardFormOld(context.EARepository).Show();
+        {
+            new ImporterWizardFormOld(context.CCRepository).Show();
         }
 
         private void ImporterWizardForm_Load(object sender, EventArgs e)

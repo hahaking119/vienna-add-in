@@ -63,8 +63,6 @@ namespace VIENNAAddInUnitTests.TestRepository
                          p =>
                          {
                              p.Element.Stereotype = "Some arbitrary stereotype";
-                             p.AddPackage("This bLibrary should _not_ be found because it's in the wrong location in the package hierarchy",
-                                          p1 => { p1.Element.Stereotype = Stereotype.bLibrary; });
                              p.AddDiagram("A diagram", "Class");
                          });
         }

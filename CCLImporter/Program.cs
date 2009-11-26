@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using CctsRepository;
 using CctsRepository.bLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
@@ -31,9 +32,9 @@ namespace CCLImporter
             string targetRepoPath = originalRepoPath.WithoutSuffix(".eap") + "-and-CCs.eap";
             File.Copy(originalRepoPath, targetRepoPath, true);
             eaRepository.OpenFile(targetRepoPath);
-            var ccRepository = new CCRepository(eaRepository);
-            var bLibrary = (IBLibrary) ccRepository.FindByPath("bLibrary");
-            var cdtLibrary = (ICDTLibrary) ccRepository.FindByPath((Path)"bLibrary"/"CDTLibrary");
+            ICCRepository ccRepository = new CCRepository(eaRepository);
+            var bLibrary = ccRepository.GetBLibraryByPath("bLibrary");
+            var cdtLibrary = ccRepository.GetCdtLibraryByPath((Path)"bLibrary"/"CDTLibrary");
 
             var cdts = new Dictionary<string, ICDT>();
             foreach (ICDT cdt in cdtLibrary.Elements)

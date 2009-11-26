@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Windows;
 using NUnit.Framework;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 
@@ -13,7 +14,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
         [Ignore]
         public void ShouldOpenAndPopulateXamlForm()
         {
-            var t = new Thread(() => new Application().Run(new ABIEEditor(new EARepositoryABIEEditor())));
+            var t = new Thread(() => new Application().Run(new ABIEEditor(new CCRepository(new EARepositoryABIEEditor()))));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();

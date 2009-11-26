@@ -10,6 +10,7 @@
 using System.IO;
 using EA;
 using NUnit.Framework;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.util;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
@@ -42,7 +43,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
-            ModelCreator creator = new ModelCreator(eaRepository);
+            ModelCreator creator = new ModelCreator(eaRepository, new CCRepository(eaRepository));
 
             creator.CreateUpccModel("New Test Model", "PRIMLibrary", "ENUMLibrary", "CDTLibrary", "CCLibrary",
                                     "BDTLibrary", "BIELibrary", "DOCLibrary");
@@ -59,7 +60,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
         {
             Repository eaRepository = new TemporaryFileBasedRepository(new EARepositoryModelCreator());
 
-            ModelCreator creator = new ModelCreator(eaRepository);
+            ModelCreator creator = new ModelCreator(eaRepository, new CCRepository(eaRepository));
 
             creator.CreateUpccModel("New Test Model", "BDTLibrary", "BIELibrary", "DOCLibrary", resourceDescriptor);
 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.Wizards
@@ -19,7 +19,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         //    set { ccR = new CCRepository(value); }
         //}
 
-        private CCRepository ccR;
+        private ICCRepository ccR;
         private Cache cache;
         private string selectedBIVName;
         private string selectedDOCName;
@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<summary>
         ///</summary>
         ///<param name="ccRepository"></param>
-        public GeneratorWizardForm(CCRepository ccRepository)
+        public GeneratorWizardForm(ICCRepository ccRepository)
         {
             InitializeComponent();
 

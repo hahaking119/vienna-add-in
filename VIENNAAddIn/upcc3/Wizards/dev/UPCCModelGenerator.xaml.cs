@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using CctsRepository;
 using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
@@ -34,6 +35,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private bool importStandardLibraries;
 
         private readonly Repository repository;
+        private readonly ICCRepository ccRepository;
         private FileBasedVersionHandler versionHandler;
 
         #endregion
@@ -44,10 +46,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// which is part of the same class. 
         /// </summary>
         /// <param name="eaRepository">The current repository</param>
-        private UPCCModelGenerator(Repository eaRepository)
+        private UPCCModelGenerator(Repository eaRepository, ICCRepository ccRepository)
         {
             InitializeComponent();
             repository = eaRepository;
+            this.ccRepository = ccRepository;
             WindowLoaded();
         }
 
@@ -60,7 +63,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         ///</param>
         public static void ShowForm(AddInContext context)
         {
-            new UPCCModelGenerator(context.EARepository).ShowDialog();
+            new UPCCModelGenerator(context.EARepository, context.CCRepository).ShowDialog();
         }
 
         #region Convenience Methods
@@ -73,7 +76,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             SetModelDefaultName();
             SetLibraryDefaultNames();
         }
-        
+
         private void OnStatusChanged(string statusMessage)
         {
             rtxtStatus.Text = statusMessage + "\n" + rtxtStatus.Text;
@@ -274,15 +277,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         {
             modelName = textboxModelName.Text;
 
-            importStandardLibraries = (bool)checkboxImportStandardLibraries.IsChecked ? true : false;
+            importStandardLibraries = (bool) checkboxImportStandardLibraries.IsChecked ? true : false;
 
-            primLibraryName = (bool)checkboxPRIML.IsChecked ? textboxPRIMLName.Text : "";
-            enumLibraryName = (bool)checkboxENUML.IsChecked ? textboxENUMLName.Text : "";
-            cdtLibraryName = (bool)checkboxCDTL.IsChecked ? textboxCDTLName.Text : "";
-            ccLibraryName = (bool)checkboxCCL.IsChecked ? textboxCCLName.Text : "";
-            bdtLibraryName = (bool)checkboxBDTL.IsChecked ? textboxBDTLName.Text : "";
-            bieLibraryName = (bool)checkboxBIEL.IsChecked ? textboxBIELName.Text : "";
-            docLibraryName = (bool)checkboxDOCL.IsChecked ? textboxDOCLName.Text : "";
+            primLibraryName = (bool) checkboxPRIML.IsChecked ? textboxPRIMLName.Text : "";
+            enumLibraryName = (bool) checkboxENUML.IsChecked ? textboxENUMLName.Text : "";
+            cdtLibraryName = (bool) checkboxCDTL.IsChecked ? textboxCDTLName.Text : "";
+            ccLibraryName = (bool) checkboxCCL.IsChecked ? textboxCCLName.Text : "";
+            bdtLibraryName = (bool) checkboxBDTL.IsChecked ? textboxBDTLName.Text : "";
+            bieLibraryName = (bool) checkboxBIEL.IsChecked ? textboxBIELName.Text : "";
+            docLibraryName = (bool) checkboxDOCL.IsChecked ? textboxDOCLName.Text : "";
         }
 
         private void PopulateCbxMinor()
@@ -308,13 +311,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             GatherUserInput();
 
             if ((modelName.Equals("")) ||
-                ((bool)checkboxPRIML.IsChecked && primLibraryName.Equals("")) ||
-                ((bool)checkboxENUML.IsChecked && enumLibraryName.Equals("")) ||
-                ((bool)checkboxCDTL.IsChecked && cdtLibraryName.Equals("")) ||
-                ((bool)checkboxCCL.IsChecked && ccLibraryName.Equals("")) ||
-                ((bool)checkboxBDTL.IsChecked && bdtLibraryName.Equals("")) ||
-                ((bool)checkboxBIEL.IsChecked && bieLibraryName.Equals("")) ||
-                ((bool)checkboxDOCL.IsChecked && docLibraryName.Equals("")))
+                ((bool) checkboxPRIML.IsChecked && primLibraryName.Equals("")) ||
+                ((bool) checkboxENUML.IsChecked && enumLibraryName.Equals("")) ||
+                ((bool) checkboxCDTL.IsChecked && cdtLibraryName.Equals("")) ||
+                ((bool) checkboxCCL.IsChecked && ccLibraryName.Equals("")) ||
+                ((bool) checkboxBDTL.IsChecked && bdtLibraryName.Equals("")) ||
+                ((bool) checkboxBIEL.IsChecked && bieLibraryName.Equals("")) ||
+                ((bool) checkboxDOCL.IsChecked && docLibraryName.Equals("")))
             {
                 buttonGenerate.IsEnabled = false;
             }
@@ -327,7 +330,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         #endregion
 
         #region Event Handler Methods
-        
+
         private void textboxModelName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             CheckIfInputIsValid();
@@ -433,7 +436,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
             GatherUserInput();
 
-            ModelCreator creator = new ModelCreator(repository);
+            ModelCreator creator = new ModelCreator(repository, ccRepository);
             creator.StatusChanged += OnStatusChanged;
 
             if (checkboxImportStandardLibraries.IsChecked == true)

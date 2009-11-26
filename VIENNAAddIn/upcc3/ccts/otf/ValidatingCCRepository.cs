@@ -51,11 +51,6 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         #region ICCRepository Members
 
-        private object GetLibraryById(int id)
-        {
-            return WrapItem(repository.GetItemById(ItemId.ForPackage(id)));
-        }
-
         public IEnumerable<IBLibrary> GetBLibraries()
         {
             return from item in repository.AllItems()
@@ -152,7 +147,27 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return GetLibraryById(id) as IDOCLibrary;
         }
 
-        public object FindByPath(Path path)
+        public IPRIM GetPrimById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IENUM GetEnumById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IABIE GetAbieByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Path> GetRootLocations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBLibrary CreateRootBLibrary(Path rootLocation, BLibrarySpec spec)
         {
             throw new NotImplementedException();
         }
@@ -177,7 +192,77 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
+        public IBLibrary GetBLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPRIMLibrary GetPrimLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IENUMLibrary GetEnumLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICDTLibrary GetCdtLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICCLibrary GetCcLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBDTLibrary GetBdtLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBIELibrary GetBieLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDOCLibrary GetDocLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPRIM GetPrimByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IENUM GetEnumByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICDT GetCdtByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IACC GetAccByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBDT GetBdtByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
+
+        private object GetLibraryById(int id)
+        {
+            return WrapItem(repository.GetItemById(ItemId.ForPackage(id)));
+        }
 
         public event Action<IEnumerable<ValidationIssue>> ValidationIssuesUpdated
         {

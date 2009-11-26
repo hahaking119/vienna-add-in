@@ -2,6 +2,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.CdtLibrary;
 using CctsRepository.PrimLibrary;
@@ -46,10 +47,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
                                                                                                                });
                                                                              bLibrary.AddPackage("BDTLibrary", bdtLib => { bdtLib.Element.Stereotype = Stereotype.BDTLibrary; });
                                                                          }));
-            var ccRepository = new CCRepository(eaRepository);
-            var primLibrary = (IPRIMLibrary) ccRepository.FindByPath((Path) "Model"/"bLibrary"/"PRIMLibrary");
-            var bdtLibrary = (IBDTLibrary) ccRepository.FindByPath((Path) "Model"/"bLibrary"/"BDTLibrary");
-            var cdtLibrary = (ICDTLibrary) ccRepository.FindByPath((Path) "Model"/"bLibrary"/"CDTLibrary");
+            ICCRepository ccRepository = new CCRepository(eaRepository);
+            var primLibrary = ccRepository.GetPrimLibraryByPath((Path) "Model"/"bLibrary"/"PRIMLibrary");
+            var bdtLibrary = ccRepository.GetBdtLibraryByPath((Path) "Model"/"bLibrary"/"BDTLibrary");
+            var cdtLibrary = ccRepository.GetCdtLibraryByPath((Path) "Model"/"bLibrary"/"CDTLibrary");
 
             var contextMock = new Mock<IImporterContext>();
             contextMock.SetupGet(c => c.PRIMLibrary).Returns(primLibrary);

@@ -118,7 +118,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get
             {
                 Connector connector = Connectors.FirstOrDefault(EAConnectorExtensions.IsIsEquivalentTo);
-                return connector != null ? repository.GetPRIM(connector.SupplierID) : null;
+                return connector != null ? repository.GetPrimById(connector.SupplierID) : null;
             }
         }
 

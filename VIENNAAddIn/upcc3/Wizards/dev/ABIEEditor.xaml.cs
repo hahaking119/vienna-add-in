@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using EA;
 using VIENNAAddIn.menu;
@@ -25,10 +26,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <summary>
         /// Constructor for ABIE creation wizard
         /// </summary>
-        /// <param name="eaRepository">The current repository</param>
-        public ABIEEditor(Repository eaRepository)
+        /// <param name="ccRepository">The current repository</param>
+        public ABIEEditor(ICCRepository ccRepository)
         {
-            tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
+            tempModel = new TemporaryABIEModel(ccRepository);
 
             InitializeComponent();
 
@@ -49,11 +50,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <summary>
         /// Constructor for ABIE modification wizard
         /// </summary>
-        /// <param name="eaRepository">The current repository</param>
+        /// <param name="ccRepository">The current repository</param>
         /// <param name="abie"></param>
-        public ABIEEditor(Repository eaRepository, IABIE abie)
+        public ABIEEditor(ICCRepository ccRepository, IABIE abie)
         {
-            tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
+            tempModel = new TemporaryABIEModel(ccRepository);
             //cache.PrepareForABIE(abie);
 
             InitializeComponent();
@@ -66,7 +67,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="context"></param>
         public static void ShowForm(AddInContext context)
         {
-            new ABIEEditor(context.EARepository).Show();
+            new ABIEEditor(context.CCRepository).Show();
         }
 
         /// <summary>

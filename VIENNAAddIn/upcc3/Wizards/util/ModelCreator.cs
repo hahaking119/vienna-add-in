@@ -8,6 +8,7 @@
 // *******************************************************************************
 
 using System;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
@@ -18,6 +19,9 @@ using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUtils;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
@@ -31,6 +35,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     public class ModelCreator
     {
         private readonly Repository repository;
+        private ICCRepository ccRepository;
 
         ///<summary>
         /// The constructor of the ModelCreator requires one input parameter specifying the EA 
@@ -41,9 +46,11 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///<param name="eaRepository">
         /// An EA repository representing the repository that the ModelCreator operates on. 
         /// </param>
-        public ModelCreator(Repository eaRepository)
+        ///<param name="ccRepository"></param>
+        public ModelCreator(Repository eaRepository, ICCRepository ccRepository)
         {
             repository = eaRepository;
+            this.ccRepository = ccRepository;
         }
 
         #region Class Methods
@@ -120,14 +127,8 @@ namespace VIENNAAddIn.upcc3.Wizards.util
                                     string bieLibraryName, string docLibraryName, Action<IBLibrary> importCCLibraries)
         {
             repository.Models.Refresh();
-            CCRepository ccRepository = new CCRepository(repository);
 
-            SendStatusChanged("Selecting empty root model.");
-            Package model = GetEmptyRootModel();
-
-            SendStatusChanged("Creating bLibrary.");
-            IBLibrary bLibrary = ccRepository.CreateBLibrary(new BLibrarySpec {Name = modelName}, model);
-
+            IBLibrary bLibrary = CreateBLibrary(modelName);
             importCCLibraries(bLibrary);
 
             CreateBIELibraries(bLibrary, bdtLibraryName, bieLibraryName, docLibraryName);
@@ -135,6 +136,18 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             repository.RefreshModelView(0);
             repository.Models.Refresh();
             SendStatusChanged("Done.");
+        }
+
+        private IBLibrary CreateBLibrary(string bLibraryName)
+        {
+            SendStatusChanged("Selecting (or creating) an empty model.");
+            var emptyModelPath = GetEmptyModelPath();
+
+            SendStatusChanged("Creating bLibrary.");
+            return ccRepository.CreateRootBLibrary(emptyModelPath, new BLibrarySpec
+                                                          {
+                                                              Name = bLibraryName
+                                                          });
         }
 
         public void CreateUpccModel(string modelName, string bdtLibraryName, string bieLibraryName, string docLibraryName, ResourceDescriptor standardLibraryResourceDescriptor)
@@ -162,23 +175,29 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///  A package representing an empty root model in the repository which may be used to be 
         ///  populated with default CC libraries. 
         /// </returns>
-        private Package GetEmptyRootModel()
+        private Path GetEmptyModelPath()
         {
+            Package emptyModel = null;
+
+            // Look for a model containing neither packages nor diagrams
             foreach (Package model in repository.Models)
             {
-                // For each model check if it contains any Packages or Diagrams. If the current model
-                // does not contain any Packages or Diagrams it is assumed that the model is empty.
                 if ((model.Packages.Count == 0) && (model.Diagrams.Count == 0))
                 {
-                    return model;
+                    emptyModel = model;
+                    break;
                 }
             }
 
-            Package newEmptyModel = (Package) repository.Models.AddNew("Model", "");
-            newEmptyModel.Update();
-            repository.Models.Refresh();
+            if (emptyModel == null)
+            {
+                // no empty model found -> create one
+                emptyModel = (Package)repository.Models.AddNew("Model", string.Empty);
+                emptyModel.Update();
+                repository.Models.Refresh();
+            }
 
-            return newEmptyModel;
+            return new Path(emptyModel.Name);
         }
 
         ///<summary>

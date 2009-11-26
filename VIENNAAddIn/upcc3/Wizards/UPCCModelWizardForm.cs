@@ -9,6 +9,7 @@
 
 using System;
 using System.Windows.Forms;
+using CctsRepository;
 using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
@@ -43,6 +44,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private bool importStandardLibraries;
         
         private readonly Repository repository;
+        private readonly ICCRepository ccRepository;
         private FileBasedVersionHandler versionHandler;
 
         #endregion
@@ -55,11 +57,12 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<param name="eaRepository">
         /// Specifies the EA Repository that the wizard operates on. 
         ///</param>
-        private UpccModelWizardForm(Repository eaRepository)
+        private UpccModelWizardForm(Repository eaRepository, ICCRepository ccRepository)
         {
             InitializeComponent();
 
             repository = eaRepository;
+            this.ccRepository = ccRepository;
         }
 
         ///<summary>
@@ -71,7 +74,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///</param>
         public static void ShowForm(AddInContext context)
         {
-            new UpccModelWizardForm(context.EARepository).ShowDialog();
+            new UpccModelWizardForm(context.EARepository, context.CCRepository).ShowDialog();
         }
 
         #region Convenience Methods
@@ -215,7 +218,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             GatherUserInput();
 
-            ModelCreator creator = new ModelCreator(repository);
+            ModelCreator creator = new ModelCreator(repository, ccRepository);
             creator.StatusChanged += OnStatusChanged;
 
             if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)

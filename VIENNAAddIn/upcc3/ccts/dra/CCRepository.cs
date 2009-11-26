@@ -47,9 +47,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get
             {
-                foreach (Package rootBLibraryPackage in AllRootBLibraryPackages())
+                foreach (Package rootLocationPackage in GetRootLocationPackages())
                 {
-                    foreach (Package package in rootBLibraryPackage.EnumeratePackages())
+                    foreach (Package package in rootLocationPackage.EnumerateContainedPackages())
                     {
                         yield return package;
                     }
@@ -58,24 +58,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         #region ICCRepository Members
-
-        public object FindByPath(Path path)
-        {
-            var o = eaRepository.Resolve<object>(path);
-            if (o == null)
-            {
-                return null;
-            }
-            if (o is Element)
-            {
-                return GetElement((Element) o);
-            }
-            if (o is Package)
-            {
-                return GetLibrary((Package) o);
-            }
-            throw new Exception("path resolved to an object that's neither an element nor a package");
-        }
 
         public IEnumerable<IBLibrary> GetBLibraries()
         {
@@ -135,163 +117,231 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IBLibrary GetBLibraryById(int id)
         {
-            return GetLibraryById(id) as IBLibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new BLibrary(this, package);
         }
 
         public IPRIMLibrary GetPrimLibraryById(int id)
         {
-            return GetLibraryById(id) as IPRIMLibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new PRIMLibrary(this, package);
         }
 
         public IENUMLibrary GetEnumLibraryById(int id)
         {
-            return GetLibraryById(id) as IENUMLibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new ENUMLibrary(this, package);
         }
 
         public ICDTLibrary GetCdtLibraryById(int id)
         {
-            return GetLibraryById(id) as ICDTLibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new CDTLibrary(this, package);
         }
 
         public ICCLibrary GetCcLibraryById(int id)
         {
-            return GetLibraryById(id) as ICCLibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new CCLibrary(this, package);
         }
 
         public IBDTLibrary GetBdtLibraryById(int id)
         {
-            return GetLibraryById(id) as IBDTLibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new BDTLibrary(this, package);
         }
 
         public IBIELibrary GetBieLibraryById(int id)
         {
-            return GetLibraryById(id) as IBIELibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new BIELibrary(this, package);
         }
 
         public IDOCLibrary GetDocLibraryById(int id)
         {
-            return GetLibraryById(id) as IDOCLibrary;
+            Package package = eaRepository.GetPackageByID(id);
+            return package == null ? null : new DOCLibrary(this, package);
+        }
+
+        public IPRIM GetPrimById(int id)
+        {
+            Element element = eaRepository.GetElementByID(id);
+            return element == null ? null : new PRIM(this, element);
+        }
+
+        public IENUM GetEnumById(int id)
+        {
+            Element element = eaRepository.GetElementByID(id);
+            return element == null ? null : new ENUM(this, element);
         }
 
         public ICDT GetCdtById(int id)
         {
-            return new CDT(this, eaRepository.GetElementByID(id));
+            Element element = eaRepository.GetElementByID(id);
+            return element == null ? null : new CDT(this, element);
         }
 
         public IACC GetAccById(int id)
         {
-            return new ACC(this, eaRepository.GetElementByID(id));
+            Element element = eaRepository.GetElementByID(id);
+            return element == null ? null : new ACC(this, element);
         }
 
         public IBDT GetBdtById(int id)
         {
-            return new BDT(this, eaRepository.GetElementByID(id));
+            Element element = eaRepository.GetElementByID(id);
+            return element == null ? null : new BDT(this, element);
         }
 
         public IABIE GetAbieById(int id)
         {
-            return new ABIE(this, eaRepository.GetElementByID(id));
+            Element element = eaRepository.GetElementByID(id);
+            return element == null ? null : new ABIE(this, element);
+        }
+
+        public IBLibrary GetBLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new BLibrary(this, package);
+        }
+
+        public IPRIMLibrary GetPrimLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new PRIMLibrary(this, package);
+        }
+
+        public IENUMLibrary GetEnumLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new ENUMLibrary(this, package);
+        }
+
+        public ICDTLibrary GetCdtLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new CDTLibrary(this, package);
+        }
+
+        public ICCLibrary GetCcLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new CCLibrary(this, package);
+        }
+
+        public IBDTLibrary GetBdtLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new BDTLibrary(this, package);
+        }
+
+        public IBIELibrary GetBieLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new BIELibrary(this, package);
+        }
+
+        public IDOCLibrary GetDocLibraryByPath(Path path)
+        {
+            var package = eaRepository.Resolve<Package>(path);
+            return package == null ? null : new DOCLibrary(this, package);
+        }
+
+        public IPRIM GetPrimByPath(Path path)
+        {
+            var element = eaRepository.Resolve<Element>(path);
+            return element == null ? null : new PRIM(this, element);
+        }
+
+        public IENUM GetEnumByPath(Path path)
+        {
+            var element = eaRepository.Resolve<Element>(path);
+            return element == null ? null : new ENUM(this, element);
+        }
+
+        public ICDT GetCdtByPath(Path path)
+        {
+            var element = eaRepository.Resolve<Element>(path);
+            return element == null ? null : new CDT(this, element);
+        }
+
+        public IACC GetAccByPath(Path path)
+        {
+            var element = eaRepository.Resolve<Element>(path);
+            return element == null ? null : new ACC(this, element);
+        }
+
+        public IBDT GetBdtByPath(Path path)
+        {
+            var element = eaRepository.Resolve<Element>(path);
+            return element == null ? null : new BDT(this, element);
+        }
+
+        public IABIE GetAbieByPath(Path path)
+        {
+            var element = eaRepository.Resolve<Element>(path);
+            return element == null ? null : new ABIE(this, element);
+        }
+
+        /// <summary>
+        /// Candidate root locations for EA-based UPCC models are models and top-level packages with stereotype "BInformationV".
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Path> GetRootLocations()
+        {
+            return GetRootLocationPackages().Convert(p => p.GetPath(eaRepository));
+        }
+
+        public IBLibrary CreateRootBLibrary(Path rootLocation, BLibrarySpec spec)
+        {
+            var rootPackage = eaRepository.Resolve<Package>(rootLocation);
+            if (rootPackage == null)
+            {
+                throw new ArgumentException("Invalid root location: " + rootLocation);
+            }
+
+            var libraryPackage = (Package) rootPackage.Packages.AddNew(spec.Name, string.Empty);
+            libraryPackage.Update();
+            libraryPackage.ParentID = rootPackage.PackageID;
+            libraryPackage.Element.Stereotype = Stereotype.bLibrary;
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            libraryPackage.Update();
+
+            var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
+            packageDiagram.Update();
+
+            libraryPackage.Diagrams.Refresh();
+            rootPackage.Packages.Refresh();
+
+            return new BLibrary(this, libraryPackage);
         }
 
         #endregion
 
-        public IDOCLibrary GetDocLibraryByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        private object GetLibraryById(int id)
-        {
-            return id == 0 ? null : GetLibrary(eaRepository.GetPackageByID(id));
-        }
-
-        private IEnumerable<Package> AllRootBLibraryPackages()
+        private IEnumerable<Package> GetRootLocationPackages()
         {
             foreach (Package model in eaRepository.Models)
             {
+                yield return model;
                 foreach (Package rootPackage in model.Packages)
                 {
                     if (rootPackage.IsA(Stereotype.BInformationV))
                     {
-                        foreach (Package subPackage in rootPackage.Packages)
-                        {
-                            if (subPackage.IsA(Stereotype.bLibrary))
-                            {
-                                yield return subPackage;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (rootPackage.IsA(Stereotype.bLibrary))
-                        {
-                            yield return rootPackage;
-                        }
+                        yield return rootPackage;
                     }
                 }
             }
         }
 
-        public object GetLibrary(Package package)
-        {
-            if (package == null)
-            {
-                return null;
-            }
-            if (package.Element == null)
-            {
-                // this is a model, which cannot be a business library
-                return null;
-            }
-            switch (package.Element.Stereotype)
-            {
-                case "bLibrary":
-                    return new BLibrary(this, package);
-                case "BDTLibrary":
-                    return new BDTLibrary(this, package);
-                case "BIELibrary":
-                    return new BIELibrary(this, package);
-                case "CCLibrary":
-                    return new CCLibrary(this, package);
-                case "CDTLibrary":
-                    return new CDTLibrary(this, package);
-                case "DOCLibrary":
-                    return new DOCLibrary(this, package);
-                case "ENUMLibrary":
-                    return new ENUMLibrary(this, package);
-                case "PRIMLibrary":
-                    return new PRIMLibrary(this, package);
-                default:
-                    throw new ArgumentException("Invalid package stereotype: " + package.Element.Stereotype);
-            }
-        }
-
-        private object GetElement(Element element)
-        {
-            if (element == null)
-            {
-                return null;
-            }
-            switch (element.Stereotype)
-            {
-                case "BDT":
-                    return new BDT(this, element);
-                case "ABIE":
-                    return new ABIE(this, element);
-                case "ACC":
-                    return new ACC(this, element);
-                case "CDT":
-                    return new CDT(this, element);
-                case "ENUM":
-                    return new ENUM(this, element);
-                case "PRIM":
-                    return new PRIM(this, element);
-                default:
-                    throw new ArgumentException("Invalid element stereotype: " + element.Stereotype);
-            }
-        }
-
-        public IBasicType GetIType(int id)
+        public IBasicType GetBasicTypeById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             if (element == null)
@@ -307,48 +357,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 default:
                     return null;
             }
-        }
-
-        public IENUM GetENUM(int id)
-        {
-            return new ENUM(this, eaRepository.GetElementByID(id));
-        }
-
-        public IPRIM GetPRIM(int id)
-        {
-            return new PRIM(this, eaRepository.GetElementByID(id));
-        }
-
-        ///<summary>
-        /// Create a new <<bLibrary>> package in the given parent package.
-        ///</summary>
-        ///<param name="spec"></param>
-        ///<param name="parentPackage"></param>
-        ///<returns></returns>
-        public IBLibrary CreateBLibrary(BLibrarySpec spec, Package parentPackage)
-        {
-            var libraryPackage = (Package) parentPackage.Packages.AddNew(spec.Name, string.Empty);
-            libraryPackage.Update();
-            libraryPackage.ParentID = parentPackage.PackageID;
-            libraryPackage.Element.Stereotype = Stereotype.bLibrary;
-
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, spec.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, spec.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
-            libraryPackage.Update();
-
-            var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
-            packageDiagram.Update();
-            libraryPackage.Diagrams.Refresh();
-
-            parentPackage.Packages.Refresh();
-            return new BLibrary(this, libraryPackage);
         }
     }
 }

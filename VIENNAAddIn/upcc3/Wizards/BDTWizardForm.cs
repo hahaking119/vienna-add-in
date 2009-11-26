@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.CdtLibrary;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.Wizards
 {
@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.Wizards
     ///</summary>
     public partial class BDTWizardForm : Form
     {
-        private CCRepository repository;
+        private ICCRepository repository;
         private Cache cache;
         private string selectedCDTLName;
         private string selectedCDTName;
@@ -30,11 +30,11 @@ namespace VIENNAAddIn.upcc3.Wizards
         ///<summary>
         ///</summary>
         ///<param name="eaRepository"></param>
-        public BDTWizardForm(EA.Repository eaRepository)
+        public BDTWizardForm(ICCRepository ccRepository)
         {
             InitializeComponent();
 
-            repository = new CCRepository(eaRepository);
+            repository = ccRepository;
 
             cache = new Cache();
 
@@ -394,7 +394,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         public static void ShowBDTWizard(AddInContext context)
         {
-            new BDTWizardForm(context.EARepository).Show();
+            new BDTWizardForm(context.CCRepository).Show();
         }
 
         private void checkboxAttributes_MouseDown(object sender, MouseEventArgs e)
