@@ -10,9 +10,9 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CdtLibrary
 {
-    public interface ICDTContentComponent
+    public interface ICdtCon
     {
-        ICDT CDT { get; }
+        ICdt CDT { get; }
         IBasicType BasicType { get; }
         bool ModificationAllowedIndicator { get; }
         string UpperBound { get; }

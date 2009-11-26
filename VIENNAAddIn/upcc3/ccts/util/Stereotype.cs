@@ -147,7 +147,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return CCLibrary;
             }
-            if (typeof (T) == typeof (ICDTLibrary))
+            if (typeof (T) == typeof (ICdtLibrary))
             {
                 return CDTLibrary;
             }
@@ -171,7 +171,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return ENUMLibrary;
             }
-            if (typeof (T) == typeof (ICDT))
+            if (typeof (T) == typeof (ICdt))
             {
                 return CDT;
             }
@@ -211,11 +211,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return ENUM;
             }
-            if (typeof (T) == typeof (ICDTSupplementaryComponent))
+            if (typeof (T) == typeof (ICdtSup))
             {
                 return SUP;
             }
-            if (typeof (T) == typeof (ICDTContentComponent))
+            if (typeof (T) == typeof (ICdtCon))
             {
                 return CON;
             }

@@ -13,7 +13,7 @@ namespace CctsRepository.BdtLibrary
 {
     public class BdtSupSpec
     {
-        public BdtSupSpec(ICDTSupplementaryComponent cdtSup)
+        public BdtSupSpec(ICdtSup cdtSup)
         {
             Name = cdtSup.Name;
             DictionaryEntryName = cdtSup.DictionaryEntryName;

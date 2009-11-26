@@ -1206,7 +1206,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             if (cache.PathIsValid(CacheConstants.PATH_BCCs,
                                   new[] {selectedCCLName, selectedACCName, selectedBCCName, selectedBBIEName}))
             {
-                ICDT baseCDT =
+                ICdt baseCDT =
                     repository.GetCdtById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].Type);
                 foreach (
                     cBDT bdt in
@@ -1359,7 +1359,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                 if (!(generatedBDTs.ContainsKey(bdt.Name)))
                                                 {
                                                     /* the BDT to be used is to be created based on the CDT used in the BCC */
-                                                    ICDT baseCDT = repository.GetCdtById(bcc.Type);
+                                                    ICdt baseCDT = repository.GetCdtById(bcc.Type);
                                                     BdtSpec bdtSpec = BdtSpec.CloneCDT(baseCDT, bdt.Name);
                                                     IBdt newBDT = selectedBDTL.CreateElement(bdtSpec);
                                                     bdtUsed = newBDT;

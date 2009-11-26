@@ -10,12 +10,12 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CdtLibrary
 {
-    public interface ICDT
+    public interface ICdt
     {
-        ICDTContentComponent CON { get; }
-        IEnumerable<ICDTSupplementaryComponent> SUPs { get; }
+        ICdtCon CON { get; }
+        IEnumerable<ICdtSup> SUPs { get; }
 
-        ICDT IsEquivalentTo { get; }
+        ICdt IsEquivalentTo { get; }
         IEnumerable<string> UsageRules { get; }
 
         ///<summary>
@@ -52,6 +52,6 @@ namespace CctsRepository.CdtLibrary
 
         ///<summary>
         ///</summary>
-        ICDTLibrary Library { get; }
+        ICdtLibrary Library { get; }
     }
 }

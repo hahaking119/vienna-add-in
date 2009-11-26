@@ -11,9 +11,9 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.CdtLibrary
 {
-    public interface ICDTLibrary
+    public interface ICdtLibrary
     {
-        IEnumerable<ICDT> Elements { get; }
+        IEnumerable<ICdt> Elements { get; }
         int Id { get; }
         string Name { get; }
         IBLibrary Parent { get; }
@@ -30,16 +30,16 @@ namespace CctsRepository.CdtLibrary
         ///<summary>
         /// Retrieves an element by name.
         ///</summary>
-        ICDT ElementByName(string name);
+        ICdt ElementByName(string name);
 
         ///<summary>
         /// Creates a new element in this library, based on the given specification.
         ///</summary>
-        ICDT CreateElement(CDTSpec spec);
+        ICdt CreateElement(CdtSpec spec);
 
         ///<summary>
         /// Updates the given element of this library to match the given specification.
         ///</summary>
-        ICDT UpdateElement(ICDT element, CDTSpec spec);
+        ICdt UpdateElement(ICdt element, CdtSpec spec);
     }
 }

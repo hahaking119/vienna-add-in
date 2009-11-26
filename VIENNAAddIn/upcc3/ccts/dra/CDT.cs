@@ -20,7 +20,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    public class CDT : ICDT, IEquatable<CDT>
+    public class CDT : ICdt, IEquatable<CDT>
     {
         private readonly Element element;
         private readonly CCRepository repository;
@@ -41,9 +41,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
-        #region ICDT Members
+        #region ICdt Members
 
-        public ICDT IsEquivalentTo
+        public ICdt IsEquivalentTo
         {
             get
             {
@@ -62,16 +62,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
-        public IEnumerable<ICDTSupplementaryComponent> SUPs
+        public IEnumerable<ICdtSup> SUPs
         {
             get
             {
                 return
-                    Attributes.Where(EAAttributeExtensions.IsSUP).Convert(a => (ICDTSupplementaryComponent) new CDTSupplementaryComponent(repository, a, this));
+                    Attributes.Where(EAAttributeExtensions.IsSUP).Convert(a => (ICdtSup) new CDTSupplementaryComponent(repository, a, this));
             }
         }
 
-        public ICDTContentComponent CON
+        public ICdtCon CON
         {
             get
             {
@@ -100,7 +100,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public ICDTLibrary Library
+        public ICdtLibrary Library
         {
             get { return repository.GetCdtLibraryById(element.PackageID); }
         }
@@ -153,7 +153,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(CDTSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(CdtSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -167,22 +167,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<TaggedValueSpec> GetCONTaggedValueSpecs(CDTContentComponentSpec spec)
-        {
-            return new List<TaggedValueSpec>
-                   {
-                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
-                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
-                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
-                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
-                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
-                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
-                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
-                       new TaggedValueSpec(TaggedValues.modificationAllowedIndicator, spec.ModificationAllowedIndicator),
-                   };
-        }
-
-        private static IEnumerable<TaggedValueSpec> GetSUPTaggedValueSpecs(CDTSupplementaryComponentSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetCONTaggedValueSpecs(CdtConSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -197,25 +182,40 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<AttributeSpec> GetAttributeSpecs(CDTSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetSUPTaggedValueSpecs(CdtSupSpec spec)
         {
-            CDTContentComponentSpec conSpec = spec.CON;
+            return new List<TaggedValueSpec>
+                   {
+                       new TaggedValueSpec(TaggedValues.businessTerm, spec.BusinessTerms),
+                       new TaggedValueSpec(TaggedValues.definition, spec.Definition),
+                       new TaggedValueSpec(TaggedValues.dictionaryEntryName, spec.DictionaryEntryName),
+                       new TaggedValueSpec(TaggedValues.languageCode, spec.LanguageCode),
+                       new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier),
+                       new TaggedValueSpec(TaggedValues.usageRule, spec.UsageRules),
+                       new TaggedValueSpec(TaggedValues.versionIdentifier, spec.VersionIdentifier),
+                       new TaggedValueSpec(TaggedValues.modificationAllowedIndicator, spec.ModificationAllowedIndicator),
+                   };
+        }
+
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(CdtSpec spec)
+        {
+            CdtConSpec conSpec = spec.CON;
             if (conSpec != null)
             {
                 // TODO throw exception if null
                 yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
             }
-            List<CDTSupplementaryComponentSpec> supSpecs = spec.SUPs;
+            List<CdtSupSpec> supSpecs = spec.SUPs;
             if (supSpecs != null)
             {
-                foreach (CDTSupplementaryComponentSpec supSpec in supSpecs)
+                foreach (CdtSupSpec supSpec in supSpecs)
                 {
                     yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec));
                 }
             }
         }
 
-        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(CDTSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(CdtSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
         }
@@ -238,7 +238,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element.GetTaggedValue(key) ?? string.Empty;
         }
 
-        public void Update(CDTSpec spec)
+        public void Update(CdtSpec spec)
         {
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))

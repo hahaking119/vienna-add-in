@@ -55,11 +55,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (IENUMLibrary) new ENUMLibrary(repository, p);
         }
 
-        public IEnumerable<ICDTLibrary> GetCdtLibraries()
+        public IEnumerable<ICdtLibrary> GetCdtLibraries()
         {
             return from p in ContainedPackages
                    where p.IsCDTLibrary()
-                   select (ICDTLibrary) new CDTLibrary(repository, p);
+                   select (ICdtLibrary) new CDTLibrary(repository, p);
         }
 
         public IEnumerable<ICcLibrary> GetCcLibraries()
@@ -117,7 +117,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return new BLibrary(repository, libraryPackage);
         }
 
-        public ICDTLibrary CreateCDTLibrary(CdtLibrarySpec spec)
+        public ICdtLibrary CreateCDTLibrary(CdtLibrarySpec spec)
         {
             var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
             libraryPackage.Update();

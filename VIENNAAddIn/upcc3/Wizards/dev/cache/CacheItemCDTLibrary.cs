@@ -5,11 +5,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
     internal class CacheItemCDTLibrary
     {
-        internal ICDTLibrary CDTLibrary { get; set; }
+        internal ICdtLibrary CDTLibrary { get; set; }
 
-        internal List<ICDT> CDTsInLibrary { get; set; }
+        internal List<ICdt> CDTsInLibrary { get; set; }
 
-        internal CacheItemCDTLibrary(ICDTLibrary library)
+        internal CacheItemCDTLibrary(ICdtLibrary library)
         {
             CDTLibrary = library;
         }

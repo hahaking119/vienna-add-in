@@ -45,7 +45,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// </summary>
         /// <param name="cdt"></param>
         /// <returns></returns>
-        private IBdt GetBDT(ICDT cdt)
+        private IBdt GetBDT(ICdt cdt)
         {
             var bdtName = qualifier + "_" + cdt.Name;
             var bdt = bdtLibrary.ElementByName(bdtName);

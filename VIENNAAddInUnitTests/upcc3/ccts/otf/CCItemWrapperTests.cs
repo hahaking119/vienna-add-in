@@ -59,7 +59,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_with_stereotype_CDTLibrary_is_wrapped_Then_create_an_ICDTLibrary()
         {
-            AssertPackageWithStereotypeIsWrappedAs<ICDTLibrary>(Stereotype.CDTLibrary);
+            AssertPackageWithStereotypeIsWrappedAs<ICdtLibrary>(Stereotype.CDTLibrary);
         }
 
         [Test]

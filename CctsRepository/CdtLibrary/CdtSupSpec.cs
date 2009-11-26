@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CdtLibrary
 {
-    public class CDTSupplementaryComponentSpec
+    public class CdtSupSpec
     {
-        public CDTSupplementaryComponentSpec(ICDTSupplementaryComponent sup)
+        public CdtSupSpec(ICdtSup sup)
         {
             Name = sup.Name;
             DictionaryEntryName = sup.DictionaryEntryName;
@@ -23,7 +23,7 @@ namespace CctsRepository.CdtLibrary
             UsageRules = new List<string>(sup.UsageRules);
         }
 
-        public CDTSupplementaryComponentSpec()
+        public CdtSupSpec()
         {
         }
 

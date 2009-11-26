@@ -35,7 +35,7 @@ namespace CctsRepository.BdtLibrary
             SUPs = new List<BdtSupSpec>();
         }
 
-        public ICDT BasedOn { get; set; }
+        public ICdt BasedOn { get; set; }
         public IBdt IsEquivalentTo { get; set; }
 
         public IEnumerable<string> UsageRules { get; set; }
@@ -50,7 +50,7 @@ namespace CctsRepository.BdtLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public static BdtSpec CloneCDT(ICDT cdt, string name)
+        public static BdtSpec CloneCDT(ICdt cdt, string name)
         {
             return new BdtSpec
                    {

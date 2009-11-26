@@ -35,7 +35,7 @@ namespace CctsRepository.BdtLibrary
             WhiteSpace = bdtCon.WhiteSpace;
         }
 
-        public BdtConSpec(ICDTContentComponent cdtCon)
+        public BdtConSpec(ICdtCon cdtCon)
         {
             Name = cdtCon.Name;
             DictionaryEntryName = cdtCon.DictionaryEntryName;

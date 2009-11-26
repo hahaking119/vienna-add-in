@@ -16,20 +16,20 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class CDTSupplementaryComponent : ICDTSupplementaryComponent
+    internal class CDTSupplementaryComponent : ICdtSup
     {
         private readonly Attribute attribute;
-        private readonly ICDT cdt;
+        private readonly ICdt cdt;
         private readonly CCRepository repository;
 
-        public CDTSupplementaryComponent(CCRepository repository, Attribute attribute, ICDT cdt)
+        public CDTSupplementaryComponent(CCRepository repository, Attribute attribute, ICdt cdt)
         {
             this.repository = repository;
             this.attribute = attribute;
             this.cdt = cdt;
         }
 
-        #region ICDTSupplementaryComponent Members
+        #region ICdtSup Members
 
         public string DictionaryEntryName
         {
@@ -44,7 +44,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public ICDT CDT
+        public ICdt CDT
         {
             get { return cdt; }
         }

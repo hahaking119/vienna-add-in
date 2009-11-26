@@ -75,19 +75,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load CDT Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of CDT Libraries in the repository.</returns>
-        public List<ICDTLibrary> GetCDTLibraries()
+        public List<ICdtLibrary> GetCDTLibraries()
         {
             if (cdtLibraries == null)
             {
                 cdtLibraries = new List<CacheItemCDTLibrary>();
 
-                foreach (ICDTLibrary cdtLibrary in cctsRepository.GetCdtLibraries())
+                foreach (ICdtLibrary cdtLibrary in cctsRepository.GetCdtLibraries())
                 {
                     cdtLibraries.Add(new CacheItemCDTLibrary(cdtLibrary));
                 }
             }
             return
-                cdtLibraries.ConvertAll(new Converter<CacheItemCDTLibrary, ICDTLibrary>(CacheItemCDTLibraryToCDTLibrary));
+                cdtLibraries.ConvertAll(new Converter<CacheItemCDTLibrary, ICdtLibrary>(CacheItemCDTLibraryToCDTLibrary));
         }
 
         //cdtLibCache.RetrieveElements();
@@ -137,9 +137,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cdtLibraryName">The name of the CDT Library CDTs should be retrieved from.</param>
         /// <returns>A list of CDTs.</returns>
-        public List<ICDT> GetCDTsFromCDTLibrary(string cdtLibraryName)
+        public List<ICdt> GetCDTsFromCDTLibrary(string cdtLibraryName)
         {
-            var tmpCDTs = new List<ICDT>();
+            var tmpCDTs = new List<ICdt>();
             if (cdtLibraries == null)
             {
                 GetCDTLibraries();
@@ -152,7 +152,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (cdtLibrary.CDTsInLibrary == null)
                     {
-                        foreach (ICDT element in cdtLibrary.CDTLibrary.Elements)
+                        foreach (ICdt element in cdtLibrary.CDTLibrary.Elements)
                         {
                             tmpCDTs.Add(element);
                         }
@@ -179,10 +179,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <param name="cdtLibraryName">The name of the CDT Library where the CDT should be retrieved from.</param>
         /// <param name="cdtName">The name of the CDT which should be retrieved.</param>
         /// <returns>The corresponding UPCC3 CDT Element.</returns>
-        public ICDT GetCDTFromCDTLibrary(string cdtLibraryName, string cdtName)
+        public ICdt GetCDTFromCDTLibrary(string cdtLibraryName, string cdtName)
         {
-            List<ICDT> tmpCDTs = GetCDTsFromCDTLibrary(cdtLibraryName);
-            foreach (ICDT cdt in tmpCDTs)
+            List<ICdt> tmpCDTs = GetCDTsFromCDTLibrary(cdtLibraryName);
+            foreach (ICdt cdt in tmpCDTs)
             {
                 if (cdt.Name.Equals(cdtName))
                 {
@@ -340,7 +340,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemCDTLibrary">A Cache representation of a CDT Library</param>
         /// <returns>A UPCC3 CDT Library Element.</returns>
-        private static ICDTLibrary CacheItemCDTLibraryToCDTLibrary(CacheItemCDTLibrary cacheItemCDTLibrary)
+        private static ICdtLibrary CacheItemCDTLibraryToCDTLibrary(CacheItemCDTLibrary cacheItemCDTLibrary)
         {
             return cacheItemCDTLibrary.CDTLibrary;
         }
@@ -435,19 +435,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load CDT Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of CDT Libraries in the repository.</returns>
-        public List<ICDTLibrary> GetCDTLibraries()
+        public List<ICdtLibrary> GetCDTLibraries()
         {
             if (cdtLibraries == null)
             {
                 cdtLibraries = new List<CacheItemCDTLibrary>();
 
-                foreach (ICDTLibrary cdtLibrary in cctsRepository.GetCdtLibraries())
+                foreach (ICdtLibrary cdtLibrary in cctsRepository.GetCdtLibraries())
                 {
                     cdtLibraries.Add(new CacheItemCDTLibrary(cdtLibrary));
                 }
             }
             return
-                cdtLibraries.ConvertAll(new Converter<CacheItemCDTLibrary, ICDTLibrary>(CacheItemCDTLibraryToCDTLibrary));
+                cdtLibraries.ConvertAll(new Converter<CacheItemCDTLibrary, ICdtLibrary>(CacheItemCDTLibraryToCDTLibrary));
         }
 
         //cdtLibCache.RetrieveElements();
@@ -497,9 +497,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cdtLibraryName">The name of the CDT Library CDTs should be retrieved from.</param>
         /// <returns>A list of CDTs.</returns>
-        public List<ICDT> GetCDTsFromCDTLibrary(string cdtLibraryName)
+        public List<ICdt> GetCDTsFromCDTLibrary(string cdtLibraryName)
         {
-            var tmpCDTs = new List<ICDT>();
+            var tmpCDTs = new List<ICdt>();
             if (cdtLibraries == null)
             {
                 GetCDTLibraries();
@@ -512,7 +512,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (cdtLibrary.CDTsInLibrary == null)
                     {
-                        foreach (ICDT element in cdtLibrary.CDTLibrary.Elements)
+                        foreach (ICdt element in cdtLibrary.CDTLibrary.Elements)
                         {
                             tmpCDTs.Add(element);
                         }
@@ -539,10 +539,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <param name="cdtLibraryName">The name of the CDT Library where the CDT should be retrieved from.</param>
         /// <param name="cdtName">The name of the CDT which should be retrieved.</param>
         /// <returns>The corresponding UPCC3 CDT Element.</returns>
-        public ICDT GetCDTFromCDTLibrary(string cdtLibraryName, string cdtName)
+        public ICdt GetCDTFromCDTLibrary(string cdtLibraryName, string cdtName)
         {
-            List<ICDT> tmpCDTs = GetCDTsFromCDTLibrary(cdtLibraryName);
-            foreach (ICDT cdt in tmpCDTs)
+            List<ICdt> tmpCDTs = GetCDTsFromCDTLibrary(cdtLibraryName);
+            foreach (ICdt cdt in tmpCDTs)
             {
                 if (cdt.Name.Equals(cdtName))
                 {
@@ -700,7 +700,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemCDTLibrary">A Cache representation of a CDT Library</param>
         /// <returns>A UPCC3 CDT Library Element.</returns>
-        private static ICDTLibrary CacheItemCDTLibraryToCDTLibrary(CacheItemCDTLibrary cacheItemCDTLibrary)
+        private static ICdtLibrary CacheItemCDTLibraryToCDTLibrary(CacheItemCDTLibrary cacheItemCDTLibrary)
         {
             return cacheItemCDTLibrary.CDTLibrary;
         }

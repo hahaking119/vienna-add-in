@@ -80,11 +80,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (IENUMLibrary) new ENUMLibrary(this, p);
         }
 
-        public IEnumerable<ICDTLibrary> GetCdtLibraries()
+        public IEnumerable<ICdtLibrary> GetCdtLibraries()
         {
             return from p in ContainedPackages
                    where p.IsCDTLibrary()
-                   select (ICDTLibrary) new CDTLibrary(this, p);
+                   select (ICdtLibrary) new CDTLibrary(this, p);
         }
 
         public IEnumerable<ICcLibrary> GetCcLibraries()
@@ -133,7 +133,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new ENUMLibrary(this, package);
         }
 
-        public ICDTLibrary GetCdtLibraryById(int id)
+        public ICdtLibrary GetCdtLibraryById(int id)
         {
             Package package = eaRepository.GetPackageByID(id);
             return package == null ? null : new CDTLibrary(this, package);
@@ -175,7 +175,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new ENUM(this, element);
         }
 
-        public ICDT GetCdtById(int id)
+        public ICdt GetCdtById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             return element == null ? null : new CDT(this, element);
@@ -217,7 +217,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new ENUMLibrary(this, package);
         }
 
-        public ICDTLibrary GetCdtLibraryByPath(Path path)
+        public ICdtLibrary GetCdtLibraryByPath(Path path)
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new CDTLibrary(this, package);
@@ -259,7 +259,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element == null ? null : new ENUM(this, element);
         }
 
-        public ICDT GetCdtByPath(Path path)
+        public ICdt GetCdtByPath(Path path)
         {
             var element = eaRepository.Resolve<Element>(path);
             return element == null ? null : new CDT(this, element);

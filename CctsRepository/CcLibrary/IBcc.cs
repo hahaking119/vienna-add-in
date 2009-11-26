@@ -28,7 +28,7 @@ namespace CctsRepository.CcLibrary
         string SequencingKey { get; }
         IEnumerable<string> UsageRules { get; }
 
-        ICDT Cdt { get; }
+        ICdt Cdt { get; }
         IAcc Acc { get; }
     }
 }

@@ -72,11 +72,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                    select WrapItem(item) as IENUMLibrary;
         }
 
-        public IEnumerable<ICDTLibrary> GetCdtLibraries()
+        public IEnumerable<ICdtLibrary> GetCdtLibraries()
         {
             return from item in repository.AllItems()
                    where item.Stereotype == Stereotype.CDTLibrary
-                   select WrapItem(item) as ICDTLibrary;
+                   select WrapItem(item) as ICdtLibrary;
         }
 
         public IEnumerable<ICcLibrary> GetCcLibraries()
@@ -122,9 +122,9 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return GetLibraryById(id) as IENUMLibrary;
         }
 
-        public ICDTLibrary GetCdtLibraryById(int id)
+        public ICdtLibrary GetCdtLibraryById(int id)
         {
-            return GetLibraryById(id) as ICDTLibrary;
+            return GetLibraryById(id) as ICdtLibrary;
         }
 
         public ICcLibrary GetCcLibraryById(int id)
@@ -172,7 +172,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public ICDT GetCdtById(int id)
+        public ICdt GetCdtById(int id)
         {
             throw new NotImplementedException();
         }
@@ -207,7 +207,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public ICDTLibrary GetCdtLibraryByPath(Path path)
+        public ICdtLibrary GetCdtLibraryByPath(Path path)
         {
             throw new NotImplementedException();
         }
@@ -242,7 +242,7 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
-        public ICDT GetCdtByPath(Path path)
+        public ICdt GetCdtByPath(Path path)
         {
             throw new NotImplementedException();
         }

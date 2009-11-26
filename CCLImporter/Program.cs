@@ -36,8 +36,8 @@ namespace CCLImporter
             var bLibrary = cctsRepository.GetBLibraryByPath("bLibrary");
             var cdtLibrary = cctsRepository.GetCdtLibraryByPath((Path)"bLibrary"/"CDTLibrary");
 
-            var cdts = new Dictionary<string, ICDT>();
-            foreach (ICDT cdt in cdtLibrary.Elements)
+            var cdts = new Dictionary<string, ICdt>();
+            foreach (ICdt cdt in cdtLibrary.Elements)
             {
                 cdts[cdt.Name] = cdt;
             }
@@ -242,9 +242,9 @@ namespace CCLImporter
 //            record.Version;
         }
 
-        private static ICDT FindCDT(string name, Dictionary<string, ICDT> cdts)
+        private static ICdt FindCDT(string name, Dictionary<string, ICdt> cdts)
         {
-            ICDT cdt;
+            ICdt cdt;
             cdts.TryGetValue(name, out cdt);
             return cdt;
         }
