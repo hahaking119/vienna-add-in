@@ -14,57 +14,61 @@ namespace CctsRepository.BieLibrary
 {
     public class BbieSpec
     {
-        public BbieSpec(IBbie bbie)
-        {
-            Name = bbie.Name;
-            DictionaryEntryName = bbie.DictionaryEntryName;
-            Definition = bbie.Definition;
-            UniqueIdentifier = bbie.UniqueIdentifier;
-            VersionIdentifier = bbie.VersionIdentifier;
-            LanguageCode = bbie.LanguageCode;
-            BusinessTerms = new List<string>(bbie.BusinessTerms);
-            UsageRules = new List<string>(bbie.UsageRules);
-            SequencingKey = bbie.SequencingKey;
-            Type = bbie.Type;
-            LowerBound = bbie.LowerBound;
-            UpperBound = bbie.UpperBound;
-        }
+        public string Name { get; set; }
 
-        public BbieSpec()
-        {
-        }
-
-        public string SequencingKey { get; set; }
-
-        public IBdt Type { get; set; }
+        public IBdt Bdt { get; set; }
 
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
-        public IEnumerable<string> UsageRules { get; set; }
-        public string Name { get; set; }
+
+        #region Tagged Values
+
         public string DictionaryEntryName { get; set; }
         public string Definition { get; set; }
         public string UniqueIdentifier { get; set; }
         public string VersionIdentifier { get; set; }
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
+        public string SequencingKey { get; set; }
+        public IEnumerable<string> UsageRules { get; set; }
 
-        public static BbieSpec CloneBCC(IBcc bcc, IBdt type)
+        #endregion
+
+        public static BbieSpec CloneBCC(IBcc bcc, IBdt bdt)
         {
             return new BbieSpec
                    {
+                       Name = bcc.Name,
+                       Bdt = bdt,
+                       LowerBound = bcc.LowerBound,
+                       UpperBound = bcc.UpperBound,
                        BusinessTerms = new List<string>(bcc.BusinessTerms),
                        Definition = bcc.Definition,
                        DictionaryEntryName = bcc.DictionaryEntryName,
                        LanguageCode = bcc.LanguageCode,
-                       Name = bcc.Name,
                        SequencingKey = bcc.SequencingKey,
-                       Type = type,
                        UniqueIdentifier = bcc.UniqueIdentifier,
                        UsageRules = new List<string>(bcc.UsageRules),
                        VersionIdentifier = bcc.VersionIdentifier,
-                       LowerBound = bcc.LowerBound,
-                       UpperBound = bcc.UpperBound,
+                   };
+        }
+
+        public static BbieSpec CloneBbie(IBbie bbie)
+        {
+            return new BbieSpec
+                   {
+                       Name = bbie.Name,
+                       DictionaryEntryName = bbie.DictionaryEntryName,
+                       Definition = bbie.Definition,
+                       UniqueIdentifier = bbie.UniqueIdentifier,
+                       VersionIdentifier = bbie.VersionIdentifier,
+                       LanguageCode = bbie.LanguageCode,
+                       BusinessTerms = new List<string>(bbie.BusinessTerms),
+                       UsageRules = new List<string>(bbie.UsageRules),
+                       SequencingKey = bbie.SequencingKey,
+                       Bdt = bbie.Type,
+                       LowerBound = bbie.LowerBound,
+                       UpperBound = bbie.UpperBound,
                    };
         }
     }

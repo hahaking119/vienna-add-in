@@ -38,9 +38,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             string baseTypeName = Restriction.BaseTypeName.Name;
             var supAttributes = new SUPXsdAttributes(Restriction.Attributes);
             IBdt parentBDT = GetBDTByXsdTypeName(baseTypeName);
-            foreach (IBdtSup parentSUP in parentBDT.SUPs)
+            foreach (IBdtSup parentSUP in parentBDT.Sups)
             {
-                var supSpec = new BdtSupSpec(parentSUP);
+                var supSpec = BdtSupSpec.CloneBdtSup(parentSUP);
                 if (!supAttributes.IsProhibited(supSpec))
                 {
                     supAttributes.ApplyRestrictions(supSpec);
@@ -106,7 +106,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
         {
             IBdt parentBDT = GetBDTByXsdTypeName(Restriction.BaseTypeName.Name);
 
-            return ApplyCONRestrictions(new BdtConSpec(parentBDT.CON));
+            return ApplyCONRestrictions(BdtConSpec.CloneBdtCon(parentBDT.Con));
         }
     }
 }

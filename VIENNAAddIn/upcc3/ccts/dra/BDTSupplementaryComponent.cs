@@ -30,13 +30,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = BDT.Name + ". " + Name + ". " + BasicType.Name;
+                    value = Bdt.Name + ". " + Name + ". " + BasicType.Name;
                 }
                 return value;
             }
         }
 
-        public IBdt BDT
+        public IBdt Bdt
         {
             get { return bdt; }
         }

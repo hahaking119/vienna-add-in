@@ -790,7 +790,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 BDTLs.Add(bdtl.Name, new cBDTLibrary(bdtl.Name, bdtl.Id));
 
-                foreach (IBdt bdt in bdtl.Elements)
+                foreach (IBdt bdt in bdtl.Bdts)
                 {
                     if (BDTLs[bdtl.Name].BDTs.ContainsKey(bdt.Name))
                     {

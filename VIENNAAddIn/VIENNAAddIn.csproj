@@ -156,7 +156,6 @@
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentPackageMustHaveStereotype.cs" />
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoader.cs" />
     <Compile Include="upcc3\ccts\otf\DOCLibrary.cs" />
-    <Compile Include="upcc3\ccts\otf\ElementLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\ENUMLibrary.cs" />
     <Compile Include="upcc3\ccts\otf\IEAElement.cs" />
     <Compile Include="upcc3\ccts\otf\IEAItem.cs" />

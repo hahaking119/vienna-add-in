@@ -94,8 +94,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
         private static void AssertBDTSUPs(ICdt cdt, IBdt bdt)
         {
-            Assert.AreEqual(cdt.SUPs.Count(), bdt.SUPs.Count());
-            IEnumerator<IBdtSup> bdtSups = bdt.SUPs.GetEnumerator();
+            Assert.AreEqual(cdt.SUPs.Count(), bdt.Sups.Count());
+            IEnumerator<IBdtSup> bdtSups = bdt.Sups.GetEnumerator();
             foreach (ICdtSup cdtSup in cdt.SUPs)
             {
                 bdtSups.MoveNext();
@@ -106,7 +106,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         private static void AssertBDTSUP(ICdtSup cdtSUP, IBdt expectedBDT, IBdtSup bdtSUP)
         {
             Assert.AreEqual(cdtSUP.Name, bdtSUP.Name);
-            Assert.AreSame(expectedBDT, bdtSUP.BDT);
+            Assert.AreSame(expectedBDT, bdtSUP.Bdt);
             Assert.AreEqual(cdtSUP.BasicType.Id, bdtSUP.BasicType.Id);
             Assert.AreEqual(cdtSUP.Definition, bdtSUP.Definition);
             Assert.AreEqual(cdtSUP.DictionaryEntryName, bdtSUP.DictionaryEntryName);
@@ -123,9 +123,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         private static void AssertBDTCON(ICdt cdt, IBdt bdt)
         {
             ICdtCon expectedCON = cdt.CON;
-            IBdtCon actualCON = bdt.CON;
-            Assert.AreSame(bdt, actualCON.BDT);
-            Assert.AreEqual("Content", actualCON.Name);
+            IBdtCon actualCON = bdt.Con;
+            Assert.AreSame(bdt, actualCON.Bdt);
             Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
             Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
             Assert.AreEqual(expectedCON.DictionaryEntryName, actualCON.DictionaryEntryName);
@@ -482,11 +481,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             IBdtLibrary bdtLibrary = cctsRepository.GetBdtLibraries().First();
 
-            BdtSpec bdtSpec = BdtSpec.CloneCDT(cdtDate, "My_" + cdtDate.Name);
-            IBdt bdtDate = bdtLibrary.CreateElement(bdtSpec);
+            BdtSpec bdtSpec = BdtSpec.CloneCdt(cdtDate, "My_" + cdtDate.Name);
+            IBdt bdtDate = bdtLibrary.CreateBdt(bdtSpec);
 
             Assert.IsNotNull(bdtDate, "BDT is null");
-            Assert.AreEqual(bdtLibrary.Id, bdtDate.Library.Id);
+            Assert.AreEqual(bdtLibrary.Id, bdtDate.BdtLibrary.Id);
 
             Assert.AreEqual("My_" + cdtDate.Name, bdtDate.Name);
 
@@ -518,7 +517,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 IBdtLibrary bdtLib = bLib.CreateBDTLibrary(new BdtLibrarySpec
                                                            {
                                                                Name = "My_BDTLibrary",
-                                                               BaseURN = "my/base/urn",
+                                                               BaseUrn = "my/base/urn",
                                                                BusinessTerms =
                                                                    new[] {"business term 1", "business term 2"},
                                                                Copyrights = new[] {"copyright 1", "copyright 2"},
@@ -546,7 +545,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
                 var cdtText = cctsRepository.GetCdtByPath((Path) "Model"/"ebInterface Data Model"/"CDTLibrary"/"Text");
                 Assert.IsNotNull(cdtText, "CDT 'Text' not found.");
-                IBdt bdtText = bdtLib.CreateElement(BdtSpec.CloneCDT(cdtText, "My_Text"));
+                IBdt bdtText = bdtLib.CreateBdt(BdtSpec.CloneCdt(cdtText, "My_Text"));
                 Assert.IsNotNull(bdtText.BasedOn);
 
                 var accAddress = cctsRepository.GetAccByPath((Path) "Model"/"ebInterface Data Model"/"CCLibrary"/"Address");
@@ -658,7 +657,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var spec = new BdtLibrarySpec
                        {
                            Name = "MyBDTLibrary",
-                           BaseURN = "my/base/urn",
+                           BaseUrn = "my/base/urn",
                            BusinessTerms = new[] {"business term 1", "business term 2"},
                            Copyrights = new[] {"copyright 1", "copyright 2"},
                            NamespacePrefix = "my_namespace_prefix",
@@ -669,9 +668,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                            VersionIdentifier = "a specific version",
                        };
             IBdtLibrary bdtLib = bLib.CreateBDTLibrary(spec);
-            Assert.AreEqual(bLib.Id, bdtLib.Parent.Id);
+            Assert.AreEqual(bLib.Id, bdtLib.BLibrary.Id);
             Assert.AreEqual(spec.Name, bdtLib.Name);
-            Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
+            Assert.AreEqual(spec.BaseUrn, bdtLib.BaseURN);
             Assert.AreEqual(spec.BusinessTerms, bdtLib.BusinessTerms);
             Assert.AreEqual(spec.Copyrights, bdtLib.Copyrights);
             Assert.AreEqual(spec.NamespacePrefix, bdtLib.NamespacePrefix);

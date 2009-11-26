@@ -13,47 +13,27 @@ namespace CctsRepository.BdtLibrary
 {
     public interface IBdt
     {
-        IBdtCon CON { get; }
-        IEnumerable<IBdtSup> SUPs { get; }
+        int Id { get; }
+        string Name { get; }
+
+        IBdtLibrary BdtLibrary { get; }
+
+        IBdtCon Con { get; }
+        IEnumerable<IBdtSup> Sups { get; }
 
         IBdt IsEquivalentTo { get; }
         ICdt BasedOn { get; }
+
+        #region Tagged Values
+
+        string DictionaryEntryName { get; }
+        string Definition { get; }
+        string UniqueIdentifier { get; }
+        string VersionIdentifier { get; }
+        string LanguageCode { get; }
+        IEnumerable<string> BusinessTerms { get; }
         IEnumerable<string> UsageRules { get; }
 
-        ///<summary>
-        ///</summary>
-        int Id { get; }
-
-        ///<summary>
-        ///</summary>
-        string Name { get; }
-
-        ///<summary>
-        ///</summary>
-        string DictionaryEntryName { get; }
-
-        ///<summary>
-        ///</summary>
-        string Definition { get; }
-
-        ///<summary>
-        ///</summary>
-        string UniqueIdentifier { get; }
-
-        ///<summary>
-        ///</summary>
-        string VersionIdentifier { get; }
-
-        ///<summary>
-        ///</summary>
-        string LanguageCode { get; }
-
-        ///<summary>
-        ///</summary>
-        IEnumerable<string> BusinessTerms { get; }
-
-        ///<summary>
-        ///</summary>
-        IBdtLibrary Library { get; }
+        #endregion
     }
 }

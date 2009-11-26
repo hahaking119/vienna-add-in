@@ -14,63 +14,77 @@ namespace CctsRepository.BdtLibrary
 {
     public class BdtSpec
     {
-        public BdtSpec(IBdt bdt)
-        {
-            Name = bdt.Name;
-            DictionaryEntryName = bdt.DictionaryEntryName;
-            Definition = bdt.Definition;
-            UniqueIdentifier = bdt.UniqueIdentifier;
-            VersionIdentifier = bdt.VersionIdentifier;
-            LanguageCode = bdt.LanguageCode;
-            BusinessTerms = new List<string>(bdt.BusinessTerms);
-
-            UsageRules = new List<string>(bdt.UsageRules);
-            CON = new BdtConSpec(bdt.CON);
-            SUPs = new List<BdtSupSpec>(bdt.SUPs.Convert(sup => new BdtSupSpec(sup)));
-            BasedOn = bdt.BasedOn;
-        }
-
         public BdtSpec()
         {
-            SUPs = new List<BdtSupSpec>();
+            Sups = new List<BdtSupSpec>();
         }
+
+        public string Name { get; set; }
+
+        public BdtConSpec Con { get; set; }
+
+        public List<BdtSupSpec> Sups { get; private set; }
 
         public ICdt BasedOn { get; set; }
         public IBdt IsEquivalentTo { get; set; }
 
-        public IEnumerable<string> UsageRules { get; set; }
-
-        public List<BdtSupSpec> SUPs { get; set; }
-        public BdtConSpec CON { get; set; }
-        public string Name { get; set; }
         public string DictionaryEntryName { get; set; }
         public string Definition { get; set; }
         public string UniqueIdentifier { get; set; }
         public string VersionIdentifier { get; set; }
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
+        public IEnumerable<string> UsageRules { get; set; }
 
-        public static BdtSpec CloneCDT(ICdt cdt, string name)
+        public static BdtSpec CloneBdt(IBdt bdt)
+        {
+            return new BdtSpec
+                   {
+                       Name = bdt.Name,
+                       BasedOn = bdt.BasedOn,
+                       Definition = bdt.Definition,
+                       DictionaryEntryName = bdt.DictionaryEntryName,
+                       LanguageCode = bdt.LanguageCode,
+                       UniqueIdentifier = bdt.UniqueIdentifier,
+                       VersionIdentifier = bdt.VersionIdentifier,
+                       BusinessTerms = new List<string>(bdt.BusinessTerms),
+                       UsageRules = new List<string>(bdt.UsageRules),
+                       Con = BdtConSpec.CloneBdtCon(bdt.Con),
+                       Sups = new List<BdtSupSpec>(bdt.Sups.Convert(sup => BdtSupSpec.CloneBdtSup(sup))),
+                   };
+        }
+
+        public static BdtSpec CloneCdt(ICdt cdt, string name)
         {
             return new BdtSpec
                    {
                        Name = (string.IsNullOrEmpty(name) ? cdt.Name : name),
                        BasedOn = cdt,
-                       BusinessTerms = new List<string>(cdt.BusinessTerms),
                        Definition = cdt.Definition,
                        DictionaryEntryName = cdt.DictionaryEntryName,
                        LanguageCode = cdt.LanguageCode,
                        UniqueIdentifier = cdt.UniqueIdentifier,
-                       UsageRules = new List<string>(cdt.UsageRules),
                        VersionIdentifier = cdt.VersionIdentifier,
-                       CON = new BdtConSpec(cdt.CON),
-                       SUPs = new List<BdtSupSpec>(cdt.SUPs.Convert(sup => new BdtSupSpec(sup))),
+                       BusinessTerms = new List<string>(cdt.BusinessTerms),
+                       UsageRules = new List<string>(cdt.UsageRules),
+                       Con = BdtConSpec.CloneCdtCon(cdt.CON),
+                       Sups = new List<BdtSupSpec>(cdt.SUPs.Convert(sup => BdtSupSpec.CloneCdtSup(sup))),
                    };
         }
 
-        public void RemoveSUP(string name)
+        public void AddSup(BdtSupSpec supSpec)
         {
-            SUPs.RemoveAll(sup => sup.Name == name);
+            Sups.Add(supSpec);
+        }
+
+        public void AddSups(IEnumerable<BdtSupSpec> supSpecs)
+        {
+            Sups.AddRange(supSpecs);
+        }
+
+        public void RemoveSup(string name)
+        {
+            Sups.RemoveAll(sup => sup.Name == name);
         }
     }
 }

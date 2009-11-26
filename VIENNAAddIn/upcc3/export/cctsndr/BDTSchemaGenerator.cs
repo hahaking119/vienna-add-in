@@ -24,13 +24,13 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 
             foreach (IBdt bdt in bdts)
             {
-                var sups = new List<IBdtSup>(bdt.SUPs);
+                var sups = new List<IBdtSup>(bdt.Sups);
                 if (sups.Count == 0)
                 {
                     var simpleType = new XmlSchemaSimpleType {Name = NDR.GetXsdTypeNameFromBdt(bdt)};
                     var simpleTypeRestriction = new XmlSchemaSimpleTypeRestriction
                                                 {
-                                                    BaseTypeName = GetXmlQualifiedName(bdt.CON.BasicType)
+                                                    BaseTypeName = GetXmlQualifiedName(bdt.Con.BasicType)
                                                 };
                     simpleType.Content = simpleTypeRestriction;
                     if (context.Annotate)
@@ -48,7 +48,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     var simpleContent = new XmlSchemaSimpleContent();
                     var simpleContentExtension = new XmlSchemaSimpleContentExtension
                                                  {
-                                                     BaseTypeName = GetXmlQualifiedName(bdt.CON.BasicType)
+                                                     BaseTypeName = GetXmlQualifiedName(bdt.Con.BasicType)
                                                  };
                     foreach (IBdtSup sup in sups)
                     {
@@ -86,7 +86,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             AddAnnotation(xml, annNodes, "PropertyTermName", sup.Name);
             AddAnnotation(xml, annNodes, "RepresentationTermName", sup.BasicType.Name);
             AddAnnotation(xml, annNodes, "PrimitiveTypeName", sup.BasicType.Name);
-            AddAnnotation(xml, annNodes, "DataTypeName", sup.BDT.Name);
+            AddAnnotation(xml, annNodes, "DataTypeName", sup.Bdt.Name);
             AddAnnotation(xml, annNodes, "UniqueID", sup.UniqueIdentifier);
             AddAnnotation(xml, annNodes, "VersionID", sup.VersionIdentifier);
             AddAnnotation(xml, annNodes, "DictionaryEntryName", sup.DictionaryEntryName);

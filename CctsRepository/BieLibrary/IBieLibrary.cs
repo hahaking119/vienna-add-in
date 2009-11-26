@@ -16,7 +16,7 @@ namespace CctsRepository.BieLibrary
         IEnumerable<IAbie> Elements { get; }
         int Id { get; }
         string Name { get; }
-        IBLibrary Parent { get; }
+        IBLibrary BLibrary { get; }
         string Status { get; }
         string UniqueIdentifier { get; }
         string VersionIdentifier { get; }

@@ -48,11 +48,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private IBdt GetBDT(ICdt cdt)
         {
             var bdtName = qualifier + "_" + cdt.Name;
-            var bdt = bdtLibrary.ElementByName(bdtName);
+            var bdt = bdtLibrary.GetBdtByName(bdtName);
             if (bdt == null)
             {
-                var bdtSpec = BdtSpec.CloneCDT(cdt, bdtName);
-                bdt = bdtLibrary.CreateElement(bdtSpec);
+                var bdtSpec = BdtSpec.CloneCdt(cdt, bdtName);
+                bdt = bdtLibrary.CreateBdt(bdtSpec);
             }
             return bdt;
         }

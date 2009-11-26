@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBLibrary Parent
+        public IBLibrary BLibrary
         {
             get { return repository.GetBLibraryById(package.ParentID); }
         }

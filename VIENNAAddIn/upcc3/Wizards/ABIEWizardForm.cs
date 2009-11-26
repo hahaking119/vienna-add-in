@@ -1360,8 +1360,8 @@ namespace VIENNAAddIn.upcc3.Wizards
                                                 {
                                                     /* the BDT to be used is to be created based on the CDT used in the BCC */
                                                     ICdt baseCDT = repository.GetCdtById(bcc.Type);
-                                                    BdtSpec bdtSpec = BdtSpec.CloneCDT(baseCDT, bdt.Name);
-                                                    IBdt newBDT = selectedBDTL.CreateElement(bdtSpec);
+                                                    BdtSpec bdtSpec = BdtSpec.CloneCdt(baseCDT, bdt.Name);
+                                                    IBdt newBDT = selectedBDTL.CreateBdt(bdtSpec);
                                                     bdtUsed = newBDT;
 
                                                     generatedBDTs.Add(newBDT.Name,

@@ -229,7 +229,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (BbieSpec bbieSpec in bbieSpecs)
                 {
-                    yield return new AttributeSpec(Stereotype.BBIE, bbieSpec.Name, bbieSpec.Type.Name, bbieSpec.Type.Id, bbieSpec.LowerBound, bbieSpec.UpperBound, GetBbieTaggedValueSpecs(bbieSpec));
+                    yield return new AttributeSpec(Stereotype.BBIE, bbieSpec.Name, bbieSpec.Bdt.Name, bbieSpec.Bdt.Id, bbieSpec.LowerBound, bbieSpec.UpperBound, GetBbieTaggedValueSpecs(bbieSpec));
                 }
             }
         }
