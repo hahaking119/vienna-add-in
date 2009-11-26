@@ -19,7 +19,7 @@ using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ENUM : IENUM, IEquatable<ENUM>
+    internal class ENUM : IEnum, IEquatable<ENUM>
     {
         private readonly Element element;
         private readonly CCRepository repository;
@@ -40,7 +40,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.Connectors.AsEnumerable<Connector>(); }
         }
 
-        #region IENUM Members
+        #region IEnum Members
 
         public string DictionaryEntryName
         {
@@ -87,7 +87,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.status); }
         }
 
-        public IENUM IsEquivalentTo
+        public IEnum IsEquivalentTo
         {
             get
             {
@@ -128,7 +128,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IENUMLibrary Library
+        public IEnumLibrary Library
         {
             get { return repository.GetEnumLibraryById(element.PackageID); }
         }
@@ -181,7 +181,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #endregion
 
-        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(ENUMSpec spec)
+        private static IEnumerable<TaggedValueSpec> GetTaggedValueSpecs(EnumSpec spec)
         {
             return new List<TaggedValueSpec>
                    {
@@ -202,7 +202,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<AttributeSpec> GetAttributeSpecs(ENUMSpec spec)
+        private static IEnumerable<AttributeSpec> GetAttributeSpecs(EnumSpec spec)
         {
             IEnumerable<CodelistEntrySpec> codelistEntrySpecs = spec.CodelistEntries;
             if (codelistEntrySpecs != null)
@@ -223,7 +223,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    };
         }
 
-        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(ENUMSpec spec)
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(EnumSpec spec)
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
         }
@@ -246,7 +246,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return element.GetTaggedValue(key) ?? string.Empty;
         }
 
-        public void Update(ENUMSpec spec)
+        public void Update(EnumSpec spec)
         {
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))

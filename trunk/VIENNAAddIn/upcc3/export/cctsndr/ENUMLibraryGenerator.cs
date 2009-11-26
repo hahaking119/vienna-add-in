@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 {
     public class ENUMLibraryGenerator
     {
-        public void GenerateXSD(GeneratorContext context, IEnumerable<IENUM> enums)
+        public void GenerateXSD(GeneratorContext context, IEnumerable<IEnum> enums)
         {
 //            foreach (var ENUM in library.ENUMs)
 //            {

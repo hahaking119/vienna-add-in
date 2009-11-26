@@ -6,7 +6,7 @@ using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 {
-    internal class UpccPrim : IPRIM
+    internal class UpccPrim : IPrim
     {
         private readonly IUmlClass umlClass;
 
@@ -15,7 +15,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             this.umlClass = umlClass;
         }
 
-        #region IPRIM Members
+        #region IPrim Members
 
         public int Id
         {
@@ -57,7 +57,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlClass.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
         }
 
-        public IPRIMLibrary Library
+        public IPrimLibrary Library
         {
             get { return new UpccPrimLibrary(umlClass.Package); }
         }
@@ -117,7 +117,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlClass.GetTaggedValue(TaggedValues.whiteSpace).Value; }
         }
 
-        public IPRIM IsEquivalentTo
+        public IPrim IsEquivalentTo
         {
             get
             {

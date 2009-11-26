@@ -581,9 +581,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var enumAbcCodes = cctsRepository.GetEnumByPath(EARepository1.PathToEnumAbcCodes());
             Assert.IsNotNull(enumAbcCodes, "ENUM ABC_Codes not found");
 
-            IENUMLibrary enumLibrary = cctsRepository.GetEnumLibraries().First();
+            IEnumLibrary enumLibrary = cctsRepository.GetEnumLibraries().First();
 
-            var enumSpec = new ENUMSpec
+            var enumSpec = new EnumSpec
                            {
                                Name = "My_ABC_Codes",
                                DictionaryEntryName = "overriding default dictionary entry name",
@@ -615,7 +615,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                           Status = "status",
                                       });
 
-            IENUM enumMyAbcCodes = enumLibrary.CreateElement(enumSpec);
+            IEnum enumMyAbcCodes = enumLibrary.CreateElement(enumSpec);
             Assert.IsNotNull(enumMyAbcCodes, "ENUM is null");
             Assert.AreEqual(enumLibrary.Id, enumMyAbcCodes.Library.Id);
 
@@ -688,9 +688,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var primString = cctsRepository.GetPrimByPath(EARepository1.PathToString());
             Assert.IsNotNull(primString, "PRIM String not found");
 
-            IPRIMLibrary primLibrary = cctsRepository.GetPrimLibraries().First();
+            IPrimLibrary primLibrary = cctsRepository.GetPrimLibraries().First();
 
-            var primSpec = new PRIMSpec
+            var primSpec = new PrimSpec
                            {
                                Name = "Zeichenkette",
                                DictionaryEntryName = "overriding default dictionary entry name",
@@ -713,7 +713,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                IsEquivalentTo = primString,
                            };
 
-            IPRIM primZeichenkette = primLibrary.CreateElement(primSpec);
+            IPrim primZeichenkette = primLibrary.CreateElement(primSpec);
             Assert.IsNotNull(primZeichenkette, "PRIM is null");
             Assert.AreEqual(primLibrary.Id, primZeichenkette.Library.Id);
 
@@ -765,14 +765,14 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("blib1", bLib1.Name);
             Assert.AreEqual("urn:test:blib1", bLib1.BaseURN);
 
-            IPRIMLibrary primLib1 = cctsRepository.GetPrimLibraries().First();
+            IPrimLibrary primLib1 = cctsRepository.GetPrimLibraries().First();
             Assert.AreEqual("primlib1", primLib1.Name);
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
-            var prims = new List<IPRIM>(primLib1.Elements);
+            var prims = new List<IPrim>(primLib1.Elements);
             Assert.AreEqual(2, prims.Count);
-            IPRIM stringType = prims[1];
+            IPrim stringType = prims[1];
             Assert.AreEqual("String", stringType.Name);
-            IPRIM decimalType = prims[0];
+            IPrim decimalType = prims[0];
             Assert.AreEqual("Decimal", decimalType.Name);
 
             ICdtLibrary cdtLib1 = cctsRepository.GetCdtLibraries().First();

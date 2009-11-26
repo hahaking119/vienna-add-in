@@ -41,18 +41,18 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (IBLibrary) new BLibrary(repository, p);
         }
 
-        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
+        public IEnumerable<IPrimLibrary> GetPrimLibraries()
         {
             return from p in ContainedPackages
                    where p.IsPRIMLibrary()
-                   select (IPRIMLibrary) new PRIMLibrary(repository, p);
+                   select (IPrimLibrary) new PRIMLibrary(repository, p);
         }
 
-        public IEnumerable<IENUMLibrary> GetEnumLibraries()
+        public IEnumerable<IEnumLibrary> GetEnumLibraries()
         {
             return from p in ContainedPackages
                    where p.IsENUMLibrary()
-                   select (IENUMLibrary) new ENUMLibrary(repository, p);
+                   select (IEnumLibrary) new ENUMLibrary(repository, p);
         }
 
         public IEnumerable<ICdtLibrary> GetCdtLibraries()
@@ -225,7 +225,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return new BIELibrary(repository, libraryPackage);
         }
 
-        public IPRIMLibrary CreatePRIMLibrary(PrimLibrarySpec spec)
+        public IPrimLibrary CreatePRIMLibrary(PrimLibrarySpec spec)
         {
             var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
             libraryPackage.Update();
@@ -252,7 +252,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return new PRIMLibrary(repository, libraryPackage);
         }
 
-        public IENUMLibrary CreateENUMLibrary(EnumLibrarySpec spec)
+        public IEnumLibrary CreateENUMLibrary(EnumLibrarySpec spec)
         {
             var libraryPackage = (Package) package.Packages.AddNew(spec.Name, string.Empty);
             libraryPackage.Update();

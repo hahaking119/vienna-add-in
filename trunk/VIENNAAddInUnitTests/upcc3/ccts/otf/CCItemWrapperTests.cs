@@ -47,13 +47,13 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         [Test]
         public void When_a_package_with_stereotype_PRIMLibrary_is_wrapped_Then_create_an_IPRIMLibrary()
         {
-            AssertPackageWithStereotypeIsWrappedAs<IPRIMLibrary>(Stereotype.PRIMLibrary);
+            AssertPackageWithStereotypeIsWrappedAs<IPrimLibrary>(Stereotype.PRIMLibrary);
         }
 
         [Test]
         public void When_a_package_with_stereotype_ENUMLibrary_is_wrapped_Then_create_an_IENUMLibrary()
         {
-            AssertPackageWithStereotypeIsWrappedAs<IENUMLibrary>(Stereotype.ENUMLibrary);
+            AssertPackageWithStereotypeIsWrappedAs<IEnumLibrary>(Stereotype.ENUMLibrary);
         }
 
         [Test]

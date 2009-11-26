@@ -4,7 +4,7 @@ namespace CctsRepository.EnumLibrary
 {
     public class EnumLibrarySpec
     {
-        public EnumLibrarySpec(IENUMLibrary enumLibrary)
+        public EnumLibrarySpec(IEnumLibrary enumLibrary)
         {
             Name = enumLibrary.Name;
             Status = enumLibrary.Status;

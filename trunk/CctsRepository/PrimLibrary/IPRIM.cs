@@ -10,9 +10,9 @@ using System.Collections.Generic;
 
 namespace CctsRepository.PrimLibrary
 {
-    public interface IPRIM :  IBasicType
+    public interface IPrim :  IBasicType
     {
-        IPRIM IsEquivalentTo { get; }
+        IPrim IsEquivalentTo { get; }
         string Pattern { get; }
         string FractionDigits { get; }
         string Length { get; }
@@ -47,6 +47,6 @@ namespace CctsRepository.PrimLibrary
 
         ///<summary>
         ///</summary>
-        IPRIMLibrary Library { get; }
+        IPrimLibrary Library { get; }
     }
 }

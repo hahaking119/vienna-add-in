@@ -52,9 +52,9 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 
         protected abstract IEnumerable<BdtSupSpec> SpecifySUPs();
 
-        protected IPRIM FindPRIM(string primName)
+        protected IPrim FindPRIM(string primName)
         {
-            IPRIM prim = Context.PRIMLibrary.ElementByName(primName);
+            IPrim prim = Context.PRIMLibrary.ElementByName(primName);
             if (prim == null)
             {
                 throw new Exception(String.Format("PRIM not found: {0}", primName));

@@ -3,11 +3,11 @@ using VIENNAAddInUtils;
 
 namespace CctsRepository.EnumLibrary
 {
-    public class ENUMSpec
+    public class EnumSpec
     {
         private List<CodelistEntrySpec> codelistEntries;
 
-        public ENUMSpec(IENUM @enum)
+        public EnumSpec(IEnum @enum)
         {
             Name = @enum.Name;
             DictionaryEntryName = @enum.DictionaryEntryName;
@@ -27,7 +27,7 @@ namespace CctsRepository.EnumLibrary
             codelistEntries = new List<CodelistEntrySpec>(@enum.CodelistEntries.Convert(codelistEntry => new CodelistEntrySpec(codelistEntry)));
         }
 
-        public ENUMSpec()
+        public EnumSpec()
         {
             codelistEntries = new List<CodelistEntrySpec>();
         }
@@ -41,7 +41,7 @@ namespace CctsRepository.EnumLibrary
         public string RestrictedPrimitive { get; set; }
         public string Status { get; set; }
 
-        public IENUM IsEquivalentTo { get; set; }
+        public IEnum IsEquivalentTo { get; set; }
 
         public IEnumerable<CodelistEntrySpec> CodelistEntries
         {

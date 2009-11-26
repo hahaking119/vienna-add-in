@@ -124,7 +124,7 @@ Actual output file: {2}",
 //            var context = new GeneratorContext(ccRepository, true, TODO);
 //            var generator = new ENUMLibraryGenerator(context);
 //
-//            var enumLibrary = ccRepository.LibraryByName<IENUMLibrary>("ENUMLibrary");
+//            var enumLibrary = ccRepository.LibraryByName<IEnumLibrary>("ENUMLibrary");
 //            generator.GenerateXSD(enumLibrary);
 //            for (int i = 0; i < expectedOutputFiles.Length; ++i)
 //            {

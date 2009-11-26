@@ -66,18 +66,18 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (IBLibrary) new BLibrary(this, p);
         }
 
-        public IEnumerable<IPRIMLibrary> GetPrimLibraries()
+        public IEnumerable<IPrimLibrary> GetPrimLibraries()
         {
             return from p in ContainedPackages
                    where p.IsPRIMLibrary()
-                   select (IPRIMLibrary) new PRIMLibrary(this, p);
+                   select (IPrimLibrary) new PRIMLibrary(this, p);
         }
 
-        public IEnumerable<IENUMLibrary> GetEnumLibraries()
+        public IEnumerable<IEnumLibrary> GetEnumLibraries()
         {
             return from p in ContainedPackages
                    where p.IsENUMLibrary()
-                   select (IENUMLibrary) new ENUMLibrary(this, p);
+                   select (IEnumLibrary) new ENUMLibrary(this, p);
         }
 
         public IEnumerable<ICdtLibrary> GetCdtLibraries()
@@ -121,13 +121,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new BLibrary(this, package);
         }
 
-        public IPRIMLibrary GetPrimLibraryById(int id)
+        public IPrimLibrary GetPrimLibraryById(int id)
         {
             Package package = eaRepository.GetPackageByID(id);
             return package == null ? null : new PRIMLibrary(this, package);
         }
 
-        public IENUMLibrary GetEnumLibraryById(int id)
+        public IEnumLibrary GetEnumLibraryById(int id)
         {
             Package package = eaRepository.GetPackageByID(id);
             return package == null ? null : new ENUMLibrary(this, package);
@@ -163,13 +163,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new DOCLibrary(this, package);
         }
 
-        public IPRIM GetPrimById(int id)
+        public IPrim GetPrimById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             return element == null ? null : new PRIM(this, element);
         }
 
-        public IENUM GetEnumById(int id)
+        public IEnum GetEnumById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             return element == null ? null : new ENUM(this, element);
@@ -205,13 +205,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new BLibrary(this, package);
         }
 
-        public IPRIMLibrary GetPrimLibraryByPath(Path path)
+        public IPrimLibrary GetPrimLibraryByPath(Path path)
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new PRIMLibrary(this, package);
         }
 
-        public IENUMLibrary GetEnumLibraryByPath(Path path)
+        public IEnumLibrary GetEnumLibraryByPath(Path path)
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new ENUMLibrary(this, package);
@@ -247,13 +247,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new DOCLibrary(this, package);
         }
 
-        public IPRIM GetPrimByPath(Path path)
+        public IPrim GetPrimByPath(Path path)
         {
             var element = eaRepository.Resolve<Element>(path);
             return element == null ? null : new PRIM(this, element);
         }
 
-        public IENUM GetEnumByPath(Path path)
+        public IEnum GetEnumByPath(Path path)
         {
             var element = eaRepository.Resolve<Element>(path);
             return element == null ? null : new ENUM(this, element);

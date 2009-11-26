@@ -22,8 +22,8 @@ namespace CctsRepository
     public interface ICctsRepository
     {
         IEnumerable<IBLibrary> GetBLibraries();
-        IEnumerable<IPRIMLibrary> GetPrimLibraries();
-        IEnumerable<IENUMLibrary> GetEnumLibraries();
+        IEnumerable<IPrimLibrary> GetPrimLibraries();
+        IEnumerable<IEnumLibrary> GetEnumLibraries();
         IEnumerable<ICdtLibrary> GetCdtLibraries();
         IEnumerable<ICcLibrary> GetCcLibraries();
         IEnumerable<IBdtLibrary> GetBdtLibraries();
@@ -31,32 +31,32 @@ namespace CctsRepository
         IEnumerable<IDOCLibrary> GetDocLibraries();
 
         IBLibrary GetBLibraryById(int id);
-        IPRIMLibrary GetPrimLibraryById(int id);
-        IENUMLibrary GetEnumLibraryById(int id);
+        IPrimLibrary GetPrimLibraryById(int id);
+        IEnumLibrary GetEnumLibraryById(int id);
         ICdtLibrary GetCdtLibraryById(int id);
         ICcLibrary GetCcLibraryById(int id);
         IBdtLibrary GetBdtLibraryById(int id);
         IBieLibrary GetBieLibraryById(int id);
         IDOCLibrary GetDocLibraryById(int id);
 
-        IPRIM GetPrimById(int id);
-        IENUM GetEnumById(int id);
+        IPrim GetPrimById(int id);
+        IEnum GetEnumById(int id);
         ICdt GetCdtById(int id);
         IAcc GetAccById(int id);
         IBdt GetBdtById(int id);
         IAbie GetAbieById(int id);
 
         IBLibrary GetBLibraryByPath(Path path);
-        IPRIMLibrary GetPrimLibraryByPath(Path path);
-        IENUMLibrary GetEnumLibraryByPath(Path path);
+        IPrimLibrary GetPrimLibraryByPath(Path path);
+        IEnumLibrary GetEnumLibraryByPath(Path path);
         ICdtLibrary GetCdtLibraryByPath(Path path);
         ICcLibrary GetCcLibraryByPath(Path path);
         IBdtLibrary GetBdtLibraryByPath(Path path);
         IBieLibrary GetBieLibraryByPath(Path path);
         IDOCLibrary GetDocLibraryByPath(Path path);
 
-        IPRIM GetPrimByPath(Path path);
-        IENUM GetEnumByPath(Path path);
+        IPrim GetPrimByPath(Path path);
+        IEnum GetEnumByPath(Path path);
         ICdt GetCdtByPath(Path path);
         IAcc GetAccByPath(Path path);
         IBdt GetBdtByPath(Path path);
