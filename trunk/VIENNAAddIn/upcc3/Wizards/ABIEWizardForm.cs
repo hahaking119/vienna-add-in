@@ -651,7 +651,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 var selectedBIEL = repository.GetBieLibraryById(cache.BIELs[selectedBIELName].Id);
 
                 /* get the selected ACC which we as a basis to generate the new ABIE */
-                IACC selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                IAcc selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
 
                 AbieSpec abieSpec = createABISpec(selectedACC);
                 IAbie newABIE = selectedBIEL.CreateElement(abieSpec);
@@ -666,7 +666,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 var selectedBIEL = repository.GetBieLibraryById(cache.BIELs[selectedBIELName].Id);
 
                 /* get the selected ACC which we use as a basis to generate the new ABIE */
-                IACC selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
+                IAcc selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
                 AbieSpec abieSpec = createABISpec(selectedACC);
                 IAbie newABIE = selectedBIEL.UpdateElement(abie, abieSpec);
                 //todo: find a better way to update internal cache
@@ -1303,7 +1303,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
-        private AbieSpec createABISpec(IACC selectedACC)
+        private AbieSpec createABISpec(IAcc selectedACC)
         {
             AbieSpec abieSpec = null;
             if ((cache.PathIsValid(CacheConstants.PATH_BDTLs, new[] {selectedBDTLName})) &&
@@ -1380,7 +1380,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                             bdtUsed = repository.GetBdtById(bdt.Id);
                                         }
 
-                                        foreach (IBCC currentBCC in selectedACC.BCCs)
+                                        foreach (IBcc currentBCC in selectedACC.BCCs)
                                         {
                                             if (currentBCC.Id == bcc.Id)
                                             {
@@ -1409,11 +1409,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                         {
                             // get the original ACC that we currently process
                             int accId = cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id;
-                            IACC acc = repository.GetAccById(accId);
+                            IAcc acc = repository.GetAccById(accId);
 
                             // get the original ASCC of the above ACC that we currently process
-                            IASCC origASCC = null;
-                            foreach (IASCC ascc in acc.ASCCs)
+                            IAscc origASCC = null;
+                            foreach (IAscc ascc in acc.ASCCs)
                             {
                                 if (ascc.Id == cascc.Id)
                                 {
@@ -1465,7 +1465,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 var realCCL = repository.GetCcLibraryById(ccl.Id);
                 correctCCL++;
-                foreach (IACC acc in realCCL.Elements)
+                foreach (IAcc acc in realCCL.Elements)
                 {
                     if (acc.Name == abie.BasedOn.Name)
                     {

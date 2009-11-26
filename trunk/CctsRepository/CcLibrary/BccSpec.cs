@@ -3,9 +3,9 @@ using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.CcLibrary
 {
-    public class BCCSpec
+    public class BccSpec
     {
-        public BCCSpec(IBCC bcc)
+        public BccSpec(IBcc bcc)
         {
             Name = bcc.Name;
             DictionaryEntryName = bcc.DictionaryEntryName;
@@ -21,7 +21,7 @@ namespace CctsRepository.CcLibrary
             Type = bcc.Cdt;
         }
 
-        public BCCSpec()
+        public BccSpec()
         {
         }
 

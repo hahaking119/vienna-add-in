@@ -27,9 +27,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return sourceElement.Name + "_" + ASCC.Name; }
         }
 
-        public IACC ACC { get; private set; }
+        public IAcc ACC { get; private set; }
 
-        public IASCC ASCC { get; private set; }
+        public IAscc ASCC { get; private set; }
 
         public ComplexTypeMapping TargetMapping { get; private set; }
 

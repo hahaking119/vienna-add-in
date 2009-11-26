@@ -72,7 +72,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IACC BasedOn
+        public IAcc BasedOn
         {
             get
             {

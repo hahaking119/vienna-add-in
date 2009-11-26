@@ -68,7 +68,7 @@ namespace CctsRepository.BieLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public static AsbieSpec CloneASCC(IASCC ascc, string name, int associatedABIEId)
+        public static AsbieSpec CloneASCC(IAscc ascc, string name, int associatedABIEId)
         {
             return new AsbieSpec
                    {
@@ -87,7 +87,7 @@ namespace CctsRepository.BieLibrary
                    };
         }
 
-        public static AsbieSpec CloneASCC(IASCC ascc, string name, Func<IAbie> associatedABIEResolver)
+        public static AsbieSpec CloneASCC(IAscc ascc, string name, Func<IAbie> associatedABIEResolver)
         {
             return new AsbieSpec
                    {

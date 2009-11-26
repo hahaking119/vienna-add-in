@@ -11,7 +11,7 @@ using CctsRepository.CdtLibrary;
 
 namespace CctsRepository.CcLibrary
 {
-    public interface IBCC
+    public interface IBcc
     {
         int Id { get; }
         string Name { get; }
@@ -29,6 +29,6 @@ namespace CctsRepository.CcLibrary
         IEnumerable<string> UsageRules { get; }
 
         ICDT Cdt { get; }
-        IACC Acc { get; }
+        IAcc Acc { get; }
     }
 }

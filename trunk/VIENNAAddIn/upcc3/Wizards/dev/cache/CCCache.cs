@@ -58,17 +58,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load CC Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of CC Libraries in the repository.</returns>
-        public List<ICCLibrary> GetCCLibraries()
+        public List<ICcLibrary> GetCCLibraries()
         {
             if (ccLibraries == null)
             {
                 ccLibraries = new List<CacheItemCCLibrary>();
-                foreach (ICCLibrary ccLibrary in ccRepository.GetCcLibraries())
+                foreach (ICcLibrary ccLibrary in ccRepository.GetCcLibraries())
                 {
                     ccLibraries.Add(new CacheItemCCLibrary(ccLibrary));
                 }
             }
-            return ccLibraries.ConvertAll(new Converter<CacheItemCCLibrary, ICCLibrary>(CacheItemCCLibraryToCCLibrary));
+            return ccLibraries.ConvertAll(new Converter<CacheItemCCLibrary, ICcLibrary>(CacheItemCCLibraryToCCLibrary));
         }
 
         /// <summary>
@@ -198,13 +198,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="ccLibraryName">The name of the CC Library ACCs should be retrieved from.</param>
         /// <returns>A list of ACCs.</returns>
-        public List<IACC> GetCCsFromCCLibrary(string ccLibraryName)
+        public List<IAcc> GetCCsFromCCLibrary(string ccLibraryName)
         {
             if (ccLibraries == null)
             {
                 GetCCLibraries();
             }
-            var tmpCCs = new List<IACC>();
+            var tmpCCs = new List<IAcc>();
 // ReSharper disable PossibleNullReferenceException
             foreach (CacheItemCCLibrary ccLibrary in ccLibraries)
 // ReSharper restore PossibleNullReferenceException
@@ -213,7 +213,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (ccLibrary.CCsInLibrary == null)
                     {
-                        foreach (IACC acc in ccLibrary.CCLibrary.Elements)
+                        foreach (IAcc acc in ccLibrary.CCLibrary.Elements)
                         {
                             tmpCCs.Add(acc);
                         }
@@ -240,10 +240,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <param name="ccLibraryName"></param>
         /// <param name="ccName"></param>
         /// <returns></returns>
-        public IACC GetCCFromCCLibrary(string ccLibraryName, string ccName)
+        public IAcc GetCCFromCCLibrary(string ccLibraryName, string ccName)
         {
-            List<IACC> tmpCCs = GetCCsFromCCLibrary(ccLibraryName);
-            foreach (IACC acc in tmpCCs)
+            List<IAcc> tmpCCs = GetCCsFromCCLibrary(ccLibraryName);
+            foreach (IAcc acc in tmpCCs)
             {
                 if (acc.Name.Equals(ccName))
                 {
@@ -350,7 +350,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemCCLibrary">A Cache representation of a CC Library</param>
         /// <returns>A UPCC3 CC Library Element.</returns>
-        private static ICCLibrary CacheItemCCLibraryToCCLibrary(CacheItemCCLibrary cacheItemCCLibrary)
+        private static ICcLibrary CacheItemCCLibraryToCCLibrary(CacheItemCCLibrary cacheItemCCLibrary)
         {
             return cacheItemCCLibrary.CCLibrary;
         }
@@ -418,17 +418,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// Tries to load CC Libraries from cache, if not present load it from repository.
         /// </summary>
         /// <returns>A list of CC Libraries in the repository.</returns>
-        public List<ICCLibrary> GetCCLibraries()
+        public List<ICcLibrary> GetCCLibraries()
         {
             if (ccLibraries == null)
             {
                 ccLibraries = new List<CacheItemCCLibrary>();
-                foreach (ICCLibrary ccLibrary in ccRepository.GetCcLibraries())
+                foreach (ICcLibrary ccLibrary in ccRepository.GetCcLibraries())
                 {
                     ccLibraries.Add(new CacheItemCCLibrary(ccLibrary));
                 }
             }
-            return ccLibraries.ConvertAll(new Converter<CacheItemCCLibrary, ICCLibrary>(CacheItemCCLibraryToCCLibrary));
+            return ccLibraries.ConvertAll(new Converter<CacheItemCCLibrary, ICcLibrary>(CacheItemCCLibraryToCCLibrary));
         }
 
         /// <summary>
@@ -558,13 +558,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="ccLibraryName">The name of the CC Library ACCs should be retrieved from.</param>
         /// <returns>A list of ACCs.</returns>
-        public List<IACC> GetCCsFromCCLibrary(string ccLibraryName)
+        public List<IAcc> GetCCsFromCCLibrary(string ccLibraryName)
         {
             if (ccLibraries == null)
             {
                 GetCCLibraries();
             }
-            var tmpCCs = new List<IACC>();
+            var tmpCCs = new List<IAcc>();
 // ReSharper disable PossibleNullReferenceException
             foreach (CacheItemCCLibrary ccLibrary in ccLibraries)
 // ReSharper restore PossibleNullReferenceException
@@ -573,7 +573,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (ccLibrary.CCsInLibrary == null)
                     {
-                        foreach (IACC acc in ccLibrary.CCLibrary.Elements)
+                        foreach (IAcc acc in ccLibrary.CCLibrary.Elements)
                         {
                             tmpCCs.Add(acc);
                         }
@@ -600,10 +600,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <param name="ccLibraryName"></param>
         /// <param name="ccName"></param>
         /// <returns></returns>
-        public IACC GetCCFromCCLibrary(string ccLibraryName, string ccName)
+        public IAcc GetCCFromCCLibrary(string ccLibraryName, string ccName)
         {
-            List<IACC> tmpCCs = GetCCsFromCCLibrary(ccLibraryName);
-            foreach (IACC acc in tmpCCs)
+            List<IAcc> tmpCCs = GetCCsFromCCLibrary(ccLibraryName);
+            foreach (IAcc acc in tmpCCs)
             {
                 if (acc.Name.Equals(ccName))
                 {
@@ -710,7 +710,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// </summary>
         /// <param name="cacheItemCCLibrary">A Cache representation of a CC Library</param>
         /// <returns>A UPCC3 CC Library Element.</returns>
-        private static ICCLibrary CacheItemCCLibraryToCCLibrary(CacheItemCCLibrary cacheItemCCLibrary)
+        private static ICcLibrary CacheItemCCLibraryToCCLibrary(CacheItemCCLibrary cacheItemCCLibrary)
         {
             return cacheItemCCLibrary.CCLibrary;
         }

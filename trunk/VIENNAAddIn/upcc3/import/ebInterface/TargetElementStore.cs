@@ -12,10 +12,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     /// </summary>
     public class TargetElementStore
     {
-        private readonly ICCLibrary ccLibrary;
+        private readonly ICcLibrary ccLibrary;
         private readonly Dictionary<string, TargetCCElement> targetCCElementsByKey = new Dictionary<string, TargetCCElement>();
 
-        public TargetElementStore(MapForceMapping mapForceMapping, ICCLibrary ccLibrary)
+        public TargetElementStore(MapForceMapping mapForceMapping, ICcLibrary ccLibrary)
         {
             this.ccLibrary = ccLibrary;
             var targetSchemaComponents = mapForceMapping.GetTargetSchemaComponents();
@@ -37,7 +37,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         }
 
         /// <exception cref="MappingError"><c>MappingError</c>.</exception>
-        private void CreateChildren(TargetCCElement targetCCElement, Entry entry, IACC acc)
+        private void CreateChildren(TargetCCElement targetCCElement, Entry entry, IAcc acc)
         {
             foreach (var subEntry in entry.SubEntries)
             {
@@ -63,33 +63,33 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private TargetCCElement CreateTargetCCElementForBcc(Entry entry, IBCC bcc)
+        private TargetCCElement CreateTargetCCElementForBcc(Entry entry, IBcc bcc)
         {
             var targetCCElement = TargetCCElement.ForBcc(entry.Name, bcc);
             AddToIndex(entry, targetCCElement);
             return targetCCElement;
         }
 
-        private TargetCCElement CreateTargetCCElementForAscc(Entry entry, IASCC ascc)
+        private TargetCCElement CreateTargetCCElementForAscc(Entry entry, IAscc ascc)
         {
             var targetCCElement = TargetCCElement.ForAscc(entry.Name, ascc);
             AddToIndex(entry, targetCCElement);
             return targetCCElement;
         }
 
-        private TargetCCElement CreateTargetCCElementForAcc(Entry entry, IACC acc)
+        private TargetCCElement CreateTargetCCElementForAcc(Entry entry, IAcc acc)
         {
             var targetCCElement = TargetCCElement.ForAcc(entry.Name, acc);
             AddToIndex(entry, targetCCElement);
             return targetCCElement;
         }
 
-        private IACC GetACC(SchemaComponent component)
+        private IAcc GetACC(SchemaComponent component)
         {
             return ccLibrary.ElementByName(component.RootEntry.Name);
         }
 
-        private static IBCC GetBCC(IACC acc, string name)
+        private static IBcc GetBCC(IAcc acc, string name)
         {
             foreach (var bcc in acc.BCCs)
             {
@@ -101,7 +101,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return null;
         }
 
-        private static IASCC GetASCC(IACC acc, string name)
+        private static IAscc GetASCC(IAcc acc, string name)
         {
             foreach (var ascc in acc.ASCCs)
             {

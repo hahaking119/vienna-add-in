@@ -105,7 +105,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         [Test]
         public void ShouldSetTargetACC()
         {
-            IACC acc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
+            IAcc acc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
             
             temporaryABIEModel.SetTargetACC("Person");
 

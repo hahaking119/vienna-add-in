@@ -41,16 +41,16 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return TargetACCs.Count() == 1 && ASBIEMappings.Count() == 0; }
         }
 
-        public IEnumerable<IACC> TargetACCs
+        public IEnumerable<IAcc> TargetACCs
         {
             get
             {
-                var targetACCs = new List<IACC>();
+                var targetACCs = new List<IAcc>();
                 foreach (ElementMapping child in Children)
                 {
                     if (child is BCCMapping)
                     {
-                        IACC acc = ((BCCMapping) child).ACC;
+                        IAcc acc = ((BCCMapping) child).ACC;
                         if (!targetACCs.Contains(acc))
                         {
                             targetACCs.Add(acc);
@@ -58,7 +58,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                     else if (child is ASCCMapping)
                     {
-                        IACC acc = ((ASCCMapping) child).ACC;
+                        IAcc acc = ((ASCCMapping) child).ACC;
                         if (!targetACCs.Contains(acc))
                         {
                             targetACCs.Add(acc);
@@ -82,11 +82,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return ComplexTypeName; }
         }
 
-        public IEnumerable<BCCMapping> BCCMappings(IACC targetACC)
+        public IEnumerable<BCCMapping> BCCMappings(IAcc targetACC)
         {
             foreach (BCCMapping bccMapping in Children.FilterByType<ElementMapping, BCCMapping>())
             {
-                IACC acc = bccMapping.ACC;
+                IAcc acc = bccMapping.ACC;
                 if (targetACC.Id == acc.Id)
                 {
                     yield return bccMapping;
@@ -94,11 +94,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        public IEnumerable<ASCCMapping> ASCCMappings(IACC targetACC)
+        public IEnumerable<ASCCMapping> ASCCMappings(IAcc targetACC)
         {
             foreach (ASCCMapping asccMapping in Children.FilterByType<ElementMapping, ASCCMapping>())
             {
-                IACC acc = asccMapping.ACC;
+                IAcc acc = asccMapping.ACC;
                 if (targetACC.Id == acc.Id)
                 {
                     yield return asccMapping;

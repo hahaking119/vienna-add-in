@@ -15,13 +15,13 @@ using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
-    internal class ASCC : IASCC
+    internal class ASCC : IAscc
     {
-        private readonly IACC associatingAcc;
+        private readonly IAcc associatingAcc;
         private readonly Connector connector;
         private readonly CCRepository repository;
 
-        public ASCC(CCRepository repository, Connector connector, IACC associatingAcc)
+        public ASCC(CCRepository repository, Connector connector, IAcc associatingAcc)
         {
             this.repository = repository;
             this.connector = connector;
@@ -33,9 +33,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return new Cardinality(connector.GetAssociatedEnd(AssociatingElement.Id).Cardinality); }
         }
 
-        #region IASCC Members
+        #region IAscc Members
 
-        public IACC AssociatingElement
+        public IAcc AssociatingElement
         {
             get { return associatingAcc; }
         }
@@ -100,7 +100,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return connector.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
-        public IACC AssociatedElement
+        public IAcc AssociatedElement
         {
             get { return repository.GetAccById(connector.GetAssociatedElementId(AssociatingElement.Id)); }
         }

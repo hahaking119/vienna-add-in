@@ -49,7 +49,7 @@ namespace CctsRepository.BieLibrary
         public string LanguageCode { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
 
-        public static BbieSpec CloneBCC(IBCC bcc, IBdt type)
+        public static BbieSpec CloneBCC(IBcc bcc, IBdt type)
         {
             return new BbieSpec
                    {

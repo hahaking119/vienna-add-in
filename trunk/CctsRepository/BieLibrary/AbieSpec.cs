@@ -53,7 +53,7 @@ namespace CctsRepository.BieLibrary
 
         public IAbie IsEquivalentTo { get; set; }
 
-        public IACC BasedOn { get; set; }
+        public IAcc BasedOn { get; set; }
         public IEnumerable<string> UsageRules { get; set; }
         public string Name { get; set; }
         public string DictionaryEntryName { get; set; }

@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 namespace CctsRepository.CcLibrary
 {
-    public interface IASCC
+    public interface IAscc
     {
-        IACC AssociatingElement { get; }
-        IACC AssociatedElement { get; }
+        IAcc AssociatingElement { get; }
+        IAcc AssociatedElement { get; }
         string UpperBound { get; }
         string LowerBound { get; }
         string SequencingKey { get; }

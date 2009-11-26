@@ -128,11 +128,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///</summary>
         ///<param name="context"></param>
         ///<returns></returns>
-        public static IEnumerable<IACC> CollectACCs(GeneratorContext context)
+        public static IEnumerable<IAcc> CollectACCs(GeneratorContext context)
         {
-            foreach (ICCLibrary ccLibrary in context.Repository.GetCcLibraries())
+            foreach (ICcLibrary ccLibrary in context.Repository.GetCcLibraries())
             {
-                foreach (IACC acc in ccLibrary.Elements)
+                foreach (IAcc acc in ccLibrary.Elements)
                 {
                     yield return acc;
                 }

@@ -105,7 +105,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return repository.GetBdtById(attribute.ClassifierID); }
         }
 
-        public IBCC BasedOn
+        public IBcc BasedOn
         {
             get
             {
@@ -113,13 +113,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 {
                     return null;
                 }
-                IACC acc = Container.BasedOn;
+                IAcc acc = Container.BasedOn;
                 if (acc == null)
                 {
                     return null;
                 }
                 string nameWithoutQualifiers = Name.Substring(Name.LastIndexOf('_') + 1);
-                foreach (IBCC bcc in acc.BCCs)
+                foreach (IBcc bcc in acc.BCCs)
                 {
                     if (nameWithoutQualifiers == bcc.Name)
                     {

@@ -11,9 +11,9 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.CcLibrary
 {
-    public interface ICCLibrary
+    public interface ICcLibrary
     {
-        IEnumerable<IACC> Elements { get; }
+        IEnumerable<IAcc> Elements { get; }
         int Id { get; }
         string Name { get; }
         IBLibrary Parent { get; }
@@ -30,16 +30,16 @@ namespace CctsRepository.CcLibrary
         ///<summary>
         /// Retrieves an element by name.
         ///</summary>
-        IACC ElementByName(string name);
+        IAcc ElementByName(string name);
 
         ///<summary>
         /// Creates a new element in this library, based on the given specification.
         ///</summary>
-        IACC CreateElement(ACCSpec spec);
+        IAcc CreateElement(AccSpec spec);
 
         ///<summary>
         /// Updates the given element of this library to match the given specification.
         ///</summary>
-        IACC UpdateElement(IACC element, ACCSpec spec);
+        IAcc UpdateElement(IAcc element, AccSpec spec);
     }
 }

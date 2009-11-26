@@ -4,7 +4,7 @@ namespace CctsRepository.CcLibrary
 {
     public class CcLibrarySpec
     {
-        public CcLibrarySpec(ICCLibrary ccLibrary)
+        public CcLibrarySpec(ICcLibrary ccLibrary)
         {
             Name = ccLibrary.Name;
             Status = ccLibrary.Status;

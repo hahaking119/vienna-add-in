@@ -146,7 +146,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(upperBound, asbie.UpperBound);
         }
 
-        private static void AssertBBIE(IBdt type, IBCC bcc, IBbie bbie)
+        private static void AssertBBIE(IBdt type, IBcc bcc, IBbie bbie)
         {
             Assert.AreEqual(type.Id, bbie.Type.Id);
             Assert.AreEqual(bcc.Name, bbie.Name);
@@ -180,7 +180,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var accPerson = ccRepository.GetAccByPath(EARepository1.PathToACCPerson());
             var abiePerson = ccRepository.GetAbieByPath(EARepository1.PathToBIEPerson());
 
-            IASCC asccHomeAddress = accPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "homeAddress");
+            IAscc asccHomeAddress = accPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == "homeAddress");
             Assert.That(asccHomeAddress, Is.Not.Null, "ASCC not found");
 
             IAsbie asbieMyHomeAddress = abiePerson.ASBIEs.FirstOrDefault(asbie => asbie.Name == "My_homeAddress");
@@ -196,7 +196,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var accPerson = ccRepository.GetAccByPath(EARepository1.PathToACCPerson());
             var abiePerson = ccRepository.GetAbieByPath(EARepository1.PathToBIEPerson());
 
-            IBCC bccFirstName = accPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "FirstName");
+            IBcc bccFirstName = accPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "FirstName");
             Assert.That(bccFirstName, Is.Not.Null, "BCC not found");
 
             IBbie bbieMyFirstName = abiePerson.BBIEs.FirstOrDefault(bbie => bbie.Name == "My_FirstName");
@@ -230,8 +230,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             IBieLibrary bieLibrary = ccRepository.GetBieLibraries().First();
 
-            var bccs = new List<IBCC>(accPerson.BCCs);
-            var asccs = new List<IASCC>(accPerson.ASCCs);
+            var bccs = new List<IBcc>(accPerson.BCCs);
+            var asccs = new List<IAscc>(accPerson.ASCCs);
             Assert.AreEqual(2, asccs.Count);
             var abieSpec = new AbieSpec
                            {
@@ -270,7 +270,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             Assert.AreEqual(accPerson.BCCs.Count(), abiePerson.BBIEs.Count());
             IEnumerator<IBbie> bbies = abiePerson.BBIEs.GetEnumerator();
-            foreach (IBCC bcc in accPerson.BCCs)
+            foreach (IBcc bcc in accPerson.BCCs)
             {
                 bbies.MoveNext();
                 IBbie bbie = bbies.Current;
@@ -308,9 +308,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var cdtDate = ccRepository.GetCdtByPath(EARepository1.PathToCDTDate());
             Assert.IsNotNull(cdtDate, "CDT Date not found");
 
-            ICCLibrary ccLibrary = ccRepository.GetCcLibraries().First();
+            ICcLibrary ccLibrary = ccRepository.GetCcLibraries().First();
 
-            var accSpec = new ACCSpec
+            var accSpec = new AccSpec
                           {
                               Name = "TestPerson",
                               DictionaryEntryName = "overriding default dictionary entry name",
@@ -322,7 +322,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                               UsageRules = new[] {"usage rule 1", "usage rule 2"},
                               IsEquivalentTo = accPerson,
                           };
-            var bccFirstNameSpec = new BCCSpec
+            var bccFirstNameSpec = new BccSpec
                                    {
                                        Name = "FirstName",
                                        Type = cdtText,
@@ -338,23 +338,23 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                        UpperBound = "3",
                                    };
             accSpec.AddBCC(bccFirstNameSpec);
-            accSpec.AddBCC(new BCCSpec
+            accSpec.AddBCC(new BccSpec
                            {
                                Name = "LastName",
                                Type = cdtText
                            });
-            accSpec.AddBCC(new BCCSpec
+            accSpec.AddBCC(new BccSpec
                            {
                                Name = "Some",
                                Type = cdtText
                            });
-            accSpec.AddBCC(new BCCSpec
+            accSpec.AddBCC(new BccSpec
                            {
                                Name = "Some",
                                Type = cdtDate
                            });
 
-            var asccHomeAddressSpec = new ASCCSpec
+            var asccHomeAddressSpec = new AsccSpec
                                       {
                                           Name = "HomeAddress",
                                           ResolveAssociatedACC = () => accAddress,
@@ -370,23 +370,23 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                           UpperBound = "3",
                                       };
             accSpec.AddASCC(asccHomeAddressSpec);
-            accSpec.AddASCC(new ASCCSpec
+            accSpec.AddASCC(new AsccSpec
                             {
                                 Name = "WorkAddress",
                                 ResolveAssociatedACC = () => accAddress,
                             });
-            accSpec.AddASCC(new ASCCSpec
+            accSpec.AddASCC(new AsccSpec
                             {
                                 Name = "Some",
                                 ResolveAssociatedACC = () => accAddress,
                             });
-            accSpec.AddASCC(new ASCCSpec
+            accSpec.AddASCC(new AsccSpec
                             {
                                 Name = "Some",
                                 ResolveAssociatedACC = () => accPerson,
                             });
 
-            IACC accTestPerson = ccLibrary.CreateElement(accSpec);
+            IAcc accTestPerson = ccLibrary.CreateElement(accSpec);
             Assert.IsNotNull(accTestPerson, "ACC is null");
             Assert.AreEqual(ccLibrary.Id, accTestPerson.Library.Id);
 
@@ -403,7 +403,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(accPerson.Id, accTestPerson.IsEquivalentTo.Id);
 
             Assert.AreEqual(accSpec.BCCs.Count(), accTestPerson.BCCs.Count());
-            IBCC bccFirstName = accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == bccFirstNameSpec.Name);
+            IBcc bccFirstName = accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == bccFirstNameSpec.Name);
             Assert.That(bccFirstName, Is.Not.Null, "BCC FirstName not generated");
             Assert.AreEqual(cdtText.Id, bccFirstName.Cdt.Id);
             Assert.AreEqual(asccHomeAddressSpec.Definition, bccFirstName.Definition);
@@ -421,7 +421,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.That(accTestPerson.BCCs.FirstOrDefault(bcc => bcc.Name == "SomeDate"), Is.Not.Null, "Type not appended to BCC 'Some' with type 'Date'");
 
             Assert.AreEqual(accSpec.ASCCs.Count(), accTestPerson.ASCCs.Count());
-            IASCC asccHomeAddress = accTestPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == asccHomeAddressSpec.Name);
+            IAscc asccHomeAddress = accTestPerson.ASCCs.FirstOrDefault(ascc => ascc.Name == asccHomeAddressSpec.Name);
             Assert.That(asccHomeAddress, Is.Not.Null, "ASCC HomeAddress not generated");
             Assert.AreEqual(accAddress.Id, asccHomeAddress.AssociatedElement.Id);
             Assert.AreEqual(asccHomeAddress.Definition, asccHomeAddress.Definition);
@@ -551,10 +551,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
                 var accAddress = ccRepository.GetAccByPath((Path) "Model"/"ebInterface Data Model"/"CCLibrary"/"Address");
                 Assert.IsNotNull(accAddress, "ACC Address not found");
-                var asccs = new List<IASCC>(accAddress.ASCCs);
+                var asccs = new List<IAscc>(accAddress.ASCCs);
                 Assert.AreEqual(2, asccs.Count);
 
-                var bccs = new List<IBCC>(accAddress.BCCs);
+                var bccs = new List<IBcc>(accAddress.BCCs);
                 var abieSpec = new AbieSpec
                                {
                                    Name = "My_" + accAddress.Name,
@@ -788,17 +788,17 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Format", dateFormat.Name);
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
-            ICCLibrary ccLib1 = ccRepository.GetCcLibraries().First();
-            IACC accAddress = ccLib1.Elements.First();
-            var accAddressBCCs = new List<IBCC>(accAddress.BCCs);
+            ICcLibrary ccLib1 = ccRepository.GetCcLibraries().First();
+            IAcc accAddress = ccLib1.Elements.First();
+            var accAddressBCCs = new List<IBcc>(accAddress.BCCs);
 
-            IBCC bccCountryName = accAddressBCCs[1];
+            IBcc bccCountryName = accAddressBCCs[1];
             Assert.AreSame(accAddress, bccCountryName.Acc);
             Assert.AreEqual("CountryName", bccCountryName.Name);
             Assert.AreEqual("1", bccCountryName.LowerBound);
             Assert.AreEqual("1", bccCountryName.UpperBound);
 
-            IBCC bccPostcode = accAddressBCCs[2];
+            IBcc bccPostcode = accAddressBCCs[2];
             Assert.AreEqual("Postcode", bccPostcode.Name);
             Assert.AreEqual("0", bccPostcode.LowerBound);
             Assert.AreEqual("*", bccPostcode.UpperBound);
@@ -806,7 +806,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(cdtText.Id, bccCountryName.Cdt.Id);
 
             var accPerson = ccRepository.GetAccByPath(EARepository1.PathToACCPerson());
-            var accPersonASCCs = new List<IASCC>(accPerson.ASCCs);
+            var accPersonASCCs = new List<IAscc>(accPerson.ASCCs);
             Assert.AreEqual("homeAddress", accPersonASCCs[0].Name);
             Assert.AreEqual("1", accPersonASCCs[0].LowerBound);
             Assert.AreEqual("1", accPersonASCCs[0].UpperBound);
@@ -829,7 +829,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("1", bbieCountryName.UpperBound);
             Assert.AreEqual(bdtText.Id, bbieCountryName.Type.Id);
 
-            IBCC bbiePostcode = accAddressBCCs[2];
+            IBcc bbiePostcode = accAddressBCCs[2];
             Assert.AreEqual("Postcode", bbiePostcode.Name);
             Assert.AreEqual("0", bbiePostcode.LowerBound);
             Assert.AreEqual("*", bbiePostcode.UpperBound);
@@ -876,8 +876,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             IBieLibrary bieLibrary = ccRepository.GetBieLibraries().First();
 
-            var bccs = new List<IBCC>(accPerson.BCCs);
-            var asccs = new List<IASCC>(accPerson.ASCCs);
+            var bccs = new List<IBcc>(accPerson.BCCs);
+            var asccs = new List<IAscc>(accPerson.ASCCs);
             Assert.AreEqual(2, asccs.Count);
             var abieSpec = new AbieSpec
                            {
@@ -916,7 +916,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             Assert.AreEqual(accPerson.BCCs.Count(), abiePerson.BBIEs.Count());
             IEnumerator<IBbie> bbies = abiePerson.BBIEs.GetEnumerator();
-            foreach (IBCC bcc in accPerson.BCCs)
+            foreach (IBcc bcc in accPerson.BCCs)
             {
                 bbies.MoveNext();
                 IBbie bbie = bbies.Current;
@@ -973,7 +973,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(1, asbies.Count());
             AssertASBIE("My_homeAddress", "1", "1", asbies[0]);
 
-            var personBCCs = new List<IBCC>(accPerson.BCCs);
+            var personBCCs = new List<IBcc>(accPerson.BCCs);
             var personBBIEs = new List<IBbie>(abiePerson.BBIEs);
             Assert.AreEqual(3, personBCCs.Count());
             Assert.AreEqual(2, personBBIEs.Count());

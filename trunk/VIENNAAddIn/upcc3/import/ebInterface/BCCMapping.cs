@@ -22,14 +22,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return ElementName + "_" + BCC.Name; }
         }
 
-        public IBCC BCC { get; private set; }
+        public IBcc BCC { get; private set; }
 
         public override string ToString()
         {
             return string.Format("BCCMapping <SourceElement: {0}, TargetElement: {1}, ACC: {2} [{3}]>", sourceElement.Name, targetElement.Name, ACC.Name, ACC.Id);
         }
 
-        public IACC ACC { get; private set; }
+        public IAcc ACC { get; private set; }
 
         public string ElementName { get; private set; }
 

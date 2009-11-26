@@ -124,7 +124,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return repository.GetAbieById(connector.GetAssociatedElementId(AssociatingElement.Id)); }
         }
 
-        public IASCC BasedOn
+        public IAscc BasedOn
         {
             get
             {
@@ -132,13 +132,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 {
                     return null;
                 }
-                IACC acc = AssociatingElement.BasedOn;
+                IAcc acc = AssociatingElement.BasedOn;
                 if (acc == null)
                 {
                     return null;
                 }
                 string nameWithoutQualifiers = Name.Substring(Name.LastIndexOf('_') + 1);
-                foreach (IASCC ascc in acc.ASCCs)
+                foreach (IAscc ascc in acc.ASCCs)
                 {
                     if (nameWithoutQualifiers == ascc.Name)
                     {
