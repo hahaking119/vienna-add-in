@@ -18,24 +18,24 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
-        public IEnumerable<IAcc> Elements
+        public IEnumerable<IAcc> Accs
         {
             get { throw new NotImplementedException(); }
         }
 
         #endregion
 
-        public IAcc ElementByName(string name)
+        public IAcc GetAccByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public IAcc CreateElement(AccSpec spec)
+        public IAcc CreateAcc(AccSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IAcc UpdateElement(IAcc element, AccSpec spec)
+        public IAcc UpdateAcc(IAcc element, AccSpec spec)
         {
             throw new NotImplementedException();
         }

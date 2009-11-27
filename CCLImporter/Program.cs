@@ -295,7 +295,7 @@ namespace CCLImporter
             if (accs == null)
             {
                 accs = new Dictionary<string, IAcc>();
-                foreach (IAcc acc in ccLibrary.Elements)
+                foreach (IAcc acc in ccLibrary.Accs)
                 {
                     accs[acc.Name] = acc;
                 }

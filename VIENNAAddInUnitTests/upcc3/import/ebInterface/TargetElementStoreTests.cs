@@ -19,7 +19,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             var ccRepository = new CCRepository(new MappingTestRepository());
             ccLibrary = ccRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
-            accParty = ccLibrary.ElementByName("Party");
+            accParty = ccLibrary.GetAccByName("Party");
             bccPartyName = accParty.BCCs.First(bcc => bcc.Name == "Name");
             asccPartyResidence = accParty.ASCCs.First(ascc => ascc.Name == "Residence");
             mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd"));

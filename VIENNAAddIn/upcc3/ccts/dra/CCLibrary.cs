@@ -28,7 +28,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region ICcLibrary Members
 
-        public IEnumerable<IAcc> Elements
+        public IEnumerable<IAcc> Accs
         {
             get
             {
@@ -42,9 +42,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IAcc ElementByName(string name)
+        public IAcc GetAccByName(string name)
         {
-            foreach (IAcc element in Elements)
+            foreach (IAcc element in Accs)
             {
                 if (((ACC) element).Name == name)
                 {
@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAcc CreateElement(AccSpec spec)
+        public IAcc CreateAcc(AccSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.ACC;
@@ -77,7 +77,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAcc UpdateElement(IAcc element, AccSpec spec)
+        public IAcc UpdateAcc(IAcc element, AccSpec spec)
         {
             ((ACC) element).Update(spec);
             return element;

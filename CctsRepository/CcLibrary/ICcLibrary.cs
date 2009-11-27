@@ -11,35 +11,101 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.CcLibrary
 {
+	/// <summary>
+	/// Interface for CCTS/UPCC CCLibrary.
+	/// </summary>
     public interface ICcLibrary
     {
-        IEnumerable<IAcc> Elements { get; }
+		/// <summary>
+		/// The CCLibrary's unique ID.
+		/// </summary>
         int Id { get; }
+		
+		/// <summary>
+		/// The CCLibrary's name.
+		/// </summary>
         string Name { get; }
-        IBLibrary BLibrary { get; }
-        string Status { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
-        string BaseURN { get; }
-        string NamespacePrefix { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        IEnumerable<string> Copyrights { get; }
-        IEnumerable<string> Owners { get; }
-        IEnumerable<string> References { get; }
+
+		/// <summary>
+		/// The bLibrary containing this CCLibrary.
+		/// </summary>
+		IBLibrary BLibrary { get; }
+
+		/// <summary>
+		/// The ACCs contained in this CCLibrary.
+		/// </summary>
+		IEnumerable<IAcc> Accs { get; }
+
+		/// <summary>
+		/// Retrieves a ACC by name.
+		/// <param name="name">A ACC's name.</param>
+		/// <returns>The ACC with the given <paramref name="name"/> or <c>null</c> if no such ACC is found.</returns>
+		/// </summary>
+        IAcc GetAccByName(string name);
+
+		/// <summary>
+		/// Creates a ACC based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a ACC.</param>
+		/// <returns>The newly created ACC.</returns>
+		/// </summary>
+		IAcc CreateAcc(AccSpec specification);
+
+		/// <summary>
+		/// Updates a ACC to match the given <paramref name="specification"/>.
+		/// <param name="acc">A ACC.</param>
+		/// <param name="specification">A new specification for the given ACC.</param>
+		/// <returns>The updated ACC. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        IAcc UpdateAcc(IAcc acc, AccSpec specification);
+
+		#region Tagged Values
 
         ///<summary>
-        /// Retrieves an element by name.
+        /// Tagged value 'businessTerm'.
         ///</summary>
-        IAcc ElementByName(string name);
+		IEnumerable<string> BusinessTerms { get; }
 
         ///<summary>
-        /// Creates a new element in this library, based on the given specification.
+        /// Tagged value 'copyright'.
         ///</summary>
-        IAcc CreateElement(AccSpec spec);
+		IEnumerable<string> Copyrights { get; }
 
         ///<summary>
-        /// Updates the given element of this library to match the given specification.
+        /// Tagged value 'owner'.
         ///</summary>
-        IAcc UpdateElement(IAcc element, AccSpec spec);
+		IEnumerable<string> Owners { get; }
+
+        ///<summary>
+        /// Tagged value 'reference'.
+        ///</summary>
+		IEnumerable<string> References { get; }
+
+        ///<summary>
+        /// Tagged value 'status'.
+        ///</summary>
+		string Status { get; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		string UniqueIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'baseURN'.
+        ///</summary>
+		string BaseURN { get; }
+
+        ///<summary>
+        /// Tagged value 'namespacePrefix'.
+        ///</summary>
+		string NamespacePrefix { get; }
+
+		#endregion
     }
 }
+
