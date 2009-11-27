@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BdtLibrary\IBdtLibrary1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IBdtLibrary.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BdtLibrary\IBdtLibraryExpected.cs" />
     <Compile Include="BieLibrary\AsbieAggregationKind.cs" />
     <Compile Include="BieLibrary\AbieSpec.cs" />
     <Compile Include="BdtLibrary\BdtLibrarySpec.cs" />
@@ -75,7 +81,12 @@
     <Compile Include="CcLibrary\IBcc.cs" />
     <Compile Include="BdtLibrary\IBdt.cs" />
     <Compile Include="BdtLibrary\IBdtCon.cs" />
-    <Compile Include="BdtLibrary\IBdtLibrary.cs" />
+    <None Include="BdtLibrary\IBdtLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IBdtLibrary1.cs</LastGenOutput>
+    </None>
+    <None Include="helpers.tt">
+    </None>
     <Compile Include="BieLibrary\IBieLibrary.cs" />
     <Compile Include="bLibrary\IBLibrary.cs" />
     <Compile Include="CcLibrary\ICcLibrary.cs" />
@@ -97,10 +108,17 @@
     <Compile Include="BdtLibrary\BdtSupSpec.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UpccModel\UpccModel.csproj">
+      <Project>{45CFA9B7-56EC-4986-BEAF-079F86A56B0C}</Project>
+      <Name>UpccModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VIENNAAddInUtils\VIENNAAddInUtils.csproj">
       <Project>{3C1352B8-1B53-46F9-BC18-BFF48115A606}</Project>
       <Name>VIENNAAddInUtils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
