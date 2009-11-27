@@ -23,14 +23,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IDocLibrary Members
 
-        public IEnumerable<IAbie> RootElements
+        public IEnumerable<IAbie> RootAbies
         {
             get
             {
-                var abies = new List<IAbie>(Elements);
+                var abies = new List<IAbie>(Abies);
                 // collect ASBIES
                 var asbies = new List<IAsbie>();
-                foreach (IAbie abie in Elements)
+                foreach (IAbie abie in Abies)
                 {
                     asbies.AddRange(abie.ASBIEs);
                 }
@@ -44,7 +44,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IEnumerable<IAbie> Elements
+        public IEnumerable<IAbie> Abies
         {
             get
             {
@@ -58,9 +58,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IAbie ElementByName(string name)
+        public IAbie GetAbieByName(string name)
         {
-            foreach (IAbie element in Elements)
+            foreach (IAbie element in Abies)
             {
                 if (((ABIE) element).Name == name)
                 {
@@ -75,7 +75,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAbie CreateElement(AbieSpec spec)
+        public IAbie CreateAbie(AbieSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.ABIE;
@@ -93,7 +93,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAbie UpdateElement(IAbie element, AbieSpec spec)
+        public IAbie UpdateAbie(IAbie element, AbieSpec spec)
         {
             ((ABIE) element).Update(spec);
             return element;

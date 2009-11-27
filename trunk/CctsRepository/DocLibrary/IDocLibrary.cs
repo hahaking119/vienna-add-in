@@ -7,46 +7,106 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository.BieLibrary;
 using CctsRepository.bLibrary;
+using CctsRepository.BieLibrary;
 
 namespace CctsRepository.DocLibrary
 {
-    public interface IDocLibrary
+	/// <summary>
+	/// Interface for CCTS/UPCC DOCLibrary.
+	/// </summary>
+    public partial interface IDocLibrary
     {
-        IEnumerable<IAbie> Elements { get; }
-
-        ///<summary>
-        /// Retrieves an element by name.
-        ///</summary>
-        IAbie ElementByName(string name);
-
-        ///<summary>
-        /// Creates a new element in this library, based on the given specification.
-        ///</summary>
-        IAbie CreateElement(AbieSpec spec);
-
-        ///<summary>
-        /// Updates the given element of this library to match the given specification.
-        ///</summary>
-        IAbie UpdateElement(IAbie element, AbieSpec spec);
-
-        ///<summary>
-        /// Returns the root elements of documents defined in this DOCLibrary.
-        ///</summary>
-        IEnumerable<IAbie> RootElements { get; }
-
+		/// <summary>
+		/// The DOCLibrary's unique ID.
+		/// </summary>
         int Id { get; }
+		
+		/// <summary>
+		/// The DOCLibrary's name.
+		/// </summary>
         string Name { get; }
-        IBLibrary BLibrary { get; }
-        string Status { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
-        string BaseURN { get; }
-        string NamespacePrefix { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        IEnumerable<string> Copyrights { get; }
-        IEnumerable<string> Owners { get; }
-        IEnumerable<string> References { get; }
+
+		/// <summary>
+		/// The bLibrary containing this DOCLibrary.
+		/// </summary>
+		IBLibrary BLibrary { get; }
+
+		/// <summary>
+		/// The ABIEs contained in this DOCLibrary.
+		/// </summary>
+		IEnumerable<IAbie> Abies { get; }
+
+		/// <summary>
+		/// Retrieves a ABIE by name.
+		/// <param name="name">A ABIE's name.</param>
+		/// <returns>The ABIE with the given <paramref name="name"/> or <c>null</c> if no such ABIE is found.</returns>
+		/// </summary>
+        IAbie GetAbieByName(string name);
+
+		/// <summary>
+		/// Creates a ABIE based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a ABIE.</param>
+		/// <returns>The newly created ABIE.</returns>
+		/// </summary>
+		IAbie CreateAbie(AbieSpec specification);
+
+		/// <summary>
+		/// Updates a ABIE to match the given <paramref name="specification"/>.
+		/// <param name="abie">A ABIE.</param>
+		/// <param name="specification">A new specification for the given ABIE.</param>
+		/// <returns>The updated ABIE. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        IAbie UpdateAbie(IAbie abie, AbieSpec specification);
+
+		#region Tagged Values
+
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        /// Tagged value 'copyright'.
+        ///</summary>
+		IEnumerable<string> Copyrights { get; }
+
+        ///<summary>
+        /// Tagged value 'owner'.
+        ///</summary>
+		IEnumerable<string> Owners { get; }
+
+        ///<summary>
+        /// Tagged value 'reference'.
+        ///</summary>
+		IEnumerable<string> References { get; }
+
+        ///<summary>
+        /// Tagged value 'status'.
+        ///</summary>
+		string Status { get; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		string UniqueIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'baseURN'.
+        ///</summary>
+		string BaseURN { get; }
+
+        ///<summary>
+        /// Tagged value 'namespacePrefix'.
+        ///</summary>
+		string NamespacePrefix { get; }
+
+		#endregion
     }
 }
+

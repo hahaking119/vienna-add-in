@@ -568,7 +568,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             // check if previously cached
             if (DOCs.Count == 0)
             {
-                foreach (IAbie document in docl.RootElements)                
+                foreach (IAbie document in docl.RootAbies)                
                 {
                     cDOC newDOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
                     DOCs.Add(document.Name, newDOC);
