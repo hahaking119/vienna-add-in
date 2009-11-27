@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IPrimLibrary Members
 
-        public IEnumerable<IPrim> Elements
+        public IEnumerable<IPrim> Prims
         {
             get
             {
@@ -36,7 +36,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IPrim ElementByName(string name)
+        public IPrim GetPrimByName(string name)
         {
             Element eaElement = package.ElementByName(name);
             if (eaElement != null && eaElement.IsA(util.Stereotype.PRIM))
@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IPrim CreateElement(PrimSpec spec)
+        public IPrim CreatePrim(PrimSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.PRIM;
@@ -69,7 +69,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IPrim UpdateElement(IPrim element, PrimSpec spec)
+        public IPrim UpdatePrim(IPrim element, PrimSpec spec)
         {
             ((PRIM) element).Update(spec);
             return element;

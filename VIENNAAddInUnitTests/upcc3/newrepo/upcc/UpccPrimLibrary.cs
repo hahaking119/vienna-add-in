@@ -78,7 +78,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlPackage.GetTaggedValue(TaggedValues.reference).SplitValues; }
         }
 
-        public IEnumerable<IPrim> Elements
+        public IEnumerable<IPrim> Prims
         {
             get
             {
@@ -89,9 +89,9 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             }
         }
 
-        public IPrim ElementByName(string name)
+        public IPrim GetPrimByName(string name)
         {
-            foreach (IPrim prim in Elements)
+            foreach (IPrim prim in Prims)
             {
                 if (prim.Name == name)
                 {
@@ -101,12 +101,12 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             return null;
         }
 
-        public IPrim CreateElement(PrimSpec spec)
+        public IPrim CreatePrim(PrimSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IPrim UpdateElement(IPrim element, PrimSpec spec)
+        public IPrim UpdatePrim(IPrim element, PrimSpec spec)
         {
             throw new NotImplementedException();
         }
