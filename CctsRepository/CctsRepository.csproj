@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BdtLibrary\IBdtLibrary1.cs">
+    <Compile Include="BdtLibrary\IBdtLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IBdtLibrary.tt</DependentUpon>
@@ -83,7 +83,7 @@
     <Compile Include="BdtLibrary\IBdtCon.cs" />
     <None Include="BdtLibrary\IBdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IBdtLibrary1.cs</LastGenOutput>
+      <LastGenOutput>IBdtLibrary.cs</LastGenOutput>
     </None>
     <None Include="helpers.tt">
     </None>
