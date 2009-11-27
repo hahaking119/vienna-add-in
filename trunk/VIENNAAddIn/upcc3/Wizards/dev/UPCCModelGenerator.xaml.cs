@@ -1,4 +1,13 @@
-﻿using System;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
+using System;
 using System.Windows.Forms;
 using CctsRepository;
 using EA;
@@ -15,10 +24,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
     /// CC libraries. The wizard utilizes the class "ModelCreator" for creating
     /// the default structure. 
     /// </summary>
-    public partial class UPCCModelGenerator
+    public partial class UpccModelGenerator
     {
         #region Local Class Fields
 
+// ReSharper disable UnaccessedField.Local
+        private bool importStandardLibraries;
+// ReSharper restore UnaccessedField.Local
         private string modelName = "";
         private string primLibraryName = "";
         private string enumLibraryName = "";
@@ -27,16 +39,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private string bdtLibraryName = "";
         private string bieLibraryName = "";
         private string docLibraryName = "";
-        // ReSharper disable InconsistentNaming
-        private const string wizardTitle = "UPCC Model Wizard";
-        private const string statusMessage = "Creating a default model named \"{0}\" completed successfully.";
-        // ReSharper restore InconsistentNaming
-
-        private bool importStandardLibraries;
-
+        private FileBasedVersionHandler versionHandler; 
         private readonly Repository repository;
         private readonly ICctsRepository cctsRepository;
-        private FileBasedVersionHandler versionHandler;
+
+        private const string WizardTitle = "UPCC Model Generator";
+        private const string StatusMessage = "Creating a default model named \"{0}\" completed successfully.";
 
         #endregion
 
@@ -45,13 +53,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// the constructor is private since he is called by the method "ShowForm" 
         /// which is part of the same class. 
         /// </summary>
-        /// <param name="eaRepository">The current repository</param>
-        private UPCCModelGenerator(Repository eaRepository, ICctsRepository cctsRepository)
+        /// <param name="eaRepository">
+        ///  Specifies the repository that the UPCC Model Generator operates on. 
+        /// </param>
+        /// <param name="cctsRepository">
+        ///  Specifies the CC Repository that the UPCC Model Generator operates on. 
+        /// </param>
+        private UpccModelGenerator(Repository eaRepository, ICctsRepository cctsRepository)
         {
             InitializeComponent();
             repository = eaRepository;
             this.cctsRepository = cctsRepository;
-            WindowLoaded();
+
+            InitializeWindow();
         }
 
         ///<summary>
@@ -59,16 +73,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// creates creates as well as launches a new instance of the wizard. 
         ///</summary>
         ///<param name="context">
-        /// TODO: what exactly is the context parameter for?
+        /// Specifies the context of the VIENNA Add-In containing items such as
+        /// the current CC Repository. 
         ///</param>
         public static void ShowForm(AddInContext context)
         {
-            new UPCCModelGenerator(context.EARepository, context.CctsRepository).ShowDialog();
+            new UpccModelGenerator(context.EARepository, context.CctsRepository).ShowDialog();
         }
 
         #region Convenience Methods
 
-        private void WindowLoaded()
+        private void InitializeWindow()
         {
             CheckAllLibraries(true);
             checkboxDefaultValues.IsChecked = true;
@@ -165,20 +180,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             SetBIELibraryDefaultNames();
         }
 
-        private void checkboxDefaultValues_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateFormState();
-        }
-
-        private void checkboxImportStandardLibraries_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkboxImportStandardLibraries.IsChecked == true)
-            {
-                LoadStandardLibraryVersions();
-            }
-            UpdateFormState();
-        }
-
         private void UpdateFormState()
         {
             if (checkboxDefaultValues.IsChecked == true)
@@ -268,7 +269,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
                 }
                 catch (Exception)
                 {
-                    // TODO
+                    // TODO: proper exxception handling
+                    // a) "lokales" abfangen wenn ein fehler beim retrieven der library passiert
+                    // b) ansonsten ein weiterwerfen der exception an das VIENNA Addin
+                    // 
+                    // approach: eine statische klasse in den utils welche statische methdoen
+                    // zur verfuegung stellt zum anzeigen einer fehlermeldung und zwar:
+                    // MessageBox.Show("text", "caption", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -450,7 +457,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
                                         ccLibraryName, bdtLibraryName, bieLibraryName, docLibraryName);
             }
 
-            MessageBox.Show(string.Format(statusMessage, modelName), wizardTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(string.Format(StatusMessage, modelName), WizardTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             buttonGenerate.IsEnabled = true;
         }
@@ -501,11 +508,31 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             {
                 LoadStandardLibraryVersions();
             }
+
             UpdateFormState();
         }
 
         private void checkboxDefaultValues_Unchecked(object sender, System.Windows.RoutedEventArgs e)
         {
+            UpdateFormState();
+        }
+
+// ReSharper disable InconsistentNaming
+        private void checkboxDefaultValues_CheckedChanged(object sender, EventArgs e)
+// ReSharper restore InconsistentNaming
+        {
+            UpdateFormState();
+        }
+
+// ReSharper disable InconsistentNaming
+        private void checkboxImportStandardLibraries_CheckedChanged(object sender, EventArgs e)
+// ReSharper restore InconsistentNaming
+        {
+            if (checkboxImportStandardLibraries.IsChecked == true)
+            {
+                LoadStandardLibraryVersions();
+            }
+
             UpdateFormState();
         }
 

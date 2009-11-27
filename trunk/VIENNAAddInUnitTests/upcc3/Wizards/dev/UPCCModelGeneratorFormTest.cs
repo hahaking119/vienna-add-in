@@ -13,7 +13,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
         [Ignore]
         public void ShouldOpenAndPopulateXamlForm()
         {
-            /*var t = new Thread(() => new Application().Run(new UPCCModelGenerator(new EARepositoryABIEEditor())));
+            /*var t = new Thread(() => new Application().Run(new UpccModelGenerator(new EARepositoryABIEEditor())));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();*/

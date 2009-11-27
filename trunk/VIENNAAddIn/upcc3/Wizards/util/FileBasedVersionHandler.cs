@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
