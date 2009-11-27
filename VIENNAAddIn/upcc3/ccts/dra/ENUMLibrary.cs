@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IEnumLibrary Members
 
-        public IEnumerable<IEnum> Elements
+        public IEnumerable<IEnum> Enums
         {
             get
             {
@@ -36,9 +36,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IEnum ElementByName(string name)
+        public IEnum GetEnumByName(string name)
         {
-            foreach (IEnum element in Elements)
+            foreach (IEnum element in Enums)
             {
                 if (((ENUM) element).Name == name)
                 {
@@ -53,7 +53,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IEnum CreateElement(EnumSpec spec)
+        public IEnum CreateEnum(EnumSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.ENUM;
@@ -71,7 +71,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IEnum UpdateElement(IEnum element, EnumSpec spec)
+        public IEnum UpdateEnum(IEnum element, EnumSpec spec)
         {
             ((ENUM) element).Update(spec);
             return element;

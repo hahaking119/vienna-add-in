@@ -56,6 +56,7 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		{
 			var element = relation.ClassifierType.Stereotype;
 			var classifierParamName = FirstCharToLowerCase(relation.ClassifierType.Name);
+			if (classifierParamName == "enum") classifierParamName = "@enum"; // dirty hack to avoid naming conflict with 'enum'
 #>
 
 		/// <summary>
