@@ -18,24 +18,24 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
-        public IEnumerable<IAbie> Elements
+        public IEnumerable<IAbie> Abies
         {
             get { throw new NotImplementedException(); }
         }
 
         #endregion
 
-        public IAbie ElementByName(string name)
+        public IAbie GetAbieByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public IAbie CreateElement(AbieSpec spec)
+        public IAbie CreateAbie(AbieSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IAbie UpdateElement(IAbie element, AbieSpec spec)
+        public IAbie UpdateAbie(IAbie element, AbieSpec spec)
         {
             throw new NotImplementedException();
         }

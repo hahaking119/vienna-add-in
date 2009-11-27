@@ -654,7 +654,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 IAcc selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
 
                 AbieSpec abieSpec = createABISpec(selectedACC);
-                IAbie newABIE = selectedBIEL.CreateElement(abieSpec);
+                IAbie newABIE = selectedBIEL.CreateAbie(abieSpec);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
                                                         new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
 
@@ -668,7 +668,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 /* get the selected ACC which we use as a basis to generate the new ABIE */
                 IAcc selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
                 AbieSpec abieSpec = createABISpec(selectedACC);
-                IAbie newABIE = selectedBIEL.UpdateElement(abie, abieSpec);
+                IAbie newABIE = selectedBIEL.UpdateAbie(abie, abieSpec);
                 //todo: find a better way to update internal cache
                 cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,

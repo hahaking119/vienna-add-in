@@ -251,7 +251,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                         },
                            };
 
-            IAbie abiePerson = bieLibrary.CreateElement(abieSpec);
+            IAbie abiePerson = bieLibrary.CreateAbie(abieSpec);
             Assert.IsNotNull(abiePerson, "ABIE is null");
             Assert.AreEqual(bieLibrary.Id, abiePerson.Library.Id);
 
@@ -567,7 +567,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                    BasedOn = accAddress,
                                    Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
                                };
-                IAbie myAddress = bieLib.CreateElement(abieSpec);
+                IAbie myAddress = bieLib.CreateAbie(abieSpec);
                 Element myAddressElement = repository.GetElementByID(myAddress.Id);
                 var attribute = (Attribute) myAddressElement.Attributes.GetAt(0);
                 Assert.AreEqual(8, attribute.TaggedValues.Count);
@@ -897,7 +897,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                         },
                            };
 
-            IAbie abiePerson = bieLibrary.CreateElement(abieSpec);
+            IAbie abiePerson = bieLibrary.CreateAbie(abieSpec);
             Assert.IsNotNull(abiePerson, "ABIE is null");
             Assert.AreEqual(bieLibrary.Id, abiePerson.Library.Id);
 
@@ -947,7 +947,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             updatedPersonSpec.RemoveBbie("NickName");
             Assert.AreEqual(2, updatedPersonSpec.Bbies.Count());
 
-            abiePerson = bieLibrary.UpdateElement(abiePerson, updatedPersonSpec);
+            abiePerson = bieLibrary.UpdateAbie(abiePerson, updatedPersonSpec);
 
             Assert.IsNotNull(abiePerson, "ABIE is null");
             Assert.AreEqual(bieLibrary.Id, abiePerson.Library.Id);

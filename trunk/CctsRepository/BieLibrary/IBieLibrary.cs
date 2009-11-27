@@ -11,35 +11,101 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.BieLibrary
 {
+	/// <summary>
+	/// Interface for CCTS/UPCC BIELibrary.
+	/// </summary>
     public interface IBieLibrary
     {
-        IEnumerable<IAbie> Elements { get; }
+		/// <summary>
+		/// The BIELibrary's unique ID.
+		/// </summary>
         int Id { get; }
+		
+		/// <summary>
+		/// The BIELibrary's name.
+		/// </summary>
         string Name { get; }
-        IBLibrary BLibrary { get; }
-        string Status { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
-        string BaseURN { get; }
-        string NamespacePrefix { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        IEnumerable<string> Copyrights { get; }
-        IEnumerable<string> Owners { get; }
-        IEnumerable<string> References { get; }
+
+		/// <summary>
+		/// The bLibrary containing this BIELibrary.
+		/// </summary>
+		IBLibrary BLibrary { get; }
+
+		/// <summary>
+		/// The ABIEs contained in this BIELibrary.
+		/// </summary>
+		IEnumerable<IAbie> Abies { get; }
+
+		/// <summary>
+		/// Retrieves a ABIE by name.
+		/// <param name="name">A ABIE's name.</param>
+		/// <returns>The ABIE with the given <paramref name="name"/> or <c>null</c> if no such ABIE is found.</returns>
+		/// </summary>
+        IAbie GetAbieByName(string name);
+
+		/// <summary>
+		/// Creates a ABIE based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a ABIE.</param>
+		/// <returns>The newly created ABIE.</returns>
+		/// </summary>
+		IAbie CreateAbie(AbieSpec specification);
+
+		/// <summary>
+		/// Updates a ABIE to match the given <paramref name="specification"/>.
+		/// <param name="abie">A ABIE.</param>
+		/// <param name="specification">A new specification for the given ABIE.</param>
+		/// <returns>The updated ABIE. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        IAbie UpdateAbie(IAbie abie, AbieSpec specification);
+
+		#region Tagged Values
 
         ///<summary>
-        /// Retrieves an element by name.
+        /// Tagged value 'businessTerm'.
         ///</summary>
-        IAbie ElementByName(string name);
+		IEnumerable<string> BusinessTerms { get; }
 
         ///<summary>
-        /// Creates a new element in this library, based on the given specification.
+        /// Tagged value 'copyright'.
         ///</summary>
-        IAbie CreateElement(AbieSpec spec);
+		IEnumerable<string> Copyrights { get; }
 
         ///<summary>
-        /// Updates the given element of this library to match the given specification.
+        /// Tagged value 'owner'.
         ///</summary>
-        IAbie UpdateElement(IAbie element, AbieSpec spec);
+		IEnumerable<string> Owners { get; }
+
+        ///<summary>
+        /// Tagged value 'reference'.
+        ///</summary>
+		IEnumerable<string> References { get; }
+
+        ///<summary>
+        /// Tagged value 'status'.
+        ///</summary>
+		string Status { get; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		string UniqueIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'baseURN'.
+        ///</summary>
+		string BaseURN { get; }
+
+        ///<summary>
+        /// Tagged value 'namespacePrefix'.
+        ///</summary>
+		string NamespacePrefix { get; }
+
+		#endregion
     }
 }
+
