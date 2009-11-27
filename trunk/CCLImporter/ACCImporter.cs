@@ -31,13 +31,13 @@ namespace CCLImporter
                 {
                     specWithoutASCCs.AddBCC(bccSpec);
                 }
-                accs[spec.Name] = ccLibrary.CreateElement(specWithoutASCCs);
+                accs[spec.Name] = ccLibrary.CreateAcc(specWithoutASCCs);
             }
             foreach (AccSpec spec in accSpecs)
             {
                 Console.WriteLine("INFO: Importing ASCCs for ACC " + spec.Name + ".");
                 IAcc acc = accs[spec.Name];
-                ccLibrary.UpdateElement(acc, spec);
+                ccLibrary.UpdateAcc(acc, spec);
             }
         }
     }

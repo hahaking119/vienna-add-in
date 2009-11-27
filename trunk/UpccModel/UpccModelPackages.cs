@@ -55,8 +55,8 @@ namespace UpccModel
 
             CcLibrary = new MetaPackage
                         {
-                            Name = "CCLibrary",
-                            Stereotype = "CcLibrary",
+                            Name = "CcLibrary",
+                            Stereotype = "CCLibrary",
                             TaggedValues = elementLibraryTaggedValues,
                         };
 

@@ -132,7 +132,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         {
             foreach (ICcLibrary ccLibrary in context.Repository.GetCcLibraries())
             {
-                foreach (IAcc acc in ccLibrary.Elements)
+                foreach (IAcc acc in ccLibrary.Accs)
                 {
                     yield return acc;
                 }

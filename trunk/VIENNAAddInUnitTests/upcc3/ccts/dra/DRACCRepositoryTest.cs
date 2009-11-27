@@ -385,7 +385,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                 ResolveAssociatedACC = () => accPerson,
                             });
 
-            IAcc accTestPerson = ccLibrary.CreateElement(accSpec);
+            IAcc accTestPerson = ccLibrary.CreateAcc(accSpec);
             Assert.IsNotNull(accTestPerson, "ACC is null");
             Assert.AreEqual(ccLibrary.Id, accTestPerson.Library.Id);
 
@@ -788,7 +788,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(stringType.Id, dateFormat.BasicType.Id);
 
             ICcLibrary ccLib1 = cctsRepository.GetCcLibraries().First();
-            IAcc accAddress = ccLib1.Elements.First();
+            IAcc accAddress = ccLib1.Accs.First();
             var accAddressBCCs = new List<IBcc>(accAddress.BCCs);
 
             IBcc bccCountryName = accAddressBCCs[1];

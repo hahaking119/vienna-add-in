@@ -471,7 +471,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 ICcLibrary ccl = repository.GetCcLibraryById(Id);
 
-                foreach (IAcc acc in ccl.Elements)
+                foreach (IAcc acc in ccl.Accs)
                 {
                     if (ACCs.ContainsKey(acc.Name))
                     {

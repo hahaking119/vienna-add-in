@@ -213,7 +213,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (ccLibrary.CCsInLibrary == null)
                     {
-                        foreach (IAcc acc in ccLibrary.CCLibrary.Elements)
+                        foreach (IAcc acc in ccLibrary.CCLibrary.Accs)
                         {
                             tmpCCs.Add(acc);
                         }
@@ -573,7 +573,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (ccLibrary.CCsInLibrary == null)
                     {
-                        foreach (IAcc acc in ccLibrary.CCLibrary.Elements)
+                        foreach (IAcc acc in ccLibrary.CCLibrary.Accs)
                         {
                             tmpCCs.Add(acc);
                         }

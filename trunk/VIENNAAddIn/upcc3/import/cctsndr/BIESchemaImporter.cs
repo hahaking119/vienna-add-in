@@ -283,7 +283,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         private static IAcc FindBaseACCForABIE(string abieName)
         {
             string accName = abieName.Split('_').Last();
-            return ExistingAccs.ElementByName(accName);
+            return ExistingAccs.GetAccByName(accName);
         }
 
         ///<summary>

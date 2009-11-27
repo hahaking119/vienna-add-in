@@ -86,7 +86,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private IAcc GetACC(SchemaComponent component)
         {
-            return ccLibrary.ElementByName(component.RootEntry.Name);
+            return ccLibrary.GetAccByName(component.RootEntry.Name);
         }
 
         private static IBcc GetBCC(IAcc acc, string name)

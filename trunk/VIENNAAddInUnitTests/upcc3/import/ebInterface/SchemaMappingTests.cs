@@ -20,10 +20,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             var ccRepository = new CCRepository(new MappingTestRepository());
             ccl = ccRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
-            accAddress = ccl.ElementByName("Address");
+            accAddress = ccl.GetAccByName("Address");
             bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
 
-            accParty = ccl.ElementByName("Party");
+            accParty = ccl.GetAccByName("Party");
             bccPartyName = accParty.BCCs.FirstOrDefault(bcc => bcc.Name == "Name");
             asccPartyResidenceAddress = accParty.ASCCs.FirstOrDefault(ascc => ascc.Name == "Residence");
 
