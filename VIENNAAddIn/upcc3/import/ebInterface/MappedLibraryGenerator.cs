@@ -85,7 +85,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             if (rootElementMapping is ASBIEMapping)
             {
                 ComplexTypeMapping rootComplexTypeMapping = ((ASBIEMapping) rootElementMapping).TargetMapping;
-                docLibrary.CreateElement(new AbieSpec
+                docLibrary.CreateAbie(new AbieSpec
                                          {
                                              Name = qualifier + "_" + rootElementName,
                                              Asbies = new List<AsbieSpec>
@@ -102,7 +102,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             else if (rootElementMapping is BCCMapping)
             {
                 var bccMapping = (BCCMapping) rootElementMapping;
-                docLibrary.CreateElement(new AbieSpec
+                docLibrary.CreateAbie(new AbieSpec
                                          {
                                              BasedOn = bccMapping.ACC,
                                              Name = qualifier + "_" + rootElementName,
@@ -182,12 +182,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     specWithoutASBIEs.AddBbie(bbieSpec);
                 }
-                abies[spec.Name] = docLibrary.CreateElement(specWithoutASBIEs);
+                abies[spec.Name] = docLibrary.CreateAbie(specWithoutASBIEs);
             }
             foreach (AbieSpec spec in abieSpecs)
             {
                 var abie = abies[spec.Name];
-                docLibrary.UpdateElement(abie, spec);
+                docLibrary.UpdateAbie(abie, spec);
             }
         }
 
@@ -267,7 +267,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private static Func<IAbie> DeferredABIEResolver(IDocLibrary docLibrary, string abieName)
         {
-            return () => docLibrary.ElementByName(abieName);
+            return () => docLibrary.GetAbieByName(abieName);
         }
 
         private Func<IAbie> DeferredABIEResolver(ComplexTypeMapping complexTypeMapping)

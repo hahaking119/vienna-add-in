@@ -93,7 +93,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
         private static IAbie ShouldContainABIE(IDocLibrary docLibrary, string name, string accName, string[] bbieNames, ASBIEDescriptor[] asbieDescriptors)
         {
-            IAbie abie = docLibrary.ElementByName(name);
+            IAbie abie = docLibrary.GetAbieByName(name);
             VerifyABIE(name, abie, accName, bbieNames, asbieDescriptors);
             return abie;
         }
