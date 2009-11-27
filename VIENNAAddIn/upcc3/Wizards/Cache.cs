@@ -164,7 +164,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 ICdtLibrary cdtl = repository.GetCdtLibraryById(Id);
 
-                foreach (ICdt cdt in cdtl.Elements)
+                foreach (ICdt cdt in cdtl.Cdts)
                 {
                     if (CDTs.ContainsKey(cdt.Name))
                     {

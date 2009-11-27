@@ -28,7 +28,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region ICdtLibrary Members
 
-        public IEnumerable<ICdt> Elements
+        public IEnumerable<ICdt> Cdts
         {
             get
             {
@@ -42,9 +42,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public ICdt ElementByName(string name)
+        public ICdt GetCdtByName(string name)
         {
-            foreach (ICdt element in Elements)
+            foreach (ICdt element in Cdts)
             {
                 if (((CDT) element).Name == name)
                 {
@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public ICdt CreateElement(CdtSpec spec)
+        public ICdt CreateCdt(CdtSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.CDT;
@@ -77,7 +77,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public ICdt UpdateElement(ICdt element, CdtSpec spec)
+        public ICdt UpdateCdt(ICdt element, CdtSpec spec)
         {
             ((CDT) element).Update(spec);
             return element;

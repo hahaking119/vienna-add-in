@@ -148,7 +148,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         {
             foreach (ICdtLibrary cdtLibrary in context.Repository.GetCdtLibraries())
             {
-                foreach (ICdt cdt in cdtLibrary.Elements)
+                foreach (ICdt cdt in cdtLibrary.Cdts)
                 {
                     yield return cdt;
                 }
