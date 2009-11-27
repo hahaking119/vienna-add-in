@@ -53,7 +53,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
 
         public IEnumerable<IUmlDataType> DataTypes
         {
-            get { throw new NotImplementedException(); }
+            get { yield break; }
         }
 
         public IUmlPackage Parent
