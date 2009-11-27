@@ -1,0 +1,106 @@
+<#@ include file="../t4/helpers.tt" #>
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+using System.Collections.Generic;
+using CctsRepository.bLibrary;
+
+namespace CctsRepository.BdtLibrary
+{
+	/// <summary>
+	/// Interface for CCTS/UPCC <#= metaPackage.Stereotype #>.
+	/// </summary>
+    public interface I<#= metaPackage.Name #>
+    {
+		/// <summary>
+		/// The <#= metaPackage.Stereotype #>'s unique ID.
+		/// </summary>
+        int Id { get; }
+		
+		/// <summary>
+		/// The <#= metaPackage.Stereotype #>'s name.
+		/// </summary>
+        string Name { get; }
+<# 
+		foreach (var relation in UpccModel.Instance.PackageContainmentRelations.GetSuperPackageRelationsFor(metaPackage))
+		{
+#>
+
+		/// <summary>
+		/// The <#= relation.ContainerPackageType.Stereotype #> containing this <#= metaPackage.Stereotype #>.
+		/// </summary>
+		I<#= relation.ContainerPackageType.Name #> <#= relation.ContainerPackageRole #> { get; }
+<#
+		}
+#>
+<# 
+		foreach (var relation in UpccModel.Instance.PackageContainmentRelations.GetSubPackageRelationsFor(metaPackage))
+		{
+#>
+
+		/// <summary>
+		/// The <#= relation.ContainedPackageType.Stereotype #>s contained in this <#= metaPackage.Stereotype #>.
+		/// </summary>
+		I<#= relation.ContainedPackageType.Name #> <#= relation.ContainedPackageRole #> { get; }
+<#
+		}
+#>
+<# 
+		foreach (var relation in UpccModel.Instance.PackageClassifierContainmentRelations.GetClassifierRelationsFor(metaPackage))
+		{
+			var element = relation.ClassifierType.Stereotype;
+			var classifierParamName = FirstCharToLowerCase(relation.ClassifierType.Name);
+#>
+
+		/// <summary>
+		/// The <#= element #>s contained in this <#= metaPackage.Stereotype #>.
+		/// </summary>
+		IEnumerable<I<#= relation.ClassifierType.Name #>> <#= relation.ClassifierRole #> { get; }
+
+		/// <summary>
+		/// Retrieves a <#= element #> by name.
+		/// <param name="name">A <#= element #>'s name.</param>
+		/// <returns>The <#= element #> with the given <paramref name="name"/> or <c>null</c> if no such <#= element #> is found.</returns>
+		/// </summary>
+        I<#= relation.ClassifierType.Name #> Get<#= relation.ClassifierType.Name #>ByName(string name);
+
+		/// <summary>
+		/// Creates a <#= element #> based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a <#= element #>.</param>
+		/// <returns>The newly created <#= element #>.</returns>
+		/// </summary>
+		I<#= relation.ClassifierType.Name #> Create<#= relation.ClassifierType.Name #>(<#= relation.ClassifierType.Name #>Spec specification);
+
+		/// <summary>
+		/// Updates a <#= element #> to match the given <paramref name="specification"/>.
+		/// <param name="<#= classifierParamName #>">A <#= element #>.</param>
+		/// <param name="specification">A new specification for the given <#= element #>.</param>
+		/// <returns>The updated <#= element #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        I<#= relation.ClassifierType.Name #> Update<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= classifierParamName #>, <#= relation.ClassifierType.Name #>Spec specification);
+<#
+		}
+#>
+
+		#region Tagged Values
+<# 
+		foreach (var taggedValue in metaPackage.TaggedValues)
+		{
+#>
+
+        ///<summary>
+        /// Tagged value '<#= taggedValue.Name #>'.
+        ///</summary>
+		<#= TaggedValuePropertyType(taggedValue) #> <#= TaggedValuePropertyName(taggedValue) #> { get; }
+<#
+		}
+#>
+
+		#endregion
+    }
+}

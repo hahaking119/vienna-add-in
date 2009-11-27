@@ -2,71 +2,7 @@
 <#@ output extension=".cs" #>
 <#@ assembly name="UpccModel.dll" #>
 <#@ import namespace="UpccModel"#>
-<#@ include file="../helpers.tt" #>
 <#
-	var metaPackage = UpccModel.BdtLibrary;
+	var metaPackage = UpccModel.Instance.Packages.BdtLibrary;
 #>
-// *******************************************************************************
-// This file is part of the VIENNAAddIn project
-// 
-// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
-// 
-// For further information on the VIENNAAddIn project please visit 
-// http://vienna-add-in.googlecode.com
-// *******************************************************************************
-using System.Collections.Generic;
-using CctsRepository.bLibrary;
-
-namespace CctsRepository.BdtLibrary
-{
-    public interface I<#= metaPackage.Name #>
-    {
-        int Id { get; }
-        string Name { get; }
-
-<# 
-		foreach (var relation in UpccModel.GetSuperPackageRelationsFor(metaPackage))
-		{
-#>
-        I<#= relation.ContainerPackageType.Name #> <#= relation.ContainerPackageRole #> { get; }
-<#
-		}
-#>
-
-<# 
-		foreach (var relation in UpccModel.GetSubPackageRelationsFor(metaPackage))
-		{
-#>
-        I<#= relation.ContainedPackageType.Name #> <#= relation.ContainedPackageRole #> { get; }
-<#
-		}
-#>
-
-<# 
-		foreach (var relation in UpccModel.GetClassifierRelationsFor(metaPackage))
-		{
-#>
-        IEnumerable<I<#= relation.ClassifierType.Name #>> <#= relation.ClassifierRole #> { get; }
-
-        I<#= relation.ClassifierType.Name #> Get<#= relation.ClassifierType.Name #>ByName(string name);
-
-		I<#= relation.ClassifierType.Name #> Create<#= relation.ClassifierType.Name #>(<#= relation.ClassifierType.Name #>Spec spec);
-
-        ///<summary>
-        /// Updates the given BDT to match the given specification.
-        ///</summary>
-        I<#= relation.ClassifierType.Name #> Update<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= FirstCharToLowerCase(relation.ClassifierType.Name) #>, <#= relation.ClassifierType.Name #>Spec spec);
-<#
-		}
-#>
-
-<# 
-		foreach (var taggedValue in metaPackage.TaggedValues)
-		{
-#>
-		<#= TaggedValuePropertyType(taggedValue) #> <#= TaggedValuePropertyName(taggedValue) #> { get; }
-<#
-		}
-#>
-    }
-}
+<#@ include file="../t4/LibraryInterface.tt" #>

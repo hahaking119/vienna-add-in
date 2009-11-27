@@ -85,7 +85,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBdtLibrary.cs</LastGenOutput>
     </None>
-    <None Include="helpers.tt">
+    <None Include="t4\helpers.tt">
+    </None>
+    <None Include="t4\LibraryInterface.tt">
     </None>
     <Compile Include="BieLibrary\IBieLibrary.cs" />
     <Compile Include="bLibrary\IBLibrary.cs" />
