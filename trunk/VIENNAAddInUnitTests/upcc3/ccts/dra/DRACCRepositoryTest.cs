@@ -451,7 +451,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                               Name = "Datum",
                               IsEquivalentTo = cdtDate
                           };
-            var cdtDatum = cdtLibrary.CreateElement(cdtSpec);
+            var cdtDatum = cdtLibrary.CreateCdt(cdtSpec);
 
             Assert.IsNotNull(cdtDatum, "CDT is null");
             Assert.AreEqual(cdtLibrary.Id, cdtDatum.Library.Id);
@@ -744,7 +744,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             foreach (ICdtLibrary library in cctsRepository.GetCdtLibraries())
             {
-                IEnumerable<IGrouping<IBasicType, ICdt>> cdtByType = from cdt in library.Elements
+                IEnumerable<IGrouping<IBasicType, ICdt>> cdtByType = from cdt in library.Cdts
                                                                      group cdt by cdt.CON.BasicType;
                 foreach (var cdtGroup in cdtByType)
                 {
@@ -777,7 +777,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             ICdtLibrary cdtLib1 = cctsRepository.GetCdtLibraries().First();
             Assert.AreEqual("cdtlib1", cdtLib1.Name);
             Assert.AreEqual("urn:test:blib1:cdtlib1", cdtLib1.BaseURN);
-            var cdts = new List<ICdt>(cdtLib1.Elements);
+            var cdts = new List<ICdt>(cdtLib1.Cdts);
             Assert.AreEqual(4, cdts.Count);
             ICdt date = cdts[1];
             Assert.AreEqual(stringType.Id, date.CON.BasicType.Id);

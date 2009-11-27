@@ -128,7 +128,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
 
         private static void AssertBDTIsBasedOn(IImporterContext context, IBdt bdt, string cdtName)
         {
-            var cdt = context.CDTLibrary.ElementByName(cdtName);
+            var cdt = context.CDTLibrary.GetCdtByName(cdtName);
             Assert.That(bdt.BasedOn, Is.Not.Null, "BasedOn is null");
             Assert.That(bdt.BasedOn, Is.Not.Null, "BasedOn.CDT is null");
             Assert.That(bdt.BasedOn.Id, Is.EqualTo(cdt.Id), string.Format("Based on wrong CDT:\nExpected: <{0}>\nBut was:  <{1}>", cdt.Name, bdt.BasedOn.Name));

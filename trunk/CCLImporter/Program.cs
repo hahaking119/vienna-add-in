@@ -37,7 +37,7 @@ namespace CCLImporter
             var cdtLibrary = cctsRepository.GetCdtLibraryByPath((Path)"bLibrary"/"CDTLibrary");
 
             var cdts = new Dictionary<string, ICdt>();
-            foreach (ICdt cdt in cdtLibrary.Elements)
+            foreach (ICdt cdt in cdtLibrary.Cdts)
             {
                 cdts[cdt.Name] = cdt;
             }

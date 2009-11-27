@@ -18,24 +18,24 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
-        public IEnumerable<ICdt> Elements
+        public IEnumerable<ICdt> Cdts
         {
             get { throw new NotImplementedException(); }
         }
 
         #endregion
 
-        public ICdt ElementByName(string name)
+        public ICdt GetCdtByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public ICdt CreateElement(CdtSpec spec)
+        public ICdt CreateCdt(CdtSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public ICdt UpdateElement(ICdt element, CdtSpec spec)
+        public ICdt UpdateCdt(ICdt element, CdtSpec spec)
         {
             throw new NotImplementedException();
         }

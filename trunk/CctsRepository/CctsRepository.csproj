@@ -68,6 +68,11 @@
       <DependentUpon>ICcLibrary.tt</DependentUpon>
     </Compile>
     <Compile Include="CdtLibrary\CdtLibrarySpec.cs" />
+    <Compile Include="CdtLibrary\ICdtLibrary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ICdtLibrary.tt</DependentUpon>
+    </Compile>
     <Compile Include="EnumLibrary\EnumLibrarySpec.cs" />
     <Compile Include="PrimLibrary\PrimLibrarySpec.cs" />
     <Compile Include="CcLibrary\AccSpec.cs" />
@@ -103,6 +108,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICcLibrary.cs</LastGenOutput>
     </None>
+    <None Include="CdtLibrary\ICdtLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ICdtLibrary.cs</LastGenOutput>
+    </None>
     <None Include="t4\helpers.tt">
     </None>
     <None Include="t4\LibraryInterface.tt">
@@ -110,7 +119,6 @@
     <Compile Include="bLibrary\IBLibrary.cs" />
     <Compile Include="ICctsRepository.cs" />
     <Compile Include="CdtLibrary\ICdt.cs" />
-    <Compile Include="CdtLibrary\ICdtLibrary.cs" />
     <Compile Include="CdtLibrary\ICdtSup.cs" />
     <Compile Include="EnumLibrary\ICodelistEntry.cs" />
     <Compile Include="CdtLibrary\ICdtCon.cs" />

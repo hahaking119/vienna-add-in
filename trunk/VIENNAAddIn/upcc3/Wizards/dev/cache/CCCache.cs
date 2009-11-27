@@ -152,7 +152,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (cdtLibrary.CDTsInLibrary == null)
                     {
-                        foreach (ICdt element in cdtLibrary.CDTLibrary.Elements)
+                        foreach (ICdt element in cdtLibrary.CDTLibrary.Cdts)
                         {
                             tmpCDTs.Add(element);
                         }
@@ -512,7 +512,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 {
                     if (cdtLibrary.CDTsInLibrary == null)
                     {
-                        foreach (ICdt element in cdtLibrary.CDTLibrary.Elements)
+                        foreach (ICdt element in cdtLibrary.CDTLibrary.Cdts)
                         {
                             tmpCDTs.Add(element);
                         }

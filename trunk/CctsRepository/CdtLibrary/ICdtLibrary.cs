@@ -11,35 +11,101 @@ using CctsRepository.bLibrary;
 
 namespace CctsRepository.CdtLibrary
 {
+	/// <summary>
+	/// Interface for CCTS/UPCC CDTLibrary.
+	/// </summary>
     public interface ICdtLibrary
     {
-        IEnumerable<ICdt> Elements { get; }
+		/// <summary>
+		/// The CDTLibrary's unique ID.
+		/// </summary>
         int Id { get; }
+		
+		/// <summary>
+		/// The CDTLibrary's name.
+		/// </summary>
         string Name { get; }
-        IBLibrary BLibrary { get; }
-        string Status { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
-        string BaseURN { get; }
-        string NamespacePrefix { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        IEnumerable<string> Copyrights { get; }
-        IEnumerable<string> Owners { get; }
-        IEnumerable<string> References { get; }
+
+		/// <summary>
+		/// The bLibrary containing this CDTLibrary.
+		/// </summary>
+		IBLibrary BLibrary { get; }
+
+		/// <summary>
+		/// The CDTs contained in this CDTLibrary.
+		/// </summary>
+		IEnumerable<ICdt> Cdts { get; }
+
+		/// <summary>
+		/// Retrieves a CDT by name.
+		/// <param name="name">A CDT's name.</param>
+		/// <returns>The CDT with the given <paramref name="name"/> or <c>null</c> if no such CDT is found.</returns>
+		/// </summary>
+        ICdt GetCdtByName(string name);
+
+		/// <summary>
+		/// Creates a CDT based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a CDT.</param>
+		/// <returns>The newly created CDT.</returns>
+		/// </summary>
+		ICdt CreateCdt(CdtSpec specification);
+
+		/// <summary>
+		/// Updates a CDT to match the given <paramref name="specification"/>.
+		/// <param name="cdt">A CDT.</param>
+		/// <param name="specification">A new specification for the given CDT.</param>
+		/// <returns>The updated CDT. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        ICdt UpdateCdt(ICdt cdt, CdtSpec specification);
+
+		#region Tagged Values
 
         ///<summary>
-        /// Retrieves an element by name.
+        /// Tagged value 'businessTerm'.
         ///</summary>
-        ICdt ElementByName(string name);
+		IEnumerable<string> BusinessTerms { get; }
 
         ///<summary>
-        /// Creates a new element in this library, based on the given specification.
+        /// Tagged value 'copyright'.
         ///</summary>
-        ICdt CreateElement(CdtSpec spec);
+		IEnumerable<string> Copyrights { get; }
 
         ///<summary>
-        /// Updates the given element of this library to match the given specification.
+        /// Tagged value 'owner'.
         ///</summary>
-        ICdt UpdateElement(ICdt element, CdtSpec spec);
+		IEnumerable<string> Owners { get; }
+
+        ///<summary>
+        /// Tagged value 'reference'.
+        ///</summary>
+		IEnumerable<string> References { get; }
+
+        ///<summary>
+        /// Tagged value 'status'.
+        ///</summary>
+		string Status { get; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		string UniqueIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'baseURN'.
+        ///</summary>
+		string BaseURN { get; }
+
+        ///<summary>
+        /// Tagged value 'namespacePrefix'.
+        ///</summary>
+		string NamespacePrefix { get; }
+
+		#endregion
     }
 }
+
