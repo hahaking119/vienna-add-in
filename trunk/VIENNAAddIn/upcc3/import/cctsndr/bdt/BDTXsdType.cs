@@ -54,7 +54,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
 
         protected IPrim FindPRIM(string primName)
         {
-            IPrim prim = Context.PRIMLibrary.ElementByName(primName);
+            IPrim prim = Context.PRIMLibrary.GetPrimByName(primName);
             if (prim == null)
             {
                 throw new Exception(String.Format("PRIM not found: {0}", primName));

@@ -712,7 +712,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                IsEquivalentTo = primString,
                            };
 
-            IPrim primZeichenkette = primLibrary.CreateElement(primSpec);
+            IPrim primZeichenkette = primLibrary.CreatePrim(primSpec);
             Assert.IsNotNull(primZeichenkette, "PRIM is null");
             Assert.AreEqual(primLibrary.Id, primZeichenkette.Library.Id);
 
@@ -767,7 +767,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IPrimLibrary primLib1 = cctsRepository.GetPrimLibraries().First();
             Assert.AreEqual("primlib1", primLib1.Name);
             Assert.AreEqual("urn:test:blib1:primlib1", primLib1.BaseURN);
-            var prims = new List<IPrim>(primLib1.Elements);
+            var prims = new List<IPrim>(primLib1.Prims);
             Assert.AreEqual(2, prims.Count);
             IPrim stringType = prims[1];
             Assert.AreEqual("String", stringType.Name);

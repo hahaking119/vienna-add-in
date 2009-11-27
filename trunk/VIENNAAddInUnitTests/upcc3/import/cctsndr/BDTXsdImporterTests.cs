@@ -63,7 +63,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
 
         private static IBdt AssertThatBDTLibraryContainsBDT(IImporterContext context, string bdtName, string conBasicTypeName)
         {
-            var expectedCONBasicType = context.PRIMLibrary.ElementByName(conBasicTypeName);
+            var expectedCONBasicType = context.PRIMLibrary.GetPrimByName(conBasicTypeName);
             IBdt bdtText = context.BDTLibrary.GetBdtByName(bdtName);
             Assert.That(bdtText, Is.Not.Null, string.Format("Expected BDT named '{0}' not generated.", bdtName));
             Assert.That(bdtText.Con, Is.Not.Null, string.Format("CON of BDT {0} is null", bdtName));
@@ -341,7 +341,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
 
         private static void AssertHasSUP(IImporterContext context, IBdt bdtText, int index, string basicTypeName, string name)
         {
-            var expectedBasicType = context.PRIMLibrary.ElementByName(basicTypeName);
+            var expectedBasicType = context.PRIMLibrary.GetPrimByName(basicTypeName);
             var sup = bdtText.Sups.ElementAt(index);
             Assert.That(sup.Name, Is.EqualTo(name));
             Assert.That(sup.BasicType.Id, Is.EqualTo(expectedBasicType.Id));

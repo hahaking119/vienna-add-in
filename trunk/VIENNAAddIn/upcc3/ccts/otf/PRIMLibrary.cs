@@ -17,24 +17,24 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
-        public IEnumerable<IPrim> Elements
+        public IEnumerable<IPrim> Prims
         {
             get { throw new NotImplementedException(); }
         }
 
         #endregion
 
-        public IPrim ElementByName(string name)
+        public IPrim GetPrimByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public IPrim CreateElement(PrimSpec spec)
+        public IPrim CreatePrim(PrimSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IPrim UpdateElement(IPrim element, PrimSpec spec)
+        public IPrim UpdatePrim(IPrim element, PrimSpec spec)
         {
             throw new NotImplementedException();
         }

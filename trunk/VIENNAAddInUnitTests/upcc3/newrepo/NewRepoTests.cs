@@ -27,19 +27,19 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo
             Assert.That(primLibrary.Name, Is.EqualTo("PRIMLibrary"));
             Assert.That(primLibrary.NamespacePrefix, Is.EqualTo("prim"));
             Assert.That(primLibrary.Copyrights, Is.EquivalentTo(new[] {"copyright1", "copyright2"}));
-            Assert.That(primLibrary.Elements.Count(), Is.EqualTo(2));
+            Assert.That(primLibrary.Prims.Count(), Is.EqualTo(2));
 
             Assert.That(primLibrary.BLibrary, Is.Not.Null);
             Assert.That(primLibrary.BLibrary.Name, Is.EqualTo("bLibrary"));
 
-            IPrim primString = primLibrary.ElementByName("String");
+            IPrim primString = primLibrary.GetPrimByName("String");
             Assert.That(primString, Is.Not.Null);
             Assert.That(primString.Name, Is.EqualTo("String"));
             Assert.That(primString.DictionaryEntryName, Is.EqualTo("String"));
             Assert.That(primString.BusinessTerms, Is.EquivalentTo(new[] {"a sequence of characters", "a sequence of symbols"}));
             Assert.That(primString.Library.Id, Is.EqualTo(primLibrary.Id));
 
-            IPrim primZeichenfolge = primLibrary.ElementByName("Zeichenfolge");
+            IPrim primZeichenfolge = primLibrary.GetPrimByName("Zeichenfolge");
             Assert.That(primZeichenfolge.IsEquivalentTo.Id, Is.EqualTo(primString.Id));
         }
     }
