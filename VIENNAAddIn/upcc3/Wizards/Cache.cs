@@ -760,7 +760,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 BIELs.Add(biel.Name, new cBIELibrary(biel.Name, biel.Id));
 
-                foreach (IAbie abie in biel.Elements)
+                foreach (IAbie abie in biel.Abies)
                 {
                     if (BIELs[biel.Name].ABIEs.ContainsKey(abie.Name))
                     {

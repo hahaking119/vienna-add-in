@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                     AbieSpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType);
 
-                    BieLibrary.CreateElement(singleAbieSpec);
+                    BieLibrary.CreateAbie(singleAbieSpec);
                 }
 
                 if (item is Element)
@@ -100,7 +100,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                     string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
 
-                    IAbie abieToBeUpdated = BieLibrary.ElementByName(abieName);
+                    IAbie abieToBeUpdated = BieLibrary.GetAbieByName(abieName);
                     AbieSpec updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
 
                     IList<AsbieSpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
@@ -110,7 +110,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                         updatedAbieSpec.AddAsbie(newAsbieSpec);                        
                     }
 
-                    BieLibrary.UpdateElement(abieToBeUpdated, updatedAbieSpec);
+                    BieLibrary.UpdateAbie(abieToBeUpdated, updatedAbieSpec);
                 }
             }
 
@@ -307,7 +307,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     string associatedABIEName = allElementDefinitions[element.Ref.Name];
                     associatedABIEName = associatedABIEName.Substring(0, associatedABIEName.Length - 4);
 
-                    IAbie associatedAbie = BieLibrary.ElementByName(associatedABIEName);
+                    IAbie associatedAbie = BieLibrary.GetAbieByName(associatedABIEName);
 
                     string asbieName = NDR.GetAsbieNameFromXsdElement(element, associatedABIEName);
 
@@ -328,7 +328,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                         string associatedAbieName = element.Type.Name;
                         associatedAbieName = associatedAbieName.Substring(0, associatedAbieName.Length - 4);
 
-                        IAbie associatedAbie = BieLibrary.ElementByName(associatedAbieName);
+                        IAbie associatedAbie = BieLibrary.GetAbieByName(associatedAbieName);
 
                         string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
 
@@ -351,7 +351,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
         public static IAbie getElementByName(string abieName)
         {
-            return BieLibrary.ElementByName(abieName);
+            return BieLibrary.GetAbieByName(abieName);
         }
         ///<summary>
         ///</summary>

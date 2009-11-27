@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using CctsRepository.bLibrary;
 
-namespace CctsRepository.BdtLibrary
+namespace CctsRepository.<#= metaPackage.Name #>
 {
 	/// <summary>
 	/// Interface for CCTS/UPCC <#= metaPackage.Stereotype #>.

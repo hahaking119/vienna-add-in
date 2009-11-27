@@ -22,7 +22,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IBieLibrary Members
 
-        public IEnumerable<IAbie> Elements
+        public IEnumerable<IAbie> Abies
         {
             get
             {
@@ -36,9 +36,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IAbie ElementByName(string name)
+        public IAbie GetAbieByName(string name)
         {
-            foreach (IAbie element in Elements)
+            foreach (IAbie element in Abies)
             {
                 if (((ABIE) element).Name == name)
                 {
@@ -53,7 +53,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAbie CreateElement(AbieSpec spec)
+        public IAbie CreateAbie(AbieSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.ABIE;
@@ -71,7 +71,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///<param name="element"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAbie UpdateElement(IAbie element, AbieSpec spec)
+        public IAbie UpdateAbie(IAbie element, AbieSpec spec)
         {
             ((ABIE) element).Update(spec);
             return element;

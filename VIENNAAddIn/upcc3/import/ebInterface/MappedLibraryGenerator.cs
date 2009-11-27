@@ -149,12 +149,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     specWithoutASBIEs.AddBbie(bbieSpec);
                 }
-                abies[spec.Name] = bieLibrary.CreateElement(specWithoutASBIEs);
+                abies[spec.Name] = bieLibrary.CreateAbie(specWithoutASBIEs);
             }
             foreach (AbieSpec spec in abieSpecs)
             {
                 var abie = abies[spec.Name];
-                bieLibrary.UpdateElement(abie, spec);
+                bieLibrary.UpdateAbie(abie, spec);
             }
         }
 
@@ -262,7 +262,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private static Func<IAbie> DeferredABIEResolver(IBieLibrary bieLibrary, string abieName)
         {
-            return () => bieLibrary.ElementByName(abieName);
+            return () => bieLibrary.GetAbieByName(abieName);
         }
 
         private static Func<IAbie> DeferredABIEResolver(IDocLibrary docLibrary, string abieName)

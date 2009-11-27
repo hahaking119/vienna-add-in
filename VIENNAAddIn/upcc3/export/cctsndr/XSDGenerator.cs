@@ -117,7 +117,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         {
             foreach (IBieLibrary bieLibrary in context.Repository.GetBieLibraries())
             {
-                foreach (IAbie abie in bieLibrary.Elements)
+                foreach (IAbie abie in bieLibrary.Abies)
                 {
                     yield return abie;
                 }
