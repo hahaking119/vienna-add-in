@@ -80,6 +80,11 @@
     </Compile>
     <Compile Include="DocLibrary\IDocLibraryManualExtensions.cs" />
     <Compile Include="EnumLibrary\EnumLibrarySpec.cs" />
+    <Compile Include="EnumLibrary\IEnumLibrary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IEnumLibrary.tt</DependentUpon>
+    </Compile>
     <Compile Include="PrimLibrary\PrimLibrarySpec.cs" />
     <Compile Include="CcLibrary\AccSpec.cs" />
     <Compile Include="BieLibrary\AsbieSpec.cs" />
@@ -122,6 +127,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IDocLibrary.cs</LastGenOutput>
     </None>
+    <None Include="EnumLibrary\IEnumLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IEnumLibrary.cs</LastGenOutput>
+    </None>
     <None Include="t4\helpers.tt">
     </None>
     <None Include="t4\LibraryInterface.tt">
@@ -133,7 +142,6 @@
     <Compile Include="EnumLibrary\ICodelistEntry.cs" />
     <Compile Include="CdtLibrary\ICdtCon.cs" />
     <Compile Include="EnumLibrary\IEnum.cs" />
-    <Compile Include="EnumLibrary\IEnumLibrary.cs" />
     <Compile Include="PrimLibrary\IPrim.cs" />
     <Compile Include="PrimLibrary\IPrimLibrary.cs" />
     <Compile Include="BdtLibrary\IBdtSup.cs" />

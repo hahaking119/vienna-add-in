@@ -8,38 +8,105 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using CctsRepository.bLibrary;
+using CctsRepository.BieLibrary;
 
 namespace CctsRepository.EnumLibrary
 {
-    public interface IEnumLibrary
+	/// <summary>
+	/// Interface for CCTS/UPCC ENUMLibrary.
+	/// </summary>
+    public partial interface IEnumLibrary
     {
-        IEnumerable<IEnum> Elements { get; }
+		/// <summary>
+		/// The ENUMLibrary's unique ID.
+		/// </summary>
         int Id { get; }
+		
+		/// <summary>
+		/// The ENUMLibrary's name.
+		/// </summary>
         string Name { get; }
-        IBLibrary BLibrary { get; }
-        string Status { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
-        string BaseURN { get; }
-        string NamespacePrefix { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        IEnumerable<string> Copyrights { get; }
-        IEnumerable<string> Owners { get; }
-        IEnumerable<string> References { get; }
+
+		/// <summary>
+		/// The bLibrary containing this ENUMLibrary.
+		/// </summary>
+		IBLibrary BLibrary { get; }
+
+		/// <summary>
+		/// The ENUMs contained in this ENUMLibrary.
+		/// </summary>
+		IEnumerable<IEnum> Enums { get; }
+
+		/// <summary>
+		/// Retrieves a ENUM by name.
+		/// <param name="name">A ENUM's name.</param>
+		/// <returns>The ENUM with the given <paramref name="name"/> or <c>null</c> if no such ENUM is found.</returns>
+		/// </summary>
+        IEnum GetEnumByName(string name);
+
+		/// <summary>
+		/// Creates a ENUM based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a ENUM.</param>
+		/// <returns>The newly created ENUM.</returns>
+		/// </summary>
+		IEnum CreateEnum(EnumSpec specification);
+
+		/// <summary>
+		/// Updates a ENUM to match the given <paramref name="specification"/>.
+		/// <param name="@enum">A ENUM.</param>
+		/// <param name="specification">A new specification for the given ENUM.</param>
+		/// <returns>The updated ENUM. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        IEnum UpdateEnum(IEnum @enum, EnumSpec specification);
+
+		#region Tagged Values
 
         ///<summary>
-        /// Retrieves an element by name.
+        /// Tagged value 'businessTerm'.
         ///</summary>
-        IEnum ElementByName(string name);
+		IEnumerable<string> BusinessTerms { get; }
 
         ///<summary>
-        /// Creates a new element in this library, based on the given specification.
+        /// Tagged value 'copyright'.
         ///</summary>
-        IEnum CreateElement(EnumSpec spec);
+		IEnumerable<string> Copyrights { get; }
 
         ///<summary>
-        /// Updates the given element of this library to match the given specification.
+        /// Tagged value 'owner'.
         ///</summary>
-        IEnum UpdateElement(IEnum element, EnumSpec spec);
+		IEnumerable<string> Owners { get; }
+
+        ///<summary>
+        /// Tagged value 'reference'.
+        ///</summary>
+		IEnumerable<string> References { get; }
+
+        ///<summary>
+        /// Tagged value 'status'.
+        ///</summary>
+		string Status { get; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		string UniqueIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'baseURN'.
+        ///</summary>
+		string BaseURN { get; }
+
+        ///<summary>
+        /// Tagged value 'namespacePrefix'.
+        ///</summary>
+		string NamespacePrefix { get; }
+
+		#endregion
     }
 }
+

@@ -18,24 +18,24 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { return Id.Value; }
         }
 
-        public IEnumerable<IEnum> Elements
+        public IEnumerable<IEnum> Enums
         {
             get { throw new NotImplementedException(); }
         }
 
         #endregion
 
-        public IEnum ElementByName(string name)
+        public IEnum GetEnumByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public IEnum CreateElement(EnumSpec spec)
+        public IEnum CreateEnum(EnumSpec spec)
         {
             throw new NotImplementedException();
         }
 
-        public IEnum UpdateElement(IEnum element, EnumSpec spec)
+        public IEnum UpdateEnum(IEnum element, EnumSpec spec)
         {
             throw new NotImplementedException();
         }

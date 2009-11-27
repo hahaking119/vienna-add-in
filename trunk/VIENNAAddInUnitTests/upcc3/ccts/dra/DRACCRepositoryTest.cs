@@ -614,7 +614,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                           Status = "status",
                                       });
 
-            IEnum enumMyAbcCodes = enumLibrary.CreateElement(enumSpec);
+            IEnum enumMyAbcCodes = enumLibrary.CreateEnum(enumSpec);
             Assert.IsNotNull(enumMyAbcCodes, "ENUM is null");
             Assert.AreEqual(enumLibrary.Id, enumMyAbcCodes.Library.Id);
 
