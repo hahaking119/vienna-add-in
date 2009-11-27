@@ -1,0 +1,46 @@
+<#+ 
+	string FirstCharToUpperCase(string str)
+	{
+		if (string.IsNullOrEmpty(str))
+		{
+			return str;
+		}
+		return str.Substring(0, 1).ToUpper() + str.Substring(1, str.Length - 1);
+	}
+	
+	string FirstCharToLowerCase(string str)
+	{
+		if (string.IsNullOrEmpty(str))
+		{
+			return str;
+		}
+		return str.Substring(0, 1).ToLower() + str.Substring(1, str.Length - 1);
+	}
+	
+	string TaggedValuePropertyName(MetaTaggedValue taggedValue)
+	{
+		string propertyName;
+		switch (taggedValue.Cardinality)
+		{
+			case Cardinality.Many:
+				if (taggedValue.Name.EndsWith("s") || taggedValue.Name.EndsWith("x"))
+				{
+					propertyName = taggedValue.Name + "es";
+				}
+				else
+				{
+					propertyName = taggedValue.Name + "s";
+				}
+				break;
+			default:
+				propertyName = taggedValue.Name;
+				break;
+		}
+		return FirstCharToUpperCase(propertyName);
+	}
+	
+	string TaggedValuePropertyType(MetaTaggedValue taggedValue)
+	{
+		return (taggedValue.Cardinality == Cardinality.Many ? "IEnumerable<string>" : "string");
+	}
+#>
