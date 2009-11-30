@@ -8,13 +8,13 @@ using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
 {
     [TestFixture]
-    public class ABIEModelerFormTest
+    public class AbieModelerFormTest
     {
         [Test]
         [Ignore]
         public void ShouldOpenAndPopulateXamlForm()
         {
-            var t = new Thread(() => new Application().Run(new ABIEEditor(new CCRepository(new EARepositoryABIEEditor()))));
+            var t = new Thread(() => new Application().Run(new AbieEditor(new CCRepository(new EARepositoryABIEEditor()))));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();

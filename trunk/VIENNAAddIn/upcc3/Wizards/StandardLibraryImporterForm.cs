@@ -15,8 +15,8 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             new StandardLibraryImporterForm(context.EARepository).ShowDialog();
         }
-        
-        public StandardLibraryImporterForm(Repository repository)
+
+        private StandardLibraryImporterForm(Repository repository)
         {
             eaRepository = repository;
             InitializeComponent();

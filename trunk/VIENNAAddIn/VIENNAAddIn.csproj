@@ -189,33 +189,33 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
-    <Compile Include="upcc3\Wizards\dev\ABIEEditor.xaml.cs">
-      <DependentUpon>ABIEEditor.xaml</DependentUpon>
+    <Compile Include="upcc3\Wizards\dev\AbieEditor.xaml.cs">
+      <DependentUpon>AbieEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\Wizards\dev\cache\CacheItemBDTLibrary.cs" />
-    <Compile Include="upcc3\Wizards\dev\cache\CacheItemBIELibrary.cs" />
-    <Compile Include="upcc3\Wizards\dev\cache\CacheItemCCLibrary.cs" />
-    <Compile Include="upcc3\Wizards\dev\cache\CacheItemCDTLibrary.cs" />
-    <Compile Include="upcc3\Wizards\dev\cache\CCCache.cs" />
+    <Compile Include="upcc3\Wizards\dev\cache\CacheItemBdtLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\cache\CacheItemBieLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\cache\CacheItemCcLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\cache\CacheItemCdtLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\cache\CcCache.cs" />
     <Compile Include="upcc3\Wizards\dev\StandardLibraryImporter.xaml.cs">
       <DependentUpon>StandardLibraryImporter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateABIE.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBCC.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialASBIE.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBBIE.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBDT.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBDTModel.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateAbie.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBcc.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialAsbie.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBbie.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBdt.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModel.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\TemporaryModel.cs" />
-    <Compile Include="upcc3\Wizards\dev\UpccModelGenerator.xaml.cs">
-      <DependentUpon>UpccModelGenerator.xaml</DependentUpon>
+    <Compile Include="upcc3\Wizards\dev\UpccModelCreator.xaml.cs">
+      <DependentUpon>UpccModelCreator.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\util\CheckedListModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\util\ListModel.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryABIEModel.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModel.cs" />
     <Compile Include="upcc3\Wizards\XsdImporterForm.xaml.cs">
       <DependentUpon>XsdImporterForm.xaml</DependentUpon>
     </Compile>
@@ -518,7 +518,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="upcc3\Wizards\dev\ABIEEditor.xaml">
+    <Page Include="upcc3\Wizards\dev\AbieEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -526,7 +526,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="upcc3\Wizards\dev\UpccModelGenerator.xaml">
+    <Page Include="upcc3\Wizards\dev\UpccModelCreator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

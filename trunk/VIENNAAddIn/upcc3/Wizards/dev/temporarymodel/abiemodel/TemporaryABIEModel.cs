@@ -17,10 +17,10 @@ using VIENNAAddIn.upcc3.Wizards.dev.util;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
-    public class TemporaryABIEModel : TemporaryModel
+    public class TemporaryAbieModel : TemporaryModel
     {
-        private Dictionary<string, CandidateABIE> CandidateABIEs;
-        private Dictionary<string, CandidateBCC> CandidateBCCs;
+        private Dictionary<string, CandidateAbie> CandidateABIEs;
+        private Dictionary<string, CandidateBcc> CandidateBCCs;
         private CheckedListModel checkedListModelABIE;
         private CheckedListModel checkedListModelASCC;
         private CheckedListModel checkedListModelBBIE;
@@ -33,7 +33,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private string Name;
         private string Prefix;
 
-        public TemporaryABIEModel(IAcc candidateACC, string name, string prefix)
+        public TemporaryAbieModel(IAcc candidateACC, string name, string prefix)
         {
             Name = name;
             Prefix = prefix;
@@ -41,11 +41,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             PrepareTemporaryABIEModel(candidateACC);
         }
 
-        public TemporaryABIEModel(CCRepository x)
+        public TemporaryAbieModel(CCRepository x)
         {
         }
 
-        public TemporaryABIEModel(IAbie abie)
+        public TemporaryAbieModel(IAbie abie)
         {
             //existingABIE = abie;
             //string[] tempArray = abie.Name.Split('_');
@@ -88,13 +88,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         private void PrepareTemporaryABIEModel(IAcc acc)
         {
-            CandidateBCCs = new Dictionary<string, CandidateBCC>();
+            CandidateBCCs = new Dictionary<string, CandidateBcc>();
             foreach (IBcc bcc in acc.BCCs)
             {
-                var candidateBCC = new CandidateBCC(bcc);
-                var potentialBBIE = new PotentialBBIE(candidateBCC.OriginalBCC.Name);
+                var candidateBCC = new CandidateBcc(bcc);
+                var potentialBBIE = new PotentialBbie(candidateBCC.OriginalBCC.Name);
                 potentialBBIE.PotentialBDTs.Add(candidateBCC.OriginalBCC.Cdt.Name,
-                                                new PotentialBDT(candidateBCC.OriginalBCC.Name));
+                                                new PotentialBdt(candidateBCC.OriginalBCC.Name));
                 candidateBCC.PotentialBBIEs.Add(candidateBCC.OriginalBCC.Name, potentialBBIE);
                 CandidateBCCs.Add(bcc.Name, candidateBCC);
             }
@@ -135,7 +135,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public void AddBBIE(string bcc, string potentialBBIEName)
         {
-            CandidateBCCs[bcc].PotentialBBIEs.Add(potentialBBIEName, new PotentialBBIE(potentialBBIEName));
+            CandidateBCCs[bcc].PotentialBBIEs.Add(potentialBBIEName, new PotentialBbie(potentialBBIEName));
         }
 
         public void AddBDT(string potentialBDTName)
@@ -144,12 +144,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             {
                 foreach (var keyValuePair in candidateBCC.Value.PotentialBBIEs)
                 {
-                    keyValuePair.Value.PotentialBDTs.Add(potentialBDTName, new PotentialBDT(potentialBDTName));
+                    keyValuePair.Value.PotentialBDTs.Add(potentialBDTName, new PotentialBdt(potentialBDTName));
                 }
             }
         }
 
-//        private CCCache temporaryCache;
+//        private CcCache temporaryCache;
 
 
         public void Initialize(ListModel _listModelCCL, ListModel _listModelACC, CheckedListModel _checkedListModelBCC,

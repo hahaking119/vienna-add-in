@@ -3,7 +3,7 @@ using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 
-namespace VIENNAAddInUnitTests.upcc3.Wizards.util
+namespace VIENNAAddInUnitTests.upcc3.Wizards
 {
     [TestFixture]
     public class UPCCModelWizardFormTest

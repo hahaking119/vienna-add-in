@@ -13,7 +13,7 @@ using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 {
     [TestFixture]
-    public class CCCacheTest
+    public class CcCacheTest
     {
         private EARepositoryCCCache eaRepository;
         private ICctsRepository cctsRepository;
@@ -39,7 +39,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetAndCacheCDTLibraries()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             List<ICdtLibrary> cdtLibraries = ccCache.GetCDTLibraries();
 
@@ -50,7 +50,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetAndCacheCCLibraries()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             List<ICcLibrary> ccLibraries = ccCache.GetCCLibraries();
 
@@ -61,7 +61,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetAndCacheBDTLibraries()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             List<IBdtLibrary> bdtLibraries = ccCache.GetBDTLibraries();
 
@@ -72,7 +72,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetAndCacheBIELibraries()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             List<IBieLibrary> bieLibraries = ccCache.GetBIELibraries();
 
@@ -83,7 +83,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetAllCDTsFromCDTLibrary()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
             List<ICdt> cdts = ccCache.GetCDTsFromCDTLibrary("cdtlib1");
             Assert.That(cdts.Count, Is.EqualTo(4));
         }
@@ -91,7 +91,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetParticularCDTFromCDTLibrary()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             ICdt cdt = ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
 
@@ -104,7 +104,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetAllCCsFromCCLibrary()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             List<IAcc> ccs = ccCache.GetCCsFromCCLibrary("cclib1");
 
@@ -114,7 +114,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetParticularCCFromCCLibrary()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             IAcc cc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
 
@@ -125,7 +125,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetBDTLibraryByName()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             IBdtLibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
 
@@ -136,7 +136,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         [Test]
         public void ShouldGetBIELibraryByName()
         {
-            CCCache ccCache = CCCache.GetInstance(cctsRepository);
+            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
             IBieLibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
 
@@ -150,7 +150,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             var abiePerson = cctsRepository.GetAbieByPath(EARepositoryCCCache.PathToBIEPerson());
 
-            var ccCache = CCCache.GetInstance(cctsRepository);
+            var ccCache = CcCache.GetInstance(cctsRepository);
 
             ccCache.PrepareForABIE(abiePerson);
             var bieLibrary = ccCache.GetBIELibraryByName("bielib1");

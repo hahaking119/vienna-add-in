@@ -7,13 +7,13 @@ using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
 {
     [TestFixture]
-    public class UPCCModelGeneratorFormTest
+    public class UpccModelCreatorFormTest
     {
         [Test]
         [Ignore]
         public void ShouldOpenAndPopulateXamlForm()
         {
-            /*var t = new Thread(() => new Application().Run(new UpccModelGenerator(new EARepositoryABIEEditor())));
+            /*var t = new Thread(() => new Application().Run(new UpccModelCreator(new EARepositoryABIEEditor())));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();*/
