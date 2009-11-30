@@ -13,7 +13,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private readonly Repository eaRepository;
         FileBasedVersionHandler versionHandler;
 
-        private StandardLibraryImporter(Repository eaRepository)
+        public StandardLibraryImporter(Repository eaRepository)
         {
             this.eaRepository = eaRepository;
             InitializeComponent();
