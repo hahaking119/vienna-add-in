@@ -1,47 +1,24 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using EA;
 using NUnit.Framework;
+using UpccModel;
+using VIENNAAddIn;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
+using VIENNAAddInUtils;
 using Assert=Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using TestContext=Microsoft.VisualStudio.TestTools.UnitTesting.TestContext;
+using Attribute=EA.Attribute;
+using Constraint=NUnit.Framework.Constraints.Constraint;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using System.Linq;
 
 namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 {
-    /// <summary>
-    ///This is a test class for SynchStereotypesTest and is intended
-    ///to contain all SynchStereotypesTest Unit Tests
-    ///</summary>
     [TestFixture]
-    [Category(TestCategories.FileBased)]
-    public class SynchStereotypesTest
+    public class SynchStereotypesTest : SynchStereotypesTestsBase
     {
-        #region Setup/Teardown
-
-        [SetUp]
-        // Create new Repository, copy the original testsetting to temporary file and load it into repository.
-        public void Init()
-        {
-            repo = new TemporaryFileBasedRepository(TestUtils.PathToTestResource(@"SynchTaggedValuesTest\test.eap"));
-        }
-
-        [TearDown]
-        // Close the repository and delete the temporary file.
-        public void Clean()
-        {
-            repo.Dispose();
-        }
-
-        #endregion
-
-        public TemporaryFileBasedRepository repo;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext { get; set; }
-
         /// <summary>
         /// A test for the CheckConnector Method
         /// test.eap contains a Connector connector1 missing 8 TaggedValues. Check should detect this correctly.
@@ -49,14 +26,14 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         [Test]
         public void CheckConnectorTest()
         {
-            var testpackage = (Package) repo.Models.GetAt(0);
+            var testpackage = (Package) CreateRepositoryWithoutTaggedValues().Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             var element = (Element) testpackage.Elements.GetAt(0);
             var connector = (Connector) element.Connectors.GetAt(0);
             int count1 = new SynchStereotypes().Check(connector).Count;
             Debug.WriteLine("Checking connector '" + connector.Name + "': it is missing " + count1 + " TaggedValues.");
-            Assert.AreEqual(7, count1);
+            Assert.AreEqual(8, count1);
         }
 
         /// <summary>
@@ -66,7 +43,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         [Test]
         public void CheckElementTest()
         {
-            var testpackage = (Package) repo.Models.GetAt(0);
+            var testpackage = (Package) CreateRepositoryWithoutTaggedValues().Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             var element = (Element) testpackage.Elements.GetAt(0);
@@ -82,7 +59,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         [Test]
         public void CheckPackageTest()
         {
-            var testpackage = (Package) repo.Models.GetAt(0);
+            var testpackage = (Package) CreateRepositoryWithoutTaggedValues().Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             int count1 = new SynchStereotypes().Check(testpackage)[0].Count;
             Debug.WriteLine("Checking package '" + testpackage.Element.Name + "': it is missing " + count1 +
@@ -97,7 +74,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         [Test]
         public void FixConnectorTest()
         {
-            var testpackage = (Package) repo.Models.GetAt(0);
+            var testpackage = (Package) CreateRepositoryWithoutTaggedValues().Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             var element = (Element) testpackage.Elements.GetAt(0);
@@ -105,7 +82,6 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
             int count1 = new SynchStereotypes().Check(connector).Count;
             Debug.WriteLine("Checking connector '" + connector.Name + "': it is missing " + count1 + " TaggedValues.");
             new SynchStereotypes().Fix(connector);
-            repo.RefreshOpenDiagrams(true);
             int count2 = new SynchStereotypes().Check(connector).Count;
             Debug.WriteLine("After the fix connector '" + connector.Name + "' is missing " + count2 + " TaggedValues.");
             Assert.AreEqual(0, count2);
@@ -118,14 +94,13 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         [Test]
         public void FixElementTest()
         {
-            var testpackage = (Package) repo.Models.GetAt(0);
+            var testpackage = (Package) CreateRepositoryWithoutTaggedValues().Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             var element = (Element) testpackage.Elements.GetAt(0);
             int count1 = new SynchStereotypes().Check(element).Count;
             Debug.WriteLine("Checking element '" + element.Name + "': it is missing " + count1 + " TaggedValues.");
             new SynchStereotypes().Fix(element);
-            repo.RefreshOpenDiagrams(true);
             int count2 = new SynchStereotypes().Check(element).Count;
             Debug.WriteLine("After the fix element '" + element.Name + "' is missing " + count2 + " TaggedValues.");
             Assert.AreEqual(count2, 0);
@@ -138,16 +113,15 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         [Test]
         public void FixPackageTest()
         {
-            var testpackage = (Package) repo.Models.GetAt(0);
+            var testpackage = (Package) CreateRepositoryWithoutTaggedValues().Models.GetAt(0);
             testpackage = (Package) testpackage.Packages.GetAt(0);
             Debug.WriteLine(testpackage.Element.Stereotype);
-            var checkResult = new SynchStereotypes().Check(testpackage);
+            List<List<string>> checkResult = new SynchStereotypes().Check(testpackage);
             int count1 = checkResult.Count;
             Debug.WriteLine("Checking package '" + testpackage.Element.Name + "': it is missing " + count1 +
                             " TaggedValues.");
             new SynchStereotypes().Fix(testpackage);
-            repo.RefreshOpenDiagrams(true);
-            var checkResult2 = new SynchStereotypes().Check(testpackage);
+            List<List<string>> checkResult2 = new SynchStereotypes().Check(testpackage);
             int count2 = checkResult2.Count;
             Debug.WriteLine("After the fix package '" + testpackage.Element.Name + "' is missing " + count2 +
                             " TaggedValues.");
@@ -161,6 +135,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         [Test]
         public void FixRepositoryTest()
         {
+            Repository repo = CreateRepositoryWithoutTaggedValues();
             var mysynch = new SynchStereotypes();
             int missingvalues = 0;
             mysynch.Fix(repo);
@@ -172,10 +147,249 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
                 }
                 foreach (Element e in p.Elements)
                 {
-                    missingvalues += mysynch.Check(e).Count;                    
+                    missingvalues += mysynch.Check(e).Count;
                 }
             }
-            Assert.AreEqual(0,missingvalues);
+            Assert.AreEqual(0, missingvalues);
+        }
+
+        [Test]
+        public void ShouldCreateAllMissingTaggedValues()
+        {
+            Repository repo = CreateRepositoryWithoutTaggedValues();
+
+            var synchStereotypes = new SynchStereotypes();
+            synchStereotypes.Fix(repo);
+
+            var bLibrary = repo.Resolve<Package>((Path)"Model" / "bLibrary1");
+            NUnit.Framework.Assert.That(bLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BLibrary.TaggedValues), "missing tagged values");
+
+            Package primLibrary = bLibrary.PackageByName("primLibrary");
+            NUnit.Framework.Assert.That(primLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.PrimLibrary.TaggedValues), "missing tagged values");
+
+            Package enumLibrary = bLibrary.PackageByName("enumLibrary");
+            NUnit.Framework.Assert.That(enumLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.EnumLibrary.TaggedValues), "missing tagged values");
+
+            Package cdtLibrary = bLibrary.PackageByName("cdtLibrary");
+            NUnit.Framework.Assert.That(cdtLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.CdtLibrary.TaggedValues), "missing tagged values");
+
+            Package ccLibrary = bLibrary.PackageByName("ccLibrary");
+            NUnit.Framework.Assert.That(ccLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.CcLibrary.TaggedValues), "missing tagged values");
+
+            Package bdtLibrary = bLibrary.PackageByName("bdtLibrary");
+            NUnit.Framework.Assert.That(bdtLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BdtLibrary.TaggedValues), "missing tagged values");
+
+            Package bieLibrary = bLibrary.PackageByName("bieLibrary");
+            NUnit.Framework.Assert.That(bieLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BieLibrary.TaggedValues), "missing tagged values");
+
+            Package docLibrary = bLibrary.PackageByName("docLibrary");
+            NUnit.Framework.Assert.That(docLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.DocLibrary.TaggedValues), "missing tagged values");
+
+            Element prim = primLibrary.ElementByName("prim");
+            NUnit.Framework.Assert.That(prim, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Prim.TaggedValues), "missing tagged values");
+
+            Element @enum = enumLibrary.ElementByName("enum");
+            NUnit.Framework.Assert.That(@enum, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Enum.TaggedValues), "missing tagged values");
+
+            // TODO code list entries
+            //Attribute codeListEntry = @enum.Attributes.GetByName("codeListEntry") as Attribute;
+            //            NUnit.Framework.Assert.That(codeListEntry, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Enum.TaggedValues), "missing tagged values");
+
+            // TODO IDScheme
+
+            Element cdt = cdtLibrary.ElementByName("cdt");
+            NUnit.Framework.Assert.That(cdt, HasTaggedValues(UpccModel.UpccModel.Instance.Classes.Cdt.TaggedValues), "missing tagged values");
+
+            Element acc = ccLibrary.ElementByName("acc");
+            NUnit.Framework.Assert.That(acc, HasTaggedValues(UpccModel.UpccModel.Instance.Classes.Acc.TaggedValues), "missing tagged values");
+
+            Attribute bcc = acc.Attributes.GetByName("bcc") as Attribute;
+            NUnit.Framework.Assert.That(bcc, HasTaggedValues(UpccModel.UpccModel.Instance.Attributes.Bcc.TaggedValues), "missing tagged values");
+
+            Connector ascc = (Connector) acc.Connectors.GetByName("ascc");
+            NUnit.Framework.Assert.That(ascc, HasTaggedValues(UpccModel.UpccModel.Instance.Associations.Ascc.TaggedValues), "missing tagged values");
+        }
+    }
+
+    public class SynchStereotypesTestsBase
+    {
+        protected Repository CreateRepositoryWithoutTaggedValues()
+        {
+            return new SynchStereotypesTestRepository();
+        }
+
+        protected static Constraint HasTaggedValues(MetaTaggedValue[] taggedValues)
+        {
+            return new HasTaggedValuesConstraint(taggedValues);
+        }
+    }
+
+    internal class HasTaggedValuesConstraint : Constraint
+    {
+        private readonly List<string> expectedTaggedValues;
+        private string actualName;
+        private List<string> missingTaggedValues;
+
+        public HasTaggedValuesConstraint(MetaTaggedValue[] expectedTaggedValues)
+        {
+            this.expectedTaggedValues = new List<string>(expectedTaggedValues.Select(tv => tv.Name));
+        }
+
+        public override bool Matches(object actual)
+        {
+            List<string> actualTaggedValues;
+            if (actual is Package)
+            {
+                var package = (Package) actual;
+                actualName = package.Name;
+                actualTaggedValues = new List<string>(GetTaggedValues(package.Element));
+            }
+            else if (actual is Element)
+            {
+                var element = (Element) actual;
+                actualName = element.Name;
+                actualTaggedValues = new List<string>(GetTaggedValues(element));
+            }
+            else if (actual is Attribute)
+            {
+                var attribute = (Attribute) actual;
+                actualName = attribute.Name;
+                actualTaggedValues = new List<string>(GetTaggedValues(attribute));
+            }
+            else if (actual is Connector)
+            {
+                var connector = (Connector) actual;
+                actualName = connector.Name;
+                actualTaggedValues = new List<string>(GetTaggedValues(connector));
+            }
+            else
+            {
+                actualTaggedValues = new List<string>();
+            }
+
+            this.actual = actualTaggedValues;
+
+            missingTaggedValues = new List<string>();
+            foreach (var expectedTaggedValue in expectedTaggedValues)
+            {
+                if (!actualTaggedValues.Contains(expectedTaggedValue))
+                {
+                    missingTaggedValues.Add(expectedTaggedValue);
+                }
+            }
+            return missingTaggedValues.Count == 0;
+        }
+
+        private IEnumerable<string> GetTaggedValues(Element element)
+        {
+            foreach (TaggedValue actualTaggedValue in element.TaggedValues)
+            {
+                yield return actualTaggedValue.Name;
+            }
+        }
+
+        private IEnumerable<string> GetTaggedValues(Attribute attribute)
+        {
+            foreach (TaggedValue actualTaggedValue in attribute.TaggedValues)
+            {
+                yield return actualTaggedValue.Name;
+            }
+        }
+
+        private IEnumerable<string> GetTaggedValues(Connector connector)
+        {
+            foreach (TaggedValue actualTaggedValue in connector.TaggedValues)
+            {
+                yield return actualTaggedValue.Name;
+            }
+        }
+
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+//            writer.WriteMessageLine(actualName + " misses tagged values:");
+            writer.WriteExpectedValue(expectedTaggedValues);
+        }
+    }
+
+    public class SynchStereotypesTestRepository : EARepository
+    {
+        public SynchStereotypesTestRepository()
+        {
+            Element element1a = null;
+            Element element1b = null;
+            var model = this.AddModel(
+                "Model", m => m.AddPackage(
+                                  "bLibrary", bLib =>
+                                              {
+                                                  bLib.Element.Stereotype = Stereotype.bLibrary;
+                                                  bLib.AddPackage(
+                                                      "BIELibrary", bieLib =>
+                                                                    {
+                                                                        bieLib.Element.Stereotype = Stereotype.BIELibrary;
+                                                                        element1a = bieLib.AddClass("element1a").With(c => c.Stereotype = Stereotype.ABIE);
+                                                                        element1b = bieLib.AddClass("element1b").With(c => c.Stereotype = Stereotype.BBIE);
+                                                                    });
+                                                  bLib.AddPackage(
+                                                      "CCLibrary", bieLib =>
+                                                                   {
+                                                                       bieLib.Element.Stereotype = Stereotype.CCLibrary;
+                                                                       bieLib.AddClass("element2a").With(c => c.Stereotype = Stereotype.ACC);
+                                                                       bieLib.AddClass("element2b").With(c => c.Stereotype = Stereotype.BCC);
+                                                                       bieLib.AddClass("element2c").With(c => c.Stereotype = "CC");
+                                                                   });
+                                                  bLib.AddPackage(
+                                                      "CDTLibrary", bieLib =>
+                                                                    {
+                                                                        bieLib.Element.Stereotype = Stereotype.CDTLibrary;
+                                                                        bieLib.AddClass("element3a").With(c => c.Stereotype = Stereotype.CDT);
+                                                                    });
+                                              }
+                                  ));
+            element1a.AddASBIE(element1b, "connector1", EaAggregationKind.Shared);
+            var bLibrary = model.AddPackage(
+                "bLibrary", bLib => { bLib.Element.Stereotype = Stereotype.bLibrary; }
+                );
+            Element prim = null;
+            bLibrary.AddPackage(
+                "PRIMLibrary", primLib =>
+                               {
+                                   primLib.Element.Stereotype = Stereotype.PRIMLibrary;
+                                   prim = primLib.AddPRIM("PRIM");
+                               });
+            bLibrary.AddPackage(
+                "ENUMLibrary", enumLib =>
+                               {
+                                   enumLib.Element.Stereotype = Stereotype.ENUMLibrary;
+                                   enumLib.AddENUM("ENUM", prim);
+                               });
+            bLibrary.AddPackage(
+                "CDTLibrary", cdtLib =>
+                              {
+                                  cdtLib.Element.Stereotype = Stereotype.CDTLibrary;
+                                  cdtLib.AddCDT("CDT");
+                              });
+            bLibrary.AddPackage(
+                "CCLibrary", ccLib =>
+                             {
+                                 ccLib.Element.Stereotype = Stereotype.CCLibrary;
+                                 var acc = ccLib.AddACC("ACC");
+                                 acc.AddBCC(prim, "BCC");
+                             });
+            bLibrary.AddPackage(
+                "BDTLibrary", bdtLib =>
+                              {
+                                  bdtLib.Element.Stereotype = Stereotype.BDTLibrary;
+                                  bdtLib.AddBDT("BDT");
+                              });
+            bLibrary.AddPackage(
+                "BIELibrary", bieLib =>
+                              {
+                                  bieLib.Element.Stereotype = Stereotype.BIELibrary;
+                                  var abie = bieLib.AddABIE("ABIE");
+                                  abie.AddBBIE(prim, "BBIE");
+                              });
+            bLibrary.AddPackage(
+                "DOCLibrary", bieLib => { bieLib.Element.Stereotype = Stereotype.DOCLibrary; });
         }
     }
 }

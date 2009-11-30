@@ -410,7 +410,6 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public void RefreshOpenDiagrams(bool FullReload)
         {
-            throw new NotImplementedException();
         }
 
         public string GetTreeXMLForElement(int ElementID)
