@@ -2,25 +2,11 @@
 
 = Video 1 =
 
-[http://umm-dev.org/wp-content/videos/tool-demo-1.htm Video 1]
-
-This videos shows how to create an initial UPCC model structure.
-
-*Needs update:* As of v0.0.5 the wizard has been modified to support multiple versions of the CCL.
-
-= Video 2 =
-
 [http://umm-dev.org/wp-content/videos/tool-demo-2.htm Video 2]
 
 This video shows how to use the UML Profile for Core Components (UPCC) toolbox in order to create UPCC artifacts
 
-= Video 3 =
-
-[http://umm-dev.org/wp-content/videos/tool-demo-3.htm Video 3]
-
-This video shows how to automatically generate ABIEs from CCs and BDTs from CDTs.
-
-= Video 4 =
+= Video 2 =
 
 [http://umm-dev.org/wp-content/videos/tool-demo-4.htm Video 4]
 
