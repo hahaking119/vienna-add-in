@@ -80,6 +80,11 @@
   <ItemGroup>
     <Compile Include="EARepositoryExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesGeneratedTests.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SynchTaggedValuesGeneratedTests.tt</DependentUpon>
+    </Compile>
     <Compile Include="SynchTaggedValuesTest\SynchStereotypesTest.cs" />
     <Compile Include="TestCategories.cs" />
     <Compile Include="TestRepository\CCTSEAExtensions.cs" />
@@ -198,6 +203,10 @@
       <Project>{D788A632-CD92-4C8A-AE54-A37CD5871368}</Project>
       <Name>CctsRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UpccModel\UpccModel.csproj">
+      <Project>{45CFA9B7-56EC-4986-BEAF-079F86A56B0C}</Project>
+      <Name>UpccModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VIENNAAddInUtils\VIENNAAddInUtils.csproj">
       <Project>{3C1352B8-1B53-46F9-BC18-BFF48115A606}</Project>
       <Name>VIENNAAddInUtils</Name>
@@ -221,6 +230,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="SynchTaggedValuesTest\SynchTaggedValuesGeneratedTests.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SynchTaggedValuesGeneratedTests.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTCanProhibitInheritanceOfSUPFromParentBDT.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsCONFromParentBDT.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsSUPsFromParentBDT.xsd" />
@@ -230,6 +243,9 @@
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_ResolvesBDTTypeNamesAccordingToTheNDR.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_simple_type.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_SUPBasicTypesAreDeterminedFromXsdTypes.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

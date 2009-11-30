@@ -1,0 +1,84 @@
+<#@ template language="C#v3.5" hostspecific="True" debug="True" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="UpccModel.dll" #>
+<#@ import namespace="UpccModel"#>
+<#
+	var upcc = UpccModel.Instance;
+#>
+using EA;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn;
+using VIENNAAddIn.Settings;
+using VIENNAAddInUtils;
+
+namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
+{
+    [TestFixture]
+    public class SynchTaggedValuesGeneratedTests : SynchStereotypesTestsBase
+    {
+<#	foreach (var package in upcc.Packages.All)
+	{
+		var pathFromModel = "\"" + upcc.Packages.BLibrary.Stereotype + "\"";
+		if (package != upcc.Packages.BLibrary)
+		{
+			pathFromModel += "/\"" + package.Stereotype + "\"";
+		}
+#>
+
+		[Test]
+		public void ShouldCreateMissingTaggedValuesFor<#= package.Name #>()
+		{
+            Repository repo = CreateRepositoryWithoutTaggedValues();
+
+            var synchStereotypes = new SynchStereotypes();
+            synchStereotypes.Fix(repo);
+
+            var package = repo.Resolve<Package>((Path) "Model"/<#= pathFromModel #>);
+			Assert.That(package, Is.Not.Null, "Package not found");
+            Assert.That(package, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.<#= package.Name #>.TaggedValues), "missing tagged values");
+		}
+<#
+		foreach (var relation in upcc.PackageClassifierContainmentRelations.GetClassifierRelationsFor(package))
+		{
+			var classifier = relation.ClassifierType;
+#>
+
+		[Test]
+		public void ShouldCreateMissingTaggedValuesFor<#= classifier.Name #>()
+		{
+            Repository repo = CreateRepositoryWithoutTaggedValues();
+
+            var synchStereotypes = new SynchStereotypes();
+            synchStereotypes.Fix(repo);
+
+            var element = repo.Resolve<Element>((Path) "Model"/<#= pathFromModel #>/"<#= classifier.Stereotype #>");
+			Assert.That(element, Is.Not.Null, "Element not found");
+            NUnit.Framework.Assert.That(element, HasTaggedValues(UpccModel.UpccModel.Instance.<#= classifier is MetaClass ? "Classes" : "DataTypes" #>.<#= classifier.Name #>.TaggedValues), "missing tagged values");
+		}
+<#
+			foreach (var attribute in upcc.Attributes.GetAttributesFor(classifier))
+			{
+#>
+
+		[Test]
+		public void ShouldCreateMissingTaggedValuesFor<#= attribute.Name #>()
+		{
+            Repository repo = CreateRepositoryWithoutTaggedValues();
+
+            var synchStereotypes = new SynchStereotypes();
+            synchStereotypes.Fix(repo);
+
+            var element = repo.Resolve<Element>((Path) "Model"/<#= pathFromModel #>/"<#= classifier.Stereotype #>");
+			Assert.That(element, Is.Not.Null, "Element not found");
+			var attribute = (Attribute) element.Attributes.GetByName("<#= attribute.Stereotype #>");
+			Assert.That(attribute, Is.Not.Null, "Element not found");
+            NUnit.Framework.Assert.That(attribute, HasTaggedValues(UpccModel.UpccModel.Instance.GetAttributeByName(<#= attribute.Name #>).TaggedValues), "missing tagged values");
+		}
+<#
+			}
+		}
+	}
+#>
+	}
+}

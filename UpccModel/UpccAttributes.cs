@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace UpccModel
@@ -46,6 +47,18 @@ namespace UpccModel
                     yield return attribute;
                 }
             }
+        }
+
+        public MetaAttribute GetByName(string name)
+        {
+            foreach (var attribute in All)
+            {
+                if (attribute.Name == name)
+                {
+                    return attribute;
+                }
+            }
+            throw new Exception("Attribute '" + name + "' not defined.");
         }
     }
 }

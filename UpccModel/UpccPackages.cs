@@ -87,6 +87,20 @@ namespace UpccModel
                            Stereotype = "bLibrary",
                            TaggedValues = bLibraryTaggedValues,
                        };
+
+            All = new[]
+                  {
+                      BLibrary,
+                      PrimLibrary,
+                      EnumLibrary,
+                      CdtLibrary,
+                      CcLibrary,
+                      BdtLibrary,
+                      BieLibrary,
+                      DocLibrary,
+                  };
         }
+
+        public IEnumerable<MetaPackage> All { get; private set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace UpccModel
+﻿using System;
+
+namespace UpccModel
 {
     public class UpccModel
     {
