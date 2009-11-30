@@ -27,34 +27,33 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<param name="context"></param>
         public static void GenerateXSD(GeneratorContext context)
         {
+            IAbie abie = context.RootElement;
+            var schema = new XmlSchema
+                         {
+                             TargetNamespace = context.TargetNamespace
+                         };
+            schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
+            schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
+            schema.Namespaces.Add("ccts",
+                                  "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
+            schema.Namespaces.Add(NSPREFIX_BDT, context.TargetNamespace);
+            schema.Namespaces.Add(NSPREFIX_BIE, context.TargetNamespace);
 
-            foreach (IAbie abie in context.RootElements)
-            {
-                var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
-                schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
-                schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
-                schema.Namespaces.Add("ccts",
-                                      "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3");
-                schema.Namespaces.Add(NSPREFIX_BDT, context.TargetNamespace);
-                schema.Namespaces.Add(NSPREFIX_BIE, context.TargetNamespace);
+            schema.ElementFormDefault = XmlSchemaForm.Qualified;
+            schema.AttributeFormDefault = XmlSchemaForm.Unqualified;
+            schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
 
-                schema.ElementFormDefault = XmlSchemaForm.Qualified;
-                schema.AttributeFormDefault = XmlSchemaForm.Unqualified;
-                schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
+            //TODO how do i now what schemas to include and what to import
+            AddImports(schema, context, context.DocLibrary);
+            AddIncludes(schema, context, context.DocLibrary);
 
-                //TODO how do i now what schemas to include and what to import
-                AddImports(schema, context, context.DocLibrary);
-                AddIncludes(schema, context, context.DocLibrary);
+            AddRootElemntDeclaration(schema, abie, context);
+            AddRootTypeDefinition(schema, abie, context, context.DocLibrary);
 
-                AddRootElemntDeclaration(schema, abie, context);
-                AddRootTypeDefinition(schema, abie, context, context.DocLibrary);
-
-                AddGlobalElementDeclarations(schema, removeRootElements(context.DocLibrary.Abies, context.DocLibrary.RootAbies),
-                                             context);
-                AddGlobalTypeDefinitions(schema, removeRootElements(context.DocLibrary.Abies, context.DocLibrary.RootAbies),
-                                         context);
-                context.AddSchema(schema, abie.Name + "_" + schema.Version + ".xsd");
-            }
+            var nonRootDocLibraryElements = context.DocLibrary.NonRootAbies;
+            AddGlobalElementDeclarations(schema, nonRootDocLibraryElements, context);
+            AddGlobalTypeDefinitions(schema, nonRootDocLibraryElements, context);
+            context.AddSchema(schema, abie.Name + "_" + schema.Version + ".xsd");
         }
 
         private static void AddGlobalElementDeclarations(XmlSchema schema, IEnumerable<IAbie> abies,
@@ -82,16 +81,6 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 schema.Items.Add(BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, abie, context.NamespacePrefix));
             }
 
-        }
-
-        private static IList<IAbie> removeRootElements(IEnumerable<IAbie> abies, IEnumerable<IAbie> rootelements)
-        {
-            IList<IAbie> temp = new List<IAbie>(abies);
-            foreach (IAbie rootelement in rootelements)
-            {
-                temp.Remove(rootelement);
-            }
-            return temp;
         }
 
         private static void AddRootElemntDeclaration(XmlSchema schema, IAbie abie, GeneratorContext context)

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace UpccModel
 {
-    public class UpccModelPackages
+    public class UpccPackages
     {
         public readonly MetaPackage BdtLibrary;
         public readonly MetaPackage BieLibrary;
@@ -13,7 +13,7 @@ namespace UpccModel
         public readonly MetaPackage EnumLibrary;
         public readonly MetaPackage PrimLibrary;
 
-        public UpccModelPackages(UpccModelTaggedValues taggedValues)
+        public UpccPackages(UpccTaggedValues taggedValues)
         {
             var bLibraryTaggedValues = new[]
                                        {

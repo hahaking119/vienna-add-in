@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
@@ -23,7 +24,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IDocLibrary Members
 
-        public IEnumerable<IAbie> RootAbies
+        public IAbie RootAbie
         {
             get
             {
@@ -40,7 +41,20 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     IAbie associatedABIE = asbie.AssociatedElement;
                     abies.Remove(associatedABIE);
                 }
-                return abies;
+                if (abies.Count == 0)
+                {
+                    return null;
+                }
+                return abies[0];
+            }
+        }
+
+        public IEnumerable<IAbie> NonRootAbies
+        {
+            get {
+                var allAbies = new List<IAbie>(Abies);
+                allAbies.Remove(RootAbie);
+                return allAbies;
             }
         }
 

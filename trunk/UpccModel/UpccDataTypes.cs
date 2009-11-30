@@ -8,13 +8,12 @@ namespace UpccModel
         public readonly MetaDataType Enum;
         public readonly MetaDataType Prim;
 
-        public UpccDataTypes(UpccModelTaggedValues taggedValues)
+        public UpccDataTypes(UpccTaggedValues taggedValues)
         {
             Prim = new MetaDataType
                    {
                        Name = "Prim",
                        Stereotype = "PRIM",
-                       HasIsEquivalentTo = true,
                        TaggedValues = new[]
                                       {
                                           taggedValues.BusinessTerm,

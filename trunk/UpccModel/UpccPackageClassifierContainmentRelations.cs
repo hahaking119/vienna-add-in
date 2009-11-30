@@ -4,7 +4,7 @@ namespace UpccModel
 {
     public class UpccPackageClassifierContainmentRelations
     {
-        public UpccPackageClassifierContainmentRelations(UpccModelPackages packages, UpccDataTypes dataTypes, UpccClasses classes)
+        public UpccPackageClassifierContainmentRelations(UpccPackages packages, UpccDataTypes dataTypes, UpccClasses classes)
         {
             All = new[]
                   {
@@ -61,8 +61,8 @@ namespace UpccModel
                           PackageType = packages.DocLibrary,
                           PackageRole = "DocLibrary",
                           ClassifierCardinality = Cardinality.Many,
-                          ClassifierType = classes.Abie,
-                          ClassifierRole = "Abies",
+                          ClassifierType = classes.Ma,
+                          ClassifierRole = "Mas",
                       },
                   };
         }

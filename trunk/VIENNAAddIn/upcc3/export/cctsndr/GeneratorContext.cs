@@ -22,9 +22,9 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<param name="annotate"></param>
         ///<param name="outputDirectory"></param>
         ///<param name="docLibrary"></param>
-        ///<param name="rootElements"></param>
+        ///<param name="rootElement"></param>
         public GeneratorContext(ICctsRepository repository, string targetNamespace, string namespacePrefix, bool annotate, bool allschemas,
-                                string outputDirectory, IDocLibrary docLibrary, IList<IAbie> rootElements)
+                                string outputDirectory, IDocLibrary docLibrary, IAbie rootElement)
         {
             Allschemas = allschemas;
             Repository = repository;
@@ -33,11 +33,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             Annotate = annotate;
             OutputDirectory = outputDirectory;
             DocLibrary = docLibrary;
-            RootElements = rootElements;
+            RootElement = rootElement;
             if(allschemas)
-                progress = 100/(4 + (rootElements != null ? rootElements.Count : 0));
+                progress = 100/(4 + (rootElement != null ? 1 : 0));
             else
-                progress = 100/(2 + (rootElements != null ? rootElements.Count : 0));
+                progress = 100/(2 + (rootElement != null ? 1 : 0));
         }
 
         ///<summary>
@@ -77,7 +77,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 
         ///<summary>
         ///</summary>
-        public IList<IAbie> RootElements { get; private set; }
+        public IAbie RootElement { get; private set; }
 
         ///<summary>
         ///</summary>
