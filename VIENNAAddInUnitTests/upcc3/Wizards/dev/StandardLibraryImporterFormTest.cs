@@ -2,7 +2,7 @@ using System.Threading;
 using System.Windows;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.Wizards.dev;
-using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
+using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
 {
@@ -11,12 +11,12 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
     {
         [Test]
         [Ignore]
-        public void ShouldOpenAndPopulateXamlForm()
+        public void ShouldLaunchAndPopulateStandardLibraryImporterForm()
         {
-            /*var t = new Thread(() => new Application().Run(new StandardLibraryImporter(new EARepositoryABIEEditor())));
+            var t = new Thread(() => new Application().Run(new StandardLibraryImporter(new EARepositoryLibraryImporter())));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
-            t.Join();*/
+            t.Join();
         }
     }
 }

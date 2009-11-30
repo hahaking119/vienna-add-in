@@ -53,21 +53,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// the constructor is private since he is called by the method "ShowForm" 
         /// which is part of the same class. 
         /// </summary>
-        /// <param name="eaRepository">
-        ///  Specifies the repository that the UPCC Model Generator operates on. 
-        /// </param>
-        /// <param name="cctsRepository">
-        ///  Specifies the CC Repository that the UPCC Model Generator operates on. 
-        /// </param>
-        private UpccModelCreator(Repository eaRepository, ICctsRepository cctsRepository)
+        public UpccModelCreator(AddInContext context)
         {
             InitializeComponent();
-            repository = eaRepository;
-            this.cctsRepository = cctsRepository;
+
+            repository = context.EARepository;
+            cctsRepository = context.CctsRepository;
 
             InitializeWindow();
         }
 
+        /*
         ///<summary>
         /// The method is called from the menu manager of the VIENNAAddIn and
         /// creates creates as well as launches a new instance of the wizard. 
@@ -80,6 +76,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         {
             new UpccModelCreator(context.EARepository, context.CctsRepository).ShowDialog();
         }
+        */
 
         #region Convenience Methods
 

@@ -12,7 +12,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
     {
         [Test]
         [Ignore]
-        public void ShouldOpenAndPopulateXamlForm()
+        public void ShouldLaunchAndPopulateAbieModelerForm()
         {
             var t = new Thread(() => new Application().Run(new AbieEditor(new CCRepository(new EARepositoryABIEEditor()))));
             t.SetApartmentState(ApartmentState.STA);
