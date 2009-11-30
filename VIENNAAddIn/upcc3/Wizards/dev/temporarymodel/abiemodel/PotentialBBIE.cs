@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
-    public class PotentialBBIE
+    public class PotentialBbie
     {
         internal string Name { get; set; }
         internal Boolean Checked { get; set; }
-        internal Dictionary<string, PotentialBDT> PotentialBDTs { get; set; }
+        internal Dictionary<string, PotentialBdt> PotentialBDTs { get; set; }
 
-        public PotentialBBIE(string name)
+        public PotentialBbie(string name)
         {
             Name = name;
             Checked = false;
-            PotentialBDTs = new Dictionary<string, PotentialBDT>();
+            PotentialBDTs = new Dictionary<string, PotentialBdt>();
         }
     }
 }

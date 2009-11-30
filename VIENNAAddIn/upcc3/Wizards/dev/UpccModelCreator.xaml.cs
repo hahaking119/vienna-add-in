@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
     /// CC libraries. The wizard utilizes the class "ModelCreator" for creating
     /// the default structure. 
     /// </summary>
-    public partial class UpccModelGenerator
+    public partial class UpccModelCreator
     {
         #region Local Class Fields
 
@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="cctsRepository">
         ///  Specifies the CC Repository that the UPCC Model Generator operates on. 
         /// </param>
-        private UpccModelGenerator(Repository eaRepository, ICctsRepository cctsRepository)
+        private UpccModelCreator(Repository eaRepository, ICctsRepository cctsRepository)
         {
             InitializeComponent();
             repository = eaRepository;
@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         ///</param>
         public static void ShowForm(AddInContext context)
         {
-            new UpccModelGenerator(context.EARepository, context.CctsRepository).ShowDialog();
+            new UpccModelCreator(context.EARepository, context.CctsRepository).ShowDialog();
         }
 
         #region Convenience Methods

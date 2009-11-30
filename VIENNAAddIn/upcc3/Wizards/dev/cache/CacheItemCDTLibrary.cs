@@ -3,13 +3,13 @@ using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
-    internal class CacheItemCDTLibrary
+    internal class CacheItemCdtLibrary
     {
         internal ICdtLibrary CDTLibrary { get; set; }
 
         internal List<ICdt> CDTsInLibrary { get; set; }
 
-        internal CacheItemCDTLibrary(ICdtLibrary library)
+        internal CacheItemCdtLibrary(ICdtLibrary library)
         {
             CDTLibrary = library;
         }

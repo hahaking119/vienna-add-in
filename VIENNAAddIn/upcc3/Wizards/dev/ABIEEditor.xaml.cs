@@ -19,12 +19,12 @@ using TextBox = System.Windows.Controls.TextBox;
 namespace VIENNAAddIn.upcc3.Wizards.dev
 {
     /// <summary>
-    /// Interaction logic for ABIEEditor.xaml
+    /// Interaction logic for AbieEditor.xaml
     /// </summary>
-    public partial class ABIEEditor
+    public partial class AbieEditor
     {
-        private readonly CCCache cache;
-        private TemporaryABIEModel tempModel;
+        private readonly CcCache cache;
+        private TemporaryAbieModel tempModel;
         private ListModel listModelACC;
         private CheckedListModel checkedListModelBCC;
         private CheckedListModel checkedListModelBBIE;
@@ -38,9 +38,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// Constructor for ABIE creation wizard
         /// </summary>
         /// <param name="ccRepository">The current repository</param>
-        public ABIEEditor(ICctsRepository ccRepository)
+        public AbieEditor(ICctsRepository ccRepository)
         {
-            cache = CCCache.GetInstance(ccRepository);
+            cache = CcCache.GetInstance(ccRepository);
             InitializeComponent();
 
             
@@ -69,9 +69,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// </summary>
         /// <param name="eaRepository">The current repository</param>
         /// <param name="abie"></param>
-        public ABIEEditor(Repository eaRepository, IAbie abie)
+        public AbieEditor(Repository eaRepository, IAbie abie)
         {
-            tempModel = new TemporaryABIEModel(new CCRepository(eaRepository));
+            tempModel = new TemporaryAbieModel(new CCRepository(eaRepository));
             //cache.PrepareForABIE(abie);
 
             InitializeComponent();
@@ -84,7 +84,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         /// <param name="context"></param>
         public static void ShowForm(AddInContext context)
         {
-            new ABIEEditor(context.CctsRepository).Show();
+            new AbieEditor(context.CctsRepository).Show();
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
         private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            tempModel = new TemporaryABIEModel(cache.GetCCFromCCLibrary(comboCCLs.SelectedItem.ToString(),comboACCs.SelectedItem.ToString()),textABIEName.Text,textPrefix.Text);
+            tempModel = new TemporaryAbieModel(cache.GetCCFromCCLibrary(comboCCLs.SelectedItem.ToString(),comboACCs.SelectedItem.ToString()),textABIEName.Text,textPrefix.Text);
             checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(tempModel.BCCs);
             //tempModel.SetTargetACC(comboBox.SelectedItem.ToString());
         }

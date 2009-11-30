@@ -450,8 +450,6 @@ namespace VIENNAAddIn.upcc3.Wizards
             CheckIfInputIsValid();
         }
 
-        #endregion Event Handler Methods
-
         private void cbxMajor_SelectionChangeCommitted(object sender, EventArgs e)
         {
             PopulateCbxMinor();
@@ -461,5 +459,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             PopulateTxtComment();
         }
+
+        #endregion Event Handler Methods
     }
 }

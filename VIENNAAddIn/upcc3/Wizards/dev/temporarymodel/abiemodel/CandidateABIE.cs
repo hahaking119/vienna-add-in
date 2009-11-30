@@ -4,13 +4,13 @@ using CctsRepository.BieLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
-    public class CandidateABIE
+    public class CandidateAbie
     {
         internal IAbie OriginalABIE { get; set; }
         internal Boolean Checked { get; set; }
-        private Dictionary<string, PotentialASBIE> PotentialASBIEs;
+        private Dictionary<string, PotentialAsbie> PotentialASBIEs;
 
-        public CandidateABIE(IAbie originalABIE)
+        public CandidateAbie(IAbie originalABIE)
         {
             OriginalABIE = originalABIE;
             Checked = false;
