@@ -51,20 +51,23 @@
     <Compile Include="MetaClass.cs" />
     <Compile Include="MetaClassifier.cs" />
     <Compile Include="MetaDataType.cs" />
+    <Compile Include="MetaDependency.cs" />
     <Compile Include="MetaPackage.cs" />
     <Compile Include="MetaTaggedValue.cs" />
     <Compile Include="PackageClassifierContainmentRelation.cs" />
     <Compile Include="PackageContainmentRelation.cs" />
+    <Compile Include="UpccAssociations.cs" />
     <Compile Include="UpccAttributes.cs" />
     <Compile Include="UpccClasses.cs" />
     <Compile Include="UpccDataTypes.cs" />
+    <Compile Include="UpccDependencies.cs" />
     <Compile Include="UpccModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UpccModelLibraries.cs" />
-    <Compile Include="UpccModelPackages.cs" />
-    <Compile Include="UpccModelTaggedValues.cs" />
+    <Compile Include="UpccPackages.cs" />
+    <Compile Include="UpccTaggedValues.cs" />
     <Compile Include="UpccPackageClassifierContainmentRelations.cs" />
-    <Compile Include="UpccPackageContainmentRelations.cs" />
+    <Compile Include="UpccPackagePackageContainmentRelations.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

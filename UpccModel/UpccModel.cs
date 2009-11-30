@@ -2,13 +2,15 @@
 {
     public class UpccModel
     {
+        public readonly UpccAssociations Associations;
         public readonly UpccAttributes Attributes;
         public readonly UpccClasses Classes;
         public readonly UpccDataTypes DataTypes;
+        public readonly UpccDependencies Dependencies;
         public readonly UpccPackageClassifierContainmentRelations PackageClassifierContainmentRelations;
-        public readonly UpccPackageContainmentRelations PackageContainmentRelations;
-        public readonly UpccModelPackages Packages;
-        public readonly UpccModelTaggedValues TaggedValues;
+        public readonly UpccPackagePackageContainmentRelations PackagePackageContainmentRelations;
+        public readonly UpccPackages Packages;
+        public readonly UpccTaggedValues TaggedValues;
 
         static UpccModel()
         {
@@ -17,14 +19,17 @@
 
         private UpccModel()
         {
-            TaggedValues = new UpccModelTaggedValues();
+            TaggedValues = new UpccTaggedValues();
 
-            Packages = new UpccModelPackages(TaggedValues);
+            Packages = new UpccPackages(TaggedValues);
             DataTypes = new UpccDataTypes(TaggedValues);
             Classes = new UpccClasses(TaggedValues);
-            Attributes = new UpccAttributes(TaggedValues);
 
-            PackageContainmentRelations = new UpccPackageContainmentRelations(Packages);
+            Attributes = new UpccAttributes(TaggedValues, Classes, DataTypes);
+            Associations = new UpccAssociations(TaggedValues, Classes);
+            Dependencies = new UpccDependencies(Classes);
+
+            PackagePackageContainmentRelations = new UpccPackagePackageContainmentRelations(Packages);
             PackageClassifierContainmentRelations = new UpccPackageClassifierContainmentRelations(Packages, DataTypes, Classes);
         }
 

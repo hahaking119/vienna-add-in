@@ -553,26 +553,17 @@ namespace VIENNAAddIn.upcc3.Wizards
     {
         public cBIV(string initName, int initId) : base(initName, initId)
         {
-            DOCs = new Dictionary<string, cDOC>();            
         }
 
-        public string DocumentModel { get; set; }
+        public cDOC DOC { get; private set;}
 
-        public IDictionary<string, cDOC> DOCs { get; set;}
-
-        public void LoadDOCsInBIV(ICctsRepository repository)
+        public void LoadDOC(ICctsRepository repository)
         {
-            // doc library containing all the different Documents
-            IDocLibrary docl = repository.GetDocLibraryById(Id);
-
-            // check if previously cached
-            if (DOCs.Count == 0)
+            if (DOC == null)
             {
-                foreach (IAbie document in docl.RootAbies)                
-                {
-                    cDOC newDOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
-                    DOCs.Add(document.Name, newDOC);
-                }                
+                IDocLibrary docl = repository.GetDocLibraryById(Id);
+                IAbie document = docl.RootAbie;
+                DOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
             }
         }
     }

@@ -22,7 +22,6 @@ namespace VIENNAAddIn.upcc3.Wizards
         private ICctsRepository cctsR;
         private Cache cache;
         private string selectedBIVName;
-        private string selectedDOCName;
         private string selectedModelName;
         private const int MARGIN = 15;
         private int mouseDownPosX;
@@ -113,7 +112,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             // todo: extend PathIsValid 
             GatherUserInput();
 
-            cache.BIVs[selectedBIVName].LoadDOCsInBIV(cctsR);
+            cache.BIVs[selectedBIVName].LoadDOC(cctsR);
 
             // model
             // todo: set default value for document model and select afterwards
@@ -122,7 +121,8 @@ namespace VIENNAAddIn.upcc3.Wizards
             // documents
             checkedlistboxDOCs.Items.Clear();
 
-            foreach (cDOC doc in cache.BIVs[selectedBIVName].DOCs.Values)
+            cDOC doc = cache.BIVs[selectedBIVName].DOC;
+            if (doc != null)
             {
                 checkedlistboxDOCs.Items.Add(doc.Name, doc.State);                
             }            
@@ -132,14 +132,17 @@ namespace VIENNAAddIn.upcc3.Wizards
         {
             GatherUserInput();
 
-            textTargetNS.Text = cache.BIVs[selectedBIVName].DOCs[selectedDOCName].TargetNamespace;
-            textPrefixTargetNS.Text = cache.BIVs[selectedBIVName].DOCs[selectedDOCName].TargetNamespacePrefix;
+            var biv = cache.BIVs[selectedBIVName];
+            if (biv.DOC != null)
+            {
+                textTargetNS.Text = biv.DOC.TargetNamespace;
+                textPrefixTargetNS.Text = biv.DOC.TargetNamespacePrefix;
+            }
         }
 
         private void GatherUserInput()
         {            
             selectedBIVName = comboBIVs.SelectedIndex >= 0 ? comboBIVs.SelectedItem.ToString() : "";
-            selectedDOCName = checkedlistboxDOCs.SelectedIndex >= 0 ? checkedlistboxDOCs.SelectedItem.ToString() : "";
             selectedModelName = comboModels.SelectedIndex >= 0 ? comboModels.SelectedItem.ToString() : "";
             outputDirectory = textOutputDirectory.Text;
         }
@@ -231,7 +234,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             }
             else
             {
-                cache.BIVs[selectedBIVName].DOCs[selectedDOCName].State = e.NewValue;                
+                cache.BIVs[selectedBIVName].DOC.State = e.NewValue;                
             }
 
             VerifyUserInput();
@@ -277,13 +280,11 @@ namespace VIENNAAddIn.upcc3.Wizards
             cBIV currentBIV = cache.BIVs[selectedBIVName];
 
             // TODO: check if path is valid
-            IList<IAbie> relevantDocuments = new List<IAbie>();
-            foreach (cDOC document in currentBIV.DOCs.Values)
+            IAbie rootAbie = null;
+            cDOC document = currentBIV.DOC;
+            if (document != null && document.State == CheckState.Checked)
             {
-                if (document.State == CheckState.Checked)
-                {
-                    relevantDocuments.Add(cctsR.GetAbieById(document.Id));
-                }
+                rootAbie = cctsR.GetAbieById(document.Id);
             }
             
             IDocLibrary docl = cctsR.GetDocLibraryById(currentBIV.Id);
@@ -299,7 +300,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             bool allschemas = checkboxAllschemas.CheckState == CheckState.Checked ? true : false;
             var generationContext = new GeneratorContext(cctsR, targetNamespace,
                                                 namespacePrefix, annotate, allschemas,
-                                                outputDirectory, docl, relevantDocuments);
+                                                outputDirectory, docl, rootAbie);
             generationContext.SchemaAdded += HandleSchemaAdded;
             export.cctsndr.XSDGenerator.GenerateSchemas(generationContext);
 
@@ -326,7 +327,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             GatherUserInput();
             
             // todo: make path check
-            cache.BIVs[selectedBIVName].DOCs[selectedDOCName].TargetNamespace = textTargetNS.Text;
+            cache.BIVs[selectedBIVName].DOC.TargetNamespace = textTargetNS.Text;
 
             VerifyUserInput();
         }
@@ -341,7 +342,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             GatherUserInput();
 
             // todo: make path check
-            cache.BIVs[selectedBIVName].DOCs[selectedDOCName].OutputDirectory = outputDirectory;
+            cache.BIVs[selectedBIVName].DOC.OutputDirectory = outputDirectory;
             
             VerifyUserInput();
         }
@@ -351,7 +352,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             GatherUserInput();
 
             // todo: make path check
-            cache.BIVs[selectedBIVName].DOCs[selectedDOCName].TargetNamespacePrefix = textPrefixTargetNS.Text;
+            cache.BIVs[selectedBIVName].DOC.TargetNamespacePrefix = textPrefixTargetNS.Text;
 
             VerifyUserInput();
         }
@@ -371,7 +372,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             
 
             // todo: make path check
-            Process.Start(cache.BIVs[selectedBIVName].DOCs[selectedDOCName].OutputDirectory + "/" + e.LinkText.Substring(5));
+            Process.Start(cache.BIVs[selectedBIVName].DOC.OutputDirectory + "/" + e.LinkText.Substring(5));
         }
 
         public static void ShowGeneratorWizard(AddInContext context)

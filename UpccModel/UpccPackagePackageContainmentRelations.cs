@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace UpccModel
 {
-    public class UpccPackageContainmentRelations
+    public class UpccPackagePackageContainmentRelations
     {
-        public UpccPackageContainmentRelations(UpccModelPackages packages)
+        public UpccPackagePackageContainmentRelations(UpccPackages packages)
         {
             All = new[]
                   {
@@ -85,6 +85,11 @@ namespace UpccModel
 
         public IEnumerable<PackageContainmentRelation> All { get; private set; }
 
+        /// <summary>
+        /// Returns the package-to-package containment relations specifying the possible sub-packages of the given package type.
+        /// </summary>
+        /// <param name="packageType"></param>
+        /// <returns></returns>
         public IEnumerable<PackageContainmentRelation> GetSubPackageRelationsFor(MetaPackage packageType)
         {
             foreach (PackageContainmentRelation relation in All)
@@ -96,6 +101,11 @@ namespace UpccModel
             }
         }
 
+        /// <summary>
+        /// Returns the package-to-package containment relations specifying the possible super-packages of the given package type.
+        /// </summary>
+        /// <param name="packageType"></param>
+        /// <returns></returns>
         public IEnumerable<PackageContainmentRelation> GetSuperPackageRelationsFor(MetaPackage packageType)
         {
             foreach (PackageContainmentRelation relation in All)

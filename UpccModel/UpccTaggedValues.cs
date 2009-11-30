@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace UpccModel
 {
-    public class UpccModelTaggedValues
+    public class UpccTaggedValues
     {
         public readonly MetaTaggedValue BaseUrn = new MetaTaggedValue("baseURN");
 
@@ -22,7 +22,10 @@ namespace UpccModel
 
         public readonly MetaTaggedValue FractionDigits = new MetaTaggedValue("fractionDigits");
 
-        public readonly MetaTaggedValue LanguageCode = new MetaTaggedValue("languageCode");
+        public readonly MetaTaggedValue LanguageCode = new MetaTaggedValue("languageCode")
+                                                            {
+                                                                Cardinality = Cardinality.ZeroOrOne,
+                                                            };
 
         public readonly MetaTaggedValue Length = new MetaTaggedValue("length");
 
@@ -66,14 +69,22 @@ namespace UpccModel
                                                  };
 
         public readonly MetaTaggedValue TotalDigits = new MetaTaggedValue("totalDigits");
-        public readonly MetaTaggedValue UniqueIdentifier = new MetaTaggedValue("uniqueIdentifier");
+
+        public readonly MetaTaggedValue UniqueIdentifier = new MetaTaggedValue("uniqueIdentifier")
+                                                            {
+                                                                Cardinality = Cardinality.ZeroOrOne,
+                                                            };
 
         public readonly MetaTaggedValue UsageRule = new MetaTaggedValue("usageRule")
                                                     {
                                                         Cardinality = Cardinality.Many,
                                                     };
 
-        public readonly MetaTaggedValue VersionIdentifier = new MetaTaggedValue("versionIdentifier");
+        public readonly MetaTaggedValue VersionIdentifier = new MetaTaggedValue("versionIdentifier")
+                                                            {
+                                                                Cardinality = Cardinality.ZeroOrOne,
+                                                            };
+
         public readonly MetaTaggedValue WhiteSpace = new MetaTaggedValue("whiteSpace");
 
         public IEnumerable<MetaTaggedValue> All

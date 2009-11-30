@@ -4,5 +4,6 @@ namespace UpccModel
     {
         public string Name;
         public string Stereotype;
+        public MetaTaggedValue[] TaggedValues;
     }
 }

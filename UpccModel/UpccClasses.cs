@@ -2,12 +2,13 @@ namespace UpccModel
 {
     public class UpccClasses
     {
+        public readonly MetaClass Ma;
         public readonly MetaClass Abie;
         public readonly MetaClass Acc;
         public readonly MetaClass Bdt;
         public readonly MetaClass Cdt;
 
-        public UpccClasses(UpccModelTaggedValues taggedValues)
+        public UpccClasses(UpccTaggedValues taggedValues)
         {
             Cdt = new MetaClass
                   {
@@ -19,7 +20,6 @@ namespace UpccModel
                   {
                       Name = "Acc",
                       Stereotype = "ACC",
-                      HasIsEquivalentTo = true,
                       TaggedValues = new[]
                                      {
                                          taggedValues.BusinessTerm,
@@ -29,26 +29,6 @@ namespace UpccModel
                                          taggedValues.UniqueIdentifier,
                                          taggedValues.VersionIdentifier,
                                          taggedValues.UsageRule,
-                                     },
-                      Associations = new[]
-                                     {
-                                         new MetaAssociation
-                                         {
-                                             Stereotype = "ASCC",
-                                             AssociatedElementType = "ACC",
-                                             Cardinality = Cardinality.Many,
-                                             TaggedValues = new[]
-                                                            {
-                                                                taggedValues.BusinessTerm,
-                                                                taggedValues.Definition,
-                                                                taggedValues.DictionaryEntryName,
-                                                                taggedValues.LanguageCode,
-                                                                taggedValues.SequencingKey,
-                                                                taggedValues.UniqueIdentifier,
-                                                                taggedValues.VersionIdentifier,
-                                                                taggedValues.UsageRule,
-                                                            },
-                                         },
                                      },
                   };
 
@@ -62,6 +42,12 @@ namespace UpccModel
                    {
                        Name = "Abie",
                        Stereotype = "ABIE",
+                   };
+
+            Ma = new MetaClass
+                   {
+                       Name = "Ma",
+                       Stereotype = "MA",
                    };
         }
     }

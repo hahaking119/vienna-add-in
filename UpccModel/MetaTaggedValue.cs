@@ -2,7 +2,7 @@ namespace UpccModel
 {
     public class MetaTaggedValue
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
         public Cardinality Cardinality;
         public string Type;
         public string DefaultValue;

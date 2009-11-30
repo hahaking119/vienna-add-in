@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace UpccModel
 {
     public class UpccAttributes
@@ -9,11 +11,14 @@ namespace UpccModel
         public readonly MetaAttribute CdtCon;
         public readonly MetaAttribute CdtSup;
 
-        public UpccAttributes(UpccModelTaggedValues taggedValues)
+        public UpccAttributes(UpccTaggedValues taggedValues, UpccClasses classes, UpccDataTypes dataTypes)
         {
             Bcc = new MetaAttribute
                   {
                       Stereotype = "BCC",
+                      ContainingClassifierType = classes.Acc,
+                      Name = "Bccs",
+                      Type = classes.Cdt,
                       Cardinality = Cardinality.Many,
                       TaggedValues = new[]
                                      {
@@ -27,6 +32,20 @@ namespace UpccModel
                                          taggedValues.UsageRule,
                                      },
                   };
+            All = new[]{Bcc};
+        }
+
+        public IEnumerable<MetaAttribute> All { get; private set; }
+
+        public IEnumerable<MetaAttribute> GetAttributesFor(MetaClassifier classifier)
+        {
+            foreach (var attribute in All)
+            {
+                if (attribute.ContainingClassifierType == classifier)
+                {
+                    yield return attribute;
+                }
+            }
         }
     }
 }

@@ -14,7 +14,12 @@ namespace VIENNAAddIn.upcc3.ccts.otf
 
         #region IDocLibrary Members
 
-        public IEnumerable<IAbie> RootAbies
+        public IAbie RootAbie
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<IAbie> NonRootAbies
         {
             get { throw new NotImplementedException(); }
         }

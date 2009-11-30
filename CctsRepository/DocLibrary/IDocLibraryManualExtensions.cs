@@ -14,8 +14,13 @@ namespace CctsRepository.DocLibrary
     public partial interface IDocLibrary
     {
         ///<summary>
-        /// Returns the root ABIEs of documents defined in this DOCLibrary.
+        /// Returns the root ABIE of the document defined in this DOCLibrary.
         ///</summary>
-        IEnumerable<IAbie> RootAbies { get; }
+        IAbie RootAbie { get; }
+
+        ///<summary>
+        /// Returns the ABIEs contained in this DOCLibrary that are not the root element of the defined document.
+        ///</summary>
+        IEnumerable<IAbie> NonRootAbies { get; }
     }
 }
