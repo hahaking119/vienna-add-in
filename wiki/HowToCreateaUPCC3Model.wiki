@@ -18,7 +18,15 @@ This tutorial explaines how to create a new model according to the UPCC3 standar
   # In the _Project Browser_, right-click on the newly created model
   # Select _Add-In / VIENNAAddIn / Create initial UPCC3 model structure_ from the context menu:
     TODO img 3
-  # In the _Default UPCC Model Creator_ dialog, ...
+  # In the _Default UPCC Model Creator_ dialog, you can choose a name to be assigned to the new model:
+    TODO img 5
+  # Usually, default names are assigned to the libraries generated as members of the new model. If you want to assign custom names to some of the libraries, uncheck the _Use default names for generated Libraries_ checkbox and change the library names:
+    TODO img 6
+  # After unchecking _Use default names for generated Libraries_, you can also uncheck all libraries you do not want to be generated automatically
+  # When selecting _Import standard CC libraries_ checkbox, the Add-In will automatically download the standard Core Component Libraries an import them into the newly created model.
+    # 1
+    # 2
+  # finish
 
 <wiki:comment>Finally, click "Generate Default Model" to create the model structure. The process of generating the model structure will take some time, you can observe this process by watching the status messages that are printed to the "status" field regularly. When finished, a message box confirms that the model has been created successfully.</wiki:comment>
 
