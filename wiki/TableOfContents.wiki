@@ -8,7 +8,8 @@
  * [EnterpriseArchitect The Enterprise Architect]  
  * [HowToVideos HOW-TO videos]  
  * [HowToCreateaUPCC3Model How To create a UPCC3 Model]
- * [ReferenceDefaultUPCCModelCreator Reference: Default UPCC ModelCreator]
+ * [ReferenceDefaultUPCCModelCreator Reference: Default UPCC Model Creator]
+ * [ReferenceStandardCCLImporter Reference: Standard CCL Importer]
 
 * [ForDevelopers Developer infos]
  * [CheckoutfromSVN Check out from SVN]
