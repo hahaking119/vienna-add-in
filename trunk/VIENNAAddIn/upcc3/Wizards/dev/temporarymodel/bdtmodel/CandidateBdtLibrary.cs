@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
 {
-    public class TemporaryBdtModel : TemporaryModel
+    public class CandidateBdtLibrary
     {
-        private List<CandidateBdtLibrary> candidateBdtLibraries;
+        private List<CandidateBdt> candidateBdts;
     }
 }

@@ -5,18 +5,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class CandidateBcc
     {
-        internal string Name { get; set; }
-        internal IBcc OriginalBCC { get; set; }
-        internal bool Checked { get; set; }
-        internal bool Selected { get; set; }
-        internal Dictionary<string, PotentialBbie> PotentialBBIEs { get; set;}
+        private string Name { get; set; }
+        private bool Checked { get; set; }        
+        private IBcc OriginalBcc { get; set; }
+        private List<PotentialBbie> potentialBbies;        
 
-        public CandidateBcc(IBcc originalBCC)
+        public CandidateBcc(IBcc initOriginalBcc)
         {
-            Name = originalBCC.Name;
-            OriginalBCC = originalBCC;
+            Name = initOriginalBcc.Name;
             Checked = false;
-            PotentialBBIEs = new Dictionary<string, PotentialBbie>();
+            OriginalBcc = initOriginalBcc;            
+            potentialBbies = new List<PotentialBbie>();
         }
     }
 }

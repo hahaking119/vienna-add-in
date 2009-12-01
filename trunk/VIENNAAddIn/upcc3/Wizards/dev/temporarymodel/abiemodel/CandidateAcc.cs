@@ -5,15 +5,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class CandidateAcc
     {
-        internal IAcc OriginalAcc { get; set;}
-        internal bool Selected { get; set; }
-        internal List<CandidateAbie> candidateAbies { get; set; }
-        internal List<CandidateBcc> candidateBccs { get; set; }
-        internal CandidateAcc(IAcc acc)
+        private IAcc OriginalAcc { get; set;}
+
+        private List<CandidateAbie> candidateAbies;
+        private List<CandidateBcc> candidateBccs;
+
+        internal CandidateAcc(IAcc initAcc)
         {
-            OriginalAcc = acc;
-            candidateAbies = new List<CandidateAbie>();
+            OriginalAcc = initAcc;
+
             candidateBccs = new List<CandidateBcc>();
+
+            candidateAbies = new List<CandidateAbie>();            
         }
     }
 }
