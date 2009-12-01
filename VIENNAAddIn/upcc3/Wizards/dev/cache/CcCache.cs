@@ -47,7 +47,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>An instance of CcCache.</returns>
         public static CcCache GetInstance(ICctsRepository cctsRepository)
         {
-            if (ClassInstance == null)
+            if (ClassInstance == null || ClassInstance.cctsRepository != cctsRepository)
             {
                 ClassInstance = new CcCache(cctsRepository);
             }
@@ -121,7 +121,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         {
             if (bieLibraries == null)
             {
-                Debug.WriteLine("BIE Cache Load triggered.");
                 bieLibraries = new List<CacheItemBieLibrary>();
                 foreach (IBieLibrary bieLibrary in cctsRepository.GetBieLibraries())
                 {

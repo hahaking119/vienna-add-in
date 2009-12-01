@@ -1,172 +1,237 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using Moq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
-using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 {
     [TestFixture]
     public class CcCacheTest
     {
-        private EARepositoryCCCache eaRepository;
-        private ICctsRepository cctsRepository;
-
-        #region Test SetUp/TearDown
-
-        [SetUp]
-        public void Setup()
-        {
-            eaRepository = new EARepositoryCCCache();
-            cctsRepository = new CCRepository(eaRepository);
-        }
-
-        [TearDown]
-        public void Teardown()
-        {
-            eaRepository = null;
-            cctsRepository = null;
-        }
-
-        #endregion
-
         [Test]
-        public void ShouldGetAndCacheCDTLibraries()
+        public void ShouldGetAndCacheCdtLibraries()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
-
+            // Setup
+            var cdtLibraryMock = new Mock<ICdtLibrary>();
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetCdtLibraries()).Returns(new [] {cdtLibraryMock.Object});
+            
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             List<ICdtLibrary> cdtLibraries = ccCache.GetCDTLibraries();
-
+            ccCache.GetCDTLibraries();
+            
+            // Assertion and Verification
             Assert.That(cdtLibraries, Is.Not.Null);
-            Assert.That(cdtLibraries.Count, Is.EqualTo(1));
+            Assert.That(cdtLibraries.Count, Is.EqualTo(1));            
+            Assert.That(cdtLibraries[0], Is.SameAs(cdtLibraryMock.Object));
+            cctsRepositoryMock.Verify(r => r.GetCdtLibraries(), Times.Exactly(1));
         }
 
         [Test]
-        public void ShouldGetAndCacheCCLibraries()
+        public void ShouldGetAndCacheCcLibraries()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
+            // Setup
+            var ccLibraryMock = new Mock<ICcLibrary>();
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetCcLibraries()).Returns(new[] { ccLibraryMock.Object });
 
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             List<ICcLibrary> ccLibraries = ccCache.GetCCLibraries();
+            ccCache.GetCCLibraries();
 
+            // Assertion and Verification
             Assert.That(ccLibraries, Is.Not.Null);
             Assert.That(ccLibraries.Count, Is.EqualTo(1));
+            Assert.That(ccLibraries[0], Is.SameAs(ccLibraryMock.Object));
+            cctsRepositoryMock.Verify(r => r.GetCcLibraries(), Times.Exactly(1));
         }
 
         [Test]
-        public void ShouldGetAndCacheBDTLibraries()
+        public void ShouldGetAndCacheBdtLibraries()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
+            // Setup
+            var bdtLibraryMock = new Mock<IBdtLibrary>();
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetBdtLibraries()).Returns(new[] { bdtLibraryMock.Object });
 
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             List<IBdtLibrary> bdtLibraries = ccCache.GetBDTLibraries();
+            ccCache.GetBDTLibraries();
 
+            // Assertion and Verification
             Assert.That(bdtLibraries, Is.Not.Null);
             Assert.That(bdtLibraries.Count, Is.EqualTo(1));
+            Assert.That(bdtLibraries[0], Is.SameAs(bdtLibraryMock.Object));
+            cctsRepositoryMock.Verify(r => r.GetBdtLibraries(), Times.Exactly(1));
         }
 
         [Test]
-        public void ShouldGetAndCacheBIELibraries()
+        public void ShouldGetAndCacheBieLibraries()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
+            // Setup
+            var bieLibraryMock = new Mock<IBieLibrary>();
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetBieLibraries()).Returns(new[] { bieLibraryMock.Object });
 
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             List<IBieLibrary> bieLibraries = ccCache.GetBIELibraries();
+            ccCache.GetBIELibraries();
 
+            // Assertion and Verification
             Assert.That(bieLibraries, Is.Not.Null);
             Assert.That(bieLibraries.Count, Is.EqualTo(1));
+            Assert.That(bieLibraries[0], Is.SameAs(bieLibraryMock.Object));
+            cctsRepositoryMock.Verify(r => r.GetBieLibraries(), Times.Exactly(1));
         }
 
         [Test]
-        public void ShouldGetAllCDTsFromCDTLibrary()
+        public void ShouldGetAndCacheAllCdtsFromCdtLibrary()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
+            // Setup
+            var cdtMock = new Mock<ICdt>();
+            var cdtLibraryMock = new Mock<ICdtLibrary>();
+            ICdt[] expectedCdts = new[] {cdtMock.Object, cdtMock.Object, cdtMock.Object};
+            cdtLibraryMock.SetupGet(l => l.Name).Returns("cdtlib1");
+            cdtLibraryMock.SetupGet(l => l.Cdts).Returns(expectedCdts);
+
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetCdtLibraries()).Returns(new[] { cdtLibraryMock.Object });
+
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             List<ICdt> cdts = ccCache.GetCDTsFromCDTLibrary("cdtlib1");
-            Assert.That(cdts.Count, Is.EqualTo(4));
+            ccCache.GetCDTsFromCDTLibrary("cdtlib1");
+
+            // Assertion and Verification
+            Assert.That(cdts, Is.EquivalentTo(expectedCdts));            
+            cdtLibraryMock.VerifyGet(l => l.Cdts, Times.Exactly(1));            
         }
 
         [Test]
-        public void ShouldGetParticularCDTFromCDTLibrary()
+        public void ShouldGetAndCacheAllCcsFromCcLibrary()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
+            // Setup
+            var accMock = new Mock<IAcc>();
+            var ccLibraryMock = new Mock<ICcLibrary>();
+            IAcc[] expectedAccs = new[] { accMock.Object, accMock.Object};
+            ccLibraryMock.SetupGet(l => l.Name).Returns("cclib1");
+            ccLibraryMock.SetupGet(l => l.Accs).Returns(expectedAccs);
+            
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetCcLibraries()).Returns(new[] { ccLibraryMock.Object });
 
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
+            List<IAcc> accs = ccCache.GetCCsFromCCLibrary("cclib1");
+            ccCache.GetCCsFromCCLibrary("cclib1");
+
+            // Assertion and Verification
+            Assert.That(accs, Is.EquivalentTo(expectedAccs));
+            ccLibraryMock.VerifyGet(l => l.Accs, Times.Exactly(1));   
+        }
+
+        [Test]
+        public void ShouldGetAndCacheParticularCdtFromCdtLibrary()
+        {
+            // Setup
+            var cdtMockText = new Mock<ICdt>();
+            cdtMockText.SetupGet(c => c.Name).Returns("Text");
+            var cdtMockDate = new Mock<ICdt>();
+            cdtMockDate.SetupGet(c => c.Name).Returns("Date");
+
+            var cdtLibraryMock = new Mock<ICdtLibrary>();
+            ICdt[] expectedCdts = new[] { cdtMockDate.Object, cdtMockText.Object };
+            cdtLibraryMock.SetupGet(l => l.Name).Returns("cdtlib1");
+            cdtLibraryMock.SetupGet(l => l.Cdts).Returns(expectedCdts);
+
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetCdtLibraries()).Returns(new[] { cdtLibraryMock.Object });
+
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             ICdt cdt = ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
-
-            Assert.That(cdt, Is.Not.Null);
-            Assert.That(cdt.Name, Is.EqualTo("Text"));            
-        }
-
-
-
-        [Test]
-        public void ShouldGetAllCCsFromCCLibrary()
-        {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
-
-            List<IAcc> ccs = ccCache.GetCCsFromCCLibrary("cclib1");
-
-            Assert.That(ccs.Count, Is.EqualTo(2));
+            ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
+                
+            // Assertion and Verification
+            Assert.That(cdt, Is.SameAs(cdtMockText.Object));
+            cdtLibraryMock.VerifyGet(l => l.Cdts, Times.Exactly(1));   
         }
 
         [Test]
-        public void ShouldGetParticularCCFromCCLibrary()
+        public void ShouldGetAndCacheParticularCcFromCcLibrary()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
+            // Setup
+            var accMockPerson = new Mock<IAcc>();
+            accMockPerson.SetupGet(a => a.Name).Returns("Person");
+            var accMockAddress = new Mock<IAcc>();
+            accMockAddress.SetupGet(a => a.Name).Returns("Address");
 
-            IAcc cc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
+            var ccLibraryMock = new Mock<ICcLibrary>();
+            IAcc[] expectedAccs = new[] { accMockAddress.Object, accMockPerson.Object };
+            ccLibraryMock.SetupGet(l => l.Name).Returns("cclib1");
+            ccLibraryMock.SetupGet(l => l.Accs).Returns(expectedAccs);
 
-            Assert.That(cc, Is.Not.Null);
-            Assert.That(cc.Name, Is.EqualTo("Address"));
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetCcLibraries()).Returns(new[] { ccLibraryMock.Object });
+
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
+            IAcc acc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
+            ccCache.GetCCFromCCLibrary("cclib1", "Address");
+
+            // Assertion and Verification
+            Assert.That(acc, Is.SameAs(accMockAddress.Object));
+            ccLibraryMock.VerifyGet(l => l.Accs, Times.Exactly(1));  
         }
 
         [Test]
-        public void ShouldGetBDTLibraryByName()
+        public void ShouldGetAndCacheBdtLibraryByName()
         {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
+            // Setup
+            var bdtLibraryMock = new Mock<IBdtLibrary>();
+            bdtLibraryMock.SetupGet(l => l.Name).Returns("bdtlib1");
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetBdtLibraries()).Returns(new[] { bdtLibraryMock.Object });
 
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             IBdtLibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
+            ccCache.GetBDTLibraryByName("bdtlib1");
 
-            Assert.That(bdtLibrary, Is.Not.Null);
-            Assert.That(bdtLibrary.Name, Is.EqualTo("bdtlib1"));
+            // Assertion and Verification
+            Assert.That(bdtLibrary, Is.SameAs(bdtLibraryMock.Object));            
+            cctsRepositoryMock.Verify(r => r.GetBdtLibraries(), Times.Exactly(1));
         }
 
-        [Test]
-        public void ShouldGetBIELibraryByName()
-        {
-            CcCache ccCache = CcCache.GetInstance(cctsRepository);
 
+        [Test]
+        public void ShouldGetAndCacheBieLibraryByName()
+        {
+            // Setup
+            var bieLibraryMock = new Mock<IBieLibrary>();
+            bieLibraryMock.SetupGet(l => l.Name).Returns("bielib1");
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetBieLibraries()).Returns(new[] { bieLibraryMock.Object });
+
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
             IBieLibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
+            ccCache.GetBIELibraryByName("bielib1");
 
-            Assert.That(bieLibrary, Is.Not.Null);
-            Assert.That(bieLibrary.Name, Is.EqualTo("bielib1"));
-        }
-        
-
-        [Test]
-        public void ShouldPrepareCCCacheForParticularABIE()
-        {
-            var abiePerson = cctsRepository.GetAbieByPath(EARepositoryCCCache.PathToBIEPerson());
-
-            var ccCache = CcCache.GetInstance(cctsRepository);
-
-            ccCache.PrepareForABIE(abiePerson);
-            var bieLibrary = ccCache.GetBIELibraryByName("bielib1");
-            //Don't know how to test this.. inserted a Debug message to show if bie library cache loading was forced at any time. If it was not,
-            //Library did get loaded from abie successfully.
-            Assert.That(bieLibrary, Is.Not.Null);
-
-            // TODO: wie testen wir hier am besten, dass der cache die richtigen elemente enthaelt?
-            // TODO: denn falls wir auf die libraries mittels e.g. "GetCCLibraries" zugreifen, versucht
-            // TODO: der cache im aktuellen design natuerlich auf das Repository zuzugreifen!?
-
-            // richtige cc lib -> abie.basedOn.library, only the underlying ACC
-            // richtige cdt lib -> bbie.type.basedOn.library, all CDTs are possible!
-            // richtige bdt lib -> bbie.type.library, all BDTs are possible!
-            // richtige bie lib -> abie.library, only the current ABIE
-            // in jeder lib muessen die entsprechenden elemente vorhanden sein - aber nicht alle!
-        }
+            // Assertion and Verification
+            Assert.That(bieLibrary, Is.SameAs(bieLibraryMock.Object));
+            cctsRepositoryMock.Verify(r => r.GetBieLibraries(), Times.Exactly(1));
+        }       
     }
 }
