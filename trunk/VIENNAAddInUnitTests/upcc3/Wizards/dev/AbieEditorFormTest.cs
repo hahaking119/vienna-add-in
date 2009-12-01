@@ -8,7 +8,7 @@ using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev
 {
     [TestFixture]
-    public class AbieModelerFormTest
+    public class AbieEditorFormTest
     {
         [Test]
         [Ignore]
