@@ -20,7 +20,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     {
         private Dictionary<string, CandidateAbie> candidateAbies;
         private Dictionary<string, CandidateBcc> candidateBccs;
-        private Dictionary<string, PotentialBdt> potentialBdts;
         private string Name;
         private string Prefix;
         public string SelectedBcc{ get; set;}
@@ -85,7 +84,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             set
             {
                 IEnumerator<CheckedListItem> checkedListItemEnumerator = value.GetEnumerator();
-                foreach (var keyValuePair in potentialBdts)
+                foreach (var keyValuePair in candidateBccs[SelectedBcc].PotentialBBIEs[SelectedBbie].PotentialBDTs)
                 {
                     keyValuePair.Value.Name = checkedListItemEnumerator.Current.Name;
                     checkedListItemEnumerator.MoveNext();
