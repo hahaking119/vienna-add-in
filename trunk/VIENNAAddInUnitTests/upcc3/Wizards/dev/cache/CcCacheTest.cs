@@ -20,8 +20,10 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
         {
             // Setup
             var cdtLibraryMock = new Mock<ICdtLibrary>();
+
             var cctsRepositoryMock = new Mock<ICctsRepository>();
-            cctsRepositoryMock.Setup(r => r.GetCdtLibraries()).Returns(new [] {cdtLibraryMock.Object});
+            var expectedCdtLibraries = new [] {cdtLibraryMock.Object};
+            cctsRepositoryMock.Setup(r => r.GetCdtLibraries()).Returns(expectedCdtLibraries);
             
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
@@ -29,9 +31,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             ccCache.GetCDTLibraries();
             
             // Assertion and Verification
-            Assert.That(cdtLibraries, Is.Not.Null);
-            Assert.That(cdtLibraries.Count, Is.EqualTo(1));            
-            Assert.That(cdtLibraries[0], Is.SameAs(cdtLibraryMock.Object));
+            Assert.That(cdtLibraries, Is.EquivalentTo(expectedCdtLibraries));
             cctsRepositoryMock.Verify(r => r.GetCdtLibraries(), Times.Exactly(1));
         }
 
@@ -41,7 +41,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             // Setup
             var ccLibraryMock = new Mock<ICcLibrary>();
             var cctsRepositoryMock = new Mock<ICctsRepository>();
-            cctsRepositoryMock.Setup(r => r.GetCcLibraries()).Returns(new[] { ccLibraryMock.Object });
+            var expectedCcLibraries = new[] { ccLibraryMock.Object };
+            cctsRepositoryMock.Setup(r => r.GetCcLibraries()).Returns(expectedCcLibraries);
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
@@ -49,9 +50,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             ccCache.GetCCLibraries();
 
             // Assertion and Verification
-            Assert.That(ccLibraries, Is.Not.Null);
-            Assert.That(ccLibraries.Count, Is.EqualTo(1));
-            Assert.That(ccLibraries[0], Is.SameAs(ccLibraryMock.Object));
+            Assert.That(ccLibraries, Is.EquivalentTo(expectedCcLibraries));
             cctsRepositoryMock.Verify(r => r.GetCcLibraries(), Times.Exactly(1));
         }
 
@@ -61,7 +60,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             // Setup
             var bdtLibraryMock = new Mock<IBdtLibrary>();
             var cctsRepositoryMock = new Mock<ICctsRepository>();
-            cctsRepositoryMock.Setup(r => r.GetBdtLibraries()).Returns(new[] { bdtLibraryMock.Object });
+            var expectedBdtLibraries = new[] { bdtLibraryMock.Object };
+            cctsRepositoryMock.Setup(r => r.GetBdtLibraries()).Returns(expectedBdtLibraries);
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
@@ -69,9 +69,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             ccCache.GetBDTLibraries();
 
             // Assertion and Verification
-            Assert.That(bdtLibraries, Is.Not.Null);
-            Assert.That(bdtLibraries.Count, Is.EqualTo(1));
-            Assert.That(bdtLibraries[0], Is.SameAs(bdtLibraryMock.Object));
+            Assert.That(bdtLibraries, Is.EquivalentTo(expectedBdtLibraries));
             cctsRepositoryMock.Verify(r => r.GetBdtLibraries(), Times.Exactly(1));
         }
 
@@ -81,7 +79,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             // Setup
             var bieLibraryMock = new Mock<IBieLibrary>();
             var cctsRepositoryMock = new Mock<ICctsRepository>();
-            cctsRepositoryMock.Setup(r => r.GetBieLibraries()).Returns(new[] { bieLibraryMock.Object });
+            var expectedBieLibraries = new[] { bieLibraryMock.Object };
+            cctsRepositoryMock.Setup(r => r.GetBieLibraries()).Returns(expectedBieLibraries);
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
@@ -89,9 +88,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             ccCache.GetBIELibraries();
 
             // Assertion and Verification
-            Assert.That(bieLibraries, Is.Not.Null);
-            Assert.That(bieLibraries.Count, Is.EqualTo(1));
-            Assert.That(bieLibraries[0], Is.SameAs(bieLibraryMock.Object));
+            Assert.That(bieLibraries, Is.EquivalentTo(expectedBieLibraries));
             cctsRepositoryMock.Verify(r => r.GetBieLibraries(), Times.Exactly(1));
         }
 
