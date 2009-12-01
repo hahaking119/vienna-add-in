@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using CctsRepository.CcLibrary;
-using VIENNAAddIn.upcc3.Wizards.dev.util;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
@@ -9,7 +7,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     {
         internal string Name { get; set; }
         internal IBcc OriginalBCC { get; set; }
-        internal Boolean Checked { get; set; }
+        internal bool Checked { get; set; }
+        internal bool Selected { get; set; }
         internal Dictionary<string, PotentialBbie> PotentialBBIEs { get; set;}
 
         public CandidateBcc(IBcc originalBCC)
