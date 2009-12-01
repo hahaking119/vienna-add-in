@@ -20,7 +20,7 @@ Finally, click "Generate Default Model" to create the model structure. The proce
 ==Importing standard libraries==
 
 The standard Core Component Library importer will download the standard CC libraries and import them into the newly created model. There are two possibilities to use this functionality:
-  * When using the "Generate default UPCC Model" dialog for creating a default model, you can use the "Import standard CC Libraries" section in this dialog.
+  * When using the "Default UPCC Model Creator" dialog for creating a default model, you can use the "Import standard CC Libraries" section in this dialog.
   * To import standard CC libraries to an existing model, you can use the Standard CCL Importer: In the Project Brwoser, right-click the bLibrary and choose "Import Standard CC Libraries" from the menu.
 
 Both dialogs look the same and provide the same functionality. They allow you to choose the desired version of the CCL from two drop-down lists. After that, detailed information to the selected version is shown in the "Comments" field.
