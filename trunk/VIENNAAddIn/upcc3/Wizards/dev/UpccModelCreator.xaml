@@ -1,7 +1,7 @@
 ﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.UpccModelCreator"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Height="550" Width="450" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="False" ResizeMode="CanResize" Title="Generate default UPCC Model" FontSize="11">
+    Height="550" Width="450" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="True" ResizeMode="CanResize" Title="Generate default UPCC Model" FontSize="11">
     <DockPanel Background="#FFD4D0C8" Margin="2,5,5,5">
         <DockPanel DockPanel.Dock="Top">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left">Model Name:</Label>
