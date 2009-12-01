@@ -5,13 +5,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class CandidateCcLibrary
     {
-        internal bool Selected { get; set; }
-        internal ICcLibrary OriginalCcLibrary { get; set; }
-        internal List<CandidateAcc> CandidateAccs { get; set; }
+        private ICcLibrary OriginalCcLibrary { get; set; }
+        private List<CandidateAcc> CandidateAccs { get; set; }
 
-        public CandidateCcLibrary(ICcLibrary ccLibrary)
+        public CandidateCcLibrary(ICcLibrary initCcLibrary)
         {
-            OriginalCcLibrary = ccLibrary;
+            OriginalCcLibrary = initCcLibrary;
+
             CandidateAccs = new List<CandidateAcc>();
         }
     }
