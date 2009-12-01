@@ -33,6 +33,8 @@ If you did not import the standard CC libraries through the Default UPCC Model C
   # After choosing the CCL version, detailed information to the selected version is shown in the _Comments_ section:
     TODO img 13
   # Finally, click _Import_
+  # If there are existing libraries in the current project with the same name as the Core Components Libraries, you will need to confirm that these old liberaries may be overwritten:
+    TODO img 16
   # The Add-In will now download the Core Component Libraries as XMI files and import them into the current project
   # You can observe the import process by watching the status messages that are printed to the _Status_ section regularly:
     TODO img 18
