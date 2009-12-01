@@ -27,9 +27,10 @@ This tutorial explaines how to create a new model according to the UPCC3 standar
    # When using the automatic CCL import functionality, you can choose the desired version of the CCL from two drop-down lists
    # After choosing the CCL version, detailed information to the selected version is shown in the _Comments_ section
      TODO img 7
-  # finish
+  # Finally, click _Generate Default Model_
+  # You can observe process of model generation by watching the status messages that are printed to the _Status_ section regularly. After the process has been finished, a message box confirms that the model has been created successfully:
+    TODO img 9
 
-<wiki:comment>Finally, click "Generate Default Model" to create the model structure. The process of generating the model structure will take some time, you can observe this process by watching the status messages that are printed to the "status" field regularly. When finished, a message box confirms that the model has been created successfully.</wiki:comment>
 
 ==Import standard Core Component Libraries==
 
