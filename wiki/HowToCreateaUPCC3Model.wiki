@@ -1,5 +1,3 @@
-#how to create a upcc3 model
-
 =How To Create a UPCC3 Model=
 
   # Create a new project.
