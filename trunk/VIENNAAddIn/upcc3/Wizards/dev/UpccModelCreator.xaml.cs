@@ -63,7 +63,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             InitializeWindow();
         }
 
-        /*
         ///<summary>
         /// The method is called from the menu manager of the VIENNAAddIn and
         /// creates creates as well as launches a new instance of the wizard. 
@@ -74,9 +73,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         ///</param>
         public static void ShowForm(AddInContext context)
         {
-            new UpccModelCreator(context.EARepository, context.CctsRepository).ShowDialog();
+            new UpccModelCreator(context).ShowDialog();
         }
-        */
 
         #region Convenience Methods
 
