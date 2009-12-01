@@ -9,6 +9,7 @@
 
 using System;
 using System.Windows.Forms;
+using System.Windows.Input;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.menu;
@@ -435,6 +436,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
         private void buttonGenerate_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+            buttonClose.IsEnabled = false;
             buttonGenerate.IsEnabled = false;
 
             GatherUserInput();
@@ -455,7 +458,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
             MessageBox.Show(string.Format(StatusMessage, modelName), WizardTitle, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            buttonGenerate.IsEnabled = true;
+            buttonClose.IsEnabled = true;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
         }
 
         private void buttonClose_Click(object sender, System.Windows.RoutedEventArgs e)

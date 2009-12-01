@@ -111,7 +111,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
                 importer.StatusChanged += OnStatusChanged;
                 importer.ImportStandardCcLibraries(bLibrary);
 
-                buttonImport.IsEnabled = true;
                 buttonClose.IsEnabled = true;
                 Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
             }
