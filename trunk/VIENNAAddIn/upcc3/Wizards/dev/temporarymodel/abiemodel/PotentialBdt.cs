@@ -1,4 +1,3 @@
-using System;
 using CctsRepository.BdtLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
@@ -6,7 +5,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     public class PotentialBdt
     {
         internal string Name { get; set; }
-        internal Boolean Checked { get; set; }
+        internal bool Checked { get; set; }
         internal IBdt OriginalBDT { get; set; }
 
         public PotentialBdt(string name)
