@@ -7,9 +7,18 @@ namespace UpccModel
         public MetaClass ContainingClassifierType;
 
         public Cardinality Cardinality;
-        public string Name;
-        public MetaClass Type;
+        public string ClassName;
+        public string AttributeName;
+        public MetaClassifier Type;
 
         public MetaTaggedValue[] TaggedValues;
+
+        public bool HasTaggedValues
+        {
+            get
+            {
+                return TaggedValues != null && TaggedValues.Length > 0;
+            }
+        }
     }
 }

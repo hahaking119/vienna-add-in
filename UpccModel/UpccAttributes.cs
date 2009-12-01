@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace UpccModel
 {
@@ -12,20 +13,63 @@ namespace UpccModel
         public readonly MetaAttribute CdtCon;
         public readonly MetaAttribute CdtSup;
 
-        public UpccAttributes(UpccTaggedValues taggedValues, UpccClasses classes, UpccDataTypes dataTypes)
+        public UpccAttributes(UpccTaggedValues taggedValues, UpccClasses classes, UpccAbstractClasses abstractClasses)
         {
+            CdtCon = new MetaAttribute
+                     {
+                         Stereotype = "CON",
+                         ContainingClassifierType = classes.Cdt,
+                         ClassName = "CdtCon",
+                         AttributeName = "Con",
+                         Type = abstractClasses.BasicType,
+                         Cardinality = Cardinality.One,
+                         TaggedValues = new[]
+                                        {
+                                            taggedValues.BusinessTerm,
+                                            taggedValues.Definition,
+                                            taggedValues.DictionaryEntryName.WithDefaultValue("Cdt.Name + \". Content\""),
+                                            taggedValues.LanguageCode,
+                                            taggedValues.ModificationAllowedIndicator,
+                                            taggedValues.UniqueIdentifier,
+                                            taggedValues.VersionIdentifier,
+                                            taggedValues.UsageRule,
+                                        },
+                     };
+
+            CdtSup = new MetaAttribute
+                     {
+                         Stereotype = "SUP",
+                         ContainingClassifierType = classes.Cdt,
+                         ClassName = "CdtSup",
+                         AttributeName = "Sups",
+                         Type = abstractClasses.BasicType,
+                         Cardinality = Cardinality.Many,
+                         TaggedValues = new[]
+                                        {
+                                            taggedValues.BusinessTerm,
+                                            taggedValues.Definition,
+                                            taggedValues.DictionaryEntryName.WithDefaultValue("Cdt.Name + \". \" + Name + \". \" + Type.Name"),
+                                            taggedValues.LanguageCode,
+                                            taggedValues.ModificationAllowedIndicator,
+                                            taggedValues.UniqueIdentifier,
+                                            taggedValues.VersionIdentifier,
+                                            taggedValues.UsageRule,
+                                        },
+                     };
+
             Bcc = new MetaAttribute
                   {
                       Stereotype = "BCC",
                       ContainingClassifierType = classes.Acc,
-                      Name = "Bccs",
+                      ClassName = "Bcc",
+                      AttributeName = "Bccs",
                       Type = classes.Cdt,
                       Cardinality = Cardinality.Many,
                       TaggedValues = new[]
                                      {
                                          taggedValues.BusinessTerm,
                                          taggedValues.Definition,
-                                         taggedValues.DictionaryEntryName.WithDefaultValue("Container.Name + \". \" + Name + \". \" + Type.Name"),
+                                         taggedValues.DictionaryEntryName.WithDefaultValue("Acc.Name + \". \" + Name + \". \" + Type.Name"),
                                          taggedValues.LanguageCode,
                                          taggedValues.SequencingKey,
                                          taggedValues.UniqueIdentifier,
@@ -33,14 +77,105 @@ namespace UpccModel
                                          taggedValues.UsageRule,
                                      },
                   };
-            All = new[]{Bcc};
+
+            BdtCon = new MetaAttribute
+                     {
+                         Stereotype = "CON",
+                         ContainingClassifierType = classes.Bdt,
+                         ClassName = "BdtCon",
+                         AttributeName = "Con",
+                         Type = abstractClasses.BasicType,
+                         Cardinality = Cardinality.One,
+                         TaggedValues = new[]
+                                        {
+                                            taggedValues.BusinessTerm,
+                                            taggedValues.Definition,
+                                            taggedValues.DictionaryEntryName.WithDefaultValue("Bdt.Name + \". Content\""),
+                                            taggedValues.Enumeration,
+                                            taggedValues.FractionDigits,
+                                            taggedValues.LanguageCode,
+                                            taggedValues.MaximumExclusive,
+                                            taggedValues.MaximumInclusive,
+                                            taggedValues.MaximumLength,
+                                            taggedValues.MinimumExclusive,
+                                            taggedValues.MinimumInclusive,
+                                            taggedValues.MinimumLength,
+                                            taggedValues.ModificationAllowedIndicator,
+                                            taggedValues.Pattern,
+                                            taggedValues.TotalDigits,
+                                            taggedValues.UniqueIdentifier,
+                                            taggedValues.UsageRule,
+                                            taggedValues.VersionIdentifier,
+                                        },
+                     };
+
+            BdtSup = new MetaAttribute
+                     {
+                         Stereotype = "SUP",
+                         ContainingClassifierType = classes.Bdt,
+                         ClassName = "BdtSup",
+                         AttributeName = "Sups",
+                         Type = abstractClasses.BasicType,
+                         Cardinality = Cardinality.Many,
+                         TaggedValues = new[]
+                                        {
+                                            taggedValues.BusinessTerm,
+                                            taggedValues.Definition,
+                                            taggedValues.DictionaryEntryName.WithDefaultValue("Bdt.Name + \". \" + Name + \". \" + Type.Name"),
+                                            taggedValues.Enumeration,
+                                            taggedValues.FractionDigits,
+                                            taggedValues.LanguageCode,
+                                            taggedValues.MaximumExclusive,
+                                            taggedValues.MaximumInclusive,
+                                            taggedValues.MaximumLength,
+                                            taggedValues.MinimumExclusive,
+                                            taggedValues.MinimumInclusive,
+                                            taggedValues.MinimumLength,
+                                            taggedValues.ModificationAllowedIndicator,
+                                            taggedValues.Pattern,
+                                            taggedValues.TotalDigits,
+                                            taggedValues.UniqueIdentifier,
+                                            taggedValues.UsageRule,
+                                            taggedValues.VersionIdentifier,
+                                        },
+                     };
+
+            Bbie = new MetaAttribute
+                   {
+                       Stereotype = "BBIE",
+                       ContainingClassifierType = classes.Abie,
+                       ClassName = "Bbie",
+                       AttributeName = "Bbies",
+                       Type = classes.Bdt,
+                       Cardinality = Cardinality.Many,
+                       TaggedValues = new[]
+                                      {
+                                          taggedValues.BusinessTerm,
+                                          taggedValues.Definition,
+                                          taggedValues.DictionaryEntryName.WithDefaultValue("Abie.Name + \". \" + Name + \". \" + Type.Name"),
+                                          taggedValues.LanguageCode,
+                                          taggedValues.SequencingKey,
+                                          taggedValues.UniqueIdentifier,
+                                          taggedValues.VersionIdentifier,
+                                          taggedValues.UsageRule,
+                                      },
+                   };
         }
 
-        public IEnumerable<MetaAttribute> All { get; private set; }
+        public IEnumerable<MetaAttribute> All
+        {
+            get
+            {
+                foreach (FieldInfo field in GetType().GetFields())
+                {
+                    yield return (MetaAttribute) field.GetValue(this);
+                }
+            }
+        }
 
         public IEnumerable<MetaAttribute> GetAttributesFor(MetaClassifier classifier)
         {
-            foreach (var attribute in All)
+            foreach (MetaAttribute attribute in All)
             {
                 if (attribute.ContainingClassifierType == classifier)
                 {
@@ -51,9 +186,9 @@ namespace UpccModel
 
         public MetaAttribute GetByName(string name)
         {
-            foreach (var attribute in All)
+            foreach (MetaAttribute attribute in All)
             {
-                if (attribute.Name == name)
+                if (attribute.AttributeName == name)
                 {
                     return attribute;
                 }

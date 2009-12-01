@@ -4,8 +4,8 @@ namespace UpccModel
     {
         public string Stereotype;
 
-        public MetaClass SourceClassifierType;
+        public MetaClassifier SourceClassifierType;
 
-        public MetaClass TargetClassifierType;
+        public MetaClassifier TargetClassifierType;
     }
 }

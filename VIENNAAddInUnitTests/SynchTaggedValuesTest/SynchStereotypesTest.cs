@@ -162,52 +162,52 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
             synchStereotypes.Fix(repo);
 
             var bLibrary = repo.Resolve<Package>((Path)"Model" / "bLibrary1");
-            NUnit.Framework.Assert.That(bLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(bLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Package primLibrary = bLibrary.PackageByName("primLibrary");
-            NUnit.Framework.Assert.That(primLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.PrimLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(primLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.PrimLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Package enumLibrary = bLibrary.PackageByName("enumLibrary");
-            NUnit.Framework.Assert.That(enumLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.EnumLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(enumLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.EnumLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Package cdtLibrary = bLibrary.PackageByName("cdtLibrary");
-            NUnit.Framework.Assert.That(cdtLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.CdtLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(cdtLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.CdtLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Package ccLibrary = bLibrary.PackageByName("ccLibrary");
-            NUnit.Framework.Assert.That(ccLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.CcLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(ccLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.CcLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Package bdtLibrary = bLibrary.PackageByName("bdtLibrary");
-            NUnit.Framework.Assert.That(bdtLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BdtLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(bdtLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BdtLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Package bieLibrary = bLibrary.PackageByName("bieLibrary");
-            NUnit.Framework.Assert.That(bieLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BieLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(bieLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.BieLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Package docLibrary = bLibrary.PackageByName("docLibrary");
-            NUnit.Framework.Assert.That(docLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.DocLibrary.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(docLibrary, HasTaggedValues(UpccModel.UpccModel.Instance.Packages.DocLibrary.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Element prim = primLibrary.ElementByName("prim");
-            NUnit.Framework.Assert.That(prim, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Prim.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(prim, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Prim.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Element @enum = enumLibrary.ElementByName("enum");
-            NUnit.Framework.Assert.That(@enum, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Enum.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(@enum, HasTaggedValues(UpccModel.UpccModel.Instance.Enumerations.Enum.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             // TODO code list entries
             //Attribute codeListEntry = @enum.Attributes.GetByName("codeListEntry") as Attribute;
-            //            NUnit.Framework.Assert.That(codeListEntry, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Enum.TaggedValues), "missing tagged values");
+            //            NUnit.Framework.Assert.That(codeListEntry, HasTaggedValues(UpccModel.UpccModel.Instance.DataTypes.Enum.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             // TODO IDScheme
 
             Element cdt = cdtLibrary.ElementByName("cdt");
-            NUnit.Framework.Assert.That(cdt, HasTaggedValues(UpccModel.UpccModel.Instance.Classes.Cdt.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(cdt, HasTaggedValues(UpccModel.UpccModel.Instance.Classes.Cdt.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Element acc = ccLibrary.ElementByName("acc");
-            NUnit.Framework.Assert.That(acc, HasTaggedValues(UpccModel.UpccModel.Instance.Classes.Acc.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(acc, HasTaggedValues(UpccModel.UpccModel.Instance.Classes.Acc.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Attribute bcc = acc.Attributes.GetByName("bcc") as Attribute;
-            NUnit.Framework.Assert.That(bcc, HasTaggedValues(UpccModel.UpccModel.Instance.Attributes.Bcc.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(bcc, HasTaggedValues(UpccModel.UpccModel.Instance.Attributes.Bcc.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
 
             Connector ascc = (Connector) acc.Connectors.GetByName("ascc");
-            NUnit.Framework.Assert.That(ascc, HasTaggedValues(UpccModel.UpccModel.Instance.Associations.Ascc.TaggedValues), "missing tagged values");
+            NUnit.Framework.Assert.That(ascc, HasTaggedValues(UpccModel.UpccModel.Instance.Associations.Ascc.TaggedValues.Convert(tv => tv.Name)), "missing tagged values");
         }
     }
 
@@ -218,7 +218,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
             return new SynchStereotypesTestRepository();
         }
 
-        protected static Constraint HasTaggedValues(MetaTaggedValue[] taggedValues)
+        protected static Constraint HasTaggedValues(IEnumerable<string> taggedValues)
         {
             return new HasTaggedValuesConstraint(taggedValues);
         }
@@ -230,9 +230,9 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
         private string actualName;
         private List<string> missingTaggedValues;
 
-        public HasTaggedValuesConstraint(MetaTaggedValue[] expectedTaggedValues)
+        public HasTaggedValuesConstraint(IEnumerable<string> expectedTaggedValues)
         {
-            this.expectedTaggedValues = new List<string>(expectedTaggedValues.Select(tv => tv.Name));
+            this.expectedTaggedValues = new List<string>(expectedTaggedValues);
         }
 
         public override bool Matches(object actual)
@@ -366,7 +366,9 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
                 "CDTLibrary", cdtLib =>
                               {
                                   cdtLib.Element.Stereotype = Stereotype.CDTLibrary;
-                                  cdtLib.AddCDT("CDT");
+                                  var cdt = cdtLib.AddCDT("CDT");
+                                  cdt.AddAttribute("CON", prim).With((a => { a.Stereotype = Stereotype.CON; }));
+                                  cdt.AddSUP(prim, "SUP");
                               });
             bLibrary.AddPackage(
                 "CCLibrary", ccLib =>
@@ -379,7 +381,9 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
                 "BDTLibrary", bdtLib =>
                               {
                                   bdtLib.Element.Stereotype = Stereotype.BDTLibrary;
-                                  bdtLib.AddBDT("BDT");
+                                  var bdt = bdtLib.AddBDT("BDT");
+                                  bdt.AddAttribute("CON", prim).With((a => { a.Stereotype = Stereotype.CON; }));
+                                  bdt.AddSUP(prim, "SUP");
                               });
             bLibrary.AddPackage(
                 "BIELibrary", bieLib =>
@@ -389,7 +393,10 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
                                   abie.AddBBIE(prim, "BBIE");
                               });
             bLibrary.AddPackage(
-                "DOCLibrary", bieLib => { bieLib.Element.Stereotype = Stereotype.DOCLibrary; });
+                "DOCLibrary", bieLib =>
+                              {
+                                  bieLib.Element.Stereotype = Stereotype.DOCLibrary;
+                              });
         }
     }
 }

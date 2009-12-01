@@ -4,7 +4,7 @@ namespace UpccModel
 {
     public class UpccPackageClassifierContainmentRelations
     {
-        public UpccPackageClassifierContainmentRelations(UpccPackages packages, UpccDataTypes dataTypes, UpccClasses classes)
+        public UpccPackageClassifierContainmentRelations(UpccPackages packages, UpccDataTypes dataTypes, UpccClasses classes, UpccEnumerations enumerations)
         {
             All = new[]
                   {
@@ -21,7 +21,7 @@ namespace UpccModel
                           PackageType = packages.EnumLibrary,
                           PackageRole = "EnumLibrary",
                           ClassifierCardinality = Cardinality.Many,
-                          ClassifierType = dataTypes.Enum,
+                          ClassifierType = enumerations.Enum,
                           ClassifierRole = "Enums",
                       },
                       new PackageClassifierContainmentRelation
