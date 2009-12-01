@@ -1,13 +1,18 @@
-#summary Detailed description of the _Default UPCC Model Generator_
+#summary Detailed description of the Default UPCC Model Creator dialog
 
-= Introduction =
+=Default UPCC Model Creator=
 
-Add your content here.
+The _Default UPCC model Creator_ dialog automatically adds libraries defined in the UPCC standard to an existing model. _Only available is the model has been set as a UPCC3/UMM2 model._
 
+http://vienna-add-in.googlecode.com/svn/wiki/images/ReferenceDefaultUPCCModelCreator_01.gif
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  # In this textbox, enter the desired name to be assigned to the new model.
+  # Select this checkbox if you want the Add-In to automatically assign default names to all the libraries generated as members of the new model.
+  # These checkboxes allow you to define which libraries should be generated as members of the new model and which should be omitted. _Only available if checkbox (2) is selected; the first 4 items are only available if checkbox 5 is not selected._
+  # If you want to assign custom names to the libraries generated as members of the new model, enter these names here. _Only available if checkbox (2) is selected; the first 4 items are only available if checkbox 5 is not selected._
+  # Select this checkbox if you want the Add-In to automatically download the standard CC libraries and import them into the newly created model.
+  # Choose the desired version of the CCL to be imported from these two drop-down lists. _Only available if checkbox (5) is selected._
+  # After choosing a CCL version from the drop-down lists (6), a detailed description of the selected version is shown in ths section. _Only available if checkbox (5) is selected._
+  # During the model generation process, status messages are shown in this section regularly.
+  # Click this button to start the model generation process.
+  # Click this button to close the dialog without generating a model.
