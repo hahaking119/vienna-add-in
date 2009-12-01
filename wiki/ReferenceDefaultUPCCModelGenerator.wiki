@@ -2,7 +2,7 @@
 
 =Default UPCC Model Creator=
 
-The _Default UPCC model Creator_ dialog automatically adds libraries defined in the UPCC standard to an existing model. _Only available is the model has been set as a UPCC3/UMM2 model._
+The _Default UPCC model Creator_ dialog automatically adds libraries defined in the UPCC standard to an existing model. _Only available if the model has been set as a UPCC3/UMM2 model._
 
 http://vienna-add-in.googlecode.com/svn/wiki/images/ReferenceDefaultUPCCModelCreator_01.gif
 
