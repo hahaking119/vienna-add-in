@@ -9,7 +9,7 @@ This tutorial explaines how to create a new model according to the UPCC3 standar
   # From the main menu, select _File / New Project..._ and choose the directory and filename for storing the project:
     TODO img 20
   # In the _Select model(s)_ dialog, select none of the check boxes and click _OK_:
-    TODO img 21
+    http://vienna-add-in.googlecode.com/svn/wiki/HowToCreateaUPCC3Model_02.gif
   # Set the model as a UPCC3 Model by selecting _Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model_ from the main menu:
     TODO img 1
 
