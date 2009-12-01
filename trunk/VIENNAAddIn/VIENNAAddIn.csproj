@@ -122,6 +122,12 @@
     <Compile Include="Exceptions\UnexpectedElementException.cs" />
     <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
+    <Compile Include="Settings\SynchStereotypes.cs" />
+    <Compile Include="Settings\SynchTaggedValues1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SynchTaggedValues.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\ccts\dra\AttributeSpec.cs" />
     <Compile Include="upcc3\ccts\dra\BDTSupplementaryComponent.cs" />
     <Compile Include="upcc3\ccts\dra\Cardinality.cs" />
@@ -288,7 +294,10 @@
     <Compile Include="menu\MenuStringExtensions.cs" />
     <Compile Include="menu\AddInContextPredicateExtensions.cs" />
     <Compile Include="Settings\AddInSettings.cs" />
-    <Compile Include="Settings\SynchStereotypes.cs" />
+    <None Include="Settings\SynchTaggedValues.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SynchTaggedValues1.cs</LastGenOutput>
+    </None>
     <Compile Include="Settings\SynchStereotypesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -540,6 +549,10 @@
       <Project>{D788A632-CD92-4C8A-AE54-A37CD5871368}</Project>
       <Name>CctsRepository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UpccModel\UpccModel.csproj">
+      <Project>{45CFA9B7-56EC-4986-BEAF-079F86A56B0C}</Project>
+      <Name>UpccModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VIENNAAddInUtils\VIENNAAddInUtils.csproj">
       <Project>{3C1352B8-1B53-46F9-BC18-BFF48115A606}</Project>
       <Name>VIENNAAddInUtils</Name>
@@ -548,6 +561,9 @@
       <Project>{D2B72E74-9717-42E0-9D43-0964D8B781BD}</Project>
       <Name>VIENNAAddInWpfUserControls</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />

@@ -1,11 +1,15 @@
 namespace UpccModel
 {
-    public abstract class MetaClassifier
+    public class MetaEnumerationLiteral
     {
-        public string Name;
         public string Stereotype;
+
+        public MetaEnumeration ContainingEnumerationType;
+
+        public Cardinality Cardinality;
+        public string Name;
+
         public MetaTaggedValue[] TaggedValues;
-        public MetaClassifier BaseType;
 
         public bool HasTaggedValues
         {

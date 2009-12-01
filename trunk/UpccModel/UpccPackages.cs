@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace UpccModel
 {
@@ -87,20 +88,17 @@ namespace UpccModel
                            Stereotype = "bLibrary",
                            TaggedValues = bLibraryTaggedValues,
                        };
-
-            All = new[]
-                  {
-                      BLibrary,
-                      PrimLibrary,
-                      EnumLibrary,
-                      CdtLibrary,
-                      CcLibrary,
-                      BdtLibrary,
-                      BieLibrary,
-                      DocLibrary,
-                  };
         }
 
-        public IEnumerable<MetaPackage> All { get; private set; }
+        public IEnumerable<MetaPackage> All
+        {
+            get
+            {
+                foreach (FieldInfo field in GetType().GetFields())
+                {
+                    yield return (MetaPackage) field.GetValue(this);
+                }
+            }
+        }
     }
 }

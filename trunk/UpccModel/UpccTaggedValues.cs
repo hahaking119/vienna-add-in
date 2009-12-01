@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace UpccModel
 {
@@ -11,6 +12,28 @@ namespace UpccModel
                                                            Cardinality = Cardinality.Many,
                                                        };
 
+        public readonly MetaTaggedValue CodeListAgencyIdentifier = new MetaTaggedValue("codeListAgencyIdentifier")
+                                                                   {
+                                                                       Cardinality = Cardinality.ZeroOrOne,
+                                                                   };
+
+        public readonly MetaTaggedValue CodeListAgencyName = new MetaTaggedValue("codeListAgencyName")
+                                                             {
+                                                                 Cardinality = Cardinality.ZeroOrOne,
+                                                             };
+
+        public readonly MetaTaggedValue CodeListIdentifier = new MetaTaggedValue("codeListIdentifier")
+                                                             {
+                                                                 Cardinality = Cardinality.ZeroOrOne,
+                                                             };
+
+        public readonly MetaTaggedValue CodeListName = new MetaTaggedValue("codeListName")
+                                                       {
+                                                           Cardinality = Cardinality.ZeroOrOne,
+                                                       };
+
+        public readonly MetaTaggedValue CodeName = new MetaTaggedValue("codeName");
+
         public readonly MetaTaggedValue Copyright = new MetaTaggedValue("copyright")
                                                     {
                                                         Cardinality = Cardinality.Many,
@@ -20,26 +43,51 @@ namespace UpccModel
 
         public readonly MetaTaggedValue DictionaryEntryName = new MetaTaggedValue("dictionaryEntryName");
 
+        public readonly MetaTaggedValue EnumerationUri = new MetaTaggedValue("enumerationURI")
+                                                         {
+                                                             Cardinality = Cardinality.ZeroOrOne,
+                                                         };
+
+        public readonly MetaTaggedValue Enumeration = new MetaTaggedValue("enumeration")
+                                                         {
+                                                             Cardinality = Cardinality.ZeroOrOne,
+                                                         };
+
         public readonly MetaTaggedValue FractionDigits = new MetaTaggedValue("fractionDigits");
 
+        public readonly MetaTaggedValue IdentifierSchemeAgencyIdentifier = new MetaTaggedValue("identifierSchemeAgencyIdentifier")
+                                                                           {
+                                                                               Cardinality = Cardinality.ZeroOrOne,
+                                                                           };
+
+        public readonly MetaTaggedValue IdentifierSchemeAgencyName = new MetaTaggedValue("identifierSchemeAgencyName")
+                                                                     {
+                                                                         Cardinality = Cardinality.ZeroOrOne,
+                                                                     };
+
         public readonly MetaTaggedValue LanguageCode = new MetaTaggedValue("languageCode")
-                                                            {
-                                                                Cardinality = Cardinality.ZeroOrOne,
-                                                            };
+                                                       {
+                                                           Cardinality = Cardinality.ZeroOrOne,
+                                                       };
 
         public readonly MetaTaggedValue Length = new MetaTaggedValue("length");
 
-        public readonly MetaTaggedValue MaxExclusive = new MetaTaggedValue("maxExclusive");
+        public readonly MetaTaggedValue MaximumExclusive = new MetaTaggedValue("maximumExclusive");
 
-        public readonly MetaTaggedValue MaxInclusive = new MetaTaggedValue("maxInclusive");
+        public readonly MetaTaggedValue MaximumInclusive = new MetaTaggedValue("maximumInclusive");
 
-        public readonly MetaTaggedValue MaxLength = new MetaTaggedValue("maxLength");
+        public readonly MetaTaggedValue MaximumLength = new MetaTaggedValue("maximumLength");
 
-        public readonly MetaTaggedValue MinExclusive = new MetaTaggedValue("minExclusive");
+        public readonly MetaTaggedValue MinimumExclusive = new MetaTaggedValue("minimumExclusive");
 
-        public readonly MetaTaggedValue MinInclusive = new MetaTaggedValue("minInclusive");
+        public readonly MetaTaggedValue MinimumInclusive = new MetaTaggedValue("minimumInclusive");
 
-        public readonly MetaTaggedValue MinLength = new MetaTaggedValue("minLength");
+        public readonly MetaTaggedValue MinimumLength = new MetaTaggedValue("minimumLength");
+
+        public readonly MetaTaggedValue ModificationAllowedIndicator = new MetaTaggedValue("modificationAllowedIndicator")
+                                                                       {
+                                                                           Type = "bool",
+                                                                       };
 
         public readonly MetaTaggedValue NamespacePrefix = new MetaTaggedValue("namespacePrefix")
                                                           {
@@ -58,6 +106,8 @@ namespace UpccModel
                                                         Cardinality = Cardinality.Many,
                                                     };
 
+        public readonly MetaTaggedValue RestrictedPrimitive = new MetaTaggedValue("restrictedPrimitive");
+
         public readonly MetaTaggedValue SequencingKey = new MetaTaggedValue("sequencingKey")
                                                         {
                                                             Cardinality = Cardinality.ZeroOrOne,
@@ -71,9 +121,9 @@ namespace UpccModel
         public readonly MetaTaggedValue TotalDigits = new MetaTaggedValue("totalDigits");
 
         public readonly MetaTaggedValue UniqueIdentifier = new MetaTaggedValue("uniqueIdentifier")
-                                                            {
-                                                                Cardinality = Cardinality.ZeroOrOne,
-                                                            };
+                                                           {
+                                                               Cardinality = Cardinality.ZeroOrOne,
+                                                           };
 
         public readonly MetaTaggedValue UsageRule = new MetaTaggedValue("usageRule")
                                                     {
@@ -91,7 +141,7 @@ namespace UpccModel
         {
             get
             {
-                foreach (var field in GetType().GetFields())
+                foreach (FieldInfo field in GetType().GetFields())
                 {
                     yield return (MetaTaggedValue) field.GetValue(this);
                 }
