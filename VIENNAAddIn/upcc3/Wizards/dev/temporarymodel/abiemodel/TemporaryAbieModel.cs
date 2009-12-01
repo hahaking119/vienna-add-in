@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -19,26 +18,20 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class TemporaryAbieModel : TemporaryModel
     {
-        private Dictionary<string, CandidateAbie> CandidateABIEs;
-        private Dictionary<string, CandidateBcc> CandidateBCCs;
-        private CheckedListModel checkedListModelABIE;
-        private CheckedListModel checkedListModelASCC;
-        private CheckedListModel checkedListModelBBIE;
-        private CheckedListModel checkedListModelBCC;
-        private CheckedListModel checkedListModelBDT;
-        private ListModel listModelACC;
-        private ListModel listModelBDTL;
-        private ListModel listModelBIEL;
-        private ListModel listModelCCL;
+        private Dictionary<string, CandidateAbie> candidateAbies;
+        private Dictionary<string, CandidateBcc> candidateBccs;
+        private Dictionary<string, PotentialBdt> potentialBdts;
         private string Name;
         private string Prefix;
+        public string SelectedBcc{ get; set;}
+        public string SelectedBbie{ get; set;}
 
-        public TemporaryAbieModel(IAcc candidateACC, string name, string prefix)
+        public TemporaryAbieModel(IAcc candidateAcc, string name, string prefix)
         {
             Name = name;
             Prefix = prefix;
 
-            PrepareTemporaryABIEModel(candidateACC);
+            PrepareTemporaryABIEModel(candidateAcc);
         }
 
         public TemporaryAbieModel(CCRepository x)
@@ -59,36 +52,49 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             //}
         }
 
-        public IEnumerable<CheckedListItem> BCCs
+        public IEnumerable<CheckedListItem> Bccs
         {
-            get { return getBCCs(); }
+            get { return GetBccs(); }
             set
             {
                 IEnumerator<CheckedListItem> checkedListItemEnumerator = value.GetEnumerator();
-                foreach (var keyValuePair in CandidateBCCs)
+                foreach (var keyValuePair in candidateBccs)
                 {
                     keyValuePair.Value.Name = checkedListItemEnumerator.Current.Name;
                     checkedListItemEnumerator.MoveNext();
                 }
             }
         }
-        public IEnumerable<CheckedListItem> BBIEs
+        public IEnumerable<CheckedListItem> Bbies
         {
-            //get { return GetBBIEs(); } WTF?
+            get { return GetBbies(); }
             set
             {
                 IEnumerator<CheckedListItem> checkedListItemEnumerator = value.GetEnumerator();
-                foreach (var keyValuePair in CandidateBCCs)
+                foreach (var keyValuePair in candidateBccs)
                 {
                     keyValuePair.Value.Name = checkedListItemEnumerator.Current.Name;
                     checkedListItemEnumerator.MoveNext();
                 }
             }
         }
-
+		
+        public IEnumerable<CheckedListItem> Bdts
+        {
+            get { return GetBdts(); }
+            set
+            {
+                IEnumerator<CheckedListItem> checkedListItemEnumerator = value.GetEnumerator();
+                foreach (var keyValuePair in potentialBdts)
+                {
+                    keyValuePair.Value.Name = checkedListItemEnumerator.Current.Name;
+                    checkedListItemEnumerator.MoveNext();
+                }
+            }
+        }
         private void PrepareTemporaryABIEModel(IAcc acc)
         {
-            CandidateBCCs = new Dictionary<string, CandidateBcc>();
+            candidateBccs = new Dictionary<string, CandidateBcc>();
             foreach (IBcc bcc in acc.BCCs)
             {
                 var candidateBCC = new CandidateBcc(bcc);
@@ -96,33 +102,33 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                 potentialBBIE.PotentialBDTs.Add(candidateBCC.OriginalBCC.Cdt.Name,
                                                 new PotentialBdt(candidateBCC.OriginalBCC.Name));
                 candidateBCC.PotentialBBIEs.Add(candidateBCC.OriginalBCC.Name, potentialBBIE);
-                CandidateBCCs.Add(bcc.Name, candidateBCC);
+                candidateBccs.Add(bcc.Name, candidateBCC);
             }
         }
 
-        public IEnumerable<CheckedListItem> getBCCs()
+        public IEnumerable<CheckedListItem> GetBccs()
         {
-            foreach (var keyValuePair in CandidateBCCs)
+            foreach (var keyValuePair in candidateBccs)
             {
                 yield return new CheckedListItem(keyValuePair.Key, keyValuePair.Value.Checked);
             }
         }
 
-        public IEnumerable<CheckedListItem> GetBBIEs(string bccname)
+        public IEnumerable<CheckedListItem> GetBbies()
         {
-            foreach (var keyValuePair in CandidateBCCs[bccname].PotentialBBIEs)
+            foreach (var keyValuePair in candidateBccs[SelectedBcc].PotentialBBIEs)
             {
                 yield return new CheckedListItem(keyValuePair.Key, keyValuePair.Value.Checked);
             }
         }
 
-        public IEnumerable<CheckedListItem> GetBDTs(string bbieName)
+        public IEnumerable<CheckedListItem> GetBdts()
         {
-            foreach (var keyValuePair in CandidateBCCs)
+            foreach (var keyValuePair in candidateBccs)
             {
                 foreach (var potentialBBIE in keyValuePair.Value.PotentialBBIEs)
                 {
-                    if (potentialBBIE.Key.Equals(bbieName))
+                    if (potentialBBIE.Key.Equals(SelectedBbie))
                     {
                         foreach (var potentialBDT in potentialBBIE.Value.PotentialBDTs)
                         {
@@ -133,14 +139,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }
         }
 
-        public void AddBBIE(string bcc, string potentialBBIEName)
+        public void AddBbie(string bcc, string potentialBBIEName)
         {
-            CandidateBCCs[bcc].PotentialBBIEs.Add(potentialBBIEName, new PotentialBbie(potentialBBIEName));
+            candidateBccs[bcc].PotentialBBIEs.Add(potentialBBIEName, new PotentialBbie(potentialBBIEName));
         }
 
-        public void AddBDT(string potentialBDTName)
+        public void AddBdt(string potentialBDTName)
         {
-            foreach (var candidateBCC in CandidateBCCs)
+            foreach (var candidateBCC in candidateBccs)
             {
                 foreach (var keyValuePair in candidateBCC.Value.PotentialBBIEs)
                 {
@@ -148,37 +154,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                 }
             }
         }
-
-//        private CcCache temporaryCache;
-
-
-        public void Initialize(ListModel _listModelCCL, ListModel _listModelACC, CheckedListModel _checkedListModelBCC,
-                               CheckedListModel _checkedListModelBBIE, CheckedListModel _checkedListModelBDT,
-                               CheckedListModel _checkedListModelABIE, CheckedListModel _checkedListModelASCC,
-                               ListModel _listModelBIEL, ListModel _listModelBDTL)
-        {
-            listModelCCL = _listModelCCL;
-            listModelCCL.Content = new ObservableCollection<string>(new List<string>(getCCLs()));
-            listModelACC = _listModelACC;
-            checkedListModelBCC = _checkedListModelBCC;
-            checkedListModelBBIE = _checkedListModelBBIE;
-            checkedListModelBBIE.Content =
-                new ObservableCollection<CheckedListItem>(new List<CheckedListItem>( /*getBBIEs()*/));
-            checkedListModelBDT = _checkedListModelBDT;
-            checkedListModelBDT.Content =
-                new ObservableCollection<CheckedListItem>(new List<CheckedListItem>( /*getBDTs()*/));
-            checkedListModelABIE = _checkedListModelABIE;
-            checkedListModelABIE.Content =
-                new ObservableCollection<CheckedListItem>(new List<CheckedListItem>( /*getABIEs()*/));
-            checkedListModelASCC = _checkedListModelASCC;
-            checkedListModelASCC.Content =
-                new ObservableCollection<CheckedListItem>(new List<CheckedListItem>( /*getASCCs()*/));
-            listModelBIEL = _listModelBIEL;
-            listModelBIEL.Content = new ObservableCollection<string>(new List<string>( /*getBIELs()*/));
-            listModelBDTL = _listModelBDTL;
-            listModelBDTL.Content = new ObservableCollection<string>(new List<string>( /*getBDTLs()*/));
-        }
-
 
         public IEnumerable<string> getCCLs()
         {
