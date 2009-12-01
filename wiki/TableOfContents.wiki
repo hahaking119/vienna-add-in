@@ -3,11 +3,11 @@
 * [ForUsers User infos]
  * [InstallationNotes Installation Notes]
  * [GettingStarted Getting Started]
-  * [HowToCreateaUPCC3Model How To create a UPCC3 Model]
  * [Troubleshooting Troubleshooting]
  * [Release_Notes Release Notes]
  * [EnterpriseArchitect The Enterprise Architect]  
  * [HowToVideos HOW-TO videos]  
+ * [HowToCreateaUPCC3Model How To create a UPCC3 Model]
 
 * [ForDevelopers Developer infos]
  * [CheckoutfromSVN Check out from SVN]
