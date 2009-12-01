@@ -4,39 +4,35 @@
 
 This tutorial explaines how to create a new model according to the UPCC3 standard in a step-wise manner.
 
-==1) Create a new project==
+==Create a new project==
 
   # From the main menu, select _File / New Project..._ and choose the directory and filename for storing the project:
     TODO img 20
   # In the _Select model(s)_ dialog, select none of the check boxes and click _OK_:
     TODO img 21
+  # Set the model as a UPCC3 Model by selecting _Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model_ from the main menu:
+    TODO img 1
 
+==Generate a default UPCC Model==
 
+  # In the _Project Browser_, right-click on the newly created model
+  # Select _Add-In / VIENNAAddIn / Create initial UPCC3 model structure_ from the context menu:
+    TODO img 3
+  # In the _Default UPCC Model Creator_ dialog, ...
 
-  # Create a new project.
-  # Set the model as a UPCC3 Model by selecting "Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model" from the main menu:
-    test
-  # Select main menu: "Add-Ins / VIENNAAddIn / Create initial UPCC3 model structure". 
+<wiki:comment>Finally, click "Generate Default Model" to create the model structure. The process of generating the model structure will take some time, you can observe this process by watching the status messages that are printed to the "status" field regularly. When finished, a message box confirms that the model has been created successfully.</wiki:comment>
 
-==Generating default UPCC Model==
+==Import standard Core Component Libraries==
 
-This dialog lets you
+If you did not import the standard CC libraries through the Default UPCC Model Creator, you can do that later using the Standard CCL Importer.
 
-  * choose a name for the generated UPCC model
-  * select which libraries to create
-  * either choose to use standard names or assign custom names to the libraries to be created
-
-Furthermore you can choose whether to download and import the standard CCL libraries. See the next section for details.
-
-Finally, click "Generate Default Model" to create the model structure. The process of generating the model structure will take some time, you can observe this process by watching the status messages that are printed to the "status" field regularly. When finished, a message box confirms that the model has been created successfully.
-
-==Importing standard libraries==
-
-The standard Core Component Library importer will download the standard CC libraries and import them into the newly created model. There are two possibilities to use this functionality:
-
-  * When using the "Generate default UPCC Model" dialog for creating a default model, you can use the "Import standard CC Libraries" section in this dialog.
-  * To import standard CC libraries to an existing model, you can use the Standard CCL Importer: In the Project Brwoser, right-click the bLibrary and choose "Import Standard CC Libraries" from the menu. 
-
-Both dialogs look the same and provide the same functionality. They allow you to choose the desired version of the CCL from two drop-down lists. After that, detailed information to the selected version is shown in the "Comments" field.
-
-After clicking "Import" (or "Generate Default Model" in the "Generate default UPCC Model" dialog), the Add-In will download the CC libraries as XMI files and import them into the current project. 
+  # In the _Project Browser_, select the model and right-click on the bLibrary
+  # Select _Add-In / VIENNAAddIn / Import Standard CC Libraries_ from the context menu:
+    TODO img 12
+  # In the _Standard Core Component Library Importer_ dialog, you can choose the desired version of the CCL from two drop-down lists
+  # After choosing the CCL version, detailed information to the selected version is shown in the _Comments_ section:
+    TODO img 13
+  # Finally, click _Import_
+  # The Add-In will now download the Core Component Libraries as XMI files and import them into the current project
+  # You can observe the import process by watching the status messages that are printed to the _Status_ section regularly:
+    TODO img 18
