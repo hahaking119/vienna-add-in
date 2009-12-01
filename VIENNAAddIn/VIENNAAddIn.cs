@@ -51,8 +51,10 @@ namespace VIENNAAddIn
                               DefaultChecked = Never
                           };
 
+            //MenuAction createUPCCStructure =
+              //  "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm);
             MenuAction createUPCCStructure =
-                "&Create initial UPCC3 model structure".OnClick(/*UpccModelCreator.ShowForm*/UpccModelWizardForm.ShowForm);
+                "&Create initial UPCC3 model structure".OnClick(UpccModelCreator.ShowForm);
             MenuAction createABIE = "Create new &ABIE".OnClick(/*AbieEditor.ShowForm*/ABIEWizardForm.ShowABIEWizard);
             MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
             MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
@@ -84,10 +86,15 @@ namespace VIENNAAddIn
                                      )
                                    + "&Options".OnClick(OptionsForm.ShowForm)
                                    + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)));
+            //menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+            //                    + (AddInSettings.AddInName
+            //                       + validate
+            //                       + "Import Standard CC Libraries".OnClick(StandardLibraryImporterForm.ShowForm)))
+            //    .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.bLibrary));
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
                                    + validate
-                                   + "Import Standard CC Libraries".OnClick(/*StandardLibraryImporter.ShowForm*/StandardLibraryImporterForm.ShowForm)))
+                                   + "Import Standard CC Libraries".OnClick(StandardLibraryImporter.ShowForm)))
                 .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.bLibrary));
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName

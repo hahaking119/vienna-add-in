@@ -4,7 +4,6 @@ using System.Windows.Input;
 using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
-using Cursors=System.Windows.Forms.Cursors;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev
 {
