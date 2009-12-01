@@ -307,7 +307,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
         private void PopulateTxtComment()
         {
-            txtComment.Text = versionHandler.GetComment(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
+            if (cbxMajor.SelectedItem != null && cbxMinor.SelectedItem != null)
+                txtComment.Text = versionHandler.GetComment(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
         }
 
         private void CheckIfInputIsValid()
