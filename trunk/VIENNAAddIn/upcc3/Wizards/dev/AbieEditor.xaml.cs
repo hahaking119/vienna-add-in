@@ -25,15 +25,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
     {
         private readonly CcCache cache;
         private TemporaryAbieModel tempModel;
-        private ListModel listModelACC;
+        private readonly ListModel listModelACC;
         private CheckedListModel checkedListModelBCC;
-        private CheckedListModel checkedListModelBBIE;
-        private CheckedListModel checkedListModelBDT;
+        private readonly CheckedListModel checkedListModelBBIE;
+        private readonly CheckedListModel checkedListModelBDT;
         private CheckedListModel checkedListModelABIE;
         private CheckedListModel checkedListModelASCC;
         private ListModel listModelBIEL;
         private ListModel listModelBDTL;
-        private ListModel listModelCCL;
+        private readonly ListModel listModelCCL;
         /// <summary>
         /// Constructor for ABIE creation wizard
         /// </summary>
@@ -61,7 +61,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             //tempModel.Initialize(listModelCCL, listModelACC, checkedListModelBCC, checkedListModelBBIE, checkedListModelBDT, checkedListModelABIE, checkedListModelASCC, listModelBIEL, listModelBDTL);
             listModelCCL.Content = new ObservableCollection<string>(new List<string>(cache.GetCCLibraries().ConvertAll(
                                                                                          delegate(ICcLibrary iccLibrary) { return iccLibrary.Name; })));
-            WindowLoaded();
         }
 
         /// <summary>
@@ -75,7 +74,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             //cache.PrepareForABIE(abie);
 
             InitializeComponent();
-            WindowLoaded();
         }
 
         /// <summary>
@@ -85,27 +83,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         public static void ShowForm(AddInContext context)
         {
             new AbieEditor(context.CctsRepository).Show();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void WindowLoaded()
-        {
-            /*var testpanel = new StackPanel
-                                {
-                                    Orientation = Orientation.Horizontal
-                                };
-            var coolcheckbox = new CheckBox {VerticalAlignment = VerticalAlignment.Center};
-            var cooltextbox = new TextBox {Text = "BCC1", BorderThickness = new Thickness(0)};
-            cooltextbox.PreviewMouseLeftButtonDown += SelectTextBoxItemOnMouseSingleClick;
-            cooltextbox.KeyUp += textboxKeyUp;
-            cooltextbox.UndoLimit = 1;
-            cooltextbox.Background = System.Windows.Media.Brushes.Transparent;
-            testpanel.Children.Add(coolcheckbox);
-            testpanel.Children.Add(cooltextbox);
-            checkedlistboxBCCs.Items.Add(testpanel);
-            checkedlistboxBCCs.MouseDown += checkedlistboxtboxBCCs_MouseDown;*/
         }
 
         private void checkedlistboxtboxBCCs_MouseDown(object sender, MouseButtonEventArgs e)
@@ -180,7 +157,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private void comboACCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             tempModel = new TemporaryAbieModel(cache.GetCCFromCCLibrary(comboCCLs.SelectedItem.ToString(),comboACCs.SelectedItem.ToString()),textABIEName.Text,textPrefix.Text);
-            checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(tempModel.BCCs);
+            checkedListModelBCC.Content = new ObservableCollection<CheckedListItem>(tempModel.Bccs);
             //tempModel.SetTargetACC(comboBox.SelectedItem.ToString());
         }
 
@@ -202,8 +179,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
                 listbox.SelectedIndex = 0;
                 checkedListItem = (CheckedListItem)listbox.SelectedItem;
             }
+            tempModel.SelectedBcc = checkedListItem.Name;
             checkedListModelBBIE.Content =
-                    new ObservableCollection<CheckedListItem>(tempModel.GetBBIEs(checkedListItem.Name));
+                    new ObservableCollection<CheckedListItem>(tempModel.Bbies);
                 //hack to force BDT Loading on BCC selection!
             checkedlistboxBBIEs.SelectedIndex = 0;
         }
@@ -211,7 +189,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private void buttonAddBBIE_Click(object sender, RoutedEventArgs e)
         {
             var checkedItem = (CheckedListItem) checkedlistboxBCCs.SelectedItem;
-            tempModel.AddBBIE(checkedItem.Name,"New"+checkedItem.Name + checkedlistboxBBIEs.Items.Count);
+            tempModel.AddBbie(checkedItem.Name,"New"+checkedItem.Name + checkedlistboxBBIEs.Items.Count);
         }
 
         private void checkedlistboxBBIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -220,8 +198,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             var checkedListItem = (CheckedListItem)listbox.SelectedItem;
             if (checkedListItem != null)
             {
+                tempModel.SelectedBbie = checkedListItem.Name;
                 checkedListModelBDT.Content =
-                    new ObservableCollection<CheckedListItem>(tempModel.GetBDTs(checkedListItem.Name));
+                    new ObservableCollection<CheckedListItem>(tempModel.Bdts);
                 //select first BDT as default for BBIE
                 checkedlistboxBDTs.SelectedIndex = 0;
             }
