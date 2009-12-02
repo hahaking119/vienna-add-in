@@ -17,7 +17,7 @@ using VIENNAAddIn.menu;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.ccts.otf;
 using VIENNAAddIn.upcc3.Wizards;
-using VIENNAAddIn.upcc3.Wizards.dev;
+using VIENNAAddIn.upcc3.Wizards.dev.ui;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
 using VIENNAAddIn.workflow;
