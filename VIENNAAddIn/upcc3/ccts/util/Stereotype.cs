@@ -47,7 +47,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public const string SUP = "SUP";
         public const string PRIM = "PRIM";
         public const string ENUM = "ENUM";
-        public const string CodelistEntry = "codelistEntry";
+        public const string IDSCHEME = "IDSCHEME";
+        public const string CodelistEntry = "CodelistEntry";
 
         /// <summary>
         /// Returns the correct version of a given stereotype string by fixing case.
@@ -108,6 +109,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
                     return PRIM;
                 case "enum":
                     return ENUM;
+                case "idscheme":
+                    return IDSCHEME;
                 case "codelistentry":
                     return CodelistEntry;
                 default:
@@ -211,6 +214,11 @@ namespace VIENNAAddIn.upcc3.ccts.util
             {
                 return ENUM;
             }
+            // TODO
+//            if (typeof (T) == typeof (IIdScheme))
+//            {
+//                return IDSCHEME;
+//            }
             if (typeof (T) == typeof (ICdtSup))
             {
                 return SUP;

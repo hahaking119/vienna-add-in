@@ -33,5 +33,16 @@ namespace UpccModel
                 }
             }
         }
+
+        public IEnumerable<MetaEnumerationLiteral> GetEnumerationLiteralsFor(MetaClassifier enumeration)
+        {
+            foreach (MetaEnumerationLiteral enumerationLiteral in All)
+            {
+                if (enumerationLiteral.ContainingEnumerationType == enumeration)
+                {
+                    yield return enumerationLiteral;
+                }
+            }
+        }
     }
 }

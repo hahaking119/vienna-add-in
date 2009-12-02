@@ -37,9 +37,10 @@ namespace VIENNAAddInUnitTests.TestRepository
         /// <param name="repositoryFilePath"></param>
         public TemporaryFileBasedRepository(string repositoryFilePath)
         {
-            Console.WriteLine("Creating temporary file-based repository: \"{0}\"", TempFileName);
+            Console.Write("Creating temporary file-based repository: \"{0}\" ... ", TempFileName);
             File.Copy(repositoryFilePath, TempFileName, true);
             repo.OpenFile(TempFileName);
+            Console.WriteLine("done");
         }
 
         private string TempFileName
@@ -67,8 +68,10 @@ namespace VIENNAAddInUnitTests.TestRepository
         /// </summary>
         public void Dispose()
         {
+            Console.WriteLine("Deleting temporary file-based repository: \"{0}\" ... ", TempFileName);
             repo.CloseFile();
             File.Delete(TempFileName);
+            Console.WriteLine("done");
         }
 
         #endregion

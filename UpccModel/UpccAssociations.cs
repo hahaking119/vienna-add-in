@@ -15,12 +15,11 @@ namespace UpccModel
             Ascc = new MetaAssociation
                    {
                        Stereotype = "ASCC",
+                       ClassName = "Ascc",
+                       Name = "Asccs",
+                       Cardinality = Cardinality.Many,
                        AssociatingClassifierType = classes.Acc,
-                       AssociatingClassifierCardinality = Cardinality.Many,
-                       AssociatingClassifierRole = "AssociatingAccs",
                        AssociatedClassifierType = classes.Acc,
-                       AssociatedClassifierCardinality = Cardinality.Many,
-                       AssociatedClassifierRole = "AssociatedAccs",
                        TaggedValues = new[]
                                       {
                                           taggedValues.BusinessTerm,
@@ -37,12 +36,11 @@ namespace UpccModel
             Asbie = new MetaAssociation
                     {
                         Stereotype = "ASBIE",
+                        ClassName = "Asbie",
+                        Name = "Asbies",
+                        Cardinality = Cardinality.Many,
                         AssociatingClassifierType = classes.Abie,
-                        AssociatingClassifierCardinality = Cardinality.Many,
-                        AssociatingClassifierRole = "AssociatingAbies",
                         AssociatedClassifierType = classes.Abie,
-                        AssociatedClassifierCardinality = Cardinality.Many,
-                        AssociatedClassifierRole = "AssociatedAbies",
                         TaggedValues = new[]
                                        {
                                            taggedValues.BusinessTerm,
@@ -59,26 +57,20 @@ namespace UpccModel
             MaAsma = new MetaAssociation
                      {
                          Stereotype = "ASMA",
+                         Name = "Mas",
+                         Cardinality = Cardinality.Many,
                          AssociatingClassifierType = classes.Ma,
-                         AssociatingClassifierCardinality = Cardinality.Many,
-                         AssociatingClassifierRole = "AssociatingMas",
                          AssociatedClassifierType = classes.Ma,
-                         AssociatedClassifierCardinality = Cardinality.Many,
-                         AssociatedClassifierRole = "AssociatedMas",
-                         AssociatedClassifierUseBaseType = true,
                          TaggedValues = new MetaTaggedValue[0],
                      };
 
             AbieAsma = new MetaAssociation
                        {
                            Stereotype = "ASMA",
+                           Name = "Abies",
+                           Cardinality = Cardinality.Many,
                            AssociatingClassifierType = classes.Ma,
-                           AssociatingClassifierCardinality = Cardinality.Many,
-                           AssociatingClassifierRole = "AssociatingMas",
                            AssociatedClassifierType = classes.Abie,
-                           AssociatedClassifierCardinality = Cardinality.Many,
-                           AssociatedClassifierRole = "AssociatedAbies",
-                           AssociatedClassifierUseBaseType = true,
                            TaggedValues = new MetaTaggedValue[0],
                        };
         }
@@ -90,6 +82,28 @@ namespace UpccModel
                 foreach (FieldInfo field in GetType().GetFields())
                 {
                     yield return (MetaAssociation) field.GetValue(this);
+                }
+            }
+        }
+
+        public IEnumerable<MetaAssociation> GetAssociationsForAssociatingClassifier(MetaClassifier classifier)
+        {
+            foreach (var relation in All)
+            {
+                if (relation.AssociatingClassifierType == classifier)
+                {
+                    yield return relation;
+                }
+            }
+        }
+
+        public IEnumerable<MetaAssociation> GetAssociationsForAssociatedClassifier(MetaClassifier classifier)
+        {
+            foreach (var relation in All)
+            {
+                if (relation.AssociatedClassifierType == classifier)
+                {
+                    yield return relation;
                 }
             }
         }

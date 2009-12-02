@@ -2,23 +2,15 @@ namespace UpccModel
 {
     public class MetaAssociation
     {
-        public Cardinality AssociatedClassifierCardinality;
-        public string AssociatedClassifierRole;
-        public MetaClass AssociatedClassifierType;
-
-        public Cardinality AssociatingClassifierCardinality;
-        public string AssociatingClassifierRole;
-        public MetaClass AssociatingClassifierType;
-        public bool AssociatedClassifierUseBaseType;
-
         public string Stereotype;
+        public string ClassName;
+        public string Name;
+        public Cardinality Cardinality;
+
+        public MetaClass AssociatedClassifierType;
+        public MetaClass AssociatingClassifierType;
 
         public MetaTaggedValue[] TaggedValues;
-
-        public MetaAssociation()
-        {
-            AssociatedClassifierUseBaseType = false;
-        }
 
         public bool HasTaggedValues
         {
