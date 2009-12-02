@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
@@ -6,11 +7,48 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     {
         private string mName;
         private bool mChecked;
-        private List<PotentialBdt> mPotentialBDTs;
+        private bool mSelected;
+        private List<PotentialBdt> mPotentialBdts;
 
-        public PotentialBbie()
+        public PotentialBbie(string bbieName)
         {
-            mPotentialBDTs = new List<PotentialBdt>();
+            mName = bbieName;
+            mChecked = false;
+            mSelected = false;
+            mPotentialBdts = null;                       
+        }
+
+        public string Name
+        {
+            get { return mName; }
+            set { mName = value; }
+        }
+
+        public bool Checked
+        {
+            get { return mChecked; }
+            set { mChecked = value; }
+        }
+
+        public bool Selected
+        {
+            get { return mSelected; }
+            set { mSelected = value; }
+        }
+
+        public List<PotentialBdt> PotentialBdts
+        {
+            get
+            {
+                throw new NotImplementedException();
+
+                if (mPotentialBdts== null)
+                {
+
+                }
+
+                return mPotentialBdts;
+            }
         }
     }
 }

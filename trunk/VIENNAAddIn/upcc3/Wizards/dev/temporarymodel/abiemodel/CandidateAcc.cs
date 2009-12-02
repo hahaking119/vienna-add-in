@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CctsRepository.CcLibrary;
 
@@ -12,7 +13,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public CandidateAcc(IAcc originalAcc)
         {
-            OriginalAcc = originalAcc;
+            mOriginalAcc = originalAcc;
+            mSelected = false;
             mCandidateBccs = null;
             mCandidateAbies = null;
         }
@@ -45,6 +47,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                 }
                 
                 return mCandidateBccs;
+            }
+        }
+
+        public List<CandidateAbie> CandidateAbies
+        {
+            get
+            {
+                throw new NotImplementedException();
+
+                if (mCandidateAbies == null)
+                {
+                    
+                }
+
+                return mCandidateAbies;
             }
         }
     }
