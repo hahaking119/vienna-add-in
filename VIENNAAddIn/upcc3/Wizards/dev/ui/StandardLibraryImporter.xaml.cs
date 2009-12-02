@@ -5,7 +5,7 @@ using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
 
-namespace VIENNAAddIn.upcc3.Wizards.dev
+namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     public partial class StandardLibraryImporter
     {
@@ -41,9 +41,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 
                 PopulateCbxMinor();
             }
-            // ReSharper disable EmptyGeneralCatchClause
+                // ReSharper disable EmptyGeneralCatchClause
             catch (Exception)
-            // ReSharper restore EmptyGeneralCatchClause
+                // ReSharper restore EmptyGeneralCatchClause
             {
                 // TODO
             }
@@ -86,11 +86,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         private void buttonImport_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             const string warnMessage = "Importing the standard CC libraries will overwrite all existing:\n\n"
-                           + "    - ENUM libraries named \"ENUMLibrary\",\n"
-                           + "    - PRIM libraries named \"PRIMLibrary\",\n"
-                           + "    - CDT libraries named \"CDTLibrary \", and \n"
-                           + "    - CC libraries named \"CCLibrary\"\n\n"
-                           + "Are you sure you want to proceed?";
+                                       + "    - ENUM libraries named \"ENUMLibrary\",\n"
+                                       + "    - PRIM libraries named \"PRIMLibrary\",\n"
+                                       + "    - CDT libraries named \"CDTLibrary \", and \n"
+                                       + "    - CC libraries named \"CCLibrary\"\n\n"
+                                       + "Are you sure you want to proceed?";
             const string caption = "VIENNA Add-In Warning";
 
             DialogResult dialogResult = MessageBox.Show(warnMessage, caption, MessageBoxButtons.YesNo,

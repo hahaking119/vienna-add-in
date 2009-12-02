@@ -143,10 +143,10 @@
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTests.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValueTests.cs" />
     <Compile Include="upcc3\import\cctsndr\BDTXsdImporterTests.cs" />
-    <Compile Include="upcc3\Wizards\dev\AbieEditorFormTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\AbieEditorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CcCacheTest.cs" />
-    <Compile Include="upcc3\Wizards\dev\StandardLibraryImporterFormTest.cs" />
-    <Compile Include="upcc3\Wizards\dev\UpccModelCreatorFormTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporterFormTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\UpccModelCreatorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryABIEEditor.cs" />
     <Compile Include="upcc3\Wizards\dev\util\TemporaryABIEModelTest.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />

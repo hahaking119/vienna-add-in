@@ -195,7 +195,7 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
-    <Compile Include="upcc3\Wizards\dev\AbieEditor.xaml.cs">
+    <Compile Include="upcc3\Wizards\dev\ui\AbieEditor.xaml.cs">
       <DependentUpon>AbieEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\binding\BindingPropertyNames.cs" />
@@ -204,7 +204,7 @@
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCcLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCdtLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CcCache.cs" />
-    <Compile Include="upcc3\Wizards\dev\StandardLibraryImporter.xaml.cs">
+    <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporter.xaml.cs">
       <DependentUpon>StandardLibraryImporter.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateAbie.cs" />
@@ -221,7 +221,7 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateBdtLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModel.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\TemporaryModel.cs" />
-    <Compile Include="upcc3\Wizards\dev\UpccModelCreator.xaml.cs">
+    <Compile Include="upcc3\Wizards\dev\ui\UpccModelCreator.xaml.cs">
       <DependentUpon>UpccModelCreator.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -531,15 +531,15 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="upcc3\Wizards\dev\AbieEditor.xaml">
+    <Page Include="upcc3\Wizards\dev\ui\AbieEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="upcc3\Wizards\dev\StandardLibraryImporter.xaml">
+    <Page Include="upcc3\Wizards\dev\ui\StandardLibraryImporter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="upcc3\Wizards\dev\UpccModelCreator.xaml">
+    <Page Include="upcc3\Wizards\dev\ui\UpccModelCreator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -572,6 +572,5 @@
   <ItemGroup>
     <Folder Include="doc\" />
     <Folder Include="images\" />
-    <Folder Include="upcc3\Wizards\dev\ui\" />
   </ItemGroup>
 </Project>

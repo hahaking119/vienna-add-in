@@ -15,7 +15,7 @@ using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
 
-namespace VIENNAAddIn.upcc3.Wizards.dev
+namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     /// <summary>
     /// This class implements the functionality for the UPCC Wizard Form which
