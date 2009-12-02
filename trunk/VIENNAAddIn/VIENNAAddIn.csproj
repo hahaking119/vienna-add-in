@@ -198,6 +198,7 @@
     <Compile Include="upcc3\Wizards\dev\AbieEditor.xaml.cs">
       <DependentUpon>AbieEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\binding\BindingPropertyNames.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemBdtLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemBieLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCcLibrary.cs" />
@@ -572,5 +573,6 @@
   <ItemGroup>
     <Folder Include="doc\" />
     <Folder Include="images\" />
+    <Folder Include="upcc3\Wizards\dev\ui\" />
   </ItemGroup>
 </Project>

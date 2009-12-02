@@ -4,20 +4,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class PotentialBdt
     {
-        internal string Name { get; set; }
-        internal bool Checked { get; set; }
-        internal IBdt OriginalBDT { get; set; }
-
-        public PotentialBdt(string name)
-        {
-            Name = name;
-            Checked = false;
-        }
-
-        public PotentialBdt(string name, IBdt originalBDT)
-            : this(name)
-        {
-            OriginalBDT = originalBDT;
-        }
+        private string mName;
+        private bool mChecked;
+        private IBdt mOriginalBDT;
     }
 }

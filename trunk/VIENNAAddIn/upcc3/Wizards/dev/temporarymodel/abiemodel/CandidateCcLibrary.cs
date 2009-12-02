@@ -1,18 +1,47 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using CctsRepository.CcLibrary;
+using VIENNAAddIn.upcc3.Wizards.dev.cache;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class CandidateCcLibrary
     {
-        private ICcLibrary OriginalCcLibrary { get; set; }
-        private List<CandidateAcc> CandidateAccs { get; set; }
+        private ICcLibrary mOriginalCcLibrary;
+        private bool mSelected;
+        private List<CandidateAcc> mCandidateAccs;
 
-        public CandidateCcLibrary(ICcLibrary initCcLibrary)
+        public CandidateCcLibrary(ICcLibrary ccLibrary)
         {
-            OriginalCcLibrary = initCcLibrary;
+            mOriginalCcLibrary = ccLibrary;
+            mSelected = false;
+            mCandidateAccs = null;
+        }
 
-            CandidateAccs = new List<CandidateAcc>();
+        public ICcLibrary OriginalCcLibrary
+        {
+            set { mOriginalCcLibrary = value; }
+            get { return mOriginalCcLibrary; }
+        }
+
+        public bool Selected
+        {
+            set { mSelected = value; }
+            get { return mSelected; }
+        }
+
+        public List<CandidateAcc> CandidateAccs
+        {
+            get
+            {
+                if (mCandidateAccs == null)
+                {
+                    mCandidateAccs = new List<CandidateAcc>(CcCache.GetInstance().GetCCsFromCCLibrary(OriginalCcLibrary.Name).ConvertAll(acc => new CandidateAcc(acc)));
+                }
+
+                return mCandidateAccs;
+            }
         }
     }
 }
