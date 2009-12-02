@@ -23,11 +23,11 @@
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBIELs">BIE Library used to store the ABIE:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboBIELs_SelectionChanged" KeyboardNavigation.TabIndex="6"></ComboBox>
+            <ComboBox ItemsSource="{Binding Path=Model.CandidateBieLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboBIELs_SelectionChanged" KeyboardNavigation.TabIndex="6"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBDTLs">BDT Library used to store the BDTs:</Label>
-            <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs" SelectionChanged="comboBDTLs_SelectionChanged" KeyboardNavigation.TabIndex="5"></ComboBox>
+            <ComboBox ItemsSource="{Binding Path=Model.CandidateBdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs" SelectionChanged="comboBDTLs_SelectionChanged" KeyboardNavigation.TabIndex="5"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelABIEName">Name of the generated ABIE:</Label>
@@ -49,11 +49,11 @@
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
                                         <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" KeyboardNavigation.TabIndex="0">Select all BCCs</CheckBox>
                                     </StackPanel>
-                                    <ListBox Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
+                                    <ListBox ItemsSource="{Binding Path=Model.CandidateBccItems}" Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="False">
-                                                    <TextBox Text="" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                <CheckBox IsChecked="{Binding Path=Checked}">
+                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -66,11 +66,11 @@
                                         <Button Name="buttonAddBBIE" Height="15" Width="15" Click="buttonAddBBIE_Click" FontSize="8" KeyboardNavigation.TabIndex="2">+</Button>
                                         <Label Margin="0,-2,0,0">Add another BBIE</Label>
                                     </StackPanel>
-                                    <ListBox Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBBIEs_SelectionChanged" KeyboardNavigation.TabIndex="3">
+                                    <ListBox ItemsSource="{Binding Path=Model.PotentialBbieItems}" Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBBIEs_SelectionChanged" KeyboardNavigation.TabIndex="3">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="False">
-                                                    <TextBox Text="" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                <CheckBox IsChecked="{Binding Path=Checked}">
+                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -80,11 +80,11 @@
                             <GroupBox Header="BDTs available to typify the BBIEs" Margin="-2,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0" />
-                                    <ListBox Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged" KeyboardNavigation.TabIndex="4">
+                                    <ListBox ItemsSource="{Binding Path=Model.PotentialBdtItems}" Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBDTs_SelectionChanged" KeyboardNavigation.TabIndex="4">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="{Binding Check}">
-                                                    <TextBox Text="" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                <CheckBox IsChecked="{Binding Path=Checked}">
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -99,11 +99,11 @@
                         <UniformGrid Rows="1" Columns="2">
                             <GroupBox Header="ABIEs available to associate the new ABIE with" Margin="0,0,0,0">
                                 <DockPanel>
-                                    <ListBox Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="checkedlistboxABIEs_SelectionChanged" KeyboardNavigation.TabIndex="0">
+                                    <ListBox ItemsSource="{Binding Path=Model.CandidateAsbieItems}" Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="checkedlistboxABIEs_SelectionChanged" KeyboardNavigation.TabIndex="0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="False">
-                                                    <TextBox Text="" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                <CheckBox IsChecked="{Binding Path=Checked}">
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -112,11 +112,11 @@
                             </GroupBox>
                             <GroupBox Header="ASCCs available for the chosen ABIE" Margin="-2,0,0,0">
                                 <DockPanel>
-                                    <ListBox Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="checkedlistboxASCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
+                                    <ListBox ItemsSource="{Binding Path=Model.CandidateAsccItems}" Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="checkedlistboxASCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="False">
-                                                    <TextBox Text="" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                <CheckBox IsChecked="{Binding Path=Checked}">
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>

@@ -10,7 +10,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
 {
     public partial class AbieEditor
     {
-        public TemporaryAbieModel Model { get; set; }
+        public TemporaryAbieModel Model { get; set; }        
 
         public AbieEditor(ICctsRepository cctsRepository)
         {
@@ -46,7 +46,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
             Model.SetSelectedCandidateAcc(comboACCs.SelectedItem.ToString());
         }
 
+        private void comboBDTLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Model.SetSelectedCandidateBdtLibrary(comboBDTLs.SelectedItem.ToString());
+        }
 
+        private void comboBIELs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Model.SetSelectedCandidateBieLibrary(comboBIELs.SelectedItem.ToString());
+        }
 
         private void textboxKeyUp(object sender, KeyEventArgs e)
         {
@@ -57,7 +65,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         {
 
         }
-
 
         private void checkedlistboxBCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -83,14 +90,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev
         }
 
         private void checkedlistboxASCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void comboBDTLs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void comboBIELs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
 

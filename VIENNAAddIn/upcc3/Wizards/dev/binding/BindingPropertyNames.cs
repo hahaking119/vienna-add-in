@@ -7,7 +7,14 @@
             AbieName,
             AbiePrefix,
             CandidateCcLibraryNames,
-            CandidateAccNames
+            CandidateAccNames,
+            CandidateBieLibraryNames,
+            CandidateBdtLibraryNames,
+            CandidateBccItems,
+            PotentialBbieItems,
+            PotentialBdtItems,
+            CandidateAsccItems,
+            PotentialAsbieItems
         }   
 
         public enum TemporaryBdtModel

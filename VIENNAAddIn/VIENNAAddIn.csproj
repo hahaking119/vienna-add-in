@@ -210,7 +210,10 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateAbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateAcc.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBcc.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBdtLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBieLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateCcLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CheckableText.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialAsbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBdt.cs" />
@@ -222,10 +225,6 @@
       <DependentUpon>UpccModelCreator.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="upcc3\Wizards\dev\util\CheckedListModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="upcc3\Wizards\dev\util\ListModel.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModel.cs" />
     <Compile Include="upcc3\Wizards\XsdImporterForm.xaml.cs">
       <DependentUpon>XsdImporterForm.xaml</DependentUpon>
