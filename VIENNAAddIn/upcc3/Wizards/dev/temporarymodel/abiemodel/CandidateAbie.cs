@@ -5,14 +5,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class CandidateAbie
     {
-        internal IAbie OriginalABIE { get; set; }
-        internal bool Checked { get; set; }
-        private Dictionary<string, PotentialAsbie> PotentialASBIEs;
+        private IAbie mOriginalAbie;
+        private bool mChecked;
+        private List<PotentialAsbie> mPotentialAsbies;
 
-        public CandidateAbie(IAbie originalABIE)
+        public CandidateAbie()
         {
-            OriginalABIE = originalABIE;
-            Checked = false;
+            mPotentialAsbies = new List<PotentialAsbie>();
         }
     }
 }

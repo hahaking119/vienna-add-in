@@ -4,16 +4,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class PotentialBbie
     {
-        internal string Name { get; set; }
-        internal bool Checked { get; set; }
-        internal bool Selected { get; set; }
-        internal Dictionary<string, PotentialBdt> PotentialBDTs { get; set; }
+        private string mName;
+        private bool mChecked;
+        private List<PotentialBdt> mPotentialBDTs;
 
-        public PotentialBbie(string name)
+        public PotentialBbie()
         {
-            Name = name;
-            Checked = false;
-            PotentialBDTs = new Dictionary<string, PotentialBdt>();
+            mPotentialBDTs = new List<PotentialBdt>();
         }
     }
 }
