@@ -13,14 +13,39 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         public CandidateAcc(IAcc originalAcc)
         {
             OriginalAcc = originalAcc;
-            mCandidateBccs = new List<CandidateBcc>();
-            mCandidateAbies = new List<CandidateAbie>();
+            mCandidateBccs = null;
+            mCandidateAbies = null;
         }
 
         public IAcc OriginalAcc
         {
             get { return mOriginalAcc; }
             set { mOriginalAcc = value;}
+        }
+
+        public bool Selected
+        {
+            get { return mSelected; }
+            set { mSelected = value; }
+        }
+
+        public List<CandidateBcc> CandidateBccs
+        {
+            get
+            {
+                if (mCandidateBccs == null)
+                {                    
+                    mCandidateBccs = new List<CandidateBcc>();                    
+                    
+                    foreach (IBcc bcc in OriginalAcc.BCCs)
+                    {
+                        mCandidateBccs.Add(new CandidateBcc(bcc));
+                    }
+                    
+                }
+                
+                return mCandidateBccs;
+            }
         }
     }
 }
