@@ -56,6 +56,29 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             Model.SetSelectedCandidateBieLibrary(comboBIELs.SelectedItem.ToString());
         }
 
+        private void checkedlistboxBCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Model.SetSelectedCandidateBcc(checkedlistboxBCCs.SelectedItem.ToString());
+        }
+
+        private void checkedlistboxBBIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Model.SetSelectedPotentialBbie(checkedlistboxBBIEs.SelectedItem.ToString());
+        }
+
+        private void checkedlistboxBDTs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
+        private void checkedlistboxABIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Model.SetSelectedCandidateAbie(checkedlistboxABIEs.SelectedItem.ToString());
+        }
+
+        private void checkedlistboxASCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+        }
+
         private void textboxKeyUp(object sender, KeyEventArgs e)
         {
 
@@ -66,31 +89,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         }
 
-        private void checkedlistboxBCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
         private void buttonAddBBIE_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Hallo");            
-            Model.AbieName = "changed through button";
-            Model.AbiePrefix = "well hello there";
-        }
-
-        private void checkedlistboxBBIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void checkedlistboxBDTs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void checkedlistboxABIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-        }
-
-        private void checkedlistboxASCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+            Model.AddBbie();
         }
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
