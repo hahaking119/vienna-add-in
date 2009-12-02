@@ -1,15 +1,17 @@
-﻿namespace UpccModel
+﻿using System.Linq;
+
+namespace UpccModel
 {
     public class UpccModel
     {
+        public readonly UpccAbstractClasses AbstractClasses;
         public readonly UpccAssociations Associations;
         public readonly UpccAttributes Attributes;
-        public readonly UpccEnumerationLiterals EnumerationLiterals;
         public readonly UpccClasses Classes;
-        public readonly UpccAbstractClasses AbstractClasses;
-        public readonly UpccEnumerations Enumerations;
         public readonly UpccDataTypes DataTypes;
         public readonly UpccDependencies Dependencies;
+        public readonly UpccEnumerationLiterals EnumerationLiterals;
+        public readonly UpccEnumerations Enumerations;
         public readonly UpccPackageClassifierContainmentRelations PackageClassifierContainmentRelations;
         public readonly UpccPackagePackageContainmentRelations PackagePackageContainmentRelations;
         public readonly UpccPackages Packages;
@@ -41,5 +43,35 @@
         }
 
         public static UpccModel Instance { get; private set; }
+
+        public bool HasSubPackages(MetaPackage package)
+        {
+            return PackagePackageContainmentRelations.GetSubPackageRelationsFor(package).Count() > 0;
+        }
+
+        public bool HasClassifiers(MetaPackage package)
+        {
+            return PackageClassifierContainmentRelations.GetClassifierRelationsFor(package).Count() > 0;
+        }
+
+        public bool HasAttributes(MetaClassifier classifier)
+        {
+            return Attributes.GetAttributesFor(classifier).Count() > 0;
+        }
+
+        public bool HasEnumerationLiterals(MetaClassifier classifier)
+        {
+            return EnumerationLiterals.GetEnumerationLiteralsFor(classifier).Count() > 0;
+        }
+
+        public bool HasAssociations(MetaClassifier classifier)
+        {
+            return Associations.GetAssociationsForAssociatingClassifier(classifier).Count() > 0;
+        }
+
+        public bool HasDependencies(MetaClassifier classifier)
+        {
+            return Dependencies.GetDependenciesForSource(classifier).Count() > 0;
+        }
     }
 }

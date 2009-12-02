@@ -26,6 +26,14 @@ namespace UpccModel
                       },
                       new PackageClassifierContainmentRelation
                       {
+                          PackageType = packages.EnumLibrary,
+                          PackageRole = "EnumLibrary",
+                          ClassifierCardinality = Cardinality.Many,
+                          ClassifierType = dataTypes.IdScheme,
+                          ClassifierRole = "IdSchemes",
+                      },
+                      new PackageClassifierContainmentRelation
+                      {
                           PackageType = packages.CdtLibrary,
                           PackageRole = "CdtLibrary",
                           ClassifierCardinality = Cardinality.Many,

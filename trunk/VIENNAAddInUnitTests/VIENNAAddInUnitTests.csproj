@@ -80,12 +80,14 @@
   <ItemGroup>
     <Compile Include="EARepositoryExtensionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesGeneratedTests.cs">
+    <Compile Include="SynchTaggedValuesTest\HasTaggedValuesConstraint.cs" />
+    <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesTestsBase.cs" />
+    <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesTests.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SynchTaggedValuesGeneratedTests.tt</DependentUpon>
+      <DependentUpon>SynchTaggedValuesTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="SynchTaggedValuesTest\SynchStereotypesTest.cs" />
+    <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesTestRepository.cs" />
     <Compile Include="TestCategories.cs" />
     <Compile Include="TestRepository\CCTSEAExtensions.cs" />
     <Compile Include="TestRepository\EAConnectorEnd.cs" />
@@ -230,9 +232,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SynchTaggedValuesTest\SynchTaggedValuesGeneratedTests.tt">
+    <None Include="SynchTaggedValuesTest\resources\RepositoryWithoutTaggedValues.eap" />
+    <None Include="SynchTaggedValuesTest\SynchTaggedValuesTests.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SynchTaggedValuesGeneratedTests.cs</LastGenOutput>
+      <LastGenOutput>SynchTaggedValuesTests.cs</LastGenOutput>
     </None>
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTCanProhibitInheritanceOfSUPFromParentBDT.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsCONFromParentBDT.xsd" />

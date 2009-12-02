@@ -122,11 +122,11 @@
     <Compile Include="Exceptions\UnexpectedElementException.cs" />
     <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
-    <Compile Include="Settings\SynchStereotypes.cs" />
-    <Compile Include="Settings\SynchTaggedValues1.cs">
+    <Compile Include="Settings\SynchTaggedValues.cs" />
+    <Compile Include="Settings\SynchTaggedValuesGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SynchTaggedValues.tt</DependentUpon>
+      <DependentUpon>SynchTaggedValuesGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\ccts\dra\AttributeSpec.cs" />
     <Compile Include="upcc3\ccts\dra\BDTSupplementaryComponent.cs" />
@@ -299,9 +299,9 @@
     <Compile Include="menu\MenuStringExtensions.cs" />
     <Compile Include="menu\AddInContextPredicateExtensions.cs" />
     <Compile Include="Settings\AddInSettings.cs" />
-    <None Include="Settings\SynchTaggedValues.tt">
+    <None Include="Settings\SynchTaggedValuesGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SynchTaggedValues1.cs</LastGenOutput>
+      <LastGenOutput>SynchTaggedValuesGenerated.cs</LastGenOutput>
     </None>
     <Compile Include="Settings\SynchStereotypesForm.cs">
       <SubType>Form</SubType>
