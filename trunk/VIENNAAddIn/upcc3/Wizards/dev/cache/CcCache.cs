@@ -7,6 +7,8 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+// TODO: consistent naming: BDT => Bdt, CC => Cc, BIE => Bie, etc. in the CcCache class as well as all other CacheItems. 
+
 using System;
 using System.Collections.Generic;
 using CctsRepository;
@@ -266,6 +268,23 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             throw new Exception("No corresponding BDT Library found with name '" + bdtLibraryName + "'.");
         }
 
+        // todo: write test case
+        public List<IBdt> GetBdtsFromBdtLibrary(string bdtLibraryName)
+        {
+            LoadBdtLibraries();
+            foreach (CacheItemBdtLibrary bdtLibrary in mBdtLibraries)
+            {
+                if (bdtLibrary.BDTLibrary.Name.Equals(bdtLibraryName))
+                {
+                    bdtLibrary.BDTsInLibrary = new List<IBdt>(bdtLibrary.BDTLibrary.Bdts);
+                }
+
+                return bdtLibrary.BDTsInLibrary;
+            }
+
+            throw new Exception("No corresponding BDT Library found with name '" + bdtLibraryName + "'.");
+        }
+
         /// <summary>
         /// Try to retrieve a specific BIE Library by Name. If not found an exception will be thrown.
         /// </summary>
@@ -281,7 +300,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                     return bieLibrary.bieLibrary;
                 }
             }
-            throw new Exception("No corresponding BDT Library found with name '" + bieLibraryName + "'.");
+            throw new Exception("No corresponding BIE  Library found with name '" + bieLibraryName + "'.");
+        }
+
+        // TODO: write test case
+        public List<IAbie> GetBiesFromBieLibrary(string bieLibraryName)
+        {
+            LoadBieLibraries();
+            foreach (CacheItemBieLibrary bieLibrary in mBieLibraries)
+            {
+                if (bieLibrary.bieLibrary.Name.Equals(bieLibraryName))
+                {
+                    bieLibrary.abiesInLibrary = new List<IAbie>(bieLibrary.bieLibrary.Abies);
+                }
+
+                return bieLibrary.abiesInLibrary;
+            }
+
+            throw new Exception("No corresponding BIE Library found with name '" + bieLibraryName + "'.");
         }
 
         #region Converters used for ConvertAll

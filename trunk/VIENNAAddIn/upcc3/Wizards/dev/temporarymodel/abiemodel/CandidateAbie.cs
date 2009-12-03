@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 
@@ -47,17 +46,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public List<PotentialAsbie> PotentialAsbies
         {
-            get
-            {
-                throw new NotImplementedException();
-
-                if (mPotentialAsbies == null)
-                {
-
-                }
-
-                return mPotentialAsbies;
-            }
+            get { return mPotentialAsbies; }
+            set { mPotentialAsbies = value; }
         }
     }
 }

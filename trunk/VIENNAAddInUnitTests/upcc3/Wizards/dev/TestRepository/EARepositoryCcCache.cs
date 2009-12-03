@@ -18,7 +18,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
 {
     public class EARepositoryCcCache : EARepository       
     {
-       private Element accAddress;
+        private Element accAddress;
         private Element accPerson;
         private Element bdtABCCode;
         private Element bdtCode;

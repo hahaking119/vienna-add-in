@@ -150,7 +150,7 @@
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\UpccModelCreatorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryAbieEditor.cs" />
-    <Compile Include="upcc3\Wizards\dev\util\TemporaryABIEModelTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\TemporaryAbieModelTest.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryCcCache.cs" />
