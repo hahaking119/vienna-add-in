@@ -19,5 +19,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             new BdtEditor(context.CctsRepository).Show();
         }
+
+        private void buttonGenerateBDT_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

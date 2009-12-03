@@ -4,8 +4,8 @@
     Height="610" Width="470" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="True" ResizeMode="NoResize" Title="BDT Editor" FontSize="11">
     <DockPanel Background="#FFD4D0C8" Margin="2,5,5,5">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,1,1,1">
-            <Button HorizontalAlignment="Center" Width="100" Name="buttonGenerateBDT" Margin="5,5,5,5" KeyboardNavigation.TabIndex="9" Height="23">_Generate BDT</Button>
-            <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" KeyboardNavigation.TabIndex="10" Height="23">_Close</Button>
+            <Button HorizontalAlignment="Center" Width="100" Name="buttonGenerateBDT" Margin="5,5,5,5" KeyboardNavigation.TabIndex="9" Height="23" Click="buttonGenerateBDT_Click">_Generate BDT</Button>
+            <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" KeyboardNavigation.TabIndex="10" Height="23" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
         <GroupBox Header="Settings">
             <DockPanel>
