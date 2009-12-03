@@ -49,14 +49,19 @@
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
                                         <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" KeyboardNavigation.TabIndex="0">Select all BCCs</CheckBox>
                                     </StackPanel>
-                                    <ListBox ItemsSource="{Binding Path=Model.CandidateBccItems}" Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged" KeyboardNavigation.TabIndex="1">
+                                    <ListBox ItemsSource="{Binding Path=Model.CandidateBccItems}" Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged" KeyboardNavigation.TabIndex="1" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="True" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
-                                                </CheckBox>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding Path=Checked}"/>
+                                                    <Label Content="{Binding Path=Text}" MouseLeftButtonDown="SelectTextBoxBccItemOnMouseSingleClick" Margin="-3,-5,0,-3"/>
+                                                </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
+                                        <ListBox.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
+                                        </ListBox.Resources>
                                     </ListBox>
                                 </DockPanel>
                             </GroupBox>
@@ -70,10 +75,14 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="True" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxBbieItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
+                                        <ListBox.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
+                                        </ListBox.Resources>
                                     </ListBox>
                                 </DockPanel>
                             </GroupBox>
@@ -84,10 +93,14 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxBdtItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
+                                        <ListBox.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
+                                        </ListBox.Resources>
                                     </ListBox>
                                 </DockPanel>
                             </GroupBox>
@@ -103,10 +116,14 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxAbieItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
+                                        <ListBox.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
+                                        </ListBox.Resources>
                                     </ListBox>
                                 </DockPanel>
                             </GroupBox>
@@ -116,10 +133,14 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxAsccItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
+                                        <ListBox.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue"/>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="LightBlue"/>
+                                        </ListBox.Resources>
                                     </ListBox>
                                 </DockPanel>
                             </GroupBox>
