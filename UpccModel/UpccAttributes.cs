@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace UpccModel
+namespace Upcc
 {
     public class UpccAttributes
     {

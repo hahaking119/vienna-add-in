@@ -1,28 +1,28 @@
 ﻿using System.Linq;
 
-namespace UpccModel
+namespace Upcc
 {
-    public class UpccModel
+    public class MetaModel
     {
-        public readonly UpccAbstractClasses AbstractClasses;
-        public readonly UpccAssociations Associations;
-        public readonly UpccAttributes Attributes;
-        public readonly UpccClasses Classes;
-        public readonly UpccDataTypes DataTypes;
-        public readonly UpccDependencies Dependencies;
-        public readonly UpccEnumerationLiterals EnumerationLiterals;
-        public readonly UpccEnumerations Enumerations;
-        public readonly UpccPackageClassifierContainmentRelations PackageClassifierContainmentRelations;
-        public readonly UpccPackagePackageContainmentRelations PackagePackageContainmentRelations;
-        public readonly UpccPackages Packages;
-        public readonly UpccTaggedValues TaggedValues;
+        private readonly UpccAbstractClasses AbstractClasses;
+        private readonly UpccAssociations Associations;
+        private readonly UpccAttributes Attributes;
+        private readonly UpccClasses Classes;
+        private readonly UpccDataTypes DataTypes;
+        private readonly UpccDependencies Dependencies;
+        private readonly UpccEnumerationLiterals EnumerationLiterals;
+        private readonly UpccEnumerations Enumerations;
+        private readonly UpccPackageClassifierContainmentRelations PackageClassifierContainmentRelations;
+        private readonly UpccPackagePackageContainmentRelations PackagePackageContainmentRelations;
+        private readonly UpccPackages Packages;
+        private readonly UpccTaggedValues TaggedValues;
 
-        static UpccModel()
+        static MetaModel()
         {
-            Instance = new UpccModel();
+            Instance = new MetaModel();
         }
 
-        private UpccModel()
+        private MetaModel()
         {
             TaggedValues = new UpccTaggedValues();
 
@@ -42,7 +42,7 @@ namespace UpccModel
             PackageClassifierContainmentRelations = new UpccPackageClassifierContainmentRelations(Packages, DataTypes, Classes, Enumerations);
         }
 
-        public static UpccModel Instance { get; private set; }
+        public static MetaModel Instance { get; private set; }
 
         public bool HasSubPackages(MetaPackage package)
         {
