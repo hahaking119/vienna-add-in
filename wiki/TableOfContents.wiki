@@ -2,6 +2,8 @@
   * [ForUsers User infos]
     * [InstallationNotes Installation Notes]
     * [GettingStarted Getting Started]
+      * [CreateaModelinEA Creating your first UPCC model]
+      * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
       * [HowToTemplate How to Template]  
       * [HowToVideos HOW-TO videos]  
       * [HowToCreateaUPCC3Model How To create a UPCC3 Model]
