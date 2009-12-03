@@ -23,8 +23,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly string qualifier;
         private readonly string rootElementName;
         private readonly SchemaMapping schemaMapping;
-        private readonly List<AbieSpec> bieABIESpecs = new List<AbieSpec>();
-        private readonly List<AbieSpec> docABIESpecs = new List<AbieSpec>();
+        private readonly List<AbieSpec> abieSpecs = new List<AbieSpec>();
+        private readonly List<MaSpec> maSpecs = new List<MaSpec>();
         private IBdtLibrary bdtLibrary;
         private IBieLibrary bieLibrary;
         private IDocLibrary docLibrary;
@@ -81,38 +81,39 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private void GenerateRootABIE()
         {
-            var rootElementMapping = schemaMapping.RootElementMapping;
-            if (rootElementMapping is ASBIEMapping)
-            {
-                ComplexTypeMapping rootComplexTypeMapping = ((ASBIEMapping) rootElementMapping).TargetMapping;
-                docLibrary.CreateAbie(new AbieSpec
-                                         {
-                                             Name = qualifier + "_" + rootElementName,
-                                             Asbies = new List<AsbieSpec>
-                                                      {
-                                                          new AsbieSpec
-                                                          {
-                                                              AggregationKind = AsbieAggregationKind.Composite,
-                                                              Name = rootComplexTypeMapping.BIEName,
-                                                              ResolveAssociatedABIE = DeferredABIEResolver(rootComplexTypeMapping),
-                                                          }
-                                                      },
-                                         });
-            }
-            else if (rootElementMapping is BCCMapping)
-            {
-                var bccMapping = (BCCMapping) rootElementMapping;
-                docLibrary.CreateAbie(new AbieSpec
-                                         {
-                                             BasedOn = bccMapping.ACC,
-                                             Name = qualifier + "_" + rootElementName,
-                                             Bbies = GenerateBCCMappings(new List<BCCMapping>{bccMapping}),
-                                         });
-            }
-            else
-            {
-                throw new MappingError("Root element can only be mapped to BCC, but is mapped to something else.");
-            }
+            throw new NotImplementedException();
+//            var rootElementMapping = schemaMapping.RootElementMapping;
+//            if (rootElementMapping is ASBIEMapping)
+//            {
+//                ComplexTypeMapping rootComplexTypeMapping = ((ASBIEMapping) rootElementMapping).TargetMapping;
+//                docLibrary.CreateAbie(new AbieSpec
+//                                         {
+//                                             Name = qualifier + "_" + rootElementName,
+//                                             Asbies = new List<AsbieSpec>
+//                                                      {
+//                                                          new AsbieSpec
+//                                                          {
+//                                                              AggregationKind = AsbieAggregationKind.Composite,
+//                                                              Name = rootComplexTypeMapping.BIEName,
+//                                                              ResolveAssociatedABIE = DeferredABIEResolver(rootComplexTypeMapping),
+//                                                          }
+//                                                      },
+//                                         });
+//            }
+//            else if (rootElementMapping is BCCMapping)
+//            {
+//                var bccMapping = (BCCMapping) rootElementMapping;
+//                docLibrary.CreateAbie(new AbieSpec
+//                                         {
+//                                             BasedOn = bccMapping.ACC,
+//                                             Name = qualifier + "_" + rootElementName,
+//                                             Bbies = GenerateBCCMappings(new List<BCCMapping>{bccMapping}),
+//                                         });
+//            }
+//            else
+//            {
+//                throw new MappingError("Root element can only be mapped to BCC, but is mapped to something else.");
+//            }
         }
 
         private void GenerateBDTsAndABIEs()
@@ -121,11 +122,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             {
                 GenerateComplexTypeBIESpecs(complexTypeMapping);
             }
-            CreateBIEABIEs(bieABIESpecs);
-            CreateDOCABIEs(docABIESpecs);
+            CreateAbies(abieSpecs);
+            CreateMas(maSpecs);
         }
 
-        private void CreateBIEABIEs(IEnumerable<AbieSpec> abieSpecs)
+        private void CreateAbies(IEnumerable<AbieSpec> abieSpecs)
         {
             // need two passes:
             //  (1) create the ABIEs
@@ -158,37 +159,38 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private void CreateDOCABIEs(IEnumerable<AbieSpec> abieSpecs)
+        private void CreateMas(IEnumerable<MaSpec> abieSpecs)
         {
-            // need two passes:
-            //  (1) create the ABIEs
-            //  (2) create the ASBIEs
-            var abies = new Dictionary<string, IAbie>();
-            foreach (AbieSpec spec in abieSpecs)
-            {
-                var specWithoutASBIEs = new AbieSpec
-                                        {
-                                            BusinessTerms = spec.BusinessTerms,
-                                            Definition = spec.Definition,
-                                            DictionaryEntryName = spec.DictionaryEntryName,
-                                            IsEquivalentTo = spec.IsEquivalentTo,
-                                            LanguageCode = spec.LanguageCode,
-                                            Name = spec.Name,
-                                            UniqueIdentifier = spec.UniqueIdentifier,
-                                            UsageRules = spec.UsageRules,
-                                            VersionIdentifier = spec.VersionIdentifier
-                                        };
-                foreach (BbieSpec bbieSpec in spec.Bbies)
-                {
-                    specWithoutASBIEs.AddBbie(bbieSpec);
-                }
-                abies[spec.Name] = docLibrary.CreateAbie(specWithoutASBIEs);
-            }
-            foreach (AbieSpec spec in abieSpecs)
-            {
-                var abie = abies[spec.Name];
-                docLibrary.UpdateAbie(abie, spec);
-            }
+            throw new NotImplementedException();
+//            // need two passes:
+//            //  (1) create the ABIEs
+//            //  (2) create the ASBIEs
+//            var abies = new Dictionary<string, IAbie>();
+//            foreach (AbieSpec spec in abieSpecs)
+//            {
+//                var specWithoutASBIEs = new AbieSpec
+//                                        {
+//                                            BusinessTerms = spec.BusinessTerms,
+//                                            Definition = spec.Definition,
+//                                            DictionaryEntryName = spec.DictionaryEntryName,
+//                                            IsEquivalentTo = spec.IsEquivalentTo,
+//                                            LanguageCode = spec.LanguageCode,
+//                                            Name = spec.Name,
+//                                            UniqueIdentifier = spec.UniqueIdentifier,
+//                                            UsageRules = spec.UsageRules,
+//                                            VersionIdentifier = spec.VersionIdentifier
+//                                        };
+//                foreach (BbieSpec bbieSpec in spec.Bbies)
+//                {
+//                    specWithoutASBIEs.AddBbie(bbieSpec);
+//                }
+//                abies[spec.Name] = docLibrary.CreateAbie(specWithoutASBIEs);
+//            }
+//            foreach (AbieSpec spec in abieSpecs)
+//            {
+//                var abie = abies[spec.Name];
+//                docLibrary.UpdateAbie(abie, spec);
+//            }
         }
 
         private void GenerateComplexTypeBIESpecs(ComplexTypeMapping abieMapping)
@@ -199,28 +201,28 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
             else
             {
-                var asbieSpecs = new List<AsbieSpec>();
+                var asmaSpecs = new List<AsmaSpec>();
                 foreach (IAcc acc in abieMapping.TargetACCs)
                 {
                     var accABIESpec = GenerateBIELibraryABIESpec(abieMapping, acc, abieMapping.ComplexTypeName + "_" + acc.Name);
-                    asbieSpecs.Add(new AsbieSpec
+                    asmaSpecs.Add(new AsmaSpec
                                    {
                                        Name = acc.Name,
-                                       ResolveAssociatedABIE = DeferredABIEResolver(bieLibrary, accABIESpec.Name),
+                                       ResolveAssociatedAbie = DeferredAbieResolver(accABIESpec.Name),
                                    });
                 }
                 foreach (var asbieMapping in abieMapping.ASBIEMappings)
                 {
-                    asbieSpecs.Add(new AsbieSpec
+                    asmaSpecs.Add(new AsmaSpec
                                    {
                                        Name = asbieMapping.BIEName,
-                                       ResolveAssociatedABIE = DeferredABIEResolver(asbieMapping.TargetMapping),
+                                       ResolveAssociatedMa = DeferredMaResolver(asbieMapping.TargetMapping.BIEName),
                                    });
                 }
-                docABIESpecs.Add(new AbieSpec
+                maSpecs.Add(new MaSpec
                                  {
                                      Name = abieMapping.ComplexTypeName,
-                                     Asbies = asbieSpecs,
+                                     Asmas = asmaSpecs,
                                  });
             }
         }
@@ -234,7 +236,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                                Bbies = GenerateBCCMappings(abieMapping.BCCMappings(acc)),
                                Asbies = GenerateASCCMappings(abieMapping.ASCCMappings(acc)),
                            };
-            bieABIESpecs.Add(abieSpec);
+            abieSpecs.Add(abieSpec);
             return abieSpec;
         }
 
@@ -244,7 +246,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             {
                 var ascc = asccMapping.ASCC;
                 var targetMapping = asccMapping.TargetMapping;
-                var asbieSpec = AsbieSpec.CloneASCC(ascc, asccMapping.BIEName, DeferredABIEResolver(targetMapping));
+                var asbieSpec = AsbieSpec.CloneASCC(ascc, asccMapping.BIEName, DeferredAbieResolver(targetMapping.BIEName));
                 yield return asbieSpec;
             }
         }
@@ -260,26 +262,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private static Func<IAbie> DeferredABIEResolver(IBieLibrary bieLibrary, string abieName)
+        private Func<IAbie> DeferredAbieResolver(string abieName)
         {
             return () => bieLibrary.GetAbieByName(abieName);
         }
 
-        private static Func<IAbie> DeferredABIEResolver(IDocLibrary docLibrary, string abieName)
+        private Func<IMa> DeferredMaResolver(string maName)
         {
-            return () => docLibrary.GetAbieByName(abieName);
-        }
-
-        private Func<IAbie> DeferredABIEResolver(ComplexTypeMapping complexTypeMapping)
-        {
-            if (complexTypeMapping.Library == ComplexTypeMapping.LibraryType.BIE)
-            {
-                return DeferredABIEResolver(bieLibrary, complexTypeMapping.BIEName);
-            }
-            else
-            {
-                return DeferredABIEResolver(docLibrary, complexTypeMapping.BIEName);
-            }
+            return () => docLibrary.GetMaByName(maName);
         }
     }
 }

@@ -562,7 +562,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             if (DOC == null)
             {
                 IDocLibrary docl = repository.GetDocLibraryById(Id);
-                IAbie document = docl.RootAbie;
+                IMa document = docl.DocumentRoot;
                 DOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
             }
         }

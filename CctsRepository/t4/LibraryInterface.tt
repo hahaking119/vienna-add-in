@@ -9,7 +9,6 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using CctsRepository.bLibrary;
-using CctsRepository.BieLibrary;
 
 namespace CctsRepository.<#= metaPackage.Name #>
 {
@@ -28,7 +27,7 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		/// </summary>
         string Name { get; }
 <# 
-		foreach (var relation in UpccModel.Instance.PackageContainmentRelations.GetSuperPackageRelationsFor(metaPackage))
+		foreach (var relation in UpccModel.Instance.PackagePackageContainmentRelations.GetSuperPackageRelationsFor(metaPackage))
 		{
 #>
 
@@ -40,7 +39,7 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		}
 #>
 <# 
-		foreach (var relation in UpccModel.Instance.PackageContainmentRelations.GetSubPackageRelationsFor(metaPackage))
+		foreach (var relation in UpccModel.Instance.PackagePackageContainmentRelations.GetSubPackageRelationsFor(metaPackage))
 		{
 #>
 

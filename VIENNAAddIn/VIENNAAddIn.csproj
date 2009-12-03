@@ -136,6 +136,7 @@
     <Compile Include="upcc3\ccts\dra\ConnectorSpec.cs" />
     <Compile Include="upcc3\ccts\dra\EAConnectorTypes.cs" />
     <Compile Include="upcc3\ccts\dra\ElementLibrary.cs" />
+    <Compile Include="upcc3\ccts\dra\Ma.cs" />
     <Compile Include="upcc3\ccts\dra\TaggedValueSpec.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAItem.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAPackage.cs" />

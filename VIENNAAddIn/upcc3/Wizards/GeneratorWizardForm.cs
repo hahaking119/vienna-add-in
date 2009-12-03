@@ -300,7 +300,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             bool allschemas = checkboxAllschemas.CheckState == CheckState.Checked ? true : false;
             var generationContext = new GeneratorContext(cctsR, targetNamespace,
                                                 namespacePrefix, annotate, allschemas,
-                                                outputDirectory, docl, rootAbie);
+                                                outputDirectory, docl);
             generationContext.SchemaAdded += HandleSchemaAdded;
             export.cctsndr.XSDGenerator.GenerateSchemas(generationContext);
 

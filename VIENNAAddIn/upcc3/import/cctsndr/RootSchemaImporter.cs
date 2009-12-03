@@ -49,78 +49,79 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         /// </param>
         public static void ImportXSD(ImporterContext context)
         {
-            ExistingBdts = context.BDTLibrary;
-
-            int index = context.RootSchemaFileName.IndexOf('_');
-            String docname = context.RootSchemaFileName.Substring(0, index);
-
-            //TODO check whether Document with the specified name does not already exist
-            IBLibrary bLibrary = context.BLibrary;
-            DocLibrary = bLibrary.CreateDOCLibrary(new DocLibrarySpec {Name = docname});
-
-            var rootDocument = new XmlDocument();
-            rootDocument.Load(context.RootSchemaPath);
-            var reader = new CustomSchemaReader(rootDocument);
-
-            IDictionary<string, string> allElementDefinitions = new Dictionary<string, string>();
-
-            foreach (object item in reader.Items)
-            {
-                if (item is ComplexType)
-                {
-                    var abieComplexType = (ComplexType) item;
-
-                    AbieSpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType);
-
-                    DocLibrary.CreateAbie(singleAbieSpec);
-                }
-
-                if (item is Element)
-                {
-                    var element = (Element) item;
-                    allElementDefinitions.Add(element.Name, element.Type.Name);
-                }
-            }
-
-            foreach (object item in reader.Items)
-            {
-                if (item is ComplexType)
-                {
-                    var abieComplexType = (ComplexType) item;
-
-                    string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
-
-                    IAbie abieToBeUpdated = DocLibrary.GetAbieByName(abieName);
-                    if (abieToBeUpdated == null)
-                    {
-                        abieToBeUpdated = BIESchemaImporter.getElementByName(abieName);
-                        var updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
-
-                        IList<AsbieSpec> newAsbieSpecs = CumulateAsbieSpecsFromComplexType(abieComplexType,
-                                                                                           allElementDefinitions);
-
-                        foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
-                        {
-                            updatedAbieSpec.AddAsbie(newAsbieSpec);
-                        }
-                        DocLibrary.UpdateAbie(abieToBeUpdated, updatedAbieSpec);
-                    }
-                    else
-                    {
-                        var updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
-
-                        IList<AsbieSpec> newAsbieSpecs = CumulateAsbieSpecsFromComplexType(abieComplexType,
-                                                                                           allElementDefinitions);
-
-                        foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
-                        {
-                            updatedAbieSpec.AddAsbie(newAsbieSpec);
-                        }
-
-                        DocLibrary.UpdateAbie(abieToBeUpdated, updatedAbieSpec);
-                    }
-                }
-            }
+            throw new NotImplementedException();
+//            ExistingBdts = context.BDTLibrary;
+//
+//            int index = context.RootSchemaFileName.IndexOf('_');
+//            String docname = context.RootSchemaFileName.Substring(0, index);
+//
+//            //TODO check whether Document with the specified name does not already exist
+//            IBLibrary bLibrary = context.BLibrary;
+//            DocLibrary = bLibrary.CreateDOCLibrary(new DocLibrarySpec {Name = docname});
+//
+//            var rootDocument = new XmlDocument();
+//            rootDocument.Load(context.RootSchemaPath);
+//            var reader = new CustomSchemaReader(rootDocument);
+//
+//            IDictionary<string, string> allElementDefinitions = new Dictionary<string, string>();
+//
+//            foreach (object item in reader.Items)
+//            {
+//                if (item is ComplexType)
+//                {
+//                    var abieComplexType = (ComplexType) item;
+//
+//                    AbieSpec singleAbieSpec = CumulateAbieSpecFromComplexType(abieComplexType);
+//
+//                    DocLibrary.CreateAbie(singleAbieSpec);
+//                }
+//
+//                if (item is Element)
+//                {
+//                    var element = (Element) item;
+//                    allElementDefinitions.Add(element.Name, element.Type.Name);
+//                }
+//            }
+//
+//            foreach (object item in reader.Items)
+//            {
+//                if (item is ComplexType)
+//                {
+//                    var abieComplexType = (ComplexType) item;
+//
+//                    string abieName = abieComplexType.Name.Substring(0, abieComplexType.Name.Length - 4);
+//
+//                    IAbie abieToBeUpdated = DocLibrary.GetAbieByName(abieName);
+//                    if (abieToBeUpdated == null)
+//                    {
+//                        abieToBeUpdated = BIESchemaImporter.getElementByName(abieName);
+//                        var updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
+//
+//                        IList<AsbieSpec> newAsbieSpecs = CumulateAsbieSpecsFromComplexType(abieComplexType,
+//                                                                                           allElementDefinitions);
+//
+//                        foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
+//                        {
+//                            updatedAbieSpec.AddAsbie(newAsbieSpec);
+//                        }
+//                        DocLibrary.UpdateAbie(abieToBeUpdated, updatedAbieSpec);
+//                    }
+//                    else
+//                    {
+//                        var updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
+//
+//                        IList<AsbieSpec> newAsbieSpecs = CumulateAsbieSpecsFromComplexType(abieComplexType,
+//                                                                                           allElementDefinitions);
+//
+//                        foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
+//                        {
+//                            updatedAbieSpec.AddAsbie(newAsbieSpec);
+//                        }
+//
+//                        DocLibrary.UpdateAbie(abieToBeUpdated, updatedAbieSpec);
+//                    }
+//                }
+//            }
 
             // Diagram auto-layout does not work .. remains for future purposes
             //var repository = (Repository)context.Repository;
@@ -148,48 +149,49 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                                                                          IDictionary<string, string>
                                                                              allElementDefinitions)
         {
-            IList<AsbieSpec> newAsbieSpecs = new List<AsbieSpec>();
-
-            foreach (Element element in abieComplexType.Items)
-            {
-                if (!(element.Ref.Name.Equals("")))
-                {
-                    string associatedABIEName = allElementDefinitions[element.Ref.Name];
-                    associatedABIEName = associatedABIEName.Substring(0, associatedABIEName.Length - 4);
-
-                    IAbie associatedAbie = DocLibrary.GetAbieByName(associatedABIEName) ??
-                                           BIESchemaImporter.getElementByName(associatedABIEName);
-
-                    //Cross Reference to BIESchemaImporter!
-                    string asbieName = (element.Ref.Name).Substring(0,
-                                                                    (element.Ref.Name).Length -
-                                                                    associatedABIEName.Length);
-
-                    AsbieSpec asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, AsbieAggregationKind.Shared);
-
-                    newAsbieSpecs.Add(asbieSpec);
-                }
-                else
-                {
-                    //TODO: add parameter which holds list of known prefixes (propblems may occur later on when additional prefixes are introduced e.g. codelist)
-                    if (!element.Type.Prefix.Equals("bdt"))
-                    {
-                        string associatedAbieName = element.Type.Name;
-                        associatedAbieName = associatedAbieName.Substring(0, associatedAbieName.Length - 4);
-
-                        IAbie associatedAbie = DocLibrary.GetAbieByName(associatedAbieName) ??
-                                               BIESchemaImporter.getElementByName(associatedAbieName);
-
-                        string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
-                        AsbieSpec asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie,
-                                                                AsbieAggregationKind.Composite);
-
-                        newAsbieSpecs.Add(asbieSpec);
-                    }
-                }
-            }
-
-            return newAsbieSpecs;
+            throw new NotImplementedException();
+//            IList<AsbieSpec> newAsbieSpecs = new List<AsbieSpec>();
+//
+//            foreach (Element element in abieComplexType.Items)
+//            {
+//                if (!(element.Ref.Name.Equals("")))
+//                {
+//                    string associatedABIEName = allElementDefinitions[element.Ref.Name];
+//                    associatedABIEName = associatedABIEName.Substring(0, associatedABIEName.Length - 4);
+//
+//                    IAbie associatedAbie = DocLibrary.GetAbieByName(associatedABIEName) ??
+//                                           BIESchemaImporter.getElementByName(associatedABIEName);
+//
+//                    //Cross Reference to BIESchemaImporter!
+//                    string asbieName = (element.Ref.Name).Substring(0,
+//                                                                    (element.Ref.Name).Length -
+//                                                                    associatedABIEName.Length);
+//
+//                    AsbieSpec asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, AsbieAggregationKind.Shared);
+//
+//                    newAsbieSpecs.Add(asbieSpec);
+//                }
+//                else
+//                {
+//                    //TODO: add parameter which holds list of known prefixes (propblems may occur later on when additional prefixes are introduced e.g. codelist)
+//                    if (!element.Type.Prefix.Equals("bdt"))
+//                    {
+//                        string associatedAbieName = element.Type.Name;
+//                        associatedAbieName = associatedAbieName.Substring(0, associatedAbieName.Length - 4);
+//
+//                        IAbie associatedAbie = DocLibrary.GetAbieByName(associatedAbieName) ??
+//                                               BIESchemaImporter.getElementByName(associatedAbieName);
+//
+//                        string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
+//                        AsbieSpec asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie,
+//                                                                AsbieAggregationKind.Composite);
+//
+//                        newAsbieSpecs.Add(asbieSpec);
+//                    }
+//                }
+//            }
+//
+//            return newAsbieSpecs;
         }
 
         ///<summary>

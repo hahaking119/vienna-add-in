@@ -6,7 +6,6 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
-using System;
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
@@ -24,41 +23,38 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         #region IDocLibrary Members
 
-        public IAbie RootAbie
+        public IMa DocumentRoot
         {
             get
             {
-                var abies = new List<IAbie>(Abies);
-                // collect ASBIES
-                var asbies = new List<IAsbie>();
-                foreach (IAbie abie in Abies)
+                var mas = new List<IMa>(Mas);
+                // collect ASMAs
+                var asmas = new List<IAsma>();
+                foreach (var ma in Mas)
                 {
-                    asbies.AddRange(abie.ASBIEs);
+                    asmas.AddRange(ma.Asmas);
                 }
-                // remove all abies that are associated via an ASBIE
-                foreach (IAsbie asbie in asbies)
+                // remove all MAs that are associated via an ASMA
+                foreach (var asma in asmas)
                 {
-                    IAbie associatedABIE = asbie.AssociatedElement;
-                    abies.Remove(associatedABIE);
+                    IMa associatedElement = asma.AssociatedElement;
+                    mas.Remove(associatedElement);
                 }
-                if (abies.Count == 0)
-                {
-                    return null;
-                }
-                return abies[0];
+                return mas.Count == 0 ? null : mas[0];
             }
         }
 
-        public IEnumerable<IAbie> NonRootAbies
+        public IEnumerable<IMa> NonRootMas
         {
-            get {
-                var allAbies = new List<IAbie>(Abies);
-                allAbies.Remove(RootAbie);
-                return allAbies;
+            get
+            {
+                var mas = new List<IMa>(Mas);
+                mas.Remove(DocumentRoot);
+                return mas;
             }
         }
 
-        public IEnumerable<IAbie> Abies
+        public IEnumerable<IMa> Mas
         {
             get
             {
@@ -72,16 +68,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IAbie GetAbieByName(string name)
+        public IMa GetMaByName(string name)
         {
-            foreach (IAbie element in Abies)
+            foreach (IMa ma in Mas)
             {
-                if (((ABIE) element).Name == name)
+                if (ma.Name == name)
                 {
-                    return element;
+                    return ma;
                 }
             }
-            return default(IAbie);
+            return null;
         }
 
         ///<summary>
@@ -89,35 +85,35 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         ///</summary>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAbie CreateAbie(AbieSpec spec)
+        public IMa CreateMa(MaSpec spec)
         {
             var element = (Element) package.Elements.AddNew(spec.Name, "Class");
             element.Stereotype = util.Stereotype.ABIE;
             element.PackageID = Id;
             package.Elements.Refresh();
             AddElementToDiagram(element);
-            ABIE cctsElement = WrapEaElement(element);
-            cctsElement.Update(spec);
-            return cctsElement;
+            Ma ma = WrapEaElement(element);
+            ma.Update(spec);
+            return ma;
         }
 
         ///<summary>
         /// Updates the given element of this library to match the given specification.
         ///</summary>
-        ///<param name="element"></param>
+        ///<param name="ma"></param>
         ///<param name="spec"></param>
         ///<returns></returns>
-        public IAbie UpdateAbie(IAbie element, AbieSpec spec)
+        public IMa UpdateMa(IMa ma, MaSpec spec)
         {
-            ((ABIE) element).Update(spec);
-            return element;
+            ((Ma) ma).Update(spec);
+            return ma;
         }
 
         #endregion
 
-        private ABIE WrapEaElement(Element element)
+        private Ma WrapEaElement(Element element)
         {
-            return new ABIE(repository, element);
+            return new Ma(repository, element);
         }
     }
 }

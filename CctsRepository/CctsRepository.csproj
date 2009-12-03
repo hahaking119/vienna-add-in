@@ -73,18 +73,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ICdtLibrary.tt</DependentUpon>
     </Compile>
+    <Compile Include="DocLibrary\IAsma.cs" />
     <Compile Include="DocLibrary\IDocLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IDocLibrary.tt</DependentUpon>
     </Compile>
     <Compile Include="DocLibrary\IDocLibraryManualExtensions.cs" />
+    <Compile Include="DocLibrary\IMa.cs" />
+    <Compile Include="DocLibrary\MaSpec.cs" />
     <Compile Include="EnumLibrary\EnumLibrarySpec.cs" />
+    <Compile Include="EnumLibrary\IdSchemeSpec.cs" />
     <Compile Include="EnumLibrary\IEnumLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IEnumLibrary.tt</DependentUpon>
     </Compile>
+    <Compile Include="EnumLibrary\IIdScheme.cs" />
     <Compile Include="PrimLibrary\IPrimLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

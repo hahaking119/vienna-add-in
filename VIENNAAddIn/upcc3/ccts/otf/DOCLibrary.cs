@@ -24,9 +24,39 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             get { throw new NotImplementedException(); }
         }
 
+        public IMa DocumentRoot
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IEnumerable<IMa> NonRootMas
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         int IDocLibrary.Id
         {
             get { return Id.Value; }
+        }
+
+        public IEnumerable<IMa> Mas
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IMa GetMaByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMa CreateMa(MaSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMa UpdateMa(IMa ma, MaSpec specification)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<IAbie> Abies

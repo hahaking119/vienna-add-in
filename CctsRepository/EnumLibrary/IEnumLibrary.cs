@@ -8,7 +8,6 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using CctsRepository.bLibrary;
-using CctsRepository.BieLibrary;
 
 namespace CctsRepository.EnumLibrary
 {
@@ -58,6 +57,33 @@ namespace CctsRepository.EnumLibrary
 		/// <returns>The updated ENUM. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         IEnum UpdateEnum(IEnum @enum, EnumSpec specification);
+
+		/// <summary>
+		/// The IDSCHEMEs contained in this ENUMLibrary.
+		/// </summary>
+		IEnumerable<IIdScheme> IdSchemes { get; }
+
+		/// <summary>
+		/// Retrieves a IDSCHEME by name.
+		/// <param name="name">A IDSCHEME's name.</param>
+		/// <returns>The IDSCHEME with the given <paramref name="name"/> or <c>null</c> if no such IDSCHEME is found.</returns>
+		/// </summary>
+        IIdScheme GetIdSchemeByName(string name);
+
+		/// <summary>
+		/// Creates a IDSCHEME based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a IDSCHEME.</param>
+		/// <returns>The newly created IDSCHEME.</returns>
+		/// </summary>
+		IIdScheme CreateIdScheme(IdSchemeSpec specification);
+
+		/// <summary>
+		/// Updates a IDSCHEME to match the given <paramref name="specification"/>.
+		/// <param name="idScheme">A IDSCHEME.</param>
+		/// <param name="specification">A new specification for the given IDSCHEME.</param>
+		/// <returns>The updated IDSCHEME. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification);
 
 		#region Tagged Values
 

@@ -853,9 +853,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("ABC Code 2", enumAbcCodesValues[1].Name);
 
             var docLibrary = cctsRepository.GetDocLibraryByPath((Path) "test model"/"blib1"/"DOCLibrary");
-            var docLibraryABIEs = new List<IAbie>(docLibrary.Abies);
-            Assert.AreEqual(2, docLibraryABIEs.Count);
-            IAbie invoice = docLibrary.RootAbie;
+            var docLibraryMas = new List<IMa>(docLibrary.Mas);
+            Assert.AreEqual(2, docLibraryMas.Count);
+            var invoice = docLibrary.DocumentRoot;
             Assert.That(invoice, Is.Not.Null);
             Assert.AreEqual("Invoice", invoice.Name);
         }
