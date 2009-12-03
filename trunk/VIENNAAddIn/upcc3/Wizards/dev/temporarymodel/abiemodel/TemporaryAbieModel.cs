@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using CctsRepository;
-using CctsRepository.CcLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
@@ -286,17 +285,68 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public void SetSelectedCandidateBcc(string selectedBcc)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
+                            {
+                                if(candidateBcc.Name.Equals(selectedBcc))
+                                {
+                                    candidateBcc.Checked = true;
+                                }
+                                else
+                                {
+                                    candidateBcc.Checked = false;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }    
+            mPotentialBbieItems = new List<CheckableText>
+                                      {
+                                          new CheckableText(true, "bbie1"),
+                                          new CheckableText(false, "bbie2"),
+                                          new CheckableText(false, "bbie3"),
+                                          new CheckableText(true, "bbie4"),
+                                          new CheckableText(false, "bbie5")
+                                      };
+
+            PotentialBbieItems = mPotentialBbieItems;
         }
 
         public void SetSelectedPotentialBbie(string selectedBbie)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            mPotentialBdtItems = new List<CheckableText>
+                                     {
+                                         new CheckableText(true, "bdt1"),
+                                         new CheckableText(false, "bdt2"),
+                                         new CheckableText(false, "bdt3"),
+                                         new CheckableText(true, "bdt4"),
+                                         new CheckableText(false, "bdt5")
+                                     };
+
+            PotentialBdtItems = mPotentialBdtItems;
         }
 
         public void SetSelectedCandidateAbie(string selectedAbcc)
         {
-            throw new NotImplementedException();
+            mCandidateAsccItems = new List<CheckableText>
+                                      {
+                                          new CheckableText(true, "ascc1"),
+                                          new CheckableText(false, "ascc2"),
+                                          new CheckableText(false, "ascc3"),
+                                          new CheckableText(true, "ascc4"),
+                                          new CheckableText(false, "ascc5")
+                                      };
         }
 
         public void SetSelectedCandidateBdtLibrary(string selectedBdtLibrary)

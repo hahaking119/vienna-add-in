@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CctsRepository;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel;
+using VIENNAAddIn.upcc3.Wizards.dev.util;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
@@ -58,11 +60,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void checkedlistboxBCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (checkedlistboxBCCs.SelectedItem != null)
             Model.SetSelectedCandidateBcc(checkedlistboxBCCs.SelectedItem.ToString());
         }
 
         private void checkedlistboxBBIEs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(checkedlistboxBBIEs.SelectedItem!=null)
             Model.SetSelectedPotentialBbie(checkedlistboxBBIEs.SelectedItem.ToString());
         }
 
@@ -84,12 +88,41 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         }
 
-        private void SelectTextBoxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        private void SelectTextBoxBccItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        {
+            var label = (Label)sender;
+            checkedlistboxBCCs.SelectedIndex = GetItemByText(checkedlistboxBCCs.Items,label.Content.ToString());
+        }
+        private void SelectTextBoxBbieItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
             var textbox = (TextBox)sender;
-            var checkbox = (CheckBox)textbox.Parent;
-            var listbox = (ListBox)checkbox.Parent;
-            listbox.SelectedItem = checkbox;
+            checkedlistboxBBIEs.SelectedIndex = GetItemByText(checkedlistboxBBIEs.Items, textbox.Text);
+        }
+        private void SelectTextBoxBdtItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            checkedlistboxBDTs.SelectedIndex = GetItemByText(checkedlistboxBDTs.Items, textbox.Text);
+        }
+        private void SelectTextBoxAbieItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            checkedlistboxABIEs.SelectedIndex = GetItemByText(checkedlistboxABIEs.Items, textbox.Text);
+        }
+        private void SelectTextBoxAsccItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            checkedlistboxASCCs.SelectedIndex = GetItemByText(checkedlistboxASCCs.Items, textbox.Text);
+        }
+        private static int GetItemByText(ItemCollection itemCollection, string text)
+        {
+            foreach (CheckableText item in itemCollection)
+            {
+                if(item.Text.Equals(text))
+                {
+                    return itemCollection.IndexOf(item);
+                }
+            }
+            return -1;
         }
 
         private void buttonAddBBIE_Click(object sender, RoutedEventArgs e)
