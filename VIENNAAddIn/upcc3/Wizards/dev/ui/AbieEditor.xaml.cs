@@ -84,9 +84,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         }
 
-        private void SelectBCCCheckboxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
+        private void SelectTextBoxItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-
+            var textbox = (TextBox)sender;
+            var checkbox = (CheckBox)textbox.Parent;
+            var listbox = (ListBox)checkbox.Parent;
+            listbox.SelectedItem = checkbox;
         }
 
         private void buttonAddBBIE_Click(object sender, RoutedEventArgs e)

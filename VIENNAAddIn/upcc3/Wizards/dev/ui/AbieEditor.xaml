@@ -53,7 +53,7 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="True" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -70,7 +70,7 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -84,7 +84,7 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -103,7 +103,7 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -116,7 +116,7 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <CheckBox IsChecked="{Binding Path=Checked}">
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectBCCCheckboxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="False" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxItemOnMouseSingleClick" KeyUp="textboxKeyUp"/>
                                                 </CheckBox>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
