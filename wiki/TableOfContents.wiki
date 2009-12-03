@@ -1,7 +1,7 @@
 [VIENNAAddInOverview About the VIENNA AddIn]
 
-* [ForUsers User infos]
- * [InstallationNotes Installation Notes]
+[ForUsers User infos]
+ [InstallationNotes Installation Notes]
  * [GettingStarted Getting Started]
  * [Troubleshooting Troubleshooting]
  * [Release_Notes Release Notes]
