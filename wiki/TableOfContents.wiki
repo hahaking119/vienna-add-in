@@ -1,4 +1,4 @@
-* [VIENNAAddInOverview About the VIENNA AddIn]
+[VIENNAAddInOverview About the VIENNA AddIn]
 
 * [ForUsers User infos]
  * [InstallationNotes Installation Notes]
