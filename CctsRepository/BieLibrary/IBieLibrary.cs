@@ -14,7 +14,7 @@ namespace CctsRepository.BieLibrary
 	/// <summary>
 	/// Interface for CCTS/UPCC BIELibrary.
 	/// </summary>
-    public interface IBieLibrary
+    public partial interface IBieLibrary
     {
 		/// <summary>
 		/// The BIELibrary's unique ID.

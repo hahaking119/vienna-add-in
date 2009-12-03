@@ -14,7 +14,7 @@ namespace CctsRepository.CcLibrary
 	/// <summary>
 	/// Interface for CCTS/UPCC CCLibrary.
 	/// </summary>
-    public interface ICcLibrary
+    public partial interface ICcLibrary
     {
 		/// <summary>
 		/// The CCLibrary's unique ID.

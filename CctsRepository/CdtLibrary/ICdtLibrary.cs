@@ -14,7 +14,7 @@ namespace CctsRepository.CdtLibrary
 	/// <summary>
 	/// Interface for CCTS/UPCC CDTLibrary.
 	/// </summary>
-    public interface ICdtLibrary
+    public partial interface ICdtLibrary
     {
 		/// <summary>
 		/// The CDTLibrary's unique ID.

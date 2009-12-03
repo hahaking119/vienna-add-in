@@ -14,7 +14,7 @@ namespace CctsRepository.BdtLibrary
 	/// <summary>
 	/// Interface for CCTS/UPCC BDTLibrary.
 	/// </summary>
-    public interface IBdtLibrary
+    public partial interface IBdtLibrary
     {
 		/// <summary>
 		/// The BDTLibrary's unique ID.
