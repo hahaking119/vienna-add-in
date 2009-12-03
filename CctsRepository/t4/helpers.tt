@@ -22,7 +22,7 @@
 		string propertyName;
 		switch (taggedValue.Cardinality)
 		{
-			case Cardinality.Many:
+			case MetaCardinality.Many:
 				if (taggedValue.Name.EndsWith("s") || taggedValue.Name.EndsWith("x"))
 				{
 					propertyName = taggedValue.Name + "es";
@@ -41,6 +41,6 @@
 	
 	string TaggedValuePropertyType(MetaTaggedValue taggedValue)
 	{
-		return (taggedValue.Cardinality == Cardinality.Many ? "IEnumerable<string>" : "string");
+		return (taggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string");
 	}
 #>

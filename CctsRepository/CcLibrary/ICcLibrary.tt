@@ -1,8 +1,8 @@
 <#@ template language="C#v3.5" hostspecific="True" debug="True" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="UpccModel.dll" #>
-<#@ import namespace="UpccModel"#>
+<#@ assembly name="Upcc.dll" #>
+<#@ import namespace="Upcc"#>
 <#
-	var metaPackage = UpccModel.Instance.Packages.CcLibrary;
+	var metaPackage = MetaModel.CcLibrary;
 #>
 <#@ include file="../t4/LibraryInterface.tt" #>

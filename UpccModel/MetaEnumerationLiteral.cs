@@ -2,14 +2,14 @@ namespace Upcc
 {
     public class MetaEnumerationLiteral
     {
-        public string Stereotype;
+        public MetaStereotype Stereotype { get; internal set; }
 
-        public MetaEnumeration ContainingEnumerationType;
+        public MetaEnumeration ContainingEnumerationType { get; internal set; }
 
-        public Cardinality Cardinality;
-        public string Name;
+        public MetaCardinality Cardinality { get; internal set; }
+        public string Name { get; internal set; }
 
-        public MetaTaggedValue[] TaggedValues;
+        public MetaTaggedValue[] TaggedValues { get; internal set; }
 
         public bool HasTaggedValues
         {
