@@ -1,0 +1,28 @@
+#summary Import Standard Core Component Libraries
+
+=Standard CC Libraries=
+
+...
+
+=Import standard CC Libraries into an existing UPCC3 model=
+
+  # Prepare an Enterprise Architect model and set it as UPCC3 model
+  # In the _Project Browser_, select the model and right-click on the bLibrary
+  # Select _Add-In / VIENNAAddIn / Import Standard CC Libraries_ from the context menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_09.gif
+  # In the _Standard Core Component Library Importer_ dialog, you can choose the desired version of the CCL from two drop-down lists
+  # After choosing the CCL version, detailed information to the selected version is shown in the _Comments_ section:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_10.gif
+  # Finally, click _Import_
+  # If there are existing libraries in the current project with the same name as the Core Components Libraries, you will need to confirm that these old liberaries may be overwritten:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_11.gif
+  # The Add-In will now download the Core Component Libraries as XMI files and import them into the current project
+  # You can observe the import process by watching the status messages that are printed to the _Status_ section regularly:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_12.gif
+
+
+=References=
+(1) CCTS standard ...
+
+=Related Tasks=
+E.g., link to UPCC Standard Core Component Library Importer
