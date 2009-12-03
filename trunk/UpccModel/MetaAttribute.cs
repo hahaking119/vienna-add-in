@@ -1,4 +1,4 @@
-namespace UpccModel
+namespace Upcc
 {
     public class MetaAttribute
     {

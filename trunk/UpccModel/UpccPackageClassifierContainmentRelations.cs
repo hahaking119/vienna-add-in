@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace UpccModel
+namespace Upcc
 {
     public class UpccPackageClassifierContainmentRelations
     {
