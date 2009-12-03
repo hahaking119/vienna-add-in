@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.EnumLibrary;
 using EA;
@@ -75,6 +76,26 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             ((ENUM) element).Update(spec);
             return element;
+        }
+
+        public IEnumerable<IIdScheme> IdSchemes
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IIdScheme GetIdSchemeByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IIdScheme CreateIdScheme(IdSchemeSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

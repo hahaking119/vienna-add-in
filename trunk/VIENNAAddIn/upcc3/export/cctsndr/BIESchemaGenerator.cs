@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository.BieLibrary;
+using CctsRepository.DocLibrary;
 
 // XML Naming and Design Rules that are currently not considered:
 //
@@ -194,6 +195,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             return complexTypeBIE;
         }
 
+        internal static XmlSchemaComplexType GenerateComplexTypeForMa(GeneratorContext context, XmlSchema schema, IMa ma, string abiePrefix)
+        {
+            throw new NotImplementedException();
+        }
+
         ///<summary>
         ///</summary>
         ///<param name="bbie"></param>
@@ -241,6 +247,14 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             annotation.Items.Add(new XmlSchemaDocumentation {Language = "en", Markup = documentation.ToArray()});
 
             return annotation;
+        }
+
+        ///<summary>
+        ///</summary>
+        ///<param name="ma"></param>
+        public static XmlSchemaAnnotation GetMaAnnotation(IMa ma)
+        {
+            throw new NotImplementedException();
         }
 
         ///<summary>

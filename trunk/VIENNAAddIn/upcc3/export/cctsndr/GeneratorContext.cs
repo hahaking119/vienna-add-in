@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using CctsRepository;
-using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr
@@ -20,11 +19,10 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<param name="targetNamespace"></param>
         ///<param name="namespacePrefix"></param>
         ///<param name="annotate"></param>
+        ///<param name="allschemas"></param>
         ///<param name="outputDirectory"></param>
         ///<param name="docLibrary"></param>
-        ///<param name="rootElement"></param>
-        public GeneratorContext(ICctsRepository repository, string targetNamespace, string namespacePrefix, bool annotate, bool allschemas,
-                                string outputDirectory, IDocLibrary docLibrary, IAbie rootElement)
+        public GeneratorContext(ICctsRepository repository, string targetNamespace, string namespacePrefix, bool annotate, bool allschemas, string outputDirectory, IDocLibrary docLibrary)
         {
             Allschemas = allschemas;
             Repository = repository;
@@ -33,11 +31,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             Annotate = annotate;
             OutputDirectory = outputDirectory;
             DocLibrary = docLibrary;
-            RootElement = rootElement;
-            if(allschemas)
-                progress = 100/(4 + (rootElement != null ? 1 : 0));
-            else
-                progress = 100/(2 + (rootElement != null ? 1 : 0));
+            progress = 100/(allschemas ? 5 : 3);
         }
 
         ///<summary>
@@ -74,10 +68,6 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         ///<summary>
         ///</summary>
         public IDocLibrary DocLibrary { get; private set; }
-
-        ///<summary>
-        ///</summary>
-        public IAbie RootElement { get; private set; }
 
         ///<summary>
         ///</summary>

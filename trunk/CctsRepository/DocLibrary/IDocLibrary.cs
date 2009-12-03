@@ -8,7 +8,6 @@
 // *******************************************************************************
 using System.Collections.Generic;
 using CctsRepository.bLibrary;
-using CctsRepository.BieLibrary;
 
 namespace CctsRepository.DocLibrary
 {
@@ -33,31 +32,31 @@ namespace CctsRepository.DocLibrary
 		IBLibrary BLibrary { get; }
 
 		/// <summary>
-		/// The ABIEs contained in this DOCLibrary.
+		/// The MAs contained in this DOCLibrary.
 		/// </summary>
-		IEnumerable<IAbie> Abies { get; }
+		IEnumerable<IMa> Mas { get; }
 
 		/// <summary>
-		/// Retrieves a ABIE by name.
-		/// <param name="name">A ABIE's name.</param>
-		/// <returns>The ABIE with the given <paramref name="name"/> or <c>null</c> if no such ABIE is found.</returns>
+		/// Retrieves a MA by name.
+		/// <param name="name">A MA's name.</param>
+		/// <returns>The MA with the given <paramref name="name"/> or <c>null</c> if no such MA is found.</returns>
 		/// </summary>
-        IAbie GetAbieByName(string name);
+        IMa GetMaByName(string name);
 
 		/// <summary>
-		/// Creates a ABIE based on the given <paramref name="specification"/>.
-		/// <param name="specification">A specification for a ABIE.</param>
-		/// <returns>The newly created ABIE.</returns>
+		/// Creates a MA based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a MA.</param>
+		/// <returns>The newly created MA.</returns>
 		/// </summary>
-		IAbie CreateAbie(AbieSpec specification);
+		IMa CreateMa(MaSpec specification);
 
 		/// <summary>
-		/// Updates a ABIE to match the given <paramref name="specification"/>.
-		/// <param name="abie">A ABIE.</param>
-		/// <param name="specification">A new specification for the given ABIE.</param>
-		/// <returns>The updated ABIE. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// Updates a MA to match the given <paramref name="specification"/>.
+		/// <param name="ma">A MA.</param>
+		/// <param name="specification">A new specification for the given MA.</param>
+		/// <returns>The updated MA. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        IAbie UpdateAbie(IAbie abie, AbieSpec specification);
+        IMa UpdateMa(IMa ma, MaSpec specification);
 
 		#region Tagged Values
 

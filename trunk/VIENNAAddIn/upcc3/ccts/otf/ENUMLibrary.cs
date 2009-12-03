@@ -39,5 +39,25 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<IIdScheme> IdSchemes
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public IIdScheme GetIdSchemeByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IIdScheme CreateIdScheme(IdSchemeSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

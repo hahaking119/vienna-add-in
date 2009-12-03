@@ -16,7 +16,7 @@ using VIENNAAddInUtils;
 namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 {
     [TestFixture]
-    public class SynchTaggedValuesTests : SynchStereotypesTestsBase
+    public class SynchTaggedValuesTests : SynchTaggedValuesTestsBase
     {
 <#	
 	foreach (var package in upcc.Packages.All)
@@ -35,7 +35,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 		{
             Repository repo = CreateRepositoryWithoutTaggedValues();
 
-            var synchStereotypes = new SynchStereotypes(repo);
+            var synchStereotypes = new SynchTaggedValues(repo);
             synchStereotypes.FixTaggedValues();
 
             var package = repo.Resolve<Package>((Path) "Model"/<#= pathFromModel #>);
@@ -56,7 +56,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 		{
             Repository repo = CreateRepositoryWithoutTaggedValues();
 
-            var synchStereotypes = new SynchStereotypes(repo);
+            var synchStereotypes = new SynchTaggedValues(repo);
             synchStereotypes.FixTaggedValues();
 
             var element = repo.Resolve<Element>((Path) "Model"/<#= pathFromModel #>/"<#= classifier.Stereotype #>");
@@ -76,7 +76,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 		{
             Repository repo = CreateRepositoryWithoutTaggedValues();
 
-            var synchStereotypes = new SynchStereotypes(repo);
+            var synchStereotypes = new SynchTaggedValues(repo);
             synchStereotypes.FixTaggedValues();
 
             var element = repo.Resolve<Element>((Path) "Model"/<#= pathFromModel #>/"<#= classifier.Stereotype #>");
@@ -100,7 +100,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 		{
             Repository repo = CreateRepositoryWithoutTaggedValues();
 
-            var synchStereotypes = new SynchStereotypes(repo);
+            var synchStereotypes = new SynchTaggedValues(repo);
             synchStereotypes.FixTaggedValues();
 
             var element = repo.Resolve<Element>((Path) "Model"/<#= pathFromModel #>/"<#= classifier.Stereotype #>");
@@ -124,7 +124,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 		{
             Repository repo = CreateRepositoryWithoutTaggedValues();
 
-            var synchStereotypes = new SynchStereotypes(repo);
+            var synchStereotypes = new SynchTaggedValues(repo);
             synchStereotypes.FixTaggedValues();
 
             var element = repo.Resolve<Element>((Path) "Model"/<#= pathFromModel #>/"<#= classifier.Stereotype #>");
