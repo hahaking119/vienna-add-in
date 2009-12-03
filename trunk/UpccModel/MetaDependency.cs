@@ -2,10 +2,8 @@ namespace Upcc
 {
     public class MetaDependency
     {
-        public string Stereotype;
-
-        public MetaClassifier SourceClassifierType;
-
-        public MetaClassifier TargetClassifierType;
+        public MetaStereotype Stereotype { get; internal set; }
+        public MetaClassifier SourceClassifierType { get; internal set; }
+        public MetaClassifier TargetClassifierType { get; internal set; }
     }
 }

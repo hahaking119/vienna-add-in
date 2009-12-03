@@ -1,11 +1,8 @@
 <#@ template language="C#v3.5" hostspecific="True" debug="True" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="UpccModel.dll" #>
-<#@ import namespace="UpccModel"#>
+<#@ assembly name="Upcc.dll" #>
+<#@ import namespace="Upcc"#>
 <#@ import namespace="System.Text"#>
-<#
-	var upcc = UpccModel.Instance;
-#>
 /*******************************************************************************
 This file is part of the VIENNAAddIn project
 
@@ -28,7 +25,7 @@ namespace VIENNAAddIn.Settings
             switch (package.Element.Stereotype)
             {
 <#
-			foreach (var package in upcc.Packages.All)
+			foreach (var package in MetaModel.GetAllPackages())
 			{
 #>
                 case Stereotype.<#= package.Stereotype #>:
@@ -40,7 +37,7 @@ namespace VIENNAAddIn.Settings
             }
         }
 <#
-			foreach (var package in upcc.Packages.All)
+			foreach (var package in MetaModel.GetAllPackages())
 			{
 #>
 
@@ -48,7 +45,7 @@ namespace VIENNAAddIn.Settings
         {
             AddMissingTaggedValues(path, package<#= CollectTaggedValues(package.TaggedValues) #>);
 <#
-				if (upcc.HasSubPackages(package))
+				if (MetaModel.HasSubPackages(package))
 				{
 #>
             foreach (Package subPackage in package.Packages)
@@ -57,7 +54,7 @@ namespace VIENNAAddIn.Settings
             }
 <#
 				}
-				if (upcc.HasClassifiers(package))
+				if (MetaModel.HasClassifiers(package))
 				{
 #>
             foreach (Element element in package.Elements)
@@ -65,7 +62,7 @@ namespace VIENNAAddIn.Settings
                 switch (element.Stereotype)
                 {
 <#
-					foreach (var relation in upcc.PackageClassifierContainmentRelations.GetClassifierRelationsFor(package))
+					foreach (var relation in MetaModel.GetClassifierRelationsFor(package))
 					{
 						var classifier = relation.ClassifierType;
 						if (classifier.HasTaggedValues)
@@ -74,7 +71,7 @@ namespace VIENNAAddIn.Settings
                     case Stereotype.<#= classifier.Stereotype #>:
                         AddMissingTaggedValues(path/element.Name, element<#= CollectTaggedValues(classifier.TaggedValues) #>);
 <#
-							if (upcc.HasAttributes(classifier))
+							if (MetaModel.HasAttributes(classifier))
 							{
 #>
 						foreach (Attribute attribute in element.Attributes)
@@ -82,7 +79,7 @@ namespace VIENNAAddIn.Settings
 							switch (attribute.Stereotype)
 							{
 <#
-								foreach (var attribute in upcc.Attributes.GetAttributesFor(classifier))
+								foreach (var attribute in MetaModel.GetAttributesFor(classifier))
 								{
 									if (attribute.HasTaggedValues)
 									{
@@ -98,7 +95,7 @@ namespace VIENNAAddIn.Settings
 						}
 <#
 							}
-							if (upcc.HasEnumerationLiterals(classifier))
+							if (MetaModel.HasEnumerationLiterals(classifier))
 							{
 #>
 						foreach (Attribute attribute in element.Attributes)
@@ -106,7 +103,7 @@ namespace VIENNAAddIn.Settings
 							switch (attribute.Stereotype)
 							{
 <#
-								foreach (var enumerationLiteral in upcc.EnumerationLiterals.GetEnumerationLiteralsFor(classifier))
+								foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(classifier))
 								{
 									if (enumerationLiteral.HasTaggedValues)
 									{
@@ -122,7 +119,7 @@ namespace VIENNAAddIn.Settings
 						}
 <#
 							}
-							if (upcc.HasAssociations(classifier))
+							if (MetaModel.IsAssociatingClassifier(classifier))
 							{
 #>
 						foreach (Connector connector in element.Connectors)
@@ -130,7 +127,7 @@ namespace VIENNAAddIn.Settings
 							switch (connector.Stereotype)
 							{
 <#
-								foreach (var association in upcc.Associations.GetAssociationsForAssociatingClassifier(classifier))
+								foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(classifier))
 								{
 									if (association.HasTaggedValues)
 									{

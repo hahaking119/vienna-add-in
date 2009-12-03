@@ -27,31 +27,31 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		/// </summary>
         string Name { get; }
 <# 
-		foreach (var relation in UpccModel.Instance.PackagePackageContainmentRelations.GetSuperPackageRelationsFor(metaPackage))
+		foreach (var relation in MetaModel.GetParentPackageRelationsFor(metaPackage))
 		{
 #>
 
 		/// <summary>
-		/// The <#= relation.ContainerPackageType.Stereotype #> containing this <#= metaPackage.Stereotype #>.
+		/// The <#= relation.ParentPackageType.Stereotype #> containing this <#= metaPackage.Stereotype #>.
 		/// </summary>
-		I<#= relation.ContainerPackageType.Name #> <#= relation.ContainerPackageRole #> { get; }
+		I<#= relation.ParentPackageType.Name #> <#= relation.ParentPackageRole #> { get; }
 <#
 		}
 #>
 <# 
-		foreach (var relation in UpccModel.Instance.PackagePackageContainmentRelations.GetSubPackageRelationsFor(metaPackage))
+		foreach (var relation in MetaModel.GetSubPackageRelationsFor(metaPackage))
 		{
 #>
 
 		/// <summary>
-		/// The <#= relation.ContainedPackageType.Stereotype #>s contained in this <#= metaPackage.Stereotype #>.
+		/// The <#= relation.SubPackageType.Stereotype #>s contained in this <#= metaPackage.Stereotype #>.
 		/// </summary>
-		I<#= relation.ContainedPackageType.Name #> <#= relation.ContainedPackageRole #> { get; }
+		I<#= relation.SubPackageType.Name #> <#= relation.SubPackageRole #> { get; }
 <#
 		}
 #>
 <# 
-		foreach (var relation in UpccModel.Instance.PackageClassifierContainmentRelations.GetClassifierRelationsFor(metaPackage))
+		foreach (var relation in MetaModel.GetClassifierRelationsFor(metaPackage))
 		{
 			var element = relation.ClassifierType.Stereotype;
 			var classifierParamName = FirstCharToLowerCase(relation.ClassifierType.Name);

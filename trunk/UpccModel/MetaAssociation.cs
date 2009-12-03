@@ -2,15 +2,15 @@ namespace Upcc
 {
     public class MetaAssociation
     {
-        public string Stereotype;
-        public string ClassName;
-        public string Name;
-        public Cardinality Cardinality;
+        public MetaStereotype Stereotype { get; internal set; }
+        public string ClassName { get; internal set; }
+        public string Name { get; internal set; }
+        public MetaCardinality Cardinality { get; internal set; }
 
-        public MetaClass AssociatedClassifierType;
-        public MetaClass AssociatingClassifierType;
+        public MetaClass AssociatedClassifierType { get; internal set; }
+        public MetaClass AssociatingClassifierType { get; internal set; }
 
-        public MetaTaggedValue[] TaggedValues;
+        public MetaTaggedValue[] TaggedValues { get; internal set; }
 
         public bool HasTaggedValues
         {

@@ -1,11 +1,8 @@
 <#@ template language="C#v3.5" hostspecific="True" debug="True" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="UpccModel.dll" #>
-<#@ import namespace="UpccModel"#>
+<#@ assembly name="Upcc.dll" #>
+<#@ import namespace="Upcc"#>
 <#@ import namespace="System.Text"#>
-<#
-	var upcc = UpccModel.Instance;
-#>
 using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
@@ -19,10 +16,10 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
     public class SynchTaggedValuesTests : SynchTaggedValuesTestsBase
     {
 <#	
-	foreach (var package in upcc.Packages.All)
+	foreach (var package in MetaModel.GetAllPackages())
 	{
-		var pathFromModel = "\"" + upcc.Packages.BLibrary.Stereotype + "\"";
-		if (package != upcc.Packages.BLibrary)
+		var pathFromModel = "\"" + MetaStereotype.bLibrary + "\"";
+		if (package != MetaModel.BLibrary)
 		{
 			pathFromModel += "/\"" + package.Stereotype + "\"";
 		}
@@ -44,7 +41,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 		}
 <#
 		}
-		foreach (var relation in upcc.PackageClassifierContainmentRelations.GetClassifierRelationsFor(package))
+		foreach (var relation in MetaModel.GetClassifierRelationsFor(package))
 		{
 			var classifier = relation.ClassifierType;
 			if (classifier.HasTaggedValues)
@@ -65,7 +62,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 		}
 <#
 			}
-			foreach (var attribute in upcc.Attributes.GetAttributesFor(classifier))
+			foreach (var attribute in MetaModel.GetAttributesFor(classifier))
 			{
 				if (attribute.HasTaggedValues)
 				{
@@ -89,7 +86,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 				}
 			}
 
-			foreach (var enumerationLiteral in upcc.EnumerationLiterals.GetEnumerationLiteralsFor(classifier))
+			foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(classifier))
 			{
 				if (enumerationLiteral.HasTaggedValues)
 				{
@@ -113,7 +110,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 				}
 			}
 
-			foreach (var association in upcc.Associations.GetAssociationsForAssociatingClassifier(classifier))
+			foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(classifier))
 			{
 				if (association.HasTaggedValues)
 				{

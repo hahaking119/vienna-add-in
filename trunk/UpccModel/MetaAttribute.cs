@@ -2,16 +2,16 @@ namespace Upcc
 {
     public class MetaAttribute
     {
-        public string Stereotype;
+        public MetaStereotype Stereotype { get; internal set; }
 
-        public MetaClass ContainingClassifierType;
+        public MetaClass ContainingClassifierType { get; internal set; }
 
-        public Cardinality Cardinality;
-        public string ClassName;
-        public string AttributeName;
-        public MetaClassifier Type;
+        public MetaCardinality Cardinality { get; internal set; }
+        public string ClassName { get; internal set; }
+        public string AttributeName { get; internal set; }
+        public MetaClassifier Type { get; internal set; }
 
-        public MetaTaggedValue[] TaggedValues;
+        public MetaTaggedValue[] TaggedValues { get; internal set; }
 
         public bool HasTaggedValues
         {
