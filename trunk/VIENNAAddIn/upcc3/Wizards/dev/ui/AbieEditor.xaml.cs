@@ -93,26 +93,31 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             var label = (Label)sender;
             checkedlistboxBCCs.SelectedIndex = GetItemByText(checkedlistboxBCCs.Items,label.Content.ToString());
         }
+
         private void SelectTextBoxBbieItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
             var textbox = (TextBox)sender;
             checkedlistboxBBIEs.SelectedIndex = GetItemByText(checkedlistboxBBIEs.Items, textbox.Text);
         }
+
         private void SelectTextBoxBdtItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
             var textbox = (TextBox)sender;
             checkedlistboxBDTs.SelectedIndex = GetItemByText(checkedlistboxBDTs.Items, textbox.Text);
         }
+
         private void SelectTextBoxAbieItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
             var textbox = (TextBox)sender;
             checkedlistboxABIEs.SelectedIndex = GetItemByText(checkedlistboxABIEs.Items, textbox.Text);
         }
+
         private void SelectTextBoxAsccItemOnMouseSingleClick(object sender, MouseButtonEventArgs e)
         {
             var textbox = (TextBox)sender;
             checkedlistboxASCCs.SelectedIndex = GetItemByText(checkedlistboxASCCs.Items, textbox.Text);
         }
+
         private static int GetItemByText(ItemCollection itemCollection, string text)
         {
             foreach (CheckableText item in itemCollection)

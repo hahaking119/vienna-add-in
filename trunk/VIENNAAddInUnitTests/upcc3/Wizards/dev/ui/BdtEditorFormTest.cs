@@ -14,7 +14,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.ui
         [Ignore]
         public void ShouldLaunchAndPopulateAbieModelerForm()
         {
-            var t = new Thread(() => new Application().Run(new BdtEditor(new CCRepository(new EARepositoryABIEEditor()))));
+            var t = new Thread(() => new Application().Run(new BdtEditor(new CCRepository(new EARepositoryBdtEditor()))));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();
