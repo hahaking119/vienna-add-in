@@ -75,13 +75,13 @@ namespace VIENNAAddIn.upcc3.ccts.util
         /// <returns>True if the connector has the isEquivalentTo stereotype, false otherwise.</returns>
         public static bool IsIsEquivalentTo(this Connector con)
         {
-            return con.IsA(Stereotype.IsEquivalentTo);
+            return con.IsA(Stereotype.isEquivalentTo);
         }
 
         /// <returns>True if the connector has the basedOn stereotype, false otherwise.</returns>
         public static bool IsBasedOn(this Connector con)
         {
-            return con.IsA(Stereotype.BasedOn);
+            return con.IsA(Stereotype.basedOn);
         }
 
         /// <returns>True if the connector has the ASBIE stereotype, false otherwise.</returns>

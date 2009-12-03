@@ -225,7 +225,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private static IEnumerable<ConnectorSpec> GetConnectorSpecs(EnumSpec spec)
         {
-            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.isEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
         }
 
         public override bool Equals(object obj)

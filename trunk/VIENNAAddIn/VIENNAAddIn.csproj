@@ -186,8 +186,24 @@
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
-    <Compile Include="upcc3\ccts\util\Stereotype.cs" />
-    <Compile Include="upcc3\ccts\util\TaggedValues.cs" />
+    <None Include="upcc3\ccts\util\Stereotype.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Stereotype.cs</LastGenOutput>
+    </None>
+    <Compile Include="upcc3\ccts\util\Stereotype.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Stereotype.tt</DependentUpon>
+    </Compile>
+    <None Include="upcc3\ccts\util\TaggedValues.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TaggedValues.cs</LastGenOutput>
+    </None>
+    <Compile Include="upcc3\ccts\util\TaggedValues.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TaggedValues.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\import\cctsndr\bdt\BDTComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTExtensionComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTRestrictionComplexType.cs" />
