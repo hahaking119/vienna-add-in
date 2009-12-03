@@ -9,6 +9,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private bool mChecked;
         private IAscc mBasedOn;
 
+        public PotentialAsbie(IAscc originalAscc)
+        {
+            mName = originalAscc.Name;
+            mChecked = false;
+            mBasedOn = originalAscc;
+        }
+
         public string Name
         {
             get { return mName; }

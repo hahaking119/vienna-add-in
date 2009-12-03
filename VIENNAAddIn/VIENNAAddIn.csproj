@@ -233,7 +233,7 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBdtLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBieLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateCcLibrary.cs" />
-    <Compile Include="upcc3\Wizards\dev\util\CheckableText.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CheckableItem.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialAsbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBdt.cs" />

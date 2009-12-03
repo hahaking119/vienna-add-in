@@ -6,7 +6,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class CandidateBcc
     {
-        private string mName;
         private bool mChecked;
         private IBcc mOriginalBcc;
         private bool mSelected;
@@ -14,17 +13,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public CandidateBcc(IBcc originalBcc)
         {
-            mName = originalBcc.Name;
             mChecked = false;
             mOriginalBcc = originalBcc;
             mSelected = false;
             mPotentialBbies = null;
-        }
-
-        public string Name
-        {
-            get { return mName; }
-            set { mName = value; }
         }
 
         public bool Checked
@@ -49,15 +41,39 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             get
             {
-                throw new NotImplementedException();
-
                 if (mPotentialBbies == null)
                 {
-
+                    mPotentialBbies = new List<PotentialBbie> { new PotentialBbie(mOriginalBcc.Name, mOriginalBcc.Cdt) };
                 }
-
+                
                 return mPotentialBbies;
             }
+
+            set { mPotentialBbies = value; }
+        }
+
+        public void AddPotentialBbie()
+        {
+            for (int i = 1; i != -1; i++)
+            {
+                bool foundBbieWithTheSameName = false;
+                string newBbieName = OriginalBcc.Name + i;                
+
+                foreach (PotentialBbie potentialBbie in PotentialBbies)
+                {
+                    if (potentialBbie.Name.Equals(newBbieName))
+                    {
+                        foundBbieWithTheSameName = true;
+                        break;
+                    }
+                }
+
+                if (!foundBbieWithTheSameName)
+                {
+                    PotentialBbies.Add(new PotentialBbie(newBbieName, OriginalBcc.Cdt));                    
+                    break;
+                }
+            } 
         }
     }
 }

@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
+using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
+using VIENNAAddIn.upcc3.Wizards.dev.cache;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
@@ -36,14 +37,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             get
             {
                 if (mCandidateBccs == null)
-                {                    
+                {                                        
                     mCandidateBccs = new List<CandidateBcc>();                    
                     
                     foreach (IBcc bcc in OriginalAcc.BCCs)
                     {
-                        mCandidateBccs.Add(new CandidateBcc(bcc));
-                    }
-                    
+                        CandidateBcc newCandidateBcc = new CandidateBcc(bcc);                                                
+
+                        mCandidateBccs.Add(newCandidateBcc);
+                    }                    
                 }
                 
                 return mCandidateBccs;
@@ -52,16 +54,66 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public List<CandidateAbie> CandidateAbies
         {
-            get
-            {
-                throw new NotImplementedException();
-
+            get            
+            {  
                 if (mCandidateAbies == null)
                 {
-                    
+                    CcCache ccCache = CcCache.GetInstance();
+                    mCandidateAbies = new List<CandidateAbie>();
+
+                    foreach (IAscc ascc in mOriginalAcc.ASCCs)
+                    {                        
+                        foreach (IBieLibrary bieLibrary in ccCache.GetBIELibraries())
+                        {
+                            foreach (IAbie abie in ccCache.GetBiesFromBieLibrary(bieLibrary.Name))
+                            {
+                                if (abie.BasedOn.Id == ascc.AssociatedElement.Id)
+                                {
+                                    AddAbieToCandidateAbies(abie);
+                                    AddPotentialAsbieToCandidateAbie(abie.Name, ascc);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 return mCandidateAbies;
+            }
+        }
+
+        private void AddPotentialAsbieToCandidateAbie(string abieName, IAscc ascc)
+        {
+            foreach (CandidateAbie candidateAbie in mCandidateAbies)
+            {
+                if (candidateAbie.Name.Equals(abieName))
+                {
+                    if (candidateAbie.PotentialAsbies == null)
+                    {
+                        candidateAbie.PotentialAsbies = new List<PotentialAsbie>();
+                    }
+
+                    candidateAbie.PotentialAsbies.Add(new PotentialAsbie(ascc));
+
+                    break;
+                }
+            }
+        }
+
+        private void AddAbieToCandidateAbies(IAbie newAbie)
+        {
+            bool newAbieNotYetInCandidateAbies = true;
+
+            foreach (CandidateAbie candidateAbie in mCandidateAbies)
+            {
+                if (candidateAbie.Name == newAbie.Name)
+                {
+                    newAbieNotYetInCandidateAbies = false;
+                }
+            }            
+
+            if (newAbieNotYetInCandidateAbies)
+            {
+                mCandidateAbies.Add(new CandidateAbie(newAbie));
             }
         }
     }
