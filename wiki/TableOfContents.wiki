@@ -1,16 +1,17 @@
 [VIENNAAddInOverview About the VIENNA AddIn]
 
-[ForUsers User infos]
+* [ForUsers User infos]
  [InstallationNotes Installation Notes]
  * [GettingStarted Getting Started]
+     [HowToTemplate How to Template]  
+     [HowToVideos HOW-TO videos]  
+     [HowToCreateaUPCC3Model How To create a UPCC3 Model]
+     [ReferenceDefaultUPCCModelCreator Reference: Default UPCC Model Creator]
+     [ReferenceStandardCCLImporter Reference: Standard CCL Importer]
  * [Troubleshooting Troubleshooting]
  * [Release_Notes Release Notes]
  * [EnterpriseArchitect The Enterprise Architect]
- * [HowToTemplate How to Template]  
- * [HowToVideos HOW-TO videos]  
- * [HowToCreateaUPCC3Model How To create a UPCC3 Model]
- * [ReferenceDefaultUPCCModelCreator Reference: Default UPCC Model Creator]
- * [ReferenceStandardCCLImporter Reference: Standard CCL Importer]
+
 
 * [ForDevelopers Developer infos]
  * [CheckoutfromSVN Check out from SVN]
