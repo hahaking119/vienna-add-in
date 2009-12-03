@@ -145,6 +145,7 @@
     <Compile Include="upcc3\import\cctsndr\BDTXsdImporterTests.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\AbieEditorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CcCacheTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\BdtEditorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\UpccModelCreatorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryABIEEditor.cs" />
