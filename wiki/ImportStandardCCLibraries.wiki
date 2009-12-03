@@ -25,4 +25,4 @@
 (1) CCTS standard ...
 
 =Related Tasks=
-E.g., link to UPCC Standard Core Component Library Importer
+[CreateaModelinEA Create your first UPCC model]
