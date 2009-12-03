@@ -19,7 +19,7 @@ Add a detailed and complete list of working steps to fully utilize the functiona
 Example: Give a numbered enumeration of steps accompanied by suitable screenshots.
 
 = References =
-[1] CCTS standard ...
+(1) CCTS standard ...
 
 = Related Tasks =
 E.g., link to UPCC Standard Core Component Library Importer
