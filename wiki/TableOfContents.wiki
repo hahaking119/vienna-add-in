@@ -1,5 +1,4 @@
   * [VIENNAAddInOverview About the VIENNA AddIn]
-
   * [ForUsers User infos]
     * [InstallationNotes Installation Notes]
     * [GettingStarted Getting Started]
@@ -11,21 +10,14 @@
     * [Troubleshooting Troubleshooting]
     * [Release_Notes Release Notes]
     * [EnterpriseArchitect The Enterprise Architect]
-
-
   * [ForDevelopers Developer infos]
     * [CheckoutfromSVN Check out from SVN]
     * [CreateInstallerFileForDistribution Create installer]   
     * [QuickLinker EA quicklinker feature]
     * [Meetings Meeting Notes]
     * [ReSharperSettings]
-
   * [RoadMap]
-
   * [Presentation VIENNA AddIn Presentation]
-
-
-    777
 
 
   
