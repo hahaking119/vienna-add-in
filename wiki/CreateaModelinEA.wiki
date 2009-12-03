@@ -2,7 +2,7 @@
 
 =UPCC models in Enterprise Architect=
 
-Add theoretical background here. Give references to external documents if available. E.g., UPCC standard or some paper. To model business documents in EA following the UPCC standard, the model must be defined as a UPCC3 model, and must contain certain libraries defined in the UPCC3 standard.
+The UML Profile for Core Components is a representation of UN/CEFACT’s Core Components Technical Specification (CCTS) 3.0 in UML. The UML Profile for Core Components (UPCC) is based on the Unified Modeling Language (UML) and defined as a profile on top of it. To model business documents in EA following the UPCC standard, the model must be defined as a UPCC3 model, and must contain certain libraries defined in the UPCC3 standard.
 
 =Creating your first UPCC model=
 
