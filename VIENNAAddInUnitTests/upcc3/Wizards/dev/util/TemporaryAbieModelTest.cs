@@ -17,7 +17,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
     [TestFixture]
     public class TemporaryABIEModelTest
     {
-        private EARepositoryCCCache eaRepository;
+        private EARepositoryCcCache eaRepository;
         private CCRepository ccRepository;
         private TemporaryAbieModel temporaryABIEModel;
         private CcCache ccCache;
@@ -27,7 +27,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         [SetUp]
         public void Setup()
         {
-            eaRepository = new EARepositoryCCCache();
+            eaRepository = new EARepositoryCcCache();
             ccRepository = new CCRepository(eaRepository);
             //temporaryABIEModel = new TemporaryAbieModel(ccRepository);
             ccCache = CcCache.GetInstance(ccRepository);

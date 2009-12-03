@@ -16,7 +16,7 @@ using Stereotype = VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
 {
-    public class EARepositoryCCCache : EARepository       
+    public class EARepositoryCcCache : EARepository       
     {
        private Element accAddress;
         private Element accPerson;
@@ -36,7 +36,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
         private Element primDecimal;
         private Element primString;
         
-        public EARepositoryCCCache()
+        public EARepositoryCcCache()
         {
             this.AddModel("test model", InitTestModel);
 

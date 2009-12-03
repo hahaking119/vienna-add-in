@@ -10,7 +10,7 @@
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
 {
-    public class EARepositoryAbieEditor : EARepositoryCcCache
+    public class EARepositoryBdtEditor : EARepositoryCcCache
     {
  
     }

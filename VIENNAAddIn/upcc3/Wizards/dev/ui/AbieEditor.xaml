@@ -1,7 +1,7 @@
 ﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.ui.AbieEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
-    Height="627" Width="589" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="False" ResizeMode="CanResize" Title="ABIE Editor" FontSize="11">
+    Height="627" Width="589" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="True" ResizeMode="CanResize" Title="ABIE Editor" FontSize="11">
     <DockPanel Background="#FFD4D0C8" Margin="2,5,5,5">
         
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
@@ -13,14 +13,14 @@
             <ComboBox ItemsSource="{Binding Path=Model.CandidateAccNames}" HorizontalAlignment="Stretch" Height="23" Name="comboACCs" SelectionChanged="comboACCs_SelectionChanged" KeyboardNavigation.TabIndex="1"></ComboBox>
         </DockPanel>
         
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,1,1,1">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,15,1,1">
             <Button HorizontalAlignment="Center" Width="100" Name="buttonSave" Margin="5,5,5,5" Click="buttonSave_Click">_Generate ABIE</Button>
             <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
-        <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
+        <!--<DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Height="23" Name="labelStatus">Status:</Label>
             <TextBox HorizontalAlignment="Stretch" Height="60" Name="textStatus" Margin="5,0,0,0" IsReadOnly="True" IsUndoEnabled="False" TextWrapping="Wrap"></TextBox>
-        </DockPanel>
+        </DockPanel>-->
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBIELs">BIE Library used to store the ABIE:</Label>
             <ComboBox ItemsSource="{Binding Path=Model.CandidateBieLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboBIELs_SelectionChanged" KeyboardNavigation.TabIndex="6"></ComboBox>
