@@ -205,6 +205,9 @@
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCcLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CacheItemCdtLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CcCache.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
+      <DependentUpon>BdtEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporter.xaml.cs">
       <DependentUpon>StandardLibraryImporter.xaml</DependentUpon>
     </Compile>
@@ -533,6 +536,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="upcc3\Wizards\dev\ui\AbieEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\BdtEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
