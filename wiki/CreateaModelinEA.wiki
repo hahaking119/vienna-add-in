@@ -26,7 +26,8 @@ The UML Profile for Core Components is a representation of UN/CEFACT’s Core Co
 
 
 =References=
-(1) CCTS standard ...
+(1) UMM Development Site: Core Components Technical Specification http://umm-dev.org/about-uml-profile-for-core-components-upcc/
+(2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
 
 =Related Tasks=
-E.g., link to UPCC Standard Core Component Library Importer
+[ ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
