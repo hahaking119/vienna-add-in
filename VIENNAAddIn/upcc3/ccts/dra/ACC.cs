@@ -241,7 +241,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private static IEnumerable<ConnectorSpec> GetConnectorSpecs(AccSpec spec)
         {
-            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.isEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
 
             IEnumerable<AsccSpec> asccSpecs = spec.ASCCs;
             if (asccSpecs != null)

@@ -333,7 +333,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 yield return model;
                 foreach (Package rootPackage in model.Packages)
                 {
-                    if (rootPackage.IsA(Stereotype.BInformationV))
+                    if (rootPackage.IsA(Stereotype.bInformationV))
                     {
                         yield return rootPackage;
                     }

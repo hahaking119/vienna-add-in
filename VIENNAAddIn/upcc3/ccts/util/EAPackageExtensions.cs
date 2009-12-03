@@ -211,7 +211,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         /// <returns>True if the attribute has the bInformationV stereotype, false otherwise.</returns>
         public static bool IsBInformationV(this Package package)
         {
-            return package.IsA(Stereotype.BInformationV);
+            return package.IsA(Stereotype.bInformationV);
         }
     }
 }

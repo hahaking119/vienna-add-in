@@ -194,12 +194,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                        new TaggedValueSpec(TaggedValues.pattern, spec.Pattern),
                        new TaggedValueSpec(TaggedValues.fractionDigits, spec.FractionDigits),
                        new TaggedValueSpec(TaggedValues.length, spec.Length),
-                       new TaggedValueSpec(TaggedValues.maxExclusive, spec.MaxExclusive),
-                       new TaggedValueSpec(TaggedValues.maxInclusive, spec.MaxInclusive),
-                       new TaggedValueSpec(TaggedValues.maxLength, spec.MaxLength),
-                       new TaggedValueSpec(TaggedValues.minExclusive, spec.MinExclusive),
-                       new TaggedValueSpec(TaggedValues.minInclusive, spec.MinInclusive),
-                       new TaggedValueSpec(TaggedValues.minLength, spec.MinLength),
+                       new TaggedValueSpec(TaggedValues.maximumExclusive, spec.MaxExclusive),
+                       new TaggedValueSpec(TaggedValues.maximumInclusive, spec.MaxInclusive),
+                       new TaggedValueSpec(TaggedValues.maximumLength, spec.MaxLength),
+                       new TaggedValueSpec(TaggedValues.minimumExclusive, spec.MinExclusive),
+                       new TaggedValueSpec(TaggedValues.minimumInclusive, spec.MinInclusive),
+                       new TaggedValueSpec(TaggedValues.minimumLength, spec.MinLength),
                        new TaggedValueSpec(TaggedValues.totalDigits, spec.TotalDigits),
                        new TaggedValueSpec(TaggedValues.whiteSpace, spec.WhiteSpace),
                    };
@@ -220,12 +220,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                        new TaggedValueSpec(TaggedValues.pattern, spec.Pattern),
                        new TaggedValueSpec(TaggedValues.fractionDigits, spec.FractionDigits),
                        new TaggedValueSpec(TaggedValues.length, spec.Length),
-                       new TaggedValueSpec(TaggedValues.maxExclusive, spec.MaxExclusive),
-                       new TaggedValueSpec(TaggedValues.maxInclusive, spec.MaxInclusive),
-                       new TaggedValueSpec(TaggedValues.maxLength, spec.MaxLength),
-                       new TaggedValueSpec(TaggedValues.minExclusive, spec.MinExclusive),
-                       new TaggedValueSpec(TaggedValues.minInclusive, spec.MinInclusive),
-                       new TaggedValueSpec(TaggedValues.minLength, spec.MinLength),
+                       new TaggedValueSpec(TaggedValues.maximumExclusive, spec.MaxExclusive),
+                       new TaggedValueSpec(TaggedValues.maximumInclusive, spec.MaxInclusive),
+                       new TaggedValueSpec(TaggedValues.maximumLength, spec.MaxLength),
+                       new TaggedValueSpec(TaggedValues.minimumExclusive, spec.MinExclusive),
+                       new TaggedValueSpec(TaggedValues.minimumInclusive, spec.MinInclusive),
+                       new TaggedValueSpec(TaggedValues.minimumLength, spec.MinLength),
                        new TaggedValueSpec(TaggedValues.totalDigits, spec.TotalDigits),
                        new TaggedValueSpec(TaggedValues.whiteSpace, spec.WhiteSpace),
                    };
@@ -251,8 +251,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private static IEnumerable<ConnectorSpec> GetConnectorSpecs(BdtSpec spec)
         {
-            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.IsEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
-            if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.BasedOn, spec.BasedOn.Id, "1", "1");
+            if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.isEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
+            if (spec.BasedOn != null) yield return ConnectorSpec.CreateDependency(Stereotype.basedOn, spec.BasedOn.Id, "1", "1");
         }
 
         public override bool Equals(object obj)
