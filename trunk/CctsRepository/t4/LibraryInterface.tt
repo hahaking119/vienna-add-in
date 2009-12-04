@@ -8,14 +8,16 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository.BdtLibrary;
-using CctsRepository.BieLibrary;
-using CctsRepository.BLibrary;
-using CctsRepository.CcLibrary;
-using CctsRepository.CdtLibrary;
-using CctsRepository.DocLibrary;
-using CctsRepository.EnumLibrary;
-using CctsRepository.PrimLibrary;
+// ReSharper disable RedundantUsingDirective
+<#
+	foreach (var package in MetaModel.GetAllPackages())
+	{
+#>
+using CctsRepository.<#= package.Name #>;
+<#
+	}
+#>
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.<#= metaPackage.Name #>
 {

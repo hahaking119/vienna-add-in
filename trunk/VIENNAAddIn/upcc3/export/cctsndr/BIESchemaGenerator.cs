@@ -125,7 +125,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             // create the sequence for the BBIEs within the ABIE
             XmlSchemaSequence sequenceBBIEs = new XmlSchemaSequence();
 
-            foreach (IBbie bbie in abie.BBIEs)
+            foreach (IBbie bbie in abie.Bbies)
             {
                 // R 89A6: for every BBIE a named element must be locally declared
                 XmlSchemaElement elementBBIE = new XmlSchemaElement();
@@ -154,7 +154,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
 
 
-            foreach (IAsbie asbie in abie.ASBIEs.OrderBy(a => a.Name))
+            foreach (IAsbie asbie in abie.Asbies.OrderBy(a => a.Name))
             {
                 XmlSchemaElement elementASBIE = new XmlSchemaElement();
 

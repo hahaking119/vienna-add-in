@@ -138,7 +138,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     return null;
                 }
                 string nameWithoutQualifiers = Name.Substring(Name.LastIndexOf('_') + 1);
-                foreach (IAscc ascc in acc.ASCCs)
+                foreach (IAscc ascc in acc.Asccs)
                 {
                     if (nameWithoutQualifiers == ascc.Name)
                     {

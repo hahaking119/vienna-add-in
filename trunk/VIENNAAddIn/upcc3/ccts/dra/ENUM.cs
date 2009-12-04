@@ -128,7 +128,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IEnumLibrary Library
+        public IEnumLibrary EnumLibrary
         {
             get { return repository.GetEnumLibraryById(element.PackageID); }
         }

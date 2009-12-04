@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using EA;
@@ -54,7 +53,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
-        public IEnumerable<IBbie> BBIEs
+        public IEnumerable<IBbie> Bbies
         {
             get
             {
@@ -63,7 +62,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IEnumerable<IAsbie> ASBIEs
+        public IEnumerable<IAsbie> Asbies
         {
             get
             {
@@ -106,7 +105,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IBieLibrary Library
+        public IBieLibrary BieLibrary
         {
             get { return repository.GetBieLibraryById(element.PackageID); }
         }

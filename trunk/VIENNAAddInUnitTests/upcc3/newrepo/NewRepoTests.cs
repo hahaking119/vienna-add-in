@@ -37,7 +37,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo
             Assert.That(primString.Name, Is.EqualTo("String"));
             Assert.That(primString.DictionaryEntryName, Is.EqualTo("String"));
             Assert.That(primString.BusinessTerms, Is.EquivalentTo(new[] {"a sequence of characters", "a sequence of symbols"}));
-            Assert.That(primString.Library.Id, Is.EqualTo(primLibrary.Id));
+            Assert.That(primString.PrimLibrary.Id, Is.EqualTo(primLibrary.Id));
 
             IPrim primZeichenfolge = primLibrary.GetPrimByName("Zeichenfolge");
             Assert.That(primZeichenfolge.IsEquivalentTo.Id, Is.EqualTo(primString.Id));

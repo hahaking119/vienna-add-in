@@ -7,51 +7,71 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.CdtLibrary
 {
     public interface ICdt
     {
-        ICdtCon CON { get; }
-        IEnumerable<ICdtSup> SUPs { get; }
+		int Id { get; }
+		
+		string Name { get; }
+		
+        ICdtLibrary CdtLibrary { get; }
 
-        ICdt IsEquivalentTo { get; }
-        IEnumerable<string> UsageRules { get; }
+		ICdt IsEquivalentTo { get; }
 
-        ///<summary>
-        ///</summary>
-        int Id { get; }
+		ICdtCon Con { get; }
 
-        ///<summary>
-        ///</summary>
-        string Name { get; }
+		IEnumerable<ICdtSup> Sups { get; }
 
-        ///<summary>
-        ///</summary>
-        string DictionaryEntryName { get; }
+		#region Tagged Values
 
         ///<summary>
+        /// Tagged value 'businessTerm'.
         ///</summary>
-        string Definition { get; }
+		IEnumerable<string> BusinessTerms { get; }
 
         ///<summary>
+        /// Tagged value 'definition'.
         ///</summary>
-        string UniqueIdentifier { get; }
+		string Definition { get; }
 
         ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
         ///</summary>
-        string VersionIdentifier { get; }
+		string DictionaryEntryName { get; }
 
         ///<summary>
+        /// Tagged value 'languageCode'.
         ///</summary>
-        string LanguageCode { get; }
+		string LanguageCode { get; }
 
         ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
         ///</summary>
-        IEnumerable<string> BusinessTerms { get; }
+		string UniqueIdentifier { get; }
 
         ///<summary>
+        /// Tagged value 'versionIdentifier'.
         ///</summary>
-        ICdtLibrary Library { get; }
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'usageRule'.
+        ///</summary>
+		IEnumerable<string> UsageRules { get; }
+
+		#endregion
     }
 }
+

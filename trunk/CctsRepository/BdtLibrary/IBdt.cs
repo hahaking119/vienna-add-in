@@ -7,33 +7,73 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.BdtLibrary
 {
     public interface IBdt
     {
-        int Id { get; }
-        string Name { get; }
-
+		int Id { get; }
+		
+		string Name { get; }
+		
         IBdtLibrary BdtLibrary { get; }
 
-        IBdtCon Con { get; }
-        IEnumerable<IBdtSup> Sups { get; }
+		IBdt IsEquivalentTo { get; }
 
-        IBdt IsEquivalentTo { get; }
-        ICdt BasedOn { get; }
+		ICdt BasedOn { get; }
 
-        #region Tagged Values
+		IBdtCon Con { get; }
 
-        string DictionaryEntryName { get; }
-        string Definition { get; }
-        string UniqueIdentifier { get; }
-        string VersionIdentifier { get; }
-        string LanguageCode { get; }
-        IEnumerable<string> BusinessTerms { get; }
-        IEnumerable<string> UsageRules { get; }
+		IEnumerable<IBdtSup> Sups { get; }
 
-        #endregion
+		#region Tagged Values
+
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		string Definition { get; }
+
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		string DictionaryEntryName { get; }
+
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		string LanguageCode { get; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		string UniqueIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'usageRule'.
+        ///</summary>
+		IEnumerable<string> UsageRules { get; }
+
+		#endregion
     }
 }
+

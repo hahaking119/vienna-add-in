@@ -13,18 +13,17 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
+<#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
 
 namespace CctsRepository.<#= library.Name #>
 {
-    public interface IPrim
+    public interface I<#= metaClassifier.Name #>
     {
 		int Id { get; }
 		
 		string Name { get; }
 		
-        I<#= library.Name #> Library { get; }
-
-		#region Dependencies
+        I<#= library.Name #> <#= library.Name #> { get; }
 <# 
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
 		{
@@ -33,14 +32,39 @@ namespace CctsRepository.<#= library.Name #>
 		I<#= dependency.TargetClassifierType.Name #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; }
 <#
 		}
+
+		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
+		{
 #>
 
-		#endregion
+		<#= AttributePropertyType(attribute) #> <#= attribute.AttributeName #> { get; }
+<#
+		}
+		
+		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
+		{
+#>
+
+		<#= AssociationPropertyType(association) #> <#= association.Name #> { get; }
+<#
+		}
+
+		foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(metaClassifier))
+		{
+#>
+
+		<#= EnumerationLiteralPropertyType(enumerationLiteral) #> <#= enumerationLiteral.Name #> { get; }
+<#
+		}
+		
+		if (metaClassifier.HasTaggedValues)
+		{
+#>
 
 		#region Tagged Values
 <# 
-		foreach (var taggedValue in metaClassifier.TaggedValues)
-		{
+			foreach (var taggedValue in metaClassifier.TaggedValues)
+			{
 #>
 
         ///<summary>
@@ -48,9 +72,12 @@ namespace CctsRepository.<#= library.Name #>
         ///</summary>
 		<#= TaggedValuePropertyType(taggedValue) #> <#= TaggedValuePropertyName(taggedValue) #> { get; }
 <#
-		}
+			}
 #>
 
 		#endregion
+<#
+		}
+#>
     }
 }

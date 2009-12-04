@@ -167,6 +167,29 @@ namespace CctsRepository
 		}
 
         /// <summary>
+        /// The actual type's tagged value 'definition'.
+        /// </summary>
+		public string Definition 
+		{
+			get
+			{
+				if (IsPrim)
+				{
+					return Prim.Definition;
+				}
+				if (IsIdScheme)
+				{
+					return IdScheme.Definition;
+				}
+				if (IsEnum)
+				{
+					return Enum.Definition;
+				}
+				throw new Exception("Invalid BasicType: " + actualType.GetType());
+			}
+		}
+
+        /// <summary>
         /// The actual type's tagged value 'dictionaryEntryName'.
         /// </summary>
 		public string DictionaryEntryName 

@@ -403,7 +403,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</returns>
         private static AsbieSpec MatchAsbieToAscc(IAcc acc, string asbieName, int associatedAbie)
         {
-            foreach (IAscc ascc in acc.ASCCs)
+            foreach (IAscc ascc in acc.Asccs)
             {
                 if (ascc.Name.Equals(asbieName))
                 {

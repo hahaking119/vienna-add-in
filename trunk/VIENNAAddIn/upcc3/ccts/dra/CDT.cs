@@ -62,7 +62,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return element.GetTaggedValues(TaggedValues.usageRule); }
         }
 
-        public IEnumerable<ICdtSup> SUPs
+        public IEnumerable<ICdtSup> Sups
         {
             get
             {
@@ -71,7 +71,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public ICdtCon CON
+        public ICdtCon Con
         {
             get
             {
@@ -100,7 +100,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public ICdtLibrary Library
+        public ICdtLibrary CdtLibrary
         {
             get { return repository.GetCdtLibraryById(element.PackageID); }
         }

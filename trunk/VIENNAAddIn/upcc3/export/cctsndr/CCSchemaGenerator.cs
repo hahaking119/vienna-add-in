@@ -97,7 +97,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             // create the sequence for the BBIEs within the ABIE
             XmlSchemaSequence sequenceBCCs = new XmlSchemaSequence();
 
-            foreach (IBcc bcc in acc.BCCs.OrderBy(a => a.Name))
+            foreach (IBcc bcc in acc.Bccs.OrderBy(a => a.Name))
             {
                 // R 89A6: for every BBIE a named element must be locally declared
                 XmlSchemaElement elementBCC = new XmlSchemaElement();
@@ -109,7 +109,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 //         representation term of the basic business information entity (BBIE) it represents
                 //         with the word 'Type' appended. 
                 elementBCC.SchemaTypeName =
-                    new XmlQualifiedName(NSPREFIX_CDT + ":" + bcc.Cdt.Name + bcc.Cdt.CON.BasicType.Name + "Type");
+                    new XmlQualifiedName(NSPREFIX_CDT + ":" + bcc.Cdt.Name + bcc.Cdt.Con.BasicType.Name + "Type");
 
 
                 // R 90F9: cardinality of elements within the ABIE
@@ -126,7 +126,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
 
 
-            foreach (IAscc ascc in acc.ASCCs.OrderBy(a => a.Name))
+            foreach (IAscc ascc in acc.Asccs.OrderBy(a => a.Name))
             {
                 XmlSchemaElement elementASCC = new XmlSchemaElement();
 

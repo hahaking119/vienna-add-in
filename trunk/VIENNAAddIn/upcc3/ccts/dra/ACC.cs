@@ -63,14 +63,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IEnumerable<IBcc> BCCs
+        public IEnumerable<IBcc> Bccs
         {
             get { return Attributes.Convert(a => (IBcc) new BCC(repository, a, this)); }
         }
 
         ///<summary>
         ///</summary>
-        public IEnumerable<IAscc> ASCCs
+        public IEnumerable<IAscc> Asccs
         {
             get { return Connectors.Where(IsASCC).Convert(c => (IAscc) new ASCC(repository, c, this)); }
         }
@@ -102,7 +102,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public ICcLibrary Library
+        public ICcLibrary CcLibrary
         {
             get { return repository.GetCcLibraryById(element.PackageID); }
         }

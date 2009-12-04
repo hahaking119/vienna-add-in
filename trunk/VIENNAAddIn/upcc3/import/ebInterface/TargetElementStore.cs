@@ -91,7 +91,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private static IBcc GetBCC(IAcc acc, string name)
         {
-            foreach (var bcc in acc.BCCs)
+            foreach (var bcc in acc.Bccs)
             {
                 if (name == NDR.GenerateBCCName(bcc))
                 {
@@ -103,7 +103,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private static IAscc GetASCC(IAcc acc, string name)
         {
-            foreach (var ascc in acc.ASCCs)
+            foreach (var ascc in acc.Asccs)
             {
                 if (name == NDR.GenerateASCCName(ascc))
                 {

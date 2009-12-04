@@ -24,8 +24,8 @@ namespace CctsRepository.CdtLibrary
             BusinessTerms = new List<string>(cdt.BusinessTerms);
 
             UsageRules = new List<string>(cdt.UsageRules);
-            CON = new CdtConSpec(cdt.CON);
-            SUPs = new List<CdtSupSpec>(cdt.SUPs.Convert(sup => new CdtSupSpec(sup)));
+            CON = new CdtConSpec(cdt.Con);
+            SUPs = new List<CdtSupSpec>(cdt.Sups.Convert(sup => new CdtSupSpec(sup)));
         }
 
         public CdtSpec()

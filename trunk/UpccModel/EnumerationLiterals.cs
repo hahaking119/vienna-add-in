@@ -12,6 +12,7 @@ namespace Upcc
             CodelistEntry = new MetaEnumerationLiteral
                             {
                                 Stereotype = MetaStereotype.CodelistEntry,
+                                ClassName = "CodelistEntry",
                                 Name = "CodelistEntries",
                                 Cardinality = MetaCardinality.Many,
                                 ContainingEnumerationType = enumerations.Enum,

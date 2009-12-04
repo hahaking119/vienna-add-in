@@ -138,7 +138,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         ///<summary>
         ///</summary>
-        public IPrimLibrary Library
+        public IPrimLibrary PrimLibrary
         {
             get { return repository.GetPrimLibraryById(element.PackageID); }
         }

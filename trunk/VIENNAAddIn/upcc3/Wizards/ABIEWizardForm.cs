@@ -1167,7 +1167,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 if (!wizardModeCreate) // add all BBIEs that already belong to the ABIE and were created by the user
                 {
-                    foreach (IBbie bbie in abie.BBIEs)
+                    foreach (IBbie bbie in abie.Bbies)
                     {
                         var newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Type.Id, CheckState.Checked);
                         cBBIE testBBIE;
@@ -1380,7 +1380,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                             bdtUsed = repository.GetBdtById(bdt.Id);
                                         }
 
-                                        foreach (IBcc currentBCC in selectedACC.BCCs)
+                                        foreach (IBcc currentBCC in selectedACC.Bccs)
                                         {
                                             if (currentBCC.Id == bcc.Id)
                                             {
@@ -1413,7 +1413,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                             // get the original ASCC of the above ACC that we currently process
                             IAscc origASCC = null;
-                            foreach (IAscc ascc in acc.ASCCs)
+                            foreach (IAscc ascc in acc.Asccs)
                             {
                                 if (ascc.Id == cascc.Id)
                                 {

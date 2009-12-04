@@ -25,13 +25,13 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 
             foreach (ICdt cdt in cdts)
             {
-                var sups = new List<ICdtSup>(cdt.SUPs);
+                var sups = new List<ICdtSup>(cdt.Sups);
                 if (sups.Count == 0)
                 {
                     var simpleType = new XmlSchemaSimpleType { Name = GetTypeName(cdt) };
                     var simpleTypeRestriction = new XmlSchemaSimpleTypeRestriction
                                                 {
-                                                    BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType.Name)
+                                                    BaseTypeName = GetXmlQualifiedName(cdt.Con.BasicType.Name)
                                                 };
                     simpleType.Content = simpleTypeRestriction;
                     if (context.Annotate)
@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     var simpleContent = new XmlSchemaSimpleContent();
                     var simpleContentExtension = new XmlSchemaSimpleContentExtension
                                                  {
-                                                     BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType.Name)
+                                                     BaseTypeName = GetXmlQualifiedName(cdt.Con.BasicType.Name)
                                                  };
                     foreach (ICdtSup sup in sups)
                     {
@@ -156,7 +156,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
 
         private static string GetTypeName(ICdt cdt)
         {
-            return cdt.Name + cdt.CON.BasicType.Name + "Type";
+            return cdt.Name + cdt.Con.BasicType.Name + "Type";
         }
 
         private static string GetXSDType(string primitiveTypeName)
