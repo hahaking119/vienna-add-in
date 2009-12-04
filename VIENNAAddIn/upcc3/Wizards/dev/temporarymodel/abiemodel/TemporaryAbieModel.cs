@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using CctsRepository;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.CcLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
@@ -54,6 +57,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         }
 
         #endregion
+
 
         #region Binding Properties
 
@@ -416,6 +420,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                     potentialBdt.Checked = checkedValue.Value;
                                                 }                                                
                                             }
+                                            else
+                                            {
+                                                if ((checkedValue.HasValue) && (checkedValue.Value))
+                                                {
+                                                    potentialBdt.Checked = false;
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -458,6 +469,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                     }
                 }
             }
+        }
+
+
+        public void SetNoSelectedCandidateAbie()
+        {
+            CandidateAbieItems = new List<CheckableItem>();
+            PotentialAsbieItems = new List<CheckableItem>();            
         }
 
         public void SetSelectedAndCheckedPotentialAsbie(string selectedAsbie, bool? checkedValue)
@@ -551,9 +569,182 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }            
         }
 
-        public void UpdateBbieName()
+        public void UpdateBbieName(string updatedBbieName)
         {
-            
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
+                            {
+                                if (candidateBcc.Selected)
+                                {
+                                    if (updatedBbieName.EndsWith(candidateBcc.OriginalBcc.Name))
+                                    {
+                                        if (candidateBcc.Selected)
+                                        {
+                                            foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
+                                            {
+                                                if (potentialBbie.Selected)
+                                                {
+                                                    potentialBbie.Name = updatedBbieName;
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {                                        
+                                        string errorMessage = String.Format("The name of the BBIE is invalid since it must end with the name of the BCC that it is based on. An example for a valid BBIE name would be \"My{0}\".", candidateBcc.OriginalBcc.Name);
+                                        throw new TemporaryAbieModelException(errorMessage);
+                                    }                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }            
+        }
+
+        public bool ContainsValidConfiguration()
+        {
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
+                            {
+                                if (candidateBcc.Checked)
+                                {
+                                    foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
+                                    {
+                                        if (potentialBbie.Checked)
+                                        {
+                                            foreach (PotentialBdt potentialBdt in potentialBbie.PotentialBdts)
+                                            {
+                                                if (potentialBdt.Checked)
+                                                {
+                                                    return true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public void CreateAbie()
+        {
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            List<BbieSpec> bbieSpecs = CumulateBbieSpecs(candidateAcc);
+                            List<AsbieSpec> asbieSpecs = CumulateAsbieSpecs(candidateAcc);
+                            AbieSpec abieSpec = CumulateAbieSpec(candidateAcc);
+
+                            abieSpec.Name = AbiePrefix + AbieName;
+                            abieSpec.Bbies = bbieSpecs;
+                            abieSpec.Asbies = asbieSpecs;
+
+                            CreateAbieInBieLibrary(abieSpec);
+                        }
+                    }
+                }
+            }            
+        }
+
+        private void CreateAbieInBieLibrary(AbieSpec abieSpec)
+        {
+            foreach (CandidateBieLibrary candidateBieLibrary in mCandidateBieLibraries)
+            {
+                if (candidateBieLibrary.Selected)
+                {
+                    candidateBieLibrary.OriginalBieLibrary.CreateAbie(abieSpec);
+                }
+            }            
+        }
+
+        private List<AsbieSpec> CumulateAsbieSpecs(CandidateAcc candidateAcc)
+        {
+            List<AsbieSpec> asbieSpecs = new List<AsbieSpec>();
+
+            foreach (CandidateAbie candidateAbie in candidateAcc.CandidateAbies)
+            {
+                foreach (PotentialAsbie potentialAsbie in candidateAbie.PotentialAsbies)
+                {                    
+                    asbieSpecs.Add(AsbieSpec.CloneASCC(potentialAsbie.BasedOn, potentialAsbie.Name, candidateAbie.OriginalAbie.Id));
+                }
+            }
+
+            return asbieSpecs;
+        }
+
+        private static List<BbieSpec> CumulateBbieSpecs(CandidateAcc candidateAcc)
+        {
+            List<BbieSpec> bbieSpecs = new List<BbieSpec>();
+
+            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
+            {
+                if (candidateBcc.Checked)
+                {
+                    foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
+                    {
+                        if (potentialBbie.Checked)
+                        {
+                            IBdt bdtTypifingTheBbie = null;
+
+                            foreach (PotentialBdt potentialBdt in potentialBbie.PotentialBdts)
+                            {
+                                if (potentialBdt.Checked)
+                                {
+                                    bdtTypifingTheBbie = potentialBdt.OriginalBdt;
+                                    break;
+                                }
+                            }
+
+                            bbieSpecs.Add(BbieSpec.CloneBCC(candidateBcc.OriginalBcc, bdtTypifingTheBbie));
+                        }
+                    }
+                }
+            }
+
+            return bbieSpecs;
+        }
+
+        private static AbieSpec CumulateAbieSpec(CandidateAcc candidateAcc)
+        {
+            AbieSpec abieSpec = new AbieSpec
+            {
+                DictionaryEntryName = candidateAcc.OriginalAcc.DictionaryEntryName,
+                Definition = candidateAcc.OriginalAcc.Definition,
+                UniqueIdentifier = candidateAcc.OriginalAcc.UniqueIdentifier,
+                VersionIdentifier = candidateAcc.OriginalAcc.VersionIdentifier,
+                LanguageCode = candidateAcc.OriginalAcc.LanguageCode,
+                BusinessTerms = candidateAcc.OriginalAcc.BusinessTerms,
+                UsageRules = candidateAcc.OriginalAcc.UsageRules,
+                BasedOn = candidateAcc.OriginalAcc,
+            };
+
+            return abieSpec;
         }
     }
 }
