@@ -13,14 +13,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-<#
-	foreach (var package in MetaModel.GetAllPackages())
-	{
-#>
-using CctsRepository.<#= package.Name #>;
-<#
-	}
-#>
+<#@ include file="t4/CctsRepositoryNamespaces.tt" #>
 using VIENNAAddInUtils;
 
 namespace CctsRepository

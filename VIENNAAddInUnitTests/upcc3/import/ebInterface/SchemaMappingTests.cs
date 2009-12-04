@@ -21,11 +21,11 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var ccRepository = new CCRepository(new MappingTestRepository());
             ccl = ccRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
             accAddress = ccl.GetAccByName("Address");
-            bccCityName = accAddress.BCCs.FirstOrDefault(bcc => bcc.Name == "CityName");
+            bccCityName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "CityName");
 
             accParty = ccl.GetAccByName("Party");
-            bccPartyName = accParty.BCCs.FirstOrDefault(bcc => bcc.Name == "Name");
-            asccPartyResidenceAddress = accParty.ASCCs.FirstOrDefault(ascc => ascc.Name == "Residence");
+            bccPartyName = accParty.Bccs.FirstOrDefault(bcc => bcc.Name == "Name");
+            asccPartyResidenceAddress = accParty.Asccs.FirstOrDefault(ascc => ascc.Name == "Residence");
 
             expectedAddress = new SourceElement("Address", "2");
             expectedTown = new SourceElement("Town", "3");

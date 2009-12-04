@@ -57,7 +57,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlDataType.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
         }
 
-        public IPrimLibrary Library
+        public IPrimLibrary PrimLibrary
         {
             get { return new UpccPrimLibrary(umlDataType.Package); }
         }

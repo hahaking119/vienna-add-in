@@ -41,7 +41,7 @@
 	
 	string TaggedValuePropertyType(MetaTaggedValue taggedValue)
 	{
-		return (taggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string");
+		return (taggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<" + taggedValue.Type + ">" : taggedValue.Type);
 	}
 	
 	string EmptyTaggedValue(MetaTaggedValue taggedValue)
@@ -53,6 +53,21 @@
 	{
 		var propertyName = TaggedValuePropertyName(taggedValue);
 		return propertyName + " = " + (taggedValue.Cardinality == MetaCardinality.Many ? "new List<string>(" + source + "." + propertyName + ")" : source + "." + propertyName);
+	}
+	
+	string AttributePropertyType(MetaAttribute attribute)
+	{
+		return (attribute.Cardinality == MetaCardinality.Many ? "IEnumerable<I" + attribute.ClassName + ">" : "I" + attribute.ClassName);
+	}
+	
+	string AssociationPropertyType(MetaAssociation association)
+	{
+		return (association.Cardinality == MetaCardinality.Many ? "IEnumerable<I" + association.ClassName + ">" : "I" + association.ClassName);
+	}
+	
+	string EnumerationLiteralPropertyType(MetaEnumerationLiteral enumerationLiteral)
+	{
+		return (enumerationLiteral.Cardinality == MetaCardinality.Many ? "IEnumerable<I" + enumerationLiteral.ClassName + ">" : "I" + enumerationLiteral.ClassName);
 	}
 	
 	string Plural(string str)

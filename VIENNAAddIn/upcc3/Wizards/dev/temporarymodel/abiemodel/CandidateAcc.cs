@@ -40,7 +40,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                 {                                        
                     mCandidateBccs = new List<CandidateBcc>();                    
                     
-                    foreach (IBcc bcc in OriginalAcc.BCCs)
+                    foreach (IBcc bcc in OriginalAcc.Bccs)
                     {
                         CandidateBcc newCandidateBcc = new CandidateBcc(bcc);                                                
 
@@ -61,7 +61,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                     CcCache ccCache = CcCache.GetInstance();
                     mCandidateAbies = new List<CandidateAbie>();
 
-                    foreach (IAscc ascc in mOriginalAcc.ASCCs)
+                    foreach (IAscc ascc in mOriginalAcc.Asccs)
                     {                        
                         foreach (IBieLibrary bieLibrary in ccCache.GetBIELibraries())
                         {

@@ -224,16 +224,16 @@ namespace Upcc
             get { return Instance.attributes.CdtSup; }
         }
 
-        public static MetaAssociation AbieAsma
-        {
-            get { return Instance.associations.AbieAsma; }
-        }
-
-        public static MetaAssociation MaAsma
-        {
-            get { return Instance.associations.MaAsma; }
-        }
-
+//        public static MetaAssociation AbieAsma
+//        {
+//            get { return Instance.associations.AbieAsma; }
+//        }
+//
+//        public static MetaAssociation MaAsma
+//        {
+//            get { return Instance.associations.MaAsma; }
+//        }
+//
         public static MetaAssociation Asbie
         {
             get { return Instance.associations.Asbie; }

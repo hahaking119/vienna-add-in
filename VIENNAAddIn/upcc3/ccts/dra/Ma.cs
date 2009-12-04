@@ -12,6 +12,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         public string Name { get; set; }
+        public IDocLibrary DocLibrary
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public IEnumerable<IAsma> Asmas { get; set; }
         public int Id{ get; set; }
 

@@ -125,11 +125,11 @@ namespace VIENNAAddIn.upcc3.Wizards
                 int cdtId = Id;
                 ICdt cdt = repository.GetCdtById(cdtId);
 
-                CON.Name = cdt.CON.Name;
-                CON.Id = cdt.CON.Id;
+                CON.Name = cdt.Con.Name;
+                CON.Id = cdt.Con.Id;
                 CON.State = CheckState.Checked;
 
-                foreach (var sup in cdt.SUPs)
+                foreach (var sup in cdt.Sups)
                 {
                     SUPs.Add(sup.Name, new cSUP(sup.Name, sup.Id, CheckState.Unchecked));
                 }
@@ -320,7 +320,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 IAcc acc = repository.GetAccById(Id);
 
-                foreach (IBcc bcc in acc.BCCs)
+                foreach (IBcc bcc in acc.Bccs)
                 {
                     if (BCCs.ContainsKey(bcc.Name))
                     {
@@ -343,7 +343,7 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 IAcc acc = repository.GetAccById(Id);
 
-                foreach (IBcc bcc in acc.BCCs)
+                foreach (IBcc bcc in acc.Bccs)
                 {
                     if (BCCs.ContainsKey(bcc.Name))
                     {
@@ -354,7 +354,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     BCCs.Add(bcc.Name, new cBCC(bcc.Name, bcc.Id, bcc.Cdt.Id, CheckState.Unchecked));
 
                     int bbieCount = 0;
-                    foreach (IBbie bbie in abie.BBIEs)
+                    foreach (IBbie bbie in abie.Bbies)
                     {
                         if (bbie.Name.Contains(bcc.Name))
                         {                            
@@ -384,7 +384,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 IAcc acc = repository.GetAccById(Id);
 
-                foreach (IAscc ascc in acc.ASCCs)
+                foreach (IAscc ascc in acc.Asccs)
                 {
                     IDictionary<string, cABIE> relevantABIEs = new Dictionary<string, cABIE>();
 

@@ -67,8 +67,8 @@ namespace CctsRepository.BdtLibrary
                        VersionIdentifier = cdt.VersionIdentifier,
                        BusinessTerms = new List<string>(cdt.BusinessTerms),
                        UsageRules = new List<string>(cdt.UsageRules),
-                       Con = BdtConSpec.CloneCdtCon(cdt.CON),
-                       Sups = new List<BdtSupSpec>(cdt.SUPs.Convert(sup => BdtSupSpec.CloneCdtSup(sup))),
+                       Con = BdtConSpec.CloneCdtCon(cdt.Con),
+                       Sups = new List<BdtSupSpec>(cdt.Sups.Convert(sup => BdtSupSpec.CloneCdtSup(sup))),
                    };
         }
 

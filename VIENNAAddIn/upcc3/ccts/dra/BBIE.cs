@@ -119,7 +119,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     return null;
                 }
                 string nameWithoutQualifiers = Name.Substring(Name.LastIndexOf('_') + 1);
-                foreach (IBcc bcc in acc.BCCs)
+                foreach (IBcc bcc in acc.Bccs)
                 {
                     if (nameWithoutQualifiers == bcc.Name)
                     {

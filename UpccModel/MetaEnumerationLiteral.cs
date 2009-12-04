@@ -7,6 +7,7 @@ namespace Upcc
         public MetaEnumeration ContainingEnumerationType { get; internal set; }
 
         public MetaCardinality Cardinality { get; internal set; }
+        public string ClassName { get; internal set; }
         public string Name { get; internal set; }
 
         public MetaTaggedValue[] TaggedValues { get; internal set; }

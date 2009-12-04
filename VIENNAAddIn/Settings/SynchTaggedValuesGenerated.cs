@@ -190,7 +190,7 @@ namespace VIENNAAddIn.Settings
                 switch (element.Stereotype)
                 {
                     case Stereotype.ENUM:
-                        AddMissingTaggedValues(path/element.Name, element, "businessTerm", "codeListAgencyIdentifier", "codeListAgencyName", "codeListIdentifier", "codeListName", "dictionaryEntryName", "enumerationURI", "languageCode", "modificationAllowedIndicator", "restrictedPrimitive", "status", "uniqueIdentifier", "versionIdentifier");
+                        AddMissingTaggedValues(path/element.Name, element, "businessTerm", "codeListAgencyIdentifier", "codeListAgencyName", "codeListIdentifier", "codeListName", "dictionaryEntryName", "definition", "enumerationURI", "languageCode", "modificationAllowedIndicator", "restrictedPrimitive", "status", "uniqueIdentifier", "versionIdentifier");
 						foreach (Attribute attribute in element.Attributes)
 						{
 							switch (attribute.Stereotype)

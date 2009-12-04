@@ -284,7 +284,7 @@ namespace VIENNAAddInUnitTests.SynchTaggedValuesTest
 
             var element = repo.Resolve<Element>((Path) "Model"/"bLibrary"/"ENUMLibrary"/"ENUM");
 			Assert.That(element, Is.Not.Null, "Element not found");
-            Assert.That(element, HasTaggedValues(new[]{"businessTerm", "codeListAgencyIdentifier", "codeListAgencyName", "codeListIdentifier", "codeListName", "dictionaryEntryName", "enumerationURI", "languageCode", "modificationAllowedIndicator", "restrictedPrimitive", "status", "uniqueIdentifier", "versionIdentifier", }), "missing tagged values");
+            Assert.That(element, HasTaggedValues(new[]{"businessTerm", "codeListAgencyIdentifier", "codeListAgencyName", "codeListIdentifier", "codeListName", "dictionaryEntryName", "definition", "enumerationURI", "languageCode", "modificationAllowedIndicator", "restrictedPrimitive", "status", "uniqueIdentifier", "versionIdentifier", }), "missing tagged values");
 		}
 
 		[Test]

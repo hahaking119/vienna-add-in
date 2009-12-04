@@ -22,6 +22,7 @@ namespace Upcc
                                           taggedValues.CodeListIdentifier,
                                           taggedValues.CodeListName,
                                           taggedValues.DictionaryEntryName,
+                                          taggedValues.Definition,
                                           taggedValues.EnumerationUri,
                                           taggedValues.LanguageCode,
                                           taggedValues.ModificationAllowedIndicator,

@@ -18,8 +18,8 @@ namespace CctsRepository.CcLibrary
             LanguageCode = acc.LanguageCode;
             BusinessTerms = new List<string>(acc.BusinessTerms);
             UsageRules = new List<string>(acc.UsageRules);
-            bccs = new List<BccSpec>(acc.BCCs.Convert(bcc => new BccSpec(bcc)));
-            asccs = new List<AsccSpec>(acc.ASCCs.Convert(ascc => new AsccSpec(ascc)));
+            bccs = new List<BccSpec>(acc.Bccs.Convert(bcc => new BccSpec(bcc)));
+            asccs = new List<AsccSpec>(acc.Asccs.Convert(ascc => new AsccSpec(ascc)));
             IsEquivalentTo = acc.IsEquivalentTo;
         }
 

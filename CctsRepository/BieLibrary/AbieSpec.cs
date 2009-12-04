@@ -53,8 +53,8 @@ namespace CctsRepository.BieLibrary
                        LanguageCode = abie.LanguageCode,
                        BusinessTerms = new List<string>(abie.BusinessTerms),
                        UsageRules = new List<string>(abie.UsageRules),
-                       Bbies = abie.BBIEs.Convert(bbie => BbieSpec.CloneBbie(bbie)),
-                       Asbies = abie.ASBIEs.Convert(asbie => new AsbieSpec(asbie)),
+                       Bbies = abie.Bbies.Convert(bbie => BbieSpec.CloneBbie(bbie)),
+                       Asbies = abie.Asbies.Convert(asbie => new AsbieSpec(asbie)),
                        IsEquivalentTo = abie.IsEquivalentTo,
                        BasedOn = abie.BasedOn,
                    }

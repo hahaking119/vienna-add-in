@@ -55,7 +55,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         /// <returns></returns>
         private static string[] BBIENames(IAbie abie)
         {
-            return (from bbie in abie.BBIEs select bbie.Name).ToArray();
+            return (from bbie in abie.Bbies select bbie.Name).ToArray();
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         /// <returns></returns>
         private static ASBIEDescriptor[] ASBIEDescriptors(IAbie abie)
         {
-            return (from asbie in abie.ASBIEs select new ASBIEDescriptor(asbie.Name, asbie.AssociatedElement.Id)).ToArray();
+            return (from asbie in abie.Asbies select new ASBIEDescriptor(asbie.Name, asbie.AssociatedElement.Id)).ToArray();
         }
 
         private IBieLibrary ShouldContainBieLibrary(string name)
