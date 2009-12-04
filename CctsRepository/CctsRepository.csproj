@@ -50,7 +50,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IBdtLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="BdtLibrary\IBdtLibraryExpected.cs" />
     <Compile Include="BieLibrary\AsbieAggregationKind.cs" />
     <Compile Include="BieLibrary\AbieSpec.cs" />
     <Compile Include="BdtLibrary\BdtLibrarySpec.cs" />
@@ -61,6 +60,11 @@
       <DependentUpon>IBieLibrary.tt</DependentUpon>
     </Compile>
     <Compile Include="bLibrary\BLibrarySpec.cs" />
+    <Compile Include="bLibrary\IBLibrary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IBLibrary.tt</DependentUpon>
+    </Compile>
     <Compile Include="CcLibrary\CcLibrarySpec.cs" />
     <Compile Include="CcLibrary\ICcLibrary.cs">
       <AutoGen>True</AutoGen>
@@ -125,6 +129,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBieLibrary.cs</LastGenOutput>
     </None>
+    <None Include="bLibrary\IBLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IBLibrary.cs</LastGenOutput>
+    </None>
     <None Include="CcLibrary\ICcLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICcLibrary.cs</LastGenOutput>
@@ -149,7 +157,7 @@
     </None>
     <None Include="t4\LibraryInterface.tt">
     </None>
-    <Compile Include="bLibrary\IBLibrary.cs" />
+    <Compile Include="bLibrary\IBLibraryOld.cs" />
     <Compile Include="ICctsRepository.cs" />
     <Compile Include="CdtLibrary\ICdt.cs" />
     <Compile Include="CdtLibrary\ICdtSup.cs" />

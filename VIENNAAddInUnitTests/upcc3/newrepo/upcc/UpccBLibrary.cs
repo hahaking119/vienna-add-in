@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
-using CctsRepository.bLibrary;
+using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
@@ -63,6 +63,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { throw new NotImplementedException(); }
         }
 
+        public IDocLibrary UpdateDocLibrary(IDocLibrary docLibrary, DocLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<string> BusinessTerms
         {
             get { throw new NotImplementedException(); }
@@ -88,7 +93,37 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public IBLibrary GetBLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBLibrary CreateBLibrary(BLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBLibrary UpdateBLibrary(IBLibrary bLibrary, BLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IPrimLibrary> GetPrimLibraries()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrimLibrary GetPrimLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrimLibrary CreatePrimLibrary(PrimLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrimLibrary UpdatePrimLibrary(IPrimLibrary primLibrary, PrimLibrarySpec specification)
         {
             throw new NotImplementedException();
         }
@@ -98,7 +133,37 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public IEnumLibrary GetEnumLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumLibrary CreateEnumLibrary(EnumLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumLibrary UpdateEnumLibrary(IEnumLibrary enumLibrary, EnumLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<ICdtLibrary> GetCdtLibraries()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICdtLibrary GetCdtLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICdtLibrary CreateCdtLibrary(CdtLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICdtLibrary UpdateCdtLibrary(ICdtLibrary cdtLibrary, CdtLibrarySpec specification)
         {
             throw new NotImplementedException();
         }
@@ -108,7 +173,37 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public ICcLibrary GetCcLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICcLibrary CreateCcLibrary(CcLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICcLibrary UpdateCcLibrary(ICcLibrary ccLibrary, CcLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBdtLibrary GetBdtLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBdtLibrary CreateBdtLibrary(BdtLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBdtLibrary UpdateBdtLibrary(IBdtLibrary bdtLibrary, BdtLibrarySpec specification)
         {
             throw new NotImplementedException();
         }
@@ -118,47 +213,32 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public IBieLibrary GetBieLibraryByName(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBieLibrary CreateBieLibrary(BieLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBieLibrary UpdateBieLibrary(IBieLibrary bieLibrary, BieLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IDocLibrary> GetDocLibraries()
         {
             throw new NotImplementedException();
         }
 
-        public IBLibrary CreateBLibrary(BLibrarySpec spec)
+        public IDocLibrary GetDocLibraryByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public ICdtLibrary CreateCDTLibrary(CdtLibrarySpec spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICcLibrary CreateCCLibrary(CcLibrarySpec spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBdtLibrary CreateBDTLibrary(BdtLibrarySpec spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBieLibrary CreateBIELibrary(BieLibrarySpec spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IPrimLibrary CreatePRIMLibrary(PrimLibrarySpec spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumLibrary CreateENUMLibrary(EnumLibrarySpec spec)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IDocLibrary CreateDOCLibrary(DocLibrarySpec spec)
+        public IDocLibrary CreateDocLibrary(DocLibrarySpec specification)
         {
             throw new NotImplementedException();
         }

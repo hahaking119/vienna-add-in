@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using CctsRepository.bLibrary;
+using CctsRepository.BLibrary;
 using EA;
 using NUnit.Framework;
 using VIENNAAddIn;

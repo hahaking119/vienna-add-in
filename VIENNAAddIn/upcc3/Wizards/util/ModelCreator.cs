@@ -11,7 +11,7 @@ using System;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
-using CctsRepository.bLibrary;
+using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
@@ -227,17 +227,17 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             if (!bdtLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating BDT Library.");
-                bLibrary.CreateBDTLibrary(new BdtLibrarySpec {Name = bdtLibraryName});
+                bLibrary.CreateBdtLibrary(new BdtLibrarySpec {Name = bdtLibraryName});
             }
             if (!bieLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating BIE Library.");
-                bLibrary.CreateBIELibrary(new BieLibrarySpec {Name = bieLibraryName});
+                bLibrary.CreateBieLibrary(new BieLibrarySpec {Name = bieLibraryName});
             }
             if (!docLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating DOC Library.");
-                bLibrary.CreateDOCLibrary(new DocLibrarySpec {Name = docLibraryName});
+                bLibrary.CreateDocLibrary(new DocLibrarySpec {Name = docLibraryName});
             }
         }
 
@@ -272,22 +272,22 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             if (!primLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating PRIM Library.");                
-                bLibrary.CreatePRIMLibrary(new PrimLibrarySpec {Name = primLibraryName});
+                bLibrary.CreatePrimLibrary(new PrimLibrarySpec {Name = primLibraryName});
             }
             if (!enumLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating ENUM Library.");
-                bLibrary.CreateENUMLibrary(new EnumLibrarySpec {Name = enumLibraryName});
+                bLibrary.CreateEnumLibrary(new EnumLibrarySpec {Name = enumLibraryName});
             }
             if (!cdtLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating CDT Library.");
-                bLibrary.CreateCDTLibrary(new CdtLibrarySpec {Name = cdtLibraryName});
+                bLibrary.CreateCdtLibrary(new CdtLibrarySpec {Name = cdtLibraryName});
             }
             if (!ccLibraryName.Equals(""))
             {
                 SendStatusChanged("Creating CC Library.");
-                bLibrary.CreateCCLibrary(new CcLibrarySpec {Name = ccLibraryName});
+                bLibrary.CreateCcLibrary(new CcLibrarySpec {Name = ccLibraryName});
             }
         }
 

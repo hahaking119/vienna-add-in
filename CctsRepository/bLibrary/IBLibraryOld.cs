@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
@@ -9,7 +10,7 @@ using CctsRepository.PrimLibrary;
 
 namespace CctsRepository.bLibrary
 {
-    public interface IBLibrary
+    public interface IBLibraryOld
     {
         IEnumerable<IBLibrary> GetBLibraries();
         IEnumerable<IPrimLibrary> GetPrimLibraries();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
-using CctsRepository.bLibrary;
+using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
@@ -63,15 +63,15 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// </summary>
         public void GenerateLibraries()
         {
-            bdtLibrary = bLibrary.CreateBDTLibrary(new BdtLibrarySpec
+            bdtLibrary = bLibrary.CreateBdtLibrary(new BdtLibrarySpec
                                                    {
                                                        Name = bdtLibraryName
                                                    });
-            bieLibrary = bLibrary.CreateBIELibrary(new BieLibrarySpec
+            bieLibrary = bLibrary.CreateBieLibrary(new BieLibrarySpec
                                                    {
                                                        Name = bieLibraryName
                                                    });
-            docLibrary = bLibrary.CreateDOCLibrary(new DocLibrarySpec
+            docLibrary = bLibrary.CreateDocLibrary(new DocLibrarySpec
                                                    {
                                                        Name = docLibraryName
                                                    });
