@@ -259,7 +259,6 @@
     </None>
     <None Include="t4\MultiType.tt">
     </None>
-    <Compile Include="bLibrary\IBLibraryOld.cs" />
     <Compile Include="CdtLibrary\ICdt.cs" />
     <Compile Include="CdtLibrary\ICdtSup.cs" />
     <Compile Include="EnumLibrary\ICodelistEntry.cs" />
