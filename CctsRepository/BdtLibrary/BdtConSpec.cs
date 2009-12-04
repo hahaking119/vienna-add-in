@@ -5,7 +5,7 @@ namespace CctsRepository.BdtLibrary
 {
     public class BdtConSpec
     {
-        public IBasicType BasicType { get; set; }
+        public BasicType BasicType { get; set; }
 
         public string UpperBound { get; set; }
         public string LowerBound { get; set; }

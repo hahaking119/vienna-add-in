@@ -359,7 +359,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        public IBasicType GetBasicTypeById(int id)
+        public BasicType GetBasicTypeById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
             if (element == null)
@@ -369,9 +369,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             switch (element.Stereotype)
             {
                 case "PRIM":
-                    return new PRIM(this, element);
+                    return new BasicType(new PRIM(this, element));
                 case "ENUM":
-                    return new ENUM(this, element);
+                    return new BasicType(new ENUM(this, element));
                 default:
                     return null;
             }

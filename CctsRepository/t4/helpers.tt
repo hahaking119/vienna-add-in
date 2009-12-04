@@ -44,6 +44,11 @@
 		return (taggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string");
 	}
 	
+	string EmptyTaggedValue(MetaTaggedValue taggedValue)
+	{
+		return (taggedValue.Cardinality == MetaCardinality.Many ? "new string[0]" : "string.Empty");
+	}
+	
 	string CopyTaggedValue(MetaTaggedValue taggedValue, string source)
 	{
 		var propertyName = TaggedValuePropertyName(taggedValue);

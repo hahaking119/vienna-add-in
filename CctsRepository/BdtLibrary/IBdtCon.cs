@@ -7,7 +7,7 @@ namespace CctsRepository.BdtLibrary
         int Id { get; }
 
         IBdt Bdt { get; }
-        IBasicType BasicType { get; }
+        BasicType BasicType { get; }
 
         string UpperBound { get; }
         string LowerBound { get; }

@@ -73,32 +73,32 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.length); }
         }
 
-        public string MaxExclusive
+        public string MaximumExclusive
         {
             get { return GetTaggedValue(TaggedValues.maximumExclusive); }
         }
 
-        public string MaxInclusive
+        public string MaximumInclusive
         {
             get { return GetTaggedValue(TaggedValues.maximumInclusive); }
         }
 
-        public string MaxLength
+        public string MaximumLength
         {
             get { return GetTaggedValue(TaggedValues.maximumLength); }
         }
 
-        public string MinExclusive
+        public string MinimumExclusive
         {
             get { return GetTaggedValue(TaggedValues.minimumExclusive); }
         }
 
-        public string MinInclusive
+        public string MinimumInclusive
         {
             get { return GetTaggedValue(TaggedValues.minimumInclusive); }
         }
 
-        public string MinLength
+        public string MinimumLength
         {
             get { return GetTaggedValue(TaggedValues.minimumLength); }
         }

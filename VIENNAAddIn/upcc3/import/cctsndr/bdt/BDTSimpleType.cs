@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
@@ -108,8 +109,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             {
                 conSpec = new BdtConSpec
                           {
-                              BasicType =
-                                  FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName))
+                              BasicType = new BasicType(FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName)))
                           };
             }
             return ApplyCONRestrictions(conSpec);

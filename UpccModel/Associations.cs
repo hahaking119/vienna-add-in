@@ -9,8 +9,9 @@ namespace Upcc
         internal readonly MetaAssociation Asbie;
         internal readonly MetaAssociation Ascc;
         internal readonly MetaAssociation MaAsma;
+        internal readonly MetaAssociation Asma;
 
-        internal Associations(TaggedValues taggedValues, Classes classes)
+        internal Associations(TaggedValues taggedValues, Classes classes, MultiTypes multiTypes)
         {
             Ascc = new MetaAssociation
                    {
@@ -53,6 +54,17 @@ namespace Upcc
                                            taggedValues.UsageRule,
                                        },
                     };
+
+            Asma = new MetaAssociation
+                     {
+                         Stereotype = MetaStereotype.ASMA,
+                         ClassName = "Asma",
+                         Name = "Asmas",
+                         Cardinality = MetaCardinality.Many,
+                         AssociatingClassifierType = classes.Ma,
+                         AssociatedClassifierType = multiTypes.BieAggregator,
+                         TaggedValues = new MetaTaggedValue[0],
+                     };
 
             MaAsma = new MetaAssociation
                      {
