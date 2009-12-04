@@ -25,6 +25,7 @@ namespace Upcc
         PRIM,
         PRIMLibrary,
         SUP,
+        bInformationV,
         bLibrary,
         basedOn,
         isEquivalentTo,

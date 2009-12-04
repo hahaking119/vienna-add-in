@@ -91,7 +91,7 @@ namespace Upcc
         {
             get
             {
-                foreach (FieldInfo field in GetType().GetFields())
+                foreach (FieldInfo field in GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic))
                 {
                     yield return (MetaClass) field.GetValue(this);
                 }

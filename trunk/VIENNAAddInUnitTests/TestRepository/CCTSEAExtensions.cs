@@ -121,7 +121,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             client.AddConnector("basedOn", EAConnectorTypes.Dependency.ToString(), c =>
                                                                                    {
-                                                                                       c.Stereotype = Stereotype.BasedOn;
+                                                                                       c.Stereotype = Stereotype.basedOn;
                                                                                        c.ClientEnd.Aggregation = (int) EaAggregationKind.None;
                                                                                        c.SupplierID = supplier.ElementID;
                                                                                        c.SupplierEnd.Role = "basedOn";
@@ -133,7 +133,7 @@ namespace VIENNAAddInUnitTests.TestRepository
         {
             client.AddConnector("isEquivalentTo", EAConnectorTypes.Dependency.ToString(), c =>
                                                                                    {
-                                                                                       c.Stereotype = Stereotype.IsEquivalentTo;
+                                                                                       c.Stereotype = Stereotype.isEquivalentTo;
                                                                                        c.ClientEnd.Aggregation = (int) EaAggregationKind.None;
                                                                                        c.SupplierID = supplier.ElementID;
                                                                                        c.SupplierEnd.Role = "isEquivalentTo";
