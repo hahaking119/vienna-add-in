@@ -60,10 +60,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IBdt.tt</DependentUpon>
     </Compile>
+    <Compile Include="BdtLibrary\IBdtCon.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IBdtCon.tt</DependentUpon>
+    </Compile>
     <Compile Include="BdtLibrary\IBdtLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IBdtLibrary.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BdtLibrary\IBdtSup.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IBdtSup.tt</DependentUpon>
     </Compile>
     <Compile Include="BieAggregator.cs">
       <AutoGen>True</AutoGen>
@@ -198,7 +208,6 @@
     <Compile Include="IBasicType.cs" />
     <Compile Include="BieLibrary\IBbie.cs" />
     <Compile Include="CcLibrary\IBcc.cs" />
-    <Compile Include="BdtLibrary\IBdtCon.cs" />
     <None Include="BdtLibrary\BdtLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BdtLibrarySpec.cs</LastGenOutput>
@@ -207,9 +216,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBdt.cs</LastGenOutput>
     </None>
+    <None Include="BdtLibrary\IBdtCon.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IBdtCon.cs</LastGenOutput>
+    </None>
     <None Include="BdtLibrary\IBdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBdtLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="BdtLibrary\IBdtSup.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IBdtSup.cs</LastGenOutput>
     </None>
     <None Include="BieAggregator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -307,6 +324,10 @@
     </None>
     <None Include="t4\ClassifierInterface.tt">
     </None>
+    <None Include="t4\AttributeInterface.tt">
+    </None>
+    <None Include="t4\Copyright.tt">
+    </None>
     <None Include="t4\helpers.tt">
     </None>
     <None Include="t4\LibraryInterface.tt">
@@ -322,7 +343,6 @@
     <Compile Include="CdtLibrary\ICdtSup.cs" />
     <Compile Include="EnumLibrary\ICodelistEntry.cs" />
     <Compile Include="CdtLibrary\ICdtCon.cs" />
-    <Compile Include="BdtLibrary\IBdtSup.cs" />
     <Compile Include="PrimLibrary\PrimLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
