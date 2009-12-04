@@ -74,7 +74,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
 
         private static void InitBusinessInformationView(Package p)
         {
-            p.Element.Stereotype = Stereotype.BInformationV;
+            p.Element.Stereotype = Stereotype.bInformationV;
             p.AddPackage(
                 "A bLibrary nested in a bInformationV",
                 bLibrary =>
