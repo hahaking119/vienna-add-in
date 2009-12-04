@@ -8,7 +8,14 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 using System.Collections.Generic;
-using CctsRepository.bLibrary;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
 
 namespace CctsRepository.<#= metaPackage.Name #>
 {
@@ -41,12 +48,36 @@ namespace CctsRepository.<#= metaPackage.Name #>
 <# 
 		foreach (var relation in MetaModel.GetSubPackageRelationsFor(metaPackage))
 		{
+			var subPackage = relation.SubPackageType.Stereotype;
+			var subPackageParamName = FirstCharToLowerCase(relation.SubPackageType.Name);
 #>
 
 		/// <summary>
-		/// The <#= relation.SubPackageType.Stereotype #>s contained in this <#= metaPackage.Stereotype #>.
+		/// The <#= subPackage #>s contained in this <#= metaPackage.Stereotype #>.
 		/// </summary>
-		I<#= relation.SubPackageType.Name #> <#= relation.SubPackageRole #> { get; }
+		IEnumerable<I<#= relation.SubPackageType.Name #>> Get<#= relation.SubPackageRole #>();
+
+		/// <summary>
+		/// Retrieves a <#= subPackage #> by name.
+		/// <param name="name">A <#= subPackage #>'s name.</param>
+		/// <returns>The <#= subPackage #> with the given <paramref name="name"/> or <c>null</c> if no such <#= subPackage #> is found.</returns>
+		/// </summary>
+        I<#= relation.SubPackageType.Name #> Get<#= relation.SubPackageType.Name #>ByName(string name);
+
+		/// <summary>
+		/// Creates a <#= subPackage #> based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a <#= subPackage #>.</param>
+		/// <returns>The newly created <#= subPackage #>.</returns>
+		/// </summary>
+		I<#= relation.SubPackageType.Name #> Create<#= relation.SubPackageType.Name #>(<#= relation.SubPackageType.Name #>Spec specification);
+
+		/// <summary>
+		/// Updates a <#= subPackage #> to match the given <paramref name="specification"/>.
+		/// <param name="<#= subPackageParamName #>">A <#= subPackage #>.</param>
+		/// <param name="specification">A new specification for the given <#= subPackage #>.</param>
+		/// <returns>The updated <#= subPackage #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        I<#= relation.SubPackageType.Name #> Update<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>, <#= relation.SubPackageType.Name #>Spec specification);
 <#
 		}
 #>

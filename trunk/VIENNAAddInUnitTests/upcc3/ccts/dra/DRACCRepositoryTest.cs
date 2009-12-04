@@ -12,7 +12,7 @@ using System.Linq;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
-using CctsRepository.bLibrary;
+using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
@@ -514,7 +514,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
                 IBLibrary bLib = cctsRepository.GetBLibraries().First();
                 Assert.IsNotNull(bLib, "bLib not found");
-                IBdtLibrary bdtLib = bLib.CreateBDTLibrary(new BdtLibrarySpec
+                IBdtLibrary bdtLib = bLib.CreateBdtLibrary(new BdtLibrarySpec
                                                            {
                                                                Name = "My_BDTLibrary",
                                                                BaseUrn = "my/base/urn",
@@ -528,7 +528,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                                                UniqueIdentifier = "a unique ID",
                                                                VersionIdentifier = "a specific version",
                                                            });
-                IBieLibrary bieLib = bLib.CreateBIELibrary(new BieLibrarySpec
+                IBieLibrary bieLib = bLib.CreateBieLibrary(new BieLibrarySpec
                                                            {
                                                                Name = "My_BIELibrary",
                                                                BaseURN = "my/base/urn",
@@ -667,7 +667,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                            UniqueIdentifier = "a unique ID",
                            VersionIdentifier = "a specific version",
                        };
-            IBdtLibrary bdtLib = bLib.CreateBDTLibrary(spec);
+            IBdtLibrary bdtLib = bLib.CreateBdtLibrary(spec);
             Assert.AreEqual(bLib.Id, bdtLib.BLibrary.Id);
             Assert.AreEqual(spec.Name, bdtLib.Name);
             Assert.AreEqual(spec.BaseUrn, bdtLib.BaseURN);
@@ -762,7 +762,6 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             var bLib1 = cctsRepository.GetBLibraries().First();
             Assert.AreEqual("blib1", bLib1.Name);
-            Assert.AreEqual("urn:test:blib1", bLib1.BaseURN);
 
             IPrimLibrary primLib1 = cctsRepository.GetPrimLibraries().First();
             Assert.AreEqual("primlib1", primLib1.Name);

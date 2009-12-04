@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CctsRepository.bLibrary
+namespace CctsRepository.BLibrary
 {
     public class BLibrarySpec
     {
@@ -10,8 +10,6 @@ namespace CctsRepository.bLibrary
             Status = bLibrary.Status;
             UniqueIdentifier = bLibrary.UniqueIdentifier;
             VersionIdentifier = bLibrary.VersionIdentifier;
-            BaseURN = bLibrary.BaseURN;
-            NamespacePrefix = bLibrary.NamespacePrefix;
             BusinessTerms = new List<string>(bLibrary.BusinessTerms);
             Copyrights = new List<string>(bLibrary.Copyrights);
             Owners = new List<string>(bLibrary.Owners);
@@ -27,8 +25,6 @@ namespace CctsRepository.bLibrary
         public string Status { get; set; }
         public string UniqueIdentifier { get; set; }
         public string VersionIdentifier { get; set; }
-        public string BaseURN { get; set; }
-        public string NamespacePrefix { get; set; }
         public IEnumerable<string> BusinessTerms { get; set; }
         public IEnumerable<string> Copyrights { get; set; }
         public IEnumerable<string> Owners { get; set; }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
-using CctsRepository.bLibrary;
+using CctsRepository.BLibrary;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;

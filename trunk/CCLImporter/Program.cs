@@ -42,7 +42,7 @@ namespace CCLImporter
                 cdts[cdt.Name] = cdt;
             }
 
-            ICcLibrary ccLibrary = bLibrary.CreateCCLibrary(new CcLibrarySpec
+            ICcLibrary ccLibrary = bLibrary.CreateCcLibrary(new CcLibrarySpec
                                                             {
                                                                 Name = "CCLibrary",
                                                                 VersionIdentifier = cclVersion
