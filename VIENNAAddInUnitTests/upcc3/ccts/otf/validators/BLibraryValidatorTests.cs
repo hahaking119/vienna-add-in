@@ -20,7 +20,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf.validators
         [Test]
         public void ShouldAllowABInformationVAsParent()
         {
-            VerifyConstraintViolations(DefaultItem.WithParent(APackage.WithStereotype(Stereotype.BInformationV).WithParent(APackage)));
+            VerifyConstraintViolations(DefaultItem.WithParent(APackage.WithStereotype(Stereotype.bInformationV).WithParent(APackage)));
         }
 
         [Test]

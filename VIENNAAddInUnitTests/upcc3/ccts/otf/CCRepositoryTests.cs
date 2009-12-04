@@ -49,7 +49,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
                                                model.AddPackage("Package 2", package_2 => { package_2.Element.Stereotype = "Foo bar 2"; });
                                                model.AddPackage("Package 3", package_3 =>
                                                                              {
-                                                                                 package_3.Element.Stereotype = Stereotype.BInformationV;
+                                                                                 package_3.Element.Stereotype = Stereotype.bInformationV;
                                                                                  package_3.AddPackage("Package 3.1", package_3_1 =>
                                                                                                                      {
                                                                                                                          package_3_1.Element.Stereotype = Stereotype.bLibrary;

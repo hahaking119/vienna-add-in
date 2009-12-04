@@ -32,7 +32,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 
             var otherPackage = CreatePackage(model, "other package");
 
-            var bInformationV = CreatePackage(model, Stereotype.BInformationV);
+            var bInformationV = CreatePackage(model, Stereotype.bInformationV);
 
             bLibrary = CreatePackage(bInformationV, Stereotype.bLibrary);
 

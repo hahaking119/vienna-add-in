@@ -18,7 +18,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf.validators.constraints
         {
             get
             {
-                yield return APackage.WithParent(APackageThatsNotAModel.WithStereotype(Stereotype.BInformationV).WithName("a package with a BInformationV parent"));
+                yield return APackage.WithParent(APackageThatsNotAModel.WithStereotype(Stereotype.bInformationV).WithName("a package with a BInformationV parent"));
                 yield return APackage.WithParent(APackageThatsNotAModel.WithStereotype(Stereotype.bLibrary).WithName("a package with a bLibrary parent"));
                 yield return APackage.WithParent(AModel).WithName("a package with a Model parent");
             }

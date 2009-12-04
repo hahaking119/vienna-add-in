@@ -79,32 +79,32 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 
         public string MaxExclusive
         {
-            get { return umlDataType.GetTaggedValue(TaggedValues.maxExclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.maximumExclusive).Value; }
         }
 
         public string MaxInclusive
         {
-            get { return umlDataType.GetTaggedValue(TaggedValues.maxInclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.maximumInclusive).Value; }
         }
 
         public string MaxLength
         {
-            get { return umlDataType.GetTaggedValue(TaggedValues.maxLength).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.maximumLength).Value; }
         }
 
         public string MinExclusive
         {
-            get { return umlDataType.GetTaggedValue(TaggedValues.minExclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.minimumExclusive).Value; }
         }
 
         public string MinInclusive
         {
-            get { return umlDataType.GetTaggedValue(TaggedValues.minInclusive).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.minimumInclusive).Value; }
         }
 
         public string MinLength
         {
-            get { return umlDataType.GetTaggedValue(TaggedValues.minLength).Value; }
+            get { return umlDataType.GetTaggedValue(TaggedValues.minimumLength).Value; }
         }
 
         public string TotalDigits
@@ -121,7 +121,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         {
             get
             {
-                var dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.IsEquivalentTo);
+                var dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.isEquivalentTo);
                 return dependencies.Count() == 0 ? null : new UpccPrim(dependencies.First().Target);
             }
         }
