@@ -3,7 +3,6 @@
 <#@ include file="../t4/helpers.tt" #>
 <# 
 	var library = MetaModel.GetPackageRelationsFor(metaClassifier).First().PackageType;
-	var baseType = metaClassifier.BaseType;
 #>
 // *******************************************************************************
 // This file is part of the VIENNAAddIn project
@@ -17,11 +16,26 @@ using System.Collections.Generic;
 
 namespace CctsRepository.<#= library.Name #>
 {
-    public interface IPrim <#= (baseType != null ? ": I" + baseType.Name : "") #>
+    public interface IPrim
     {
-        I<#= library.Name #> Library { get; }
+		int Id { get; }
 		
-        IPrim IsEquivalentTo { get; }
+		string Name { get; }
+		
+        I<#= library.Name #> Library { get; }
+
+		#region Dependencies
+<# 
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
+		{
+#>
+
+		I<#= dependency.TargetClassifierType.Name #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; }
+<#
+		}
+#>
+
+		#endregion
 
 		#region Tagged Values
 <# 
