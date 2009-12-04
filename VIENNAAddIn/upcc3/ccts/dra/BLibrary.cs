@@ -272,7 +272,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.BDTLibrary;
 
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseUrn);
+            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
             libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
             libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
             libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);

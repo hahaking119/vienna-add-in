@@ -43,4 +43,10 @@
 	{
 		return (taggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string");
 	}
+	
+	string CopyTaggedValue(MetaTaggedValue taggedValue, string source)
+	{
+		var propertyName = TaggedValuePropertyName(taggedValue);
+		return propertyName + " = " + (taggedValue.Cardinality == MetaCardinality.Many ? "new List<string>(" + source + "." + propertyName + ")" : source + "." + propertyName);
+	}
 #>
