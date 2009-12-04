@@ -7,6 +7,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     {        
         private string mName;
         private bool mChecked;
+        private bool mSelected;
         private IAscc mBasedOn;
 
         public PotentialAsbie(IAscc originalAscc)
@@ -26,6 +27,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             get { return mChecked; }
             set { mChecked = value; }
+        }
+
+        public bool Selected
+        {
+            get { return mSelected; }
+            set { mSelected = value; }
         }
 
         public IAscc BasedOn
