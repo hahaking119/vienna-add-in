@@ -147,6 +147,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             return GetLibraryById(id) as IDocLibrary;
         }
 
+        public IIdScheme GetIdSchemeByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
         public IPrim GetPrimById(int id)
         {
             throw new NotImplementedException();
@@ -158,6 +163,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         }
 
         public IAbie GetAbieByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMa GetMaByPath(Path path)
         {
             throw new NotImplementedException();
         }
@@ -198,6 +208,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         }
 
         public IPrimLibrary GetPrimLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IIdScheme GetIdSchemeById(int id)
         {
             throw new NotImplementedException();
         }
@@ -243,6 +258,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         }
 
         public ICdt GetCdtByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMa GetMaById(int id)
         {
             throw new NotImplementedException();
         }
