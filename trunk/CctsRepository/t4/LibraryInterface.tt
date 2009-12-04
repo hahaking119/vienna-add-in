@@ -1,23 +1,7 @@
 <#@ include file="../t4/helpers.tt" #>
-// *******************************************************************************
-// This file is part of the VIENNAAddIn project
-// 
-// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
-// 
-// For further information on the VIENNAAddIn project please visit 
-// http://vienna-add-in.googlecode.com
-// *******************************************************************************
+<#@ include file="../t4/Copyright.tt" #>
 using System.Collections.Generic;
-// ReSharper disable RedundantUsingDirective
-<#
-	foreach (var package in MetaModel.GetAllPackages())
-	{
-#>
-using CctsRepository.<#= package.Name #>;
-<#
-	}
-#>
-// ReSharper restore RedundantUsingDirective
+<#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
 
 namespace CctsRepository.<#= metaPackage.Name #>
 {

@@ -193,7 +193,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                        new TaggedValueSpec(TaggedValues.modificationAllowedIndicator, spec.ModificationAllowedIndicator),
                        new TaggedValueSpec(TaggedValues.pattern, spec.Pattern),
                        new TaggedValueSpec(TaggedValues.fractionDigits, spec.FractionDigits),
-                       new TaggedValueSpec(TaggedValues.length, spec.Length),
                        new TaggedValueSpec(TaggedValues.maximumExclusive, spec.MaxExclusive),
                        new TaggedValueSpec(TaggedValues.maximumInclusive, spec.MaxInclusive),
                        new TaggedValueSpec(TaggedValues.maximumLength, spec.MaxLength),
@@ -201,7 +200,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                        new TaggedValueSpec(TaggedValues.minimumInclusive, spec.MinInclusive),
                        new TaggedValueSpec(TaggedValues.minimumLength, spec.MinLength),
                        new TaggedValueSpec(TaggedValues.totalDigits, spec.TotalDigits),
-                       new TaggedValueSpec(TaggedValues.whiteSpace, spec.WhiteSpace),
                    };
         }
 
@@ -219,7 +217,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                        new TaggedValueSpec(TaggedValues.modificationAllowedIndicator, spec.ModificationAllowedIndicator),
                        new TaggedValueSpec(TaggedValues.pattern, spec.Pattern),
                        new TaggedValueSpec(TaggedValues.fractionDigits, spec.FractionDigits),
-                       new TaggedValueSpec(TaggedValues.length, spec.Length),
                        new TaggedValueSpec(TaggedValues.maximumExclusive, spec.MaxExclusive),
                        new TaggedValueSpec(TaggedValues.maximumInclusive, spec.MaxInclusive),
                        new TaggedValueSpec(TaggedValues.maximumLength, spec.MaxLength),
@@ -227,7 +224,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                        new TaggedValueSpec(TaggedValues.minimumInclusive, spec.MinInclusive),
                        new TaggedValueSpec(TaggedValues.minimumLength, spec.MinLength),
                        new TaggedValueSpec(TaggedValues.totalDigits, spec.TotalDigits),
-                       new TaggedValueSpec(TaggedValues.whiteSpace, spec.WhiteSpace),
                    };
         }
 

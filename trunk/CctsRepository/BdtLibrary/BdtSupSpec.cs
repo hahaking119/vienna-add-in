@@ -32,7 +32,6 @@ namespace CctsRepository.BdtLibrary
         public IEnumerable<string> UsageRules { get; set; }
         public string Pattern { get; set; }
         public string FractionDigits { get; set; }
-        public string Length { get; set; }
         public string MaxExclusive { get; set; }
         public string MaxInclusive { get; set; }
         public string MaxLength { get; set; }
@@ -40,7 +39,6 @@ namespace CctsRepository.BdtLibrary
         public string MinInclusive { get; set; }
         public string MinLength { get; set; }
         public string TotalDigits { get; set; }
-        public string WhiteSpace { get; set; }
 
         #endregion
 
@@ -62,15 +60,13 @@ namespace CctsRepository.BdtLibrary
                        UsageRules = new List<string>(bdtSup.UsageRules),
                        Pattern = bdtSup.Pattern,
                        FractionDigits = bdtSup.FractionDigits,
-                       Length = bdtSup.Length,
-                       MaxExclusive = bdtSup.MaxExclusive,
-                       MaxInclusive = bdtSup.MaxInclusive,
-                       MaxLength = bdtSup.MaxLength,
-                       MinExclusive = bdtSup.MinExclusive,
-                       MinInclusive = bdtSup.MinInclusive,
-                       MinLength = bdtSup.MinLength,
+                       MaxExclusive = bdtSup.MaximumExclusive,
+                       MaxInclusive = bdtSup.MaximumInclusive,
+                       MaxLength = bdtSup.MaximumLength,
+                       MinExclusive = bdtSup.MinimumExclusive,
+                       MinInclusive = bdtSup.MinimumInclusive,
+                       MinLength = bdtSup.MinimumLength,
                        TotalDigits = bdtSup.TotalDigits,
-                       WhiteSpace = bdtSup.WhiteSpace,
                    }
                 ;
         }

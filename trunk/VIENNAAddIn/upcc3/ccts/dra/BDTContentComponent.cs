@@ -44,6 +44,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public string Enumeration
+        {
+            get { return GetTaggedValue(TaggedValues.enumeration); }
+        }
+
         public IBdt Bdt
         {
             get { return bdt; }
@@ -52,6 +57,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public int Id
         {
             get { return attribute.AttributeID; }
+        }
+
+        public string Name
+        {
+            get { return attribute.Name; }
         }
 
         public BasicType BasicType
@@ -99,37 +109,32 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.fractionDigits); }
         }
 
-        public string Length
-        {
-            get { return GetTaggedValue(TaggedValues.length); }
-        }
-
-        public string MaxExclusive
+        public string MaximumExclusive
         {
             get { return GetTaggedValue(TaggedValues.maximumExclusive); }
         }
 
-        public string MaxInclusive
+        public string MaximumInclusive
         {
             get { return GetTaggedValue(TaggedValues.maximumInclusive); }
         }
 
-        public string MaxLength
+        public string MaximumLength
         {
             get { return GetTaggedValue(TaggedValues.maximumLength); }
         }
 
-        public string MinExclusive
+        public string MinimumExclusive
         {
             get { return GetTaggedValue(TaggedValues.minimumExclusive); }
         }
 
-        public string MinInclusive
+        public string MinimumInclusive
         {
             get { return GetTaggedValue(TaggedValues.minimumInclusive); }
         }
 
-        public string MinLength
+        public string MinimumLength
         {
             get { return GetTaggedValue(TaggedValues.minimumLength); }
         }
@@ -137,11 +142,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string TotalDigits
         {
             get { return GetTaggedValue(TaggedValues.totalDigits); }
-        }
-
-        public string WhiteSpace
-        {
-            get { return GetTaggedValue(TaggedValues.whiteSpace); }
         }
 
         public IEnumerable<string> UsageRules

@@ -50,7 +50,8 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             {
                 if (facet is XmlSchemaLengthFacet)
                 {
-                    conSpec.Length = ((XmlSchemaFacet) facet).Value;
+                    // TODO tagged value 'length' is no longer defined as of UPCC 3.0 ODP5
+                    //                    conSpec.Length = ((XmlSchemaFacet) facet).Value;
                 }
                 else if (facet is XmlSchemaMinLengthFacet)
                 {
@@ -90,7 +91,8 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                 }
                 else if (facet is XmlSchemaWhiteSpaceFacet)
                 {
-                    conSpec.WhiteSpace = ((XmlSchemaFacet) facet).Value;
+                    // TODO whitespace no longer defined by UPCC:
+//                    conSpec.WhiteSpace = ((XmlSchemaFacet) facet).Value;
                 }
             }
 
