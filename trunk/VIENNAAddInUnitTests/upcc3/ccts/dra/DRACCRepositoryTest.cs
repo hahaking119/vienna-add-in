@@ -517,7 +517,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 IBdtLibrary bdtLib = bLib.CreateBdtLibrary(new BdtLibrarySpec
                                                            {
                                                                Name = "My_BDTLibrary",
-                                                               BaseUrn = "my/base/urn",
+                                                               BaseURN = "my/base/urn",
                                                                BusinessTerms =
                                                                    new[] {"business term 1", "business term 2"},
                                                                Copyrights = new[] {"copyright 1", "copyright 2"},
@@ -657,7 +657,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var spec = new BdtLibrarySpec
                        {
                            Name = "MyBDTLibrary",
-                           BaseUrn = "my/base/urn",
+                           BaseURN = "my/base/urn",
                            BusinessTerms = new[] {"business term 1", "business term 2"},
                            Copyrights = new[] {"copyright 1", "copyright 2"},
                            NamespacePrefix = "my_namespace_prefix",
@@ -670,7 +670,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             IBdtLibrary bdtLib = bLib.CreateBdtLibrary(spec);
             Assert.AreEqual(bLib.Id, bdtLib.BLibrary.Id);
             Assert.AreEqual(spec.Name, bdtLib.Name);
-            Assert.AreEqual(spec.BaseUrn, bdtLib.BaseURN);
+            Assert.AreEqual(spec.BaseURN, bdtLib.BaseURN);
             Assert.AreEqual(spec.BusinessTerms, bdtLib.BusinessTerms);
             Assert.AreEqual(spec.Copyrights, bdtLib.Copyrights);
             Assert.AreEqual(spec.NamespacePrefix, bdtLib.NamespacePrefix);

@@ -1,0 +1,59 @@
+<#@ include file="../t4/helpers.tt" #>
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+using System.Collections.Generic;
+
+namespace CctsRepository.<#= metaPackage.Name #>
+{
+	/// <summary>
+	/// Specification for CCTS/UPCC <#= metaPackage.Stereotype #>.
+	/// </summary>
+    public class <#= metaPackage.Name #>Spec
+    {
+		/// <summary>
+		/// The <#= metaPackage.Stereotype #>'s name.
+		/// </summary>
+        public string Name { get; set; }
+		
+		#region Tagged Values
+<# 
+		foreach (var taggedValue in metaPackage.TaggedValues)
+		{
+#>
+
+        ///<summary>
+        /// Tagged value '<#= taggedValue.Name #>'.
+        ///</summary>
+		public <#= TaggedValuePropertyType(taggedValue) #> <#= TaggedValuePropertyName(taggedValue) #> { get; set; }
+<#
+		}
+#>
+
+		#endregion
+
+<#
+		var library = FirstCharToLowerCase(metaPackage.Name);
+#>
+        public static <#= metaPackage.Name #>Spec Clone<#= metaPackage.Name #>(I<#= metaPackage.Name #> <#= library #>)
+        {
+            return new <#= metaPackage.Name #>Spec
+                   {
+						Name = <#= library #>.Name,
+<# 
+		foreach (var taggedValue in metaPackage.TaggedValues)
+		{
+#>
+						<#= CopyTaggedValue(taggedValue, library) #>,
+<#
+		}
+#>
+                   };
+        }
+	}
+}
