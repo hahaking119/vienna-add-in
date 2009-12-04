@@ -10,11 +10,19 @@ using System.Collections.Generic;
 
 namespace CctsRepository.PrimLibrary
 {
-    public interface IPrim : IBasicType
+    public interface IPrim
     {
-        IPrimLibrary Library { get; }
+		int Id { get; }
 		
-        IPrim IsEquivalentTo { get; }
+		string Name { get; }
+		
+        IPrimLibrary Library { get; }
+
+		#region Dependencies
+
+		IPrim IsEquivalentTo { get; }
+
+		#endregion
 
 		#region Tagged Values
 
