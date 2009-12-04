@@ -726,12 +726,12 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(primSpec.Pattern, primZeichenkette.Pattern);
             Assert.AreEqual(primSpec.FractionDigits, primZeichenkette.FractionDigits);
             Assert.AreEqual(primSpec.Length, primZeichenkette.Length);
-            Assert.AreEqual(primSpec.MaxExclusive, primZeichenkette.MaxExclusive);
-            Assert.AreEqual(primSpec.MaxInclusive, primZeichenkette.MaxInclusive);
-            Assert.AreEqual(primSpec.MaxLength, primZeichenkette.MaxLength);
-            Assert.AreEqual(primSpec.MinExclusive, primZeichenkette.MinExclusive);
-            Assert.AreEqual(primSpec.MinInclusive, primZeichenkette.MinInclusive);
-            Assert.AreEqual(primSpec.MinLength, primZeichenkette.MinLength);
+            Assert.AreEqual(primSpec.MaxExclusive, primZeichenkette.MaximumExclusive);
+            Assert.AreEqual(primSpec.MaxInclusive, primZeichenkette.MaximumInclusive);
+            Assert.AreEqual(primSpec.MaxLength, primZeichenkette.MaximumLength);
+            Assert.AreEqual(primSpec.MinExclusive, primZeichenkette.MinimumExclusive);
+            Assert.AreEqual(primSpec.MinInclusive, primZeichenkette.MinimumInclusive);
+            Assert.AreEqual(primSpec.MinLength, primZeichenkette.MinimumLength);
             Assert.AreEqual(primSpec.TotalDigits, primZeichenkette.TotalDigits);
             Assert.AreEqual(primSpec.WhiteSpace, primZeichenkette.WhiteSpace);
 
@@ -744,8 +744,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             foreach (ICdtLibrary library in cctsRepository.GetCdtLibraries())
             {
-                IEnumerable<IGrouping<IBasicType, ICdt>> cdtByType = from cdt in library.Cdts
-                                                                     group cdt by cdt.CON.BasicType;
+                IEnumerable<IGrouping<BasicType, ICdt>> cdtByType = from cdt in library.Cdts
+                                                                    group cdt by cdt.CON.BasicType;
                 foreach (var cdtGroup in cdtByType)
                 {
                     Console.WriteLine(cdtGroup.Key);

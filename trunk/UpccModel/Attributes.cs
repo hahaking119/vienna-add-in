@@ -12,7 +12,7 @@ namespace Upcc
         internal readonly MetaAttribute CdtCon;
         internal readonly MetaAttribute CdtSup;
 
-        internal Attributes(TaggedValues taggedValues, Classes classes, AbstractClasses abstractClasses)
+        internal Attributes(TaggedValues taggedValues, Classes classes, AbstractClasses abstractClasses, MultiTypes multiTypes)
         {
             CdtCon = new MetaAttribute
                      {
@@ -20,7 +20,7 @@ namespace Upcc
                          ContainingClassifierType = classes.Cdt,
                          ClassName = "CdtCon",
                          AttributeName = "Con",
-                         Type = abstractClasses.BasicType,
+                         Type = multiTypes.BasicType,
                          Cardinality = MetaCardinality.One,
                          TaggedValues = new[]
                                         {
@@ -41,7 +41,7 @@ namespace Upcc
                          ContainingClassifierType = classes.Cdt,
                          ClassName = "CdtSup",
                          AttributeName = "Sups",
-                         Type = abstractClasses.BasicType,
+                         Type = multiTypes.BasicType,
                          Cardinality = MetaCardinality.Many,
                          TaggedValues = new[]
                                         {
@@ -83,7 +83,7 @@ namespace Upcc
                          ContainingClassifierType = classes.Bdt,
                          ClassName = "BdtCon",
                          AttributeName = "Con",
-                         Type = abstractClasses.BasicType,
+                         Type = multiTypes.BasicType,
                          Cardinality = MetaCardinality.One,
                          TaggedValues = new[]
                                         {
@@ -114,7 +114,7 @@ namespace Upcc
                          ContainingClassifierType = classes.Bdt,
                          ClassName = "BdtSup",
                          AttributeName = "Sups",
-                         Type = abstractClasses.BasicType,
+                         Type = multiTypes.BasicType,
                          Cardinality = MetaCardinality.Many,
                          TaggedValues = new[]
                                         {

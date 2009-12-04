@@ -77,32 +77,32 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlDataType.GetTaggedValue(TaggedValues.length).Value; }
         }
 
-        public string MaxExclusive
+        public string MaximumExclusive
         {
             get { return umlDataType.GetTaggedValue(TaggedValues.maximumExclusive).Value; }
         }
 
-        public string MaxInclusive
+        public string MaximumInclusive
         {
             get { return umlDataType.GetTaggedValue(TaggedValues.maximumInclusive).Value; }
         }
 
-        public string MaxLength
+        public string MaximumLength
         {
             get { return umlDataType.GetTaggedValue(TaggedValues.maximumLength).Value; }
         }
 
-        public string MinExclusive
+        public string MinimumExclusive
         {
             get { return umlDataType.GetTaggedValue(TaggedValues.minimumExclusive).Value; }
         }
 
-        public string MinInclusive
+        public string MinimumInclusive
         {
             get { return umlDataType.GetTaggedValue(TaggedValues.minimumInclusive).Value; }
         }
 
-        public string MinLength
+        public string MinimumLength
         {
             get { return umlDataType.GetTaggedValue(TaggedValues.minimumLength).Value; }
         }

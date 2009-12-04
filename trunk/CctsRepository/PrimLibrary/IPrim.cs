@@ -10,43 +10,100 @@ using System.Collections.Generic;
 
 namespace CctsRepository.PrimLibrary
 {
-    public interface IPrim :  IBasicType
+    public interface IPrim : IBasicType
     {
-        IPrim IsEquivalentTo { get; }
-        string Pattern { get; }
-        string FractionDigits { get; }
-        string Length { get; }
-        string MaxExclusive { get; }
-        string MaxInclusive { get; }
-        string MaxLength { get; }
-        string MinExclusive { get; }
-        string MinInclusive { get; }
-        string MinLength { get; }
-        string TotalDigits { get; }
-        string WhiteSpace { get; }
-
-        ///<summary>
-        ///</summary>
-        string Definition { get; }
-
-        ///<summary>
-        ///</summary>
-        string UniqueIdentifier { get; }
-
-        ///<summary>
-        ///</summary>
-        string VersionIdentifier { get; }
-
-        ///<summary>
-        ///</summary>
-        string LanguageCode { get; }
-
-        ///<summary>
-        ///</summary>
-        IEnumerable<string> BusinessTerms { get; }
-
-        ///<summary>
-        ///</summary>
         IPrimLibrary Library { get; }
+		
+        IPrim IsEquivalentTo { get; }
+
+		#region Tagged Values
+
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		IEnumerable<string> BusinessTerms { get; }
+
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		string Definition { get; }
+
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		string DictionaryEntryName { get; }
+
+        ///<summary>
+        /// Tagged value 'fractionDigits'.
+        ///</summary>
+		string FractionDigits { get; }
+
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		string LanguageCode { get; }
+
+        ///<summary>
+        /// Tagged value 'length'.
+        ///</summary>
+		string Length { get; }
+
+        ///<summary>
+        /// Tagged value 'maximumExclusive'.
+        ///</summary>
+		string MaximumExclusive { get; }
+
+        ///<summary>
+        /// Tagged value 'maximumInclusive'.
+        ///</summary>
+		string MaximumInclusive { get; }
+
+        ///<summary>
+        /// Tagged value 'maximumLength'.
+        ///</summary>
+		string MaximumLength { get; }
+
+        ///<summary>
+        /// Tagged value 'minimumExclusive'.
+        ///</summary>
+		string MinimumExclusive { get; }
+
+        ///<summary>
+        /// Tagged value 'minimumInclusive'.
+        ///</summary>
+		string MinimumInclusive { get; }
+
+        ///<summary>
+        /// Tagged value 'minimumLength'.
+        ///</summary>
+		string MinimumLength { get; }
+
+        ///<summary>
+        /// Tagged value 'pattern'.
+        ///</summary>
+		string Pattern { get; }
+
+        ///<summary>
+        /// Tagged value 'totalDigits'.
+        ///</summary>
+		string TotalDigits { get; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		string UniqueIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		string VersionIdentifier { get; }
+
+        ///<summary>
+        /// Tagged value 'whiteSpace'.
+        ///</summary>
+		string WhiteSpace { get; }
+
+		#endregion
     }
 }
+

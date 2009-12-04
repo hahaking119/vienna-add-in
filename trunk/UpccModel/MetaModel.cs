@@ -62,6 +62,7 @@ namespace Upcc
     /// </summary>
     public class MetaModel
     {
+        private readonly MultiTypes multiTypes;
         private readonly AbstractClasses abstractClasses;
         private readonly Associations associations;
         private readonly Attributes attributes;
@@ -90,10 +91,11 @@ namespace Upcc
             enumerations = new Enumerations(taggedValues, abstractClasses);
             dataTypes = new DataTypes(taggedValues, abstractClasses);
             classes = new Classes(taggedValues, abstractClasses);
+            multiTypes = new MultiTypes(classes, dataTypes, enumerations);
 
-            attributes = new Attributes(taggedValues, classes, abstractClasses);
+            attributes = new Attributes(taggedValues, classes, abstractClasses, multiTypes);
             enumerationLiterals = new EnumerationLiterals(taggedValues, enumerations);
-            associations = new Associations(taggedValues, classes);
+            associations = new Associations(taggedValues, classes, multiTypes);
             dependencies = new Dependencies(classes, dataTypes, enumerations);
 
             packageSubPackageRelations = new PackageSubPackageRelations(packages);
@@ -142,14 +144,14 @@ namespace Upcc
             get { return Instance.packages.DocLibrary; }
         }
 
-        public static MetaAbstractClass BasicType
+        public static MetaMultiType BasicType
         {
-            get { return Instance.abstractClasses.BasicType; }
+            get { return Instance.multiTypes.BasicType; }
         }
 
-        public static MetaAbstractClass BieAggregator
+        public static MetaMultiType BieAggregator
         {
-            get { return Instance.abstractClasses.BieAggregator; }
+            get { return Instance.multiTypes.BieAggregator; }
         }
 
         public static MetaDataType Prim
@@ -255,6 +257,11 @@ namespace Upcc
         public static IEnumerable<MetaAbstractClass> GetAllAbstractClasses()
         {
             return Instance.abstractClasses.All;
+        }
+
+        public static IEnumerable<MetaMultiType> GetAllMultiTypes()
+        {
+            return Instance.multiTypes.All;
         }
 
         public static IEnumerable<MetaDataType> GetAllDataTypes()

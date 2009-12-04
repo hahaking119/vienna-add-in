@@ -5,7 +5,7 @@ namespace CctsRepository.CdtLibrary
     public interface ICdtSup
     {
         ICdt CDT { get; }
-        IBasicType BasicType { get; }
+        BasicType BasicType { get; }
         bool ModificationAllowedIndicator { get; }
         string UpperBound { get; }
         string LowerBound { get; }

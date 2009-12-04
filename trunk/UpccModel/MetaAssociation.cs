@@ -7,8 +7,8 @@ namespace Upcc
         public string Name { get; internal set; }
         public MetaCardinality Cardinality { get; internal set; }
 
-        public MetaClass AssociatedClassifierType { get; internal set; }
-        public MetaClass AssociatingClassifierType { get; internal set; }
+        public MetaClassifier AssociatedClassifierType { get; internal set; }
+        public MetaClassifier AssociatingClassifierType { get; internal set; }
 
         public MetaTaggedValue[] TaggedValues { get; internal set; }
 

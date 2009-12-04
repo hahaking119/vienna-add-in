@@ -54,7 +54,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.AttributeID; }
         }
 
-        public IBasicType BasicType
+        public BasicType BasicType
         {
             get { return repository.GetBasicTypeById(attribute.ClassifierID); }
         }

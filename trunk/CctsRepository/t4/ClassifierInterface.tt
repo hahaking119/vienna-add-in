@@ -1,0 +1,42 @@
+<#@ assembly name="System.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ include file="../t4/helpers.tt" #>
+<# 
+	var library = MetaModel.GetPackageRelationsFor(metaClassifier).First().PackageType;
+	var baseType = metaClassifier.BaseType;
+#>
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+using System.Collections.Generic;
+
+namespace CctsRepository.<#= library.Name #>
+{
+    public interface IPrim <#= (baseType != null ? ": I" + baseType.Name : "") #>
+    {
+        I<#= library.Name #> Library { get; }
+		
+        IPrim IsEquivalentTo { get; }
+
+		#region Tagged Values
+<# 
+		foreach (var taggedValue in metaClassifier.TaggedValues)
+		{
+#>
+
+        ///<summary>
+        /// Tagged value '<#= taggedValue.Name #>'.
+        ///</summary>
+		<#= TaggedValuePropertyType(taggedValue) #> <#= TaggedValuePropertyName(taggedValue) #> { get; }
+<#
+		}
+#>
+
+		#endregion
+    }
+}

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using VIENNAAddIn.upcc3.export.cctsndr;
 
@@ -23,20 +24,19 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             {
                 string basicTypeName = NDR.ConvertXsdTypeNameToBasicTypeName(attribute.SchemaTypeName.Name);
                 yield return new BdtSupSpec
-                                 {
-                                     Name = attribute.Name.Minus(basicTypeName),
-                                     BasicType = FindPRIM(basicTypeName)
-                                 };
+                             {
+                                 Name = attribute.Name.Minus(basicTypeName),
+                                 BasicType = new BasicType(FindPRIM(basicTypeName)),
+                             };
             }
         }
 
         protected override BdtConSpec SpecifyCON()
         {
-            return new BdtConSpec()
-                       {
-                           BasicType =
-                               FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName))
-                       };
+            return new BdtConSpec
+                   {
+                       BasicType = new BasicType(FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName)))
+                   };
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using VIENNAAddIn.upcc3.export.cctsndr;
 
@@ -24,7 +25,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                 yield return new BdtSupSpec
                              {
                                  Name = attribute.Name.Minus(basicTypeName),
-                                 BasicType = FindPRIM(basicTypeName)
+                                 BasicType = new BasicType(FindPRIM(basicTypeName)),
                              };
             }
         }

@@ -45,6 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicType.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasicType.tt</DependentUpon>
+    </Compile>
     <Compile Include="BdtLibrary\BdtLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -54,6 +59,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IBdtLibrary.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BieAggregator.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BieAggregator.tt</DependentUpon>
     </Compile>
     <Compile Include="BieLibrary\AsbieAggregationKind.cs" />
     <Compile Include="BieLibrary\AbieSpec.cs" />
@@ -128,6 +138,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ICctsRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="PrimLibrary\IPrim.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IPrim.tt</DependentUpon>
+    </Compile>
     <Compile Include="PrimLibrary\IPrimLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -161,6 +176,10 @@
     <None Include="BdtLibrary\IBdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBdtLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="BieAggregator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BieAggregator.cs</LastGenOutput>
     </None>
     <None Include="BieLibrary\BieLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -214,6 +233,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICctsRepository.cs</LastGenOutput>
     </None>
+    <None Include="PrimLibrary\IPrim.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IPrim.cs</LastGenOutput>
+    </None>
     <None Include="PrimLibrary\IPrimLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IPrimLibrary.cs</LastGenOutput>
@@ -222,11 +245,19 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PrimLibrarySpec.cs</LastGenOutput>
     </None>
+    <None Include="t4\ClassifierInterface.tt">
+    </None>
     <None Include="t4\helpers.tt">
     </None>
     <None Include="t4\LibraryInterface.tt">
     </None>
     <None Include="t4\LibrarySpec.tt">
+    </None>
+    <None Include="BasicType.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BasicType.cs</LastGenOutput>
+    </None>
+    <None Include="t4\MultiType.tt">
     </None>
     <Compile Include="bLibrary\IBLibraryOld.cs" />
     <Compile Include="CdtLibrary\ICdt.cs" />
@@ -234,7 +265,6 @@
     <Compile Include="EnumLibrary\ICodelistEntry.cs" />
     <Compile Include="CdtLibrary\ICdtCon.cs" />
     <Compile Include="EnumLibrary\IEnum.cs" />
-    <Compile Include="PrimLibrary\IPrim.cs" />
     <Compile Include="BdtLibrary\IBdtSup.cs" />
     <Compile Include="PrimLibrary\PrimLibrarySpec.cs">
       <AutoGen>True</AutoGen>

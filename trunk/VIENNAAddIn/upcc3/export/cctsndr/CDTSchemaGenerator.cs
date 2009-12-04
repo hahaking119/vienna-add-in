@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     var simpleType = new XmlSchemaSimpleType { Name = GetTypeName(cdt) };
                     var simpleTypeRestriction = new XmlSchemaSimpleTypeRestriction
                                                 {
-                                                    BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType)
+                                                    BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType.Name)
                                                 };
                     simpleType.Content = simpleTypeRestriction;
                     if (context.Annotate)
@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                     var simpleContent = new XmlSchemaSimpleContent();
                     var simpleContentExtension = new XmlSchemaSimpleContentExtension
                                                  {
-                                                     BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType)
+                                                     BaseTypeName = GetXmlQualifiedName(cdt.CON.BasicType.Name)
                                                  };
                     foreach (ICdtSup sup in sups)
                     {
@@ -143,9 +143,9 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
         }
 
-        private static XmlQualifiedName GetXmlQualifiedName(IBasicType basicType)
+        private static XmlQualifiedName GetXmlQualifiedName(string basicTypeName)
         {
-            return new XmlQualifiedName(GetXSDType(basicType.Name), "http://www.w3.org/2001/XMLSchema");
+            return new XmlQualifiedName(GetXSDType(basicTypeName), "http://www.w3.org/2001/XMLSchema");
         }
 
         private static string GetAttributeName(ICdtSup sup)
