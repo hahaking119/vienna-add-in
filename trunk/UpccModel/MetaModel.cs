@@ -267,6 +267,22 @@ namespace Upcc
             return Instance.enumerations.All;
         }
 
+        public static IEnumerable<MetaClassifier> GetAllConcreteClassifiers()
+        {
+            foreach (var dataType in GetAllDataTypes())
+            {
+                yield return dataType;
+            }
+            foreach (var enumeration in GetAllEnumerations())
+            {
+                yield return enumeration;
+            }
+            foreach (var @class in GetAllClasses())
+            {
+                yield return @class;
+            }
+        }
+
         public static IEnumerable<MetaPackage> GetAllPackages()
         {
             return Instance.packages.All;

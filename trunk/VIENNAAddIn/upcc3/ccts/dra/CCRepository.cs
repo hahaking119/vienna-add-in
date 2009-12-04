@@ -163,6 +163,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             return package == null ? null : new DOCLibrary(this, package);
         }
 
+        public IIdScheme GetIdSchemeByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
         public IPrim GetPrimById(int id)
         {
             Element element = eaRepository.GetElementByID(id);
@@ -209,6 +214,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             var package = eaRepository.Resolve<Package>(path);
             return package == null ? null : new PRIMLibrary(this, package);
+        }
+
+        public IIdScheme GetIdSchemeById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumLibrary GetEnumLibraryByPath(Path path)
@@ -263,6 +273,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             var element = eaRepository.Resolve<Element>(path);
             return element == null ? null : new CDT(this, element);
+        }
+
+        public IMa GetMaById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMa GetMaByPath(Path path)
+        {
+            throw new NotImplementedException();
         }
 
         public IAcc GetAccByPath(Path path)

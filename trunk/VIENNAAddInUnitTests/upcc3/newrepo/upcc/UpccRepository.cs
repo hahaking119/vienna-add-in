@@ -115,6 +115,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public IIdScheme GetIdSchemeByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
         public IPrim GetPrimById(int id)
         {
             throw new NotImplementedException();
@@ -151,6 +156,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
         public IPrimLibrary GetPrimLibraryByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IIdScheme GetIdSchemeById(int id)
         {
             throw new NotImplementedException();
         }
@@ -196,6 +206,16 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
         public ICdt GetCdtByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMa GetMaById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IMa GetMaByPath(Path path)
         {
             throw new NotImplementedException();
         }

@@ -123,6 +123,11 @@
       <DependentUpon>IEnumLibrary.tt</DependentUpon>
     </Compile>
     <Compile Include="EnumLibrary\IIdScheme.cs" />
+    <Compile Include="ICctsRepository.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ICctsRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="PrimLibrary\IPrimLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -205,6 +210,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IEnumLibrary.cs</LastGenOutput>
     </None>
+    <None Include="ICctsRepository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ICctsRepository.cs</LastGenOutput>
+    </None>
     <None Include="PrimLibrary\IPrimLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IPrimLibrary.cs</LastGenOutput>
@@ -220,7 +229,6 @@
     <None Include="t4\LibrarySpec.tt">
     </None>
     <Compile Include="bLibrary\IBLibraryOld.cs" />
-    <Compile Include="ICctsRepository.cs" />
     <Compile Include="CdtLibrary\ICdt.cs" />
     <Compile Include="CdtLibrary\ICdtSup.cs" />
     <Compile Include="EnumLibrary\ICodelistEntry.cs" />

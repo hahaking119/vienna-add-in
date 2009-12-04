@@ -49,4 +49,13 @@
 		var propertyName = TaggedValuePropertyName(taggedValue);
 		return propertyName + " = " + (taggedValue.Cardinality == MetaCardinality.Many ? "new List<string>(" + source + "." + propertyName + ")" : source + "." + propertyName);
 	}
+	
+	string Plural(string str)
+	{
+		if (str.EndsWith("y"))
+		{
+			return str.Substring(0, str.Length - 1) + "ies";
+		}
+		return str + "s";
+	}
 #>
