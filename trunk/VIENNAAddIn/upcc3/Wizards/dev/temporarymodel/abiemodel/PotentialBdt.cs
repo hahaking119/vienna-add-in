@@ -5,7 +5,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
     public class PotentialBdt
     {
         private string mName;
-        private bool mChecked;        
+        private bool mChecked;
+        private bool mSelected;
         private IBdt mOriginalBDT;
 
         public PotentialBdt(string newBdtName)
@@ -33,6 +34,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             get { return mChecked; }
             set { mChecked = value; }
         }
+
+        public bool Selected
+        {
+            get { return mSelected; }
+            set { mSelected = value; }
+        }       
 
         public IBdt OriginalBdt
         {

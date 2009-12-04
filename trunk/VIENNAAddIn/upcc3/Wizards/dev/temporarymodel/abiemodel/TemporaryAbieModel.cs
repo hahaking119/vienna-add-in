@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows;
 using CctsRepository;
 using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
@@ -313,7 +314,42 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }                
         }
 
-        public void SetSelectedPotentialBbie(string selectedBbie)
+
+        public void SetSelectedAndCheckedCandidateBcc(string selectedBcc, bool? checkedValue)
+        {
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
+                            {
+                                if (candidateBcc.OriginalBcc.Name.Equals(selectedBcc))
+                                {
+                                    candidateBcc.Selected = true;
+
+                                    if (checkedValue.HasValue)
+                                    {
+                                        candidateBcc.Checked = checkedValue.Value;
+                                    }
+
+                                    PotentialBbieItems = new List<CheckableItem>(candidateBcc.PotentialBbies.ConvertAll(new Converter<PotentialBbie, CheckableItem>(PotentialBbieToCheckableText)));
+                                }
+                                else
+                                {
+                                    candidateBcc.Selected = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void SetSelectedAndCheckedPotentialBbie(string selectedBbie, bool? checkedValue)
         {
             foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
             {
@@ -332,6 +368,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                         if (potentialBbie.Name.Equals(selectedBbie))
                                         {
                                             potentialBbie.Selected = true;
+
+                                            if (checkedValue.HasValue)
+                                            {
+                                                potentialBbie.Checked = checkedValue.Value;
+                                            }
+
                                             PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToCheckableText)));
                                         }
                                         else
@@ -347,7 +389,44 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }
         }
 
-        public void SetSelectedCandidateAbie(string selectedAbie)
+        public void SetSelectedAndCheckedPotentialBdt(string selectedBdt, bool? checkedValue)
+        {
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
+                            {
+                                if (candidateBcc.Selected)
+                                {
+                                    foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
+                                    {
+                                        foreach (PotentialBdt potentialBdt in potentialBbie.PotentialBdts)
+                                        {
+                                            if (potentialBdt.Name.Equals(selectedBdt))
+                                            {
+                                                potentialBdt.Selected = true;
+                                                
+                                                if (checkedValue.HasValue)
+                                                {
+                                                    potentialBdt.Checked = checkedValue.Value;
+                                                }                                                
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void SetSelectedAndCheckedCandidateAbie(string selectedAbie, bool? checkedValue)
         {
             foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
             {
@@ -362,12 +441,52 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                 if (candidateAbie.OriginalAbie.Name.Equals(selectedAbie))
                                 {
                                     candidateAbie.Selected = true;
+
+                                    if (checkedValue.HasValue)
+                                    {
+                                        candidateAbie.Checked = checkedValue.Value;
+                                    }
                                     
                                     PotentialAsbieItems = new List<CheckableItem>(candidateAbie.PotentialAsbies.ConvertAll(new Converter<PotentialAsbie, CheckableItem>(PotentialAsbieToCheckableItem)));
                                 }
                                 else
                                 {
                                     candidateAbie.Selected = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void SetSelectedAndCheckedPotentialAsbie(string selectedAsbie, bool? checkedValue)
+        {
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            foreach (CandidateAbie candidateAbie in candidateAcc.CandidateAbies)
+                            {
+                                foreach (PotentialAsbie potentialAsbie in candidateAbie.PotentialAsbies)
+                                {
+                                    if (potentialAsbie.Name.Equals(selectedAsbie))
+                                    {
+                                        potentialAsbie.Selected = true;
+
+                                        if (checkedValue.HasValue)
+                                        {
+                                            potentialAsbie.Checked = checkedValue.Value;
+                                        }                                        
+                                    }
+                                    else
+                                    {
+                                        potentialAsbie.Selected = false;
+                                    }
                                 }
                             }
                         }
@@ -434,74 +553,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public void UpdateBbieName()
         {
-            throw new NotImplementedException();
+            
         }
-
-        public void UpdateBdtName()
-        {
-            throw new NotImplementedException();
-        }
-
-        // TODO: optimize code - this is just to proof that it works
-        // === Begin ===
-
-        public void SetSelectedCandidateBcc(string selectedBcc)
-        {
-            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
-            {
-                if (candidateCcLibrary.Selected)
-                {
-                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
-                    {
-                        if (candidateAcc.Selected)
-                        {
-                            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
-                            {
-                                if (candidateBcc.OriginalBcc.Name.Equals(selectedBcc))
-                                {
-                                    candidateBcc.Selected = true;
-                                    PotentialBbieItems = new List<CheckableItem>(candidateBcc.PotentialBbies.ConvertAll(new Converter<PotentialBbie, CheckableItem>(PotentialBbieToCheckableText)));
-                                }
-                                else
-                                {
-                                    candidateBcc.Selected = false;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        public void SetCheckedForCandidateBcc(string selectedItem, bool checkedValue)
-        {
-            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
-            {
-                if (candidateCcLibrary.Selected)
-                {
-                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
-                    {
-                        if (candidateAcc.Selected)
-                        {
-                            foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
-                            {
-                                if (candidateBcc.OriginalBcc.Name.Equals(selectedItem))
-                                {
-                                    candidateBcc.Selected = true;
-                                    candidateBcc.Checked = checkedValue;
-                                    PotentialBbieItems = new List<CheckableItem>(candidateBcc.PotentialBbies.ConvertAll(new Converter<PotentialBbie, CheckableItem>(PotentialBbieToCheckableText)));
-                                }
-                                else
-                                {
-                                    candidateBcc.Selected = false;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // === End ===
     }
 }
