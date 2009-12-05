@@ -42,7 +42,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             get
             {
                 if (mPotentialBbies == null)
-                {
+                {                    
                     mPotentialBbies = new List<PotentialBbie> { new PotentialBbie(mOriginalBcc.Name, mOriginalBcc.Cdt) };
                 }
                 
@@ -57,7 +57,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             for (int i = 1; i != -1; i++)
             {
                 bool foundBbieWithTheSameName = false;
-                string newBbieName = OriginalBcc.Name + i;                
+                string newBbieName = "My" + i + OriginalBcc.Name;                
 
                 foreach (PotentialBbie potentialBbie in PotentialBbies)
                 {
