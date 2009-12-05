@@ -28,13 +28,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             DataContext = this;
 
+            SelectDefaultLibraries();
             UpdateFormState();
         }
 
 
         public static void ShowForm(AddInContext context)
         {
-            new AbieEditor(context.CctsRepository).Show();
+            new AbieEditor(context.CctsRepository).ShowDialog();
         }
 
 
@@ -62,13 +63,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         // ------------------------------------------------------------------------------------
+        // Event handler for the CheckBox allowing to select/deselect all BCCs
+        private void checkboxBCCs_Checked(object sender, RoutedEventArgs e)
+        {
+            int index = checkedlistboxBCCs.SelectedIndex;
+
+            Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
+
+            checkedlistboxBCCs.SelectedIndex = index;
+        }
+
+        // ------------------------------------------------------------------------------------
         // Event handler for ListBox containing BCCs
         private void checkedlistboxBCCs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (checkedlistboxBCCs.SelectedItem != null)
             {
                 Model.SetSelectedAndCheckedCandidateBcc(((CheckableItem)checkedlistboxBCCs.SelectedItem).Text, null);
-
+                
                 TriggerUpdateOfBbieAndBdtListboxes();
             }
         }
@@ -86,7 +98,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             Model.SetSelectedAndCheckedCandidateBcc(returnValues.SelectedItem, returnValues.CheckedValue);
 
+/*            if (returnValues.CheckedValue)
+            {
+                Model.SetCheckedDefaultsForPotentialBdtsAndPotentialBdts();
+            }*/
+
             TriggerUpdateOfBbieAndBdtListboxes();
+
             UpdateFormState();
         }
 
@@ -95,6 +113,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void buttonAddBBIE_Click(object sender, RoutedEventArgs e)
         {
             Model.AddPotentialBbie();
+
+            checkedlistboxBBIEs.SelectedIndex = (checkedlistboxBBIEs.Items.Count) - 1;
         }
 
         // ------------------------------------------------------------------------------------
@@ -134,7 +154,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
             catch (TemporaryAbieModelException tame)
             {                                
-                ShowWarning(tame.Message);
+                ShowWarningMessage(tame.Message);
                 ((TextBox) sender).Undo();
             }
             
@@ -246,14 +266,31 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             Model.SetSelectedCandidateBieLibrary(comboBIELs.SelectedItem.ToString());
             UpdateFormState();
-        }       
-
-
-        private void buttonGenerate_Click(object sender, RoutedEventArgs e)
-        {
-            Model.CreateAbie();
         }
 
+        // ------------------------------------------------------------------------------------
+        // Event handler for the Button to create the BIE
+        private void buttonGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            // Disable the "Create Button" while the ABIE is created
+            buttonSave.IsEnabled = false;
+
+            try
+            {
+                Model.CreateAbie();
+                ShowInformativeMessage(String.Format("A new ABIE named \"{0}\" was created successfully.", Model.AbieName));
+            }
+            catch (TemporaryAbieModelException tame)
+            {
+                ShowWarningMessage(tame.Message);            
+            }                       
+
+            // After the ABIE is created the "Create Button" is enabled again. 
+            buttonSave.IsEnabled = true;
+        }
+
+        // ------------------------------------------------------------------------------------
+        // Event handler for the Button to close the ABIE Editor
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -339,9 +376,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
-        private void ShowWarning(string message)
+        private void ShowWarningMessage(string message)
         {
             MessageBox.Show(message, "ABIE Editor", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        private void ShowInformativeMessage(string message)
+        {
+            MessageBox.Show(message, "ABIE Editor", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void UpdateFormState()
@@ -410,6 +452,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             buttonSave.IsEnabled = enabledState;
         }
 
+        private void SelectDefaultLibraries()
+        {
+            comboCCLs.SelectedIndex = 0;
+            comboBIELs.SelectedIndex = 0;
+            comboBDTLs.SelectedIndex = 0;
+        }
+
         private void TriggerUpdateOfAllListboxes()
         {
             checkedlistboxBCCs.SelectedIndex = 0;
@@ -437,5 +486,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         #endregion
+
+        private void TextBox_MouseEnter(object sender, MouseEventArgs e)
+        {           
+            Cursor = Cursors.Arrow;
+        }
+
+        private void TextBox_MouseLeave(object sender, MouseEventArgs e)
+        {
+            
+        }
     }
 }

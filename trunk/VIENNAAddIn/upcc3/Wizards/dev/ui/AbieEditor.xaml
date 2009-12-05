@@ -47,7 +47,7 @@
                             <GroupBox Header="BCCs used as BBIEs" Margin="0,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
-                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" KeyboardNavigation.TabIndex="0">Select all BCCs</CheckBox>
+                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" KeyboardNavigation.TabIndex="0" Checked="checkboxBCCs_Checked" Unchecked="checkboxBCCs_Checked">Select all BCCs</CheckBox>
                                     </StackPanel>
                                     <ListBox ItemsSource="{Binding Path=Model.CandidateBccItems}" Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="checkedlistboxBCCs_SelectionChanged" KeyboardNavigation.TabIndex="1" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
@@ -76,7 +76,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding Path=Checked}" Checked="checkedlistboxBBIEs_ItemChecked" Unchecked="checkedlistboxBBIEs_ItemChecked" />    
-                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="True" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxBbieItemOnMouseSingleClick" KeyUp="ForceTextboxToLoseFocus" LostFocus="checkedlistboxBBIEs_LostFocus"/>
+                                                    <TextBox Text="{Binding Path=Text}" IsEnabled="True" BorderThickness="0" Background="Transparent" PreviewMouseLeftButtonDown="SelectTextBoxBbieItemOnMouseSingleClick" KeyUp="ForceTextboxToLoseFocus" LostFocus="checkedlistboxBBIEs_LostFocus" />                                                                                                        
                                                 </StackPanel>                                                
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
