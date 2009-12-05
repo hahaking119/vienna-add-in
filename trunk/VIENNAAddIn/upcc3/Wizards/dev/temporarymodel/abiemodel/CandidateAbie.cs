@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Windows.Input;
 using CctsRepository.BieLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
@@ -10,6 +11,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private IAbie mOriginalAbie;
         private bool mSelected; 
         private List<PotentialAsbie> mPotentialAsbies;
+        private bool mItemReadOnly;
+        private Cursor mItemCursor;
+        private bool mItemFocusable;
 
         public CandidateAbie(IAbie originalAbie)
         {
@@ -18,6 +22,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             mOriginalAbie = originalAbie;
             mSelected = false;
             mPotentialAsbies = null;
+
+            mItemReadOnly = true;
+            mItemCursor = Cursors.Arrow;
+            mItemFocusable = false;
         }
 
         public string Name
@@ -48,6 +56,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             get { return mPotentialAsbies; }
             set { mPotentialAsbies = value; }
+        }
+
+        public bool ItemReadOnly
+        {
+            get { return mItemReadOnly; }
+        }
+
+        public Cursor ItemCursor
+        {
+            get { return mItemCursor; }
+        }
+
+        public bool ItemFocusable
+        {
+            get { return mItemFocusable; }
         }
     }
 }

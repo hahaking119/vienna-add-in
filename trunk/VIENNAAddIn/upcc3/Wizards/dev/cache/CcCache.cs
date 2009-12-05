@@ -320,6 +320,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             throw new Exception("No corresponding BIE Library found with name '" + bieLibraryName + "'.");
         }
 
+        // TODO: write test case
+        public void Refresh()
+        {
+            mBdtLibraries = null;
+            mBieLibraries = null;
+        }
+
+
         #region Converters used for ConvertAll
 
         /// <summary>

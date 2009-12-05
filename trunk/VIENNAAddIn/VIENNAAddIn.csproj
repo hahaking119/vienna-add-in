@@ -212,7 +212,7 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModelException.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\exceptions\TemporaryAbieModelException.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\AbieEditor.xaml.cs">
       <DependentUpon>AbieEditor.xaml</DependentUpon>
     </Compile>

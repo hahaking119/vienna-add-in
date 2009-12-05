@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Input;
 using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
@@ -9,12 +10,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private bool mChecked;
         private bool mSelected;
         private IAscc mBasedOn;
+        private bool mItemReadOnly;
+        private Cursor mItemCursor;
+        private bool mItemFocusable;
 
         public PotentialAsbie(IAscc originalAscc)
         {
             mName = originalAscc.Name;
             mChecked = false;
             mBasedOn = originalAscc;
+
+            mItemReadOnly = true;
+            mItemCursor = Cursors.Arrow;
+            mItemFocusable = false;
         }
 
         public string Name
@@ -39,6 +47,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             get { return mBasedOn; }
             set { mBasedOn = value; }
+        }
+
+        public bool ItemReadOnly
+        {
+            get { return mItemReadOnly; }
+        }
+
+        public Cursor ItemCursor
+        {
+            get { return mItemCursor; }
+        }
+
+        public bool ItemFocusable
+        {
+            get { return mItemFocusable; }
         }
     }
 }
