@@ -1,6 +1,6 @@
 using System;
 
-namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
+namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel.exceptions
 {
     public class TemporaryAbieModelException : Exception
     {

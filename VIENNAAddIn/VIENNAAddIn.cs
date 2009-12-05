@@ -51,13 +51,11 @@ namespace VIENNAAddIn
                               DefaultChecked = Never
                           };
 
-            //MenuAction createUPCCStructure =
-              //  "&Create initial UPCC3 model structure".OnClick(UpccModelWizardForm.ShowForm);
             MenuAction createUPCCStructure =
                 "&Create initial UPCC3 model structure".OnClick(UpccModelCreator.ShowForm);
-            MenuAction createABIE = "Create new &ABIE".OnClick(/*AbieEditor.ShowForm*/ABIEWizardForm.ShowABIEWizard);
+            MenuAction createABIE = "Create new &ABIE".OnClick(AbieEditor.ShowCreateDialog);
             MenuAction createBDT = "Create new BD&T".OnClick(BDTWizardForm.ShowBDTWizard);
-            MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
+            //MenuItem modifyABIE = "&Modify ABIE".OnClick(ABIEWizardForm.ShowModifyABIEWizard).Enabled(IfABIEIsSelected);
             MenuAction validate = "&Validate".OnClick(ValidatorForm.ShowValidator);
             MenuItem _____ = MenuItem.Separator;
 
@@ -78,7 +76,7 @@ namespace VIENNAAddIn
                                      )
                                    + ("Wizards"
                                       + createABIE
-                                      + modifyABIE
+                                      //+ modifyABIE
                                       + createBDT
                                       + "Generate &XML Schema".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                                       + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
@@ -101,10 +99,10 @@ namespace VIENNAAddIn
                                    + createABIE
                                    + validate))
                 .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.BIELibrary));
-            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
-                                + (AddInSettings.AddInName
-                                   + modifyABIE))
-                .ShowIf(context => context.SelectedItemIsABIE());
+            //menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+            //                    + (AddInSettings.AddInName
+            //                       + modifyABIE))
+            //    .ShowIf(context => context.SelectedItemIsABIE());
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
                                    + createBDT

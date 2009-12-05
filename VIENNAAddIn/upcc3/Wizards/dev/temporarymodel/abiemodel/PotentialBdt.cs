@@ -1,3 +1,4 @@
+using System.Windows.Input;
 using CctsRepository.BdtLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
@@ -8,12 +9,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private bool mChecked;
         private bool mSelected;
         private IBdt mOriginalBDT;
+        private bool mItemReadOnly;
+        private Cursor mItemCursor;
+        private bool mItemFocusable;
 
-        public PotentialBdt(string newBdtName)
+        public PotentialBdt(string newBdtName, bool isChecked)
         {
             mName = newBdtName;
-            mChecked = false;
+            mChecked = isChecked;
             mOriginalBDT = null;
+
+            mItemReadOnly = false;
+            mItemCursor = Cursors.IBeam;
+            mItemFocusable = true;
         }
 
         public PotentialBdt(IBdt originalBdt)
@@ -21,6 +29,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             mName = originalBdt.Name;
             mChecked = false;
             mOriginalBDT = originalBdt;
+
+            mItemReadOnly = true;
+            mItemCursor = Cursors.Arrow;
+            mItemFocusable = false;
         }
 
         public string Name
@@ -45,6 +57,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             get { return mOriginalBDT; }
             set { mOriginalBDT = value; }
+        }
+
+        public bool ItemReadOnly
+        {
+            get { return mItemReadOnly; }
+        }
+
+        public Cursor ItemCursor
+        {
+            get { return mItemCursor; }
+        }
+
+        public bool ItemFocusable
+        {
+            get { return mItemFocusable; }
         }
     }
 }

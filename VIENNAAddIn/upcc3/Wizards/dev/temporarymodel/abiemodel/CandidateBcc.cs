@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
@@ -10,6 +11,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private IBcc mOriginalBcc;
         private bool mSelected;
         private List<PotentialBbie> mPotentialBbies;
+        private bool mItemReadOnly;
+        private Cursor mItemCursor;
+        private bool mItemFocusable;
 
         public CandidateBcc(IBcc originalBcc)
         {
@@ -17,6 +21,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             mOriginalBcc = originalBcc;
             mSelected = false;
             mPotentialBbies = null;
+
+            mItemReadOnly = true;
+            mItemCursor = Cursors.Arrow;
+            mItemFocusable = false;
         }
 
         public bool Checked
@@ -52,12 +60,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             set { mPotentialBbies = value; }
         }
 
+        public bool ItemReadOnly
+        {
+            get { return mItemReadOnly; }
+        }
+
+        public Cursor ItemCursor
+        {
+            get { return mItemCursor; }
+        }
+
+        public bool ItemFocusable
+        {
+            get { return mItemFocusable; }
+        }
+
         public void AddPotentialBbie()
         {
             for (int i = 1; i != -1; i++)
             {
                 bool foundBbieWithTheSameName = false;
-                string newBbieName = "My" + i + OriginalBcc.Name;                
+                string newBbieName = "New" + i + OriginalBcc.Name;                
 
                 foreach (PotentialBbie potentialBbie in PotentialBbies)
                 {
@@ -70,7 +93,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
                 if (!foundBbieWithTheSameName)
                 {
-                    PotentialBbies.Add(new PotentialBbie(newBbieName, OriginalBcc.Cdt));                    
+                    PotentialBbies.Add(new PotentialBbie(newBbieName, OriginalBcc.Cdt, true));                    
                     break;
                 }
             } 

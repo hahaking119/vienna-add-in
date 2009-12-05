@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Windows.Input;
 using CctsRepository.BdtLibrary;
 using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
@@ -12,14 +13,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private bool mSelected;
         private ICdt mCdtUsedInBcc;
         private List<PotentialBdt> mPotentialBdts;
+        private bool mItemReadOnly;
+        private Cursor mItemCursor;
+        private bool mItemFocusable;
 
-        public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn)
+        public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn, bool bbieChecked)
         {
             mName = bbieName;
             mCdtUsedInBcc = cdtOfTheBccWhichTheBbieIsBasedOn;
-            mChecked = false;
+            mChecked = bbieChecked;
             mSelected = false;
-            mPotentialBdts = null;                       
+            mPotentialBdts = null;
+            mItemReadOnly = false;
+            mItemCursor = Cursors.IBeam;
+            mItemFocusable = true;
+        }
+
+        public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn) : this(bbieName, cdtOfTheBccWhichTheBbieIsBasedOn, false)
+        {
         }
 
         public string Name
@@ -60,12 +71,85 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             }
                         }
                     }
+                    
+                    if (mPotentialBdts.Count == 0)
+                    {
+                        AddPotentialBdt();
+                    }
                 }
 
                 return mPotentialBdts;
             }
 
             set { mPotentialBdts = value; }
+        }
+           
+        public string AddPotentialBdt()
+        {            
+            string newBdtName = "";
+            
+            for (int i = 1; i != -1; i++)
+            {
+                bool foundBdtWithTheSameName = false;
+                bool foundBdtThatIsAlreadyChecked = false;
+                newBdtName = "New" + i + mCdtUsedInBcc.Name;
+
+                foreach (PotentialBdt potentialBdt in PotentialBdts)
+                {
+                    if (potentialBdt.Name.Equals(newBdtName))
+                    {
+                        foundBdtWithTheSameName = true;
+                    }
+
+                    if (potentialBdt.Checked)
+                    {
+                        foundBdtThatIsAlreadyChecked = true;
+                    }
+                }
+
+                if (!foundBdtWithTheSameName)
+                {      
+                    if (foundBdtThatIsAlreadyChecked)
+                    {
+                        PotentialBdts.Add(new PotentialBdt(newBdtName, false));
+                    }
+                    else
+                    {
+                        if (PotentialBdts.Count == 0)
+                        {
+                            PotentialBdts.Add(new PotentialBdt(newBdtName, false));       
+                        }
+                        else
+                        {
+                            PotentialBdts.Add(new PotentialBdt(newBdtName, true));    
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            return newBdtName;
+        }
+        
+        public void AddPotentialBdt(string newBdtName)
+        {
+            PotentialBdts.Add(new PotentialBdt(newBdtName, false));
+        }
+
+        public bool ItemReadOnly
+        {
+            get { return mItemReadOnly; }
+        }
+
+        public Cursor ItemCursor
+        {
+            get { return mItemCursor; }
+        }
+
+        public bool ItemFocusable
+        {
+            get { return mItemFocusable; }
         }
     }
 }
