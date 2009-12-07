@@ -1007,7 +1007,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                 {                    
                     if (potentialAsbie.Checked)
                     {
-                        asbieSpecs.Add(AsbieSpec.CloneASCC(potentialAsbie.BasedOn, potentialAsbie.Name, candidateAbie.OriginalAbie.Id));    
+                        asbieSpecs.Add(AsbieSpec.CloneASCC(potentialAsbie.BasedOn, potentialAsbie.Name, candidateAbie.OriginalAbie));    
                     }                    
                 }
             }

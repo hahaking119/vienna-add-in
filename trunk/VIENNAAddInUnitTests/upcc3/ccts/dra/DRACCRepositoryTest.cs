@@ -246,8 +246,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
                                Asbies = new List<AsbieSpec>
                                         {
-                                            AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress.Id),
-                                            AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress.Id)
+                                            AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress),
+                                            AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress)
                                         },
                            };
 
@@ -890,8 +890,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
                                Asbies = new List<AsbieSpec>
                                         {
-                                            AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress.Id),
-                                            AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress.Id)
+                                            AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress),
+                                            AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress)
                                         },
                            };
 

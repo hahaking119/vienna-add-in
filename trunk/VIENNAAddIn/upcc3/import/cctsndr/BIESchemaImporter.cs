@@ -313,7 +313,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     string asbieName = NDR.GetAsbieNameFromXsdElement(element, associatedABIEName);
 
                     AsbieSpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
-                                                           associatedAbie.Id);
+                                                           associatedAbie);
 
                     if (asbieSpec == null)
                     {
@@ -334,7 +334,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                         string asbieName = element.Name.Substring(0, element.Name.Length - associatedAbieName.Length);
 
                         AsbieSpec asbieSpec = MatchAsbieToAscc(FindBaseACCForABIE(abieName), asbieName,
-                                                               associatedAbie.Id);
+                                                               associatedAbie);
 
                         if (asbieSpec == null)
                         {
@@ -370,7 +370,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         {
             AsbieSpec asbieSpec = new AsbieSpec
                                   {
-                                      AssociatedABIEId = associatedAbie.Id,
+                                      AssociatedAbie = associatedAbie,
                                       Name = asbieName,
                                       LowerBound = ResolveMinOccurs(element.MinOccurs),
                                       UpperBound = ResolveMaxOccurs(element.MaxOccurs),
@@ -402,7 +402,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</param>
         ///<returns>
         ///</returns>
-        private static AsbieSpec MatchAsbieToAscc(IAcc acc, string asbieName, int associatedAbie)
+        private static AsbieSpec MatchAsbieToAscc(IAcc acc, string asbieName, IAbie associatedAbie)
         {
             foreach (IAscc ascc in acc.Asccs)
             {

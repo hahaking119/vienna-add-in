@@ -217,7 +217,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         {
             var asbieSpec = new AsbieSpec
                             {
-                                AssociatedABIEId = associatedAbie.Id,
+                                AssociatedAbie = associatedAbie,
                                 Name = asbieName,
                                 LowerBound = ResolveMinOccurs(element.MinOccurs),
                                 UpperBound = ResolveMaxOccurs(element.MaxOccurs),
