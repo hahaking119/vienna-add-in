@@ -181,7 +181,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             // The following code only keeps the UI in sync with the TemporaryAbieModel since 
             // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
             // not select the current item in the ListBox.
-            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (CheckBox)sender);
+            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (CheckBox)sender);            
         }
         
         private void listboxBdts_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -189,7 +189,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             if (checkedlistboxBDTs.SelectedItem != null)
             {
                 CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
-                Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
+                Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);                
             }
         }
 
