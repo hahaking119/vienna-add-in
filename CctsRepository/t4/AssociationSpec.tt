@@ -1,0 +1,65 @@
+<#@ include file="../t4/helpers.tt" #>
+<#@ include file="../t4/Copyright.tt" #>
+using System.Collections.Generic;
+<#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
+
+<# 
+	var library = MetaModel.GetPackageRelationsFor(metaAssociation.AssociatingClassifierType).First().PackageType;
+    var associatingClassifierClassName = (metaAssociation.AssociatingClassifierType is MetaMultiType ? "" : "I" ) + metaAssociation.AssociatingClassifierType.Name;
+    var associatedClassifierClassName = (metaAssociation.AssociatedClassifierType is MetaMultiType ? "" : "I" ) + metaAssociation.AssociatedClassifierType.Name;
+#>
+namespace CctsRepository.<#= library.Name #>
+{
+    public partial class <#= metaAssociation.ClassName #>Spec
+    {
+		public string Name { get; set; }
+		
+        public string UpperBound { get; set; }
+		
+        public string LowerBound { get; set; }
+<#
+		if (metaAssociation.AggregationKind == MetaAggregationKind.SharedOrComposite)
+		{
+#>
+
+		public AggregationKind AggregationKind { get; set; }
+<#
+		}
+#>
+		
+		public <#= associatingClassifierClassName #> Associating<#= metaAssociation.AssociatingClassifierType.Name #> { get; set; }
+
+		public <#= associatedClassifierClassName #> Associated<#= metaAssociation.AssociatedClassifierType.Name #> { get; set; }
+<#
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaAssociation))
+		{
+#>
+
+		public I<#= dependency.TargetAssociation.ClassName #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; set; }
+<#
+		}
+
+		if (metaAssociation.HasTaggedValues)
+		{
+#>
+
+		#region Tagged Values
+<# 
+			foreach (var taggedValue in metaAssociation.TaggedValues)
+			{
+#>
+
+        ///<summary>
+        /// Tagged value '<#= taggedValue.Name #>'.
+        ///</summary>
+		public <#= TaggedValuePropertyType(taggedValue) #> <#= TaggedValuePropertyName(taggedValue) #> { get; set; }
+<#
+			}
+#>
+
+		#endregion
+<#
+		}
+#>
+    }
+}

@@ -653,7 +653,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 /* get the selected ACC which we as a basis to generate the new ABIE */
                 IAcc selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
 
-                AbieSpec abieSpec = createABISpec(selectedACC);
+                AbieSpec abieSpec = createABISpec(selectedACC, selectedBIEL);
                 IAbie newABIE = selectedBIEL.CreateAbie(abieSpec);
                 cache.BIELs[selectedBIELName].ABIEs.Add(newABIE.Name,
                                                         new cABIE(newABIE.Name, newABIE.Id, selectedACC.Id));
@@ -667,7 +667,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 /* get the selected ACC which we use as a basis to generate the new ABIE */
                 IAcc selectedACC = repository.GetAccById(cache.CCLs[selectedCCLName].ACCs[selectedACCName].Id);
-                AbieSpec abieSpec = createABISpec(selectedACC);
+                AbieSpec abieSpec = createABISpec(selectedACC, selectedBIEL);
                 IAbie newABIE = selectedBIEL.UpdateAbie(abie, abieSpec);
                 //todo: find a better way to update internal cache
                 cache.BIELs[selectedBIELName].ABIEs.Remove(newABIE.Name);
@@ -1303,7 +1303,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         #endregion
 
-        private AbieSpec createABISpec(IAcc selectedACC)
+        private AbieSpec createABISpec(IAcc selectedACC, IBieLibrary bieLibrary)
         {
             AbieSpec abieSpec = null;
             if ((cache.PathIsValid(CacheConstants.PATH_BDTLs, new[] {selectedBDTLName})) &&
@@ -1432,8 +1432,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                 break;
                             }
 
-                            newASBIEs.Add(AsbieSpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name,
-                                                              cascc.ABIEs[abieName].Id));
+                            newASBIEs.Add(AsbieSpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name, () => bieLibrary.GetAbieByName(abieName)));
                         }
                         // else don't worry about it
                     }

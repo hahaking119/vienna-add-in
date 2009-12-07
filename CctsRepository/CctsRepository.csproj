@@ -99,7 +99,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BieAggregator.tt</DependentUpon>
     </Compile>
-    <Compile Include="BieLibrary\AbieSpec.cs" />
+    <Compile Include="BieLibrary\AbieSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AbieSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BieLibrary\AbieSpecManualExtensions.cs" />
+    <Compile Include="BieLibrary\AsbieSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AsbieSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BieLibrary\AsbieSpecManualExtensions.cs" />
+    <Compile Include="BieLibrary\Bbie.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Bbie.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BieLibrary\BbieSpecManualExtensions.cs" />
     <Compile Include="BieLibrary\BieLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -245,9 +262,7 @@
       <DependentUpon>IPrimLibrary.tt</DependentUpon>
     </Compile>
     <Compile Include="CcLibrary\AccSpec.cs" />
-    <Compile Include="BieLibrary\AsbieSpec.cs" />
     <Compile Include="CcLibrary\AsccSpec.cs" />
-    <Compile Include="BieLibrary\BbieSpec.cs" />
     <Compile Include="CcLibrary\BccSpec.cs" />
     <Compile Include="CdtLibrary\CdtConSpec.cs" />
     <Compile Include="CdtLibrary\CdtSpec.cs" />
@@ -289,6 +304,18 @@
     <None Include="BieAggregator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BieAggregator.cs</LastGenOutput>
+    </None>
+    <None Include="BieLibrary\AbieSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AbieSpec.cs</LastGenOutput>
+    </None>
+    <None Include="BieLibrary\AsbieSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsbieSpec.cs</LastGenOutput>
+    </None>
+    <None Include="BieLibrary\Bbie.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Bbie.cs</LastGenOutput>
     </None>
     <None Include="BieLibrary\BieLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -417,6 +444,8 @@
     <None Include="t4\ClassifierSpec.tt">
     </None>
     <None Include="t4\AttributeSpec.tt">
+    </None>
+    <None Include="t4\AssociationSpec.tt">
     </None>
     <None Include="t4\EnumerationLiteralInterface.tt">
     </None>
