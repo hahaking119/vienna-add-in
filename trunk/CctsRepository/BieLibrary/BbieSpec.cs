@@ -77,6 +77,26 @@ namespace CctsRepository.BieLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
+
+        public static BbieSpec CloneBbie(IBbie bbie)
+        {
+            return new BbieSpec
+                   {
+                   	   Name = bbie.Name,
+                       UpperBound = bbie.UpperBound,
+                       LowerBound = bbie.LowerBound,
+                       Bdt = bbie.Bdt,
+					   BasedOn = bbie.BasedOn,
+					   BusinessTerms = new List<string>(bbie.BusinessTerms),
+					   Definition = bbie.Definition,
+					   DictionaryEntryName = bbie.DictionaryEntryName,
+					   LanguageCode = bbie.LanguageCode,
+					   SequencingKey = bbie.SequencingKey,
+					   UniqueIdentifier = bbie.UniqueIdentifier,
+					   VersionIdentifier = bbie.VersionIdentifier,
+					   UsageRules = new List<string>(bbie.UsageRules),
+                   };
+        }
     }
 }
 

@@ -32,24 +32,5 @@ namespace CctsRepository.BieLibrary
                        VersionIdentifier = bcc.VersionIdentifier,
                    };
         }
-
-        public static BbieSpec CloneBbie(IBbie bbie)
-        {
-            return new BbieSpec
-                   {
-                       Name = bbie.Name,
-                       DictionaryEntryName = bbie.DictionaryEntryName,
-                       Definition = bbie.Definition,
-                       UniqueIdentifier = bbie.UniqueIdentifier,
-                       VersionIdentifier = bbie.VersionIdentifier,
-                       LanguageCode = bbie.LanguageCode,
-                       BusinessTerms = new List<string>(bbie.BusinessTerms),
-                       UsageRules = new List<string>(bbie.UsageRules),
-                       SequencingKey = bbie.SequencingKey,
-                       Bdt = bbie.Bdt,
-                       LowerBound = bbie.LowerBound,
-                       UpperBound = bbie.UpperBound,
-                   };
-        }
     }
 }

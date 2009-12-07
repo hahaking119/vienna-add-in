@@ -75,6 +75,25 @@ namespace CctsRepository.CdtLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
+
+        public static CdtSupSpec CloneCdtSup(ICdtSup cdtSup)
+        {
+            return new CdtSupSpec
+                   {
+                   	   Name = cdtSup.Name,
+                       UpperBound = cdtSup.UpperBound,
+                       LowerBound = cdtSup.LowerBound,
+                       BasicType = cdtSup.BasicType,
+					   BusinessTerms = new List<string>(cdtSup.BusinessTerms),
+					   Definition = cdtSup.Definition,
+					   DictionaryEntryName = cdtSup.DictionaryEntryName,
+					   LanguageCode = cdtSup.LanguageCode,
+					   ModificationAllowedIndicator = cdtSup.ModificationAllowedIndicator,
+					   UniqueIdentifier = cdtSup.UniqueIdentifier,
+					   VersionIdentifier = cdtSup.VersionIdentifier,
+					   UsageRules = new List<string>(cdtSup.UsageRules),
+                   };
+        }
     }
 }
 
