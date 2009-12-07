@@ -1,3 +1,4 @@
+
 // *******************************************************************************
 // This file is part of the VIENNAAddIn project
 // 
@@ -6,50 +7,65 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+
 using System.Collections.Generic;
-using VIENNAAddInUtils;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.CdtLibrary
 {
-    public class CdtSpec
+    public partial class CdtSpec
     {
-        public CdtSpec(ICdt cdt)
-        {
-            Name = cdt.Name;
-            DictionaryEntryName = cdt.DictionaryEntryName;
-            Definition = cdt.Definition;
-            UniqueIdentifier = cdt.UniqueIdentifier;
-            VersionIdentifier = cdt.VersionIdentifier;
-            LanguageCode = cdt.LanguageCode;
-            BusinessTerms = new List<string>(cdt.BusinessTerms);
+		public string Name { get; set; }
 
-            UsageRules = new List<string>(cdt.UsageRules);
-            CON = new CdtConSpec(cdt.Con);
-            SUPs = new List<CdtSupSpec>(cdt.Sups.Convert(sup => new CdtSupSpec(sup)));
-        }
+		public ICdt IsEquivalentTo { get; set; }
 
-        public CdtSpec()
-        {
-            SUPs = new List<CdtSupSpec>();
-        }
+		#region Tagged Values
 
-        public ICdt IsEquivalentTo { get; set; }
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		public IEnumerable<string> BusinessTerms { get; set; }
 
-        public IEnumerable<string> UsageRules { get; set; }
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		public string Definition { get; set; }
 
-        public List<CdtSupSpec> SUPs { get; set; }
-        public CdtConSpec CON { get; set; }
-        public string Name { get; set; }
-        public string DictionaryEntryName { get; set; }
-        public string Definition { get; set; }
-        public string UniqueIdentifier { get; set; }
-        public string VersionIdentifier { get; set; }
-        public string LanguageCode { get; set; }
-        public IEnumerable<string> BusinessTerms { get; set; }
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		public string DictionaryEntryName { get; set; }
 
-        public void RemoveSUP(string name)
-        {
-            SUPs.RemoveAll(sup => sup.Name == name);
-        }
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		public string LanguageCode { get; set; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		public string UniqueIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		public string VersionIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'usageRule'.
+        ///</summary>
+		public IEnumerable<string> UsageRules { get; set; }
+
+		#endregion
     }
 }
+
