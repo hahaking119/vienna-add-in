@@ -11,15 +11,15 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.util
         [Test]
         public void MatchesIntValuesUsedByEA()
         {
-            Assert.AreEqual(AsbieAggregationKind.Shared, Enum.ToObject(typeof (AsbieAggregationKind), 1));
-            Assert.AreEqual(AsbieAggregationKind.Composite, Enum.ToObject(typeof (AsbieAggregationKind), 2));
+            Assert.AreEqual(AggregationKind.Shared, Enum.ToObject(typeof (AggregationKind), 1));
+            Assert.AreEqual(AggregationKind.Composite, Enum.ToObject(typeof (AggregationKind), 2));
 
-            Assert.AreEqual(false, Enum.IsDefined(typeof (AsbieAggregationKind), -1));
-            Assert.AreEqual(false, Enum.IsDefined(typeof (AsbieAggregationKind), 0));
-            Assert.AreEqual(false, Enum.IsDefined(typeof (AsbieAggregationKind), 3));
+            Assert.AreEqual(false, Enum.IsDefined(typeof (AggregationKind), -1));
+            Assert.AreEqual(false, Enum.IsDefined(typeof (AggregationKind), 0));
+            Assert.AreEqual(false, Enum.IsDefined(typeof (AggregationKind), 3));
 
-            Assert.AreEqual(1, (int) AsbieAggregationKind.Shared);
-            Assert.AreEqual(2, (int) AsbieAggregationKind.Composite);
+            Assert.AreEqual(1, (int) AggregationKind.Shared);
+            Assert.AreEqual(2, (int) AggregationKind.Composite);
         }
     }
 }

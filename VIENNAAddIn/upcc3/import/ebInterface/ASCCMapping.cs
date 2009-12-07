@@ -14,7 +14,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             this.sourceElement = sourceElement;
             this.targetElement = targetElement;
             ASCC = targetElement.Ascc;
-            ACC = ASCC.AssociatingElement;
+            ACC = ASCC.AssociatingAcc;
         }
 
         public override string ToString()

@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
@@ -212,7 +213,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         /// <paramref name="element"/> and <paramref name="associatedAbie"/>.
         ///</returns>
         public static AsbieSpec CumulateAsbieSpec(Element element, string asbieName, IAbie associatedAbie,
-                                                  AsbieAggregationKind aggregationKind)
+                                                  AggregationKind aggregationKind)
         {
             var asbieSpec = new AsbieSpec
                             {

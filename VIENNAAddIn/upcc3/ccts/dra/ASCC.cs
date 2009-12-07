@@ -30,12 +30,18 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private Cardinality Cardinality
         {
-            get { return new Cardinality(connector.GetAssociatedEnd(AssociatingElement.Id).Cardinality); }
+            get { return new Cardinality(connector.GetAssociatedEnd(AssociatingAcc.Id).Cardinality); }
         }
 
         #region IAscc Members
 
-        public IAcc AssociatingElement
+        public bool IsOptional()
+        {
+            int i;
+            return Int32.TryParse(LowerBound, out i) && i == 0;
+        }
+
+        public IAcc AssociatingAcc
         {
             get { return associatingAcc; }
         }
@@ -67,7 +73,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Name
         {
-            get { return connector.GetAssociatedEnd(AssociatingElement.Id).Role; }
+            get { return connector.GetAssociatedEnd(AssociatingAcc.Id).Role; }
         }
 
         public string Definition
@@ -100,9 +106,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return connector.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
-        public IAcc AssociatedElement
+        public IAcc AssociatedAcc
         {
-            get { return repository.GetAccById(connector.GetAssociatedElementId(AssociatingElement.Id)); }
+            get { return repository.GetAccById(connector.GetAssociatedElementId(AssociatingAcc.Id)); }
         }
 
         #endregion

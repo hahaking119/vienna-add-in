@@ -65,7 +65,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         /// <returns></returns>
         private static ASBIEDescriptor[] ASBIEDescriptors(IAbie abie)
         {
-            return (from asbie in abie.Asbies select new ASBIEDescriptor(asbie.Name, asbie.AssociatedElement.Id)).ToArray();
+            return (from asbie in abie.Asbies select new ASBIEDescriptor(asbie.Name, asbie.AssociatedAbie.Id)).ToArray();
         }
 
         private IBieLibrary ShouldContainBieLibrary(string name)

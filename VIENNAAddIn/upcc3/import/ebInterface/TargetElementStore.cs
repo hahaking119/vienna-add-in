@@ -52,7 +52,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     if (ascc != null)
                     {
                         var targetASCCElement = CreateTargetCCElementForAscc(subEntry, ascc);
-                        CreateChildren(targetASCCElement, subEntry, ascc.AssociatedElement);
+                        CreateChildren(targetASCCElement, subEntry, ascc.AssociatedAcc);
                         targetCCElement.AddChild(targetASCCElement);
                     }
                     else

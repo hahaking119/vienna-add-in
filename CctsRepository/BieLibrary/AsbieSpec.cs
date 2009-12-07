@@ -6,7 +6,7 @@ namespace CctsRepository.BieLibrary
 {
     public class AsbieSpec
     {
-        private AsbieAggregationKind aggregationKind = AsbieAggregationKind.Composite;
+        private AggregationKind aggregationKind = AggregationKind.Composite;
         private int associatedABIEId;
 
         public AsbieSpec(IAsbie asbie)
@@ -20,7 +20,7 @@ namespace CctsRepository.BieLibrary
             BusinessTerms = new List<string>(asbie.BusinessTerms);
             UsageRules = new List<string>(asbie.UsageRules);
             SequencingKey = asbie.SequencingKey;
-            AssociatedABIEId = asbie.AssociatedElement.Id;
+            AssociatedABIEId = asbie.AssociatedAbie.Id;
             LowerBound = asbie.LowerBound;
             UpperBound = asbie.UpperBound;
             AggregationKind = asbie.AggregationKind;
@@ -53,7 +53,7 @@ namespace CctsRepository.BieLibrary
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
 
-        public AsbieAggregationKind AggregationKind
+        public AggregationKind AggregationKind
         {
             get { return aggregationKind; }
             set { aggregationKind = value; }

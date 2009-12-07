@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 
@@ -161,14 +162,14 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 // R A08A: name of the ASBIE
                 elementASBIE.Name = NDR.GetXsdElementNameFromAsbie(asbie);
                 elementASBIE.SchemaTypeName =
-                    new XmlQualifiedName(abiePrefix + ":" + asbie.AssociatedElement.Name + "Type");
+                    new XmlQualifiedName(abiePrefix + ":" + asbie.AssociatedAbie.Name + "Type");
 
                 if (context.Annotate)
                 {
                     elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
                 }
 
-                if (asbie.AggregationKind == AsbieAggregationKind.Shared)
+                if (asbie.AggregationKind == AggregationKind.Shared)
                 {
                     XmlSchemaElement refASBIE = new XmlSchemaElement();
                     refASBIE.RefName = new XmlQualifiedName(abiePrefix + ":" + elementASBIE.Name);
@@ -278,7 +279,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             // PropertyQualifierName could be extracted from the PropertyTermName (e.g. "My" in 
             // "My_Address") but is not implement at this point 
             AddDocumentation(documentation, "PropertyQualifierName", "");
-            AddDocumentation(documentation, "AssociatedObjectClassTermName", asbie.AssociatedElement.Name);
+            AddDocumentation(documentation, "AssociatedObjectClassTermName", asbie.AssociatedAbie.Name);
             // AssociatedObjectClassQualifierTermName could be extracted from the AssociatedObjectClassTermName
             // (e.g. "My" in "My_Address") but is not implement at this point 
             AddDocumentation(documentation, "AcronymCode", "ASBIE");
