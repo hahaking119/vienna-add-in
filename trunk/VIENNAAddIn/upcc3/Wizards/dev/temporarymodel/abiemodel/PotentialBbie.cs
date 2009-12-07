@@ -68,6 +68,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             }
                         }
                     }
+
+                    //if (mPotentialBdts.Count == 0)
+                    //{
+                    //    AddPotentialBdt();
+                    //}
                 }
 
                 return mPotentialBdts;
@@ -95,8 +100,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
                 if (!foundBdtWithTheSameName)
                 {
-                    PotentialBdt potentialBdt = new PotentialBdt(newBdtName);
-                    mPotentialBdts.Add(potentialBdt);                    
+                    AddPotentialBdt(newBdtName);
 
                     break;
                 }
