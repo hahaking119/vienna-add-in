@@ -125,6 +125,35 @@ namespace CctsRepository.BdtLibrary
 		public string VersionIdentifier { get; set; }
 
 		#endregion
+
+        public static BdtSupSpec CloneBdtSup(IBdtSup bdtSup)
+        {
+            return new BdtSupSpec
+                   {
+                   	   Name = bdtSup.Name,
+                       UpperBound = bdtSup.UpperBound,
+                       LowerBound = bdtSup.LowerBound,
+                       BasicType = bdtSup.BasicType,
+					   BusinessTerms = new List<string>(bdtSup.BusinessTerms),
+					   Definition = bdtSup.Definition,
+					   DictionaryEntryName = bdtSup.DictionaryEntryName,
+					   Enumeration = bdtSup.Enumeration,
+					   FractionDigits = bdtSup.FractionDigits,
+					   LanguageCode = bdtSup.LanguageCode,
+					   MaximumExclusive = bdtSup.MaximumExclusive,
+					   MaximumInclusive = bdtSup.MaximumInclusive,
+					   MaximumLength = bdtSup.MaximumLength,
+					   MinimumExclusive = bdtSup.MinimumExclusive,
+					   MinimumInclusive = bdtSup.MinimumInclusive,
+					   MinimumLength = bdtSup.MinimumLength,
+					   ModificationAllowedIndicator = bdtSup.ModificationAllowedIndicator,
+					   Pattern = bdtSup.Pattern,
+					   TotalDigits = bdtSup.TotalDigits,
+					   UniqueIdentifier = bdtSup.UniqueIdentifier,
+					   UsageRules = new List<string>(bdtSup.UsageRules),
+					   VersionIdentifier = bdtSup.VersionIdentifier,
+                   };
+        }
     }
 }
 

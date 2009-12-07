@@ -75,6 +75,25 @@ namespace CctsRepository.CcLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
+
+        public static BccSpec CloneBcc(IBcc bcc)
+        {
+            return new BccSpec
+                   {
+                   	   Name = bcc.Name,
+                       UpperBound = bcc.UpperBound,
+                       LowerBound = bcc.LowerBound,
+                       Cdt = bcc.Cdt,
+					   BusinessTerms = new List<string>(bcc.BusinessTerms),
+					   Definition = bcc.Definition,
+					   DictionaryEntryName = bcc.DictionaryEntryName,
+					   LanguageCode = bcc.LanguageCode,
+					   SequencingKey = bcc.SequencingKey,
+					   UniqueIdentifier = bcc.UniqueIdentifier,
+					   VersionIdentifier = bcc.VersionIdentifier,
+					   UsageRules = new List<string>(bcc.UsageRules),
+                   };
+        }
     }
 }
 

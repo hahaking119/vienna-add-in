@@ -13,36 +13,6 @@ namespace CctsRepository.BdtLibrary
 {
     public partial class BdtSupSpec
     {
-        public static BdtSupSpec CloneBdtSup(IBdtSup bdtSup)
-        {
-            return new BdtSupSpec
-                   {
-                       Name = bdtSup.Name,
-                       DictionaryEntryName = bdtSup.DictionaryEntryName,
-                       Definition = bdtSup.Definition,
-                       UniqueIdentifier = bdtSup.UniqueIdentifier,
-                       VersionIdentifier = bdtSup.VersionIdentifier,
-                       LanguageCode = bdtSup.LanguageCode,
-                       BusinessTerms = new List<string>(bdtSup.BusinessTerms),
-                       BasicType = bdtSup.BasicType,
-                       UpperBound = bdtSup.UpperBound,
-                       LowerBound = bdtSup.LowerBound,
-                       ModificationAllowedIndicator = bdtSup.ModificationAllowedIndicator,
-                       UsageRules = new List<string>(bdtSup.UsageRules),
-                       Pattern = bdtSup.Pattern,
-                       FractionDigits = bdtSup.FractionDigits,
-                       MaximumExclusive = bdtSup.MaximumExclusive,
-                       MaximumInclusive = bdtSup.MaximumInclusive,
-                       MaximumLength = bdtSup.MaximumLength,
-                       MinimumExclusive = bdtSup.MinimumExclusive,
-                       MinimumInclusive = bdtSup.MinimumInclusive,
-                       MinimumLength = bdtSup.MinimumLength,
-                       TotalDigits = bdtSup.TotalDigits,
-                       Enumeration = bdtSup.Enumeration,
-                   }
-                ;
-        }
-
         public static BdtSupSpec CloneCdtSup(ICdtSup cdtSup)
         {
             return new BdtSupSpec
