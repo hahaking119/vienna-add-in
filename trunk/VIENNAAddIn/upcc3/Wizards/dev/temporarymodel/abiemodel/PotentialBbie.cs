@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using CctsRepository.BdtLibrary;
@@ -17,20 +18,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private Cursor mItemCursor;
         private bool mItemFocusable;
 
-        public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn, bool bbieChecked)
+        public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn)
         {
             mName = bbieName;
             mCdtUsedInBcc = cdtOfTheBccWhichTheBbieIsBasedOn;
-            mChecked = bbieChecked;
+            mChecked = false;
             mSelected = false;
             mPotentialBdts = null;
             mItemReadOnly = false;
             mItemCursor = Cursors.IBeam;
             mItemFocusable = true;
-        }
-
-        public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn) : this(bbieName, cdtOfTheBccWhichTheBbieIsBasedOn, false)
-        {
         }
 
         public string Name
@@ -74,24 +71,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                     
                     if (mPotentialBdts.Count == 0)
                     {
-                        AddPotentialBdt();
+                        AddPotentialBdtAndCheckIfApplicable();
                     }
-                }
+                }                
 
                 return mPotentialBdts;
             }
 
             set { mPotentialBdts = value; }
         }
-           
-        public string AddPotentialBdt()
+
+        public string AddPotentialBdtAndCheckIfApplicable()
         {            
             string newBdtName = "";
             
             for (int i = 1; i != -1; i++)
             {
                 bool foundBdtWithTheSameName = false;
-                bool foundBdtThatIsAlreadyChecked = false;
+                bool foundBdtThatIsChecked = false;
                 newBdtName = "New" + i + mCdtUsedInBcc.Name;
 
                 foreach (PotentialBdt potentialBdt in PotentialBdts)
@@ -103,27 +100,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
                     if (potentialBdt.Checked)
                     {
-                        foundBdtThatIsAlreadyChecked = true;
+                        foundBdtThatIsChecked = true;
                     }
                 }
 
                 if (!foundBdtWithTheSameName)
-                {      
-                    if (foundBdtThatIsAlreadyChecked)
+                {
+                    PotentialBdt newPotentialBdt = new PotentialBdt(newBdtName);
+
+                    if ((mChecked) && (foundBdtThatIsChecked))
                     {
-                        PotentialBdts.Add(new PotentialBdt(newBdtName, false));
-                    }
-                    else
-                    {
-                        if (PotentialBdts.Count == 0)
+                        newPotentialBdt.Checked = true;
+                        
+                        foreach (PotentialBdt potentialBdt in mPotentialBdts)
                         {
-                            PotentialBdts.Add(new PotentialBdt(newBdtName, false));       
-                        }
-                        else
-                        {
-                            PotentialBdts.Add(new PotentialBdt(newBdtName, true));    
+                            potentialBdt.Checked = false;
                         }
                     }
+
+                    mPotentialBdts.Add(newPotentialBdt);                    
 
                     break;
                 }
@@ -131,10 +126,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
             return newBdtName;
         }
-        
+ 
         public void AddPotentialBdt(string newBdtName)
         {
-            PotentialBdts.Add(new PotentialBdt(newBdtName, false));
+            PotentialBdts.Add(new PotentialBdt(newBdtName));            
         }
 
         public bool ItemReadOnly

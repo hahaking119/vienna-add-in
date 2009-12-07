@@ -13,10 +13,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private Cursor mItemCursor;
         private bool mItemFocusable;
 
-        public PotentialBdt(string newBdtName, bool isChecked)
+        public PotentialBdt(string newBdtName)
         {
             mName = newBdtName;
-            mChecked = isChecked;
+            mChecked = false;
             mOriginalBDT = null;
 
             mItemReadOnly = false;
@@ -32,7 +32,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
             mItemReadOnly = true;
             mItemCursor = Cursors.Arrow;
-            mItemFocusable = false;
+            mItemFocusable = false;            
         }
 
         public string Name

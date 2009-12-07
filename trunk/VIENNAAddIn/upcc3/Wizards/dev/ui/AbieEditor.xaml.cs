@@ -188,6 +188,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             checkedlistboxBDTs.SelectedIndex = returnValues.SelectedIndex;
 
             Model.SetSelectedAndCheckedPotentialBdt(returnValues.SelectedItem, returnValues.CheckedValue);
+
+            SetSelectedIndexForBdtListBox();
+
             UpdateFormState();
         }
 
@@ -195,14 +198,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             try
             {
-                Model.UpdateBdtName(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text);                
+                Model.UpdateBdtNameAndSetCheckIfApplicable(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text);                  
             }
             catch (TemporaryAbieModelException tame)
             {
                 ShowWarningMessage(tame.Message);
                 ((TextBox)sender).Undo();
             }
-
         }
 
         // ------------------------------------------------------------------------------------
@@ -391,19 +393,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void ForceTextboxToLoseFocus(object sender, KeyEventArgs e)
         {
-            var textBox = (TextBox)sender;
+            var textBox = (TextBox)sender;           
             CheckBox siblingOfTextBox = (CheckBox)((StackPanel)textBox.Parent).Children[0];
 
             switch (e.Key)
             {
                 case Key.Return:
-                    textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                     siblingOfTextBox.Focus();
                     break;
 
                 case Key.Escape:
                     textBox.Undo();
-                    textBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
                     siblingOfTextBox.Focus();
                     break;
             }

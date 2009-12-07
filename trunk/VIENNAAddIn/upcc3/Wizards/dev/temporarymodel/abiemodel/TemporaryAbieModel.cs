@@ -526,7 +526,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                         potentialBdt.Checked = false;
                                                     }
                                                 }
-                                            }                                            
+                                            }
+
+                                            // TODO: Here's the problem.
+                                            //PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
                                         }
                                     }
                                 }
@@ -662,7 +665,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             {
                                 if (candidateBcc.Selected)
                                 {
-                                    candidateBcc.AddPotentialBbie();
+                                    candidateBcc.AddPotentialBbieAndCheckIfApplicable();                                    
+
                                     PotentialBbieItems = new List<CheckableItem>(candidateBcc.PotentialBbies.ConvertAll(new Converter<PotentialBbie, CheckableItem>(PotentialBbieToCheckableText)));
                                     
                                     return;
@@ -719,7 +723,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }            
         }
 
-        public void UpdateBdtName(string updatedBdtName)
+        public void UpdateBdtNameAndSetCheckIfApplicable(string updatedBdtName)
         {
             foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
             {
@@ -754,10 +758,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                     originalBdtName = potentialBdt.Name;
 
                                                     potentialBdt.Name = updatedBdtName;
+
+                                                    if (potentialBbie.Checked)
+                                                    {
+                                                        potentialBdt.Checked = true;                                                        
+                                                    }                                                    
+                                                }
+                                                else
+                                                {
+                                                    potentialBdt.Checked = false;                                                    
                                                 }
                                             }
+
+                                            PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
                                         }
-                                    }
+                                    }                                    
                                 }
                             }
 
@@ -797,13 +812,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             {
                                 if (candidateBcc.Selected)
                                 {
-                                    cdtIdThatNewBdtIsAddedFor = candidateBcc.OriginalBcc.Cdt.Id;
+                                   cdtIdThatNewBdtIsAddedFor = candidateBcc.OriginalBcc.Cdt.Id;
 
                                    foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
                                    {
                                        if (potentialBbie.Selected)
                                        {                                           
-                                           newBdtName = potentialBbie.AddPotentialBdt();
+                                           newBdtName = potentialBbie.AddPotentialBdtAndCheckIfApplicable();
+                                           
                                            PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
                                        }
                                    }                                                                        
