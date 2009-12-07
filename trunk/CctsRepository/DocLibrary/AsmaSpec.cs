@@ -22,9 +22,17 @@ using CctsRepository.PrimLibrary;
 
 namespace CctsRepository.DocLibrary
 {
-    public partial class MaSpec
+    public partial class AsmaSpec
     {
 		public string Name { get; set; }
+		
+        public string UpperBound { get; set; }
+		
+        public string LowerBound { get; set; }
+		
+		public IMa AssociatingMa { get; set; }
+
+		public BieAggregator AssociatedBieAggregator { get; set; }
     }
 }
 
