@@ -1169,7 +1169,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 {
                     foreach (IBbie bbie in abie.Bbies)
                     {
-                        var newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Type.Id, CheckState.Checked);
+                        var newBBIE = new cBBIE(bbie.Name, bbie.Id, bbie.Bdt.Id, CheckState.Checked);
                         cBBIE testBBIE;
                         if (
                             ! cache.CCLs[selectedCCLName].ACCs[selectedACCName].BCCs[selectedBCCName].BBIEs.TryGetValue(

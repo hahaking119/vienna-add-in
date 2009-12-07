@@ -32,7 +32,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 var asmas = new List<IAsma>();
                 foreach (var ma in Mas)
                 {
-                    asmas.AddRange(ma.Asmas);
+                    if (ma.Asmas != null)
+                    {
+                        asmas.AddRange(ma.Asmas);
+                    }
                 }
                 // remove all MAs that are associated via an ASMA
                 foreach (var asma in asmas)
@@ -60,7 +63,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (Element element in package.Elements)
                 {
-                    if (element.IsA(util.Stereotype.ABIE))
+                    if (element.IsA(util.Stereotype.MA))
                     {
                         yield return WrapEaElement(element);
                     }

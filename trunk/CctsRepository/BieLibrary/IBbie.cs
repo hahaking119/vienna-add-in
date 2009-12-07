@@ -1,3 +1,4 @@
+
 // *******************************************************************************
 // This file is part of the VIENNAAddIn project
 // 
@@ -6,57 +7,82 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+
 using System.Collections.Generic;
+// ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.BieLibrary
 {
     public interface IBbie
     {
-        IBdt Type { get; }
-        IAbie Container { get; }
-
-        /// <summary>
-        /// Returns the BCC on which the BBIE is based or <c>null</c>, if the BCC cannot be determined.
-        /// </summary>
-        IBcc BasedOn { get; }
-
+		int Id { get; }
+		
+		string Name { get; }
+		
         string UpperBound { get; }
+		
         string LowerBound { get; }
-        string SequencingKey { get; }
-        IEnumerable<string> UsageRules { get; }
+		
+        bool IsOptional();
+		
+        IAbie Abie { get; }
+		
+		IBdt Bdt { get; }
+
+		IBcc BasedOn { get; }
+
+		#region Tagged Values
 
         ///<summary>
+        /// Tagged value 'businessTerm'.
         ///</summary>
-        int Id { get; }
+		IEnumerable<string> BusinessTerms { get; }
 
         ///<summary>
+        /// Tagged value 'definition'.
         ///</summary>
-        string Name { get; }
+		string Definition { get; }
 
         ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
         ///</summary>
-        string DictionaryEntryName { get; }
+		string DictionaryEntryName { get; }
 
         ///<summary>
+        /// Tagged value 'languageCode'.
         ///</summary>
-        string Definition { get; }
+		string LanguageCode { get; }
 
         ///<summary>
+        /// Tagged value 'sequencingKey'.
         ///</summary>
-        string UniqueIdentifier { get; }
+		string SequencingKey { get; }
 
         ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
         ///</summary>
-        string VersionIdentifier { get; }
+		string UniqueIdentifier { get; }
 
         ///<summary>
+        /// Tagged value 'versionIdentifier'.
         ///</summary>
-        string LanguageCode { get; }
+		string VersionIdentifier { get; }
 
         ///<summary>
+        /// Tagged value 'usageRule'.
         ///</summary>
-        IEnumerable<string> BusinessTerms { get; }
+		IEnumerable<string> UsageRules { get; }
+
+		#endregion
     }
 }
+

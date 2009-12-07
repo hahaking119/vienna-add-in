@@ -249,8 +249,8 @@ namespace VIENNAAddInUnitTests.TestRepository
             docLibrary.Element.Stereotype = Stereotype.DOCLibrary;
             docLibrary.AddDiagram("DOCLibrary", "Class");
             docLibrary.AddTaggedValue(TaggedValues.baseURN.ToString()).WithValue("urn:test:blib1:doclibrary");
-            bieInvoice = docLibrary.AddClass("Invoice").With(ElementStereotype(Stereotype.ABIE), BBIEs(bdtText, "Amount"));
-            bieInvoiceInfo = docLibrary.AddClass("InvoiceInfo").With(ElementStereotype(Stereotype.ABIE), BBIEs(bdtText, "Info"));
+            bieInvoice = docLibrary.AddClass("Invoice").With(ElementStereotype(Stereotype.MA));
+            bieInvoiceInfo = docLibrary.AddClass("InvoiceInfo").With(ElementStereotype(Stereotype.MA));
             AddInvalidElement(docLibrary);
         }
 

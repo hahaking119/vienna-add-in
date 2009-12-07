@@ -90,7 +90,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             AddAnnotation(xml, annNodes, "PropertyTermName", sup.Name);
             AddAnnotation(xml, annNodes, "RepresentationTermName", sup.BasicType.Name);
             AddAnnotation(xml, annNodes, "PrimitiveTypeName", sup.BasicType.Name);
-            AddAnnotation(xml, annNodes, "DataTypeName", sup.CDT.Name);
+            AddAnnotation(xml, annNodes, "DataTypeName", sup.Cdt.Name);
             AddAnnotation(xml, annNodes, "UniqueID", sup.UniqueIdentifier);
             AddAnnotation(xml, annNodes, "VersionID", sup.VersionIdentifier);
             AddAnnotation(xml, annNodes, "DictionaryEntryName", sup.DictionaryEntryName);

@@ -66,7 +66,7 @@ namespace CctsRepository.BieLibrary
                        BusinessTerms = new List<string>(bbie.BusinessTerms),
                        UsageRules = new List<string>(bbie.UsageRules),
                        SequencingKey = bbie.SequencingKey,
-                       Bdt = bbie.Type,
+                       Bdt = bbie.Bdt,
                        LowerBound = bbie.LowerBound,
                        UpperBound = bbie.UpperBound,
                    };

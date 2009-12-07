@@ -6,12 +6,13 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
-using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -90,6 +91,12 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string SequencingKey
         {
             get { return GetTaggedValue(TaggedValues.sequencingKey); }
+        }
+
+        public bool IsOptional()
+        {
+            int i;
+            return Int32.TryParse(LowerBound, out i) && i == 0;
         }
 
         public IAcc Acc { get; protected set; }

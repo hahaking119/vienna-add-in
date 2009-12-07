@@ -30,13 +30,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = CDT.Name + ". Content";
+                    value = Cdt.Name + ". Content";
                 }
                 return value;
             }
         }
 
-        public ICdt CDT
+        public ICdt Cdt
         {
             get { return cdt; }
         }
