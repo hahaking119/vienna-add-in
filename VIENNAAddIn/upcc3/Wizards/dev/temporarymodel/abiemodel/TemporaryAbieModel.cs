@@ -482,7 +482,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }
         }
 
-        public void SetSelectedAndCheckedPotentialBdt(string selectedBdt, bool checkedValue)
+        public void SetSelectedAndCheckedPotentialBdt(string selectedBdt, bool? checkedValue)
         {
             foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
             {
@@ -505,16 +505,29 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                 if (potentialBdt.Name.Equals(selectedBdt))
                                                 {
                                                     potentialBdt.Selected = true;
-                                                    potentialBdt.Checked = checkedValue;
+
+                                                    if (checkedValue.HasValue)
+                                                    {
+                                                        potentialBdt.Checked = checkedValue.Value;    
+                                                    }                                                    
                                                 }
                                                 else
                                                 {
                                                     potentialBdt.Selected = false;
+
+                                                    if ((checkedValue.HasValue) && (checkedValue.Value))
+                                                    {
+                                                        potentialBdt.Checked = false;
+                                                    }
+
                                                     potentialBdt.Checked = false;
                                                 }
                                             }
 
-                                            //PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));    
+                                            if (checkedValue.HasValue)
+                                            {
+                                                PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));      
+                                            }
                                         }
                                     }
                                 }
