@@ -1,56 +1,121 @@
+
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.Collections.Generic;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.PrimLibrary
 {
-    public class PrimSpec
+    public partial class PrimSpec
     {
-        public PrimSpec(IPrim prim)
-        {
-            Name = prim.Name;
-            DictionaryEntryName = prim.DictionaryEntryName;
-            Definition = prim.Definition;
-            UniqueIdentifier = prim.UniqueIdentifier;
-            VersionIdentifier = prim.VersionIdentifier;
-            LanguageCode = prim.LanguageCode;
-            BusinessTerms = new List<string>(prim.BusinessTerms);
+		public string Name { get; set; }
 
-            Pattern = prim.Pattern;
-            FractionDigits = prim.FractionDigits;
-            Length = prim.Length;
-            MaxExclusive = prim.MaximumExclusive;
-            MaxInclusive = prim.MaximumInclusive;
-            MaxLength = prim.MaximumLength;
-            MinExclusive = prim.MinimumExclusive;
-            MinInclusive = prim.MinimumInclusive;
-            MinLength = prim.MinimumLength;
-            TotalDigits = prim.TotalDigits;
-            WhiteSpace = prim.WhiteSpace;
-            IsEquivalentTo = prim.IsEquivalentTo;
-        }
+		public IPrim IsEquivalentTo { get; set; }
 
-        public PrimSpec()
-        {
-        }
+		#region Tagged Values
 
-        public string Pattern { get; set; }
-        public string FractionDigits { get; set; }
-        public string Length { get; set; }
-        public string MaxExclusive { get; set; }
-        public string MaxInclusive { get; set; }
-        public string MaxLength { get; set; }
-        public string MinExclusive { get; set; }
-        public string MinInclusive { get; set; }
-        public string MinLength { get; set; }
-        public string TotalDigits { get; set; }
-        public string WhiteSpace { get; set; }
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		public IEnumerable<string> BusinessTerms { get; set; }
 
-        public IPrim IsEquivalentTo { get; set; }
-        public string Name { get; set; }
-        public string DictionaryEntryName { get; set; }
-        public string Definition { get; set; }
-        public string UniqueIdentifier { get; set; }
-        public string VersionIdentifier { get; set; }
-        public string LanguageCode { get; set; }
-        public IEnumerable<string> BusinessTerms { get; set; }
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		public string Definition { get; set; }
+
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		public string DictionaryEntryName { get; set; }
+
+        ///<summary>
+        /// Tagged value 'fractionDigits'.
+        ///</summary>
+		public string FractionDigits { get; set; }
+
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		public string LanguageCode { get; set; }
+
+        ///<summary>
+        /// Tagged value 'length'.
+        ///</summary>
+		public string Length { get; set; }
+
+        ///<summary>
+        /// Tagged value 'maximumExclusive'.
+        ///</summary>
+		public string MaximumExclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'maximumInclusive'.
+        ///</summary>
+		public string MaximumInclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'maximumLength'.
+        ///</summary>
+		public string MaximumLength { get; set; }
+
+        ///<summary>
+        /// Tagged value 'minimumExclusive'.
+        ///</summary>
+		public string MinimumExclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'minimumInclusive'.
+        ///</summary>
+		public string MinimumInclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'minimumLength'.
+        ///</summary>
+		public string MinimumLength { get; set; }
+
+        ///<summary>
+        /// Tagged value 'pattern'.
+        ///</summary>
+		public string Pattern { get; set; }
+
+        ///<summary>
+        /// Tagged value 'totalDigits'.
+        ///</summary>
+		public string TotalDigits { get; set; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		public string UniqueIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		public string VersionIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'whiteSpace'.
+        ///</summary>
+		public string WhiteSpace { get; set; }
+
+		#endregion
     }
 }
+

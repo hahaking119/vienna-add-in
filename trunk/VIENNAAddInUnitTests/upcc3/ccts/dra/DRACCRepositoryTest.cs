@@ -701,12 +701,12 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                Pattern = "pattern",
                                FractionDigits = "3",
                                Length = "4",
-                               MaxExclusive = "5",
-                               MaxInclusive = "6",
-                               MaxLength = "7",
-                               MinExclusive = "8",
-                               MinInclusive = "9",
-                               MinLength = "10",
+                               MaximumExclusive = "5",
+                               MaximumInclusive = "6",
+                               MaximumLength = "7",
+                               MinimumExclusive = "8",
+                               MinimumInclusive = "9",
+                               MinimumLength = "10",
                                TotalDigits = "11",
                                WhiteSpace = "preserve",
                                IsEquivalentTo = primString,
@@ -726,12 +726,12 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(primSpec.Pattern, primZeichenkette.Pattern);
             Assert.AreEqual(primSpec.FractionDigits, primZeichenkette.FractionDigits);
             Assert.AreEqual(primSpec.Length, primZeichenkette.Length);
-            Assert.AreEqual(primSpec.MaxExclusive, primZeichenkette.MaximumExclusive);
-            Assert.AreEqual(primSpec.MaxInclusive, primZeichenkette.MaximumInclusive);
-            Assert.AreEqual(primSpec.MaxLength, primZeichenkette.MaximumLength);
-            Assert.AreEqual(primSpec.MinExclusive, primZeichenkette.MinimumExclusive);
-            Assert.AreEqual(primSpec.MinInclusive, primZeichenkette.MinimumInclusive);
-            Assert.AreEqual(primSpec.MinLength, primZeichenkette.MinimumLength);
+            Assert.AreEqual(primSpec.MaximumExclusive, primZeichenkette.MaximumExclusive);
+            Assert.AreEqual(primSpec.MaximumInclusive, primZeichenkette.MaximumInclusive);
+            Assert.AreEqual(primSpec.MaximumLength, primZeichenkette.MaximumLength);
+            Assert.AreEqual(primSpec.MinimumExclusive, primZeichenkette.MinimumExclusive);
+            Assert.AreEqual(primSpec.MinimumInclusive, primZeichenkette.MinimumInclusive);
+            Assert.AreEqual(primSpec.MinimumLength, primZeichenkette.MinimumLength);
             Assert.AreEqual(primSpec.TotalDigits, primZeichenkette.TotalDigits);
             Assert.AreEqual(primSpec.WhiteSpace, primZeichenkette.WhiteSpace);
 
