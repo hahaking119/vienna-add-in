@@ -65,7 +65,6 @@
     <Compile Include="MetaTaggedValue.cs" />
     <Compile Include="MetaPackageClassifierRelation.cs" />
     <Compile Include="MetaSubPackageRelation.cs" />
-    <Compile Include="AbstractClasses.cs" />
     <Compile Include="Associations.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="Classes.cs" />

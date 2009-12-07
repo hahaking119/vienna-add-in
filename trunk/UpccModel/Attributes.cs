@@ -12,7 +12,7 @@ namespace Upcc
         internal readonly MetaAttribute CdtCon;
         internal readonly MetaAttribute CdtSup;
 
-        internal Attributes(TaggedValues taggedValues, Classes classes, AbstractClasses abstractClasses, MultiTypes multiTypes)
+        internal Attributes(TaggedValues taggedValues, Classes classes, MultiTypes multiTypes)
         {
             CdtCon = new MetaAttribute
                      {

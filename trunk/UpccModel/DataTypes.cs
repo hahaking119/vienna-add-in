@@ -8,13 +8,12 @@ namespace Upcc
         internal readonly MetaDataType IdScheme;
         internal readonly MetaDataType Prim;
 
-        internal DataTypes(TaggedValues taggedValues, AbstractClasses abstractClasses)
+        internal DataTypes(TaggedValues taggedValues)
         {
             Prim = new MetaDataType
                    {
                        Name = "Prim",
                        Stereotype = MetaStereotype.PRIM,
-                       BaseType = abstractClasses.BasicType,
                        TaggedValues = new[]
                                       {
                                           taggedValues.BusinessTerm,
@@ -41,7 +40,6 @@ namespace Upcc
                        {
                            Name = "IdScheme",
                            Stereotype = MetaStereotype.IDSCHEME,
-                           BaseType = abstractClasses.BasicType,
                            TaggedValues = new[]
                                           {
                                               taggedValues.BusinessTerm,

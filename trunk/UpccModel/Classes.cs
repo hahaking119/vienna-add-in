@@ -11,7 +11,7 @@ namespace Upcc
         internal readonly MetaClass Cdt;
         internal readonly MetaClass Ma;
 
-        internal Classes(TaggedValues taggedValues, AbstractClasses abstractClasses)
+        internal Classes(TaggedValues taggedValues)
         {
             Cdt = new MetaClass
                   {
@@ -65,7 +65,6 @@ namespace Upcc
                    {
                        Name = "Abie",
                        Stereotype = MetaStereotype.ABIE,
-                       BaseType = abstractClasses.BieAggregator,
                        TaggedValues = new[]
                                       {
                                           taggedValues.BusinessTerm,
@@ -82,7 +81,6 @@ namespace Upcc
                  {
                      Name = "Ma",
                      Stereotype = MetaStereotype.MA,
-                     BaseType = abstractClasses.BieAggregator,
                      TaggedValues = new MetaTaggedValue[0],
                  };
         }
