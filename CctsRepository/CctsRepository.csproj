@@ -506,6 +506,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PrimLibrarySpec.cs</LastGenOutput>
     </None>
+    <None Include="PrimLibrary\PrimSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PrimSpec.cs</LastGenOutput>
+    </None>
     <None Include="t4\CctsRepositoryNamespaces.tt">
     </None>
     <None Include="t4\ClassifierInterface.tt">
@@ -541,7 +545,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PrimLibrarySpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="PrimLibrary\PrimSpec.cs" />
+    <Compile Include="PrimLibrary\PrimSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrimSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrimLibrary\PrimSpecManualExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
