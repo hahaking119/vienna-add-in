@@ -228,6 +228,11 @@ namespace Upcc
             get { return Instance.attributes.CdtSup; }
         }
 
+        public static MetaAssociation Asma
+        {
+            get { return Instance.associations.Asma; }
+        }
+
 //        public static MetaAssociation AbieAsma
 //        {
 //            get { return Instance.associations.AbieAsma; }
