@@ -107,5 +107,32 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             } 
         }
 
+        public void AddPotentialBbie()
+        {
+            for (int i = 1; i != -1; i++)
+            {
+                bool foundBbieWithTheSameName = false;
+                string newBbieName = "New" + i + OriginalBcc.Name;
+
+                foreach (PotentialBbie potentialBbie in mPotentialBbies)
+                {
+                    if (potentialBbie.Name.Equals(newBbieName))
+                    {
+                        foundBbieWithTheSameName = true;
+                    }
+
+                }
+
+                if (!foundBbieWithTheSameName)
+                {
+                    PotentialBbie newPotentialBbie = new PotentialBbie(newBbieName, OriginalBcc.Cdt);
+
+                    mPotentialBbies.Add(newPotentialBbie);
+
+                    break;
+                }
+            }
+        }
+
     }
 }

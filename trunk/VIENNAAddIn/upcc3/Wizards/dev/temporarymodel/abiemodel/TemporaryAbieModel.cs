@@ -511,27 +511,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                 if (potentialBdt.Name.Equals(selectedBdt))
                                                 {
                                                     potentialBdt.Selected = true;
-
-                                                    if (checkedValue.HasValue)
-                                                    {
-                                                        potentialBdt.Checked = checkedValue.Value;
-                                                    }
+                                                    potentialBdt.Checked = checkedValue.Value;
                                                 }
                                                 else
                                                 {
                                                     potentialBdt.Selected = false;
-
-                                                    if ((checkedValue.HasValue) && (checkedValue.Value))
-                                                    {
-                                                        potentialBdt.Checked = false;
-                                                    }
+                                                    potentialBdt.Checked = false;
                                                 }
                                             }
-
-                                            if (checkedValue.HasValue)
-                                            {
-                                                PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));    
-                                            }                                            
+                                         
+                                            //if (checkedValue.Value)
+                                            //{
+                                            //    PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));    
+                                            //}                                            
                                         }
                                     }
                                 }
@@ -667,7 +659,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             {
                                 if (candidateBcc.Selected)
                                 {
-                                    candidateBcc.AddPotentialBbieAndCheckIfApplicable();                                    
+                                    candidateBcc.AddPotentialBbie();                                    
 
                                     PotentialBbieItems = new List<CheckableItem>(candidateBcc.PotentialBbies.ConvertAll(new Converter<PotentialBbie, CheckableItem>(PotentialBbieToCheckableText)));
                                     
@@ -808,15 +800,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                    foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
                                    {
                                        if (potentialBbie.Selected)
-                                       {                                           
-                                           newBdtName = potentialBbie.AddPotentialBdtAndCheckIfApplicable();
+                                       {
+                                           newBdtName = potentialBbie.AddPotentialBdt();
                                            
                                            PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
                                        }
                                    }                                                                        
                                 }
                             }
-
+                            
                             foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
                             {
                                 if (candidateBcc.OriginalBcc.Cdt.Id == cdtIdThatNewBdtIsAddedFor)
@@ -825,8 +817,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                     {
                                         if (!potentialBbie.Selected)
                                         {
+                                            //potentialBbie.AddPotentialBdtAndCheckIfApplicable(newBdtName);
                                             potentialBbie.AddPotentialBdt(newBdtName);                                            
-                                        }                                        
+                                        }
                                     }
                                 }
                             }                            
