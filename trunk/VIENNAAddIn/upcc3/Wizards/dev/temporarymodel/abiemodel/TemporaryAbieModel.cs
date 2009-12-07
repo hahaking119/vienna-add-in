@@ -723,7 +723,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }            
         }
 
-        public void UpdateBdtNameAndSetCheckIfApplicable(string updatedBdtName)
+        public void UpdateBdtName(string updatedBdtName)
         {
             foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
             {
@@ -758,19 +758,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                     originalBdtName = potentialBdt.Name;
 
                                                     potentialBdt.Name = updatedBdtName;
-
-                                                    if (potentialBbie.Checked)
-                                                    {
-                                                        potentialBdt.Checked = true;                                                        
-                                                    }                                                    
-                                                }
-                                                else
-                                                {
-                                                    potentialBdt.Checked = false;                                                    
                                                 }
                                             }
 
-                                            PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
+                                            //PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
                                         }
                                     }                                    
                                 }

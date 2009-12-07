@@ -198,7 +198,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             try
             {
-                Model.UpdateBdtNameAndSetCheckIfApplicable(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text);                  
+                Model.UpdateBdtName(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text);                  
             }
             catch (TemporaryAbieModelException tame)
             {
