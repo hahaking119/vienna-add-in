@@ -1,3 +1,4 @@
+
 // *******************************************************************************
 // This file is part of the VIENNAAddIn project
 // 
@@ -6,89 +7,124 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+
 using System.Collections.Generic;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.BdtLibrary
 {
-    public class BdtSupSpec
+    public partial class BdtSupSpec
     {
-        public string Name { get; set; }
-
-        public BasicType BasicType { get; set; }
-
+		public string Name { get; set; }
+		
         public string UpperBound { get; set; }
+		
         public string LowerBound { get; set; }
+		
+		public BasicType BasicType { get; set; }
 
-        #region Tagged Values
+		#region Tagged Values
 
-        public string DictionaryEntryName { get; set; }
-        public string Definition { get; set; }
-        public string UniqueIdentifier { get; set; }
-        public string VersionIdentifier { get; set; }
-        public string LanguageCode { get; set; }
-        public IEnumerable<string> BusinessTerms { get; set; }
-        public bool ModificationAllowedIndicator { get; set; }
-        public IEnumerable<string> UsageRules { get; set; }
-        public string Pattern { get; set; }
-        public string FractionDigits { get; set; }
-        public string MaxExclusive { get; set; }
-        public string MaxInclusive { get; set; }
-        public string MaxLength { get; set; }
-        public string MinExclusive { get; set; }
-        public string MinInclusive { get; set; }
-        public string MinLength { get; set; }
-        public string TotalDigits { get; set; }
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		public IEnumerable<string> BusinessTerms { get; set; }
 
-        #endregion
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		public string Definition { get; set; }
 
-        public static BdtSupSpec CloneBdtSup(IBdtSup bdtSup)
-        {
-            return new BdtSupSpec
-                   {
-                       Name = bdtSup.Name,
-                       DictionaryEntryName = bdtSup.DictionaryEntryName,
-                       Definition = bdtSup.Definition,
-                       UniqueIdentifier = bdtSup.UniqueIdentifier,
-                       VersionIdentifier = bdtSup.VersionIdentifier,
-                       LanguageCode = bdtSup.LanguageCode,
-                       BusinessTerms = new List<string>(bdtSup.BusinessTerms),
-                       BasicType = bdtSup.BasicType,
-                       UpperBound = bdtSup.UpperBound,
-                       LowerBound = bdtSup.LowerBound,
-                       ModificationAllowedIndicator = bdtSup.ModificationAllowedIndicator,
-                       UsageRules = new List<string>(bdtSup.UsageRules),
-                       Pattern = bdtSup.Pattern,
-                       FractionDigits = bdtSup.FractionDigits,
-                       MaxExclusive = bdtSup.MaximumExclusive,
-                       MaxInclusive = bdtSup.MaximumInclusive,
-                       MaxLength = bdtSup.MaximumLength,
-                       MinExclusive = bdtSup.MinimumExclusive,
-                       MinInclusive = bdtSup.MinimumInclusive,
-                       MinLength = bdtSup.MinimumLength,
-                       TotalDigits = bdtSup.TotalDigits,
-                   }
-                ;
-        }
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		public string DictionaryEntryName { get; set; }
 
-        public static BdtSupSpec CloneCdtSup(ICdtSup cdtSup)
-        {
-            return new BdtSupSpec
-                   {
-                       Name = cdtSup.Name,
-                       DictionaryEntryName = cdtSup.DictionaryEntryName,
-                       Definition = cdtSup.Definition,
-                       UniqueIdentifier = cdtSup.UniqueIdentifier,
-                       VersionIdentifier = cdtSup.VersionIdentifier,
-                       LanguageCode = cdtSup.LanguageCode,
-                       BusinessTerms = new List<string>(cdtSup.BusinessTerms),
-                       BasicType = cdtSup.BasicType,
-                       UpperBound = cdtSup.UpperBound,
-                       LowerBound = cdtSup.LowerBound,
-                       ModificationAllowedIndicator = cdtSup.ModificationAllowedIndicator,
-                       UsageRules = new List<string>(cdtSup.UsageRules),
-                   }
-                ;
-        }
+        ///<summary>
+        /// Tagged value 'enumeration'.
+        ///</summary>
+		public string Enumeration { get; set; }
+
+        ///<summary>
+        /// Tagged value 'fractionDigits'.
+        ///</summary>
+		public string FractionDigits { get; set; }
+
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		public string LanguageCode { get; set; }
+
+        ///<summary>
+        /// Tagged value 'maximumExclusive'.
+        ///</summary>
+		public string MaximumExclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'maximumInclusive'.
+        ///</summary>
+		public string MaximumInclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'maximumLength'.
+        ///</summary>
+		public string MaximumLength { get; set; }
+
+        ///<summary>
+        /// Tagged value 'minimumExclusive'.
+        ///</summary>
+		public string MinimumExclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'minimumInclusive'.
+        ///</summary>
+		public string MinimumInclusive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'minimumLength'.
+        ///</summary>
+		public string MinimumLength { get; set; }
+
+        ///<summary>
+        /// Tagged value 'modificationAllowedIndicator'.
+        ///</summary>
+		public bool ModificationAllowedIndicator { get; set; }
+
+        ///<summary>
+        /// Tagged value 'pattern'.
+        ///</summary>
+		public string Pattern { get; set; }
+
+        ///<summary>
+        /// Tagged value 'totalDigits'.
+        ///</summary>
+		public string TotalDigits { get; set; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		public string UniqueIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'usageRule'.
+        ///</summary>
+		public IEnumerable<string> UsageRules { get; set; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		public string VersionIdentifier { get; set; }
+
+		#endregion
     }
 }
+
