@@ -195,11 +195,29 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ICcLibrary.tt</DependentUpon>
     </Compile>
+    <Compile Include="CdtLibrary\CdtConSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CdtConSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CdtLibrary\CdtConSpecManualExtensions.cs" />
     <Compile Include="CdtLibrary\CdtLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CdtLibrarySpec.tt</DependentUpon>
     </Compile>
+    <Compile Include="CdtLibrary\CdtSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CdtSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CdtLibrary\CdtSpecManualExtensions.cs" />
+    <Compile Include="CdtLibrary\CdtSupSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CdtSupSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CdtLibrary\CdtSupSpecManualExtensions.cs" />
     <Compile Include="CdtLibrary\ICdt.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -279,9 +297,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IPrimLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="CdtLibrary\CdtConSpec.cs" />
-    <Compile Include="CdtLibrary\CdtSpec.cs" />
-    <Compile Include="CdtLibrary\CdtSupSpec.cs" />
     <Compile Include="EnumLibrary\CodelistEntrySpec.cs" />
     <Compile Include="EnumLibrary\EnumSpec.cs" />
     <None Include="BdtLibrary\BdtConSpec.tt">
@@ -392,9 +407,21 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICcLibrary.cs</LastGenOutput>
     </None>
+    <None Include="CdtLibrary\CdtConSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CdtConSpec.cs</LastGenOutput>
+    </None>
     <None Include="CdtLibrary\CdtLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CdtLibrarySpec.cs</LastGenOutput>
+    </None>
+    <None Include="CdtLibrary\CdtSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CdtSpec.cs</LastGenOutput>
+    </None>
+    <None Include="CdtLibrary\CdtSupSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CdtSupSpec.cs</LastGenOutput>
     </None>
     <None Include="CdtLibrary\ICdt.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
