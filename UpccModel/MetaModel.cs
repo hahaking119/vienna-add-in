@@ -14,11 +14,6 @@ namespace Upcc
     /// had to add some work-arounds due to the nature of certain parts of the specification. In particular, three areas are problematic:
     /// 
     /// <list type="bullet">
-    /// <item>
-    /// <b>PRIM, ENUM and IDSCHEME</b> are all candidate types for CON and SUP attributes. The conceptual view of the UPCC defines ENUM and IDSCHEME as sub-classes of PRIM, but
-    /// this cannot really be implemented, because the three concepts are fundamentally different. Therefore, we had to introduce an abstract base class 'BasicType' which
-    /// is used as the type of CON and SUP attributes.
-    /// </item>
     /// 
     /// <item>
     /// <b>CON and SUP</b> attributes have different tagged values for CDT and BDT classes. Therefore, we had to define separate concepts, namely CDT-CON/CDT-SUP and BDT-CON/BDT-SUP for
@@ -27,19 +22,16 @@ namespace Upcc
     /// </item>
     /// 
     /// <item>
-    /// The associated element of an <b>ASMA</b> can be either an ABIE or a MA. This problem is similar to the PRIM/ENUM/IDSCHEME problem outlined above. Possible solutions are:
-    ///   <list type="bullet">
-    ///     <item>Define an abstact base type for ABIE and MA and use that base type for the associated element's type in ASMA implementations.</item>
-    ///     <item>
-    ///       Define separate concepts (MA-ASMA and ABIE-ASMA) with different implementations. Currently, since ASMA do not have any tagged values, they can be implemented
-    ///       as collections of MA/ABIE directly in the containing MA (this is in contrast with ASCC and ASBIE, which have tagged values and must therefore be implemented
-    ///       as separate classes). However, filling these collections with actual instances is unnecessarily complex (the stereotype of the associated element must be taken
-    ///       into account). This is our current solution.
-    ///     </item>
-    ///     <item>
-    ///       The best solution is to define separate stereotypes (e.g. MA-ASMA and ABIE-ASMA).
-    ///     </item>
-    ///   </list>
+    /// <b>PRIM, ENUM and IDSCHEME</b> are all candidate types for CON and SUP attributes. The conceptual view of the UPCC defines ENUM and IDSCHEME as sub-classes of PRIM, but
+    /// this cannot really be implemented, because the three concepts are fundamentally different. Therefore, we introduce the concept of a (Meta-)MultiType, which is basically
+    /// a container for an object of any of a set of possible types. The BasicType multi-type can be either a PRIM or an ENUM or an IDSCHEME. CON and SUP attributes declare the BasicType 
+    /// multi-type as their type. The multi-type concept is more appropriate (and more easy to generate code with) than the previously attempted inheritance-based approach (where BasicType
+    /// was a common abstract base class for PRIM, ENUM and IDSCHEME).
+    /// </item>
+    /// 
+    /// <item>
+    /// The associated element of an <b>ASMA</b> can be either an ABIE or a MA. This problem is similar to the PRIM/ENUM/IDSCHEME problem outlined above and also solved via the use
+    /// of a multi-type (BieAggregator).
     /// </item>
     /// </list>
     /// </para>
@@ -63,7 +55,6 @@ namespace Upcc
     public class MetaModel
     {
         private readonly MultiTypes multiTypes;
-        private readonly AbstractClasses abstractClasses;
         private readonly Associations associations;
         private readonly Attributes attributes;
         private readonly Classes classes;
@@ -89,13 +80,12 @@ namespace Upcc
 
             packages = new Packages(taggedValues);
 
-            abstractClasses = new AbstractClasses();
-            enumerations = new Enumerations(taggedValues, abstractClasses);
-            dataTypes = new DataTypes(taggedValues, abstractClasses);
-            classes = new Classes(taggedValues, abstractClasses);
+            enumerations = new Enumerations(taggedValues);
+            dataTypes = new DataTypes(taggedValues);
+            classes = new Classes(taggedValues);
             multiTypes = new MultiTypes(classes, dataTypes, enumerations);
 
-            attributes = new Attributes(taggedValues, classes, abstractClasses, multiTypes);
+            attributes = new Attributes(taggedValues, classes, multiTypes);
             enumerationLiterals = new EnumerationLiterals(taggedValues, enumerations);
             associations = new Associations(taggedValues, classes, multiTypes);
             dependencies = new Dependencies(classes, dataTypes, enumerations);
@@ -261,11 +251,6 @@ namespace Upcc
         public static IEnumerable<MetaClass> GetAllClasses()
         {
             return Instance.classes.All;
-        }
-
-        public static IEnumerable<MetaAbstractClass> GetAllAbstractClasses()
-        {
-            return Instance.abstractClasses.All;
         }
 
         public static IEnumerable<MetaMultiType> GetAllMultiTypes()

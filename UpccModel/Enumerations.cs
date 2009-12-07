@@ -7,13 +7,12 @@ namespace Upcc
     {
         internal readonly MetaEnumeration Enum;
 
-        internal Enumerations(TaggedValues taggedValues, AbstractClasses abstractClasses)
+        internal Enumerations(TaggedValues taggedValues)
         {
             Enum = new MetaEnumeration
                    {
                        Name = "Enum",
                        Stereotype = MetaStereotype.ENUM,
-                       BaseType = abstractClasses.BasicType,
                        TaggedValues = new[]
                                       {
                                           taggedValues.BusinessTerm,
