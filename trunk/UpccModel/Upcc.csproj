@@ -51,7 +51,6 @@
     <Compile Include="MetaAssociationDependency.cs" />
     <Compile Include="MetaAttributeDependency.cs" />
     <Compile Include="MetaCardinality.cs" />
-    <Compile Include="MetaAbstractClass.cs" />
     <Compile Include="MetaAssociation.cs" />
     <Compile Include="MetaAttribute.cs" />
     <Compile Include="MetaClass.cs" />
