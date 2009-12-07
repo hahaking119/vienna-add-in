@@ -324,7 +324,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var bccFirstNameSpec = new BccSpec
                                    {
                                        Name = "FirstName",
-                                       Type = cdtText,
+                                       Cdt = cdtText,
                                        BusinessTerms = new[] {"businessTerms"},
                                        Definition = "definition",
                                        DictionaryEntryName = "dictionaryEntryName",
@@ -340,23 +340,23 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             accSpec.AddBCC(new BccSpec
                            {
                                Name = "LastName",
-                               Type = cdtText
+                               Cdt = cdtText
                            });
             accSpec.AddBCC(new BccSpec
                            {
                                Name = "Some",
-                               Type = cdtText
+                               Cdt = cdtText
                            });
             accSpec.AddBCC(new BccSpec
                            {
                                Name = "Some",
-                               Type = cdtDate
+                               Cdt = cdtDate
                            });
 
             var asccHomeAddressSpec = new AsccSpec
                                       {
                                           Name = "HomeAddress",
-                                          ResolveAssociatedACC = () => accAddress,
+                                          ResolveAssociatedAcc = () => accAddress,
                                           BusinessTerms = new[] {"businessTerms"},
                                           Definition = "definition",
                                           DictionaryEntryName = "dictionaryEntryName",
@@ -372,17 +372,17 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             accSpec.AddASCC(new AsccSpec
                             {
                                 Name = "WorkAddress",
-                                ResolveAssociatedACC = () => accAddress,
+                                ResolveAssociatedAcc = () => accAddress,
                             });
             accSpec.AddASCC(new AsccSpec
                             {
                                 Name = "Some",
-                                ResolveAssociatedACC = () => accAddress,
+                                ResolveAssociatedAcc = () => accAddress,
                             });
             accSpec.AddASCC(new AsccSpec
                             {
                                 Name = "Some",
-                                ResolveAssociatedACC = () => accPerson,
+                                ResolveAssociatedAcc = () => accPerson,
                             });
 
             IAcc accTestPerson = ccLibrary.CreateAcc(accSpec);

@@ -1,72 +1,71 @@
+
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.Collections.Generic;
-using VIENNAAddInUtils;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.CcLibrary
 {
-    public class AccSpec
+    public partial class AccSpec
     {
-        private readonly List<AsccSpec> asccs;
-        private readonly List<BccSpec> bccs;
+		public string Name { get; set; }
 
-        public AccSpec(IAcc acc)
-        {
-            Name = acc.Name;
-            DictionaryEntryName = acc.DictionaryEntryName;
-            Definition = acc.Definition;
-            UniqueIdentifier = acc.UniqueIdentifier;
-            VersionIdentifier = acc.VersionIdentifier;
-            LanguageCode = acc.LanguageCode;
-            BusinessTerms = new List<string>(acc.BusinessTerms);
-            UsageRules = new List<string>(acc.UsageRules);
-            bccs = new List<BccSpec>(acc.Bccs.Convert(bcc => new BccSpec(bcc)));
-            asccs = new List<AsccSpec>(acc.Asccs.Convert(ascc => new AsccSpec(ascc)));
-            IsEquivalentTo = acc.IsEquivalentTo;
-        }
+		public IAcc IsEquivalentTo { get; set; }
 
-        public AccSpec()
-        {
-            bccs = new List<BccSpec>();
-            asccs = new List<AsccSpec>();
-        }
+		#region Tagged Values
 
-        public IEnumerable<BccSpec> BCCs
-        {
-            get { return bccs; }
-        }
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		public IEnumerable<string> BusinessTerms { get; set; }
 
-        public IEnumerable<AsccSpec> ASCCs
-        {
-            get { return asccs; }
-        }
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		public string Definition { get; set; }
 
-        public IAcc IsEquivalentTo { get; set; }
-        public IEnumerable<string> UsageRules { get; set; }
-        public string Name { get; set; }
-        public string DictionaryEntryName { get; set; }
-        public string Definition { get; set; }
-        public string UniqueIdentifier { get; set; }
-        public string VersionIdentifier { get; set; }
-        public string LanguageCode { get; set; }
-        public IEnumerable<string> BusinessTerms { get; set; }
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		public string DictionaryEntryName { get; set; }
 
-        public void RemoveASCC(string name)
-        {
-            asccs.RemoveAll(ascc => ascc.Name == name);
-        }
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		public string LanguageCode { get; set; }
 
-        public void RemoveBCC(string name)
-        {
-            bccs.RemoveAll(bcc => bcc.Name == name);
-        }
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		public string UniqueIdentifier { get; set; }
 
-        public void AddBCC(BccSpec bcc)
-        {
-            bccs.Add(bcc);
-        }
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		public string VersionIdentifier { get; set; }
 
-        public void AddASCC(AsccSpec ascc)
-        {
-            asccs.Add(ascc);
-        }
+        ///<summary>
+        /// Tagged value 'usageRule'.
+        ///</summary>
+		public IEnumerable<string> UsageRules { get; set; }
+
+		#endregion
     }
 }
+

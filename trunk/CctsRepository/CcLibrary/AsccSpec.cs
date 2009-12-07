@@ -1,53 +1,82 @@
-using System;
+
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.Collections.Generic;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.CcLibrary
 {
-    public class AsccSpec
+    public partial class AsccSpec
     {
-        public AsccSpec(IAscc ascc)
-        {
-            Name = ascc.Name;
-            DictionaryEntryName = ascc.DictionaryEntryName;
-            Definition = ascc.Definition;
-            UniqueIdentifier = ascc.UniqueIdentifier;
-            VersionIdentifier = ascc.VersionIdentifier;
-            LanguageCode = ascc.LanguageCode;
-            BusinessTerms = new List<string>(ascc.BusinessTerms);
-            UsageRules = new List<string>(ascc.UsageRules);
-            SequencingKey = ascc.SequencingKey;
-            ResolveAssociatedACC = () => ascc.AssociatedAcc;
-            LowerBound = ascc.LowerBound;
-            UpperBound = ascc.UpperBound;
-        }
-
-        public AsccSpec()
-        {
-        }
-
-        public string SequencingKey { get; set; }
-
-        public string LowerBound { get; set; }
-
+		public string Name { get; set; }
+		
         public string UpperBound { get; set; }
+		
+        public string LowerBound { get; set; }
+		
+		public IAcc AssociatingAcc { get; set; }
 
-        public IAcc AssociatedACC
-        {
-            get { return ResolveAssociatedACC(); }
-        }
+		public IAcc AssociatedAcc { get; set; }
 
-        /// <summary>
-        /// Set a function to resolve the associated ACC.
-        /// </summary>
-        public Func<IAcc> ResolveAssociatedACC { get; set; }
+		#region Tagged Values
 
-        public IEnumerable<string> UsageRules { get; set; }
-        public string Name { get; set; }
-        public string DictionaryEntryName { get; set; }
-        public string Definition { get; set; }
-        public string UniqueIdentifier { get; set; }
-        public string VersionIdentifier { get; set; }
-        public string LanguageCode { get; set; }
-        public IEnumerable<string> BusinessTerms { get; set; }
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		public IEnumerable<string> BusinessTerms { get; set; }
+
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		public string Definition { get; set; }
+
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		public string DictionaryEntryName { get; set; }
+
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		public string LanguageCode { get; set; }
+
+        ///<summary>
+        /// Tagged value 'sequencingKey'.
+        ///</summary>
+		public string SequencingKey { get; set; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		public string UniqueIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		public string VersionIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'usageRule'.
+        ///</summary>
+		public IEnumerable<string> UsageRules { get; set; }
+
+		#endregion
     }
 }
+
