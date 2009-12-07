@@ -111,10 +111,10 @@
       <DependentUpon>AsbieSpec.tt</DependentUpon>
     </Compile>
     <Compile Include="BieLibrary\AsbieSpecManualExtensions.cs" />
-    <Compile Include="BieLibrary\Bbie.cs">
+    <Compile Include="BieLibrary\BbieSpec1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Bbie.tt</DependentUpon>
+      <DependentUpon>BbieSpec.tt</DependentUpon>
     </Compile>
     <Compile Include="BieLibrary\BbieSpecManualExtensions.cs" />
     <Compile Include="BieLibrary\BieLibrarySpec.cs">
@@ -152,6 +152,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IBLibrary.tt</DependentUpon>
     </Compile>
+    <Compile Include="CcLibrary\AccSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CcLibrary\AccSpecManualExtensions.cs" />
+    <Compile Include="CcLibrary\AsccSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AsccSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CcLibrary\AsccSpecManualExtensions.cs" />
+    <Compile Include="CcLibrary\BccSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BccSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CcLibrary\BccSpecManualExtensions.cs" />
     <Compile Include="CcLibrary\CcLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -261,9 +279,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IPrimLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="CcLibrary\AccSpec.cs" />
-    <Compile Include="CcLibrary\AsccSpec.cs" />
-    <Compile Include="CcLibrary\BccSpec.cs" />
     <Compile Include="CdtLibrary\CdtConSpec.cs" />
     <Compile Include="CdtLibrary\CdtSpec.cs" />
     <Compile Include="CdtLibrary\CdtSupSpec.cs" />
@@ -313,9 +328,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AsbieSpec.cs</LastGenOutput>
     </None>
-    <None Include="BieLibrary\Bbie.tt">
+    <None Include="BieLibrary\BbieSpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Bbie.cs</LastGenOutput>
+      <LastGenOutput>BbieSpec1.cs</LastGenOutput>
     </None>
     <None Include="BieLibrary\BieLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -344,6 +359,18 @@
     <None Include="bLibrary\IBLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="CcLibrary\AccSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccSpec.cs</LastGenOutput>
+    </None>
+    <None Include="CcLibrary\AsccSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsccSpec.cs</LastGenOutput>
+    </None>
+    <None Include="CcLibrary\BccSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BccSpec.cs</LastGenOutput>
     </None>
     <None Include="CcLibrary\CcLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

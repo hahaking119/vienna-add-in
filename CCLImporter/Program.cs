@@ -98,9 +98,9 @@ namespace CCLImporter
                                           LowerBound = MapOccurrence(record.OccurrenceMin),
                                           UpperBound = MapOccurrence(record.OccurrenceMax),
                                           VersionIdentifier = record.Version,
-                                          Type = FindCDT(record.RepresentationTerm.AsName(), cdts)
+                                          Cdt = FindCDT(record.RepresentationTerm.AsName(), cdts)
                                       };
-                        if (bccSpec.Type == null)
+                        if (bccSpec.Cdt == null)
                         {
                             Console.WriteLine("WARNING: Skipping line {0}: CDT not found: <{1}>.", LineNumber, record.RepresentationTerm);
                             continue;
@@ -124,7 +124,7 @@ namespace CCLImporter
                                            LowerBound = MapOccurrence(record.OccurrenceMin),
                                            UpperBound = MapOccurrence(record.OccurrenceMax),
                                            VersionIdentifier = record.Version,
-                                           ResolveAssociatedACC = accResolver.ResolveACC(record.AssociatedObjectClass.AsName()),
+                                           ResolveAssociatedAcc = accResolver.ResolveACC(record.AssociatedObjectClass.AsName()),
                                        };
                         accSpec.AddASCC(asccSpec);
                         break;

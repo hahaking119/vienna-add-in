@@ -21,25 +21,19 @@ namespace CctsRepository.BieLibrary
             LowerBound = asbie.LowerBound;
             UpperBound = asbie.UpperBound;
             AggregationKind = asbie.AggregationKind;
+            ResolveAssociatedAbie = () => AssociatedAbie;
         }
 
         public AsbieSpec()
         {
             AggregationKind = AggregationKind.Composite;
-        }
-
-        public int AssociatedABIEId
-        {
-            get
-            {
-                return ResolveAssociatedABIE != null ? ResolveAssociatedABIE().Id : AssociatedAbie.Id;
-            }
+            ResolveAssociatedAbie = () => AssociatedAbie;
         }
 
         /// <summary>
         /// Set a function to resolve the associated ACC.
         /// </summary>
-        public Func<IAbie> ResolveAssociatedABIE { get; set; }
+        public Func<IAbie> ResolveAssociatedAbie { get; set; }
 
         public static AsbieSpec CloneASCC(IAscc ascc, string name, IAbie associatedAbie)
         {
@@ -73,7 +67,7 @@ namespace CctsRepository.BieLibrary
                        UsageRules = new List<string>(ascc.UsageRules),
                        VersionIdentifier = ascc.VersionIdentifier,
                        Name = name,
-                       ResolveAssociatedABIE = associatedABIEResolver,
+                       ResolveAssociatedAbie = associatedABIEResolver,
                        LowerBound = ascc.LowerBound,
                        UpperBound = ascc.UpperBound,
                    };

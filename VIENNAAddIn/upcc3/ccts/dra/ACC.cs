@@ -218,9 +218,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     string name = bccSpec.Name;
                     if (duplicateBccNames.Contains(name))
                     {
-                        name = name + bccSpec.Type.Name;
+                        name = name + bccSpec.Cdt.Name;
                     }
-                    yield return new AttributeSpec(Stereotype.BCC, name, bccSpec.Type.Name, bccSpec.Type.Id, bccSpec.LowerBound, bccSpec.UpperBound, GetBccTaggedValueSpecs(bccSpec));
+                    yield return new AttributeSpec(Stereotype.BCC, name, bccSpec.Cdt.Name, bccSpec.Cdt.Id, bccSpec.LowerBound, bccSpec.UpperBound, GetBccTaggedValueSpecs(bccSpec));
                 }
             }
         }
@@ -249,7 +249,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 HashSet<string> duplicateAsccNames = GetDuplicates(asccSpecs.Select(asccSpec => asccSpec.Name));
                 foreach (AsccSpec asccSpec in asccSpecs)
                 {
-                    IAcc associatedACC = asccSpec.AssociatedACC;
+                    IAcc associatedACC = asccSpec.ResolveAssociatedAcc();
                     if (associatedACC == null)
                     {
                         // TODO throw meaningful exception instead
@@ -262,7 +262,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     }
                     yield return
                         ConnectorSpec.CreateAggregation(EaAggregationKind.Shared, Stereotype.ASCC, name,
-                                                        asccSpec.AssociatedACC.Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec));
+                                                        asccSpec.ResolveAssociatedAcc().Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec));
                 }
             }
         }
