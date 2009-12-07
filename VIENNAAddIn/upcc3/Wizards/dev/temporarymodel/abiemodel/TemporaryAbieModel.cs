@@ -512,7 +512,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                     potentialBdt.Selected = false;
                                                     potentialBdt.Checked = false;
                                                 }
-                                            }                                         
+                                            }
+
+                                            //PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));    
                                         }
                                     }
                                 }

@@ -197,7 +197,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
-
+           
             checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (TextBox)sender);
         }
 

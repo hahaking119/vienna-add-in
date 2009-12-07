@@ -69,10 +69,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                         }
                     }
 
-                    //if (mPotentialBdts.Count == 0)
-                    //{
-                    //    AddPotentialBdt();
-                    //}
+                    if (mPotentialBdts.Count == 0)
+                    {
+                        AddPotentialBdt();
+                    }
                 }
 
                 return mPotentialBdts;
