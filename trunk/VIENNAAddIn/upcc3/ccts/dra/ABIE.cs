@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using EA;
@@ -248,13 +249,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
-        private static EaAggregationKind AsbieAggregationKindToEaAggregationKind(AsbieAggregationKind asbieAggregationKind)
+        private static EaAggregationKind AsbieAggregationKindToEaAggregationKind(AggregationKind aggregationKind)
         {
-            switch (asbieAggregationKind)
+            switch (aggregationKind)
             {
-                case AsbieAggregationKind.Shared:
+                case AggregationKind.Shared:
                     return EaAggregationKind.Shared;
-                case AsbieAggregationKind.Composite:
+                case AggregationKind.Composite:
                     return EaAggregationKind.Composite;
                 default:
                     return EaAggregationKind.None;

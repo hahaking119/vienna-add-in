@@ -392,7 +392,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     {
                         foreach (cABIE abie in biel.ABIEs.Values)
                         {
-                            if (abie.BasedOn == ascc.AssociatedElement.Id)
+                            if (abie.BasedOn == ascc.AssociatedAcc.Id)
                             {
                                 relevantABIEs.Add(abie.Name, new cABIE(abie.Name, abie.Id, abie.BasedOn));
                             }

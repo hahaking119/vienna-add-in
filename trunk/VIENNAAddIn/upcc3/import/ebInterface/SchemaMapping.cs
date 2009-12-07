@@ -65,7 +65,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     if (complexTypeMapping.IsMappedToSingleACC)
                     {
                         IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
-                        IAcc targetACC = GetTargetElement(element).Ascc.AssociatedElement;
+                        IAcc targetACC = GetTargetElement(element).Ascc.AssociatedAcc;
                         if (complexTypeACC.Id == targetACC.Id)
                         {
                             return new ASCCMapping(element, GetTargetElement(element), complexTypeMapping);

@@ -19,6 +19,7 @@ namespace Upcc
                        ClassName = "Ascc",
                        Name = "Asccs",
                        Cardinality = MetaCardinality.Many,
+                       AggregationKind = MetaAggregationKind.Shared,
                        AssociatingClassifierType = classes.Acc,
                        AssociatedClassifierType = classes.Acc,
                        TaggedValues = new[]
@@ -40,6 +41,7 @@ namespace Upcc
                         ClassName = "Asbie",
                         Name = "Asbies",
                         Cardinality = MetaCardinality.Many,
+                        AggregationKind = MetaAggregationKind.SharedOrComposite,
                         AssociatingClassifierType = classes.Abie,
                         AssociatedClassifierType = classes.Abie,
                         TaggedValues = new[]
@@ -61,6 +63,7 @@ namespace Upcc
                          ClassName = "Asma",
                          Name = "Asmas",
                          Cardinality = MetaCardinality.Many,
+                         AggregationKind = MetaAggregationKind.Shared,
                          AssociatingClassifierType = classes.Ma,
                          AssociatedClassifierType = multiTypes.BieAggregator,
                          TaggedValues = new MetaTaggedValue[0],

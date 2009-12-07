@@ -133,7 +133,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 // R A08A: name of the ASBIE
                 elementASCC.Name = NDR.GenerateASCCName(ascc);
                 elementASCC.SchemaTypeName =
-                    new XmlQualifiedName(accPrefix + ":" + ascc.AssociatedElement.Name + "Type");
+                    new XmlQualifiedName(accPrefix + ":" + ascc.AssociatedAcc.Name + "Type");
 
                 if (context.Annotate)
                 {
@@ -229,7 +229,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             // PropertyQualifierName could be extracted from the PropertyTermName (e.g. "My" in 
             // "My_Address") but is not implement at this point 
             AddDocumentation(documentation, "PropertyQualifierName", "");
-            AddDocumentation(documentation, "AssociatedObjectClassTermName", ascc.AssociatedElement.Name);
+            AddDocumentation(documentation, "AssociatedObjectClassTermName", ascc.AssociatedAcc.Name);
             // AssociatedObjectClassQualifierTermName could be extracted from the AssociatedObjectClassTermName
             // (e.g. "My" in "My_Address") but is not implement at this point 
             AddDocumentation(documentation, "AcronymCode", "ASBIE");

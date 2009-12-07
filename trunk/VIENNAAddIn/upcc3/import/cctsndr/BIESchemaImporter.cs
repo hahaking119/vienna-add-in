@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
@@ -316,7 +317,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
 
                     if (asbieSpec == null)
                     {
-                        asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, AsbieAggregationKind.Shared);
+                        asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie, AggregationKind.Shared);
                     }
 
                     newAsbieSpecs.Add(asbieSpec);
@@ -338,7 +339,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                         if (asbieSpec == null)
                         {
                             asbieSpec = CumulateAsbieSpec(element, asbieName, associatedAbie,
-                                                          AsbieAggregationKind.Composite);
+                                                          AggregationKind.Composite);
                         }
 
                         newAsbieSpecs.Add(asbieSpec);
@@ -365,7 +366,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
         ///</param>
         ///<returns>
         ///</returns>
-        public static AsbieSpec CumulateAsbieSpec(Element element, string asbieName, IAbie associatedAbie, AsbieAggregationKind aggregationKind)
+        public static AsbieSpec CumulateAsbieSpec(Element element, string asbieName, IAbie associatedAbie, AggregationKind aggregationKind)
         {
             AsbieSpec asbieSpec = new AsbieSpec
                                   {

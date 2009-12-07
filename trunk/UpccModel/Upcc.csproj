@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AssociationDependencies.cs" />
     <Compile Include="AttributeDependencies.cs" />
+    <Compile Include="MetaAggregationKind.cs" />
     <Compile Include="MetaAssociationDependency.cs" />
     <Compile Include="MetaAttributeDependency.cs" />
     <Compile Include="MetaCardinality.cs" />

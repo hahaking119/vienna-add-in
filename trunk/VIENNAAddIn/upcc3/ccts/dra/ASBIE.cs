@@ -31,32 +31,38 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private Cardinality Cardinality
         {
-            get { return new Cardinality(connector.GetAssociatedEnd(AssociatingElement.Id).Cardinality); }
+            get { return new Cardinality(connector.GetAssociatedEnd(AssociatingAbie.Id).Cardinality); }
         }
 
         #region IAsbie Members
 
-        public IAbie AssociatingElement
+        public bool IsOptional()
+        {
+            int i;
+            return Int32.TryParse(LowerBound, out i) && i == 0;
+        }
+
+        public IAbie AssociatingAbie
         {
             get { return associatingClass; }
         }
 
-        public AsbieAggregationKind AggregationKind
+        public AggregationKind AggregationKind
         {
             get
             {
-                int value = connector.GetAssociatingEnd(AssociatingElement.Id).Aggregation;
+                int value = connector.GetAssociatingEnd(AssociatingAbie.Id).Aggregation;
                 return AsbieAggregationKindFromInt(value);
             }
         }
 
-        private static AsbieAggregationKind AsbieAggregationKindFromInt(int value)
+        private static AggregationKind AsbieAggregationKindFromInt(int value)
         {
-            if (Enum.IsDefined(typeof (AsbieAggregationKind), value))
+            if (Enum.IsDefined(typeof (AggregationKind), value))
             {
-                return (AsbieAggregationKind) Enum.ToObject(typeof (AsbieAggregationKind), value);
+                return (AggregationKind) Enum.ToObject(typeof (AggregationKind), value);
             }
-            return AsbieAggregationKind.Composite;
+            return AggregationKind.Composite;
         }
 
         public string UpperBound
@@ -86,7 +92,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string Name
         {
-            get { return connector.GetAssociatedEnd(AssociatingElement.Id).Role; }
+            get { return connector.GetAssociatedEnd(AssociatingAbie.Id).Role; }
         }
 
         public string Definition
@@ -119,20 +125,20 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return connector.GetTaggedValues(TaggedValues.businessTerm); }
         }
 
-        public IAbie AssociatedElement
+        public IAbie AssociatedAbie
         {
-            get { return repository.GetAbieById(connector.GetAssociatedElementId(AssociatingElement.Id)); }
+            get { return repository.GetAbieById(connector.GetAssociatedElementId(AssociatingAbie.Id)); }
         }
 
         public IAscc BasedOn
         {
             get
             {
-                if (AssociatingElement == null)
+                if (AssociatingAbie == null)
                 {
                     return null;
                 }
-                IAcc acc = AssociatingElement.BasedOn;
+                IAcc acc = AssociatingAbie.BasedOn;
                 if (acc == null)
                 {
                     return null;

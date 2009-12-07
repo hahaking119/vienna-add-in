@@ -65,12 +65,12 @@ namespace VIENNAAddIn.upcc3
 
         public static string GenerateASCCName(IAscc ascc)
         {
-            return ascc.Name + ascc.AssociatedElement.Name;
+            return ascc.Name + ascc.AssociatedAcc.Name;
         }
 
         public static string GetXsdElementNameFromAsbie(IAsbie asbie)
         {
-            return asbie.Name + asbie.AssociatedElement.Name;
+            return asbie.Name + asbie.AssociatedAbie.Name;
         }
 
         public static string GetAsbieNameFromXsdElement(Element element, string associatedElementName)

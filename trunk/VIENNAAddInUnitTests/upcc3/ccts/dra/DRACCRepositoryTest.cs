@@ -422,7 +422,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(accSpec.ASCCs.Count(), accTestPerson.Asccs.Count());
             IAscc asccHomeAddress = accTestPerson.Asccs.FirstOrDefault(ascc => ascc.Name == asccHomeAddressSpec.Name);
             Assert.That(asccHomeAddress, Is.Not.Null, "ASCC HomeAddress not generated");
-            Assert.AreEqual(accAddress.Id, asccHomeAddress.AssociatedElement.Id);
+            Assert.AreEqual(accAddress.Id, asccHomeAddress.AssociatedAcc.Id);
             Assert.AreEqual(asccHomeAddress.Definition, asccHomeAddress.Definition);
             Assert.AreEqual(asccHomeAddress.DictionaryEntryName, asccHomeAddress.DictionaryEntryName);
             Assert.AreEqual(asccHomeAddress.LanguageCode, asccHomeAddress.LanguageCode);

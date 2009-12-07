@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregationKind.cs" />
     <Compile Include="BasicType.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -80,7 +81,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BieAggregator.tt</DependentUpon>
     </Compile>
-    <Compile Include="BieLibrary\AsbieAggregationKind.cs" />
     <Compile Include="BieLibrary\AbieSpec.cs" />
     <Compile Include="BieLibrary\BieLibrarySpec.cs">
       <AutoGen>True</AutoGen>
@@ -91,6 +91,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IAbie.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BieLibrary\IAsbie.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IAsbie.tt</DependentUpon>
     </Compile>
     <Compile Include="BieLibrary\IBbie.cs">
       <AutoGen>True</AutoGen>
@@ -121,6 +126,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CcLibrary\IAscc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IAscc.tt</DependentUpon>
     </Compile>
     <Compile Include="CcLibrary\IBcc.cs">
       <AutoGen>True</AutoGen>
@@ -228,9 +238,6 @@
     <Compile Include="EnumLibrary\CodelistEntrySpec.cs" />
     <Compile Include="BdtLibrary\BdtConSpec.cs" />
     <Compile Include="EnumLibrary\EnumSpec.cs" />
-    <Compile Include="BieLibrary\IAsbie.cs" />
-    <Compile Include="CcLibrary\IAscc.cs" />
-    <Compile Include="IBasicType.cs" />
     <None Include="BdtLibrary\BdtLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BdtLibrarySpec.cs</LastGenOutput>
@@ -263,6 +270,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IAbie.cs</LastGenOutput>
     </None>
+    <None Include="BieLibrary\IAsbie.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IAsbie.cs</LastGenOutput>
+    </None>
     <None Include="BieLibrary\IBbie.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBbie.cs</LastGenOutput>
@@ -286,6 +297,10 @@
     <None Include="CcLibrary\IAcc.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IAcc.cs</LastGenOutput>
+    </None>
+    <None Include="CcLibrary\IAscc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IAscc.cs</LastGenOutput>
     </None>
     <None Include="CcLibrary\IBcc.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -366,6 +381,8 @@
     <None Include="t4\CctsRepositoryNamespaces.tt">
     </None>
     <None Include="t4\ClassifierInterface.tt">
+    </None>
+    <None Include="t4\AssociationInterface.tt">
     </None>
     <None Include="t4\AttributeInterface.tt">
     </None>

@@ -67,7 +67,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                         {
                             foreach (IAbie abie in ccCache.GetBiesFromBieLibrary(bieLibrary.Name))
                             {
-                                if (abie.BasedOn.Id == ascc.AssociatedElement.Id)
+                                if (abie.BasedOn.Id == ascc.AssociatedAcc.Id)
                                 {
                                     AddAbieToCandidateAbies(abie);
                                     AddPotentialAsbieToCandidateAbie(abie.Name, ascc);

@@ -6,6 +6,7 @@ namespace Upcc
         public string ClassName { get; internal set; }
         public string Name { get; internal set; }
         public MetaCardinality Cardinality { get; internal set; }
+        public MetaAggregationKind AggregationKind { get; internal set; }
 
         public MetaClassifier AssociatedClassifierType { get; internal set; }
         public MetaClassifier AssociatingClassifierType { get; internal set; }

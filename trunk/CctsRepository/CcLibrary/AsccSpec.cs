@@ -16,7 +16,7 @@ namespace CctsRepository.CcLibrary
             BusinessTerms = new List<string>(ascc.BusinessTerms);
             UsageRules = new List<string>(ascc.UsageRules);
             SequencingKey = ascc.SequencingKey;
-            ResolveAssociatedACC = () => ascc.AssociatedElement;
+            ResolveAssociatedACC = () => ascc.AssociatedAcc;
             LowerBound = ascc.LowerBound;
             UpperBound = ascc.UpperBound;
         }
