@@ -68,12 +68,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             }
                         }
                     }
-                    
-                    if (mPotentialBdts.Count == 0)
-                    {
-                        AddPotentialBdtAndCheckIfApplicable();
-                    }
-                }                
+                }
 
                 return mPotentialBdts;
             }
@@ -81,14 +76,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             set { mPotentialBdts = value; }
         }
 
-        public string AddPotentialBdtAndCheckIfApplicable()
-        {            
+        public string AddPotentialBdt()
+        {
             string newBdtName = "";
-            
+
             for (int i = 1; i != -1; i++)
             {
                 bool foundBdtWithTheSameName = false;
-                bool foundBdtThatIsChecked = false;
                 newBdtName = "New" + i + mCdtUsedInBcc.Name;
 
                 foreach (PotentialBdt potentialBdt in PotentialBdts)
@@ -97,28 +91,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                     {
                         foundBdtWithTheSameName = true;
                     }
-
-                    if (potentialBdt.Checked)
-                    {
-                        foundBdtThatIsChecked = true;
-                    }
                 }
 
                 if (!foundBdtWithTheSameName)
                 {
-                    PotentialBdt newPotentialBdt = new PotentialBdt(newBdtName);
-
-                    if ((mChecked) && (foundBdtThatIsChecked))
-                    {
-                        newPotentialBdt.Checked = true;
-                        
-                        foreach (PotentialBdt potentialBdt in mPotentialBdts)
-                        {
-                            potentialBdt.Checked = false;
-                        }
-                    }
-
-                    mPotentialBdts.Add(newPotentialBdt);                    
+                    PotentialBdt potentialBdt = new PotentialBdt(newBdtName);
+                    mPotentialBdts.Add(potentialBdt);                    
 
                     break;
                 }
@@ -126,11 +104,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
             return newBdtName;
         }
- 
+
+
         public void AddPotentialBdt(string newBdtName)
         {
-            PotentialBdts.Add(new PotentialBdt(newBdtName));            
+            PotentialBdts.Add(new PotentialBdt(newBdtName));
         }
+
 
         public bool ItemReadOnly
         {

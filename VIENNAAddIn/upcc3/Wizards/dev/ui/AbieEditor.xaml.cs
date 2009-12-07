@@ -58,146 +58,154 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             UpdateFormState();
 
-            SetSelectedIndexForBccAndBbieAndBdtListBoxes();
-            SetSelectedIndexForAbieAndAsbieListBoxes();
+            SetSelectedItemForBccListBox();
+
+            SetSelectedItemForAbieListBox();
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: Checkbox BCCs
         private void checkboxBccs_Checked(object sender, RoutedEventArgs e)
         {
-            int index = checkedlistboxBCCs.SelectedIndex;
+            string selectedItemText = ((CheckableItem) checkedlistboxBCCs.SelectedItem).Text;                        
 
             Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
-
-            checkedlistboxBCCs.SelectedIndex = index;
+                        
+            checkedlistboxBCCs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBCCs, selectedItemText);
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox BCCs
+        private void listboxBccs_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            CheckableItem checkableItem = (CheckableItem)checkedlistboxBCCs.SelectedItem;
+            Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
+
+            // The following code only keeps the UI in sync with the TemporaryAbieModel since 
+            // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
+            // not select the current item in the ListBox.
+            checkedlistboxBCCs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBCCs, (CheckBox)sender);
+            
+            SetSelectedItemForBbieListBox();
+        }
+
         private void listboxBccs_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (checkedlistboxBCCs.SelectedItem != null)
-            {
-                Model.SetSelectedAndCheckedCandidateBcc(((CheckableItem)checkedlistboxBCCs.SelectedItem).Text, null);
+            {                
+                CheckableItem checkableItem = (CheckableItem)checkedlistboxBCCs.SelectedItem;
+                Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
 
-                SetSelectedIndexForBbieandBdtListBoxes();
-            }                        
+                SetSelectedItemForBbieListBox();
+            }
         }
+
         
-        private void listboxBccs_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
-        {
-            checkedlistboxBCCs.SelectedIndex = GetSelectedIndexforListbox(checkedlistboxBCCs, ((TextBox) sender).Text);            
-        }
-
-        private void listboxBccs_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
-        {
-            ReturnValues returnValues = GetValuesForSelectedItemInCheckableLabelListbox(checkedlistboxBCCs, (CheckBox) sender);
-            
-            checkedlistboxBCCs.SelectedIndex = returnValues.SelectedIndex;
-
-            Model.SetSelectedAndCheckedCandidateBcc(returnValues.SelectedItem, returnValues.CheckedValue);
-
-            SetSelectedIndexForBbieandBdtListBoxes();
-
-            UpdateFormState();
-        }
-
         // ------------------------------------------------------------------------------------
         // Event handler: Button BBIE
         private void buttonAddBbie_Click(object sender, RoutedEventArgs e)
         {
+            int selectedIndex = checkedlistboxBBIEs.SelectedIndex;
+
             Model.AddPotentialBbie();
 
-            checkedlistboxBBIEs.SelectedIndex = (checkedlistboxBBIEs.Items.Count) - 1;
+            checkedlistboxBBIEs.SelectedIndex = selectedIndex;            
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox BBIEs
+        private void listboxBbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            CheckableItem checkableItem = (CheckableItem)checkedlistboxBBIEs.SelectedItem;
+            Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
+
+            // The following code only keeps the UI in sync with the TemporaryAbieModel since 
+            // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
+            // not select the current item in the ListBox.
+            checkedlistboxBBIEs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBBIEs, (CheckBox)sender);
+            
+            SetSelectedItemForBdtListBox();
+        }
 
         private void listboxBbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (checkedlistboxBBIEs.SelectedItem != null)
             {
-                Model.SetSelectedAndCheckedPotentialBbie(((CheckableItem)checkedlistboxBBIEs.SelectedItem).Text, null);
-                SetSelectedIndexForBdtListBox();   
-            }                         
+                CheckableItem checkableItem = (CheckableItem)checkedlistboxBBIEs.SelectedItem;
+                Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
+
+                SetSelectedItemForBdtListBox();
+            }
         }
 
         private void listboxBbies_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
-            checkedlistboxBBIEs.SelectedIndex = GetSelectedIndexforListbox(checkedlistboxBBIEs, ((TextBox)sender).Text);
+            CheckableItem checkableItem = (CheckableItem)checkedlistboxBBIEs.SelectedItem;
+            Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
+            
+            SetSelectedItemForBdtListBox();
         }
         
-        private void listboxBbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
-        {
-            ReturnValues returnValues = GetValuesForSelectedItemInCheckableLabelListbox(checkedlistboxBBIEs, (CheckBox)sender);
 
-            checkedlistboxBBIEs.SelectedIndex = returnValues.SelectedIndex;
-
-            Model.SetSelectedAndCheckedPotentialBbie(returnValues.SelectedItem, returnValues.CheckedValue);
-
-            SetSelectedIndexForBdtListBox();
-
-            UpdateFormState();
-        }
-
-        private void listboxBbies_LostFocus(object sender, RoutedEventArgs e)
+        private void listboxBbies_ItemTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
                 Model.UpdateBbieName(((CheckableItem)checkedlistboxBBIEs.SelectedItem).Text);
             }
             catch (TemporaryAbieModelException tame)
-            {                                
+            {
                 ShowWarningMessage(tame.Message);
-                ((TextBox) sender).Undo();
+                ((TextBox)sender).Undo();
             }
-            
-        }
+        }  
 
         // ------------------------------------------------------------------------------------
         // Event handler: Button BDT
         private void buttonAddBdt_Click(object sender, RoutedEventArgs e)
         {
-            Model.AddPotentialBdt();
+            int selectedIndex = checkedlistboxBDTs.SelectedIndex;
 
-            checkedlistboxBDTs.SelectedIndex = (checkedlistboxBDTs.Items.Count) - 1;
+            Model.AddPotentialBdt();   
+
+            checkedlistboxBDTs.SelectedIndex = selectedIndex;                 
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox BDTs
+        private void listboxBdts_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
+            Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
+
+            // The following code only keeps the UI in sync with the TemporaryAbieModel since 
+            // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
+            // not select the current item in the ListBox.
+            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (CheckBox)sender);
+        }
+        
         private void listboxBdts_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (checkedlistboxBDTs.SelectedItem != null)
             {
-                Model.SetSelectedAndCheckedPotentialBdt(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text, null);
+                CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
+                Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
             }
         }
 
         private void listboxBdts_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
-            checkedlistboxBDTs.SelectedIndex = GetSelectedIndexforListbox(checkedlistboxBDTs, ((TextBox)sender).Text);
+            CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
+            Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
+
+            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (TextBox)sender);
         }
 
-        private void listboxBdts_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
-        {
-            ReturnValues returnValues = GetValuesForSelectedItemInCheckableLabelListbox(checkedlistboxBDTs, (CheckBox)sender);
-
-            checkedlistboxBDTs.SelectedIndex = returnValues.SelectedIndex;
-
-            Model.SetSelectedAndCheckedPotentialBdt(returnValues.SelectedItem, returnValues.CheckedValue);
-
-            SetSelectedIndexForBdtListBox();
-
-            UpdateFormState();
-        }
-
-        private void listboxBdts_LostFocus(object sender, RoutedEventArgs e)
+        private void listboxBdts_ItemTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
-                Model.UpdateBdtName(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text);                  
+                Model.UpdateBdtName(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text);
             }
             catch (TemporaryAbieModelException tame)
             {
@@ -206,15 +214,30 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
+        
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox ABIEs
+        private void listboxAbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            CheckableItem checkableItem = (CheckableItem)checkedlistboxABIEs.SelectedItem;
+            Model.SetSelectedAndCheckedCandidateAbie(checkableItem.Text, checkableItem.Checked);
+            
+            // The following code only keeps the UI in sync with the TemporaryAbieModel since 
+            // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
+            // not select the current item in the ListBox.
+            checkedlistboxABIEs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxABIEs, (CheckBox)sender);
+
+            SetSelectedItemForAsbieListBox();        
+        }
+
         private void listboxAbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {            
             if (checkedlistboxABIEs.SelectedItem != null)
             {
-                Model.SetSelectedAndCheckedCandidateAbie(((CheckableItem)checkedlistboxABIEs.SelectedItem).Text, null);
+                CheckableItem checkableItem = (CheckableItem) checkedlistboxABIEs.SelectedItem;
+                Model.SetSelectedAndCheckedCandidateAbie(checkableItem.Text, checkableItem.Checked);
 
-                SetSelectedIndexForAsbieListBox();                
+                SetSelectedItemForAsbieListBox();                
             }
             else
             {
@@ -222,46 +245,28 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
-        private void listboxAbies_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
-        {
-            checkedlistboxABIEs.SelectedIndex = GetSelectedIndexforListbox(checkedlistboxABIEs, ((TextBox)sender).Text);
-        }
-
-        private void listboxAbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
-        {
-            ReturnValues returnValues = GetValuesForSelectedItemInCheckableLabelListbox(checkedlistboxABIEs, (CheckBox)sender);
-
-            checkedlistboxABIEs.SelectedIndex = returnValues.SelectedIndex;
-
-            Model.SetSelectedAndCheckedCandidateAbie(returnValues.SelectedItem, returnValues.CheckedValue);
-
-            SetSelectedIndexForAsbieListBox();
-        }
         
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox ASBIEs
+        private void listboxAsbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+            CheckableItem checkableItem = (CheckableItem)checkedlistboxASCCs.SelectedItem;            
+            Model.SetSelectedAndCheckedPotentialAsbie(checkableItem.Text, checkableItem.Checked);
+
+            checkedlistboxASCCs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxASCCs, (CheckBox)sender);
+        }
+
         private void listboxAsbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (checkedlistboxASCCs.SelectedItem != null)
             {
-                Model.SetSelectedAndCheckedPotentialAsbie(((CheckableItem)checkedlistboxASCCs.SelectedItem).Text, null);
+                CheckableItem checkableItem = (CheckableItem)checkedlistboxASCCs.SelectedItem;
+
+                Model.SetSelectedAndCheckedPotentialAsbie(checkableItem.Text, checkableItem.Checked);
             }
         }
-
-        private void listboxAsbies_ItemTextBoxMouseCapture(object sender, MouseEventArgs e)
-        {
-            checkedlistboxASCCs.SelectedIndex = GetSelectedIndexforListbox(checkedlistboxASCCs, ((TextBox)sender).Text);
-        }
-
-        private void listboxAsbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
-        {
-            ReturnValues returnValues = GetValuesForSelectedItemInCheckableLabelListbox(checkedlistboxASCCs, (CheckBox)sender);
-
-            checkedlistboxASCCs.SelectedIndex = returnValues.SelectedIndex;
-
-            Model.SetSelectedAndCheckedPotentialAsbie(returnValues.SelectedItem, returnValues.CheckedValue);
-        }
-
+        
+        
         // ------------------------------------------------------------------------------------
         // Event handler: TextBox ABIE Prefix
         private void textAbiePrefix_TextChanged(object sender, TextChangedEventArgs e)
@@ -408,55 +413,42 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
-        private static int GetSelectedIndexforListbox(ListBox listBox, string selectedItem)
+        private static CheckableItem GetSelectedCheckableItemforListbox(ListBox listBox, string selectedItemText)
         {
             foreach (CheckableItem checkableItem in listBox.Items)
             {
-                if (checkableItem.Text.Equals(selectedItem))
+                if (checkableItem.Text.Equals(selectedItemText))
                 {
-                    return listBox.Items.IndexOf(checkableItem);
+                    return checkableItem;
                 }
             }
 
-            return 0;
+            return null;
         }
 
-        private static ReturnValues GetValuesForSelectedItemInCheckableLabelListbox(ListBox listBox, CheckBox checkBox)
+        private static CheckableItem GetSelectedCheckableItemforListbox(ListBox listBox, CheckBox checkBox)
         {
             StackPanel parent = (StackPanel)checkBox.Parent;
-
-            ReturnValues returnValues = new ReturnValues(0, "", false);
-
-            if (checkBox.IsChecked == true)
-            {
-                returnValues.CheckedValue = true;
-            }
+            string selectedItemText = "";
 
             foreach (UIElement child in parent.Children)
             {
                 if (child.GetType() == typeof(TextBox))
                 {
-                    returnValues.SelectedIndex = GetSelectedIndexforListbox(listBox, ((TextBox)child).Text);
-                    returnValues.SelectedItem = ((TextBox)child).Text;
+                    selectedItemText = ((TextBox)child).Text;
                 }
             }
 
-            return returnValues;
+            return GetSelectedCheckableItemforListbox(listBox, selectedItemText);
         }
 
-        private class ReturnValues
-        {
-            public int SelectedIndex { get; set; }
-            public string SelectedItem { get; set; }
-            public bool CheckedValue { get; set; }
+        private static CheckableItem GetSelectedCheckableItemforListbox(ListBox listBox, TextBox textBox)
+        {            
+            string selectedItemText = textBox.Text;
 
-            public ReturnValues(int selectedIndex, string selectedItem, bool checkedValue)
-            {
-                SelectedIndex = selectedIndex;
-                SelectedItem = selectedItem;
-                CheckedValue = checkedValue;
-            }
+            return GetSelectedCheckableItemforListbox(listBox, selectedItemText);
         }
+
 
         #endregion
 
@@ -480,7 +472,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             comboBDTLs.SelectedIndex = 0;
         }
 
-        private void SetSelectedIndexForBccAndBbieAndBdtListBoxes()
+        private void SetSelectedItemForBccListBox()
         {                     
             int index = 0;
 
@@ -499,12 +491,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index = 0;
             }
 
-            checkedlistboxBCCs.SelectedIndex = index;
-
-            SetSelectedIndexForBbieandBdtListBoxes();
+            if (index < checkedlistboxBCCs.Items.Count)
+            {
+                checkedlistboxBCCs.SelectedItem = checkedlistboxBCCs.Items[index];              
+            }
         }
 
-        private void SetSelectedIndexForBbieandBdtListBoxes()
+
+        private void SetSelectedItemForBbieListBox()
         {
             int index = 0;
 
@@ -523,12 +517,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index = 0;
             }
 
-            checkedlistboxBBIEs.SelectedIndex = index;            
-            
-            SetSelectedIndexForBdtListBox();
+            if (index < checkedlistboxBBIEs.Items.Count)
+            {
+                checkedlistboxBBIEs.SelectedItem = checkedlistboxBBIEs.Items[index];           
+            }
         }
 
-        private void SetSelectedIndexForBdtListBox()
+
+        private void SetSelectedItemForBdtListBox()
         {
             int index = 0;
 
@@ -547,10 +543,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index = 0;
             }
 
-            checkedlistboxBDTs.SelectedIndex = index;
+            if (index < checkedlistboxBDTs.Items.Count)
+            {
+                checkedlistboxBDTs.SelectedItem = checkedlistboxBDTs.Items[index];
+            }
         }
 
-        private void SetSelectedIndexForAbieAndAsbieListBoxes()
+        private void SetSelectedItemForAbieListBox()
         {
             int index = 0;
 
@@ -569,12 +568,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index = 0;
             }
 
-            checkedlistboxABIEs.SelectedIndex = index;
-
-            SetSelectedIndexForAsbieListBox();
+            if (index < checkedlistboxABIEs.Items.Count)
+            {
+                checkedlistboxABIEs.SelectedItem = checkedlistboxABIEs.Items[index];           
+            }
         }
 
-        private void SetSelectedIndexForAsbieListBox()
+        private void SetSelectedItemForAsbieListBox()
         {
             int index = 0;
 
@@ -593,7 +593,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index = 0;
             }
 
-            checkedlistboxASCCs.SelectedIndex = index;
+            if (index < checkedlistboxASCCs.Items.Count)
+            {
+                checkedlistboxASCCs.SelectedItem = checkedlistboxASCCs.Items[index];   
+            }            
         }
 
         #endregion

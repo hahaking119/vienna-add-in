@@ -47,7 +47,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding Path=Checked}" Checked="listboxBccs_ItemCheckBoxChecked" Unchecked="listboxBccs_ItemCheckBoxChecked" />
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" GotMouseCapture="listboxBccs_ItemTextBoxGotMouseCapture" IsEnabled="True" BorderThickness="0" Background="Transparent" />                                                    
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" IsEnabled="True" BorderThickness="0" Background="Transparent" />                                                    
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -69,7 +69,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding Path=Checked}" Checked="listboxBbies_ItemCheckBoxChecked" Unchecked="listboxBbies_ItemCheckBoxChecked" />
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" GotMouseCapture="listboxBbies_ItemTextBoxGotMouseCapture" KeyUp="ForceTextboxToLoseFocus" LostFocus="listboxBbies_LostFocus" IsEnabled="True" BorderThickness="0" Background="Transparent" />
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" GotMouseCapture="listboxBbies_ItemTextBoxGotMouseCapture" KeyUp="ForceTextboxToLoseFocus" LostFocus="listboxBbies_ItemTextBoxLostFocus" IsEnabled="True" BorderThickness="0" Background="Transparent" />
                                                 </StackPanel>                                                
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -84,14 +84,14 @@
                                 <DockPanel>                                    
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
                                         <Button Name="buttonAddBdt" Height="15" Width="15" Click="buttonAddBdt_Click" FontSize="8">+</Button>
-                                        <Label Margin="0,-2,0,0">Add another BBIE</Label>
+                                        <Label Margin="0,-2,0,0">Add another BDT</Label>
                                     </StackPanel>                                                                        
                                     <ListBox ItemsSource="{Binding Path=Model.PotentialBdtItems}" Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="listboxBdts_ItemSelectionChanged" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding Path=Checked}" Checked="listboxBdts_ItemCheckBoxChecked" Unchecked="listboxBdts_ItemCheckBoxChecked"/> 
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" GotMouseCapture="listboxBdts_ItemTextBoxGotMouseCapture" KeyUp="ForceTextboxToLoseFocus" LostFocus="listboxBdts_LostFocus" IsEnabled="True" BorderThickness="0" Background="Transparent" />
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" GotMouseCapture="listboxBdts_ItemTextBoxGotMouseCapture" KeyUp="ForceTextboxToLoseFocus" LostFocus="listboxBdts_ItemTextBoxLostFocus" IsEnabled="True" BorderThickness="0" Background="Transparent" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -115,7 +115,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding Path=Checked}" Checked="listboxAbies_ItemCheckBoxChecked" Unchecked="listboxAbies_ItemCheckBoxChecked" />                                                    
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" GotMouseCapture="listboxAbies_ItemTextBoxGotMouseCapture" IsEnabled="True" BorderThickness="0" Background="Transparent" />
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" IsEnabled="True" BorderThickness="0" Background="Transparent" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -133,7 +133,7 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding Path=Checked}" Checked="listboxAsbies_ItemCheckBoxChecked" Unchecked="listboxAsbies_ItemCheckBoxChecked"/>                                                    
-                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" GotMouseCapture="listboxAsbies_ItemTextBoxMouseCapture" IsEnabled="True" BorderThickness="0" Background="Transparent" />
+                                                    <TextBox Text="{Binding Path=Text}" IsReadOnly="{Binding Path=ItemReadOnly}" Focusable="{Binding Path=ItemFocusable}" Cursor="{Binding Path=ItemCursor}" IsEnabled="True" BorderThickness="0" Background="Transparent" />
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
