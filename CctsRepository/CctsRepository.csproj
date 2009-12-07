@@ -267,17 +267,33 @@
       <DependentUpon>MaSpec.tt</DependentUpon>
     </Compile>
     <Compile Include="DocLibrary\MaSpecManualExtensions.cs" />
+    <Compile Include="EnumLibrary\CodelistEntrySpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CodelistEntrySpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EnumLibrary\CodelistEntrySpecManualExtensions.cs" />
     <Compile Include="EnumLibrary\EnumLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EnumLibrarySpec.tt</DependentUpon>
     </Compile>
+    <Compile Include="EnumLibrary\EnumSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EnumLibrary\EnumSpecManualExtensions.cs" />
     <Compile Include="EnumLibrary\ICodelistEntry.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ICodelistEntry.tt</DependentUpon>
     </Compile>
-    <Compile Include="EnumLibrary\IdSchemeSpec.cs" />
+    <Compile Include="EnumLibrary\IdSchemeSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IdSchemeSpec.tt</DependentUpon>
+    </Compile>
     <Compile Include="EnumLibrary\IEnum.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -308,8 +324,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IPrimLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="EnumLibrary\CodelistEntrySpec.cs" />
-    <Compile Include="EnumLibrary\EnumSpec.cs" />
     <None Include="BdtLibrary\BdtConSpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BdtConSpec.cs</LastGenOutput>
@@ -470,13 +484,25 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MaSpec.cs</LastGenOutput>
     </None>
+    <None Include="EnumLibrary\CodelistEntrySpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CodelistEntrySpec.cs</LastGenOutput>
+    </None>
     <None Include="EnumLibrary\EnumLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EnumLibrarySpec.cs</LastGenOutput>
     </None>
+    <None Include="EnumLibrary\EnumSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EnumSpec.cs</LastGenOutput>
+    </None>
     <None Include="EnumLibrary\ICodelistEntry.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICodelistEntry.cs</LastGenOutput>
+    </None>
+    <None Include="EnumLibrary\IdSchemeSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IdSchemeSpec.cs</LastGenOutput>
     </None>
     <None Include="EnumLibrary\IEnum.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -523,6 +549,8 @@
     <None Include="t4\AttributeSpec.tt">
     </None>
     <None Include="t4\AssociationSpec.tt">
+    </None>
+    <None Include="t4\EnumerationLiteralSpec.tt">
     </None>
     <None Include="t4\EnumerationLiteralInterface.tt">
     </None>
