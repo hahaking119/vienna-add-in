@@ -1,70 +1,106 @@
+
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.Collections.Generic;
-using VIENNAAddInUtils;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 
 namespace CctsRepository.EnumLibrary
 {
-    public class EnumSpec
+    public partial class EnumSpec
     {
-        private List<CodelistEntrySpec> codelistEntries;
+		public string Name { get; set; }
 
-        public EnumSpec(IEnum @enum)
-        {
-            Name = @enum.Name;
-            DictionaryEntryName = @enum.DictionaryEntryName;
-            Definition = @enum.Definition;
-            UniqueIdentifier = @enum.UniqueIdentifier;
-            VersionIdentifier = @enum.VersionIdentifier;
-            LanguageCode = @enum.LanguageCode;
-            BusinessTerms = new List<string>(@enum.BusinessTerms);
+		public IEnum IsEquivalentTo { get; set; }
 
-            CodeListAgencyIdentifier = @enum.CodeListAgencyIdentifier;
-            CodeListAgencyName = @enum.CodeListAgencyName;
-            CodeListIdentifier = @enum.CodeListIdentifier;
-            CodeListName = @enum.CodeListName;
-            ModificationAllowedIndicator = @enum.ModificationAllowedIndicator;
-            EnumerationURI = @enum.EnumerationURI;
-            IsEquivalentTo = @enum.IsEquivalentTo;
-            codelistEntries = new List<CodelistEntrySpec>(@enum.CodelistEntries.Convert(codelistEntry => new CodelistEntrySpec(codelistEntry)));
-        }
+		#region Tagged Values
 
-        public EnumSpec()
-        {
-            codelistEntries = new List<CodelistEntrySpec>();
-        }
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
+		public IEnumerable<string> BusinessTerms { get; set; }
 
-        public string CodeListAgencyIdentifier { get; set; }
-        public string CodeListAgencyName { get; set; }
-        public string CodeListIdentifier { get; set; }
-        public string CodeListName { get; set; }
-        public string EnumerationURI { get; set; }
-        public bool ModificationAllowedIndicator { get; set; }
-        public string RestrictedPrimitive { get; set; }
-        public string Status { get; set; }
+        ///<summary>
+        /// Tagged value 'codeListAgencyIdentifier'.
+        ///</summary>
+		public string CodeListAgencyIdentifier { get; set; }
 
-        public IEnum IsEquivalentTo { get; set; }
+        ///<summary>
+        /// Tagged value 'codeListAgencyName'.
+        ///</summary>
+		public string CodeListAgencyName { get; set; }
 
-        public IEnumerable<CodelistEntrySpec> CodelistEntries
-        {
-            get { return codelistEntries; }
-            set { codelistEntries = new List<CodelistEntrySpec>(value); }
-        }
+        ///<summary>
+        /// Tagged value 'codeListIdentifier'.
+        ///</summary>
+		public string CodeListIdentifier { get; set; }
 
-        public string Name { get; set; }
-        public string DictionaryEntryName { get; set; }
-        public string Definition { get; set; }
-        public string UniqueIdentifier { get; set; }
-        public string VersionIdentifier { get; set; }
-        public string LanguageCode { get; set; }
-        public IEnumerable<string> BusinessTerms { get; set; }
+        ///<summary>
+        /// Tagged value 'codeListName'.
+        ///</summary>
+		public string CodeListName { get; set; }
 
-        public void AddCodelistEntry(CodelistEntrySpec spec)
-        {
-            codelistEntries.Add(spec);
-        }
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
+		public string DictionaryEntryName { get; set; }
 
-        public void RemoveBBIE(string name)
-        {
-            codelistEntries.RemoveAll(entry => entry.Name == name);
-        }
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
+		public string Definition { get; set; }
+
+        ///<summary>
+        /// Tagged value 'enumerationURI'.
+        ///</summary>
+		public string EnumerationURI { get; set; }
+
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
+		public string LanguageCode { get; set; }
+
+        ///<summary>
+        /// Tagged value 'modificationAllowedIndicator'.
+        ///</summary>
+		public bool ModificationAllowedIndicator { get; set; }
+
+        ///<summary>
+        /// Tagged value 'restrictedPrimitive'.
+        ///</summary>
+		public string RestrictedPrimitive { get; set; }
+
+        ///<summary>
+        /// Tagged value 'status'.
+        ///</summary>
+		public string Status { get; set; }
+
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
+		public string UniqueIdentifier { get; set; }
+
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
+		public string VersionIdentifier { get; set; }
+
+		#endregion
     }
 }
+
