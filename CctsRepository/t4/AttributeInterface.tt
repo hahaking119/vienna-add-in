@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 <# 
 	var library = MetaModel.GetPackageRelationsFor(metaAttribute.ContainingClassifierType).First().PackageType;
+    var typeClassName = (metaAttribute.Type is MetaMultiType ? "" : "I" ) + metaAttribute.Type.Name;
 #>
 namespace CctsRepository.<#= library.Name #>
 {
@@ -22,8 +23,16 @@ namespace CctsRepository.<#= library.Name #>
 		
         I<#= metaAttribute.ContainingClassifierType.Name #> <#= metaAttribute.ContainingClassifierType.Name #> { get; }
 		
-		<#= metaAttribute.Type.Name #> <#= metaAttribute.Type.Name #> { get; }
+		<#= typeClassName #> <#= metaAttribute.Type.Name #> { get; }
 <#
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaAttribute))
+		{
+#>
+
+		I<#= dependency.TargetAttribute.ClassName #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; }
+<#
+		}
+
 		if (metaAttribute.HasTaggedValues)
 		{
 #>

@@ -58,7 +58,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
         private static void AssertCDTSUP(ICdtSup expectedSUP, ICdt actualCDT, ICdtSup actualSUP)
         {
-            Assert.AreSame(actualCDT, actualSUP.CDT);
+            Assert.AreSame(actualCDT, actualSUP.Cdt);
             Assert.AreEqual(expectedSUP.Name, actualSUP.Name);
             Assert.AreEqual(expectedSUP.BasicType.Id, actualSUP.BasicType.Id);
             Assert.AreEqual(expectedSUP.Definition, actualSUP.Definition);
@@ -77,7 +77,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             ICdtCon expectedCON = expectedCDT.Con;
             ICdtCon actualCON = actualBDT.Con;
-            Assert.AreSame(actualBDT, actualCON.CDT);
+            Assert.AreSame(actualBDT, actualCON.Cdt);
             Assert.AreEqual("Content", actualCON.Name);
             Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
             Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
@@ -147,7 +147,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
         private static void AssertBBIE(IBdt type, IBcc bcc, IBbie bbie)
         {
-            Assert.AreEqual(type.Id, bbie.Type.Id);
+            Assert.AreEqual(type.Id, bbie.Bdt.Id);
             Assert.AreEqual(bcc.Name, bbie.Name);
             Assert.AreEqual(bcc.Definition, bbie.Definition);
             Assert.AreEqual(bcc.DictionaryEntryName, bbie.DictionaryEntryName);
@@ -274,7 +274,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 bbies.MoveNext();
                 IBbie bbie = bbies.Current;
                 Assert.AreEqual(bcc.Name, bbie.Name);
-                Assert.AreEqual(bdtText.Id, bbie.Type.Id);
+                Assert.AreEqual(bdtText.Id, bbie.Bdt.Id);
                 Assert.AreEqual(bcc.Definition, bbie.Definition);
                 Assert.AreEqual(bcc.DictionaryEntryName, bbie.DictionaryEntryName);
                 Assert.AreEqual(bcc.LanguageCode, bbie.LanguageCode);
@@ -821,11 +821,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             var abieAddressBBIEs = new List<IBbie>(abieAddress.Bbies);
 
             IBbie bbieCountryName = abieAddressBBIEs[1];
-            Assert.AreSame(abieAddress, bbieCountryName.Container);
+            Assert.AreSame(abieAddress, bbieCountryName.Abie);
             Assert.AreEqual("CountryName", bbieCountryName.Name);
             Assert.AreEqual("1", bbieCountryName.LowerBound);
             Assert.AreEqual("1", bbieCountryName.UpperBound);
-            Assert.AreEqual(bdtText.Id, bbieCountryName.Type.Id);
+            Assert.AreEqual(bdtText.Id, bbieCountryName.Bdt.Id);
 
             IBcc bbiePostcode = accAddressBCCs[2];
             Assert.AreEqual("Postcode", bbiePostcode.Name);
@@ -918,7 +918,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 bbies.MoveNext();
                 IBbie bbie = bbies.Current;
                 Assert.AreEqual(bcc.Name, bbie.Name);
-                Assert.AreEqual(bdtText.Id, bbie.Type.Id);
+                Assert.AreEqual(bdtText.Id, bbie.Bdt.Id);
                 Assert.AreEqual(bcc.Definition, bbie.Definition);
                 Assert.AreEqual(bcc.DictionaryEntryName, bbie.DictionaryEntryName);
                 Assert.AreEqual(bcc.LanguageCode, bbie.LanguageCode);

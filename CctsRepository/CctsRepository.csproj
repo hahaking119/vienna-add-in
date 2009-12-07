@@ -92,6 +92,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IAbie.tt</DependentUpon>
     </Compile>
+    <Compile Include="BieLibrary\IBbie.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IBbie.tt</DependentUpon>
+    </Compile>
     <Compile Include="BieLibrary\IBieLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -117,6 +122,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IAcc.tt</DependentUpon>
     </Compile>
+    <Compile Include="CcLibrary\IBcc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IBcc.tt</DependentUpon>
+    </Compile>
     <Compile Include="CcLibrary\ICcLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -132,10 +142,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ICdt.tt</DependentUpon>
     </Compile>
+    <Compile Include="CdtLibrary\ICdtCon.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ICdtCon.tt</DependentUpon>
+    </Compile>
     <Compile Include="CdtLibrary\ICdtLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ICdtLibrary.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CdtLibrary\ICdtSup.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ICdtSup.tt</DependentUpon>
     </Compile>
     <Compile Include="DocLibrary\DocLibrarySpec.cs">
       <AutoGen>True</AutoGen>
@@ -159,6 +179,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EnumLibrarySpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EnumLibrary\ICodelistEntry.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ICodelistEntry.tt</DependentUpon>
     </Compile>
     <Compile Include="EnumLibrary\IdSchemeSpec.cs" />
     <Compile Include="EnumLibrary\IEnum.cs">
@@ -206,8 +231,6 @@
     <Compile Include="BieLibrary\IAsbie.cs" />
     <Compile Include="CcLibrary\IAscc.cs" />
     <Compile Include="IBasicType.cs" />
-    <Compile Include="BieLibrary\IBbie.cs" />
-    <Compile Include="CcLibrary\IBcc.cs" />
     <None Include="BdtLibrary\BdtLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BdtLibrarySpec.cs</LastGenOutput>
@@ -240,6 +263,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IAbie.cs</LastGenOutput>
     </None>
+    <None Include="BieLibrary\IBbie.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IBbie.cs</LastGenOutput>
+    </None>
     <None Include="BieLibrary\IBieLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IBieLibrary.cs</LastGenOutput>
@@ -260,6 +287,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IAcc.cs</LastGenOutput>
     </None>
+    <None Include="CcLibrary\IBcc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IBcc.cs</LastGenOutput>
+    </None>
     <None Include="CcLibrary\ICcLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICcLibrary.cs</LastGenOutput>
@@ -272,9 +303,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICdt.cs</LastGenOutput>
     </None>
+    <None Include="CdtLibrary\ICdtCon.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ICdtCon.cs</LastGenOutput>
+    </None>
     <None Include="CdtLibrary\ICdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICdtLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="CdtLibrary\ICdtSup.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ICdtSup.cs</LastGenOutput>
     </None>
     <None Include="DocLibrary\DocLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -291,6 +330,10 @@
     <None Include="EnumLibrary\EnumLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EnumLibrarySpec.cs</LastGenOutput>
+    </None>
+    <None Include="EnumLibrary\ICodelistEntry.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ICodelistEntry.cs</LastGenOutput>
     </None>
     <None Include="EnumLibrary\IEnum.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -326,6 +369,8 @@
     </None>
     <None Include="t4\AttributeInterface.tt">
     </None>
+    <None Include="t4\EnumerationLiteralInterface.tt">
+    </None>
     <None Include="t4\Copyright.tt">
     </None>
     <None Include="t4\helpers.tt">
@@ -340,9 +385,6 @@
     </None>
     <None Include="t4\MultiType.tt">
     </None>
-    <Compile Include="CdtLibrary\ICdtSup.cs" />
-    <Compile Include="EnumLibrary\ICodelistEntry.cs" />
-    <Compile Include="CdtLibrary\ICdtCon.cs" />
     <Compile Include="PrimLibrary\PrimLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

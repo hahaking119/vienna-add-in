@@ -6,13 +6,13 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
-using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
-using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             this.repository = repository;
             this.attribute = attribute;
-            Container = container;
+            Abie = container;
         }
 
         #region IBbie Members
@@ -52,7 +52,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = Container.Name + ". " + Name + ". " + Type.Name;
+                    value = Abie.Name + ". " + Name + ". " + Bdt.Name;
                 }
                 return value;
             }
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.sequencingKey); }
         }
 
-        public IAbie Container { get; protected set; }
+        public IAbie Abie { get; protected set; }
 
         public string UpperBound
         {
@@ -100,7 +100,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return attribute.LowerBound; }
         }
 
-        public IBdt Type
+        public bool IsOptional()
+        {
+            int i;
+            return Int32.TryParse(LowerBound, out i) && i == 0;
+        }
+
+        public IBdt Bdt
         {
             get { return repository.GetBdtById(attribute.ClassifierID); }
         }
@@ -109,11 +115,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get
             {
-                if (Container == null)
+                if (Abie == null)
                 {
                     return null;
                 }
-                IAcc acc = Container.BasedOn;
+                IAcc acc = Abie.BasedOn;
                 if (acc == null)
                 {
                     return null;

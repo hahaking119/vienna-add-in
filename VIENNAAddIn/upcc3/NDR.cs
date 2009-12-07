@@ -27,7 +27,7 @@ namespace VIENNAAddIn.upcc3
 
         public static string GetXsdElementNameFromBbie(IBbie bbie)
         {
-            return GenerateBCCOrBBIEName(bbie.Name, bbie.Type.Name, bbie.DictionaryEntryName);
+            return GenerateBCCOrBBIEName(bbie.Name, bbie.Bdt.Name, bbie.DictionaryEntryName);
         }
 
         /// <exception cref="ArgumentException"><c>ArgumentException</c>.</exception>

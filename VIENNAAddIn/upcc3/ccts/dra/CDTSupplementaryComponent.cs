@@ -38,13 +38,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = CDT.Name + ". " + Name + ". " + BasicType.Name;
+                    value = Cdt.Name + ". " + Name + ". " + BasicType.Name;
                 }
                 return value;
             }
         }
 
-        public ICdt CDT
+        public ICdt Cdt
         {
             get { return cdt; }
         }

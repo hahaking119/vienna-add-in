@@ -69,6 +69,8 @@ namespace Upcc
         private readonly Classes classes;
         private readonly DataTypes dataTypes;
         private readonly Dependencies dependencies;
+        private readonly AttributeDependencies attributeDependencies;
+        private readonly AssociationDependencies associationDependencies;
         private readonly EnumerationLiterals enumerationLiterals;
         private readonly Enumerations enumerations;
         private readonly PackageClassifierRelations packageClassifierRelations;
@@ -97,6 +99,8 @@ namespace Upcc
             enumerationLiterals = new EnumerationLiterals(taggedValues, enumerations);
             associations = new Associations(taggedValues, classes, multiTypes);
             dependencies = new Dependencies(classes, dataTypes, enumerations);
+            attributeDependencies = new AttributeDependencies(attributes);
+            associationDependencies = new AssociationDependencies(associations);
 
             packageSubPackageRelations = new PackageSubPackageRelations(packages);
             packageClassifierRelations = new PackageClassifierRelations(packages, dataTypes, classes, enumerations);
@@ -464,6 +468,38 @@ namespace Upcc
         public static bool HasDependencies(MetaClassifier classifier)
         {
             return GetDependenciesFor(classifier).Count() > 0;
+        }
+
+        public static IEnumerable<MetaAttributeDependency> GetDependenciesFor(MetaAttribute attribute)
+        {
+            foreach (var dependency in Instance.attributeDependencies.All)
+            {
+                if (dependency.SourceAttribute == attribute)
+                {
+                    yield return dependency;
+                }
+            }
+        }
+
+        public static bool HasDependencies(MetaAttribute attribute)
+        {
+            return GetDependenciesFor(attribute).Count() > 0;
+        }
+
+        public static IEnumerable<MetaAssociationDependency> GetDependenciesFor(MetaAssociation association)
+        {
+            foreach (var dependency in Instance.associationDependencies.All)
+            {
+                if (dependency.SourceAssociation == association)
+                {
+                    yield return dependency;
+                }
+            }
+        }
+
+        public static bool HasDependencies(MetaAssociation association)
+        {
+            return GetDependenciesFor(association).Count() > 0;
         }
     }
 }
