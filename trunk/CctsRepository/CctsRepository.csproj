@@ -238,6 +238,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ICdtSup.tt</DependentUpon>
     </Compile>
+    <Compile Include="DocLibrary\AsmaSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AsmaSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DocLibrary\AsmaSpecManualExtensions.cs" />
     <Compile Include="DocLibrary\DocLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -255,7 +261,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IMa.tt</DependentUpon>
     </Compile>
-    <Compile Include="DocLibrary\MaSpec.cs" />
+    <Compile Include="DocLibrary\MaSpec.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaSpec.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DocLibrary\MaSpecManualExtensions.cs" />
     <Compile Include="EnumLibrary\EnumLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -439,6 +450,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ICdtSup.cs</LastGenOutput>
     </None>
+    <None Include="DocLibrary\AsmaSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsmaSpec.cs</LastGenOutput>
+    </None>
     <None Include="DocLibrary\DocLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DocLibrarySpec.cs</LastGenOutput>
@@ -450,6 +465,10 @@
     <None Include="DocLibrary\IMa.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IMa.cs</LastGenOutput>
+    </None>
+    <None Include="DocLibrary\MaSpec.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MaSpec.cs</LastGenOutput>
     </None>
     <None Include="EnumLibrary\EnumLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
