@@ -111,7 +111,7 @@
       <DependentUpon>AsbieSpec.tt</DependentUpon>
     </Compile>
     <Compile Include="BieLibrary\AsbieSpecManualExtensions.cs" />
-    <Compile Include="BieLibrary\BbieSpec1.cs">
+    <Compile Include="BieLibrary\BbieSpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BbieSpec.tt</DependentUpon>
@@ -330,7 +330,7 @@
     </None>
     <None Include="BieLibrary\BbieSpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BbieSpec1.cs</LastGenOutput>
+      <LastGenOutput>BbieSpec.cs</LastGenOutput>
     </None>
     <None Include="BieLibrary\BieLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
