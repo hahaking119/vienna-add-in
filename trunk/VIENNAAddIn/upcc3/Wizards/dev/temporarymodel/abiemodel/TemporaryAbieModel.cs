@@ -528,8 +528,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                                 }
                                             }
 
-                                            // TODO: Here's the problem.
-                                            //PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
+                                            if (checkedValue.HasValue)
+                                            {
+                                                PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));    
+                                            }                                            
                                         }
                                     }
                                 }
@@ -759,9 +761,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
                                                     potentialBdt.Name = updatedBdtName;
                                                 }
-                                            }
-
-                                            //PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
+                                            }                                            
                                         }
                                     }                                    
                                 }

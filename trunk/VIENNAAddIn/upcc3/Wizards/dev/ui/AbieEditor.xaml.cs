@@ -82,12 +82,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 Model.SetSelectedAndCheckedCandidateBcc(((CheckableItem)checkedlistboxBCCs.SelectedItem).Text, null);
 
                 SetSelectedIndexForBbieandBdtListBoxes();
-            }
+            }                        
         }
         
         private void listboxBccs_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
-            checkedlistboxBCCs.SelectedIndex = GetSelectedIndexforListbox(checkedlistboxBCCs, ((TextBox) sender).Text);
+            checkedlistboxBCCs.SelectedIndex = GetSelectedIndexforListbox(checkedlistboxBCCs, ((TextBox) sender).Text);            
         }
 
         private void listboxBccs_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
@@ -120,9 +120,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             if (checkedlistboxBBIEs.SelectedItem != null)
             {
                 Model.SetSelectedAndCheckedPotentialBbie(((CheckableItem)checkedlistboxBBIEs.SelectedItem).Text, null);
-
-                SetSelectedIndexForBdtListBox();                
-            }
+                SetSelectedIndexForBdtListBox();   
+            }                         
         }
 
         private void listboxBbies_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
@@ -524,7 +523,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index = 0;
             }
 
-            checkedlistboxBBIEs.SelectedIndex = index;
+            checkedlistboxBBIEs.SelectedIndex = index;            
             
             SetSelectedIndexForBdtListBox();
         }
