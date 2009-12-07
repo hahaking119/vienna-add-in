@@ -6,39 +6,32 @@
         
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelCCLs">Choose CC Library containing ACCs:</Label>
-            <ComboBox ItemsSource="{Binding Path=Model.CandidateCcLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboCCLs" SelectionChanged="comboboxCcls_SelectionChanged" KeyboardNavigation.TabIndex="0"></ComboBox>
+            <ComboBox ItemsSource="{Binding Path=Model.CandidateCcLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboCCLs" SelectionChanged="comboboxCcls_SelectionChanged"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelACCs">Choose ACC used to generate the ABIE:</Label>
-            <ComboBox ItemsSource="{Binding Path=Model.CandidateAccNames}" HorizontalAlignment="Stretch" Height="23" Name="comboACCs" SelectionChanged="comboboxAccs_SelectionChanged" KeyboardNavigation.TabIndex="1"></ComboBox>
-        </DockPanel>
-        
+            <ComboBox ItemsSource="{Binding Path=Model.CandidateAccNames}" HorizontalAlignment="Stretch" Height="23" Name="comboACCs" SelectionChanged="comboboxAccs_SelectionChanged"></ComboBox>
+        </DockPanel>        
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,15,1,1">
             <Button HorizontalAlignment="Center" Width="100" Name="buttonSave" Margin="5,5,5,5" Click="buttonCreate_Click">_Generate ABIE</Button>
             <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
-        <!--<DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
-            <Label DockPanel.Dock="Top" HorizontalAlignment="Left" Height="23" Name="labelStatus">Status:</Label>
-            <TextBox HorizontalAlignment="Stretch" Height="60" Name="textStatus" Margin="5,0,0,0" IsReadOnly="True" IsUndoEnabled="False" TextWrapping="Wrap"></TextBox>
-        </DockPanel>-->
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBIELs">BIE Library used to store the ABIE:</Label>
-            <ComboBox ItemsSource="{Binding Path=Model.CandidateBieLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboboxBiels_SelectionChanged" KeyboardNavigation.TabIndex="6"></ComboBox>
+            <ComboBox ItemsSource="{Binding Path=Model.CandidateBieLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboBIELs" SelectionChanged="comboboxBiels_SelectionChanged"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBDTLs">BDT Library used to store the BDTs:</Label>
-            <ComboBox ItemsSource="{Binding Path=Model.CandidateBdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs" SelectionChanged="comboboxBdtls_SelectionChanged" KeyboardNavigation.TabIndex="5"></ComboBox>
+            <ComboBox ItemsSource="{Binding Path=Model.CandidateBdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboBDTLs" SelectionChanged="comboboxBdtls_SelectionChanged"></ComboBox>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelABIEName">Name of the generated ABIE:</Label>
-            <TextBox Name="textABIEName" Text="{Binding Path=Model.AbieName}" TextChanged="textAbieName_TextChanged" HorizontalAlignment="Stretch" Height="23" KeyboardNavigation.TabIndex="4"/>
+            <TextBox Name="textABIEName" Text="{Binding Path=Model.AbieName}" TextChanged="textAbieName_TextChanged" HorizontalAlignment="Stretch" Height="23"/>
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,5,1,1">
             <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelPrefix">Prefix used for the generated Artifacts:</Label>
-            <TextBox Name="textPrefix" Text="{Binding Path=Model.AbiePrefix}" HorizontalAlignment="Stretch" Height="23" TextChanged="textAbiePrefix_TextChanged" KeyboardNavigation.TabIndex="3"/>
+            <TextBox Name="textPrefix" Text="{Binding Path=Model.AbiePrefix}" HorizontalAlignment="Stretch" Height="23" TextChanged="textAbiePrefix_TextChanged"/>
         </DockPanel>
-
-
         <DockPanel>
             <TabControl DockPanel.Dock="Left" Name="tabControl" TabStripPlacement="Top" Margin="0,0,0,0">
                 <TabItem Name="tabAttributes" Header="Attributes">
@@ -47,9 +40,9 @@
                             <GroupBox Header="BCCs used as BBIEs" Margin="0,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
-                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" KeyboardNavigation.TabIndex="0" Checked="checkboxBccs_Checked" Unchecked="checkboxBccs_Checked">Select all BCCs</CheckBox>
+                                        <CheckBox DockPanel.Dock="Top" Name="checkboxBCCs" Margin="0,3,0,0" Checked="checkboxBccs_Checked" Unchecked="checkboxBccs_Checked">Select all BCCs</CheckBox>
                                     </StackPanel>
-                                    <ListBox ItemsSource="{Binding Path=Model.CandidateBccItems}" Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="listboxBccs_ItemSelectionChanged" KeyboardNavigation.TabIndex="1" Padding="0,1,0,0">
+                                    <ListBox ItemsSource="{Binding Path=Model.CandidateBccItems}" Name="checkedlistboxBCCs" Margin="0,0,0,0" SelectionChanged="listboxBccs_ItemSelectionChanged" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -68,10 +61,10 @@
                             <GroupBox Header="BBIEs based on BCCs" Margin="-2,0,0,0">
                                 <DockPanel>
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
-                                        <Button Name="buttonAddBBIE" Height="15" Width="15" Click="buttonAddBbie_Click" FontSize="8" KeyboardNavigation.TabIndex="2">+</Button>
+                                        <Button Name="buttonAddBBIE" Height="15" Width="15" Click="buttonAddBbie_Click" FontSize="8">+</Button>
                                         <Label Margin="0,-2,0,0">Add another BBIE</Label>
                                     </StackPanel>
-                                    <ListBox ItemsSource="{Binding Path=Model.PotentialBbieItems}" Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="listboxBbies_ItemSelectionChanged" KeyboardNavigation.TabIndex="3" Padding="0,1,0,0">
+                                    <ListBox ItemsSource="{Binding Path=Model.PotentialBbieItems}" Name="checkedlistboxBBIEs" Margin="0,0,0,0" SelectionChanged="listboxBbies_ItemSelectionChanged" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -90,11 +83,10 @@
                             <GroupBox Header="BDTs available to typify the BBIEs" Margin="-2,0,0,0">
                                 <DockPanel>                                    
                                     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0">
-                                        <Button Name="buttonAddBdt" Height="15" Width="15" Click="buttonAddBdt_Click" FontSize="8" KeyboardNavigation.TabIndex="2">+</Button>
+                                        <Button Name="buttonAddBdt" Height="15" Width="15" Click="buttonAddBdt_Click" FontSize="8">+</Button>
                                         <Label Margin="0,-2,0,0">Add another BBIE</Label>
-                                    </StackPanel>                                    
-                                    <!-- <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="20" Margin="0,0,0,0" /> -->
-                                    <ListBox ItemsSource="{Binding Path=Model.PotentialBdtItems}" Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="listboxBdts_ItemSelectionChanged" KeyboardNavigation.TabIndex="4" Padding="0,1,0,0">
+                                    </StackPanel>                                                                        
+                                    <ListBox ItemsSource="{Binding Path=Model.PotentialBdtItems}" Name="checkedlistboxBDTs" Margin="0,0,0,0" SelectionChanged="listboxBdts_ItemSelectionChanged" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -118,7 +110,7 @@
                         <UniformGrid Rows="1" Columns="2">
                             <GroupBox Header="ABIEs available to associate the new ABIE with" Margin="0,0,0,0">
                                 <DockPanel>
-                                    <ListBox ItemsSource="{Binding Path=Model.CandidateAbieItems}" Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="listboxAbies_ItemSelectionChanged" KeyboardNavigation.TabIndex="0" Padding="0,1,0,0">
+                                    <ListBox ItemsSource="{Binding Path=Model.CandidateAbieItems}" Name="checkedlistboxABIEs" Margin="0,3,0,0" SelectionChanged="listboxAbies_ItemSelectionChanged" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -136,7 +128,7 @@
                             </GroupBox>
                             <GroupBox Header="ASCCs available for the chosen ABIE" Margin="-2,0,0,0">
                                 <DockPanel>
-                                    <ListBox ItemsSource="{Binding Path=Model.PotentialAsbieItems}" Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="listboxAsbies_ItemSelectionChanged" KeyboardNavigation.TabIndex="1" Padding="0,1,0,0">
+                                    <ListBox ItemsSource="{Binding Path=Model.PotentialAsbieItems}" Name="checkedlistboxASCCs" Margin="0,3,0,0" SelectionChanged="listboxAsbies_ItemSelectionChanged" Padding="0,1,0,0">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">

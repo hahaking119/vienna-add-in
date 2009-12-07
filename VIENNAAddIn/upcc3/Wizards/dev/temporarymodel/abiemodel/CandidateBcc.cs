@@ -75,28 +75,37 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             get { return mItemFocusable; }
         }
 
-        public void AddPotentialBbie()
+        public void AddPotentialBbieAndCheckIfApplicable()
         {
             for (int i = 1; i != -1; i++)
             {
                 bool foundBbieWithTheSameName = false;
                 string newBbieName = "New" + i + OriginalBcc.Name;                
 
-                foreach (PotentialBbie potentialBbie in PotentialBbies)
+                foreach (PotentialBbie potentialBbie in mPotentialBbies)
                 {
                     if (potentialBbie.Name.Equals(newBbieName))
                     {
                         foundBbieWithTheSameName = true;
-                        break;
                     }
+
                 }
 
                 if (!foundBbieWithTheSameName)
                 {
-                    PotentialBbies.Add(new PotentialBbie(newBbieName, OriginalBcc.Cdt, true));                    
+                    PotentialBbie newPotentialBbie = new PotentialBbie(newBbieName, OriginalBcc.Cdt);
+
+                    if (mChecked)
+                    {
+                        newPotentialBbie.Checked = true;
+                    }
+
+                    mPotentialBbies.Add(newPotentialBbie);
+
                     break;
                 }
             } 
         }
+
     }
 }
