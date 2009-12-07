@@ -59,7 +59,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             UpdateFormState();
 
             SetSelectedItemForBccListBox();
-
             SetSelectedItemForAbieListBox();
         }
 
@@ -87,6 +86,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             checkedlistboxBCCs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBCCs, (CheckBox)sender);
             
             SetSelectedItemForBbieListBox();
+
+            UpdateFormState();
         }
 
         private void listboxBccs_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -125,6 +126,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             checkedlistboxBBIEs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBBIEs, (CheckBox)sender);
             
             SetSelectedItemForBdtListBox();
+
+            UpdateFormState();
         }
 
         private void listboxBbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -175,13 +178,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox BDTs
         private void listboxBdts_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
+            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (CheckBox)sender);
+
             CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
 
-            // The following code only keeps the UI in sync with the TemporaryAbieModel since 
-            // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
-            // not select the current item in the ListBox.
-            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (CheckBox)sender);            
+            SetSelectedItemForBdtListBox();
+
+            UpdateFormState();
         }
         
         private void listboxBdts_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -189,14 +193,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             if (checkedlistboxBDTs.SelectedItem != null)
             {
                 CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
-                Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);                
+                Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, null);                
             }
         }
 
         private void listboxBdts_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
             CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
-            Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
+            Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, null);
            
             checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (TextBox)sender);
         }
@@ -286,6 +290,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void comboboxBdtls_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Model.SetSelectedCandidateBdtLibrary(comboBDTLs.SelectedItem.ToString());
+
+            UpdateFormState();
         }
 
         // ------------------------------------------------------------------------------------
@@ -293,6 +299,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void comboboxBiels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Model.SetSelectedCandidateBieLibrary(comboBIELs.SelectedItem.ToString());
+
             UpdateFormState();
         }
 
@@ -340,7 +347,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                     SetEnabledForAttributeAndAssoicationTabs(true);
                     SetEnabledForAbieProperties(true);
 
-                    if ((comboBIELs.SelectedItem != null) && (Model.ContainsValidConfiguration()))
+                    if ((comboBIELs.SelectedItem != null) && (comboBDTLs.SelectedItem != null) && (Model.ContainsValidConfiguration()))
                     {
                         SetEnabledForCreateButton(true);
                     }
