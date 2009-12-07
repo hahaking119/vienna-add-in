@@ -1,0 +1,53 @@
+<#@ include file="../t4/helpers.tt" #>
+<#@ include file="../t4/Copyright.tt" #>
+using System.Collections.Generic;
+<#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
+
+<# 
+	var library = MetaModel.GetPackageRelationsFor(metaAttribute.ContainingClassifierType).First().PackageType;
+    var typeClassName = (metaAttribute.Type is MetaMultiType ? "" : "I" ) + metaAttribute.Type.Name;
+#>
+namespace CctsRepository.<#= library.Name #>
+{
+    public partial class <#= metaAttribute.ClassName #>Spec
+    {
+		public string Name { get; set; }
+		
+        public string UpperBound { get; set; }
+		
+        public string LowerBound { get; set; }
+		
+		public <#= typeClassName #> <#= metaAttribute.Type.Name #> { get; set; }
+<#
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaAttribute))
+		{
+#>
+
+		public I<#= dependency.TargetAttribute.ClassName #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; set; }
+<#
+		}
+
+		if (metaAttribute.HasTaggedValues)
+		{
+#>
+
+		#region Tagged Values
+<# 
+			foreach (var taggedValue in metaAttribute.TaggedValues)
+			{
+#>
+
+        ///<summary>
+        /// Tagged value '<#= taggedValue.Name #>'.
+        ///</summary>
+		public <#= TaggedValuePropertyType(taggedValue) #> <#= TaggedValuePropertyName(taggedValue) #> { get; set; }
+<#
+			}
+#>
+
+		#endregion
+<#
+		}
+#>
+    }
+}

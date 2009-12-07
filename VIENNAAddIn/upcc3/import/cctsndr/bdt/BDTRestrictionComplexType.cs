@@ -60,11 +60,11 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                 }
                 else if (facet is XmlSchemaMinLengthFacet)
                 {
-                    conSpec.MinLength = ((XmlSchemaFacet)facet).Value;
+                    conSpec.MinimumLength = ((XmlSchemaFacet)facet).Value;
                 }
                 else if (facet is XmlSchemaMaxLengthFacet)
                 {
-                    conSpec.MaxLength = ((XmlSchemaFacet)facet).Value;
+                    conSpec.MaximumLength = ((XmlSchemaFacet)facet).Value;
                 }
                 else if (facet is XmlSchemaPatternFacet)
                 {
@@ -72,19 +72,19 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
                 }
                 else if (facet is XmlSchemaMaxInclusiveFacet)
                 {
-                    conSpec.MaxInclusive = ((XmlSchemaFacet)facet).Value;
+                    conSpec.MaximumInclusive = ((XmlSchemaFacet)facet).Value;
                 }
                 else if (facet is XmlSchemaMaxExclusiveFacet)
                 {
-                    conSpec.MaxExclusive = ((XmlSchemaFacet)facet).Value;
+                    conSpec.MaximumExclusive = ((XmlSchemaFacet)facet).Value;
                 }
                 else if (facet is XmlSchemaMinInclusiveFacet)
                 {
-                    conSpec.MinInclusive = ((XmlSchemaFacet)facet).Value;
+                    conSpec.MinimumInclusive = ((XmlSchemaFacet)facet).Value;
                 }
                 else if (facet is XmlSchemaMinExclusiveFacet)
                 {
-                    conSpec.MinExclusive = ((XmlSchemaFacet)facet).Value;
+                    conSpec.MinimumExclusive = ((XmlSchemaFacet)facet).Value;
                 }
                 else if (facet is XmlSchemaFractionDigitsFacet)
                 {
