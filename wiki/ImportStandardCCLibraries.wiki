@@ -2,7 +2,7 @@
 
 =Standard CC Libraries=
 
-...
+At (3), several versions of the standard Core Component Libraries (CCL) are available for download. The VIENNA Add-In helps you to automatically download these standard Core Component Libraries and import them into a UPCC model.
 
 =Import standard CC Libraries into an existing UPCC3 model=
 
@@ -25,6 +25,8 @@
 (1) UMM Development Site: Core Components Technical Specification http://umm-dev.org/about-uml-profile-for-core-components-upcc/
 
 (2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
+
+(3) Download section for standard Core Component Libraries as XMI files http://umm-dev.org/xmi/
 
 =Related Tasks=
 [CreateaModelinEA Create a model in Enterprise Architect]
