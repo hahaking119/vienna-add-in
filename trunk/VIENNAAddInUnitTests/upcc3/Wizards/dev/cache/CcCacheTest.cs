@@ -1,4 +1,12 @@
-﻿using System;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.Collections.Generic;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
@@ -27,8 +35,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
             
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            List<ICdtLibrary> cdtLibraries = ccCache.GetCDTLibraries();
-            ccCache.GetCDTLibraries();
+            List<ICdtLibrary> cdtLibraries = ccCache.GetCdtLibraries();
+            ccCache.GetCdtLibraries();
             
             // Assertion and Verification
             Assert.That(cdtLibraries, Is.EquivalentTo(expectedCdtLibraries));
@@ -46,8 +54,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            List<ICcLibrary> ccLibraries = ccCache.GetCCLibraries();
-            ccCache.GetCCLibraries();
+            List<ICcLibrary> ccLibraries = ccCache.GetCcLibraries();
+            ccCache.GetCcLibraries();
 
             // Assertion and Verification
             Assert.That(ccLibraries, Is.EquivalentTo(expectedCcLibraries));
@@ -65,8 +73,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            List<IBdtLibrary> bdtLibraries = ccCache.GetBDTLibraries();
-            ccCache.GetBDTLibraries();
+            List<IBdtLibrary> bdtLibraries = ccCache.GetBdtLibraries();
+            ccCache.GetBdtLibraries();
 
             // Assertion and Verification
             Assert.That(bdtLibraries, Is.EquivalentTo(expectedBdtLibraries));
@@ -84,8 +92,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            List<IBieLibrary> bieLibraries = ccCache.GetBIELibraries();
-            ccCache.GetBIELibraries();
+            List<IBieLibrary> bieLibraries = ccCache.GetBieLibraries();
+            ccCache.GetBieLibraries();
 
             // Assertion and Verification
             Assert.That(bieLibraries, Is.EquivalentTo(expectedBieLibraries));
@@ -107,8 +115,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            List<ICdt> cdts = ccCache.GetCDTsFromCDTLibrary("cdtlib1");
-            ccCache.GetCDTsFromCDTLibrary("cdtlib1");
+            List<ICdt> cdts = ccCache.GetCdtsFromCdtLibrary("cdtlib1");
+            ccCache.GetCdtsFromCdtLibrary("cdtlib1");
 
             // Assertion and Verification
             Assert.That(cdts, Is.EquivalentTo(expectedCdts));            
@@ -130,8 +138,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            List<IAcc> accs = ccCache.GetCCsFromCCLibrary("cclib1");
-            ccCache.GetCCsFromCCLibrary("cclib1");
+            List<IAcc> accs = ccCache.GetCcsFromCcLibrary("cclib1");
+            ccCache.GetCcsFromCcLibrary("cclib1");
 
             // Assertion and Verification
             Assert.That(accs, Is.EquivalentTo(expectedAccs));
@@ -157,8 +165,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            ICdt cdt = ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
-            ccCache.GetCDTFromCDTLibrary("cdtlib1", "Text");
+            ICdt cdt = ccCache.GetCdtFromCdtLibrary("cdtlib1", "Text");
+            ccCache.GetCdtFromCdtLibrary("cdtlib1", "Text");
                 
             // Assertion and Verification
             Assert.That(cdt, Is.SameAs(cdtMockText.Object));
@@ -184,8 +192,8 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            IAcc acc = ccCache.GetCCFromCCLibrary("cclib1", "Address");
-            ccCache.GetCCFromCCLibrary("cclib1", "Address");
+            IAcc acc = ccCache.GetCcFromCcLibrary("cclib1", "Address");
+            ccCache.GetCcFromCcLibrary("cclib1", "Address");
 
             // Assertion and Verification
             Assert.That(acc, Is.SameAs(accMockAddress.Object));
@@ -203,12 +211,35 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            IBdtLibrary bdtLibrary = ccCache.GetBDTLibraryByName("bdtlib1");
-            ccCache.GetBDTLibraryByName("bdtlib1");
+            IBdtLibrary bdtLibrary = ccCache.GetBdtLibraryByName("bdtlib1");
+            ccCache.GetBdtLibraryByName("bdtlib1");
 
             // Assertion and Verification
             Assert.That(bdtLibrary, Is.SameAs(bdtLibraryMock.Object));            
             cctsRepositoryMock.Verify(r => r.GetBdtLibraries(), Times.Exactly(1));
+        }
+
+        [Test]
+        public void ShouldGetAndCacheAllBdtsFromBdtLibrary()
+        {
+            // Setup
+            var bdtMock = new Mock<IBdt>();
+            var bdtLibraryMock = new Mock<IBdtLibrary>();
+            IBdt[] expectedBdts = new[] { bdtMock.Object, bdtMock.Object, bdtMock.Object };
+            bdtLibraryMock.SetupGet(l => l.Name).Returns("bdtlib1");
+            bdtLibraryMock.SetupGet(l => l.Bdts).Returns(expectedBdts);
+
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetBdtLibraries()).Returns(new[] { bdtLibraryMock.Object });
+
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
+            List<IBdt> bdts = ccCache.GetBdtsFromBdtLibrary("bdtlib1");
+            ccCache.GetBdtsFromBdtLibrary("bdtlib1");            
+
+            // Assertion and Verification
+            Assert.That(bdts, Is.EquivalentTo(expectedBdts));
+            bdtLibraryMock.VerifyGet(l => l.Bdts, Times.Exactly(1));       
         }
 
 
@@ -223,12 +254,70 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.cache
 
             // Events
             CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
-            IBieLibrary bieLibrary = ccCache.GetBIELibraryByName("bielib1");
-            ccCache.GetBIELibraryByName("bielib1");
+            IBieLibrary bieLibrary = ccCache.GetBieLibraryByName("bielib1");
+            ccCache.GetBieLibraryByName("bielib1");
 
             // Assertion and Verification
             Assert.That(bieLibrary, Is.SameAs(bieLibraryMock.Object));
             cctsRepositoryMock.Verify(r => r.GetBieLibraries(), Times.Exactly(1));
         }       
+
+        [Test]
+        public void ShouldGetAndCacheAllBiesFromBieLibrary()
+        {
+            // Setup
+            var bieMock = new Mock<IAbie>();
+            var bieLibraryMock = new Mock<IBieLibrary>();
+            IAbie[] expectedBdts = new[] { bieMock.Object, bieMock.Object, bieMock.Object };
+            bieLibraryMock.SetupGet(l => l.Name).Returns("bielib1");
+            bieLibraryMock.SetupGet(l => l.Abies).Returns(expectedBdts);
+
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            cctsRepositoryMock.Setup(r => r.GetBieLibraries()).Returns(new[] { bieLibraryMock.Object });
+
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
+            List<IAbie> bies = ccCache.GetBiesFromBieLibrary("bielib1");
+            ccCache.GetBiesFromBieLibrary("bielib1");
+
+            // Assertion and Verification
+            Assert.That(bies, Is.EquivalentTo(expectedBdts));
+            bieLibraryMock.VerifyGet(l => l.Abies, Times.Exactly(1));              
+        }
+
+        [Test]
+        public void ShouldRefreshCacheToForceReloadOfBdtAndBieLibrary()
+        {
+            // Setup
+            var bdtLibraryMock = new Mock<IBdtLibrary>();
+            var bieLibraryMock = new Mock<IBieLibrary>();
+            var cctsRepositoryMock = new Mock<ICctsRepository>();
+            var expectedBieLibraries = new[] { bieLibraryMock.Object };
+            var expectedBdtLibraries = new[] { bdtLibraryMock.Object };
+            cctsRepositoryMock.Setup(r => r.GetBdtLibraries()).Returns(expectedBdtLibraries);
+            cctsRepositoryMock.Setup(r => r.GetBieLibraries()).Returns(expectedBieLibraries);
+
+            // Events
+            CcCache ccCache = CcCache.GetInstance(cctsRepositoryMock.Object);
+            List<IBieLibrary> bieLibraries = ccCache.GetBieLibraries();
+            List<IBdtLibrary> bdtLibraries = ccCache.GetBdtLibraries();
+            
+            ccCache.GetBieLibraries();
+            ccCache.GetBdtLibraries();
+
+            ccCache.Refresh();
+
+            ccCache.GetBieLibraries();
+            ccCache.GetBdtLibraries();
+            ccCache.GetBieLibraries();
+            ccCache.GetBdtLibraries();
+
+            // Assertion and Verification
+            Assert.That(bdtLibraries, Is.EquivalentTo(expectedBdtLibraries));
+            cctsRepositoryMock.Verify(r => r.GetBdtLibraries(), Times.Exactly(2));
+
+            Assert.That(bieLibraries, Is.EquivalentTo(expectedBieLibraries));
+            cctsRepositoryMock.Verify(r => r.GetBieLibraries(), Times.Exactly(2));
+        }
     }
 }

@@ -7,11 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
 {
-    public class EARepositoryBdtEditor : EARepositoryCcCache
+    public class EARepositoryBdtEditor : EARepositoryAbieEditor
     {
- 
     }
 }

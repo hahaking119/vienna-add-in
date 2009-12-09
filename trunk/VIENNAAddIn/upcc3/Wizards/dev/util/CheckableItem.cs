@@ -1,3 +1,12 @@
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.Windows.Input;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.util
@@ -19,22 +28,4 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             ItemCursor = initCursor;
         }
     }
-
-    //public class TestItem
-    //{
-    //    public bool Checked { get; set; }
-    //    public string Text { get; set; }
-    //    public bool ItemReadOnly { get; set; }
-    //    public Cursor ItemCursor { get; set; }
-    //    public bool ItemFocusable { get; set; }
-
-    //    public TestItem(bool isChecked, string text, bool isreadonly, Cursor cursor, bool focusable)
-    //    {
-    //        Checked = isChecked;
-    //        Text = text;
-    //        ItemReadOnly = isreadonly;
-    //        ItemCursor = cursor;
-    //        ItemFocusable = focusable;
-    //    }
-    //}
 }

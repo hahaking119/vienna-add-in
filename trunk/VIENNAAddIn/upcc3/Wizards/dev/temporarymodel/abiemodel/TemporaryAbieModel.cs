@@ -1,4 +1,13 @@
-﻿using System;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using CctsRepository;
@@ -43,13 +52,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             ccCache = CcCache.GetInstance(cctsRepository);
 
-            mCandidateCcLibraries = new List<CandidateCcLibrary>(ccCache.GetCCLibraries().ConvertAll(ccl => new CandidateCcLibrary(ccl)));
+            mCandidateCcLibraries = new List<CandidateCcLibrary>(ccCache.GetCcLibraries().ConvertAll(ccl => new CandidateCcLibrary(ccl)));
             CandidateCcLibraryNames = new List<string>(mCandidateCcLibraries.ConvertAll(new Converter<CandidateCcLibrary, string>(CandidateCcLibraryToString)));
 
-            mCandidateBdtLibraries = new List<CandidateBdtLibrary>(ccCache.GetBDTLibraries().ConvertAll(bdtl => new CandidateBdtLibrary(bdtl)));
+            mCandidateBdtLibraries = new List<CandidateBdtLibrary>(ccCache.GetBdtLibraries().ConvertAll(bdtl => new CandidateBdtLibrary(bdtl)));
             CandidateBdtLibraryNames = new List<string>(mCandidateBdtLibraries.ConvertAll(new Converter<CandidateBdtLibrary, string>(CandidateBdtLibraryToString)));
 
-            mCandidateBieLibraries = new List<CandidateBieLibrary>(ccCache.GetBIELibraries().ConvertAll(biel => new CandidateBieLibrary(biel)));
+            mCandidateBieLibraries = new List<CandidateBieLibrary>(ccCache.GetBieLibraries().ConvertAll(biel => new CandidateBieLibrary(biel)));
             CandidateBieLibraryNames = new List<string>(mCandidateBieLibraries.ConvertAll(new Converter<CandidateBieLibrary, string>(CandidateBieLibraryToString)));
         }
 
