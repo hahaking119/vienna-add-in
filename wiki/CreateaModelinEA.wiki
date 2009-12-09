@@ -13,6 +13,10 @@
     http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_02.gif
   # After clicking _OK_, the new project is generated. It contains exactly one empty model, as you can observe in the _Project Browser_ view:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_03.gif
+  # You can now access the VIENNA AddIn functionality through the _Add-Ins / VIENNAAddIn_ menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_04.gif
+  # The most frequently used functions, depending on the current context, can also be accessed through the _Add-In_ context menu - simply right-click the newly created model in  the _Project Browser_ and select the _Add-In / VIENNAAddIn_ menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_05.gif
   # Set the model as a UPCC3 Model by selecting _Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model_ from the main menu:
     http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_03.gif
 
@@ -22,4 +26,5 @@
 
 =Related Tasks=
 [CreateaUpccModel Create your first UPCC model]
+
 [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
