@@ -452,11 +452,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 
             var cdtLibrary = cctsRepository.GetCdtLibraries().First();
 
-            var cdtSpec = new CdtSpec(cdtDate)
-                          {
-                              Name = "Datum",
-                              IsEquivalentTo = cdtDate
-                          };
+            var cdtSpec = CdtSpec.CloneCdt(cdtDate);
+            cdtSpec.Name = "Datum";
+            cdtSpec.IsEquivalentTo = cdtDate;
             var cdtDatum = cdtLibrary.CreateCdt(cdtSpec);
 
             Assert.IsNotNull(cdtDatum, "CDT is null");
