@@ -2,22 +2,24 @@
 
 =Enterprise Architect=
 
-The UML Profile for Core Components is a representation of UN/CEFACT’s Core Components Technical Specification (CCTS) 3.0 in UML. The UML Profile for Core Components (UPCC) is based on the Unified Modeling Language (UML) and defined as a profile on top of it. To model business documents in EA following the UPCC standard, the model must be defined as a UPCC3 model, and must contain certain libraries defined in the UPCC3 standard.
+...
 
 =Create your first model using Enterprise Architect=
 
   # From the main menu, select _File / New Project..._ and choose the directory and filename for storing the project:
     http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_01.gif
-  # In the _Select model(s)_ dialog, select none of the check boxes and click _OK_:
+  # In the _New Project_ dialog, select a directory and filename to store the EA project file
+  # In the _Select model(s)_ dialog, choose _`<`default`>`_ from the _Technology_ list and select none of the check boxes in the second list:
     http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_02.gif
+  # After clicking _OK_, the new project is generated. It contains exactly one empty model, as you can observe in the _Project Browser_ view:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_03.gif
   # Set the model as a UPCC3 Model by selecting _Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model_ from the main menu:
     http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_03.gif
 
 
 =References=
-(1) UMM Development Site: Core Components Technical Specification http://umm-dev.org/about-uml-profile-for-core-components-upcc/
-
-(2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
+(1) Enterprise Architect UML Tool Guide http://www.sparxsystems.com/uml_tool_guide/index.html
 
 =Related Tasks=
+[CreateaUpccModel Create your first UPCC model]
 [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
