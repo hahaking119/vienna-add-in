@@ -13,7 +13,7 @@
  # Go to [http://code.google.com/p/vienna-add-in/downloads/list Downloads] and download the latest version of the VIENNA Add-In Installer.
  # Follow the instructions given by the Installer
  # *Important!* When installing the VIENNA Add-In select install "just for me" and not "for everyone". If you choose "for everyone" the menu entry of the VIENNA Add-In will not appear in the menu bar of Enterprise Architect. Please see the [http://code.google.com/p/vienna-add-in/wiki/Troubleshooting troubleshooting wiki entry] for a solution to this problem.
- # Load the most recent UPCC 3.0 profile on every EA startup: Select the menu item “Settings” and “MDG Technologies” in Enterprise Architect. In the opening dialog as shown in figure 2 select “Advanced”, “Add” and “Add URL”. Enter the following URL: http://www.umm-dev.org/ea/upcc3.xml
+ # Load the most recent UPCC 3.0/UMM 2.0 profile on every EA startup: Select the menu item “Settings” and “MDG Technologies” in Enterprise Architect. In the opening dialog as shown in figure 2 select “Advanced”, “Add” and “Add URL”. Enter the following URL: http://www.umm-dev.org/ea/upcc3.xml (UPCC 3.0) or  http://www.umm-dev.org/ea/umm2.xml (UMM 2.0)
 = Checkout from SVN = 
 
 If you want to checkout the latest source from SVN in order to participate in development please refer to [http://code.google.com/p/vienna-add-in/wiki/CheckoutfromSVN the the checkout section]
