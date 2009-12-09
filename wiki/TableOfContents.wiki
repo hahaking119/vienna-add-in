@@ -7,7 +7,6 @@
       * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
       * [HowToTemplate How to Template]  
       * [HowToVideos HOW-TO videos]  
-      * [HowToCreateaUPCC3Model How To create a UPCC3 Model]
       * [ReferenceDefaultUPCCModelCreator Reference: Default UPCC Model Creator]
       * [ReferenceStandardCCLImporter Reference: Standard CCL Importer]
     * [Troubleshooting Troubleshooting]
