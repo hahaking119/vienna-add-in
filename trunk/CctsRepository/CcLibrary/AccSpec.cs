@@ -9,6 +9,7 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 // ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -27,6 +28,10 @@ namespace CctsRepository.CcLibrary
 		public string Name { get; set; }
 
 		public IAcc IsEquivalentTo { get; set; }
+
+		public IEnumerable<BccSpec> Bccs { get; set; }
+
+		public IEnumerable<AsccSpec> Asccs { get; set; }
 
 		#region Tagged Values
 
@@ -66,6 +71,24 @@ namespace CctsRepository.CcLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
-    }
+
+        public static AccSpec CloneAcc(IAcc acc)
+        {
+            return new AccSpec
+                   {
+                   	   Name = acc.Name,
+					   IsEquivalentTo = acc.IsEquivalentTo,
+					   Bccs = new List<BccSpec>(acc.Bccs.Convert(o => BccSpec.CloneBcc(o))),
+					   Asccs = new List<AsccSpec>(acc.Asccs.Convert(o => AsccSpec.CloneAscc(o))),
+					   BusinessTerms = new List<string>(acc.BusinessTerms),
+					   Definition = acc.Definition,
+					   DictionaryEntryName = acc.DictionaryEntryName,
+					   LanguageCode = acc.LanguageCode,
+					   UniqueIdentifier = acc.UniqueIdentifier,
+					   VersionIdentifier = acc.VersionIdentifier,
+					   UsageRules = new List<string>(acc.UsageRules),
+                   };
+        }
+	}
 }
 

@@ -144,12 +144,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                                             Name = spec.Name,
                                             UniqueIdentifier = spec.UniqueIdentifier,
                                             UsageRules = spec.UsageRules,
-                                            VersionIdentifier = spec.VersionIdentifier
+                                            VersionIdentifier = spec.VersionIdentifier,
+                                            Bbies = new List<BbieSpec>(spec.Bbies),
                                         };
-                foreach (BbieSpec bbieSpec in spec.Bbies)
-                {
-                    specWithoutASBIEs.AddBbie(bbieSpec);
-                }
                 abies[spec.Name] = bieLibrary.CreateAbie(specWithoutASBIEs);
             }
             foreach (AbieSpec spec in abieSpecs)

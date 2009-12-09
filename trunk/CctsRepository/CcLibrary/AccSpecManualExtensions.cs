@@ -19,7 +19,7 @@ namespace CctsRepository.CcLibrary
             BusinessTerms = new List<string>(acc.BusinessTerms);
             UsageRules = new List<string>(acc.UsageRules);
             bccs = new List<BccSpec>(acc.Bccs.Convert(bcc => BccSpec.CloneBcc(bcc)));
-            asccs = new List<AsccSpec>(acc.Asccs.Convert(ascc => new AsccSpec(ascc)));
+            asccs = new List<AsccSpec>(acc.Asccs.Convert(ascc => AsccSpec.CloneAscc(ascc)));
             IsEquivalentTo = acc.IsEquivalentTo;
         }
 

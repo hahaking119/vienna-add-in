@@ -104,7 +104,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AbieSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="BieLibrary\AbieSpecManualExtensions.cs" />
     <Compile Include="BieLibrary\AsbieSpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -246,7 +245,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DocLibrarySpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="DocLibrary\IAsma.cs" />
+    <Compile Include="DocLibrary\IAsma.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IAsma.tt</DependentUpon>
+    </Compile>
     <Compile Include="DocLibrary\IDocLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -263,7 +266,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MaSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="DocLibrary\MaSpecManualExtensions.cs" />
     <Compile Include="EnumLibrary\CodelistEntrySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -468,6 +470,10 @@
     <None Include="DocLibrary\DocLibrarySpec.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DocLibrarySpec.cs</LastGenOutput>
+    </None>
+    <None Include="DocLibrary\IAsma.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IAsma.cs</LastGenOutput>
     </None>
     <None Include="DocLibrary\IDocLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

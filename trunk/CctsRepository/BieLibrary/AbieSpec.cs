@@ -9,6 +9,7 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 // ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -29,6 +30,10 @@ namespace CctsRepository.BieLibrary
 		public IAbie IsEquivalentTo { get; set; }
 
 		public IAcc BasedOn { get; set; }
+
+		public IEnumerable<BbieSpec> Bbies { get; set; }
+
+		public IEnumerable<AsbieSpec> Asbies { get; set; }
 
 		#region Tagged Values
 
@@ -68,6 +73,25 @@ namespace CctsRepository.BieLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
-    }
+
+        public static AbieSpec CloneAbie(IAbie abie)
+        {
+            return new AbieSpec
+                   {
+                   	   Name = abie.Name,
+					   IsEquivalentTo = abie.IsEquivalentTo,
+					   BasedOn = abie.BasedOn,
+					   Bbies = new List<BbieSpec>(abie.Bbies.Convert(o => BbieSpec.CloneBbie(o))),
+					   Asbies = new List<AsbieSpec>(abie.Asbies.Convert(o => AsbieSpec.CloneAsbie(o))),
+					   BusinessTerms = new List<string>(abie.BusinessTerms),
+					   Definition = abie.Definition,
+					   DictionaryEntryName = abie.DictionaryEntryName,
+					   LanguageCode = abie.LanguageCode,
+					   UniqueIdentifier = abie.UniqueIdentifier,
+					   VersionIdentifier = abie.VersionIdentifier,
+					   UsageRules = new List<string>(abie.UsageRules),
+                   };
+        }
+	}
 }
 

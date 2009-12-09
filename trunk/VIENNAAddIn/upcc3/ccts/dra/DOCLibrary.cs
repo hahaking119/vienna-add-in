@@ -40,8 +40,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 // remove all MAs that are associated via an ASMA
                 foreach (var asma in asmas)
                 {
-                    IMa associatedElement = asma.AssociatedElement;
-                    mas.Remove(associatedElement);
+                    if (asma.AssociatedBieAggregator.IsMa)
+                    {
+                        mas.Remove(asma.AssociatedBieAggregator.Ma);
+                    }
                 }
                 return mas.Count == 0 ? null : mas[0];
             }

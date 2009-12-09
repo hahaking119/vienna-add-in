@@ -40,12 +40,12 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             string bdtName = GetBdtNameFromXsdType();
             ICdt cdt = Context.CDTLibrary.GetCdtByName(GetDataTypeTerm());
             var bdtSpec = new BdtSpec
-                              {
-                                  BasedOn = cdt,
-                                  Name = bdtName,
-                                  Con = SpecifyCON(),
-                              };
-            bdtSpec.AddSups(SpecifySUPs());
+                          {
+                              BasedOn = cdt,
+                              Name = bdtName,
+                              Con = SpecifyCON(),
+                              Sups = new List<BdtSupSpec>(SpecifySUPs()),
+                          };
 
             BDT = Context.BDTLibrary.CreateBdt(bdtSpec);
         }

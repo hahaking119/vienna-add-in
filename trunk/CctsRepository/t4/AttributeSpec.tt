@@ -48,8 +48,7 @@ namespace CctsRepository.<#= library.Name #>
 		#endregion
 <#
 		}
-#>
-<#
+
 		var cloned = FirstCharToLowerCase(metaAttribute.ClassName);
 #>
 

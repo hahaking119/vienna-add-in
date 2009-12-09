@@ -3,6 +3,7 @@
 <#@ include file="../t4/helpers.tt" #>
 <#@ include file="../t4/Copyright.tt" #>
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 <#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
 
 <# 
@@ -19,6 +20,27 @@ namespace CctsRepository.<#= library.Name #>
 #>
 
 		public I<#= dependency.TargetClassifierType.Name #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; set; }
+<#
+		}
+		
+		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
+		{
+			var specName = attribute.ClassName + "Spec";
+			var attributeType = attribute.Cardinality == MetaCardinality.Many ? "IEnumerable<" + specName + ">" : specName;
+#>
+
+		public <#= attributeType #> <#= attribute.AttributeName #> { get; set; }
+<#
+		}
+
+		
+		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
+		{
+			var specName = association.ClassName + "Spec";
+			var propertyType = association.Cardinality == MetaCardinality.Many ? "IEnumerable<" + specName + ">" : specName;
+#>
+
+		public <#= propertyType #> <#= association.Name #> { get; set; }
 <#
 		}
 
@@ -43,6 +65,64 @@ namespace CctsRepository.<#= library.Name #>
 		#endregion
 <#
 		}
+
+		var cloned = FirstCharToLowerCase(metaClassifier.Name);
+		if (cloned == "enum")
+		{
+			cloned = "@enum";
+		}
 #>
-    }
+
+        public static <#= metaClassifier.Name #>Spec Clone<#= metaClassifier.Name #>(I<#= metaClassifier.Name #> <#= cloned #>)
+        {
+            return new <#= metaClassifier.Name #>Spec
+                   {
+                   	   Name = <#= cloned #>.Name,
+<#
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
+		{
+#>
+					   <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> = <#= cloned #>.<#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #>,
+<#
+		}
+		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
+		{
+			if (attribute.Cardinality == MetaCardinality.Many)
+			{
+#>
+					   <#= attribute.AttributeName #> = new List<<#= attribute.ClassName #>Spec>(<#= cloned #>.<#= attribute.AttributeName #>.Convert(o => <#= attribute.ClassName #>Spec.Clone<#= attribute.ClassName #>(o))),
+<#
+			}
+			else
+			{
+#>
+					   <#= attribute.AttributeName #> = <#= attribute.ClassName #>Spec.Clone<#= attribute.ClassName #>(<#= cloned #>.<#= attribute.AttributeName #>),
+<#
+			}
+		}
+		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
+		{
+			if (association.Cardinality == MetaCardinality.Many)
+			{
+#>
+					   <#= association.Name #> = new List<<#= association.ClassName #>Spec>(<#= cloned #>.<#= association.Name #>.Convert(o => <#= association.ClassName #>Spec.Clone<#= association.ClassName #>(o))),
+<#
+			}
+			else
+			{
+#>
+					   <#= association.Name #> = <#= association.ClassName #>Spec.Clone<#= association.ClassName #>(<#= cloned #>.<#= association.Name #>),
+<#
+			}
+		}
+		foreach (var taggedValue in metaClassifier.TaggedValues)
+		{
+#>
+					   <#= CopyTaggedValue(taggedValue, cloned) #>,
+<#
+		}
+#>
+                   };
+        }
+	}
 }
