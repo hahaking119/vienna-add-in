@@ -51,9 +51,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         // ------------------------------------------------------------------------------------
         // Event handler: ComboBox CC Libraries
-        private void comboboxCcls_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboboxCcLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.SetSelectedCandidateCcLibrary(comboCCLs.SelectedItem.ToString());
+            Model.SetSelectedCandidateCcLibrary(comboboxCcLibraries.SelectedItem.ToString());
 
             UpdateFormState();
         }
@@ -62,8 +62,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ComboBox ACCs
         private void comboboxAccs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.SetSelectedCandidateAcc(comboACCs.SelectedItem.ToString());
-            Model.AbieName = comboACCs.SelectedItem.ToString();
+            Model.SetSelectedCandidateAcc(comboboxAccs.SelectedItem.ToString());
+            Model.AbieName = comboboxAccs.SelectedItem.ToString();
 
             UpdateFormState();
 
@@ -75,24 +75,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: Checkbox BCCs
         private void checkboxBccs_Checked(object sender, RoutedEventArgs e)
         {
-            string selectedItemText = ((CheckableItem) checkedlistboxBCCs.SelectedItem).Text;                        
+            string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;                        
 
             Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
                         
-            checkedlistboxBCCs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBCCs, selectedItemText);
+            listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, selectedItemText);
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox BCCs
         private void listboxBccs_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem)checkedlistboxBCCs.SelectedItem;
+            CheckableItem checkableItem = (CheckableItem)listboxBccs.SelectedItem;
             Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
 
             // The following code only keeps the UI in sync with the TemporaryAbieModel since 
             // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
             // not select the current item in the ListBox.
-            checkedlistboxBCCs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBCCs, (CheckBox)sender);
+            listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, (CheckBox)sender);
             
             SetSelectedItemForBbieListBox();
 
@@ -101,9 +101,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBccs_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (checkedlistboxBCCs.SelectedItem != null)
+            if (listboxBccs.SelectedItem != null)
             {                
-                CheckableItem checkableItem = (CheckableItem)checkedlistboxBCCs.SelectedItem;
+                CheckableItem checkableItem = (CheckableItem)listboxBccs.SelectedItem;
                 Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
 
                 SetSelectedItemForBbieListBox();
@@ -115,24 +115,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: Button BBIE
         private void buttonAddBbie_Click(object sender, RoutedEventArgs e)
         {
-            int selectedIndex = checkedlistboxBBIEs.SelectedIndex;
+            int selectedIndex = listboxBbies.SelectedIndex;
 
             Model.AddPotentialBbie();
 
-            checkedlistboxBBIEs.SelectedIndex = selectedIndex;            
+            listboxBbies.SelectedIndex = selectedIndex;            
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox BBIEs
         private void listboxBbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem)checkedlistboxBBIEs.SelectedItem;
+            CheckableItem checkableItem = (CheckableItem)listboxBbies.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
 
             // The following code only keeps the UI in sync with the TemporaryAbieModel since 
             // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
             // not select the current item in the ListBox.
-            checkedlistboxBBIEs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBBIEs, (CheckBox)sender);
+            listboxBbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxBbies, (CheckBox)sender);
             
             SetSelectedItemForBdtListBox();
 
@@ -141,9 +141,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (checkedlistboxBBIEs.SelectedItem != null)
+            if (listboxBbies.SelectedItem != null)
             {
-                CheckableItem checkableItem = (CheckableItem)checkedlistboxBBIEs.SelectedItem;
+                CheckableItem checkableItem = (CheckableItem)listboxBbies.SelectedItem;
                 Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
 
                 SetSelectedItemForBdtListBox();
@@ -152,7 +152,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBbies_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem)checkedlistboxBBIEs.SelectedItem;
+            CheckableItem checkableItem = (CheckableItem)listboxBbies.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
             
             SetSelectedItemForBdtListBox();
@@ -163,7 +163,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             try
             {
-                Model.UpdateBbieName(((CheckableItem)checkedlistboxBBIEs.SelectedItem).Text);
+                Model.UpdateBbieName(((CheckableItem)listboxBbies.SelectedItem).Text);
             }
             catch (TemporaryAbieModelException tame)
             {
@@ -176,20 +176,20 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: Button BDT
         private void buttonAddBdt_Click(object sender, RoutedEventArgs e)
         {
-            int selectedIndex = checkedlistboxBDTs.SelectedIndex;
+            int selectedIndex = listboxBdts.SelectedIndex;
 
             Model.AddPotentialBdt();   
 
-            checkedlistboxBDTs.SelectedIndex = selectedIndex;                 
+            listboxBdts.SelectedIndex = selectedIndex;                 
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ListBox BDTs
         private void listboxBdts_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (CheckBox)sender);
+            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (CheckBox)sender);
 
-            CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
+            CheckableItem checkableItem = (CheckableItem)listboxBdts.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
 
             SetSelectedItemForBdtListBox();
@@ -199,26 +199,26 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         
         private void listboxBdts_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (checkedlistboxBDTs.SelectedItem != null)
+            if (listboxBdts.SelectedItem != null)
             {
-                CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
+                CheckableItem checkableItem = (CheckableItem)listboxBdts.SelectedItem;
                 Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, null);                
             }
         }
 
         private void listboxBdts_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem)checkedlistboxBDTs.SelectedItem;
+            CheckableItem checkableItem = (CheckableItem)listboxBdts.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, null);
            
-            checkedlistboxBDTs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxBDTs, (TextBox)sender);
+            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (TextBox)sender);
         }
 
         private void listboxBdts_ItemTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
             try
             {
-                Model.UpdateBdtName(((CheckableItem)checkedlistboxBDTs.SelectedItem).Text);
+                Model.UpdateBdtName(((CheckableItem)listboxBdts.SelectedItem).Text);
             }
             catch (TemporaryAbieModelException tame)
             {
@@ -232,22 +232,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox ABIEs
         private void listboxAbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem)checkedlistboxABIEs.SelectedItem;
+            CheckableItem checkableItem = (CheckableItem)listboxAbies.SelectedItem;
             Model.SetSelectedAndCheckedCandidateAbie(checkableItem.Text, checkableItem.Checked);
             
             // The following code only keeps the UI in sync with the TemporaryAbieModel since 
             // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
             // not select the current item in the ListBox.
-            checkedlistboxABIEs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxABIEs, (CheckBox)sender);
+            listboxAbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxAbies, (CheckBox)sender);
 
             SetSelectedItemForAsbieListBox();        
         }
 
         private void listboxAbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {            
-            if (checkedlistboxABIEs.SelectedItem != null)
+            if (listboxAbies.SelectedItem != null)
             {
-                CheckableItem checkableItem = (CheckableItem) checkedlistboxABIEs.SelectedItem;
+                CheckableItem checkableItem = (CheckableItem) listboxAbies.SelectedItem;
                 Model.SetSelectedAndCheckedCandidateAbie(checkableItem.Text, checkableItem.Checked);
 
                 SetSelectedItemForAsbieListBox();                
@@ -263,17 +263,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox ASBIEs
         private void listboxAsbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem)checkedlistboxASCCs.SelectedItem;            
+            CheckableItem checkableItem = (CheckableItem)listboxAsbies.SelectedItem;            
             Model.SetSelectedAndCheckedPotentialAsbie(checkableItem.Text, checkableItem.Checked);
 
-            checkedlistboxASCCs.SelectedItem = GetSelectedCheckableItemforListbox(checkedlistboxASCCs, (CheckBox)sender);
+            listboxAsbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxAsbies, (CheckBox)sender);
         }
 
         private void listboxAsbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (checkedlistboxASCCs.SelectedItem != null)
+            if (listboxAsbies.SelectedItem != null)
             {
-                CheckableItem checkableItem = (CheckableItem)checkedlistboxASCCs.SelectedItem;
+                CheckableItem checkableItem = (CheckableItem)listboxAsbies.SelectedItem;
 
                 Model.SetSelectedAndCheckedPotentialAsbie(checkableItem.Text, checkableItem.Checked);
             }
@@ -282,32 +282,32 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         
         // ------------------------------------------------------------------------------------
         // Event handler: TextBox ABIE Prefix
-        private void textAbiePrefix_TextChanged(object sender, TextChangedEventArgs e)
+        private void textboxAbiePrefix_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Model.AbiePrefix = textPrefix.Text;
+            Model.AbiePrefix = textboxPrefix.Text;
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: TextBox ABIE Name
-        private void textAbieName_TextChanged(object sender, TextChangedEventArgs e)
+        private void textboxAbieName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Model.AbieName = textABIEName.Text;
+            Model.AbieName = textboxAbieName.Text;
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ComboBox BDT Libraries
-        private void comboboxBdtls_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboboxBdtLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.SetSelectedCandidateBdtLibrary(comboBDTLs.SelectedItem.ToString());
+            Model.SetSelectedCandidateBdtLibrary(comboboxBdtLibraries.SelectedItem.ToString());
 
             UpdateFormState();
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: ComboBox BIE Libraries
-        private void comboboxBiels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboboxBieLibraries_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Model.SetSelectedCandidateBieLibrary(comboBIELs.SelectedItem.ToString());
+            Model.SetSelectedCandidateBieLibrary(comboboxBieLibraries.SelectedItem.ToString());
 
             UpdateFormState();
         }
@@ -347,16 +347,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void UpdateFormState()
         {
-            if (comboCCLs.SelectedItem != null)
+            if (comboboxCcLibraries.SelectedItem != null)
             {
                 SetEnabledForAccComboBox(true);
 
-                if (comboACCs.SelectedItem != null)
+                if (comboboxAccs.SelectedItem != null)
                 {
                     SetEnabledForAttributeAndAssoicationTabs(true);
                     SetEnabledForAbieProperties(true);
 
-                    if ((comboBIELs.SelectedItem != null) && (comboBDTLs.SelectedItem != null) && (Model.ContainsValidConfiguration()))
+                    if ((comboboxBieLibraries.SelectedItem != null) && (comboboxBdtLibraries.SelectedItem != null) && (Model.ContainsValidConfiguration()))
                     {
                         SetEnabledForCreateButton(true);
                     }
@@ -377,28 +377,28 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void SetEnabledForAccComboBox(bool enabledState)
         {
-            comboACCs.IsEnabled = enabledState;
+            comboboxAccs.IsEnabled = enabledState;
         }
 
         private void SetEnabledForAttributeAndAssoicationTabs(bool enabledState)
         {
             tabAttributes.IsEnabled = enabledState;
-            checkboxBCCs.IsEnabled = enabledState;
-            checkedlistboxBCCs.IsEnabled = enabledState;
-            buttonAddBBIE.IsEnabled = enabledState;
-            checkedlistboxBBIEs.IsEnabled = enabledState;
-            checkedlistboxBDTs.IsEnabled = enabledState;
+            checkboxBccs.IsEnabled = enabledState;
+            listboxBccs.IsEnabled = enabledState;
+            buttonAddBbie.IsEnabled = enabledState;
+            listboxBbies.IsEnabled = enabledState;
+            listboxBdts.IsEnabled = enabledState;
             buttonAddBdt.IsEnabled = enabledState;
 
             tabAssociations.IsEnabled = enabledState;
-            checkedlistboxABIEs.IsEnabled = enabledState;
-            checkedlistboxASCCs.IsEnabled = enabledState;
+            listboxAbies.IsEnabled = enabledState;
+            listboxAsbies.IsEnabled = enabledState;
         }
 
         private void SetEnabledForAbieProperties(bool enabledState)
         {
-            textPrefix.IsEnabled = enabledState;
-            textABIEName.IsEnabled = enabledState;
+            textboxPrefix.IsEnabled = enabledState;
+            textboxAbieName.IsEnabled = enabledState;
         }
 
         private void SetEnabledForCreateButton(bool enabledState)
@@ -483,16 +483,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void SelectDefaultLibraries()
         {
-            comboCCLs.SelectedIndex = 0;
-            comboBIELs.SelectedIndex = 0;
-            comboBDTLs.SelectedIndex = 0;
+            comboboxCcLibraries.SelectedIndex = 0;
+            comboboxBieLibraries.SelectedIndex = 0;
+            comboboxBdtLibraries.SelectedIndex = 0;
         }
 
         private void SetSelectedItemForBccListBox()
         {                     
             int index = 0;
 
-            foreach (CheckableItem item in checkedlistboxBCCs.Items)
+            foreach (CheckableItem item in listboxBccs.Items)
             {
                 if (item.Checked)
                 {
@@ -502,14 +502,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index++;
             }
 
-            if (checkedlistboxBCCs.Items.Count == index)
+            if (listboxBccs.Items.Count == index)
             {
                 index = 0;
             }
 
-            if (index < checkedlistboxBCCs.Items.Count)
+            if (index < listboxBccs.Items.Count)
             {
-                checkedlistboxBCCs.SelectedItem = checkedlistboxBCCs.Items[index];              
+                listboxBccs.SelectedItem = listboxBccs.Items[index];              
             }
         }
 
@@ -518,7 +518,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             int index = 0;
 
-            foreach (CheckableItem item in checkedlistboxBBIEs.Items)
+            foreach (CheckableItem item in listboxBbies.Items)
             {
                 if (item.Checked)
                 {
@@ -528,14 +528,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index++;
             }
 
-            if (checkedlistboxBBIEs.Items.Count == index)
+            if (listboxBbies.Items.Count == index)
             {
                 index = 0;
             }
 
-            if (index < checkedlistboxBBIEs.Items.Count)
+            if (index < listboxBbies.Items.Count)
             {
-                checkedlistboxBBIEs.SelectedItem = checkedlistboxBBIEs.Items[index];           
+                listboxBbies.SelectedItem = listboxBbies.Items[index];           
             }
         }
 
@@ -544,7 +544,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             int index = 0;
 
-            foreach (CheckableItem item in checkedlistboxBDTs.Items)
+            foreach (CheckableItem item in listboxBdts.Items)
             {
                 if (item.Checked)
                 {
@@ -554,14 +554,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index++;
             }
 
-            if (checkedlistboxBDTs.Items.Count == index)
+            if (listboxBdts.Items.Count == index)
             {
                 index = 0;
             }
 
-            if (index < checkedlistboxBDTs.Items.Count)
+            if (index < listboxBdts.Items.Count)
             {
-                checkedlistboxBDTs.SelectedItem = checkedlistboxBDTs.Items[index];
+                listboxBdts.SelectedItem = listboxBdts.Items[index];
             }
         }
 
@@ -569,7 +569,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             int index = 0;
 
-            foreach (CheckableItem item in checkedlistboxABIEs.Items)
+            foreach (CheckableItem item in listboxAbies.Items)
             {
                 if (item.Checked)
                 {
@@ -579,14 +579,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index++;
             }
 
-            if (checkedlistboxABIEs.Items.Count == index)
+            if (listboxAbies.Items.Count == index)
             {
                 index = 0;
             }
 
-            if (index < checkedlistboxABIEs.Items.Count)
+            if (index < listboxAbies.Items.Count)
             {
-                checkedlistboxABIEs.SelectedItem = checkedlistboxABIEs.Items[index];           
+                listboxAbies.SelectedItem = listboxAbies.Items[index];           
             }
         }
 
@@ -594,7 +594,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             int index = 0;
 
-            foreach (CheckableItem item in checkedlistboxASCCs.Items)
+            foreach (CheckableItem item in listboxAsbies.Items)
             {
                 if (item.Checked)
                 {
@@ -604,14 +604,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 index++;
             }
 
-            if (checkedlistboxASCCs.Items.Count == index)
+            if (listboxAsbies.Items.Count == index)
             {
                 index = 0;
             }
 
-            if (index < checkedlistboxASCCs.Items.Count)
+            if (index < listboxAsbies.Items.Count)
             {
-                checkedlistboxASCCs.SelectedItem = checkedlistboxASCCs.Items[index];   
+                listboxAsbies.SelectedItem = listboxAsbies.Items[index];   
             }            
         }
 
