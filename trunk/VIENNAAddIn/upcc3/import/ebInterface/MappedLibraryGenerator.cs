@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.BLibrary;
@@ -203,9 +204,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     var accABIESpec = GenerateBIELibraryABIESpec(abieMapping, acc, abieMapping.ComplexTypeName + "_" + acc.Name);
                     asmaSpecs.Add(new AsmaSpec
-                                   {
-                                       Name = acc.Name,
-                                       ResolveAssociatedAbie = DeferredAbieResolver(accABIESpec.Name),
+                                  {
+                                      Name = acc.Name,
+                                      ResolveAssociatedBieAggregator = () => new BieAggregator(bieLibrary.GetAbieByName(accABIESpec.Name)),
                                    });
                 }
                 foreach (var asbieMapping in abieMapping.ASBIEMappings)
@@ -213,7 +214,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     asmaSpecs.Add(new AsmaSpec
                                    {
                                        Name = asbieMapping.BIEName,
-                                       ResolveAssociatedMa = DeferredMaResolver(asbieMapping.TargetMapping.BIEName),
+                                       ResolveAssociatedBieAggregator = DeferredMaResolver(asbieMapping.TargetMapping.BIEName),
                                    });
                 }
                 maSpecs.Add(new MaSpec
@@ -264,9 +265,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return () => bieLibrary.GetAbieByName(abieName);
         }
 
-        private Func<IMa> DeferredMaResolver(string maName)
+        private Func<BieAggregator> DeferredMaResolver(string maName)
         {
-            return () => docLibrary.GetMaByName(maName);
+            return () => new BieAggregator(docLibrary.GetMaByName(maName));
         }
     }
 }

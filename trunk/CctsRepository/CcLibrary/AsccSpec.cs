@@ -77,6 +77,26 @@ namespace CctsRepository.CcLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
+
+        public static AsccSpec CloneAscc(IAscc ascc)
+        {
+            return new AsccSpec
+                   {
+                   	   Name = ascc.Name,
+                       UpperBound = ascc.UpperBound,
+                       LowerBound = ascc.LowerBound,
+                       AssociatingAcc = ascc.AssociatingAcc,
+                       AssociatedAcc = ascc.AssociatedAcc,
+					   BusinessTerms = new List<string>(ascc.BusinessTerms),
+					   Definition = ascc.Definition,
+					   DictionaryEntryName = ascc.DictionaryEntryName,
+					   LanguageCode = ascc.LanguageCode,
+					   SequencingKey = ascc.SequencingKey,
+					   UniqueIdentifier = ascc.UniqueIdentifier,
+					   VersionIdentifier = ascc.VersionIdentifier,
+					   UsageRules = new List<string>(ascc.UsageRules),
+                   };
+        }
     }
 }
 

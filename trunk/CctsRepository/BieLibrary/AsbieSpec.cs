@@ -81,6 +81,28 @@ namespace CctsRepository.BieLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
+
+        public static AsbieSpec CloneAsbie(IAsbie asbie)
+        {
+            return new AsbieSpec
+                   {
+                   	   Name = asbie.Name,
+                       UpperBound = asbie.UpperBound,
+                       LowerBound = asbie.LowerBound,
+                       AggregationKind = asbie.AggregationKind,
+                       AssociatingAbie = asbie.AssociatingAbie,
+                       AssociatedAbie = asbie.AssociatedAbie,
+					   BasedOn = asbie.BasedOn,
+					   BusinessTerms = new List<string>(asbie.BusinessTerms),
+					   Definition = asbie.Definition,
+					   DictionaryEntryName = asbie.DictionaryEntryName,
+					   LanguageCode = asbie.LanguageCode,
+					   SequencingKey = asbie.SequencingKey,
+					   UniqueIdentifier = asbie.UniqueIdentifier,
+					   VersionIdentifier = asbie.VersionIdentifier,
+					   UsageRules = new List<string>(asbie.UsageRules),
+                   };
+        }
     }
 }
 
