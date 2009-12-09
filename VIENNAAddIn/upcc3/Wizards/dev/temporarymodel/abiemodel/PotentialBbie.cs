@@ -78,15 +78,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                         }
                     }
 
-                    foreach (string prospectiveBdtName in ProspectiveBdts.GetInstance().Bdts(mCdtUsedInBcc.Id))
-                    {
-                        AddPotentialBdt(prospectiveBdtName);
-                    }                    
-
                     if (mPotentialBdts.Count == 0)
                     {
                         AddPotentialBdt();
                     }
+
+                    foreach (string prospectiveBdtName in ProspectiveBdts.GetInstance().Bdts(mCdtUsedInBcc.Id))
+                    {
+                        AddPotentialBdt(prospectiveBdtName);
+                    }                    
                 }
 
                 return mPotentialBdts;
