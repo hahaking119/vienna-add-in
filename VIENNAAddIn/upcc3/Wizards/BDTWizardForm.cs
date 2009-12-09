@@ -252,13 +252,16 @@ namespace VIENNAAddIn.upcc3.Wizards
 
                 BdtSpec bdtSpec = BdtSpec.CloneCdt(cdt, textBDTName.Text);
 
+                var sups = new List<BdtSupSpec>(bdtSpec.Sups);
                 foreach (cSUP sup in cache.CDTLs[selectedCDTLName].CDTs[selectedCDTName].SUPs.Values)
                 {
                     if (sup.State == CheckState.Unchecked)
                     {
-                        bdtSpec.RemoveSup(sup.Name);
+                        var name = sup.Name;
+                        sups.RemoveAll(s => s.Name == name);
                     }
                 }
+                bdtSpec.Sups = sups;
 
                 IBdt newBDT = bdtl.CreateBdt(bdtSpec);
 

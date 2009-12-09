@@ -9,6 +9,7 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 // ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -27,6 +28,10 @@ namespace CctsRepository.CdtLibrary
 		public string Name { get; set; }
 
 		public ICdt IsEquivalentTo { get; set; }
+
+		public CdtConSpec Con { get; set; }
+
+		public IEnumerable<CdtSupSpec> Sups { get; set; }
 
 		#region Tagged Values
 
@@ -66,6 +71,24 @@ namespace CctsRepository.CdtLibrary
 		public IEnumerable<string> UsageRules { get; set; }
 
 		#endregion
-    }
+
+        public static CdtSpec CloneCdt(ICdt cdt)
+        {
+            return new CdtSpec
+                   {
+                   	   Name = cdt.Name,
+					   IsEquivalentTo = cdt.IsEquivalentTo,
+					   Con = CdtConSpec.CloneCdtCon(cdt.Con),
+					   Sups = new List<CdtSupSpec>(cdt.Sups.Convert(o => CdtSupSpec.CloneCdtSup(o))),
+					   BusinessTerms = new List<string>(cdt.BusinessTerms),
+					   Definition = cdt.Definition,
+					   DictionaryEntryName = cdt.DictionaryEntryName,
+					   LanguageCode = cdt.LanguageCode,
+					   UniqueIdentifier = cdt.UniqueIdentifier,
+					   VersionIdentifier = cdt.VersionIdentifier,
+					   UsageRules = new List<string>(cdt.UsageRules),
+                   };
+        }
+	}
 }
 

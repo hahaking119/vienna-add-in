@@ -941,8 +941,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             updatedPersonSpec.Name = "Another_Person";
             updatedPersonSpec.Definition = "Another kind of person.";
             updatedPersonSpec.BusinessTerms = new[] {"human being", "living thing"};
-            updatedPersonSpec.RemoveAsbie("My_workAddress");
-            updatedPersonSpec.RemoveBbie("NickName");
+            updatedPersonSpec.Asbies = new List<AsbieSpec>(updatedPersonSpec.Asbies.Where(asbie => asbie.Name != "My_workAddress"));
+            updatedPersonSpec.Bbies = new List<BbieSpec>(updatedPersonSpec.Bbies.Where(bbie => bbie.Name != "NickName"));
             Assert.AreEqual(2, updatedPersonSpec.Bbies.Count());
 
             abiePerson = bieLibrary.UpdateAbie(abiePerson, updatedPersonSpec);

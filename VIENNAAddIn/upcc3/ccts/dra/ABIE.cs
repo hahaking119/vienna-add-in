@@ -255,10 +255,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 case AggregationKind.Shared:
                     return EaAggregationKind.Shared;
-                case AggregationKind.Composite:
-                    return EaAggregationKind.Composite;
                 default:
-                    return EaAggregationKind.None;
+                    return EaAggregationKind.Composite;
             }
         }
 

@@ -9,6 +9,7 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 // ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -79,6 +80,24 @@ namespace CctsRepository.EnumLibrary
 		public string VersionIdentifier { get; set; }
 
 		#endregion
-    }
+
+        public static IdSchemeSpec CloneIdScheme(IIdScheme idScheme)
+        {
+            return new IdSchemeSpec
+                   {
+                   	   Name = idScheme.Name,
+					   BusinessTerms = new List<string>(idScheme.BusinessTerms),
+					   Definition = idScheme.Definition,
+					   DictionaryEntryName = idScheme.DictionaryEntryName,
+					   IdentifierSchemeAgencyIdentifier = idScheme.IdentifierSchemeAgencyIdentifier,
+					   IdentifierSchemeAgencyName = idScheme.IdentifierSchemeAgencyName,
+					   ModificationAllowedIndicator = idScheme.ModificationAllowedIndicator,
+					   Pattern = idScheme.Pattern,
+					   RestrictedPrimitive = idScheme.RestrictedPrimitive,
+					   UniqueIdentifier = idScheme.UniqueIdentifier,
+					   VersionIdentifier = idScheme.VersionIdentifier,
+                   };
+        }
+	}
 }
 

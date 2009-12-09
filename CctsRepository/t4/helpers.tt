@@ -25,14 +25,7 @@
 		switch (taggedValue.Cardinality)
 		{
 			case MetaCardinality.Many:
-				if (taggedValue.Name.EndsWith("s") || taggedValue.Name.EndsWith("x"))
-				{
-					propertyName = taggedValue.Name + "es";
-				}
-				else
-				{
-					propertyName = taggedValue.Name + "s";
-				}
+				propertyName = Plural(taggedValue.Name);
 				break;
 			default:
 				propertyName = taggedValue.Name;
@@ -74,7 +67,11 @@
 	
 	string Plural(string str)
 	{
-		if (str.EndsWith("y"))
+		if (str.EndsWith("s") || str.EndsWith("x"))
+		{
+			return str + "es";
+		}
+		else if (str.EndsWith("y"))
 		{
 			return str.Substring(0, str.Length - 1) + "ies";
 		}

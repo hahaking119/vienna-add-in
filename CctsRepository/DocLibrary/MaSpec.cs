@@ -9,6 +9,7 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 // ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -25,6 +26,17 @@ namespace CctsRepository.DocLibrary
     public partial class MaSpec
     {
 		public string Name { get; set; }
-    }
+
+		public IEnumerable<AsmaSpec> Asmas { get; set; }
+
+        public static MaSpec CloneMa(IMa ma)
+        {
+            return new MaSpec
+                   {
+                   	   Name = ma.Name,
+					   Asmas = new List<AsmaSpec>(ma.Asmas.Convert(o => AsmaSpec.CloneAsma(o))),
+                   };
+        }
+	}
 }
 

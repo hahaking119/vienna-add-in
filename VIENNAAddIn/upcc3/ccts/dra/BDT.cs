@@ -237,10 +237,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 // TODO throw exception if null
                 yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
             }
-            List<BdtSupSpec> supSpecs = spec.Sups;
-            if (supSpecs != null)
+            if (spec.Sups != null)
             {
-                foreach (BdtSupSpec supSpec in supSpecs)
+                foreach (BdtSupSpec supSpec in spec.Sups)
                 {
                     yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec));
                 }

@@ -104,12 +104,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
                     IAbie abieToBeUpdated = BieLibrary.GetAbieByName(abieName);
                     AbieSpec updatedAbieSpec = AbieSpec.CloneAbie(abieToBeUpdated);
 
-                    IList<AsbieSpec> newAsbieSpecs = CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions);
-
-                    foreach (AsbieSpec newAsbieSpec in newAsbieSpecs)
-                    {
-                        updatedAbieSpec.AddAsbie(newAsbieSpec);                        
-                    }
+                    updatedAbieSpec.Asbies = new List<AsbieSpec>(CumulateAbiesSpecsFromComplexType(abieComplexType, allElementDefinitions));
 
                     BieLibrary.UpdateAbie(abieToBeUpdated, updatedAbieSpec);
                 }

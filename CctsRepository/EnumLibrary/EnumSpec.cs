@@ -9,6 +9,7 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 // ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -101,6 +102,29 @@ namespace CctsRepository.EnumLibrary
 		public string VersionIdentifier { get; set; }
 
 		#endregion
-    }
+
+        public static EnumSpec CloneEnum(IEnum @enum)
+        {
+            return new EnumSpec
+                   {
+                   	   Name = @enum.Name,
+					   IsEquivalentTo = @enum.IsEquivalentTo,
+					   BusinessTerms = new List<string>(@enum.BusinessTerms),
+					   CodeListAgencyIdentifier = @enum.CodeListAgencyIdentifier,
+					   CodeListAgencyName = @enum.CodeListAgencyName,
+					   CodeListIdentifier = @enum.CodeListIdentifier,
+					   CodeListName = @enum.CodeListName,
+					   DictionaryEntryName = @enum.DictionaryEntryName,
+					   Definition = @enum.Definition,
+					   EnumerationURI = @enum.EnumerationURI,
+					   LanguageCode = @enum.LanguageCode,
+					   ModificationAllowedIndicator = @enum.ModificationAllowedIndicator,
+					   RestrictedPrimitive = @enum.RestrictedPrimitive,
+					   Status = @enum.Status,
+					   UniqueIdentifier = @enum.UniqueIdentifier,
+					   VersionIdentifier = @enum.VersionIdentifier,
+                   };
+        }
+	}
 }
 

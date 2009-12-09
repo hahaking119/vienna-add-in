@@ -9,6 +9,7 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
+using VIENNAAddInUtils;
 // ReSharper disable RedundantUsingDirective
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -116,6 +117,32 @@ namespace CctsRepository.PrimLibrary
 		public string WhiteSpace { get; set; }
 
 		#endregion
-    }
+
+        public static PrimSpec ClonePrim(IPrim prim)
+        {
+            return new PrimSpec
+                   {
+                   	   Name = prim.Name,
+					   IsEquivalentTo = prim.IsEquivalentTo,
+					   BusinessTerms = new List<string>(prim.BusinessTerms),
+					   Definition = prim.Definition,
+					   DictionaryEntryName = prim.DictionaryEntryName,
+					   FractionDigits = prim.FractionDigits,
+					   LanguageCode = prim.LanguageCode,
+					   Length = prim.Length,
+					   MaximumExclusive = prim.MaximumExclusive,
+					   MaximumInclusive = prim.MaximumInclusive,
+					   MaximumLength = prim.MaximumLength,
+					   MinimumExclusive = prim.MinimumExclusive,
+					   MinimumInclusive = prim.MinimumInclusive,
+					   MinimumLength = prim.MinimumLength,
+					   Pattern = prim.Pattern,
+					   TotalDigits = prim.TotalDigits,
+					   UniqueIdentifier = prim.UniqueIdentifier,
+					   VersionIdentifier = prim.VersionIdentifier,
+					   WhiteSpace = prim.WhiteSpace,
+                   };
+        }
+	}
 }
 
