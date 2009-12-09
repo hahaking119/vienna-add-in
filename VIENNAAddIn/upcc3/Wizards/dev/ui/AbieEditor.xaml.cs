@@ -80,6 +80,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
                         
             listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, selectedItemText);
+
+            UpdateFormState();
         }
 
         // ------------------------------------------------------------------------------------

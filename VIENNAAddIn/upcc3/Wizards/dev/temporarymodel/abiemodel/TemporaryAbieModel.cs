@@ -41,6 +41,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         #region Class Fields
 
         private readonly CcCache ccCache;
+        private readonly ProspectiveBdts mProspectiveBdts;
         private List<CandidateCcLibrary> mCandidateCcLibraries;
         private List<CandidateBdtLibrary> mCandidateBdtLibraries;
         private List<CandidateBieLibrary> mCandidateBieLibraries;
@@ -51,6 +52,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         public TemporaryAbieModel(ICctsRepository cctsRepository)
         {
             ccCache = CcCache.GetInstance(cctsRepository);
+            mProspectiveBdts = ProspectiveBdts.GetInstance();
 
             mCandidateCcLibraries = new List<CandidateCcLibrary>(ccCache.GetCcLibraries().ConvertAll(ccl => new CandidateCcLibrary(ccl)));
             CandidateCcLibraryNames = new List<string>(mCandidateCcLibraries.ConvertAll(new Converter<CandidateCcLibrary, string>(CandidateCcLibraryToString)));
@@ -779,6 +781,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                     }
                                 }
                             }
+
+                            mProspectiveBdts.UpdateBdtName(originalBdtName, updatedBdtName);
                         }
                     }
                 }
@@ -802,28 +806,31 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             {
                                 if (candidateBcc.Selected)
                                 {
-                                   cdtIdThatNewBdtIsAddedFor = candidateBcc.OriginalBcc.Cdt.Id;
+                                    cdtIdThatNewBdtIsAddedFor = candidateBcc.OriginalBcc.Cdt.Id;
 
-                                   foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
-                                   {
-                                       if (potentialBbie.Selected)
-                                       {
-                                           newBdtName = potentialBbie.AddPotentialBdt();
+                                    foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
+                                    {
+                                        if (potentialBbie.Selected)
+                                        {
+                                            newBdtName = potentialBbie.AddPotentialBdt();
                                            
-                                           PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
-                                       }
-                                   }
+                                            PotentialBdtItems = new List<CheckableItem>(potentialBbie.PotentialBdts.ConvertAll(new Converter<PotentialBdt, CheckableItem>(PotentialBdtToTestItem)));
+                                        }
+                                    }
                                     
                                     foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
                                     {
                                         if (!potentialBbie.Selected)
                                         {
-                                            potentialBbie.AddPotentialBdt(newBdtName);
+                                            potentialBbie.AddPotentialBdt(newBdtName);                                            
                                         }
                                     }
+
+                                    ProspectiveBdts.GetInstance().AddBdt(cdtIdThatNewBdtIsAddedFor, newBdtName);
                                 }
                             }
                             
+                            // Propagate the new BDT to all other BCCs (i.e. BBIEs) of the selected ACC.
                             foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
                             {
                                 if ((candidateBcc.OriginalBcc.Cdt.Id == cdtIdThatNewBdtIsAddedFor) && (!candidateBcc.Selected))
@@ -891,6 +898,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             CreateAbie(candidateAcc);
 
                             ccCache.Refresh();
+                            mProspectiveBdts.Clear();
+                        }
+                        else
+                        {
+                            candidateAcc.Clear();
                         }
                     }
                 }

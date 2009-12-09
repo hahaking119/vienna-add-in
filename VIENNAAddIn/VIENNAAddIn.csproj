@@ -247,6 +247,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModel.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\ProspectiveBdts.cs" />
     <Compile Include="upcc3\Wizards\XsdImporterForm.xaml.cs">
       <DependentUpon>XsdImporterForm.xaml</DependentUpon>
     </Compile>

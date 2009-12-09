@@ -12,6 +12,7 @@ using System.Windows.Input;
 using CctsRepository.BdtLibrary;
 using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
+using VIENNAAddIn.upcc3.Wizards.dev.util;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
@@ -77,6 +78,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                         }
                     }
 
+                    foreach (string prospectiveBdtName in ProspectiveBdts.GetInstance().Bdts(mCdtUsedInBcc.Id))
+                    {
+                        AddPotentialBdt(prospectiveBdtName);
+                    }                    
+
                     if (mPotentialBdts.Count == 0)
                     {
                         AddPotentialBdt();
@@ -120,9 +126,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public void AddPotentialBdt(string newBdtName)
         {
-            PotentialBdts.Add(new PotentialBdt(newBdtName));
-        }
+            bool bdtAlreadyAddedByPotentialBdtsSetter = false;
 
+            foreach (PotentialBdt potentialBdt in PotentialBdts)
+            {
+                if (potentialBdt.Name.Equals(newBdtName))
+                {
+                    bdtAlreadyAddedByPotentialBdtsSetter = true;
+                }
+            }
+            
+            if (!bdtAlreadyAddedByPotentialBdtsSetter)
+            {
+                PotentialBdts.Add(new PotentialBdt(newBdtName));   
+            }            
+        }
 
         public bool ItemReadOnly
         {
