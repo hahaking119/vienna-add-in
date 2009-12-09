@@ -59,7 +59,7 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
             <Button HorizontalAlignment="Center" Width="150" Height="23" Name="buttonGenerate" Margin="5,5,5,5" KeyboardNavigation.TabIndex="19" Click="buttonGenerate_Click">_Generate Default Model</Button>
-            <Button HorizontalAlignment="Center" Width="150" Height="23" Name="buttonClose" Margin="5,5,5,5" KeyboardNavigation.TabIndex="20" Click="buttonClose_Click">_Close</Button>
+            <Button HorizontalAlignment="Center" Width="150" Height="23" Name="buttonClose" IsCancel="True" Margin="5,5,5,5" KeyboardNavigation.TabIndex="20" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
         <GroupBox DockPanel.Dock="Bottom" Header="Status" Margin="1,8,0,3">
             <TextBox IsReadOnly="True" Background="#FFD4D0C8" Name="rtxtStatus" Margin="2,2,2,2" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"></TextBox>
