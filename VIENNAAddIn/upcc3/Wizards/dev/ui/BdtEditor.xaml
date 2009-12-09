@@ -1,8 +1,8 @@
 ﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.ui.BdtEditor"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
-    Height="550" Width="470" WindowStyle="SingleBorderWindow" Background="#FFD4D0C8" ShowInTaskbar="True" ResizeMode="NoResize" Title="BDT Editor" FontSize="11">
-    <DockPanel Background="#FFD4D0C8" Margin="2,5,5,5">
+    Height="550" Width="470" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" WindowStyle="SingleBorderWindow" ShowInTaskbar="True" ResizeMode="NoResize" Title="BDT Editor" FontSize="11">
+    <DockPanel Margin="2,5,5,5">
         <GroupBox Header="Settings" DockPanel.Dock="Top">
             <StackPanel Orientation="Vertical">
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
@@ -13,9 +13,9 @@
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelCdts">Choose CDT used to generate the BDT:</Label>
                     <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboboxCdts" SelectionChanged="comboboxCdts_SelectionChanged"></ComboBox>
                 </DockPanel>
-                <GroupBox Header="Attributes" Margin="0,1,0,4" Height="325">
-                    <TabControl TabStripPlacement="Top" Margin="0,1,0,0" Name="tabControl">
-                        <TabItem Header="C_ON" Name="tabCon">
+                <GroupBox Header="Attributes" Margin="5,1,1,4" Height="325">
+                    <TabControl TabStripPlacement="Top" Margin="2,3,2,2" Name="tabControl">
+                        <TabItem Header="CON" Name="tabCon">
                             <TabItem.Content>
                                 <DockPanel>
                                     <ListBox Name="listboxCon" SelectionChanged="listboxCon_SelectionChanged">
@@ -24,7 +24,7 @@
                                 </DockPanel>
                             </TabItem.Content>
                         </TabItem>
-                        <TabItem Header="S_UPs" Name="tabSups">
+                        <TabItem Header="SUPs" Name="tabSups">
                             <TabItem.Content>
                                 <DockPanel>
                                     <CheckBox Margin="1,2,1,3" DockPanel.Dock="Top" Name="checkboxSups" Checked="checkboxSups_Checked" Unchecked="checkboxSups_Unchecked">Select all SUPs</CheckBox>
