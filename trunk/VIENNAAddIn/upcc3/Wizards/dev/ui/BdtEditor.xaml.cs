@@ -25,7 +25,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             new BdtEditor(context.CctsRepository).Show();
         }
 
-        private void buttonGenerateBDT_Click(object sender, RoutedEventArgs e)
+        private void buttonCreate_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -33,6 +33,61 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void comboboxCdtLibraries_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void comboboxCdts_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void comboboxBdtLibraries_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void textboxBdtName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void textboxBdtPrefix_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void listboxSups_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void listboxCon_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void checkboxSups_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void checkboxSups_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void listboxSups_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void listboxCon_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

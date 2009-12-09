@@ -16,7 +16,7 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
             <Button HorizontalAlignment="Center" Width="100" Height="23" Name="buttonImport" Margin="5,5,5,5" KeyboardNavigation.TabIndex="2" Click="buttonImport_Click">_Import</Button>
-            <Button HorizontalAlignment="Center" Width="100" Height="23" Name="buttonClose" Margin="5,5,5,5" KeyboardNavigation.TabIndex="3" Click="buttonClose_Click">_Close</Button>
+            <Button HorizontalAlignment="Center" Width="100" Height="23" Name="buttonClose" Margin="5,5,5,5" IsCancel="True" KeyboardNavigation.TabIndex="3" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
         <GroupBox DockPanel.Dock="Bottom" Header="Status" Margin="1,3,0,0">
             <TextBox IsReadOnly="True" Background="#FFD4D0C8" Name="rtxtStatus" Margin="2,2,2,2" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"></TextBox>
