@@ -207,7 +207,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CdtSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="CdtLibrary\CdtSpecManualExtensions.cs" />
     <Compile Include="CdtLibrary\CdtSupSpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

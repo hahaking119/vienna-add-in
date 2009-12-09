@@ -199,13 +199,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private static IEnumerable<AttributeSpec> GetAttributeSpecs(CdtSpec spec)
         {
-            CdtConSpec conSpec = spec.CON;
+            CdtConSpec conSpec = spec.Con;
             if (conSpec != null)
             {
                 // TODO throw exception if null
                 yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
             }
-            List<CdtSupSpec> supSpecs = spec.SUPs;
+            List<CdtSupSpec> supSpecs = spec.Sups;
             if (supSpecs != null)
             {
                 foreach (CdtSupSpec supSpec in supSpecs)
