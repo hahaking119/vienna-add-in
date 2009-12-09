@@ -6,26 +6,6 @@ namespace CctsRepository.BieLibrary
 {
     public partial class AsbieSpec
     {
-        public static AsbieSpec CloneAsbie(IAsbie asbie)
-        {
-            return new AsbieSpec
-                   {
-                       Name = asbie.Name,
-                       DictionaryEntryName = asbie.DictionaryEntryName,
-                       Definition = asbie.Definition,
-                       UniqueIdentifier = asbie.UniqueIdentifier,
-                       VersionIdentifier = asbie.VersionIdentifier,
-                       LanguageCode = asbie.LanguageCode,
-                       BusinessTerms = new List<string>(asbie.BusinessTerms),
-                       UsageRules = new List<string>(asbie.UsageRules),
-                       SequencingKey = asbie.SequencingKey,
-                       AssociatedAbie = asbie.AssociatedAbie,
-                       LowerBound = asbie.LowerBound,
-                       UpperBound = asbie.UpperBound,
-                       AggregationKind = asbie.AggregationKind,
-                   };
-        }
-
         public AsbieSpec()
         {
             ResolveAssociatedAbie = () => AssociatedAbie;

@@ -60,6 +60,42 @@ namespace CctsRepository.<#= library.Name #>
 		#endregion
 <#
 		}
+
+		var cloned = FirstCharToLowerCase(metaAssociation.ClassName);
 #>
+
+        public static <#= metaAssociation.ClassName #>Spec Clone<#= metaAssociation.ClassName #>(I<#= metaAssociation.ClassName #> <#= cloned #>)
+        {
+            return new <#= metaAssociation.ClassName #>Spec
+                   {
+                   	   Name = <#= cloned #>.Name,
+                       UpperBound = <#= cloned #>.UpperBound,
+                       LowerBound = <#= cloned #>.LowerBound,
+<#
+		if (metaAssociation.AggregationKind == MetaAggregationKind.SharedOrComposite)
+		{
+#>
+                       AggregationKind = <#= cloned #>.AggregationKind,
+<#
+		}
+#>
+                       Associating<#= metaAssociation.AssociatingClassifierType.Name #> = <#= cloned #>.Associating<#= metaAssociation.AssociatingClassifierType.Name #>,
+                       Associated<#= metaAssociation.AssociatedClassifierType.Name #> = <#= cloned #>.Associated<#= metaAssociation.AssociatedClassifierType.Name #>,
+<#
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaAssociation))
+		{
+#>
+					   <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> = <#= cloned #>.<#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #>,
+<#
+		}
+		foreach (var taggedValue in metaAssociation.TaggedValues)
+		{
+#>
+					   <#= CopyTaggedValue(taggedValue, cloned) #>,
+<#
+		}
+#>
+                   };
+        }
     }
 }
