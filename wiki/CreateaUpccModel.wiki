@@ -16,7 +16,7 @@ The UML Profile for Core Components is a representation of UN/CEFACT’s Core Co
   # Usually, default names are assigned to the libraries generated as members of the new model. If you want to assign custom names to some of the libraries, uncheck the _Use default names for generated Libraries_ checkbox and change the library names:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaUpccModel_04.gif
   # After unchecking _Use default names for generated Libraries_, you can also uncheck all libraries you do not want to be generated automatically
-  # When selecting the _Import standard CC libraries_ checkbox, the Add-In will automatically download the standard Core Component Libraries an import them into the newly created model. If you decide not to use this functionality at the moment, you can import the CC Libraries later using the Standard CC Library Importer - see section _Import standard Core Component Libraries_ for details!
+  # When selecting the _Import standard CC libraries_ checkbox, the Add-In will automatically download the standard Core Component Libraries and import them into the newly created model. If you decide not to use this functionality at the moment, you can import the CC Libraries later using the Standard CC Library Importer - see section _Import standard Core Component Libraries_ for details!
    # When using the automatic CCL import functionality, you can choose the desired version of the CCL from two drop-down lists
    # After choosing the CCL version, detailed information to the selected version is shown in the _Comments_ section
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaUpccModel_05.gif
