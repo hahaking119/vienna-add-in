@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using System;
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
@@ -124,6 +125,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             {
                 mCandidateAbies.Add(new CandidateAbie(newAbie));
             }
+        }
+
+        public void Clear()
+        {
+            mCandidateBccs = null;
+            mCandidateAbies = null;
         }
     }
 }
