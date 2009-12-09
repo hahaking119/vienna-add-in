@@ -13,7 +13,7 @@
             <ComboBox ItemsSource="{Binding Path=Model.CandidateAccNames}" HorizontalAlignment="Stretch" Height="23" Name="comboACCs" SelectionChanged="comboboxAccs_SelectionChanged"></ComboBox>
         </DockPanel>        
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,15,1,1">
-            <Button HorizontalAlignment="Center" Width="100" Name="buttonSave" Margin="5,5,5,5" Click="buttonCreate_Click">_Generate ABIE</Button>
+            <Button HorizontalAlignment="Center" Width="100" Name="buttonCreate" Margin="5,5,5,5" Click="buttonCreate_Click">C_reate ABIE</Button>
             <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
         <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">

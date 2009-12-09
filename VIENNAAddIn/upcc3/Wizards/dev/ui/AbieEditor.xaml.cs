@@ -317,7 +317,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void buttonCreate_Click(object sender, RoutedEventArgs e)
         {
             // Disable the "Create Button" while the ABIE is created
-            buttonSave.IsEnabled = false;
+            buttonCreate.IsEnabled = false;
 
             try
             {
@@ -330,7 +330,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }                       
 
             // After the ABIE is created the "Create Button" is enabled again. 
-            buttonSave.IsEnabled = true;
+            buttonCreate.IsEnabled = true;
         }
 
         // ------------------------------------------------------------------------------------
@@ -403,7 +403,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void SetEnabledForCreateButton(bool enabledState)
         {
-            buttonSave.IsEnabled = enabledState;
+            buttonCreate.IsEnabled = enabledState;
         }
 
         #endregion
