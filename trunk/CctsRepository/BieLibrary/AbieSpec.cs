@@ -31,9 +31,9 @@ namespace CctsRepository.BieLibrary
 
 		public IAcc BasedOn { get; set; }
 
-		public IEnumerable<BbieSpec> Bbies { get; set; }
+		public List<BbieSpec> Bbies { get; set; }
 
-		public IEnumerable<AsbieSpec> Asbies { get; set; }
+		public List<AsbieSpec> Asbies { get; set; }
 
 		#region Tagged Values
 

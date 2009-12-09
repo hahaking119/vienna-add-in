@@ -31,7 +31,7 @@ namespace CctsRepository.CdtLibrary
 
 		public CdtConSpec Con { get; set; }
 
-		public IEnumerable<CdtSupSpec> Sups { get; set; }
+		public List<CdtSupSpec> Sups { get; set; }
 
 		#region Tagged Values
 

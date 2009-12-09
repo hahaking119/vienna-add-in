@@ -29,9 +29,9 @@ namespace CctsRepository.CcLibrary
 
 		public IAcc IsEquivalentTo { get; set; }
 
-		public IEnumerable<BccSpec> Bccs { get; set; }
+		public List<BccSpec> Bccs { get; set; }
 
-		public IEnumerable<AsccSpec> Asccs { get; set; }
+		public List<AsccSpec> Asccs { get; set; }
 
 		#region Tagged Values
 

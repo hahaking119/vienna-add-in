@@ -230,8 +230,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                            {
                                BasedOn = acc,
                                Name = name,
-                               Bbies = GenerateBCCMappings(abieMapping.BCCMappings(acc)),
-                               Asbies = GenerateASCCMappings(abieMapping.ASCCMappings(acc)),
+                               Bbies = new List<BbieSpec>(GenerateBCCMappings(abieMapping.BCCMappings(acc))),
+                               Asbies = new List<AsbieSpec>(GenerateASCCMappings(abieMapping.ASCCMappings(acc))),
                            };
             abieSpecs.Add(abieSpec);
             return abieSpec;

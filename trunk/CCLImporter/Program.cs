@@ -76,7 +76,9 @@ namespace CCLImporter
                                       Definition = record.Definition.LimitTo(MaximumTaggedValueLength),
                                       BusinessTerms = ToArray(record.BusinessTerms.LimitTo(MaximumTaggedValueLength)),
                                       UsageRules = ToArray(record.UsageRules.LimitTo(MaximumTaggedValueLength)),
-                                      VersionIdentifier = record.Version
+                                      VersionIdentifier = record.Version,
+                                      Bccs = new List<BccSpec>(),
+                                      Asccs = new List<AsccSpec>(),
                                   };
                         accSpecs.Add(accSpec);
                         break;
@@ -105,7 +107,7 @@ namespace CCLImporter
                             Console.WriteLine("WARNING: Skipping line {0}: CDT not found: <{1}>.", LineNumber, record.RepresentationTerm);
                             continue;
                         }
-                        accSpec.AddBCC(bccSpec);
+                        accSpec.Bccs.Add(bccSpec);
                         break;
                     case "ASCC":
                         if (accSpec == null)
@@ -126,7 +128,7 @@ namespace CCLImporter
                                            VersionIdentifier = record.Version,
                                            ResolveAssociatedAcc = accResolver.ResolveACC(record.AssociatedObjectClass.AsName()),
                                        };
-                        accSpec.AddASCC(asccSpec);
+                        accSpec.Asccs.Add(asccSpec);
                         break;
                     default:
                         Console.WriteLine("WARNING: Skipping line {0}.", LineNumber);

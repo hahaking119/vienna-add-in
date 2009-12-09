@@ -27,7 +27,7 @@ namespace CctsRepository.DocLibrary
     {
 		public string Name { get; set; }
 
-		public IEnumerable<AsmaSpec> Asmas { get; set; }
+		public List<AsmaSpec> Asmas { get; set; }
 
         public static MaSpec CloneMa(IMa ma)
         {
