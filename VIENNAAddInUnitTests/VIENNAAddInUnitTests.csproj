@@ -150,7 +150,6 @@
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\UpccModelCreatorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryAbieEditor.cs" />
-    <Compile Include="upcc3\Wizards\dev\util\TemporaryAbieModelTest.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryLibraryImporter.cs" />
     <Compile Include="upcc3\Wizards\TestRepository\EARepositoryModelCreator.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryCcCache.cs" />
@@ -251,6 +250,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="upcc3\Wizards\dev\util\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

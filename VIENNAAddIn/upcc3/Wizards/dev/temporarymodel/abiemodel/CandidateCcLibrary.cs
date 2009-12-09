@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             {
                 if (mCandidateAccs == null)
                 {
-                    mCandidateAccs = new List<CandidateAcc>(CcCache.GetInstance().GetCCsFromCCLibrary(OriginalCcLibrary.Name).ConvertAll(acc => new CandidateAcc(acc)));
+                    mCandidateAccs = new List<CandidateAcc>(CcCache.GetInstance().GetCcsFromCcLibrary(OriginalCcLibrary.Name).ConvertAll(acc => new CandidateAcc(acc)));
                 }
 
                 return mCandidateAccs;

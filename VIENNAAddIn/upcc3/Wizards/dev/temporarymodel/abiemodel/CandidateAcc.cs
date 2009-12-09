@@ -1,3 +1,12 @@
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
@@ -63,7 +72,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
                     foreach (IAscc ascc in mOriginalAcc.Asccs)
                     {                        
-                        foreach (IBieLibrary bieLibrary in ccCache.GetBIELibraries())
+                        foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
                         {
                             foreach (IAbie abie in ccCache.GetBiesFromBieLibrary(bieLibrary.Name))
                             {
