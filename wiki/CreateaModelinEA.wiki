@@ -7,10 +7,10 @@ The VIENNA Add-In (Visualizing Inter ENterprise Network Architectures) is an ext
 =Create your first model using Enterprise Architect=
 
   # From the main menu, select _File / New Project..._ and choose the directory and filename for storing the project:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_01.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_01.gif
   # In the _New Project_ dialog, select a directory and filename to store the EA project file
   # In the _Select model(s)_ dialog, choose _`<`default`>`_ from the _Technology_ list and select none of the check boxes in the second list:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_02.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_02.gif
   # After clicking _OK_, the new project is generated. It contains exactly one empty model, as you can observe in the _Project Browser_ view:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_03.gif
   # You can now access the VIENNA Add-In functionality through the _Add-Ins / VIENNAAddIn_ menu:
@@ -18,7 +18,7 @@ The VIENNA Add-In (Visualizing Inter ENterprise Network Architectures) is an ext
   # The most frequently used functions, depending on the current context, can also be accessed through the _Add-In_ context menu - simply right-click the newly created model in  the _Project Browser_ and select the _Add-In / VIENNAAddIn_ menu:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_05.gif
   # To start modeling business documents using the newly created model, you must set the model as a UMM or UPCC Model by selecting _Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model_ from the main menu:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/HowToCreateaUPCC3Model_03.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateaModelinEA_06.gif
 
 
 =References=
