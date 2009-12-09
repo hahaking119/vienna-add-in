@@ -26,7 +26,7 @@ namespace CctsRepository.<#= library.Name #>
 		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
 		{
 			var specName = attribute.ClassName + "Spec";
-			var attributeType = attribute.Cardinality == MetaCardinality.Many ? "IEnumerable<" + specName + ">" : specName;
+			var attributeType = attribute.Cardinality == MetaCardinality.Many ? "List<" + specName + ">" : specName;
 #>
 
 		public <#= attributeType #> <#= attribute.AttributeName #> { get; set; }
@@ -37,7 +37,7 @@ namespace CctsRepository.<#= library.Name #>
 		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
 		{
 			var specName = association.ClassName + "Spec";
-			var propertyType = association.Cardinality == MetaCardinality.Many ? "IEnumerable<" + specName + ">" : specName;
+			var propertyType = association.Cardinality == MetaCardinality.Many ? "List<" + specName + ">" : specName;
 #>
 
 		public <#= propertyType #> <#= association.Name #> { get; set; }

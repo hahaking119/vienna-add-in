@@ -243,7 +243,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                BusinessTerms = new[] {"business term 1", "business term 2"},
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                BasedOn = accPerson,
-                               Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
+                               Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText))),
                                Asbies = new List<AsbieSpec>
                                         {
                                             AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress),
@@ -336,22 +336,25 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                        LowerBound = "1",
                                        UpperBound = "3",
                                    };
-            accSpec.AddBCC(bccFirstNameSpec);
-            accSpec.AddBCC(new BccSpec
+            accSpec.Bccs = new List<BccSpec>
                            {
-                               Name = "LastName",
-                               Cdt = cdtText
-                           });
-            accSpec.AddBCC(new BccSpec
-                           {
-                               Name = "Some",
-                               Cdt = cdtText
-                           });
-            accSpec.AddBCC(new BccSpec
-                           {
-                               Name = "Some",
-                               Cdt = cdtDate
-                           });
+                               bccFirstNameSpec,
+                               new BccSpec
+                               {
+                                   Name = "LastName",
+                                   Cdt = cdtText
+                               },
+                               new BccSpec
+                               {
+                                   Name = "Some",
+                                   Cdt = cdtText
+                               },
+                               new BccSpec
+                               {
+                                   Name = "Some",
+                                   Cdt = cdtDate
+                               },
+                           };
 
             var asccHomeAddressSpec = new AsccSpec
                                       {
@@ -368,22 +371,25 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                           LowerBound = "1",
                                           UpperBound = "3",
                                       };
-            accSpec.AddASCC(asccHomeAddressSpec);
-            accSpec.AddASCC(new AsccSpec
+            accSpec.Asccs = new List<AsccSpec>
                             {
-                                Name = "WorkAddress",
-                                ResolveAssociatedAcc = () => accAddress,
-                            });
-            accSpec.AddASCC(new AsccSpec
-                            {
-                                Name = "Some",
-                                ResolveAssociatedAcc = () => accAddress,
-                            });
-            accSpec.AddASCC(new AsccSpec
-                            {
-                                Name = "Some",
-                                ResolveAssociatedAcc = () => accPerson,
-                            });
+                                asccHomeAddressSpec,
+                                new AsccSpec
+                                {
+                                    Name = "WorkAddress",
+                                    ResolveAssociatedAcc = () => accAddress,
+                                },
+                                new AsccSpec
+                                {
+                                    Name = "Some",
+                                    ResolveAssociatedAcc = () => accAddress,
+                                },
+                                new AsccSpec
+                                {
+                                    Name = "Some",
+                                    ResolveAssociatedAcc = () => accPerson,
+                                },
+                            };
 
             IAcc accTestPerson = ccLibrary.CreateAcc(accSpec);
             Assert.IsNotNull(accTestPerson, "ACC is null");
@@ -401,7 +407,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.IsNotNull(accTestPerson.IsEquivalentTo, "IsEquivalentTo is null");
             Assert.AreEqual(accPerson.Id, accTestPerson.IsEquivalentTo.Id);
 
-            Assert.AreEqual(accSpec.BCCs.Count(), accTestPerson.Bccs.Count());
+            Assert.AreEqual(accSpec.Bccs.Count(), accTestPerson.Bccs.Count());
             IBcc bccFirstName = accTestPerson.Bccs.FirstOrDefault(bcc => bcc.Name == bccFirstNameSpec.Name);
             Assert.That(bccFirstName, Is.Not.Null, "BCC FirstName not generated");
             Assert.AreEqual(cdtText.Id, bccFirstName.Cdt.Id);
@@ -419,7 +425,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.That(accTestPerson.Bccs.FirstOrDefault(bcc => bcc.Name == "SomeText"), Is.Not.Null, "Type not appended to BCC 'Some' with type 'Text'");
             Assert.That(accTestPerson.Bccs.FirstOrDefault(bcc => bcc.Name == "SomeDate"), Is.Not.Null, "Type not appended to BCC 'Some' with type 'Date'");
 
-            Assert.AreEqual(accSpec.ASCCs.Count(), accTestPerson.Asccs.Count());
+            Assert.AreEqual(accSpec.Asccs.Count(), accTestPerson.Asccs.Count());
             IAscc asccHomeAddress = accTestPerson.Asccs.FirstOrDefault(ascc => ascc.Name == asccHomeAddressSpec.Name);
             Assert.That(asccHomeAddress, Is.Not.Null, "ASCC HomeAddress not generated");
             Assert.AreEqual(accAddress.Id, asccHomeAddress.AssociatedAcc.Id);
@@ -565,7 +571,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                    BusinessTerms = new[] {"business term 1", "business term 2"},
                                    UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                    BasedOn = accAddress,
-                                   Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
+                                   Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText))),
                                };
                 IAbie myAddress = bieLib.CreateAbie(abieSpec);
                 Element myAddressElement = repository.GetElementByID(myAddress.Id);
@@ -887,7 +893,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                BusinessTerms = new[] {"business term 1", "business term 2"},
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                BasedOn = accPerson,
-                               Bbies = bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText)),
+                               Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText))),
                                Asbies = new List<AsbieSpec>
                                         {
                                             AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress),

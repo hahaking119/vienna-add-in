@@ -1400,7 +1400,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                     }
                 }
 
-                IList<AsbieSpec> newASBIEs = new List<AsbieSpec>();
+                List<AsbieSpec> newASBIEs = new List<AsbieSpec>();
                 if (cache.CCLs[selectedCCLName].ACCs[selectedACCName].HasASCCs())
                 {
                     foreach (cASCC cascc in cache.CCLs[selectedCCLName].ACCs[selectedACCName].ASCCs.Values)

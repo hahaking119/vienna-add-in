@@ -209,7 +209,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         private static IEnumerable<AttributeSpec> GetAttributeSpecs(AccSpec spec)
         {
-            IEnumerable<BccSpec> bccSpecs = spec.BCCs;
+            IEnumerable<BccSpec> bccSpecs = spec.Bccs;
             if (bccSpecs != null)
             {
                 HashSet<string> duplicateBccNames = GetDuplicates(bccSpecs.Select(bccSpec => bccSpec.Name));
@@ -243,7 +243,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             if (spec.IsEquivalentTo != null) yield return ConnectorSpec.CreateDependency(Stereotype.isEquivalentTo, spec.IsEquivalentTo.Id, "1", "1");
 
-            IEnumerable<AsccSpec> asccSpecs = spec.ASCCs;
+            IEnumerable<AsccSpec> asccSpecs = spec.Asccs;
             if (asccSpecs != null)
             {
                 HashSet<string> duplicateAsccNames = GetDuplicates(asccSpecs.Select(asccSpec => asccSpec.Name));

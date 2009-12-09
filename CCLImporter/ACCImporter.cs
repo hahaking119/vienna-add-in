@@ -25,12 +25,9 @@ namespace CCLImporter
                                            Name = spec.Name,
                                            UniqueIdentifier = spec.UniqueIdentifier,
                                            UsageRules = spec.UsageRules,
-                                           VersionIdentifier = spec.VersionIdentifier
+                                           VersionIdentifier = spec.VersionIdentifier,
+                                           Bccs = new List<BccSpec>(spec.Bccs),
                                        };
-                foreach (BccSpec bccSpec in spec.BCCs)
-                {
-                    specWithoutASCCs.AddBCC(bccSpec);
-                }
                 accs[spec.Name] = ccLibrary.CreateAcc(specWithoutASCCs);
             }
             foreach (AccSpec spec in accSpecs)

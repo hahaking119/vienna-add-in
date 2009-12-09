@@ -156,7 +156,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AccSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="CcLibrary\AccSpecManualExtensions.cs" />
     <Compile Include="CcLibrary\AsccSpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

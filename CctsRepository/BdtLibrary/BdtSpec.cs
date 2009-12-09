@@ -33,7 +33,7 @@ namespace CctsRepository.BdtLibrary
 
 		public BdtConSpec Con { get; set; }
 
-		public IEnumerable<BdtSupSpec> Sups { get; set; }
+		public List<BdtSupSpec> Sups { get; set; }
 
 		#region Tagged Values
 
