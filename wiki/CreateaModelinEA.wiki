@@ -2,7 +2,7 @@
 
 =Enterprise Architect=
 
-...
+The VIENNA Add-In (Visualizing Inter ENterprise Network Architectures) is an extension to the UML modeling tool Enterprise Architect (1). This page explains how to create models using Enterprise Architect, and how to access the VIENNA Add-In functionality through the Enterprise Architect User Interface.
 
 =Create your first model using Enterprise Architect=
 
@@ -22,7 +22,9 @@
 
 
 =References=
-(1) Enterprise Architect UML Tool Guide http://www.sparxsystems.com/uml_tool_guide/index.html
+(1) Sparx Systems Homepage http://www.sparxsystems.com/
+
+(2) Enterprise Architect UML Tool Guide http://www.sparxsystems.com/uml_tool_guide/index.html
 
 =Related Tasks=
 [CreateaUpccModel Create your first UPCC model]
