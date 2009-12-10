@@ -70,6 +70,12 @@ namespace CctsRepository.EnumLibrary
         IEnum UpdateEnum(IEnum @enum, EnumSpec specification);
 
 		/// <summary>
+		/// Removes a ENUM from this ENUMLibrary.
+		/// <param name="@enum">A ENUM.</param>
+		/// </summary>
+        void RemoveEnum(IEnum @enum);
+
+		/// <summary>
 		/// The IDSCHEMEs contained in this ENUMLibrary.
 		/// </summary>
 		IEnumerable<IIdScheme> IdSchemes { get; }
@@ -95,6 +101,12 @@ namespace CctsRepository.EnumLibrary
 		/// <returns>The updated IDSCHEME. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification);
+
+		/// <summary>
+		/// Removes a IDSCHEME from this ENUMLibrary.
+		/// <param name="idScheme">A IDSCHEME.</param>
+		/// </summary>
+        void RemoveIdScheme(IIdScheme idScheme);
 
 		#region Tagged Values
 

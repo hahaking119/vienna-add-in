@@ -59,6 +59,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
+        public void RemoveMa(IMa ma)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IAbie> Abies
         {
             get { throw new NotImplementedException(); }

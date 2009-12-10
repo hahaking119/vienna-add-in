@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 using EA;
@@ -75,6 +76,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             ((ABIE) element).Update(spec);
             return element;
+        }
+
+        public void RemoveAbie(IAbie abie)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

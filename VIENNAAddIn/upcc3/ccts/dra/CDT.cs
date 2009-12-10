@@ -71,6 +71,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public ICdtSup CreateCdtSup(CdtSupSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICdtSup UpdateCdtSup(ICdtSup cdtSup, CdtSupSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCdtSup(ICdtSup cdtSup)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICdtCon Con
         {
             get

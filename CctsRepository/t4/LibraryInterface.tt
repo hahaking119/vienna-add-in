@@ -64,6 +64,12 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		/// <returns>The updated <#= subPackage #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         I<#= relation.SubPackageType.Name #> Update<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>, <#= relation.SubPackageType.Name #>Spec specification);
+
+		/// <summary>
+		/// Removes a <#= subPackage #> from this <#= metaPackage.Stereotype #>.
+		/// <param name="<#= subPackageParamName #>">A <#= subPackage #>.</param>
+		/// </summary>
+        void Remove<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>);
 <#
 		}
 #>
@@ -101,6 +107,12 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		/// <returns>The updated <#= element #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         I<#= relation.ClassifierType.Name #> Update<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= classifierParamName #>, <#= relation.ClassifierType.Name #>Spec specification);
+
+		/// <summary>
+		/// Removes a <#= element #> from this <#= metaPackage.Stereotype #>.
+		/// <param name="<#= classifierParamName #>">A <#= element #>.</param>
+		/// </summary>
+        void Remove<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= classifierParamName #>);
 <#
 		}
 #>

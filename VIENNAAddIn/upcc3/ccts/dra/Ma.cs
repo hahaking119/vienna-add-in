@@ -14,6 +14,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             this.element = element;
         }
 
+        #region IMa Members
+
         public string Name
         {
             get { return element.Name; }
@@ -26,10 +28,27 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IEnumerable<IAsma> Asmas { get; set; }
 
+        public IAsma CreateAsma(AsmaSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsma UpdateAsma(IAsma asma, AsmaSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAsma(IAsma asma)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Id
         {
             get { return element.ElementID; }
         }
+
+        #endregion
 
         public void Update(MaSpec spec)
         {

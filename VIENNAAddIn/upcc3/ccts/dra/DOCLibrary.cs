@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
@@ -112,6 +113,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             ((Ma) ma).Update(spec);
             return ma;
+        }
+
+        public void RemoveMa(IMa ma)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

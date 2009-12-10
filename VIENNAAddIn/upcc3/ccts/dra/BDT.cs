@@ -83,6 +83,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public IBdtSup CreateBdtSup(BdtSupSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBdtSup UpdateBdtSup(IBdtSup bdtSup, BdtSupSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBdtSup(IBdtSup bdtSup)
+        {
+            throw new NotImplementedException();
+        }
+
         public IBdtCon Con
         {
             get

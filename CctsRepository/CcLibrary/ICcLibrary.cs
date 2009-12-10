@@ -69,6 +69,12 @@ namespace CctsRepository.CcLibrary
 		/// </summary>
         IAcc UpdateAcc(IAcc acc, AccSpec specification);
 
+		/// <summary>
+		/// Removes a ACC from this CCLibrary.
+		/// <param name="acc">A ACC.</param>
+		/// </summary>
+        void RemoveAcc(IAcc acc);
+
 		#region Tagged Values
 
         ///<summary>

@@ -63,6 +63,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public IBbie CreateBbie(BbieSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBbie UpdateBbie(IBbie bbie, BbieSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBbie(IBbie bbie)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IAsbie> Asbies
         {
             get
@@ -70,6 +85,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 return
                     Connectors.Where(IsASBIE).Convert(c => (IAsbie) new ASBIE(repository, c, this));
             }
+        }
+
+        public IAsbie CreateAsbie(AsbieSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsbie UpdateAsbie(IAsbie asbie, AsbieSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAsbie(IAsbie asbie)
+        {
+            throw new NotImplementedException();
         }
 
         public IAcc BasedOn

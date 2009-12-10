@@ -77,6 +77,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             throw new NotImplementedException();
         }
 
+        public void RemoveBLibrary(IBLibrary bLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IPrimLibrary> GetPrimLibraries()
         {
             return from p in ContainedPackages
@@ -117,6 +122,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         public IPrimLibrary UpdatePrimLibrary(IPrimLibrary primLibrary, PrimLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemovePrimLibrary(IPrimLibrary primLibrary)
         {
             throw new NotImplementedException();
         }
@@ -165,6 +175,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             throw new NotImplementedException();
         }
 
+        public void RemoveEnumLibrary(IEnumLibrary enumLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<ICdtLibrary> GetCdtLibraries()
         {
             return from p in ContainedPackages
@@ -205,6 +220,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         public ICdtLibrary UpdateCdtLibrary(ICdtLibrary cdtLibrary, CdtLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCdtLibrary(ICdtLibrary cdtLibrary)
         {
             throw new NotImplementedException();
         }
@@ -253,6 +273,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             throw new NotImplementedException();
         }
 
+        public void RemoveCcLibrary(ICcLibrary ccLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
             return from p in ContainedPackages
@@ -293,6 +318,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         public IBdtLibrary UpdateBdtLibrary(IBdtLibrary bdtLibrary, BdtLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBdtLibrary(IBdtLibrary bdtLibrary)
         {
             throw new NotImplementedException();
         }
@@ -341,6 +371,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             throw new NotImplementedException();
         }
 
+        public void RemoveBieLibrary(IBieLibrary bieLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IDocLibrary> GetDocLibraries()
         {
             return from p in ContainedPackages
@@ -381,6 +416,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         }
 
         public IDocLibrary UpdateDocLibrary(IDocLibrary docLibrary, DocLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveDocLibrary(IDocLibrary docLibrary)
         {
             throw new NotImplementedException();
         }

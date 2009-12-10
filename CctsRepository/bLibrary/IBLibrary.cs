@@ -70,6 +70,12 @@ namespace CctsRepository.BLibrary
         IBLibrary UpdateBLibrary(IBLibrary bLibrary, BLibrarySpec specification);
 
 		/// <summary>
+		/// Removes a bLibrary from this bLibrary.
+		/// <param name="bLibrary">A bLibrary.</param>
+		/// </summary>
+        void RemoveBLibrary(IBLibrary bLibrary);
+
+		/// <summary>
 		/// The PRIMLibrarys contained in this bLibrary.
 		/// </summary>
 		IEnumerable<IPrimLibrary> GetPrimLibraries();
@@ -95,6 +101,12 @@ namespace CctsRepository.BLibrary
 		/// <returns>The updated PRIMLibrary. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         IPrimLibrary UpdatePrimLibrary(IPrimLibrary primLibrary, PrimLibrarySpec specification);
+
+		/// <summary>
+		/// Removes a PRIMLibrary from this bLibrary.
+		/// <param name="primLibrary">A PRIMLibrary.</param>
+		/// </summary>
+        void RemovePrimLibrary(IPrimLibrary primLibrary);
 
 		/// <summary>
 		/// The ENUMLibrarys contained in this bLibrary.
@@ -124,6 +136,12 @@ namespace CctsRepository.BLibrary
         IEnumLibrary UpdateEnumLibrary(IEnumLibrary enumLibrary, EnumLibrarySpec specification);
 
 		/// <summary>
+		/// Removes a ENUMLibrary from this bLibrary.
+		/// <param name="enumLibrary">A ENUMLibrary.</param>
+		/// </summary>
+        void RemoveEnumLibrary(IEnumLibrary enumLibrary);
+
+		/// <summary>
 		/// The CDTLibrarys contained in this bLibrary.
 		/// </summary>
 		IEnumerable<ICdtLibrary> GetCdtLibraries();
@@ -149,6 +167,12 @@ namespace CctsRepository.BLibrary
 		/// <returns>The updated CDTLibrary. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         ICdtLibrary UpdateCdtLibrary(ICdtLibrary cdtLibrary, CdtLibrarySpec specification);
+
+		/// <summary>
+		/// Removes a CDTLibrary from this bLibrary.
+		/// <param name="cdtLibrary">A CDTLibrary.</param>
+		/// </summary>
+        void RemoveCdtLibrary(ICdtLibrary cdtLibrary);
 
 		/// <summary>
 		/// The CCLibrarys contained in this bLibrary.
@@ -178,6 +202,12 @@ namespace CctsRepository.BLibrary
         ICcLibrary UpdateCcLibrary(ICcLibrary ccLibrary, CcLibrarySpec specification);
 
 		/// <summary>
+		/// Removes a CCLibrary from this bLibrary.
+		/// <param name="ccLibrary">A CCLibrary.</param>
+		/// </summary>
+        void RemoveCcLibrary(ICcLibrary ccLibrary);
+
+		/// <summary>
 		/// The BDTLibrarys contained in this bLibrary.
 		/// </summary>
 		IEnumerable<IBdtLibrary> GetBdtLibraries();
@@ -203,6 +233,12 @@ namespace CctsRepository.BLibrary
 		/// <returns>The updated BDTLibrary. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         IBdtLibrary UpdateBdtLibrary(IBdtLibrary bdtLibrary, BdtLibrarySpec specification);
+
+		/// <summary>
+		/// Removes a BDTLibrary from this bLibrary.
+		/// <param name="bdtLibrary">A BDTLibrary.</param>
+		/// </summary>
+        void RemoveBdtLibrary(IBdtLibrary bdtLibrary);
 
 		/// <summary>
 		/// The BIELibrarys contained in this bLibrary.
@@ -232,6 +268,12 @@ namespace CctsRepository.BLibrary
         IBieLibrary UpdateBieLibrary(IBieLibrary bieLibrary, BieLibrarySpec specification);
 
 		/// <summary>
+		/// Removes a BIELibrary from this bLibrary.
+		/// <param name="bieLibrary">A BIELibrary.</param>
+		/// </summary>
+        void RemoveBieLibrary(IBieLibrary bieLibrary);
+
+		/// <summary>
 		/// The DOCLibrarys contained in this bLibrary.
 		/// </summary>
 		IEnumerable<IDocLibrary> GetDocLibraries();
@@ -257,6 +299,12 @@ namespace CctsRepository.BLibrary
 		/// <returns>The updated DOCLibrary. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
         IDocLibrary UpdateDocLibrary(IDocLibrary docLibrary, DocLibrarySpec specification);
+
+		/// <summary>
+		/// Removes a DOCLibrary from this bLibrary.
+		/// <param name="docLibrary">A DOCLibrary.</param>
+		/// </summary>
+        void RemoveDocLibrary(IDocLibrary docLibrary);
 
 		#region Tagged Values
 

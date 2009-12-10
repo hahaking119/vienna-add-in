@@ -69,6 +69,12 @@ namespace CctsRepository.PrimLibrary
 		/// </summary>
         IPrim UpdatePrim(IPrim prim, PrimSpec specification);
 
+		/// <summary>
+		/// Removes a PRIM from this PRIMLibrary.
+		/// <param name="prim">A PRIM.</param>
+		/// </summary>
+        void RemovePrim(IPrim prim);
+
 		#region Tagged Values
 
         ///<summary>

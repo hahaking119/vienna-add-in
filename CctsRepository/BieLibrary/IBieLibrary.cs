@@ -69,6 +69,12 @@ namespace CctsRepository.BieLibrary
 		/// </summary>
         IAbie UpdateAbie(IAbie abie, AbieSpec specification);
 
+		/// <summary>
+		/// Removes a ABIE from this BIELibrary.
+		/// <param name="abie">A ABIE.</param>
+		/// </summary>
+        void RemoveAbie(IAbie abie);
+
 		#region Tagged Values
 
         ///<summary>

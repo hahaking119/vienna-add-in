@@ -69,6 +69,12 @@ namespace CctsRepository.DocLibrary
 		/// </summary>
         IMa UpdateMa(IMa ma, MaSpec specification);
 
+		/// <summary>
+		/// Removes a MA from this DOCLibrary.
+		/// <param name="ma">A MA.</param>
+		/// </summary>
+        void RemoveMa(IMa ma);
+
 		#region Tagged Values
 
         ///<summary>

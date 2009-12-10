@@ -68,6 +68,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public void RemoveDocLibrary(IDocLibrary docLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<string> BusinessTerms
         {
             get { throw new NotImplementedException(); }
@@ -108,6 +113,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public void RemoveBLibrary(IBLibrary bLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IPrimLibrary> GetPrimLibraries()
         {
             throw new NotImplementedException();
@@ -124,6 +134,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
         public IPrimLibrary UpdatePrimLibrary(IPrimLibrary primLibrary, PrimLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemovePrimLibrary(IPrimLibrary primLibrary)
         {
             throw new NotImplementedException();
         }
@@ -148,6 +163,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public void RemoveEnumLibrary(IEnumLibrary enumLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<ICdtLibrary> GetCdtLibraries()
         {
             throw new NotImplementedException();
@@ -164,6 +184,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
         public ICdtLibrary UpdateCdtLibrary(ICdtLibrary cdtLibrary, CdtLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCdtLibrary(ICdtLibrary cdtLibrary)
         {
             throw new NotImplementedException();
         }
@@ -188,6 +213,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public void RemoveCcLibrary(ICcLibrary ccLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
             throw new NotImplementedException();
@@ -208,6 +238,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public void RemoveBdtLibrary(IBdtLibrary bdtLibrary)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IBieLibrary> GetBieLibraries()
         {
             throw new NotImplementedException();
@@ -224,6 +259,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
         public IBieLibrary UpdateBieLibrary(IBieLibrary bieLibrary, BieLibrarySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBieLibrary(IBieLibrary bieLibrary)
         {
             throw new NotImplementedException();
         }

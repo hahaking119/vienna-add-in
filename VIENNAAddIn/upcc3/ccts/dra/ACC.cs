@@ -68,11 +68,41 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return Attributes.Convert(a => (IBcc) new BCC(repository, a, this)); }
         }
 
+        public IBcc CreateBcc(BccSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBcc UpdateBcc(IBcc bcc, BccSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBcc(IBcc bcc)
+        {
+            throw new NotImplementedException();
+        }
+
         ///<summary>
         ///</summary>
         public IEnumerable<IAscc> Asccs
         {
             get { return Connectors.Where(IsASCC).Convert(c => (IAscc) new ASCC(repository, c, this)); }
+        }
+
+        public IAscc CreateAscc(AsccSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAscc UpdateAscc(IAscc ascc, AsccSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAscc(IAscc ascc)
+        {
+            throw new NotImplementedException();
         }
 
         ///<summary>

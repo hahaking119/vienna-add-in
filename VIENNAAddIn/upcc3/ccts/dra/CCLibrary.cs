@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.CcLibrary;
 using EA;
@@ -81,6 +82,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             ((ACC) element).Update(spec);
             return element;
+        }
+
+        public void RemoveAcc(IAcc acc)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.CdtLibrary;
 using EA;
@@ -81,6 +82,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             ((CDT) element).Update(spec);
             return element;
+        }
+
+        public void RemoveCdt(ICdt cdt)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
