@@ -58,6 +58,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlPackage.GetTaggedValue(TaggedValues.namespacePrefix).Value; }
         }
 
+        public void RemovePrim(IPrim prim)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<string> BusinessTerms
         {
             get { return umlPackage.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }

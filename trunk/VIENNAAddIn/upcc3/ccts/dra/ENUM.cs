@@ -112,6 +112,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             }
         }
 
+        public ICodelistEntry CreateCodelistEntry(CodelistEntrySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ICodelistEntry UpdateCodelistEntry(ICodelistEntry codelistEntry, CodelistEntrySpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCodelistEntry(ICodelistEntry codelistEntry)
+        {
+            throw new NotImplementedException();
+        }
+
         ///<summary>
         ///</summary>
         public int Id

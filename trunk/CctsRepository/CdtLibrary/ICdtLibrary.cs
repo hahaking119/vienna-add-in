@@ -69,6 +69,12 @@ namespace CctsRepository.CdtLibrary
 		/// </summary>
         ICdt UpdateCdt(ICdt cdt, CdtSpec specification);
 
+		/// <summary>
+		/// Removes a CDT from this CDTLibrary.
+		/// <param name="cdt">A CDT.</param>
+		/// </summary>
+        void RemoveCdt(ICdt cdt);
+
 		#region Tagged Values
 
         ///<summary>

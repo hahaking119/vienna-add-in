@@ -39,5 +39,10 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         {
             throw new NotImplementedException();
         }
+
+        public void RemoveCdt(ICdt cdt)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

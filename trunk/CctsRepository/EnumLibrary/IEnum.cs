@@ -34,6 +34,27 @@ namespace CctsRepository.EnumLibrary
 
 		IEnumerable<ICodelistEntry> CodelistEntries { get; }
 
+		/// <summary>
+		/// Creates a(n) CodelistEntry based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a(n) CodelistEntry.</param>
+		/// <returns>The newly created CodelistEntry.</returns>
+		/// </summary>
+		ICodelistEntry CreateCodelistEntry(CodelistEntrySpec specification);
+
+		/// <summary>
+		/// Updates a(n) CodelistEntry to match the given <paramref name="specification"/>.
+		/// <param name="codelistEntry">A(n) CodelistEntry.</param>
+		/// <param name="specification">A new specification for the given CodelistEntry.</param>
+		/// <returns>The updated CodelistEntry. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        ICodelistEntry UpdateCodelistEntry(ICodelistEntry codelistEntry, CodelistEntrySpec specification);
+
+		/// <summary>
+		/// Removes a(n) CodelistEntry from this ENUM.
+		/// <param name="codelistEntry">A(n) CodelistEntry.</param>
+		/// </summary>
+        void RemoveCodelistEntry(ICodelistEntry codelistEntry);
+
 		#region Tagged Values
 
         ///<summary>

@@ -40,6 +40,21 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { throw new NotImplementedException(); }
         }
 
+        public IBdtSup CreateBdtSup(BdtSupSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBdtSup UpdateBdtSup(IBdtSup bdtSup, BdtSupSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBdtSup(IBdtSup bdtSup)
+        {
+            throw new NotImplementedException();
+        }
+
         public IBdt IsEquivalentTo
         {
             get { throw new NotImplementedException(); }

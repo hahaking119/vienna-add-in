@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.BdtLibrary;
 using EA;
@@ -73,6 +74,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             ((BDT) element).Update(spec);
             return element;
+        }
+
+        public void RemoveBdt(IBdt bdt)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

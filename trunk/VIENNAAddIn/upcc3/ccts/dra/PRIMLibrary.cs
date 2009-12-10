@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using CctsRepository.PrimLibrary;
 using EA;
@@ -73,6 +74,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             ((PRIM) element).Update(spec);
             return element;
+        }
+
+        public void RemovePrim(IPrim prim)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -38,5 +38,10 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         {
             throw new NotImplementedException();
         }
+
+        public void RemovePrim(IPrim prim)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

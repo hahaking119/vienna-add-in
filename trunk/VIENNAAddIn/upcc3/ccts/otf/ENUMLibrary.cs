@@ -40,6 +40,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
             throw new NotImplementedException();
         }
 
+        public void RemoveEnum(IEnum @enum)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IIdScheme> IdSchemes
         {
             get { throw new NotImplementedException(); }
@@ -56,6 +61,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
         }
 
         public IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveIdScheme(IIdScheme idScheme)
         {
             throw new NotImplementedException();
         }

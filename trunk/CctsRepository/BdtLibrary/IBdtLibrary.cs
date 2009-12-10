@@ -69,6 +69,12 @@ namespace CctsRepository.BdtLibrary
 		/// </summary>
         IBdt UpdateBdt(IBdt bdt, BdtSpec specification);
 
+		/// <summary>
+		/// Removes a BDT from this BDTLibrary.
+		/// <param name="bdt">A BDT.</param>
+		/// </summary>
+        void RemoveBdt(IBdt bdt);
+
 		#region Tagged Values
 
         ///<summary>
