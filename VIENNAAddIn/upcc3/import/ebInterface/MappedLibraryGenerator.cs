@@ -179,7 +179,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (abieMapping.IsMappedToSingleACC)
             {
-                GenerateABIESpec(abieMapping, abieMapping.TargetACCs.ElementAt(0), abieMapping.BIEName);
+                GenerateABIESpec(abieMapping, abieMapping.TargetACCs.ElementAt(0), abieMapping.ComplexTypeName + "_" + abieMapping.TargetACCs.First().Name);
             }
             else
             {
