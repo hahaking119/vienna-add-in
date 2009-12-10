@@ -31,6 +31,27 @@ namespace CctsRepository.DocLibrary
         IDocLibrary DocLibrary { get; }
 
 		IEnumerable<IAsma> Asmas { get; }
+
+		/// <summary>
+		/// Creates a(n) ASMA based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a(n) ASMA.</param>
+		/// <returns>The newly created ASMA.</returns>
+		/// </summary>
+		IAsma CreateAsma(AsmaSpec specification);
+
+		/// <summary>
+		/// Updates a(n) ASMA to match the given <paramref name="specification"/>.
+		/// <param name="asma">A(n) ASMA.</param>
+		/// <param name="specification">A new specification for the given ASMA.</param>
+		/// <returns>The updated ASMA. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        IAsma UpdateAsma(IAsma asma, AsmaSpec specification);
+
+		/// <summary>
+		/// Removes a(n) ASMA from this MA.
+		/// <param name="asma">A(n) ASMA.</param>
+		/// </summary>
+        void RemoveAsma(IAsma asma);
     }
 }
 

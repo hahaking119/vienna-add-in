@@ -36,6 +36,27 @@ namespace CctsRepository.CdtLibrary
 
 		IEnumerable<ICdtSup> Sups { get; }
 
+		/// <summary>
+		/// Creates a(n) SUP based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a(n) SUP.</param>
+		/// <returns>The newly created SUP.</returns>
+		/// </summary>
+		ICdtSup CreateCdtSup(CdtSupSpec specification);
+
+		/// <summary>
+		/// Updates a(n) SUP to match the given <paramref name="specification"/>.
+		/// <param name="cdtSup">A(n) SUP.</param>
+		/// <param name="specification">A new specification for the given SUP.</param>
+		/// <returns>The updated SUP. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        ICdtSup UpdateCdtSup(ICdtSup cdtSup, CdtSupSpec specification);
+
+		/// <summary>
+		/// Removes a(n) SUP from this CDT.
+		/// <param name="cdtSup">A(n) SUP.</param>
+		/// </summary>
+        void RemoveCdtSup(ICdtSup cdtSup);
+
 		#region Tagged Values
 
         ///<summary>
