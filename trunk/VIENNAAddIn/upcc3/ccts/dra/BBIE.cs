@@ -49,6 +49,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         {
             get
             {
+                // TODO default dictionary name is incorrect if Name contains BBIE name
                 string value = GetTaggedValue(TaggedValues.dictionaryEntryName);
                 if (string.IsNullOrEmpty(value))
                 {

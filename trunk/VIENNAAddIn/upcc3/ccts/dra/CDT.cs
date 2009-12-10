@@ -218,14 +218,14 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             if (conSpec != null)
             {
                 // TODO throw exception if null
-                yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
+                yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec), spec.Name + ". Content");
             }
             List<CdtSupSpec> supSpecs = spec.Sups;
             if (supSpecs != null)
             {
                 foreach (CdtSupSpec supSpec in supSpecs)
                 {
-                    yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec));
+                    yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec), spec.Name + ". " + supSpec.Name + ". " + supSpec.BasicType.Name);
                 }
             }
         }
@@ -258,7 +258,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
             {
-                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                string value = taggedValueSpec.Value;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch (taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = element.Name + ". Type";
+                            break;
+
+                        case TaggedValues.uniqueIdentifier:
+                            value = element.ElementGUID;
+                            break;
+                    }
+                }
+
+                element.SetTaggedValue(taggedValueSpec.Key, value);
             }
 
             foreach (ConnectorSpec connector in GetConnectorSpecs(spec))

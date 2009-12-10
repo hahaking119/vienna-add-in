@@ -4,7 +4,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class AttributeSpec
     {
-        public AttributeSpec(string stereotype, string name, string typeName, int classifierId, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValueSpecs)
+        public AttributeSpec(string stereotype, string name, string typeName, int classifierId, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValueSpecs, string defaultDictionaryEntryName)
         {
             Stereotype = stereotype;
             Name = name;
@@ -13,6 +13,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             LowerBound = lowerBound;
             UpperBound = upperBound;
             TaggedValueSpecs = taggedValueSpecs;
+            DefaultDictionaryEntryName = defaultDictionaryEntryName;
         }
 
         public string Stereotype { get; private set; }
@@ -28,6 +29,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string UpperBound { get; private set; }
 
         public IEnumerable<TaggedValueSpec> TaggedValueSpecs { get; private set; }
+
+        public string DefaultDictionaryEntryName { get; private set; }
 
         public string DefaultValue { get; set; }
     }

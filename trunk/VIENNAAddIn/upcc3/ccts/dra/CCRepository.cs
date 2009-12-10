@@ -324,14 +324,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Update();
             libraryPackage.ParentID = rootPackage.PackageID;
             libraryPackage.Element.Stereotype = Stereotype.bLibrary;
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
-            libraryPackage.Update();
 
             var packageDiagram = (Diagram) libraryPackage.Diagrams.AddNew(spec.Name, "Package");
             packageDiagram.Update();
@@ -339,7 +331,10 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Diagrams.Refresh();
             rootPackage.Packages.Refresh();
 
-            return new BLibrary(this, libraryPackage);
+            var bLibrary = new BLibrary(this, libraryPackage);
+            bLibrary.Update(spec);
+
+            return bLibrary;
         }
 
         #endregion

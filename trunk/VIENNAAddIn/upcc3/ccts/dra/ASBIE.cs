@@ -13,6 +13,7 @@ using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -102,7 +103,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string DictionaryEntryName
         {
-            get { return GetTaggedValue(TaggedValues.dictionaryEntryName); }
+            // TODO default dictionary name is incorrect if Name contains associated ABIE name
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).DefaultTo(AssociatingAbie.Name + ". " + Name + ". " + AssociatedAbie.Name); }
         }
 
         public string LanguageCode

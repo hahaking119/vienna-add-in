@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using CctsRepository.DocLibrary;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
+using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -52,6 +54,57 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public void Update(MaSpec spec)
         {
+            element.Name = spec.Name;
+
+            for (var i = (short)(element.Connectors.Count - 1); i >= 0; i--)
+            {
+                if (DeleteConnectorOnUpdate((Connector)element.Connectors.GetAt(i)))
+                {
+                    element.Connectors.Delete(i);
+                }
+            }
+            element.Connectors.Refresh();
+            foreach (ConnectorSpec connector in GetConnectorSpecs(spec))
+            {
+                element.AddConnector(connector);
+            }
+            element.Connectors.Refresh();
+
+            element.Update();
+            element.Refresh();
+        }
+
+        private bool DeleteConnectorOnUpdate(Connector connector)
+        {
+            return IsAsma(connector);
+        }
+
+        private static IEnumerable<ConnectorSpec> GetConnectorSpecs(MaSpec spec)
+        {
+            IEnumerable<AsmaSpec> asmaSpecs = spec.Asmas;
+            if (asmaSpecs != null)
+            {
+                foreach (AsmaSpec asmaSpec in asmaSpecs)
+                {
+                    yield return ConnectorSpec.CreateAggregation(EaAggregationKind.Shared, Stereotype.ASMA, asmaSpec.Name, asmaSpec.AssociatedBieAggregator.Id, asmaSpec.LowerBound, asmaSpec.UpperBound, new List<TaggedValueSpec>(), null);
+                }
+            }
+        }
+
+        private bool IsAsma(Connector connector)
+        {
+            if (connector.IsAsma())
+            {
+                if (connector.ClientID == element.ElementID)
+                {
+                    return connector.ClientEnd.Aggregation != (int)EaAggregationKind.None;
+                }
+                if (connector.SupplierID == element.ElementID)
+                {
+                    return connector.SupplierEnd.Aggregation != (int)EaAggregationKind.None;
+                }
+            }
+            return false;
         }
     }
 }

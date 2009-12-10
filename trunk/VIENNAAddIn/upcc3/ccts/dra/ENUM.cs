@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CctsRepository;
 using CctsRepository.EnumLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -224,7 +223,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (CodelistEntrySpec codelistEntrySpec in codelistEntrySpecs)
                 {
-                    yield return new AttributeSpec(Stereotype.CodelistEntry, codelistEntrySpec.Name, "string", 0, "1", "1", GetCodelistEntryTaggedValueSpecs(codelistEntrySpec));
+                    yield return new AttributeSpec(Stereotype.CodelistEntry, codelistEntrySpec.Name, "string", 0, "1", "1", GetCodelistEntryTaggedValueSpecs(codelistEntrySpec), null);
                 }
             }
         }
@@ -266,7 +265,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
             {
-                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                string value = taggedValueSpec.Value;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch (taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = element.Name;
+                            break;
+
+                        case TaggedValues.uniqueIdentifier:
+                            value = element.ElementGUID;
+                            break;
+                    }
+                }
+
+                element.SetTaggedValue(taggedValueSpec.Key, value);
             }
 
             for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)

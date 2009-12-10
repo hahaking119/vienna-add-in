@@ -19,6 +19,7 @@ using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -54,27 +55,34 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.bLibrary;
 
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, spec.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, spec.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
-            libraryPackage.Update();
-
             var packageDiagram = (Diagram)libraryPackage.Diagrams.AddNew(spec.Name, "Package");
             packageDiagram.Update();
             libraryPackage.Diagrams.Refresh();
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new BLibrary(repository, libraryPackage);
+
+            BLibrary bLibrary = new BLibrary(repository, libraryPackage);
+            bLibrary.Update(spec);
+            return bLibrary;
         }
 
         public IBLibrary UpdateBLibrary(IBLibrary bLibrary, BLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((BLibrary)bLibrary).Update(specification);
+            return bLibrary;
+        }
+
+        public void Update(BLibrarySpec spec)
+        {
+            package.Element.SetTaggedValues(TaggedValues.businessTerm, spec.BusinessTerms);
+            package.Element.SetTaggedValues(TaggedValues.copyright, spec.Copyrights);
+            package.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
+            package.Element.SetTaggedValues(TaggedValues.reference, spec.References);
+            package.Element.SetTaggedValue(TaggedValues.status, spec.Status);
+            package.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier.DefaultTo(package.PackageGUID));
+            package.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
+            package.Update();
         }
 
         public void RemoveBLibrary(IBLibrary bLibrary)
@@ -101,29 +109,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.PRIMLibrary;
 
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, specification.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, specification.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
-            libraryPackage.Update();
-            
             var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(specification.Name, "Class");
             classDiagram.Update();
             libraryPackage.Diagrams.Refresh();
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new PRIMLibrary(repository, libraryPackage);
+            
+            PRIMLibrary primLibrary = new PRIMLibrary(repository, libraryPackage);
+            primLibrary.Update(specification);
+
+            return primLibrary;
         }
 
         public IPrimLibrary UpdatePrimLibrary(IPrimLibrary primLibrary, PrimLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((PRIMLibrary)primLibrary).Update(specification);
+            return primLibrary;
         }
 
         public void RemovePrimLibrary(IPrimLibrary primLibrary)
@@ -149,30 +151,24 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Update();
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.ENUMLibrary;
-
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, specification.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, specification.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
-            libraryPackage.Update();
-            
+           
             var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(specification.Name, "Class");
             classDiagram.Update();
             libraryPackage.Diagrams.Refresh();
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new ENUMLibrary(repository, libraryPackage);
+
+            ENUMLibrary enumLibrary = new ENUMLibrary(repository, libraryPackage);
+            enumLibrary.Update(specification);
+
+            return enumLibrary;
         }
 
         public IEnumLibrary UpdateEnumLibrary(IEnumLibrary enumLibrary, EnumLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((ENUMLibrary) enumLibrary).Update(specification);
+            return enumLibrary;
         }
 
         public void RemoveEnumLibrary(IEnumLibrary enumLibrary)
@@ -199,29 +195,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.CDTLibrary;
 
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, specification.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, specification.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
-            libraryPackage.Update();
-
             var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(specification.Name, "Class");
             classDiagram.Update();
             libraryPackage.Diagrams.Refresh();
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new CDTLibrary(repository, libraryPackage);
+
+            CDTLibrary cdtLibrary = new CDTLibrary(repository, libraryPackage);
+            cdtLibrary.Update(specification);
+            return cdtLibrary;
         }
 
         public ICdtLibrary UpdateCdtLibrary(ICdtLibrary cdtLibrary, CdtLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((CDTLibrary)cdtLibrary).Update(specification);
+            return cdtLibrary;
         }
 
         public void RemoveCdtLibrary(ICdtLibrary cdtLibrary)
@@ -247,30 +236,24 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Update();
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.CCLibrary;
-
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, specification.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, specification.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
-            libraryPackage.Update();
-            
+           
             var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(specification.Name, "Class");
             classDiagram.Update();
             libraryPackage.Diagrams.Refresh();
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new CCLibrary(repository, libraryPackage);
+
+            CCLibrary ccLibrary = new CCLibrary(repository, libraryPackage);
+            ccLibrary.Update(specification);
+
+            return ccLibrary;
         }
 
         public ICcLibrary UpdateCcLibrary(ICcLibrary ccLibrary, CcLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((CCLibrary) ccLibrary).Update(specification);
+            return ccLibrary;
         }
 
         public void RemoveCcLibrary(ICcLibrary ccLibrary)
@@ -296,17 +279,6 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.Update();
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.BDTLibrary;
-
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, specification.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, specification.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
-            libraryPackage.Update();
             
             var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(specification.Name, "Class");
             classDiagram.Update();
@@ -314,12 +286,16 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new BDTLibrary(repository, libraryPackage);
+
+            BDTLibrary bdtLibrary = new BDTLibrary(repository, libraryPackage);
+            bdtLibrary.Update(specification);
+            return bdtLibrary;
         }
 
         public IBdtLibrary UpdateBdtLibrary(IBdtLibrary bdtLibrary, BdtLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((BDTLibrary) bdtLibrary).Update(specification);
+            return bdtLibrary;
         }
 
         public void RemoveBdtLibrary(IBdtLibrary bdtLibrary)
@@ -346,29 +322,22 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.BIELibrary;
 
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, specification.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, specification.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
-            libraryPackage.Update();
-            
             var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(specification.Name, "Class");
             classDiagram.Update();
             libraryPackage.Diagrams.Refresh();
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new BIELibrary(repository, libraryPackage);
+
+            BIELibrary bieLibrary = new BIELibrary(repository, libraryPackage);
+            bieLibrary.Update(specification);
+            return bieLibrary;
         }
 
         public IBieLibrary UpdateBieLibrary(IBieLibrary bieLibrary, BieLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((BIELibrary) bieLibrary).Update(specification);
+            return bieLibrary;
         }
 
         public void RemoveBieLibrary(IBieLibrary bieLibrary)
@@ -395,29 +364,21 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             libraryPackage.ParentID = package.PackageID;
             libraryPackage.Element.Stereotype = util.Stereotype.DOCLibrary;
 
-            libraryPackage.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
-            libraryPackage.Element.SetTaggedValues(TaggedValues.reference, specification.References);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.status, specification.Status);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier);
-            libraryPackage.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
-            libraryPackage.Update();
-            
             var classDiagram = (Diagram) libraryPackage.Diagrams.AddNew(specification.Name, "Class");
             classDiagram.Update();
             libraryPackage.Diagrams.Refresh();
 
             package.Packages.Refresh();
             AddPackageToDiagram(libraryPackage);
-            return new DOCLibrary(repository, libraryPackage);
+            DOCLibrary docLibrary = new DOCLibrary(repository, libraryPackage);
+            docLibrary.Update(specification);
+            return docLibrary;
         }
 
         public IDocLibrary UpdateDocLibrary(IDocLibrary docLibrary, DocLibrarySpec specification)
         {
-            throw new NotImplementedException();
+            ((DOCLibrary) docLibrary).Update(specification);
+            return docLibrary;
         }
 
         public void RemoveDocLibrary(IDocLibrary docLibrary)

@@ -250,13 +250,13 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             if (conSpec != null)
             {
                 // TODO throw exception if null
-                yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec));
+                yield return new AttributeSpec(Stereotype.CON, "Content", conSpec.BasicType.Name, conSpec.BasicType.Id, conSpec.LowerBound, conSpec.UpperBound, GetCONTaggedValueSpecs(conSpec), spec.Name + ". Content");
             }
             if (spec.Sups != null)
             {
                 foreach (BdtSupSpec supSpec in spec.Sups)
                 {
-                    yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec));
+                    yield return new AttributeSpec(Stereotype.SUP, supSpec.Name, supSpec.BasicType.Name, supSpec.BasicType.Id, supSpec.LowerBound, supSpec.UpperBound, GetSUPTaggedValueSpecs(supSpec), spec.Name + ". " + supSpec.Name + ". " + supSpec.BasicType.Name);
                 }
             }
         }
@@ -290,7 +290,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
             {
-                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                string value = taggedValueSpec.Value;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch (taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = element.Name + ". Type";
+                            break;
+
+                        case TaggedValues.uniqueIdentifier:
+                            value = element.ElementGUID;
+                            break;
+                    }
+                }
+
+                element.SetTaggedValue(taggedValueSpec.Key, value);
             }
 
             for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)

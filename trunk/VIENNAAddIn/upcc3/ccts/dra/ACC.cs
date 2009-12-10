@@ -98,7 +98,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                                                                                  specification.AssociatedAcc.Id,
                                                                                  specification.LowerBound,
                                                                                  specification.UpperBound,
-                                                                                 GetAsccTaggedValueSpecs(specification)));
+                                                                                 GetAsccTaggedValueSpecs(specification),
+                                                                                 Name + ". " + specification.Name + ". " + specification.AssociatedAcc.Name));
             element.Connectors.Refresh();
             return new ASCC(repository, connector, this);
         }
@@ -258,7 +259,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     {
                         name = name + bccSpec.Cdt.Name;
                     }
-                    yield return new AttributeSpec(Stereotype.BCC, name, bccSpec.Cdt.Name, bccSpec.Cdt.Id, bccSpec.LowerBound, bccSpec.UpperBound, GetBccTaggedValueSpecs(bccSpec));
+                    yield return new AttributeSpec(Stereotype.BCC, name, bccSpec.Cdt.Name, bccSpec.Cdt.Id, bccSpec.LowerBound, bccSpec.UpperBound, GetBccTaggedValueSpecs(bccSpec), spec.Name + ". " + bccSpec.Name + ". " + bccSpec.Cdt.Name);
                 }
             }
         }
@@ -300,7 +301,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     }
                     yield return
                         ConnectorSpec.CreateAggregation(EaAggregationKind.Shared, Stereotype.ASCC, name,
-                                                        asccSpec.AssociatedAcc.Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec));
+                                                        asccSpec.AssociatedAcc.Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec), spec.Name + ". " + asccSpec.Name + ". " + asccSpec.AssociatedAcc.Name);
                 }
             }
         }
@@ -328,7 +329,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
             {
-                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                string value = taggedValueSpec.Value;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch (taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = element.Name + ". Details";
+                            break;
+
+                        case TaggedValues.uniqueIdentifier:
+                            value = element.ElementGUID;
+                            break;
+                    }
+                }
+
+                element.SetTaggedValue(taggedValueSpec.Key, value);
             }
 
             for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)

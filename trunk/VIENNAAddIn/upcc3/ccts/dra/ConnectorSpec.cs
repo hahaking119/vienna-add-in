@@ -5,7 +5,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 {
     public class ConnectorSpec
     {
-        private ConnectorSpec(EAConnectorTypes connectorType, string stereotype, string name, int supplierId, EaAggregationKind aggregationKind, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValues)
+        private ConnectorSpec(EAConnectorTypes connectorType, string stereotype, string name, int supplierId, EaAggregationKind aggregationKind, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValues, string defaultDictionaryEntryName)
         {
             ConnectorType = connectorType;
             Stereotype = stereotype;
@@ -15,6 +15,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             LowerBound = lowerBound;
             UpperBound = upperBound;
             TaggedValueSpecs = taggedValues;
+            DefaultDictionaryEntryName = defaultDictionaryEntryName;
         }
 
         public EAConnectorTypes ConnectorType { get; set; }
@@ -25,18 +26,19 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         public string LowerBound { get; set; }
         public string UpperBound { get; set; }
         public IEnumerable<TaggedValueSpec> TaggedValueSpecs { get; set; }
+        public string DefaultDictionaryEntryName { get; private set; }
 
         public static ConnectorSpec CreateDependency(string stereotype, int supplierId, string lowerBound,
                                                      string upperBound)
         {
             return new ConnectorSpec(EAConnectorTypes.Dependency, stereotype, "", supplierId, EaAggregationKind.None,
-                                     lowerBound, upperBound, new TaggedValueSpec[0]);
+                                     lowerBound, upperBound, new TaggedValueSpec[0], null);
         }
 
-        public static ConnectorSpec CreateAggregation(EaAggregationKind aggregationKind, string stereotype, string name, int supplierId, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValues)
+        public static ConnectorSpec CreateAggregation(EaAggregationKind aggregationKind, string stereotype, string name, int supplierId, string lowerBound, string upperBound, IEnumerable<TaggedValueSpec> taggedValues, string defaultDictionaryEntryName)
         {
             return new ConnectorSpec(EAConnectorTypes.Aggregation, stereotype, name, supplierId, aggregationKind,
-                                     lowerBound, upperBound, taggedValues);
+                                     lowerBound, upperBound, taggedValues, defaultDictionaryEntryName);
         }
     }
 }
