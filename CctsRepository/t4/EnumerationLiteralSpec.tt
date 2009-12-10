@@ -33,6 +33,24 @@ namespace CctsRepository.<#= library.Name #>
 		#endregion
 <#
 		}
+
+		var cloned = FirstCharToLowerCase(metaEnumerationLiteral.ClassName);
 #>
+
+        public static <#= metaEnumerationLiteral.ClassName #>Spec Clone<#= metaEnumerationLiteral.ClassName #>(I<#= metaEnumerationLiteral.ClassName #> <#= cloned #>)
+        {
+            return new <#= metaEnumerationLiteral.ClassName #>Spec
+                   {
+                   	   Name = <#= cloned #>.Name,
+<#
+		foreach (var taggedValue in metaEnumerationLiteral.TaggedValues)
+		{
+#>
+					   <#= CopyTaggedValue(taggedValue, cloned) #>,
+<#
+		}
+#>
+                   };
+        }
     }
 }

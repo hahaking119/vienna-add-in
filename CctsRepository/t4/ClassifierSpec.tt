@@ -33,6 +33,15 @@ namespace CctsRepository.<#= library.Name #>
 <#
 		}
 
+		foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(metaClassifier))
+		{
+			var specName = enumerationLiteral.ClassName + "Spec";
+			var enumerationLiteralType = enumerationLiteral.Cardinality == MetaCardinality.Many ? "List<" + specName + ">" : specName;
+#>
+
+		public <#= enumerationLiteralType #> <#= enumerationLiteral.Name #> { get; set; }
+<#
+		}
 		
 		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
 		{
@@ -97,6 +106,21 @@ namespace CctsRepository.<#= library.Name #>
 			{
 #>
 					   <#= attribute.AttributeName #> = <#= attribute.ClassName #>Spec.Clone<#= attribute.ClassName #>(<#= cloned #>.<#= attribute.AttributeName #>),
+<#
+			}
+		}
+		foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(metaClassifier))
+		{
+			if (enumerationLiteral.Cardinality == MetaCardinality.Many)
+			{
+#>
+					   <#= enumerationLiteral.Name #> = new List<<#= enumerationLiteral.ClassName #>Spec>(<#= cloned #>.<#= enumerationLiteral.Name #>.Convert(o => <#= enumerationLiteral.ClassName #>Spec.Clone<#= enumerationLiteral.ClassName #>(o))),
+<#
+			}
+			else
+			{
+#>
+					   <#= enumerationLiteral.Name #> = <#= enumerationLiteral.ClassName #>Spec.Clone<#= enumerationLiteral.ClassName #>(<#= cloned #>.<#= enumerationLiteral.Name #>),
 <#
 			}
 		}

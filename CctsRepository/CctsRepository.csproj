@@ -269,7 +269,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CodelistEntrySpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="EnumLibrary\CodelistEntrySpecManualExtensions.cs" />
     <Compile Include="EnumLibrary\EnumLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -280,7 +279,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EnumSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="EnumLibrary\EnumSpecManualExtensions.cs" />
     <Compile Include="EnumLibrary\ICodelistEntry.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -579,7 +577,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PrimSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="PrimLibrary\PrimSpecManualExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

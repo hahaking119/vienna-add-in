@@ -29,6 +29,8 @@ namespace CctsRepository.EnumLibrary
 
 		public IEnum IsEquivalentTo { get; set; }
 
+		public List<CodelistEntrySpec> CodelistEntries { get; set; }
+
 		#region Tagged Values
 
         ///<summary>
@@ -109,6 +111,7 @@ namespace CctsRepository.EnumLibrary
                    {
                    	   Name = @enum.Name,
 					   IsEquivalentTo = @enum.IsEquivalentTo,
+					   CodelistEntries = new List<CodelistEntrySpec>(@enum.CodelistEntries.Convert(o => CodelistEntrySpec.CloneCodelistEntry(o))),
 					   BusinessTerms = new List<string>(@enum.BusinessTerms),
 					   CodeListAgencyIdentifier = @enum.CodeListAgencyIdentifier,
 					   CodeListAgencyName = @enum.CodeListAgencyName,
