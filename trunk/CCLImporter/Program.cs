@@ -8,6 +8,7 @@ using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
 using File=System.IO.File;
 using Path=VIENNAAddInUtils.Path;
+using VIENNAAddIn.Utils;
 
 namespace CCLImporter
 {
@@ -32,8 +33,8 @@ namespace CCLImporter
             File.Copy(originalRepoPath, targetRepoPath, true);
             eaRepository.OpenFile(targetRepoPath);
             ICctsRepository cctsRepository = new CCRepository(eaRepository);
-            var bLibrary = cctsRepository.GetBLibraryByPath("bLibrary");
-            var cdtLibrary = cctsRepository.GetCdtLibraryByPath((Path)"bLibrary"/"CDTLibrary");
+            var bLibrary = cctsRepository.GetBLibraryByPath((Path) "Model"/"bLibrary");
+            var cdtLibrary = bLibrary.GetCdtLibraryByName("CDTLibrary");
 
             var cdts = new Dictionary<string, ICdt>();
             foreach (ICdt cdt in cdtLibrary.Cdts)
@@ -52,6 +53,7 @@ namespace CCLImporter
             StreamReader reader = File.OpenText(string.Format(@"..\..\resources\{0}\{0}-CCs.txt", cclVersion));
             String line;
             var accSpecs = new List<AccSpec>();
+            var asccSpecs = new Dictionary<string, List<AsccSpecWithAssociatedAccName>>();
             AccSpec accSpec = null;
             while ((line = reader.ReadLine()) != null)
             {
@@ -115,7 +117,7 @@ namespace CCLImporter
                             throw new Exception("The first record must specify an ACC.");
                         }
                         CheckASCCRecord(record, accSpec.Name);
-                        var asccSpec = new AsccSpec
+                        var asccSpec = new AsccSpecWithAssociatedAccName
                                        {
                                            UniqueIdentifier = record.UniqueUNAssignedID,
                                            Definition = record.Definition.LimitTo(MaximumTaggedValueLength),
@@ -126,9 +128,9 @@ namespace CCLImporter
                                            LowerBound = MapOccurrence(record.OccurrenceMin),
                                            UpperBound = MapOccurrence(record.OccurrenceMax),
                                            VersionIdentifier = record.Version,
-                                           ResolveAssociatedAcc = accResolver.ResolveACC(record.AssociatedObjectClass.AsName()),
+                                           AssociatedAccName = record.AssociatedObjectClass.AsName(),
                                        };
-                        accSpec.Asccs.Add(asccSpec);
+                        asccSpecs.GetAndCreate(accSpec.Name).Add(asccSpec);
                         break;
                     default:
                         Console.WriteLine("WARNING: Skipping line {0}.", LineNumber);
@@ -139,7 +141,7 @@ namespace CCLImporter
 
             try
             {
-                ACCImporter.ImportACCs(ccLibrary, accSpecs);
+                ACCImporter.ImportACCs(ccLibrary, accSpecs, asccSpecs);
             }
             finally
             {
@@ -279,6 +281,11 @@ namespace CCLImporter
                        Version = values[17],
                    };
         }
+    }
+
+    public class AsccSpecWithAssociatedAccName : AsccSpec
+    {
+        internal string AssociatedAccName { get; set; }
     }
 
     internal class ACCResolver

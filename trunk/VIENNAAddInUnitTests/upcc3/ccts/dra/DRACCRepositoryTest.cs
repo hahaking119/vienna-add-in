@@ -243,11 +243,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                BusinessTerms = new[] {"business term 1", "business term 2"},
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                BasedOn = accPerson,
-                               Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText))),
+                               Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBcc(bcc, bdtText))),
                                Asbies = new List<AsbieSpec>
                                         {
-                                            AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress),
-                                            AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress)
+                                            AsbieSpec.CloneAscc(asccs[0], "My_homeAddress", bieAddress),
+                                            AsbieSpec.CloneAscc(asccs[1], "My_workAddress", bieAddress)
                                         },
                            };
 
@@ -356,44 +356,45 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                },
                            };
 
-            var asccHomeAddressSpec = new AsccSpec
-                                      {
-                                          Name = "HomeAddress",
-                                          ResolveAssociatedAcc = () => accAddress,
-                                          BusinessTerms = new[] {"businessTerms"},
-                                          Definition = "definition",
-                                          DictionaryEntryName = "dictionaryEntryName",
-                                          LanguageCode = "languageCode",
-                                          SequencingKey = "sequencingKey",
-                                          UniqueIdentifier = "uniqueIdentifier",
-                                          UsageRules = new[] {"usageRules"},
-                                          VersionIdentifier = "versionIdentifier",
-                                          LowerBound = "1",
-                                          UpperBound = "3",
-                                      };
             accSpec.Asccs = new List<AsccSpec>
                             {
-                                asccHomeAddressSpec,
                                 new AsccSpec
                                 {
                                     Name = "WorkAddress",
-                                    ResolveAssociatedAcc = () => accAddress,
+                                    AssociatedAcc = accAddress,
                                 },
                                 new AsccSpec
                                 {
                                     Name = "Some",
-                                    ResolveAssociatedAcc = () => accAddress,
+                                    AssociatedAcc = accAddress,
                                 },
                                 new AsccSpec
                                 {
                                     Name = "Some",
-                                    ResolveAssociatedAcc = () => accPerson,
+                                    AssociatedAcc = accPerson,
                                 },
                             };
 
             IAcc accTestPerson = ccLibrary.CreateAcc(accSpec);
             Assert.IsNotNull(accTestPerson, "ACC is null");
             Assert.AreEqual(ccLibrary.Id, accTestPerson.CcLibrary.Id);
+
+            var asccHomeAddressSpec = new AsccSpec
+            {
+                Name = "HomeAddress",
+                AssociatedAcc = accAddress,
+                BusinessTerms = new[] { "businessTerms" },
+                Definition = "definition",
+                DictionaryEntryName = "dictionaryEntryName",
+                LanguageCode = "languageCode",
+                SequencingKey = "sequencingKey",
+                UniqueIdentifier = "uniqueIdentifier",
+                UsageRules = new[] { "usageRules" },
+                VersionIdentifier = "versionIdentifier",
+                LowerBound = "1",
+                UpperBound = "3",
+            };
+            accTestPerson.CreateAscc(asccHomeAddressSpec);
 
             Assert.AreEqual(accSpec.Name, accTestPerson.Name);
             Assert.AreEqual(accSpec.DictionaryEntryName, accTestPerson.DictionaryEntryName);
@@ -425,7 +426,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.That(accTestPerson.Bccs.FirstOrDefault(bcc => bcc.Name == "SomeText"), Is.Not.Null, "Type not appended to BCC 'Some' with type 'Text'");
             Assert.That(accTestPerson.Bccs.FirstOrDefault(bcc => bcc.Name == "SomeDate"), Is.Not.Null, "Type not appended to BCC 'Some' with type 'Date'");
 
-            Assert.AreEqual(accSpec.Asccs.Count(), accTestPerson.Asccs.Count());
+            Assert.AreEqual(accSpec.Asccs.Count() + 1, accTestPerson.Asccs.Count());
             IAscc asccHomeAddress = accTestPerson.Asccs.FirstOrDefault(ascc => ascc.Name == asccHomeAddressSpec.Name);
             Assert.That(asccHomeAddress, Is.Not.Null, "ASCC HomeAddress not generated");
             Assert.AreEqual(accAddress.Id, asccHomeAddress.AssociatedAcc.Id);
@@ -569,7 +570,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                    BusinessTerms = new[] {"business term 1", "business term 2"},
                                    UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                    BasedOn = accAddress,
-                                   Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText))),
+                                   Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBcc(bcc, bdtText))),
                                };
                 IAbie myAddress = bieLib.CreateAbie(abieSpec);
                 Element myAddressElement = repository.GetElementByID(myAddress.Id);
@@ -892,11 +893,11 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                BusinessTerms = new[] {"business term 1", "business term 2"},
                                UsageRules = new[] {"usage rule 1", "usage rule 2"},
                                BasedOn = accPerson,
-                               Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBCC(bcc, bdtText))),
+                               Bbies = new List<BbieSpec>(bccs.Convert(bcc => BbieSpec.CloneBcc(bcc, bdtText))),
                                Asbies = new List<AsbieSpec>
                                         {
-                                            AsbieSpec.CloneASCC(asccs[0], "My_homeAddress", bieAddress),
-                                            AsbieSpec.CloneASCC(asccs[1], "My_workAddress", bieAddress)
+                                            AsbieSpec.CloneAscc(asccs[0], "My_homeAddress", bieAddress),
+                                            AsbieSpec.CloneAscc(asccs[1], "My_workAddress", bieAddress)
                                         },
                            };
 

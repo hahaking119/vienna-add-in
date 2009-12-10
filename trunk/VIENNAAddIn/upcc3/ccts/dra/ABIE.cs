@@ -274,7 +274,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (AsbieSpec asbieSpec in asbieSpecs)
                 {
-                    yield return ConnectorSpec.CreateAggregation(AsbieAggregationKindToEaAggregationKind(asbieSpec.AggregationKind), Stereotype.ASBIE, asbieSpec.Name, asbieSpec.ResolveAssociatedAbie().Id, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
+                    yield return ConnectorSpec.CreateAggregation(AsbieAggregationKindToEaAggregationKind(asbieSpec.AggregationKind), Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedAbie.Id, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
                 }
             }
         }

@@ -1385,7 +1385,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                             if (currentBCC.Id == bcc.Id)
                                             {
                                                 /* now create the new bbie */
-                                                BbieSpec x = BbieSpec.CloneBCC(currentBCC, bdtUsed);
+                                                BbieSpec x = BbieSpec.CloneBcc(currentBCC, bdtUsed);
                                                 x.Name = bbie.Name;
                                                 newBBIEs.Add(x);
                                                 break;
@@ -1432,7 +1432,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                                 break;
                             }
 
-                            newASBIEs.Add(AsbieSpec.CloneASCC(origASCC, textPrefix.Text + "_" + cascc.Name, () => bieLibrary.GetAbieByName(abieName)));
+                            newASBIEs.Add(AsbieSpec.CloneAscc(origASCC, textPrefix.Text + "_" + cascc.Name, bieLibrary.GetAbieByName(abieName)));
                         }
                         // else don't worry about it
                     }

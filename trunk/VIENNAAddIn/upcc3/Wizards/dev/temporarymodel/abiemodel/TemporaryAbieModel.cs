@@ -1023,7 +1023,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                 {                    
                     if (potentialAsbie.Checked)
                     {
-                        asbieSpecs.Add(AsbieSpec.CloneASCC(potentialAsbie.BasedOn, potentialAsbie.Name, candidateAbie.OriginalAbie));    
+                        asbieSpecs.Add(AsbieSpec.CloneAscc(potentialAsbie.BasedOn, potentialAsbie.Name, candidateAbie.OriginalAbie));    
                     }                    
                 }
             }
@@ -1054,7 +1054,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                 }
                             }
 
-                            BbieSpec bbieSpec = BbieSpec.CloneBCC(candidateBcc.OriginalBcc, bdtTypifingTheBbie);
+                            BbieSpec bbieSpec = BbieSpec.CloneBcc(candidateBcc.OriginalBcc, bdtTypifingTheBbie);
                             bbieSpec.Name = potentialBbie.Name;
                             bbieSpecs.Add(bbieSpec);
                         }

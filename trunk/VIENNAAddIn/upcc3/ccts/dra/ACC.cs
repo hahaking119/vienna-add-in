@@ -92,7 +92,15 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public IAscc CreateAscc(AsccSpec specification)
         {
-            throw new NotImplementedException();
+            var connector = element.AddConnector(ConnectorSpec.CreateAggregation(EaAggregationKind.Shared,
+                                                                                 Stereotype.ASCC,
+                                                                                 specification.Name,
+                                                                                 specification.AssociatedAcc.Id,
+                                                                                 specification.LowerBound,
+                                                                                 specification.UpperBound,
+                                                                                 GetAsccTaggedValueSpecs(specification)));
+            element.Connectors.Refresh();
+            return new ASCC(repository, connector, this);
         }
 
         public IAscc UpdateAscc(IAscc ascc, AsccSpec specification)
@@ -279,7 +287,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                 HashSet<string> duplicateAsccNames = GetDuplicates(asccSpecs.Select(asccSpec => asccSpec.Name));
                 foreach (AsccSpec asccSpec in asccSpecs)
                 {
-                    IAcc associatedACC = asccSpec.ResolveAssociatedAcc();
+                    IAcc associatedACC = asccSpec.AssociatedAcc;
                     if (associatedACC == null)
                     {
                         // TODO throw meaningful exception instead
@@ -292,7 +300,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                     }
                     yield return
                         ConnectorSpec.CreateAggregation(EaAggregationKind.Shared, Stereotype.ASCC, name,
-                                                        asccSpec.ResolveAssociatedAcc().Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec));
+                                                        asccSpec.AssociatedAcc.Id, asccSpec.LowerBound, asccSpec.UpperBound, GetAsccTaggedValueSpecs(asccSpec));
                 }
             }
         }

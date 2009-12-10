@@ -6,17 +6,7 @@ namespace CctsRepository.BieLibrary
 {
     public partial class AsbieSpec
     {
-        public AsbieSpec()
-        {
-            ResolveAssociatedAbie = () => AssociatedAbie;
-        }
-
-        /// <summary>
-        /// Set a function to resolve the associated ACC.
-        /// </summary>
-        public Func<IAbie> ResolveAssociatedAbie { get; set; }
-
-        public static AsbieSpec CloneASCC(IAscc ascc, string name, IAbie associatedAbie)
+        public static AsbieSpec CloneAscc(IAscc ascc, string name, IAbie associatedAbie)
         {
             return new AsbieSpec
                    {
@@ -33,13 +23,6 @@ namespace CctsRepository.BieLibrary
                        LowerBound = ascc.LowerBound,
                        UpperBound = ascc.UpperBound,
                    };
-        }
-
-        public static AsbieSpec CloneASCC(IAscc ascc, string name, Func<IAbie> associatedABIEResolver)
-        {
-            var asbieSpec = CloneASCC(ascc, name, (IAbie) null);
-            asbieSpec.ResolveAssociatedAbie = associatedABIEResolver;
-            return asbieSpec;
         }
     }
 }

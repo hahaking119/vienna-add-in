@@ -403,7 +403,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr
             {
                 if (ascc.Name.Equals(asbieName))
                 {
-                    return AsbieSpec.CloneASCC(ascc, asbieName, associatedAbie);
+                    return AsbieSpec.CloneAscc(ascc, asbieName, associatedAbie);
                 }
             }
 

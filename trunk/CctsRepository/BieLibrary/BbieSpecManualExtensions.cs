@@ -14,7 +14,7 @@ namespace CctsRepository.BieLibrary
 {
     public partial class BbieSpec
     {
-        public static BbieSpec CloneBCC(IBcc bcc, IBdt bdt)
+        public static BbieSpec CloneBcc(IBcc bcc, IBdt bdt)
         {
             return new BbieSpec
                    {
