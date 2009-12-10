@@ -111,7 +111,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///</summary>
         ///<param name="element"></param>
         ///<param name="connectorSpec"></param>
-        public static void AddConnector(this Element element, ConnectorSpec connectorSpec)
+        public static Connector AddConnector(this Element element, ConnectorSpec connectorSpec)
         {
             var connector = (Connector) element.Connectors.AddNew("", connectorSpec.ConnectorType.ToString());
             connector.Type = connectorSpec.ConnectorType.ToString();
@@ -133,6 +133,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 }
             }
             taggedValues.Refresh();
+            return connector;
         }
 
         public static Connector AddConnector(this Element client, string name, string type, Action<Connector> initConnector)

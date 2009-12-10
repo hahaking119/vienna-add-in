@@ -189,7 +189,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public ICdtLibrary GetCdtLibraryByName(string name)
         {
-            throw new NotImplementedException();
+            return GetCdtLibraries().FirstOrDefault(cdtLibrary => cdtLibrary.Name == name);
         }
 
         public ICdtLibrary CreateCdtLibrary(CdtLibrarySpec specification)

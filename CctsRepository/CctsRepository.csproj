@@ -56,7 +56,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BdtConSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="BdtLibrary\BdtConSpecManualExtensions.cs" />
     <Compile Include="BdtLibrary\BdtLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -73,7 +72,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BdtSupSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="BdtLibrary\BdtSupSpecManualExtensions.cs" />
     <Compile Include="BdtLibrary\IBdt.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -161,7 +159,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AsccSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="CcLibrary\AsccSpecManualExtensions.cs" />
     <Compile Include="CcLibrary\BccSpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -237,7 +234,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AsmaSpec.tt</DependentUpon>
     </Compile>
-    <Compile Include="DocLibrary\AsmaSpecManualExtensions.cs" />
     <Compile Include="DocLibrary\DocLibrarySpec.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
