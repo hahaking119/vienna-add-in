@@ -126,7 +126,25 @@ namespace VIENNAAddIn.upcc3.ccts.util
             foreach (TaggedValueSpec taggedValueSpec in connectorSpec.TaggedValueSpecs)
             {
                 var taggedValue = (ConnectorTag) taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
-                taggedValue.Value = taggedValueSpec.Value;
+
+                string value = taggedValueSpec.Value;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch (taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = connectorSpec.DefaultDictionaryEntryName;
+                            break;
+
+                        case TaggedValues.uniqueIdentifier:
+                            value = connector.ConnectorGUID;
+                            break;
+                    }
+                }
+
+                taggedValue.Value = value;
+
                 if (!taggedValue.Update())
                 {
                     throw new EAException(taggedValue.GetLastError());
@@ -165,7 +183,25 @@ namespace VIENNAAddIn.upcc3.ccts.util
             foreach (TaggedValueSpec taggedValueSpec in attributeSpec.TaggedValueSpecs)
             {
                 var taggedValue = (AttributeTag) taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
-                taggedValue.Value = taggedValueSpec.Value;
+
+                string value = taggedValueSpec.Value;
+                
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch (taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = attributeSpec.DefaultDictionaryEntryName;
+                            break;
+
+                        case TaggedValues.uniqueIdentifier:
+                            value = attribute.AttributeGUID;
+                            break;
+                    }
+                }
+
+                taggedValue.Value = value;
+                
                 if (!taggedValue.Update())
                 {
                     throw new EAException(taggedValue.GetLastError());

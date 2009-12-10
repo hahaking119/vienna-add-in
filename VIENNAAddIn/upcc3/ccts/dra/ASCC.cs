@@ -12,6 +12,7 @@ using CctsRepository;
 using CctsRepository.CcLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -83,7 +84,8 @@ namespace VIENNAAddIn.upcc3.ccts.dra
 
         public string DictionaryEntryName
         {
-            get { return GetTaggedValue(TaggedValues.dictionaryEntryName); }
+            // TODO default dictionary name is incorrect if Name contains associated ACC name
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).DefaultTo(AssociatingAcc.Name + ". " + Name + ". " + AssociatedAcc.Name); }
         }
 
         public string LanguageCode

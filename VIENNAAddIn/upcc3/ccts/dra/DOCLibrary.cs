@@ -12,6 +12,7 @@ using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.export.cctsndr;
 
 namespace VIENNAAddIn.upcc3.ccts.dra
 {
@@ -125,6 +126,20 @@ namespace VIENNAAddIn.upcc3.ccts.dra
         private Ma WrapEaElement(Element element)
         {
             return new Ma(repository, element);
+        }
+
+        public void Update(DocLibrarySpec specification)
+        {
+            package.Element.SetTaggedValue(TaggedValues.baseURN, specification.BaseURN);
+            package.Element.SetTaggedValues(TaggedValues.businessTerm, specification.BusinessTerms);
+            package.Element.SetTaggedValues(TaggedValues.copyright, specification.Copyrights);
+            package.Element.SetTaggedValue(TaggedValues.namespacePrefix, specification.NamespacePrefix);
+            package.Element.SetTaggedValues(TaggedValues.owner, specification.Owners);
+            package.Element.SetTaggedValues(TaggedValues.reference, specification.References);
+            package.Element.SetTaggedValue(TaggedValues.status, specification.Status);
+            package.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, specification.UniqueIdentifier.DefaultTo(package.PackageGUID));
+            package.Element.SetTaggedValue(TaggedValues.versionIdentifier, specification.VersionIdentifier);
+            package.Update();
         }
     }
 }

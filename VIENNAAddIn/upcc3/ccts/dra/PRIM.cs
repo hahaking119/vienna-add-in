@@ -230,7 +230,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
             {
-                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                string value = taggedValueSpec.Value;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch (taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = element.Name;
+                            break;
+
+                        case TaggedValues.uniqueIdentifier:
+                            value = element.ElementGUID;
+                            break;
+                    }
+                }
+
+                element.SetTaggedValue(taggedValueSpec.Key, value);
             }
 
             for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)

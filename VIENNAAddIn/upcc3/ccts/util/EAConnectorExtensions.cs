@@ -90,6 +90,12 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return con.Stereotype == Stereotype.ASBIE;
         }
 
+        /// <returns>True if the connector has the ASMA stereotype, false otherwise.</returns>
+        public static bool IsAsma(this Connector con)
+        {
+            return con.Stereotype == Stereotype.ASMA;
+        }
+
         /// <returns>True if the connector has the ASCC stereotype, false otherwise.</returns>
         public static bool IsASCC(this Connector con)
         {

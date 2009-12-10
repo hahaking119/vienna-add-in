@@ -1069,10 +1069,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             AbieSpec abieSpec = new AbieSpec
             {
-                DictionaryEntryName = candidateAcc.OriginalAcc.DictionaryEntryName,
                 Definition = candidateAcc.OriginalAcc.Definition,
-                UniqueIdentifier = candidateAcc.OriginalAcc.UniqueIdentifier,
-                VersionIdentifier = candidateAcc.OriginalAcc.VersionIdentifier,
                 LanguageCode = candidateAcc.OriginalAcc.LanguageCode,
                 BusinessTerms = candidateAcc.OriginalAcc.BusinessTerms,
                 UsageRules = candidateAcc.OriginalAcc.UsageRules,

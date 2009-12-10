@@ -24,12 +24,9 @@ namespace CctsRepository.BieLibrary
                        UpperBound = bcc.UpperBound,
                        BusinessTerms = new List<string>(bcc.BusinessTerms),
                        Definition = bcc.Definition,
-                       DictionaryEntryName = bcc.DictionaryEntryName,
                        LanguageCode = bcc.LanguageCode,
                        SequencingKey = bcc.SequencingKey,
-                       UniqueIdentifier = bcc.UniqueIdentifier,
                        UsageRules = new List<string>(bcc.UsageRules),
-                       VersionIdentifier = bcc.VersionIdentifier,
                    };
         }
     }

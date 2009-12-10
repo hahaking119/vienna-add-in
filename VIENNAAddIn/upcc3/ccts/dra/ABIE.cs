@@ -259,7 +259,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (BbieSpec bbieSpec in bbieSpecs)
                 {
-                    yield return new AttributeSpec(Stereotype.BBIE, bbieSpec.Name, bbieSpec.Bdt.Name, bbieSpec.Bdt.Id, bbieSpec.LowerBound, bbieSpec.UpperBound, GetBbieTaggedValueSpecs(bbieSpec));
+                    yield return new AttributeSpec(Stereotype.BBIE, bbieSpec.Name, bbieSpec.Bdt.Name, bbieSpec.Bdt.Id, bbieSpec.LowerBound, bbieSpec.UpperBound, GetBbieTaggedValueSpecs(bbieSpec), spec.Name + ". " + bbieSpec.Name + ". " + bbieSpec.Bdt.Name);
                 }
             }
         }
@@ -274,7 +274,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             {
                 foreach (AsbieSpec asbieSpec in asbieSpecs)
                 {
-                    yield return ConnectorSpec.CreateAggregation(AsbieAggregationKindToEaAggregationKind(asbieSpec.AggregationKind), Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedAbie.Id, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec));
+                    yield return ConnectorSpec.CreateAggregation(AsbieAggregationKindToEaAggregationKind(asbieSpec.AggregationKind), Stereotype.ASBIE, asbieSpec.Name, asbieSpec.AssociatedAbie.Id, asbieSpec.LowerBound, asbieSpec.UpperBound, GetAsbieTaggedValueSpecs(asbieSpec), spec.Name + ". " + asbieSpec.Name + ". " + asbieSpec.AssociatedAbie.Name);
                 }
             }
         }
@@ -313,7 +313,23 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             element.Name = spec.Name;
             foreach (TaggedValueSpec taggedValueSpec in GetTaggedValueSpecs(spec))
             {
-                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+                string value = taggedValueSpec.Value;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    switch(taggedValueSpec.Key)
+                    {
+                        case TaggedValues.dictionaryEntryName:
+                            value = element.Name + ". Details";
+                            break;
+                        
+                        case TaggedValues.uniqueIdentifier:
+                            value = element.ElementGUID;
+                            break;
+                    }
+                }
+
+                element.SetTaggedValue(taggedValueSpec.Key, value);
             }
 
             for (var i = (short) (element.Connectors.Count - 1); i >= 0; i--)
