@@ -7,31 +7,29 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using CctsRepository.BdtLibrary;
-
+using CctsRepository.CdtLibrary;
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
 {
-    public class CandidateBdtLibrary
+    public class PotentialSup
     {
-        private IBdtLibrary mOriginalBdtLibrary;
-        private bool mSelected;
+        private bool mChecked;
+        private ICdtSup mOriginalCdtSup;
 
-        public CandidateBdtLibrary(IBdtLibrary bdtLibrary)
+        public PotentialSup(ICdtSup originalCdtSup)
         {
-            mOriginalBdtLibrary = bdtLibrary;
-            mSelected = false;
+            mOriginalCdtSup = originalCdtSup;
+            mChecked = false;
         }
-
-        public IBdtLibrary OriginalBdtLibrary
+        
+        public bool Checked
         {
-            set { mOriginalBdtLibrary = value; }
-            get { return mOriginalBdtLibrary; }
+            get{ return mChecked; }
+            set{ mChecked = value; }
         }
-
-        public bool Selected
+        public ICdtSup OriginalCdtSup
         {
-            set { mSelected = value; }
-            get { return mSelected; }
+            get { return mOriginalCdtSup; }
+            set { mOriginalCdtSup = value; }
         }
     }
 }

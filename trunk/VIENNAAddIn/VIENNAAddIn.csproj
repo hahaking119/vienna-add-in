@@ -213,6 +213,13 @@
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\exceptions\TemporaryAbieModelException.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateBdtLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateCdt.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateCdtLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\PotentialCon.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\exceptions\TemporaryBdtModelException.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\PotentialSup.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModel.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\AbieEditor.xaml.cs">
       <DependentUpon>AbieEditor.xaml</DependentUpon>
     </Compile>
@@ -238,9 +245,6 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialAsbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBdt.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateBdt.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateBdtLibrary.cs" />
-    <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModel.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\TemporaryModel.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\UpccModelCreator.xaml.cs">
       <DependentUpon>UpccModelCreator.xaml</DependentUpon>
