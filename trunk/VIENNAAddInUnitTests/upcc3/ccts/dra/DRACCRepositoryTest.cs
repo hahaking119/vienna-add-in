@@ -604,19 +604,20 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                RestrictedPrimitive = "String",
                                Status = "status",
                                IsEquivalentTo = enumAbcCodes,
+                               CodelistEntries = new List<CodelistEntrySpec>(),
                            };
-            enumSpec.AddCodelistEntry(new CodelistEntrySpec
-                                      {
-                                          Name = "a",
-                                          CodeName = "aa",
-                                          Status = "status",
-                                      });
-            enumSpec.AddCodelistEntry(new CodelistEntrySpec
-                                      {
-                                          Name = "b",
-                                          CodeName = "bb",
-                                          Status = "status",
-                                      });
+            enumSpec.CodelistEntries.Add(new CodelistEntrySpec
+                                         {
+                                             Name = "a",
+                                             CodeName = "aa",
+                                             Status = "status",
+                                         });
+            enumSpec.CodelistEntries.Add(new CodelistEntrySpec
+                                         {
+                                             Name = "b",
+                                             CodeName = "bb",
+                                             Status = "status",
+                                         });
 
             IEnum enumMyAbcCodes = enumLibrary.CreateEnum(enumSpec);
             Assert.IsNotNull(enumMyAbcCodes, "ENUM is null");

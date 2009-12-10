@@ -39,6 +39,16 @@ namespace CctsRepository.EnumLibrary
 		public string Status { get; set; }
 
 		#endregion
+
+        public static CodelistEntrySpec CloneCodelistEntry(ICodelistEntry codelistEntry)
+        {
+            return new CodelistEntrySpec
+                   {
+                   	   Name = codelistEntry.Name,
+					   CodeName = codelistEntry.CodeName,
+					   Status = codelistEntry.Status,
+                   };
+        }
     }
 }
 
