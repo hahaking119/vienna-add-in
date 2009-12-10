@@ -7,10 +7,15 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
+using System;
+
+namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel.exceptions
 {
-    public class CandidateBdt
+    public class TemporaryBdtModelException : Exception
     {
-        
+        public TemporaryBdtModelException(string errorMessage) : base(errorMessage)
+        {
+            
+        }
     }
 }
