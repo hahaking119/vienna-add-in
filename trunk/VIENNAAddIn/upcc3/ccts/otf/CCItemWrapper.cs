@@ -1,5 +1,6 @@
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.export.cctsndr;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {
@@ -15,18 +16,18 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                 {
                     case Stereotype.bLibrary:
                     {
-                        wrappedObject = new BLibrary(itemData.Id,
-                                                     itemData.Name,
-                                                     itemData.ParentId,
-                                                     itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
-                                                     itemData.GetTaggedValues(TaggedValues.businessTerm),
-                                                     itemData.GetTaggedValues(TaggedValues.copyright),
-                                                     itemData.GetTaggedValues(TaggedValues.owner),
-                                                     itemData.GetTaggedValues(TaggedValues.reference));
+                        return wrappedObject = new BLibrary(itemData.Id,
+                                                            itemData.Name,
+                                                            itemData.ParentId,
+                                                            itemData.GetTaggedValue(TaggedValues.status).DefaultTo(string.Empty),
+                                                            itemData.GetTaggedValue(TaggedValues.uniqueIdentifier).DefaultTo(string.Empty),
+                                                            itemData.GetTaggedValue(TaggedValues.versionIdentifier).DefaultTo(string.Empty),
+                                                            itemData.GetTaggedValue(TaggedValues.baseURN).DefaultTo(string.Empty),
+                                                            itemData.GetTaggedValue(TaggedValues.namespacePrefix).DefaultTo(string.Empty),
+                                                            itemData.GetTaggedValues(TaggedValues.businessTerm),
+                                                            itemData.GetTaggedValues(TaggedValues.copyright),
+                                                            itemData.GetTaggedValues(TaggedValues.owner),
+                                                            itemData.GetTaggedValues(TaggedValues.reference));
                         break;
                     }
                     case Stereotype.PRIMLibrary:

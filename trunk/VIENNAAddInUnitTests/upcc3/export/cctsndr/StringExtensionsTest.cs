@@ -9,6 +9,7 @@
 using System;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.export.cctsndr;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddInUnitTests.upcc3.export.cctsndr
 {

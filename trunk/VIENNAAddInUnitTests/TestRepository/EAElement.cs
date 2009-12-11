@@ -418,10 +418,7 @@ namespace VIENNAAddInUnitTests.TestRepository
             set { throw new NotImplementedException(); }
         }
 
-        public ObjectType ObjectType
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public ObjectType ObjectType { get; set; }
 
         public Collection Partitions
         {
