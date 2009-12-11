@@ -6,6 +6,7 @@ using System.Xml.Schema;
 using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
+using VIENNAAddInUtils;
 
 // XML Naming and Design Rules that are currently not considered:
 //

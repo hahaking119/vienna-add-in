@@ -158,7 +158,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public string AttributeGUID
         {
-            get { throw new NotImplementedException(); }
+            get { return AttributeID.ToString(); }
             set { throw new NotImplementedException(); }
         }
 

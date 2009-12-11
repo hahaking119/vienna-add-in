@@ -53,7 +53,17 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
 
         public IEnumerable<IUmlDataType> DataTypes
         {
-            get { yield break; }
+            get
+            {
+                foreach (Element eaElement in eaPackage.Elements)
+                {
+                    // TODO use otDatatype?
+//                    if (eaElement.ObjectType == ObjectType.otDatatype)
+//                    {
+                        yield return new EaUmlDataType(eaRepository, eaElement);
+//                    }
+                }
+            }
         }
 
         public IUmlPackage Parent

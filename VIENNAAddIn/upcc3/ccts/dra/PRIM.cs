@@ -14,6 +14,7 @@ using CctsRepository.PrimLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.export.cctsndr;
+using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 

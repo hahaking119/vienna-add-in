@@ -1,15 +1,6 @@
-using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
-
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml
 {
-    public interface IUmlClass
+    public interface IUmlClass : IUmlClassifier
     {
-        int Id { get; }
-        string GUID { get; }
-        string Name { get; }
-        IUmlPackage Package { get; }
-        IEnumerable<IUmlDependency<IUmlClass>> GetDependenciesByStereotype(string stereotype);
-        IUmlTaggedValue GetTaggedValue(TaggedValues name);
     }
 }

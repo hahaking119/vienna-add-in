@@ -83,7 +83,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
             Assert.AreEqual(expectedCON.DictionaryEntryName, actualCON.DictionaryEntryName);
             Assert.AreEqual(expectedCON.LanguageCode, actualCON.LanguageCode);
-            Assert.AreEqual(expectedCON.UniqueIdentifier, actualCON.UniqueIdentifier);
+            Assert.AreEqual(actualCON.Id.ToString(), actualCON.UniqueIdentifier);
             Assert.AreEqual(expectedCON.VersionIdentifier, actualCON.VersionIdentifier);
             Assert.AreEqual(expectedCON.LowerBound, actualCON.LowerBound);
             Assert.AreEqual(expectedCON.ModificationAllowedIndicator, actualCON.ModificationAllowedIndicator);
@@ -276,9 +276,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 Assert.AreEqual(bcc.Name, bbie.Name);
                 Assert.AreEqual(bdtText.Id, bbie.Bdt.Id);
                 Assert.AreEqual(bcc.Definition, bbie.Definition);
-                Assert.AreEqual(bcc.DictionaryEntryName, bbie.DictionaryEntryName);
+                Assert.AreEqual(abiePerson.Name + ". " + bbie.Name + ". " + bbie.Bdt.Name, bbie.DictionaryEntryName);
                 Assert.AreEqual(bcc.LanguageCode, bbie.LanguageCode);
-                Assert.AreEqual(bcc.UniqueIdentifier, bbie.UniqueIdentifier);
+                Assert.AreEqual(bbie.Id.ToString(), bbie.UniqueIdentifier);
                 Assert.AreEqual(bcc.VersionIdentifier, bbie.VersionIdentifier);
                 Assert.AreEqual(bcc.UsageRules, bbie.UsageRules);
                 Assert.AreEqual(bcc.BusinessTerms, bbie.BusinessTerms);
@@ -464,9 +464,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(cdtSpec.Name, cdtDatum.Name);
 
             Assert.AreEqual(cdtDate.Definition, cdtDatum.Definition);
-            Assert.AreEqual(cdtDate.DictionaryEntryName, cdtDatum.DictionaryEntryName);
+            Assert.AreEqual(cdtDatum.Name + ". Type", cdtDatum.DictionaryEntryName);
             Assert.AreEqual(cdtDate.LanguageCode, cdtDatum.LanguageCode);
-            Assert.AreEqual(cdtDate.UniqueIdentifier, cdtDatum.UniqueIdentifier);
+            Assert.AreEqual(cdtDatum.Id.ToString(), cdtDatum.UniqueIdentifier);
             Assert.AreEqual(cdtDate.VersionIdentifier, cdtDatum.VersionIdentifier);
             Assert.AreEqual(cdtDate.BusinessTerms, cdtDatum.BusinessTerms);
             Assert.AreEqual(cdtDate.UsageRules, cdtDatum.UsageRules);

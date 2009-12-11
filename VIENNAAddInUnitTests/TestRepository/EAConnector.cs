@@ -80,7 +80,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public string ConnectorGUID
         {
-            get { throw new NotImplementedException(); }
+            get { return ConnectorID.ToString(); }
         }
 
         public bool IsRoot

@@ -6,12 +6,12 @@ using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
 {
-    internal class EaUmlClass : IUmlClass
+    internal class EaUmlDataType : IUmlDataType
     {
         private readonly Repository eaRepository;
         private readonly Element eaElement;
 
-        public EaUmlClass(Repository eaRepository, Element eaElement)
+        public EaUmlDataType(Repository eaRepository, Element eaElement)
         {
             this.eaRepository = eaRepository;
             this.eaElement = eaElement;
@@ -53,9 +53,9 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
             }
         }
 
-        private static EaUmlClass CreateUmlClass(Repository repository, Element element)
+        private static EaUmlDataType CreateUmlClass(Repository repository, Element element)
         {
-            return new EaUmlClass(repository, element);
+            return new EaUmlDataType(repository, element);
         }
 
         public IUmlTaggedValue GetTaggedValue(TaggedValues name)
