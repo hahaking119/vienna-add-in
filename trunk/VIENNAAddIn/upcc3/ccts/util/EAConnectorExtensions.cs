@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EA;
+using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddIn.upcc3.ccts.util
 {
@@ -49,6 +50,21 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static bool HasTaggedValue(this Connector connector, string name)
         {
             return connector.GetTaggedValueByName(name) != null;
+        }
+
+        public static void SetOrGenerateTaggedValue(this Connector connector, TaggedValueSpec taggedValueSpec, string defaultValue)
+        {
+            if (String.IsNullOrEmpty(taggedValueSpec.Value))
+            {
+                if (String.IsNullOrEmpty(connector.GetTaggedValue(taggedValueSpec.Key.ToString())))
+                {
+                    connector.AddTaggedValue(taggedValueSpec.Key.ToString()).WithValue(defaultValue);
+                }
+            }
+            else
+            {
+                connector.AddTaggedValue(taggedValueSpec.Key.ToString()).WithValue(taggedValueSpec.Value);
+            }
         }
 
         public static ConnectorEnd GetAssociatedEnd(this Connector connector, int associatingElementId)

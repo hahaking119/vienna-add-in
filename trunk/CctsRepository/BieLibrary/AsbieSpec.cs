@@ -95,10 +95,8 @@ namespace CctsRepository.BieLibrary
 					   BasedOn = asbie.BasedOn,
 					   BusinessTerms = new List<string>(asbie.BusinessTerms),
 					   Definition = asbie.Definition,
-					   DictionaryEntryName = asbie.DictionaryEntryName,
 					   LanguageCode = asbie.LanguageCode,
 					   SequencingKey = asbie.SequencingKey,
-					   UniqueIdentifier = asbie.UniqueIdentifier,
 					   VersionIdentifier = asbie.VersionIdentifier,
 					   UsageRules = new List<string>(asbie.UsageRules),
                    };

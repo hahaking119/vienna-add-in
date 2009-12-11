@@ -85,9 +85,7 @@ namespace CctsRepository.BieLibrary
 					   Asbies = new List<AsbieSpec>(abie.Asbies.Convert(o => AsbieSpec.CloneAsbie(o))),
 					   BusinessTerms = new List<string>(abie.BusinessTerms),
 					   Definition = abie.Definition,
-					   DictionaryEntryName = abie.DictionaryEntryName,
 					   LanguageCode = abie.LanguageCode,
-					   UniqueIdentifier = abie.UniqueIdentifier,
 					   VersionIdentifier = abie.VersionIdentifier,
 					   UsageRules = new List<string>(abie.UsageRules),
                    };

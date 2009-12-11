@@ -82,9 +82,7 @@ namespace CctsRepository.CcLibrary
 					   Asccs = new List<AsccSpec>(acc.Asccs.Convert(o => AsccSpec.CloneAscc(o))),
 					   BusinessTerms = new List<string>(acc.BusinessTerms),
 					   Definition = acc.Definition,
-					   DictionaryEntryName = acc.DictionaryEntryName,
 					   LanguageCode = acc.LanguageCode,
-					   UniqueIdentifier = acc.UniqueIdentifier,
 					   VersionIdentifier = acc.VersionIdentifier,
 					   UsageRules = new List<string>(acc.UsageRules),
                    };

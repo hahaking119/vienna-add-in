@@ -89,10 +89,8 @@ namespace CctsRepository.BieLibrary
 					   BasedOn = bbie.BasedOn,
 					   BusinessTerms = new List<string>(bbie.BusinessTerms),
 					   Definition = bbie.Definition,
-					   DictionaryEntryName = bbie.DictionaryEntryName,
 					   LanguageCode = bbie.LanguageCode,
 					   SequencingKey = bbie.SequencingKey,
-					   UniqueIdentifier = bbie.UniqueIdentifier,
 					   VersionIdentifier = bbie.VersionIdentifier,
 					   UsageRules = new List<string>(bbie.UsageRules),
                    };

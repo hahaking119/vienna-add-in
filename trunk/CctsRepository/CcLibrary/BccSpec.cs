@@ -86,10 +86,8 @@ namespace CctsRepository.CcLibrary
                        Cdt = bcc.Cdt,
 					   BusinessTerms = new List<string>(bcc.BusinessTerms),
 					   Definition = bcc.Definition,
-					   DictionaryEntryName = bcc.DictionaryEntryName,
 					   LanguageCode = bcc.LanguageCode,
 					   SequencingKey = bcc.SequencingKey,
-					   UniqueIdentifier = bcc.UniqueIdentifier,
 					   VersionIdentifier = bcc.VersionIdentifier,
 					   UsageRules = new List<string>(bcc.UsageRules),
                    };

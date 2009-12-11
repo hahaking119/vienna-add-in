@@ -89,10 +89,8 @@ namespace CctsRepository.CcLibrary
                        AssociatedAcc = ascc.AssociatedAcc,
 					   BusinessTerms = new List<string>(ascc.BusinessTerms),
 					   Definition = ascc.Definition,
-					   DictionaryEntryName = ascc.DictionaryEntryName,
 					   LanguageCode = ascc.LanguageCode,
 					   SequencingKey = ascc.SequencingKey,
-					   UniqueIdentifier = ascc.UniqueIdentifier,
 					   VersionIdentifier = ascc.VersionIdentifier,
 					   UsageRules = new List<string>(ascc.UsageRules),
                    };

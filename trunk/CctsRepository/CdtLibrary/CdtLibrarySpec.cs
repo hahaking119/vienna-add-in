@@ -81,7 +81,6 @@ namespace CctsRepository.CdtLibrary
 						Owners = new List<string>(cdtLibrary.Owners),
 						References = new List<string>(cdtLibrary.References),
 						Status = cdtLibrary.Status,
-						UniqueIdentifier = cdtLibrary.UniqueIdentifier,
 						VersionIdentifier = cdtLibrary.VersionIdentifier,
 						BaseURN = cdtLibrary.BaseURN,
 						NamespacePrefix = cdtLibrary.NamespacePrefix,

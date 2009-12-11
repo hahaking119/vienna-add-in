@@ -81,7 +81,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             package.Element.SetTaggedValues(TaggedValues.owner, spec.Owners);
             package.Element.SetTaggedValues(TaggedValues.reference, spec.References);
             package.Element.SetTaggedValue(TaggedValues.status, spec.Status);
-            package.Element.SetTaggedValue(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier.DefaultTo(package.PackageGUID));
+            package.Element.SetOrGenerateTaggedValue(new TaggedValueSpec(TaggedValues.uniqueIdentifier, spec.UniqueIdentifier), package.PackageGUID);
             package.Element.SetTaggedValue(TaggedValues.versionIdentifier, spec.VersionIdentifier);
             package.Update();
         }

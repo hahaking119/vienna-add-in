@@ -88,13 +88,11 @@ namespace CctsRepository.EnumLibrary
                    	   Name = idScheme.Name,
 					   BusinessTerms = new List<string>(idScheme.BusinessTerms),
 					   Definition = idScheme.Definition,
-					   DictionaryEntryName = idScheme.DictionaryEntryName,
 					   IdentifierSchemeAgencyIdentifier = idScheme.IdentifierSchemeAgencyIdentifier,
 					   IdentifierSchemeAgencyName = idScheme.IdentifierSchemeAgencyName,
 					   ModificationAllowedIndicator = idScheme.ModificationAllowedIndicator,
 					   Pattern = idScheme.Pattern,
 					   RestrictedPrimitive = idScheme.RestrictedPrimitive,
-					   UniqueIdentifier = idScheme.UniqueIdentifier,
 					   VersionIdentifier = idScheme.VersionIdentifier,
                    };
         }

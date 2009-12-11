@@ -81,7 +81,6 @@ namespace CctsRepository.PrimLibrary
 						Owners = new List<string>(primLibrary.Owners),
 						References = new List<string>(primLibrary.References),
 						Status = primLibrary.Status,
-						UniqueIdentifier = primLibrary.UniqueIdentifier,
 						VersionIdentifier = primLibrary.VersionIdentifier,
 						BaseURN = primLibrary.BaseURN,
 						NamespacePrefix = primLibrary.NamespacePrefix,

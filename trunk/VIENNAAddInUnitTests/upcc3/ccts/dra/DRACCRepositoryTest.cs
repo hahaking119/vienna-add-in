@@ -62,9 +62,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(expectedSUP.Name, actualSUP.Name);
             Assert.AreEqual(expectedSUP.BasicType.Id, actualSUP.BasicType.Id);
             Assert.AreEqual(expectedSUP.Definition, actualSUP.Definition);
-            Assert.AreEqual(expectedSUP.DictionaryEntryName, actualSUP.DictionaryEntryName);
+            Assert.AreEqual(actualCDT.Name + ". " + actualSUP.Name + ". " + actualSUP.BasicType.Name, actualSUP.DictionaryEntryName);
             Assert.AreEqual(expectedSUP.LanguageCode, actualSUP.LanguageCode);
-            Assert.AreEqual(expectedSUP.UniqueIdentifier, actualSUP.UniqueIdentifier);
+            Assert.That(actualSUP.UniqueIdentifier, Is.Not.Null);
+            Assert.That(actualSUP.UniqueIdentifier, Is.Not.Empty);
             Assert.AreEqual(expectedSUP.VersionIdentifier, actualSUP.VersionIdentifier);
             Assert.AreEqual(expectedSUP.LowerBound, actualSUP.LowerBound);
             Assert.AreEqual(expectedSUP.ModificationAllowedIndicator, actualSUP.ModificationAllowedIndicator);
@@ -81,7 +82,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("Content", actualCON.Name);
             Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
             Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
-            Assert.AreEqual(expectedCON.DictionaryEntryName, actualCON.DictionaryEntryName);
+            Assert.AreEqual(actualBDT.Name + ". Content", actualCON.DictionaryEntryName);
             Assert.AreEqual(expectedCON.LanguageCode, actualCON.LanguageCode);
             Assert.AreEqual(actualCON.Id.ToString(), actualCON.UniqueIdentifier);
             Assert.AreEqual(expectedCON.VersionIdentifier, actualCON.VersionIdentifier);
@@ -109,9 +110,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreSame(expectedBDT, bdtSUP.Bdt);
             Assert.AreEqual(cdtSUP.BasicType.Id, bdtSUP.BasicType.Id);
             Assert.AreEqual(cdtSUP.Definition, bdtSUP.Definition);
-            Assert.AreEqual(cdtSUP.DictionaryEntryName, bdtSUP.DictionaryEntryName);
+            Assert.AreEqual(expectedBDT.Name + ". " + bdtSUP.Name + ". " + bdtSUP.BasicType.Name, bdtSUP.DictionaryEntryName);
             Assert.AreEqual(cdtSUP.LanguageCode, bdtSUP.LanguageCode);
-            Assert.AreEqual(cdtSUP.UniqueIdentifier, bdtSUP.UniqueIdentifier);
+            Assert.That(bdtSUP.UniqueIdentifier, Is.Not.Null);
+            Assert.That(bdtSUP.UniqueIdentifier, Is.Not.Empty);
             Assert.AreEqual(cdtSUP.VersionIdentifier, bdtSUP.VersionIdentifier);
             Assert.AreEqual(cdtSUP.LowerBound, bdtSUP.LowerBound);
             Assert.AreEqual(cdtSUP.ModificationAllowedIndicator, bdtSUP.ModificationAllowedIndicator);
@@ -127,9 +129,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreSame(bdt, actualCON.Bdt);
             Assert.AreEqual(expectedCON.BasicType.Id, actualCON.BasicType.Id);
             Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
-            Assert.AreEqual(expectedCON.DictionaryEntryName, actualCON.DictionaryEntryName);
+            Assert.AreEqual(bdt.Name + ". Content", actualCON.DictionaryEntryName);
             Assert.AreEqual(expectedCON.LanguageCode, actualCON.LanguageCode);
-            Assert.AreEqual(expectedCON.UniqueIdentifier, actualCON.UniqueIdentifier);
+            Assert.That(actualCON.UniqueIdentifier, Is.Not.Null);
+            Assert.That(actualCON.UniqueIdentifier, Is.Not.Empty);
             Assert.AreEqual(expectedCON.VersionIdentifier, actualCON.VersionIdentifier);
             Assert.AreEqual(expectedCON.LowerBound, actualCON.LowerBound);
             Assert.AreEqual(expectedCON.ModificationAllowedIndicator, actualCON.ModificationAllowedIndicator);
@@ -150,9 +153,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(type.Id, bbie.Bdt.Id);
             Assert.AreEqual(bcc.Name, bbie.Name);
             Assert.AreEqual(bcc.Definition, bbie.Definition);
-            Assert.AreEqual(bcc.DictionaryEntryName, bbie.DictionaryEntryName);
+            Assert.AreEqual(bbie.Abie.Name + ". " + bbie.Name + ". " + bbie.Bdt.Name, bbie.DictionaryEntryName);
             Assert.AreEqual(bcc.LanguageCode, bbie.LanguageCode);
-            Assert.AreEqual(bcc.UniqueIdentifier, bbie.UniqueIdentifier);
+            Assert.That(bbie.UniqueIdentifier, Is.Not.Null);
+            Assert.That(bbie.UniqueIdentifier, Is.Not.Empty);
             Assert.AreEqual(bcc.VersionIdentifier, bbie.VersionIdentifier);
             Assert.AreEqual(bcc.UsageRules, bbie.UsageRules);
             Assert.AreEqual(bcc.BusinessTerms, bbie.BusinessTerms);
@@ -495,9 +499,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual("My_" + cdtDate.Name, bdtDate.Name);
 
             Assert.AreEqual(cdtDate.Definition, bdtDate.Definition);
-            Assert.AreEqual(cdtDate.DictionaryEntryName, bdtDate.DictionaryEntryName);
+            Assert.AreEqual("My_Date. Type", bdtDate.DictionaryEntryName);
             Assert.AreEqual(cdtDate.LanguageCode, bdtDate.LanguageCode);
-            Assert.AreEqual(cdtDate.UniqueIdentifier, bdtDate.UniqueIdentifier);
+            Assert.That(bdtDate.UniqueIdentifier, Is.Not.Null);
+            Assert.That(bdtDate.UniqueIdentifier, Is.Not.Empty);
             Assert.AreEqual(cdtDate.VersionIdentifier, bdtDate.VersionIdentifier);
             Assert.AreEqual(cdtDate.BusinessTerms, bdtDate.BusinessTerms);
             Assert.AreEqual(cdtDate.UsageRules, bdtDate.UsageRules);
@@ -926,9 +931,10 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 Assert.AreEqual(bcc.Name, bbie.Name);
                 Assert.AreEqual(bdtText.Id, bbie.Bdt.Id);
                 Assert.AreEqual(bcc.Definition, bbie.Definition);
-                Assert.AreEqual(bcc.DictionaryEntryName, bbie.DictionaryEntryName);
+                Assert.AreEqual("My_Person. " + bbie.Name + ". " + bbie.Bdt.Name, bbie.DictionaryEntryName);
                 Assert.AreEqual(bcc.LanguageCode, bbie.LanguageCode);
-                Assert.AreEqual(bcc.UniqueIdentifier, bbie.UniqueIdentifier);
+                Assert.That(bbie.UniqueIdentifier, Is.Not.Null);
+                Assert.That(bbie.UniqueIdentifier, Is.Not.Empty);
                 Assert.AreEqual(bcc.VersionIdentifier, bbie.VersionIdentifier);
                 Assert.AreEqual(bcc.UsageRules, bbie.UsageRules);
                 Assert.AreEqual(bcc.BusinessTerms, bbie.BusinessTerms);
@@ -949,6 +955,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             updatedPersonSpec.BusinessTerms = new[] {"human being", "living thing"};
             updatedPersonSpec.Asbies = new List<AsbieSpec>(updatedPersonSpec.Asbies.Where(asbie => asbie.Name != "My_workAddress"));
             updatedPersonSpec.Bbies = new List<BbieSpec>(updatedPersonSpec.Bbies.Where(bbie => bbie.Name != "NickName"));
+
             Assert.AreEqual(2, updatedPersonSpec.Bbies.Count());
 
             abiePerson = bieLibrary.UpdateAbie(abiePerson, updatedPersonSpec);
@@ -957,9 +964,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(bieLibrary.Id, abiePerson.BieLibrary.Id);
 
             Assert.AreEqual(updatedPersonSpec.Name, abiePerson.Name);
-            Assert.AreEqual(updatedPersonSpec.DictionaryEntryName, abiePerson.DictionaryEntryName);
+            Assert.AreEqual("overriding default dictionary entry name", abiePerson.DictionaryEntryName);
             Assert.AreEqual(updatedPersonSpec.Definition, abiePerson.Definition);
-            Assert.AreEqual(updatedPersonSpec.UniqueIdentifier, abiePerson.UniqueIdentifier);
+            Assert.AreEqual("my unique identifier", abiePerson.UniqueIdentifier);
             Assert.AreEqual(updatedPersonSpec.VersionIdentifier, abiePerson.VersionIdentifier);
             Assert.AreEqual(updatedPersonSpec.LanguageCode, abiePerson.LanguageCode);
             Assert.AreEqual(updatedPersonSpec.BusinessTerms, abiePerson.BusinessTerms);
