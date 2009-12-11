@@ -81,7 +81,6 @@ namespace CctsRepository.BdtLibrary
 						Owners = new List<string>(bdtLibrary.Owners),
 						References = new List<string>(bdtLibrary.References),
 						Status = bdtLibrary.Status,
-						UniqueIdentifier = bdtLibrary.UniqueIdentifier,
 						VersionIdentifier = bdtLibrary.VersionIdentifier,
 						BaseURN = bdtLibrary.BaseURN,
 						NamespacePrefix = bdtLibrary.NamespacePrefix,

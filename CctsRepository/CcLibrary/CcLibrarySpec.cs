@@ -81,7 +81,6 @@ namespace CctsRepository.CcLibrary
 						Owners = new List<string>(ccLibrary.Owners),
 						References = new List<string>(ccLibrary.References),
 						Status = ccLibrary.Status,
-						UniqueIdentifier = ccLibrary.UniqueIdentifier,
 						VersionIdentifier = ccLibrary.VersionIdentifier,
 						BaseURN = ccLibrary.BaseURN,
 						NamespacePrefix = ccLibrary.NamespacePrefix,

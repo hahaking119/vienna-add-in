@@ -81,7 +81,6 @@ namespace CctsRepository.DocLibrary
 						Owners = new List<string>(docLibrary.Owners),
 						References = new List<string>(docLibrary.References),
 						Status = docLibrary.Status,
-						UniqueIdentifier = docLibrary.UniqueIdentifier,
 						VersionIdentifier = docLibrary.VersionIdentifier,
 						BaseURN = docLibrary.BaseURN,
 						NamespacePrefix = docLibrary.NamespacePrefix,

@@ -117,14 +117,12 @@ namespace CctsRepository.EnumLibrary
 					   CodeListAgencyName = @enum.CodeListAgencyName,
 					   CodeListIdentifier = @enum.CodeListIdentifier,
 					   CodeListName = @enum.CodeListName,
-					   DictionaryEntryName = @enum.DictionaryEntryName,
 					   Definition = @enum.Definition,
 					   EnumerationURI = @enum.EnumerationURI,
 					   LanguageCode = @enum.LanguageCode,
 					   ModificationAllowedIndicator = @enum.ModificationAllowedIndicator,
 					   RestrictedPrimitive = @enum.RestrictedPrimitive,
 					   Status = @enum.Status,
-					   UniqueIdentifier = @enum.UniqueIdentifier,
 					   VersionIdentifier = @enum.VersionIdentifier,
                    };
         }

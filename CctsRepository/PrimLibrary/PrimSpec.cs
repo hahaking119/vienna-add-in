@@ -126,7 +126,6 @@ namespace CctsRepository.PrimLibrary
 					   IsEquivalentTo = prim.IsEquivalentTo,
 					   BusinessTerms = new List<string>(prim.BusinessTerms),
 					   Definition = prim.Definition,
-					   DictionaryEntryName = prim.DictionaryEntryName,
 					   FractionDigits = prim.FractionDigits,
 					   LanguageCode = prim.LanguageCode,
 					   Length = prim.Length,
@@ -138,7 +137,6 @@ namespace CctsRepository.PrimLibrary
 					   MinimumLength = prim.MinimumLength,
 					   Pattern = prim.Pattern,
 					   TotalDigits = prim.TotalDigits,
-					   UniqueIdentifier = prim.UniqueIdentifier,
 					   VersionIdentifier = prim.VersionIdentifier,
 					   WhiteSpace = prim.WhiteSpace,
                    };

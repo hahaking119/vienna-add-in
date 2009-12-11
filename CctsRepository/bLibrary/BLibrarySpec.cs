@@ -71,7 +71,6 @@ namespace CctsRepository.BLibrary
 						Owners = new List<string>(bLibrary.Owners),
 						References = new List<string>(bLibrary.References),
 						Status = bLibrary.Status,
-						UniqueIdentifier = bLibrary.UniqueIdentifier,
 						VersionIdentifier = bLibrary.VersionIdentifier,
                    };
         }

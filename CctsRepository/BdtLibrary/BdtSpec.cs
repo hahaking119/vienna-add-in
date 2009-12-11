@@ -85,9 +85,7 @@ namespace CctsRepository.BdtLibrary
 					   Sups = new List<BdtSupSpec>(bdt.Sups.Convert(o => BdtSupSpec.CloneBdtSup(o))),
 					   BusinessTerms = new List<string>(bdt.BusinessTerms),
 					   Definition = bdt.Definition,
-					   DictionaryEntryName = bdt.DictionaryEntryName,
 					   LanguageCode = bdt.LanguageCode,
-					   UniqueIdentifier = bdt.UniqueIdentifier,
 					   VersionIdentifier = bdt.VersionIdentifier,
 					   UsageRules = new List<string>(bdt.UsageRules),
                    };

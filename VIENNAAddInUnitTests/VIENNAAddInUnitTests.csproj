@@ -95,6 +95,8 @@
     <Compile Include="TestRepository\EmptyEARepository.cs" />
     <Compile Include="TestRepository\IDFactory.cs" />
     <Compile Include="TestRepository\TemporaryFileBasedRepository.cs" />
+    <Compile Include="upcc3\ccts\dra\CdtLibraryTests.cs" />
+    <Compile Include="upcc3\ccts\dra\CdtLibraryTestRepository.cs" />
     <Compile Include="upcc3\ccts\util\AsbieAggregationKindTests.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlDataType.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlDependency.cs" />

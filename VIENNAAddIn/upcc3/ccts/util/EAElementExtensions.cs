@@ -122,6 +122,22 @@ namespace VIENNAAddIn.upcc3.ccts.util
             connector.SupplierEnd.Role = connectorSpec.Name;
             connector.SupplierEnd.Cardinality = connectorSpec.LowerBound + ".." + connectorSpec.UpperBound;
             connector.Update();
+            foreach (TaggedValueSpec taggedValueSpec in connectorSpec.TaggedValueSpecs)
+            {
+                switch (taggedValueSpec.Key)
+                {
+                    case TaggedValues.uniqueIdentifier:
+                        connector.SetOrGenerateTaggedValue(taggedValueSpec, connector.ConnectorGUID);
+                        break;
+                    case TaggedValues.dictionaryEntryName:
+                        connector.SetOrGenerateTaggedValue(taggedValueSpec, connectorSpec.DefaultDictionaryEntryName);
+                        break;
+                    default:
+                        connector.AddTaggedValue(taggedValueSpec.Key.ToString()).WithValue(taggedValueSpec.Value);
+                        break;
+                }
+            }
+
             Collection taggedValues = connector.TaggedValues;
             foreach (TaggedValueSpec taggedValueSpec in connectorSpec.TaggedValueSpecs)
             {
@@ -129,7 +145,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
 
                 string value = taggedValueSpec.Value;
 
-                if (string.IsNullOrEmpty(value))
+                if (String.IsNullOrEmpty(value))
                 {
                     switch (taggedValueSpec.Key)
                     {
@@ -179,35 +195,49 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 attribute.Default = attributeSpec.DefaultValue;
             }
             attribute.Update();
-            Collection taggedValues = attribute.TaggedValues;
             foreach (TaggedValueSpec taggedValueSpec in attributeSpec.TaggedValueSpecs)
             {
-                var taggedValue = (AttributeTag) taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
-
-                string value = taggedValueSpec.Value;
-                
-                if (string.IsNullOrEmpty(value))
+                switch (taggedValueSpec.Key)
                 {
-                    switch (taggedValueSpec.Key)
-                    {
-                        case TaggedValues.dictionaryEntryName:
-                            value = attributeSpec.DefaultDictionaryEntryName;
-                            break;
-
-                        case TaggedValues.uniqueIdentifier:
-                            value = attribute.AttributeGUID;
-                            break;
-                    }
-                }
-
-                taggedValue.Value = value;
-                
-                if (!taggedValue.Update())
-                {
-                    throw new EAException(taggedValue.GetLastError());
+                    case TaggedValues.uniqueIdentifier:
+                        attribute.SetOrGenerateTaggedValue(taggedValueSpec, attribute.AttributeGUID);
+                        break;
+                    case TaggedValues.dictionaryEntryName:
+                        attribute.SetOrGenerateTaggedValue(taggedValueSpec, attributeSpec.DefaultDictionaryEntryName);
+                        break;
+                    default:
+                        attribute.AddTaggedValue(taggedValueSpec.Key.ToString()).WithValue(taggedValueSpec.Value);
+                        break;
                 }
             }
-            taggedValues.Refresh();
+            //foreach (TaggedValueSpec taggedValueSpec in attributeSpec.TaggedValueSpecs)
+            //{
+            //    var taggedValue = (AttributeTag) taggedValues.AddNew(taggedValueSpec.Key.ToString(), "");
+
+            //    string value = taggedValueSpec.Value;
+                
+            //    if (String.IsNullOrEmpty(value))
+            //    {
+            //        switch (taggedValueSpec.Key)
+            //        {
+            //            case TaggedValues.dictionaryEntryName:
+            //                value = attributeSpec.DefaultDictionaryEntryName;
+            //                break;
+
+            //            case TaggedValues.uniqueIdentifier:
+            //                value = attribute.AttributeGUID;
+            //                break;
+            //        }
+            //    }
+
+            //    taggedValue.Value = value;
+                
+            //    if (!taggedValue.Update())
+            //    {
+            //        throw new EAException(taggedValue.GetLastError());
+            //    }
+            //}
+            attribute.TaggedValues.Refresh();
         }
 
         private static TaggedValue GetTaggedValueByName(this Element element, string name)
@@ -267,6 +297,21 @@ namespace VIENNAAddIn.upcc3.ccts.util
         public static bool IsENUM(this Element element)
         {
             return element.IsA(Stereotype.ENUM);
+        }
+
+        public static void SetOrGenerateTaggedValue(this Element element, TaggedValueSpec taggedValueSpec, string defaultValue)
+        {
+            if (String.IsNullOrEmpty(taggedValueSpec.Value))
+            {
+                if (String.IsNullOrEmpty(element.GetTaggedValue(taggedValueSpec.Key)))
+                {
+                    element.SetTaggedValue(taggedValueSpec.Key, defaultValue);
+                }
+            }
+            else
+            {
+                element.SetTaggedValue(taggedValueSpec.Key, taggedValueSpec.Value);
+            }
         }
     }
 }

@@ -81,7 +81,6 @@ namespace CctsRepository.EnumLibrary
 						Owners = new List<string>(enumLibrary.Owners),
 						References = new List<string>(enumLibrary.References),
 						Status = enumLibrary.Status,
-						UniqueIdentifier = enumLibrary.UniqueIdentifier,
 						VersionIdentifier = enumLibrary.VersionIdentifier,
 						BaseURN = enumLibrary.BaseURN,
 						NamespacePrefix = enumLibrary.NamespacePrefix,

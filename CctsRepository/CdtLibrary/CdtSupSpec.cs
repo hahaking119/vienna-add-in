@@ -86,10 +86,8 @@ namespace CctsRepository.CdtLibrary
                        BasicType = cdtSup.BasicType,
 					   BusinessTerms = new List<string>(cdtSup.BusinessTerms),
 					   Definition = cdtSup.Definition,
-					   DictionaryEntryName = cdtSup.DictionaryEntryName,
 					   LanguageCode = cdtSup.LanguageCode,
 					   ModificationAllowedIndicator = cdtSup.ModificationAllowedIndicator,
-					   UniqueIdentifier = cdtSup.UniqueIdentifier,
 					   VersionIdentifier = cdtSup.VersionIdentifier,
 					   UsageRules = new List<string>(cdtSup.UsageRules),
                    };

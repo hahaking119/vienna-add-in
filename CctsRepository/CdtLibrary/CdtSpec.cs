@@ -82,9 +82,7 @@ namespace CctsRepository.CdtLibrary
 					   Sups = new List<CdtSupSpec>(cdt.Sups.Convert(o => CdtSupSpec.CloneCdtSup(o))),
 					   BusinessTerms = new List<string>(cdt.BusinessTerms),
 					   Definition = cdt.Definition,
-					   DictionaryEntryName = cdt.DictionaryEntryName,
 					   LanguageCode = cdt.LanguageCode,
-					   UniqueIdentifier = cdt.UniqueIdentifier,
 					   VersionIdentifier = cdt.VersionIdentifier,
 					   UsageRules = new List<string>(cdt.UsageRules),
                    };

@@ -81,7 +81,6 @@ namespace CctsRepository.BieLibrary
 						Owners = new List<string>(bieLibrary.Owners),
 						References = new List<string>(bieLibrary.References),
 						Status = bieLibrary.Status,
-						UniqueIdentifier = bieLibrary.UniqueIdentifier,
 						VersionIdentifier = bieLibrary.VersionIdentifier,
 						BaseURN = bieLibrary.BaseURN,
 						NamespacePrefix = bieLibrary.NamespacePrefix,

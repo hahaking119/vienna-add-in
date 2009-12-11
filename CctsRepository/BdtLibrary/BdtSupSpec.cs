@@ -136,7 +136,6 @@ namespace CctsRepository.BdtLibrary
                        BasicType = bdtSup.BasicType,
 					   BusinessTerms = new List<string>(bdtSup.BusinessTerms),
 					   Definition = bdtSup.Definition,
-					   DictionaryEntryName = bdtSup.DictionaryEntryName,
 					   Enumeration = bdtSup.Enumeration,
 					   FractionDigits = bdtSup.FractionDigits,
 					   LanguageCode = bdtSup.LanguageCode,
@@ -149,7 +148,6 @@ namespace CctsRepository.BdtLibrary
 					   ModificationAllowedIndicator = bdtSup.ModificationAllowedIndicator,
 					   Pattern = bdtSup.Pattern,
 					   TotalDigits = bdtSup.TotalDigits,
-					   UniqueIdentifier = bdtSup.UniqueIdentifier,
 					   UsageRules = new List<string>(bdtSup.UsageRules),
 					   VersionIdentifier = bdtSup.VersionIdentifier,
                    };
