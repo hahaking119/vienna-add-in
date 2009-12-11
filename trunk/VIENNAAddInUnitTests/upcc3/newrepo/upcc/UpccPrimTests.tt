@@ -1,0 +1,72 @@
+<#@ template language="C#v3.5" hostspecific="True" debug="True" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="Upcc.dll" #>
+<#@ assembly name="VIENNAAddInUtils.dll" #>
+<#@ import namespace="Upcc"#>
+<#@ import namespace="VIENNAAddInUtils.t4"#>
+<#@ import namespace="System.Text"#>
+using CctsRepository.PrimLibrary;
+using Moq;
+using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
+
+namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
+{
+    [TestFixture]
+    public partial class UpccPrimTests
+    {
+<#
+	foreach (var metaTaggedValue in MetaModel.Prim.TaggedValues)
+	{
+#>
+
+        [Test]
+        public void ShouldReturnAnEmptyStringIfTaggedValue<#= metaTaggedValue.AsPropertyName() #>IsNull()
+        {
+            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
+            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.<#= metaTaggedValue.AsPropertyName() #>, Is.Empty);
+        }
+
+        [Test]
+        public void ShouldReturnValueOfTaggedValue<#= metaTaggedValue.AsPropertyName() #>()
+        {
+            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
+<#
+		if (metaTaggedValue.Cardinality == MetaCardinality.Many)
+		{
+#>
+                .WithMultiValuedTaggedValue(TaggedValues.<#= metaTaggedValue.Name #>, "<#= metaTaggedValue.Name #>_Value1", "<#= metaTaggedValue.Name #>_Value2")
+<#
+		}
+		else
+		{
+#>
+                .WithTaggedValue(TaggedValues.<#= metaTaggedValue.Name #>, "<#= metaTaggedValue.Name #>_Value")
+<#
+		}
+#>
+                .Build();
+            IPrim prim = new UpccPrim(primUmlDataType);
+<#
+		if (metaTaggedValue.Cardinality == MetaCardinality.Many)
+		{
+#>
+            Assert.That(prim.<#= metaTaggedValue.AsPropertyName() #>, Is.EquivalentTo(new[] {"<#= metaTaggedValue.Name #>_Value1", "<#= metaTaggedValue.Name #>_Value2"}));
+<#
+		}
+		else
+		{
+#>
+            Assert.That(prim.<#= metaTaggedValue.AsPropertyName() #>, Is.EqualTo("<#= metaTaggedValue.Name #>_Value"));
+<#
+		}
+#>
+        }
+<#
+	}
+#>
+    }
+}
