@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -43,7 +42,6 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
         {
             get
             {
-                // TODO return only classes, not e.g. data types
                 foreach (Element eaElement in eaPackage.Elements)
                 {
                     yield return new EaUmlClass(eaRepository, eaElement);
@@ -57,11 +55,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
             {
                 foreach (Element eaElement in eaPackage.Elements)
                 {
-                    // TODO use otDatatype?
-//                    if (eaElement.ObjectType == ObjectType.otDatatype)
-//                    {
-                        yield return new EaUmlDataType(eaRepository, eaElement);
-//                    }
+                    yield return new EaUmlDataType(eaRepository, eaElement);
                 }
             }
         }

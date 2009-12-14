@@ -8,8 +8,15 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml
         int Id { get; }
         string GUID { get; }
         string Name { get; }
+        UmlClassifierType Type { get; }
         IUmlPackage Package { get; }
         IEnumerable<IUmlDependency<IUmlClassifier>> GetDependenciesByStereotype(string stereotype);
         IUmlTaggedValue GetTaggedValue(TaggedValues name);
+    }
+
+    public enum UmlClassifierType
+    {
+        Class,
+        DataType,
     }
 }

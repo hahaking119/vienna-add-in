@@ -92,7 +92,14 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo
 
     public class UmlPackageBuilder
     {
+        private int id;
         private string stereotype;
+
+        public UmlPackageBuilder WithId(int id)
+        {
+            this.id = id;
+            return this;
+        }
 
         public UmlPackageBuilder WithStereotype(string stereotype)
         {
@@ -103,6 +110,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo
         public IUmlPackage Build()
         {
             var mock = new Mock<IUmlPackage>();
+            mock.SetupGet(p => p.Id).Returns(id);
             mock.SetupGet(p => p.Stereotype).Returns(stereotype);
             return mock.Object;
         }

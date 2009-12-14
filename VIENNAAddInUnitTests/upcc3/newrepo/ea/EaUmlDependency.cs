@@ -9,7 +9,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
         private readonly TargetFactory createTarget;
         private readonly Repository eaRepository;
 
-        public delegate TTarget TargetFactory(Repository eaRepository, Element targetElement);
+        public delegate TTarget TargetFactory(Element targetElement);
 
         public EaUmlDependency(Repository eaRepository, Connector eaConnector, TargetFactory createTarget)
         {
@@ -25,7 +25,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
             get
             {
                 Element targetElement = eaRepository.GetElementByID(eaConnector.SupplierID);
-                return createTarget(eaRepository, targetElement);
+                return createTarget(targetElement);
             }
         }
 
