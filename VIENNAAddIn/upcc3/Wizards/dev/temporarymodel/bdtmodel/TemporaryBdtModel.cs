@@ -265,6 +265,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                             {
                                     potentialSup.Checked = checkedValue;
                             }
+                            CandidateSupItems = new List<CheckableItem>(candidateCdt.PotentialSups.ConvertAll(new Converter<PotentialSup, CheckableItem>(PotentialSupToCheckableItem)));
                         }
                     }
                 }
