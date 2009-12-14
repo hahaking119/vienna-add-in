@@ -7,7 +7,7 @@
             <StackPanel Orientation="Vertical">
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelCdtLibraries">Choose CDT Library containing CDTs:</Label>
-                    <ComboBox HorizontalAlignment="Stretch" Height="23" Name="comboboxCdtLibraries" SelectionChanged="comboboxCdtLibraries_SelectionChanged"></ComboBox>
+                    <ComboBox ItemsSource="{Binding Path=Model.CandidateCdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCdtLibraries" SelectionChanged="comboboxCdtLibraries_SelectionChanged"></ComboBox>
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelCdts">Choose CDT used to generate the BDT:</Label>

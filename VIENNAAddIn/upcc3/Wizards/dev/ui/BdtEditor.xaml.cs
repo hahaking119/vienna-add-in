@@ -10,14 +10,19 @@
 using System.Windows;
 using CctsRepository;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     public partial class BdtEditor
     {
+        public TemporaryBdtModel Model { get; set;}
+
         public BdtEditor(ICctsRepository cctsRepository)
         {
-            InitializeComponent(); 
+            InitializeComponent();
+            Model = new TemporaryBdtModel(cctsRepository);
+            DataContext = this;
         }
 
         public static void ShowForm(AddInContext context)
@@ -37,7 +42,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void comboboxCdtLibraries_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-
+            Model.setSelectedCandidateCdtLibrary(comboboxCdtLibraries.SelectedItem.ToString());
         }
 
         private void comboboxCdts_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

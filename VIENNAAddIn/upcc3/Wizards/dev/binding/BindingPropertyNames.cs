@@ -28,7 +28,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.binding
 
         public enum TemporaryBdtModel
         {
-            
+            Name,
+            Prefix,
+            CandidateBdtLibraryNames,
+            CandidateCdtLibraryNames,
+            CandidateCdtNames,
+            CandidateConItems,
+            CandidateSupItems,
+            CandidateBdtLibraries,
+            mCandidateCdtLibraries
         }
     }    
 }
