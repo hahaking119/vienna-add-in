@@ -27,34 +27,18 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlDataType.Name; }
         }
 
-        public string DictionaryEntryName
+        public IPrimLibrary PrimLibrary
         {
-            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).Value; }
+            get { return new UpccPrimLibrary(umlDataType.Package); }
         }
 
-        private IUmlTaggedValue GetTaggedValue(TaggedValues taggedValueName)
+        public IPrim IsEquivalentTo
         {
-            return umlDataType.GetTaggedValue(taggedValueName) ?? new EmptyUmlTaggedValue();
-        }
-
-        public string Definition
-        {
-            get { return GetTaggedValue(TaggedValues.definition).Value; }
-        }
-
-        public string UniqueIdentifier
-        {
-            get { return GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
-        }
-
-        public string VersionIdentifier
-        {
-            get { return GetTaggedValue(TaggedValues.versionIdentifier).Value; }
-        }
-
-        public string LanguageCode
-        {
-            get { return GetTaggedValue(TaggedValues.languageCode).Value; }
+            get
+            {
+                IEnumerable<IUmlDependency<IUmlClassifier>> dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.isEquivalentTo);
+                return dependencies.Count() == 0 ? null : new UpccPrim((IUmlDataType) dependencies.First().Target);
+            }
         }
 
         public IEnumerable<string> BusinessTerms
@@ -62,19 +46,24 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
         }
 
-        public IPrimLibrary PrimLibrary
+        public string Definition
         {
-            get { return new UpccPrimLibrary(umlDataType.Package); }
+            get { return GetTaggedValue(TaggedValues.definition).Value; }
         }
 
-        public string Pattern
+        public string DictionaryEntryName
         {
-            get { return GetTaggedValue(TaggedValues.pattern).Value; }
+            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).Value; }
         }
 
         public string FractionDigits
         {
             get { return GetTaggedValue(TaggedValues.fractionDigits).Value; }
+        }
+
+        public string LanguageCode
+        {
+            get { return GetTaggedValue(TaggedValues.languageCode).Value; }
         }
 
         public string Length
@@ -112,9 +101,24 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return GetTaggedValue(TaggedValues.minimumLength).Value; }
         }
 
+        public string Pattern
+        {
+            get { return GetTaggedValue(TaggedValues.pattern).Value; }
+        }
+
         public string TotalDigits
         {
             get { return GetTaggedValue(TaggedValues.totalDigits).Value; }
+        }
+
+        public string UniqueIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
+        }
+
+        public string VersionIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.versionIdentifier).Value; }
         }
 
         public string WhiteSpace
@@ -122,15 +126,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return GetTaggedValue(TaggedValues.whiteSpace).Value; }
         }
 
-        public IPrim IsEquivalentTo
-        {
-            get
-            {
-                var dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.isEquivalentTo);
-                return dependencies.Count() == 0 ? null : new UpccPrim((IUmlDataType) dependencies.First().Target);
-            }
-        }
-
         #endregion
+
+        private IUmlTaggedValue GetTaggedValue(TaggedValues taggedValueName)
+        {
+            return umlDataType.GetTaggedValue(taggedValueName) ?? new EmptyUmlTaggedValue();
+        }
     }
 }

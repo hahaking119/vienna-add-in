@@ -1,319 +1,167 @@
 using CctsRepository.PrimLibrary;
-using Moq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 {
     [TestFixture]
-    public partial class UpccPrimTests
+    public class UpccPrimTests
     {
+        [Test]
+        public void ShouldReturnId()
+        {
+            var umlDataType = new UmlDataTypeBuilder()
+                .WithId(7)
+                .Build();
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.Id, Is.EqualTo(umlDataType.Id));
+        }
 
         [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueBusinessTermsIsNull()
+        public void ShouldReturnName()
         {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            var umlDataType = new UmlDataTypeBuilder()
+                .WithName("aName")
+                .Build();
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.Name, Is.EqualTo(umlDataType.Name));
+        }
+
+	    [Test]
+        public void ShouldReturnPrimLibrary()
+        {
+            var umlPackage = new UmlPackageBuilder()
+                .WithId(6)
+                .Build();
+            var umlDataType = new UmlDataTypeBuilder()
+                .WithPackage(umlPackage)
+                .Build();
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.PrimLibrary, Is.Not.Null);
+            Assert.That(prim.PrimLibrary.Id, Is.EqualTo(umlPackage.Id));
+        }
+
+        [Test]
+        public void ShouldResolveIsEquivalentToDependency()
+        {
+            var targetUmlDataType = new UmlDataTypeBuilder()
+                .WithId(5)
+                .Build();
+            var umlDataType = new UmlDataTypeBuilder()
+                .WithDependencies(Stereotype.isEquivalentTo, targetUmlDataType)
+                .Build();
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.IsEquivalentTo.Id, Is.Not.Null);
+            Assert.That(prim.IsEquivalentTo.Id, Is.EqualTo(targetUmlDataType.Id));
+        }
+
+        [Test]
+        public void ShouldResolveFirstOfMultipleIsEquivalentToDependencies()
+        {
+            var targetUmlDataType1 = new UmlDataTypeBuilder()
+                .WithId(5)
+                .Build();
+            var targetUmlDataType2 = new UmlDataTypeBuilder()
+                .WithId(6)
+                .Build();
+            var umlDataType = new UmlDataTypeBuilder()
+                .WithDependencies(Stereotype.isEquivalentTo, targetUmlDataType1, targetUmlDataType2)
+                .Build();
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.IsEquivalentTo.Id, Is.Not.Null);
+            Assert.That(prim.IsEquivalentTo.Id, Is.EqualTo(targetUmlDataType1.Id));
+        }
+
+        [Test]
+        public void ShouldResolveNullIsEquivalentToDependencyToNull()
+        {
+            var umlDataType = new UmlDataTypeBuilder()
+                .Build();
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.IsEquivalentTo, Is.Null);
+        }
+
+		[Test]
+        public void ShouldReturnEmptyValuesForNullTaggedValues()
+        {
+            var umlDataType = new UmlDataTypeBuilder().Build();
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.BusinessTerms, Is.Not.Null);
             Assert.That(prim.BusinessTerms, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueBusinessTerms()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithMultiValuedTaggedValue(TaggedValues.businessTerm, "businessTerm_Value1", "businessTerm_Value2")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.BusinessTerms, Is.EquivalentTo(new[] {"businessTerm_Value1", "businessTerm_Value2"}));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueDefinitionIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.Definition, Is.Not.Null);
             Assert.That(prim.Definition, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueDefinition()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.definition, "definition_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.Definition, Is.EqualTo("definition_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueDictionaryEntryNameIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.DictionaryEntryName, Is.Not.Null);
             Assert.That(prim.DictionaryEntryName, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueDictionaryEntryName()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.dictionaryEntryName, "dictionaryEntryName_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.DictionaryEntryName, Is.EqualTo("dictionaryEntryName_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueFractionDigitsIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.FractionDigits, Is.Not.Null);
             Assert.That(prim.FractionDigits, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueFractionDigits()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.fractionDigits, "fractionDigits_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.FractionDigits, Is.EqualTo("fractionDigits_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueLanguageCodeIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.LanguageCode, Is.Not.Null);
             Assert.That(prim.LanguageCode, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueLanguageCode()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.languageCode, "languageCode_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.LanguageCode, Is.EqualTo("languageCode_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueLengthIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.Length, Is.Not.Null);
             Assert.That(prim.Length, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueLength()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.length, "length_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.Length, Is.EqualTo("length_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueMaximumExclusiveIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.MaximumExclusive, Is.Not.Null);
             Assert.That(prim.MaximumExclusive, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueMaximumExclusive()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.maximumExclusive, "maximumExclusive_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.MaximumExclusive, Is.EqualTo("maximumExclusive_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueMaximumInclusiveIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.MaximumInclusive, Is.Not.Null);
             Assert.That(prim.MaximumInclusive, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueMaximumInclusive()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.maximumInclusive, "maximumInclusive_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.MaximumInclusive, Is.EqualTo("maximumInclusive_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueMaximumLengthIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.MaximumLength, Is.Not.Null);
             Assert.That(prim.MaximumLength, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueMaximumLength()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.maximumLength, "maximumLength_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.MaximumLength, Is.EqualTo("maximumLength_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueMinimumExclusiveIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.MinimumExclusive, Is.Not.Null);
             Assert.That(prim.MinimumExclusive, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueMinimumExclusive()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.minimumExclusive, "minimumExclusive_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.MinimumExclusive, Is.EqualTo("minimumExclusive_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueMinimumInclusiveIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.MinimumInclusive, Is.Not.Null);
             Assert.That(prim.MinimumInclusive, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueMinimumInclusive()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.minimumInclusive, "minimumInclusive_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.MinimumInclusive, Is.EqualTo("minimumInclusive_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueMinimumLengthIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.MinimumLength, Is.Not.Null);
             Assert.That(prim.MinimumLength, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueMinimumLength()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.minimumLength, "minimumLength_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.MinimumLength, Is.EqualTo("minimumLength_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValuePatternIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.Pattern, Is.Not.Null);
             Assert.That(prim.Pattern, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValuePattern()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.pattern, "pattern_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.Pattern, Is.EqualTo("pattern_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueTotalDigitsIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.TotalDigits, Is.Not.Null);
             Assert.That(prim.TotalDigits, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueTotalDigits()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.totalDigits, "totalDigits_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.TotalDigits, Is.EqualTo("totalDigits_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueUniqueIdentifierIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.UniqueIdentifier, Is.Not.Null);
             Assert.That(prim.UniqueIdentifier, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueUniqueIdentifier()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.uniqueIdentifier, "uniqueIdentifier_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.UniqueIdentifier, Is.EqualTo("uniqueIdentifier_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueVersionIdentifierIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.VersionIdentifier, Is.Not.Null);
             Assert.That(prim.VersionIdentifier, Is.Empty);
-        }
-
-        [Test]
-        public void ShouldReturnValueOfTaggedValueVersionIdentifier()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
-                .WithTaggedValue(TaggedValues.versionIdentifier, "versionIdentifier_Value")
-                .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
-            Assert.That(prim.VersionIdentifier, Is.EqualTo("versionIdentifier_Value"));
-        }
-
-        [Test]
-        public void ShouldReturnAnEmptyStringIfTaggedValueWhiteSpaceIsNull()
-        {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder().Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            Assert.That(prim.WhiteSpace, Is.Not.Null);
             Assert.That(prim.WhiteSpace, Is.Empty);
         }
 
         [Test]
-        public void ShouldReturnValueOfTaggedValueWhiteSpace()
+        public void ShouldReturnValueOfTaggedValues()
         {
-            IUmlDataType primUmlDataType = new UmlDataTypeBuilder()
+            var umlDataType = new UmlDataTypeBuilder()
+                .WithMultiValuedTaggedValue(TaggedValues.businessTerm, "businessTerm_Value1", "businessTerm_Value2")
+                .WithTaggedValue(TaggedValues.definition, "definition_Value")
+                .WithTaggedValue(TaggedValues.dictionaryEntryName, "dictionaryEntryName_Value")
+                .WithTaggedValue(TaggedValues.fractionDigits, "fractionDigits_Value")
+                .WithTaggedValue(TaggedValues.languageCode, "languageCode_Value")
+                .WithTaggedValue(TaggedValues.length, "length_Value")
+                .WithTaggedValue(TaggedValues.maximumExclusive, "maximumExclusive_Value")
+                .WithTaggedValue(TaggedValues.maximumInclusive, "maximumInclusive_Value")
+                .WithTaggedValue(TaggedValues.maximumLength, "maximumLength_Value")
+                .WithTaggedValue(TaggedValues.minimumExclusive, "minimumExclusive_Value")
+                .WithTaggedValue(TaggedValues.minimumInclusive, "minimumInclusive_Value")
+                .WithTaggedValue(TaggedValues.minimumLength, "minimumLength_Value")
+                .WithTaggedValue(TaggedValues.pattern, "pattern_Value")
+                .WithTaggedValue(TaggedValues.totalDigits, "totalDigits_Value")
+                .WithTaggedValue(TaggedValues.uniqueIdentifier, "uniqueIdentifier_Value")
+                .WithTaggedValue(TaggedValues.versionIdentifier, "versionIdentifier_Value")
                 .WithTaggedValue(TaggedValues.whiteSpace, "whiteSpace_Value")
                 .Build();
-            IPrim prim = new UpccPrim(primUmlDataType);
+            IPrim prim = new UpccPrim(umlDataType);
+            Assert.That(prim.BusinessTerms, Is.EquivalentTo(new[] {"businessTerm_Value1", "businessTerm_Value2"}));
+            Assert.That(prim.Definition, Is.EqualTo("definition_Value"));
+            Assert.That(prim.DictionaryEntryName, Is.EqualTo("dictionaryEntryName_Value"));
+            Assert.That(prim.FractionDigits, Is.EqualTo("fractionDigits_Value"));
+            Assert.That(prim.LanguageCode, Is.EqualTo("languageCode_Value"));
+            Assert.That(prim.Length, Is.EqualTo("length_Value"));
+            Assert.That(prim.MaximumExclusive, Is.EqualTo("maximumExclusive_Value"));
+            Assert.That(prim.MaximumInclusive, Is.EqualTo("maximumInclusive_Value"));
+            Assert.That(prim.MaximumLength, Is.EqualTo("maximumLength_Value"));
+            Assert.That(prim.MinimumExclusive, Is.EqualTo("minimumExclusive_Value"));
+            Assert.That(prim.MinimumInclusive, Is.EqualTo("minimumInclusive_Value"));
+            Assert.That(prim.MinimumLength, Is.EqualTo("minimumLength_Value"));
+            Assert.That(prim.Pattern, Is.EqualTo("pattern_Value"));
+            Assert.That(prim.TotalDigits, Is.EqualTo("totalDigits_Value"));
+            Assert.That(prim.UniqueIdentifier, Is.EqualTo("uniqueIdentifier_Value"));
+            Assert.That(prim.VersionIdentifier, Is.EqualTo("versionIdentifier_Value"));
             Assert.That(prim.WhiteSpace, Is.EqualTo("whiteSpace_Value"));
         }
     }

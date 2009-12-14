@@ -98,16 +98,22 @@
     <Compile Include="upcc3\ccts\dra\CdtLibraryTests.cs" />
     <Compile Include="upcc3\ccts\dra\CdtLibraryTestRepository.cs" />
     <Compile Include="upcc3\ccts\util\AsbieAggregationKindTests.cs" />
+    <Compile Include="upcc3\newrepo\ea\EaUmlClass.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlDataType.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlDependency.cs" />
     <Compile Include="upcc3\newrepo\UpccRepositoryTests.cs" />
+    <Compile Include="upcc3\newrepo\upcc\UmlDataTypeBuilder.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlClassifier.cs" />
+    <Compile Include="upcc3\newrepo\upcc\UpccPrim.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccPrim.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\newrepo\upcc\UpccPrimTests.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccPrimTests.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\newrepo\upcc\UpccPrimTestsManualExtensions.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlDataType.cs" />
     <Compile Include="upcc3\newrepo\upcc\UpccBdt.cs" />
     <Compile Include="upcc3\newrepo\upcc\UpccBdtLibrary.cs" />
@@ -122,9 +128,8 @@
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlPackage.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlRepository.cs" />
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlTaggedValue.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccPrim.cs" />
     <Compile Include="upcc3\newrepo\upcc\UpccPrimLibrary.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlClass.cs" />
+    <Compile Include="upcc3\newrepo\ea\EaUmlClassifier.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlPackage.cs" />
     <Compile Include="upcc3\newrepo\ea\EaUmlTaggedValue.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BLibraryValidatorTests.cs" />
@@ -257,6 +262,10 @@
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_ResolvesBDTTypeNamesAccordingToTheNDR.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_simple_type.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_SUPBasicTypesAreDeterminedFromXsdTypes.xsd" />
+    <None Include="upcc3\newrepo\upcc\UpccPrim.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccPrim.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\newrepo\upcc\UpccPrimTests.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccPrimTests.cs</LastGenOutput>

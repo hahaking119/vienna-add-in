@@ -1,0 +1,83 @@
+<#@ template language="C#v3.5" hostspecific="True" debug="True" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="Upcc.dll" #>
+<#@ assembly name="VIENNAAddInUtils.dll" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Upcc"#>
+<#@ import namespace="VIENNAAddInUtils"#>
+<#@ import namespace="VIENNAAddInUtils.t4"#>
+using System.Collections.Generic;
+using System.Linq;
+using CctsRepository.PrimLibrary;
+using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
+
+<# 
+	var metaClassifier = MetaModel.Prim;
+	var library = MetaModel.GetPackageRelationsFor(metaClassifier).First().PackageType;
+	var umlClassifierType = "DataType";
+#>
+namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
+{
+    internal class Upcc<#= metaClassifier.Name #> : I<#= metaClassifier.Name #>
+    {
+        private readonly IUml<#= umlClassifierType #> uml<#= umlClassifierType #>;
+
+        public UpccPrim(IUml<#= umlClassifierType #> uml<#= umlClassifierType #>)
+        {
+            this.uml<#= umlClassifierType #> = uml<#= umlClassifierType #>;
+        }
+
+        #region I<#= metaClassifier.Name #> Members
+
+        public int Id
+        {
+            get { return uml<#= umlClassifierType #>.Id; }
+        }
+
+        public string Name
+        {
+            get { return uml<#= umlClassifierType #>.Name; }
+        }
+
+		public I<#= library.Name #> <#= library.Name #>
+        {
+            get { return new Upcc<#= library.Name #>(uml<#= umlClassifierType #>.Package); }
+        }
+<# 
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
+		{
+#>
+
+		public I<#= dependency.TargetClassifierType.Name #> <#= dependency.Stereotype.ToString().FirstCharToUpperCase() #>
+        {
+            get
+            {
+                var dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.isEquivalentTo);
+                return dependencies.Count() == 0 ? null : new UpccPrim((IUmlDataType) dependencies.First().Target);
+            }
+        }
+<#
+		}
+
+		foreach (var metaTaggedValue in MetaModel.Prim.TaggedValues)
+		{
+#>
+
+        public <#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string" #> <#= metaTaggedValue.AsPropertyName() #>
+        {
+            get { return GetTaggedValue(TaggedValues.<#= metaTaggedValue.Name #>).<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
+        }
+<#
+		}
+#>
+
+        #endregion
+
+        private IUmlTaggedValue GetTaggedValue(TaggedValues taggedValueName)
+        {
+            return umlDataType.GetTaggedValue(taggedValueName) ?? new EmptyUmlTaggedValue();
+        }
+    }
+}
