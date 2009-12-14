@@ -18,7 +18,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
         public PotentialCon(ICdtCon originalCdtCon)
         {
             mOriginalCdtCon = originalCdtCon;
-            mChecked = false;
+            mChecked = true;
         }
 
         public bool Checked
@@ -26,7 +26,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
             get { return mChecked; }
             set { mChecked = value; }
         }
-        public ICdtCon OriginalCdtSup
+        public ICdtCon OriginalCdtCon
         {
             get { return mOriginalCdtCon; }
             set { mOriginalCdtCon = value; }

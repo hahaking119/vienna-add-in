@@ -36,7 +36,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.binding
             CandidateConItems,
             CandidateSupItems,
             CandidateBdtLibraries,
-            mCandidateCdtLibraries
+            CandidateCdtLibraries
         }
     }    
 }

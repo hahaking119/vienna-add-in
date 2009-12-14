@@ -12,12 +12,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using CctsRepository;
+using CctsRepository.BdtLibrary;
+using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
 {
-    public class TemporaryBdtModel : TemporaryModel
+    public class TemporaryBdtModel : TemporaryModel, INotifyPropertyChanged
     {
         #region Backing Fields for Binding Properties
         private List<string> mCandidateBdtLibraryNames;
@@ -55,7 +57,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                 OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.Name);
             }
         }
-
         public string Prefix
         {
             get { return mPrefix; }
@@ -65,7 +66,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                 OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.Prefix);
             }
         }
-
         public List<string> CandidateBdtLibraryNames
         {
             set
@@ -148,6 +148,23 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
 
         #endregion
 
+        #region ConvertAll Methods
+        /// 
+        /// <param name="potentialCon"></param>
+        
+        private static CheckableItem PotentialConToCheckableItem(PotentialCon potentialCon)
+        {
+            return new CheckableItem(potentialCon.Checked, potentialCon.OriginalCdtCon.Name, true, false, Cursors.Arrow);
+        }
+
+        /// 
+        /// <param name="potentialSup"></param>
+        public CheckableItem PotentialSupToCheckableItem(PotentialSup potentialSup)
+        {
+            return new CheckableItem(potentialSup.Checked, potentialSup.OriginalCdtSup.Name, true, false, Cursors.Arrow);
+        }
+        #endregion
+
         /// 
         /// <param name="selectedBdtLibrary"></param>
         public void setSelectedCandidateBdtLibrary(string selectedBdtLibrary)
@@ -196,6 +213,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                         if(candidateCdt.OriginalCdt.Name.Equals(selectedCdt))
                         {
                             candidateCdt.Selected = true;
+                            CandidateConItems = new List<CheckableItem>{PotentialConToCheckableItem(candidateCdt.mPotentialCon)};
+                            CandidateSupItems = new List<CheckableItem>(candidateCdt.PotentialSups.ConvertAll(new Converter<PotentialSup,CheckableItem>(PotentialSupToCheckableItem)));
                         }
                         else
                         {
@@ -204,20 +223,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                     }
                 }
             }
-        }
-
-        /// 
-        /// <param name="potentialCon"></param>
-        public CheckableItem PotentialConToCheckableItem(PotentialCon potentialCon)
-        {
-           return new CheckableItem(potentialCon.Checked, potentialCon.OriginalCdtSup.Name,true,false,Cursors.Arrow);
-        }
-
-        /// 
-        /// <param name="potentialSup"></param>
-        public CheckableItem PotentialSupToCheckableItem(PotentialSup potentialSup)
-        {
-            return new CheckableItem(potentialSup.Checked, potentialSup.OriginalCdtSup.Name, true, false, Cursors.Arrow);
         }
 
         /// 
@@ -246,5 +251,76 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
             }
         }
 
+        public void setCheckedAllPotentialSups(bool checkedValue)
+        {
+            foreach (CandidateCdtLibrary candidateCdtLibrary in mCandidateCdtLibraries)
+            {
+                if (candidateCdtLibrary.Selected.Equals(true))
+                {
+                    foreach (CandidateCdt candidateCdt in candidateCdtLibrary.CandidateCdts)
+                    {
+                        if (candidateCdt.Selected.Equals(true))
+                        {
+                            foreach (PotentialSup potentialSup in candidateCdt.mPotentialSups)
+                            {
+                                    potentialSup.Checked = checkedValue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void CreateBdt()
+        {
+            foreach (CandidateBdtLibrary candidateBdtLibrary in mCandidateBdtLibraries)
+            {
+                if(candidateBdtLibrary.Selected)
+                {
+                    ICdt basedOnCdt = GetBasedOnCdt();
+                    BdtSpec bdtSpec = BdtSpec.CloneCdt(basedOnCdt, Name);
+                    bdtSpec.Sups = GetSelectedSups(bdtSpec);
+
+                    candidateBdtLibrary.OriginalBdtLibrary.CreateBdt(bdtSpec);
+                }
+            }
+        }
+
+        private List<BdtSupSpec> GetSelectedSups(BdtSpec bdtSpec)
+        {
+            var bdtSupSpecs = new List<BdtSupSpec>();
+            foreach (var checkableItem in CandidateConItems)
+            {
+                if(checkableItem.Checked)
+                {
+                    foreach (var bdtSupSpec in bdtSpec.Sups)
+                    {
+                        if(bdtSupSpec.Name.Equals(checkableItem.Text))
+                        {
+                            bdtSupSpecs.Add(bdtSupSpec);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private ICdt GetBasedOnCdt()
+        {
+            foreach (CandidateCdtLibrary candidateCdtLibrary in mCandidateCdtLibraries)
+            {
+                if(candidateCdtLibrary.Selected)
+                {
+                    foreach (CandidateCdt candidateCdt in candidateCdtLibrary.CandidateCdts)
+                    {
+                        if(candidateCdt.Selected)
+                        {
+                            return candidateCdt.OriginalCdt;
+                        }  
+                    }
+                }
+            }
+            return null;
+        }
     }
 }
