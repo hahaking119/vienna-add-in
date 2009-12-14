@@ -9,15 +9,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Input;
 using CctsRepository;
+using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
 {
     public class TemporaryBdtModel : TemporaryModel
     {
-
+        #region Backing Fields for Binding Properties
         private List<string> mCandidateBdtLibraryNames;
         private List<string> mCandidateCdtLibraryNames;
         private List<string> mCandidateCdtNames;
@@ -25,9 +27,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
         private List<CheckableItem> mCandidateSupItems;
         private string mName;
         private string mPrefix;
+        #endregion
+
+        #region Class Fields
         private CcCache ccCache;
         public List<CandidateBdtLibrary> mCandidateBdtLibraries;
         public List<CandidateCdtLibrary> mCandidateCdtLibraries;
+        #endregion
 
         public TemporaryBdtModel(ICctsRepository cctsRepository)
         {
@@ -39,6 +45,109 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
             mCandidateCdtLibraryNames = new List<string>(mCandidateCdtLibraries.ConvertAll(cdtlname => cdtlname.OriginalCdtLibrary.Name));
         }
 
+        #region Binding Properties
+        public string Name
+        {
+            get { return mName; }
+            set
+            {
+                mName = value;
+                OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.Name);
+            }
+        }
+
+        public string Prefix
+        {
+            get { return mPrefix; }
+            set
+            {
+                mPrefix = value;
+                OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.Prefix);
+            }
+        }
+
+        public List<string> CandidateBdtLibraryNames
+        {
+            set
+            {
+                mCandidateBdtLibraryNames = value;
+                OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.CandidateBdtLibraryNames);
+            }
+
+            get
+            {
+                return mCandidateBdtLibraryNames;
+            }
+        }
+        public List<string> CandidateCdtLibraryNames
+        {
+            set
+            {
+                mCandidateCdtLibraryNames = value;
+                OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.CandidateCdtLibraryNames);
+            }
+
+            get
+            {
+                return mCandidateCdtLibraryNames;
+            }
+        }
+        public List<string> CandidateCdtNames
+        {
+            set
+            {
+                mCandidateCdtNames = value;
+                OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.CandidateCdtNames);
+            }
+
+            get
+            {
+                return mCandidateCdtNames;
+            }
+        }
+        public List<CheckableItem> CandidateConItems
+        {
+            set
+            {
+                mCandidateConItems = value;
+                OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.CandidateConItems);
+            }
+
+            get
+            {
+                return mCandidateConItems;
+            }
+        }
+        public List<CheckableItem> CandidateSupItems
+        {
+            set
+            {
+                mCandidateSupItems = value;
+                OnPropertyChanged(BindingPropertyNames.TemporaryBdtModel.CandidateSupItems);
+            }
+
+            get
+            {
+                return mCandidateSupItems;
+            }
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Implementation
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(Enum fieldName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(fieldName.ToString()));
+            }
+        }
+
+        #endregion
+
         /// 
         /// <param name="selectedBdtLibrary"></param>
         public void setSelectedCandidateBdtLibrary(string selectedBdtLibrary)
@@ -48,6 +157,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                 if(candidateBdtLibrary.OriginalBdtLibrary.Name.Equals(selectedBdtLibrary))
                 {
                     candidateBdtLibrary.Selected = true;
+                }
+                else
+                {
+                    candidateBdtLibrary.Selected = false;
                 }
             }
         }
@@ -61,6 +174,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                 if(candidateCdtLibrary.OriginalCdtLibrary.Name.Equals(selectedCdtLibrary))
                 {
                     candidateCdtLibrary.Selected = true;
+                    CandidateCdtNames = new List<string>(candidateCdtLibrary.CandidateCdts.ConvertAll(cdt => cdt.OriginalCdt.Name));
+                }
+                else
+                {
+                    candidateCdtLibrary.Selected = false;
                 }
             }
         }
@@ -78,6 +196,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                         if(candidateCdt.OriginalCdt.Name.Equals(selectedCdt))
                         {
                             candidateCdt.Selected = true;
+                        }
+                        else
+                        {
+                            candidateCdt.Selected = false;
                         }
                     }
                 }
