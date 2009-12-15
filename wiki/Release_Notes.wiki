@@ -5,7 +5,7 @@
 
 * Updated wizards for creation of ABIEs and BDTs
 * Importer for Core Component Library CCL 09A and CCL 08B
-* Several bugfixes
+* Major bugfixes
 
 
 
