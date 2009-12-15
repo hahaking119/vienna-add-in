@@ -11,10 +11,10 @@
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelCdts">Choose CDT used to generate the BDT:</Label>
-                    <ComboBox ItemsSource="{Binding Path=Model.CandidateCdtNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCdts" SelectionChanged="comboboxCdts_SelectionChanged"></ComboBox>
+                    <ComboBox ItemsSource="{Binding Path=Model.CandidateCdtNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCdts" SelectionChanged="comboboxCdts_SelectionChanged" ></ComboBox>
                 </DockPanel>
-                <GroupBox Header="Attributes" Margin="5,1,1,4" Height="325">
-                    <TabControl TabStripPlacement="Top" Margin="2,3,2,2" Name="tabControl">
+                <GroupBox Header="Attributes" Margin="5,1,1,4" Height="325" >
+                    <TabControl TabStripPlacement="Top" Margin="2,3,2,2" Name="tabControl" IsEnabled="False">
                         <TabItem Header="CON" Name="tabCon">
                             <TabItem.Content>
                                 <DockPanel>
@@ -60,11 +60,11 @@
                 </GroupBox>
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelBdtPrefix">Prefix used for the generated BDT:</Label>
-                    <TextBox Name="textboxBdtPrefix" HorizontalAlignment="Stretch" Height="23" TextChanged="textboxBdtPrefix_TextChanged" />
+                    <TextBox Name="textboxBdtPrefix" HorizontalAlignment="Stretch" Height="23" TextChanged="textboxBdtPrefix_TextChanged" IsEnabled="False"/>
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelBdtName">Name of the generated BDT:</Label>
-                    <TextBox Name="textboxBdtName" HorizontalAlignment="Stretch" Height="23" TextChanged="textboxBdtName_TextChanged" />
+                    <TextBox Name="textboxBdtName" HorizontalAlignment="Stretch" Height="23" TextChanged="textboxBdtName_TextChanged" IsEnabled="False"/>
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelBdtLibraries">BDT Library used to store the BDT:</Label>
@@ -73,7 +73,7 @@
             </StackPanel>
         </GroupBox>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,1,1,1">
-            <Button HorizontalAlignment="Center" Width="100" Name="buttonCreate" Margin="5,5,5,5" Height="23" Click="buttonCreate_Click">C_reate BDT</Button>
+            <Button HorizontalAlignment="Center" Width="100" Name="buttonCreate" Margin="5,5,5,5" Height="23" Click="buttonCreate_Click" IsEnabled="False">C_reate BDT</Button>
             <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" Height="23" Click="buttonClose_Click" IsCancel="True">_Close</Button>
         </StackPanel>
     </DockPanel>
