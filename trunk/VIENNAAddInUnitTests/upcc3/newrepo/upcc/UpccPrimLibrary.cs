@@ -33,54 +33,9 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return new UpccBLibrary(umlPackage.Parent); }
         }
 
-        public string Status
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.status).Value; }
-        }
-
-        public string UniqueIdentifier
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
-        }
-
-        public string VersionIdentifier
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.versionIdentifier).Value; }
-        }
-
-        public string BaseURN
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.baseURN).Value; }
-        }
-
-        public string NamespacePrefix
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.namespacePrefix).Value; }
-        }
-
         public void RemovePrim(IPrim prim)
         {
             throw new NotImplementedException();
-        }
-
-        public IEnumerable<string> BusinessTerms
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
-        }
-
-        public IEnumerable<string> Copyrights
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.copyright).SplitValues; }
-        }
-
-        public IEnumerable<string> Owners
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.owner).SplitValues; }
-        }
-
-        public IEnumerable<string> References
-        {
-            get { return umlPackage.GetTaggedValue(TaggedValues.reference).SplitValues; }
         }
 
         public IEnumerable<IPrim> Prims
@@ -108,7 +63,111 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 
         public IPrim CreatePrim(PrimSpec spec)
         {
-            throw new NotImplementedException();
+            var newDataType = umlPackage.CreateDataType(
+                new UmlDataTypeSpec
+                {
+                    Name = spec.Name,
+                    TaggedValues = new[]
+                                   {
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.businessTerm.ToString(),
+                                           Value = MultiPartTaggedValue.Merge(spec.BusinessTerms),
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.definition.ToString(),
+                                           Value = spec.Definition,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.dictionaryEntryName.ToString(),
+                                           Value = spec.DictionaryEntryName,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.fractionDigits.ToString(),
+                                           Value = spec.FractionDigits,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.languageCode.ToString(),
+                                           Value = spec.LanguageCode,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.length.ToString(),
+                                           Value = spec.Length,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.maximumExclusive.ToString(),
+                                           Value = spec.MaximumExclusive,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.maximumInclusive.ToString(),
+                                           Value = spec.MaximumInclusive,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.maximumLength.ToString(),
+                                           Value = spec.MaximumLength,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.minimumExclusive.ToString(),
+                                           Value = spec.MinimumExclusive,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.minimumInclusive.ToString(),
+                                           Value = spec.MinimumInclusive,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.minimumLength.ToString(),
+                                           Value = spec.MinimumLength,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.pattern.ToString(),
+                                           Value = spec.Pattern,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.totalDigits.ToString(),
+                                           Value = spec.TotalDigits,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.uniqueIdentifier.ToString(),
+                                           Value = spec.UniqueIdentifier,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.versionIdentifier.ToString(),
+                                           Value = spec.VersionIdentifier,
+                                       },
+                                       new UmlTaggedValueSpec
+                                       {
+                                           Name = TaggedValues.whiteSpace.ToString(),
+                                           Value = spec.WhiteSpace,
+                                       },
+                                   },
+                });
+            if (spec.IsEquivalentTo != null)
+            {
+                var equivalentDataType = umlPackage.GetDataTypeById(spec.IsEquivalentTo.Id);
+                newDataType.CreateDependency(new UmlDependencySpec<IUmlDataType>
+                                             {
+                                                 Stereotype = Stereotype.isEquivalentTo,
+                                                 Target = equivalentDataType,
+                                                 LowerBound = "0",
+                                                 UpperBound = "1",
+                                             });
+            }
+            return new UpccPrim(newDataType);
         }
 
         public IPrim UpdatePrim(IPrim element, PrimSpec spec)
@@ -116,6 +175,56 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             throw new NotImplementedException();
         }
 
+        public IEnumerable<string> BusinessTerms
+        {
+            get { return GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
+        }
+
+        public IEnumerable<string> Copyrights
+        {
+            get { return GetTaggedValue(TaggedValues.copyright).SplitValues; }
+        }
+
+        public IEnumerable<string> Owners
+        {
+            get { return GetTaggedValue(TaggedValues.owner).SplitValues; }
+        }
+
+        public IEnumerable<string> References
+        {
+            get { return GetTaggedValue(TaggedValues.reference).SplitValues; }
+        }
+
+        public string Status
+        {
+            get { return GetTaggedValue(TaggedValues.status).Value; }
+        }
+
+        public string UniqueIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
+        }
+
+        public string VersionIdentifier
+        {
+            get { return GetTaggedValue(TaggedValues.versionIdentifier).Value; }
+        }
+
+        public string BaseURN
+        {
+            get { return GetTaggedValue(TaggedValues.baseURN).Value; }
+        }
+
+        public string NamespacePrefix
+        {
+            get { return GetTaggedValue(TaggedValues.namespacePrefix).Value; }
+        }
+
         #endregion
+
+        private IUmlTaggedValue GetTaggedValue(TaggedValues taggedValueName)
+        {
+            return umlPackage.GetTaggedValue(taggedValueName) ?? new EmptyUmlTaggedValue();
+        }
     }
 }

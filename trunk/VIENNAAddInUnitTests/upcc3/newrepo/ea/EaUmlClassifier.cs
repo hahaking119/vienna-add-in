@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
@@ -60,6 +61,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
         public IUmlTaggedValue GetTaggedValue(TaggedValues name)
         {
             return EaUmlTaggedValue.ForEaTaggedValue(GetEATaggedValueByName(name.ToString()));
+        }
+
+        public IUmlDependency<TTarget> CreateDependency<TTarget>(UmlDependencySpec<TTarget> spec)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
