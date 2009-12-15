@@ -23,3 +23,13 @@ The _BDT Editor_ dialog helps you to create BDTs which are based on CDTs you can
 (9) Click this button to start the model generation process.
 
 (10) Click this button to close the dialog without generating a model.
+
+=References=
+(1) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
+
+(2) Download section for standard Core Component Libraries as XMI files http://umm-dev.org/xmi/
+
+=Related Tasks=
+[CreateaModelinEA Create a model in Enterprise Architect]
+
+[CreateaModelinEA Create your first UPCC model]
