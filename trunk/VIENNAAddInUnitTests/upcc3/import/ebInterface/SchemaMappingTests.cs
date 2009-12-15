@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Schema;
 using CctsRepository.CcLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
@@ -61,8 +63,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public void Test_mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc()
         {
             var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc.xsd");
             mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);
-            var mappings = new SchemaMapping(mapForceMapping, ccl);
+
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
+
+            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+
             var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
             var homeAddressMapping = new ComplexTypeMapping("HomeAddress",
                                                             new List<ElementMapping>
@@ -97,8 +105,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [Test]
         public void Test_mapping_complex_type_with_two_simple_elements_to_single_acc()
         {
-            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_single_acc.mfd"));
-            var mappings = new SchemaMapping(mapForceMapping, ccl);
+            string mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_single_acc.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_single_acc.xsd");
+
+            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);
+
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
+
+            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+
             var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
             Assert.That(complexTypeMappings.Count, Is.EqualTo(1));
             Assert.That(complexTypeMappings[0], Is.TypeOf(typeof (ComplexTypeMapping)));
@@ -110,8 +126,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public void Test_mapping_complex_type_with_two_simple_elements_to_two_accs()
         {
             var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_two_accs.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_two_accs.xsd");
+            
             mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);
-            var mappings = new SchemaMapping(mapForceMapping, ccl);
+
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
+
+            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+
             var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
             var expectedMappings = new List<IMapping>
                                    {
@@ -128,7 +151,11 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [Test]
         public void TestCreateSourceElementTree()
         {
-            var mappings = new SchemaMapping(mapForceMapping, ccl);
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice.xsd");            
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
+
+            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
             AssertTreesAreEqual(expectedAddress, mappings.RootSourceElement, string.Empty);
         }
     }

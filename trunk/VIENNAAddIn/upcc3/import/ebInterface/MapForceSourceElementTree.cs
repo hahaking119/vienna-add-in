@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -14,8 +16,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly Dictionary<string, SourceElement> sourceElementsByKey = new Dictionary<string, SourceElement>();
 
         /// <exception cref="ArgumentException">The MapForce mapping does not contain any input schema components.</exception>
-        public MapForceSourceElementTree(MapForceMapping mapping)
+        public MapForceSourceElementTree(MapForceMapping mapping, XmlSchemaSet xmlSchemaSet)
         {
+            xmlSchemaSet.Compile();
             /// Retrieve the schema component containing the input schemas' root element.
             /// 
             /// If there is only one input schema component, then this component is the root schema component.
@@ -28,9 +31,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             {
                 throw new ArgumentException("The MapForce mapping does not contain any input schema components.");
             }
+
+            XmlSchemaElement rootXsdElement = null;
+
             if (inputSchemaComponents.Count == 1)
             {
                 RootSourceElement = CreateSourceElementTree(inputSchemaComponents[0].RootEntry);
+                rootXsdElement = (XmlSchemaElement) xmlSchemaSet.GlobalElements[inputSchemaComponents[0].InstanceRoot];
             } else
             {
                 var rootElementName = mapping.GetConstant("Root");
@@ -44,7 +51,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     if (inputSchemaComponent.RootEntry.Name == rootElementName)
                     {
                         RootSourceElement = CreateSourceElementTree(inputSchemaComponent.RootEntry);
-                    } else
+                        rootXsdElement = (XmlSchemaElement)xmlSchemaSet.GlobalElements[inputSchemaComponents[0].InstanceRoot];
+                    }
+                    else
                     {
                         nonRootElementTrees.Add(CreateSourceElementTree(inputSchemaComponent.RootEntry));
                     }
@@ -56,6 +65,43 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 foreach (var nonRootElementTree in nonRootElementTrees)
                 {
                     AttachSubTree(nonRootElementTree, RootSourceElement);
+                }            
+            }
+
+            if (rootXsdElement == null)
+            {
+                throw new ArgumentException("XSD root element not found.");
+            }
+            AttachXsdInformationToSourceElements(RootSourceElement, rootXsdElement);
+        }
+
+        private void AttachXsdInformationToSourceElements(SourceElement sourceElement, XmlSchemaElement xsdElement)
+        {
+            XmlSchemaType xsdType = xsdElement.ElementSchemaType;
+            sourceElement.XsdType = xsdType;
+            
+            foreach (SourceElement child in sourceElement.Children)
+            {
+                if (xsdType is XmlSchemaComplexType)
+                {
+                    XmlSchemaComplexType complexType = (XmlSchemaComplexType) xsdType;
+
+                    if (complexType.Particle is XmlSchemaGroupBase)
+                    {
+                        XmlSchemaGroupBase xmlSchemaGroupBase = (XmlSchemaGroupBase)complexType.Particle;
+                        
+                        foreach (XmlSchemaObject item in xmlSchemaGroupBase.Items)
+                        {
+                            XmlSchemaElement element = ((XmlSchemaElement) item);
+
+                            string name = element.Name ?? element.RefName.Name;
+                            
+                            if (name == child.Name)
+                            {
+                                AttachXsdInformationToSourceElements(child, (XmlSchemaElement) item);
+                            }
+                        }
+                    }                                        
                 }
             }
         }

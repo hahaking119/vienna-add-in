@@ -18,14 +18,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         {
             expectedMapping = new MapForceMapping(new List<SchemaComponent>
                                                   {
-                                                      new SchemaComponent("CoreComponent_1.xsd", new Namespace[0],
+                                                      new SchemaComponent("CoreComponent_1.xsd", "{}Address", new Namespace[0],
                                                                           new Entry("Address", InputOutputKey.None,
                                                                                     new[]
                                                                                     {
                                                                                         new Entry("CityName", InputOutputKey.Input(null, CCCityNameKey)),
                                                                                     })
                                                           ),
-                                                      new SchemaComponent("Invoice.xsd", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
+                                                      new SchemaComponent("Invoice.xsd", "{http://www.ebinterface.at/schema/3p0/}Address", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
                                                                           new Entry("Address", InputOutputKey.None,
                                                                                     new[]
                                                                                     {

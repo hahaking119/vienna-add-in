@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Schema;
 using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
@@ -12,9 +13,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly MapForceSourceElementTree sourceElementStore;
         private readonly TargetElementStore targetElementStore;
 
-        public SchemaMapping(MapForceMapping mapForceMapping, ICcLibrary ccLibrary)
+        public SchemaMapping(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet, ICcLibrary ccLibrary)
         {
-            sourceElementStore = new MapForceSourceElementTree(mapForceMapping);
+            sourceElementStore = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
             targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
 
             foreach (Vertex vertex in mapForceMapping.Graph.Vertices)

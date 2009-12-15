@@ -1,20 +1,37 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class SchemaComponent : IEquatable<SchemaComponent>
     {
-        public SchemaComponent(string schema, IEnumerable<Namespace> namespaces, Entry rootEntry)
+        public SchemaComponent(string schema, string instanceRoot ,IEnumerable<Namespace> namespaces, Entry rootEntry)
         {
             Schema = schema;
+
+            int firstIndex = instanceRoot.IndexOf("{");
+            int lastIndex = instanceRoot.LastIndexOf("}");
+
+            if ((firstIndex == -1) || (lastIndex == -1))
+            {
+                InstanceRoot = new XmlQualifiedName(instanceRoot);
+            }
+            else
+            {
+                InstanceRoot = new XmlQualifiedName(instanceRoot.Substring(lastIndex + 1),
+                                                    instanceRoot.Substring(firstIndex + 1, lastIndex - firstIndex - 1));
+            }
+
             Namespaces = new List<Namespace>(namespaces);
             RootEntry = rootEntry;
         }
 
         public string Schema { get; private set; }
+        public XmlQualifiedName InstanceRoot { get; private set; }
+
         public List<Namespace> Namespaces { get; private set; }
         public Entry RootEntry { get; private set; }
 
