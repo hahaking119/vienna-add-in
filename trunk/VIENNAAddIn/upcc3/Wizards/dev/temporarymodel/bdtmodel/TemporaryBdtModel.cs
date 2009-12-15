@@ -16,6 +16,7 @@ using CctsRepository.BdtLibrary;
 using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
+using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel.exceptions;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
 {
@@ -265,7 +266,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                             {
                                     potentialSup.Checked = checkedValue;
                             }
-                            CandidateSupItems = new List<CheckableItem>(candidateCdt.PotentialSups.ConvertAll(new Converter<PotentialSup, CheckableItem>(PotentialSupToCheckableItem)));
+                            CandidateSupItems = new List<CheckableItem>(candidateCdt.mPotentialSups.ConvertAll(new Converter<PotentialSup, CheckableItem>(PotentialSupToCheckableItem)));
                         }
                     }
                 }
@@ -278,8 +279,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
             {
                 if(candidateBdtLibrary.Selected)
                 {
+                    foreach (IBdt bdt in candidateBdtLibrary.OriginalBdtLibrary.Bdts)
+                    {
+                        if (bdt.Name.Equals(Prefix + Name))
+                        {
+                            throw new TemporaryBdtModelException(String.Format("The name of the BDT is invalid since another BDT with the same name already exists. An example for a valid BDT name would be \"New{0}\".", Prefix + Name));
+                        }
+                    }
                     ICdt basedOnCdt = GetBasedOnCdt();
-                    BdtSpec bdtSpec = BdtSpec.CloneCdt(basedOnCdt, Name);
+                    BdtSpec bdtSpec = BdtSpec.CloneCdt(basedOnCdt, Prefix+Name);
                     bdtSpec.Sups = GetSelectedSups(bdtSpec);
 
                     candidateBdtLibrary.OriginalBdtLibrary.CreateBdt(bdtSpec);
@@ -290,7 +298,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
         private List<BdtSupSpec> GetSelectedSups(BdtSpec bdtSpec)
         {
             var bdtSupSpecs = new List<BdtSupSpec>();
-            foreach (var checkableItem in CandidateConItems)
+            foreach (var checkableItem in CandidateSupItems)
             {
                 if(checkableItem.Checked)
                 {
@@ -303,7 +311,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                     }
                 }
             }
-            return null;
+            return bdtSupSpecs;
         }
 
         private ICdt GetBasedOnCdt()
@@ -322,6 +330,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel
                 }
             }
             return null;
+        }
+
+        public void Reset()
+        {
+            ccCache.Refresh();
+            //this has to be used to reset current UI state:
+            //mCandidateBdtLibraries = new List<CandidateBdtLibrary>(ccCache.GetBdtLibraries().ConvertAll(bdtl => new CandidateBdtLibrary(bdtl)));
+            //CandidateBdtLibraryNames = new List<string>(mCandidateBdtLibraries.ConvertAll(bdtlname => bdtlname.OriginalBdtLibrary.Name));
+            //mCandidateCdtLibraries = new List<CandidateCdtLibrary>(ccCache.GetCdtLibraries().ConvertAll(cdtl => new CandidateCdtLibrary(cdtl)));
+            //CandidateCdtLibraryNames = new List<string>(mCandidateCdtLibraries.ConvertAll(cdtlname => cdtlname.OriginalCdtLibrary.Name));
+            //CandidateCdtNames = new List<string>();
+            //CandidateSupItems = new List<CheckableItem>();
+            //CandidateConItems = new List<CheckableItem>();
         }
     }
 }
