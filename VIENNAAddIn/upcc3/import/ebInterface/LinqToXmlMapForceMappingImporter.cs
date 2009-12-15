@@ -121,7 +121,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     {
                         XElement document = documents[0];
                         IEnumerable<Namespace> namespaces = ImportComponentNamespaces(component);
-                        yield return new SchemaComponent((string) document.Attribute("schema"), namespaces, ImportComponentEntries(component, mappingFile));
+                        yield return new SchemaComponent((string) document.Attribute("schema"), (string) document.Attribute("instanceroot"), namespaces, ImportComponentEntries(component, mappingFile));
                     }
                 }
             }

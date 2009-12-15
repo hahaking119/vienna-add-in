@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Schema;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -17,6 +18,18 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public Mapping Mapping { get; set; }
 
         public string Key { get; private set; }
+
+        public string XsdTypeName { get
+        {
+            if (XsdType == null)
+            {
+                return "";
+            }
+            
+            return XsdType.Name ?? XsdType.TypeCode.ToString();            
+        }}
+
+        public XmlSchemaType XsdType { get; set; }
 
         public SourceElement(string name, string key)
         {

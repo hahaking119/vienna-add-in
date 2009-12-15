@@ -56,22 +56,22 @@ namespace VIENNAAddIn.upcc3.Wizards
             viewModel.MappingFiles = files;
 //            MessageBox.Show("Mapped schema: " + viewModel.MappedSchemaFile););
             return;
-            Cursor = Cursors.Wait;
-            buttonImport.Visibility = Visibility.Collapsed;
+            //Cursor = Cursors.Wait;
+            //buttonImport.Visibility = Visibility.Collapsed;
 
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0: // ebInterface
-                    new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(cctsRepository);
-                    break;
-                case 1: // CCTS
-                    XSDImporter.ImportSchemas(new ImporterContext(cctsRepository, cctsSchemaFileSelector.FileName));
-                    break;
-            }
+            //switch (tabControl1.SelectedIndex)
+            //{
+            //    case 0: // ebInterface
+            //        new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(cctsRepository);
+            //        break;
+            //    case 1: // CCTS
+            //        XSDImporter.ImportSchemas(new ImporterContext(cctsRepository, cctsSchemaFileSelector.FileName));
+            //        break;
+            //}
 
-            progressBar.Value = 100;
-            textboxStatus.Text += "Import completed!\n";
-            Cursor = Cursors.Arrow;
+            //progressBar.Value = 100;
+            //textboxStatus.Text += "Import completed!\n";
+            //Cursor = Cursors.Arrow;
         }
     }
 
