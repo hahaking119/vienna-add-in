@@ -1,0 +1,25 @@
+#summary Detailed description of the BDT Editor dialog
+
+=BDT Editor=
+
+The _BDT Editor_ dialog helps you to create BDTs which are based on CDTs you can choose from. _Only available if the model has been set as a UPCC3/UMM2 model._
+
+(1) In this selectbox you can choose the CDT library, in which your CDTs are stored.
+
+(2) After selecting a CDT library all CDTs within that library are available for selection in the second selectbox. You have to choose an underlying CDT in order to continue creating a new BDT.
+
+(3) The available attributes are shown in (3). You can choose to either show the based on CON of the CDT or the SUPs available to choose from. You must not select any SUP but the CON must stay selected therefor there is no possibility to change the CON checkbox.
+
+(4) Taking a closer look at the SUP list you may notice that you can select multiple SUPs for a single CDT. Everything you select will be stored for further editing. Even if you change the based on CDT and switch back later you can continue working with the previous state.
+
+(5) Select this checkbox if you want to select all available SUPs at once or Unselect it to remove any selection.
+
+(6) In the prefix textbox you may enter a prefix used for all your generated artifacts. This prefix will be attached to your created BDT.
+
+(7) The Name of the BDT identifies it within the model, therefor make sure to choose a unique name.
+
+(8) If the entered Name is already in use you'll receive this warning message.
+
+(9) Click this button to start the model generation process.
+
+(10) Click this button to close the dialog without generating a model.
