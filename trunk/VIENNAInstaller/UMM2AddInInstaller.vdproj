@@ -15,20 +15,38 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_076DDF487C20018E9776D937D8E1552A"
-        "OwnerKey" = "8:_1AD27C5F9D965215F9EAC990758D4D2F"
+        "MsmKey" = "8:_04B75E17A1FD2FBDB07F31B5FBD14964"
+        "OwnerKey" = "8:_8838FDBC86BCD9242D1974344FF68044"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_076DDF487C20018E9776D937D8E1552A"
+        "MsmKey" = "8:_04B75E17A1FD2FBDB07F31B5FBD14964"
         "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_1AD27C5F9D965215F9EAC990758D4D2F"
+        "MsmKey" = "8:_04B75E17A1FD2FBDB07F31B5FBD14964"
+        "OwnerKey" = "8:_52FAB7B15FD567CE41453046CDC2BD65"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_26295DB964E14EC97145277DB34CE9E0"
+        "OwnerKey" = "8:_A22D4D5EDF7728EE56ADC11571AB7101"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_26295DB964E14EC97145277DB34CE9E0"
         "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_396FF4C117E725E8C52E3672D635A22F"
+        "OwnerKey" = "8:_F4EC814584E362276E7D4AF4568014E4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,8 +63,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_52FAB7B15FD567CE41453046CDC2BD65"
+        "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8838FDBC86BCD9242D1974344FF68044"
+        "OwnerKey" = "8:_52FAB7B15FD567CE41453046CDC2BD65"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8838FDBC86BCD9242D1974344FF68044"
+        "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -57,26 +93,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_950C42EDEFA65661263631FB2581D4C4"
-        "OwnerKey" = "8:_F4EC814584E362276E7D4AF4568014E4"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E1CED6D07B28BAE4D290B05AD6316084"
-        "OwnerKey" = "8:_076DDF487C20018E9776D937D8E1552A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E1CED6D07B28BAE4D290B05AD6316084"
+        "MsmKey" = "8:_A22D4D5EDF7728EE56ADC11571AB7101"
         "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E1CED6D07B28BAE4D290B05AD6316084"
-        "OwnerKey" = "8:_1AD27C5F9D965215F9EAC990758D4D2F"
+        "MsmKey" = "8:_A78727A2A1C1C830B6CF524ADB0FC1D2"
+        "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4BCF1C127137F19B59B4D884ED4710D"
+        "OwnerKey" = "8:_26295DB964E14EC97145277DB34CE9E0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4BCF1C127137F19B59B4D884ED4710D"
+        "OwnerKey" = "8:_5DD2B7CDA0A14BB69FC2E1DCF9D2EF22"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -112,19 +148,43 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1AD27C5F9D965215F9EAC990758D4D2F"
+        "OwnerKey" = "8:_A78727A2A1C1C830B6CF524ADB0FC1D2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_076DDF487C20018E9776D937D8E1552A"
+        "OwnerKey" = "8:_A22D4D5EDF7728EE56ADC11571AB7101"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E1CED6D07B28BAE4D290B05AD6316084"
+        "OwnerKey" = "8:_26295DB964E14EC97145277DB34CE9E0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C4BCF1C127137F19B59B4D884ED4710D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_52FAB7B15FD567CE41453046CDC2BD65"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_8838FDBC86BCD9242D1974344FF68044"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_04B75E17A1FD2FBDB07F31B5FBD14964"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -135,7 +195,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\VIENNAAddIn_0_0_5_000.msi"
+        "OutputFilename" = "8:Debug\\VIENNAAddIn_0_0_6_000.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -232,20 +292,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_076DDF487C20018E9776D937D8E1552A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_04B75E17A1FD2FBDB07F31B5FBD14964"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Vbe.Interop, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"
+            "AssemblyAsmDisplayName" = "8:office, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"
                 "ScatterAssemblies"
                 {
-                    "_076DDF487C20018E9776D937D8E1552A"
+                    "_04B75E17A1FD2FBDB07F31B5FBD14964"
                     {
-                    "Name" = "8:Microsoft.Vbe.Interop.dll"
+                    "Name" = "8:office.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Microsoft.Vbe.Interop.dll"
+            "SourcePath" = "8:office.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
@@ -263,20 +323,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1AD27C5F9D965215F9EAC990758D4D2F"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_26295DB964E14EC97145277DB34CE9E0"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"
+            "AssemblyAsmDisplayName" = "8:VIENNAAddInUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_1AD27C5F9D965215F9EAC990758D4D2F"
+                    "_26295DB964E14EC97145277DB34CE9E0"
                     {
-                    "Name" = "8:Microsoft.Office.Interop.Word.dll"
+                    "Name" = "8:VIENNAAddInUtils.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Microsoft.Office.Interop.Word.dll"
+            "SourcePath" = "8:VIENNAAddInUtils.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
@@ -290,6 +350,26 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_396FF4C117E725E8C52E3672D635A22F"
+            {
+            "SourcePath" = "8:EA.TLB"
+            "TargetName" = "8:EA.TLB"
+            "Tag" = "8:"
+            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:2"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
@@ -345,6 +425,68 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_52FAB7B15FD567CE41453046CDC2BD65"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"
+                "ScatterAssemblies"
+                {
+                    "_52FAB7B15FD567CE41453046CDC2BD65"
+                    {
+                    "Name" = "8:Microsoft.Office.Interop.Word.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Office.Interop.Word.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8838FDBC86BCD9242D1974344FF68044"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Vbe.Interop, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"
+                "ScatterAssemblies"
+                {
+                    "_8838FDBC86BCD9242D1974344FF68044"
+                    {
+                    "Name" = "8:Microsoft.Vbe.Interop.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Vbe.Interop.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9417970650AF4783B22D8CCF56EC77FB"
             {
             "SourcePath" = "8:..\\VIENNAAddIn\\license\\COPYING.rtf"
@@ -365,10 +507,21 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_950C42EDEFA65661263631FB2581D4C4"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A22D4D5EDF7728EE56ADC11571AB7101"
             {
-            "SourcePath" = "8:EA.TLB"
-            "TargetName" = "8:EA.TLB"
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:CctsRepository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_A22D4D5EDF7728EE56ADC11571AB7101"
+                    {
+                    "Name" = "8:CctsRepository.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:CctsRepository.dll"
+            "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
             "Condition" = "8:"
@@ -380,25 +533,56 @@
             "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
-            "Register" = "3:2"
+            "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E1CED6D07B28BAE4D290B05AD6316084"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A78727A2A1C1C830B6CF524ADB0FC1D2"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:office, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"
+            "AssemblyAsmDisplayName" = "8:VIENNAAddInWpfUserControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E1CED6D07B28BAE4D290B05AD6316084"
+                    "_A78727A2A1C1C830B6CF524ADB0FC1D2"
                     {
-                    "Name" = "8:office.dll"
+                    "Name" = "8:VIENNAAddInWpfUserControls.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:office.dll"
+            "SourcePath" = "8:VIENNAAddInWpfUserControls.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C4BCF1C127137F19B59B4D884ED4710D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Upcc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C4BCF1C127137F19B59B4D884ED4710D"
+                    {
+                    "Name" = "8:Upcc.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Upcc.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
@@ -560,14 +744,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:VIENNAAddIn"
-        "ProductCode" = "8:{D09101CF-60D8-40C1-A730-4AD0C7C6823E}"
-        "PackageCode" = "8:{462CE8E6-EBC3-4E4A-8553-5527E034BB27}"
+        "ProductCode" = "8:{BCA853B1-65D0-4910-A7CE-ED6C149DB3B2}"
+        "PackageCode" = "8:{D50A52D5-ADE9-4655-AFD4-60BA0AB319D7}"
         "UpgradeCode" = "8:{577D477F-D456-43AE-ACDF-5C40A4810579}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.5"
+        "ProductVersion" = "8:0.0.6"
         "Manufacturer" = "8:VIENNA Add-In"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://vienna-add-in.googlecode.com"
