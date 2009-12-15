@@ -1,0 +1,113 @@
+<#@ template language="C#v3.5" hostspecific="True" debug="True" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="Upcc.dll" #>
+<#@ assembly name="VIENNAAddInUtils.dll" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Upcc"#>
+<#@ import namespace="VIENNAAddInUtils"#>
+<#@ import namespace="VIENNAAddInUtils.t4"#>
+<# 
+	var metaPackage = MetaModel.PrimLibrary;
+	var extendManually = false;
+#>
+<# 
+	var library = metaPackage.Name.FirstCharToLowerCase();
+#>
+using System;
+using System.Collections.Generic;
+using CctsRepository.BLibrary;
+using CctsRepository.PrimLibrary;
+using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
+
+namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
+{
+    internal class Upcc<#= metaPackage.Name #> : I<#= metaPackage.Name #>
+    {
+        private readonly IUmlPackage umlPackage;
+
+        public Upcc<#= metaPackage.Name #>(IUmlPackage umlPackage)
+        {
+            this.umlPackage = umlPackage;
+        }
+
+        #region I<#= metaPackage.Name #> Members
+
+        public int Id
+        {
+            get { return umlPackage.Id; }
+        }
+
+        public string Name
+        {
+            get { return umlPackage.Name; }
+        }
+
+        public IBLibrary BLibrary
+        {
+            get { return new UpccBLibrary(umlPackage.Parent); }
+        }
+
+        public void RemovePrim(IPrim prim)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IPrim> Prims
+        {
+            get
+            {
+                foreach (var umlDataType in umlPackage.DataTypes)
+                {
+                    yield return new UpccPrim(umlDataType);
+                }
+            }
+        }
+
+        public IPrim GetPrimByName(string name)
+        {
+            foreach (IPrim prim in Prims)
+            {
+                if (prim.Name == name)
+                {
+                    return prim;
+                }
+            }
+            return null;
+        }
+
+        public IPrim CreatePrim(PrimSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrim UpdatePrim(IPrim element, PrimSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+<#
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
+
+		foreach (var metaTaggedValue in metaPackage.TaggedValues)
+		{
+#>
+
+        public <#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string" #> <#= metaTaggedValue.AsPropertyName() #>
+        {
+            get { return GetTaggedValue(TaggedValues.<#= metaTaggedValue.Name #>).<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
+        }
+<#
+		}
+#>
+        #endregion
+
+        private IUmlTaggedValue GetTaggedValue(TaggedValues taggedValueName)
+        {
+            return umlPackage.GetTaggedValue(taggedValueName) ?? new EmptyUmlTaggedValue();
+        }
+	}
+}

@@ -27,16 +27,16 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             get { return umlDataType.Name; }
         }
 
-        public IPrimLibrary PrimLibrary
+		public IPrimLibrary PrimLibrary
         {
             get { return new UpccPrimLibrary(umlDataType.Package); }
         }
 
-        public IPrim IsEquivalentTo
+		public IPrim IsEquivalentTo
         {
             get
             {
-                IEnumerable<IUmlDependency<IUmlClassifier>> dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.isEquivalentTo);
+                var dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.isEquivalentTo);
                 return dependencies.Count() == 0 ? null : new UpccPrim((IUmlDataType) dependencies.First().Target);
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -21,6 +22,16 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
         public string Stereotype
         {
             get { return eaPackage.Element != null ? eaPackage.Element.Stereotype : string.Empty; }
+        }
+
+        public IUmlDataType CreateDataType(UmlDataTypeSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlDataType GetDataTypeById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public IUmlTaggedValue GetTaggedValue(TaggedValues name)

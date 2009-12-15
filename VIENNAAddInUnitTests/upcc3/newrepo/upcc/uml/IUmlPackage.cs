@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -8,10 +7,16 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml
     {
         int Id { get; }
         string Name { get; }
-        IEnumerable<IUmlClass> Classes { get; }
-        IEnumerable<IUmlDataType> DataTypes { get; }
-        IUmlPackage Parent { get; }
         string Stereotype { get; }
+
+        IUmlPackage Parent { get; }
+
+        IEnumerable<IUmlClass> Classes { get; }
+
+        IEnumerable<IUmlDataType> DataTypes { get; }
+        IUmlDataType CreateDataType(UmlDataTypeSpec spec);
+        IUmlDataType GetDataTypeById(int id);
+
         IUmlTaggedValue GetTaggedValue(TaggedValues name);
     }
 }

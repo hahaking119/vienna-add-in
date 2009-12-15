@@ -12,6 +12,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml
         IUmlPackage Package { get; }
         IEnumerable<IUmlDependency<IUmlClassifier>> GetDependenciesByStereotype(string stereotype);
         IUmlTaggedValue GetTaggedValue(TaggedValues name);
+        IUmlDependency<TTarget> CreateDependency<TTarget>(UmlDependencySpec<TTarget> spec);
     }
 
     public enum UmlClassifierType

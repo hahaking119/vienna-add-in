@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Moq;
 using VIENNAAddIn.upcc3.ccts.util;
@@ -11,7 +12,12 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 
         public IUmlDataType Build()
         {
-            return mock.Object;
+            return BuildMock().Object;
+        }
+
+        public Mock<IUmlDataType> BuildMock()
+        {
+            return mock;
         }
 
         public UmlDataTypeBuilder WithId(int id)

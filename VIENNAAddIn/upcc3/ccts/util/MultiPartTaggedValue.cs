@@ -20,7 +20,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return string.Join(string.Empty + ValueSeparator, stringArray);
         }
 
-        public static IEnumerable<string> Split(string value)
+        public static string[] Split(string value)
         {
             return string.IsNullOrEmpty(value) ? new string[0] : value.Split(ValueSeparator);
         }

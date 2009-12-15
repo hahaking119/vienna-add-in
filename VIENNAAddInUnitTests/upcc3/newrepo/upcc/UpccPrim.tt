@@ -61,7 +61,11 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 <#
 		}
 
-		foreach (var metaTaggedValue in MetaModel.Prim.TaggedValues)
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
+
+		foreach (var metaTaggedValue in metaClassifier.TaggedValues)
 		{
 #>
 
