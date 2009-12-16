@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using EA;
+using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
@@ -12,16 +15,31 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
 
         #region IUmlClass Members
 
-        public override UmlClassifierType Type
+        public IEnumerable<IUmlDependency<IUmlClass>> GetDependenciesByStereotype(string stereotype)
         {
-            get { return UmlClassifierType.Class; }
+            foreach (Connector connector in eaElement.Connectors)
+            {
+                if (connector.Type == EAConnectorTypes.Dependency.ToString())
+                {
+                    if (connector.Stereotype == stereotype)
+                    {
+                        yield return new EaUmlDependency<IUmlClass>(eaRepository, connector, targetElement => new EaUmlClass(eaRepository, targetElement));
+                    }
+                }
+            }
+        }
+
+        public IUmlDependency<IUmlClass> GetFirstDependencyByStereotype(string stereotype)
+        {
+            var dependencies = new List<IUmlDependency<IUmlClass>>(GetDependenciesByStereotype(stereotype));
+            return dependencies.Count == 0 ? null : dependencies[0];
+        }
+
+        public IUmlDependency<IUmlClass> CreateDependency(UmlDependencySpec<IUmlClass> spec)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
-
-        protected override IUmlClassifier CreateUmlClassifier(Element eaElement)
-        {
-            return new EaUmlClass(eaRepository, eaElement);
-        }
     }
 }

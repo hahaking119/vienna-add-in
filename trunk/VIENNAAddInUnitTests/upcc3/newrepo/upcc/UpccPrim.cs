@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using CctsRepository.PrimLibrary;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
@@ -36,101 +34,96 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         {
             get
             {
-                var dependencies = umlDataType.GetDependenciesByStereotype(Stereotype.isEquivalentTo);
-                return dependencies.Count() == 0 ? null : new UpccPrim((IUmlDataType) dependencies.First().Target);
+                var dependency = umlDataType.GetFirstDependencyByStereotype("isEquivalentTo");
+                return dependency == null ? null : new UpccPrim(dependency.Target);
             }
         }
 
         public IEnumerable<string> BusinessTerms
         {
-            get { return GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
+            get { return umlDataType.GetTaggedValue("businessTerm").SplitValues; }
         }
 
         public string Definition
         {
-            get { return GetTaggedValue(TaggedValues.definition).Value; }
+            get { return umlDataType.GetTaggedValue("definition").Value; }
         }
 
         public string DictionaryEntryName
         {
-            get { return GetTaggedValue(TaggedValues.dictionaryEntryName).Value; }
+            get { return umlDataType.GetTaggedValue("dictionaryEntryName").Value; }
         }
 
         public string FractionDigits
         {
-            get { return GetTaggedValue(TaggedValues.fractionDigits).Value; }
+            get { return umlDataType.GetTaggedValue("fractionDigits").Value; }
         }
 
         public string LanguageCode
         {
-            get { return GetTaggedValue(TaggedValues.languageCode).Value; }
+            get { return umlDataType.GetTaggedValue("languageCode").Value; }
         }
 
         public string Length
         {
-            get { return GetTaggedValue(TaggedValues.length).Value; }
+            get { return umlDataType.GetTaggedValue("length").Value; }
         }
 
         public string MaximumExclusive
         {
-            get { return GetTaggedValue(TaggedValues.maximumExclusive).Value; }
+            get { return umlDataType.GetTaggedValue("maximumExclusive").Value; }
         }
 
         public string MaximumInclusive
         {
-            get { return GetTaggedValue(TaggedValues.maximumInclusive).Value; }
+            get { return umlDataType.GetTaggedValue("maximumInclusive").Value; }
         }
 
         public string MaximumLength
         {
-            get { return GetTaggedValue(TaggedValues.maximumLength).Value; }
+            get { return umlDataType.GetTaggedValue("maximumLength").Value; }
         }
 
         public string MinimumExclusive
         {
-            get { return GetTaggedValue(TaggedValues.minimumExclusive).Value; }
+            get { return umlDataType.GetTaggedValue("minimumExclusive").Value; }
         }
 
         public string MinimumInclusive
         {
-            get { return GetTaggedValue(TaggedValues.minimumInclusive).Value; }
+            get { return umlDataType.GetTaggedValue("minimumInclusive").Value; }
         }
 
         public string MinimumLength
         {
-            get { return GetTaggedValue(TaggedValues.minimumLength).Value; }
+            get { return umlDataType.GetTaggedValue("minimumLength").Value; }
         }
 
         public string Pattern
         {
-            get { return GetTaggedValue(TaggedValues.pattern).Value; }
+            get { return umlDataType.GetTaggedValue("pattern").Value; }
         }
 
         public string TotalDigits
         {
-            get { return GetTaggedValue(TaggedValues.totalDigits).Value; }
+            get { return umlDataType.GetTaggedValue("totalDigits").Value; }
         }
 
         public string UniqueIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
+            get { return umlDataType.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
         public string VersionIdentifier
         {
-            get { return GetTaggedValue(TaggedValues.versionIdentifier).Value; }
+            get { return umlDataType.GetTaggedValue("versionIdentifier").Value; }
         }
 
         public string WhiteSpace
         {
-            get { return GetTaggedValue(TaggedValues.whiteSpace).Value; }
+            get { return umlDataType.GetTaggedValue("whiteSpace").Value; }
         }
 
         #endregion
-
-        private IUmlTaggedValue GetTaggedValue(TaggedValues taggedValueName)
-        {
-            return umlDataType.GetTaggedValue(taggedValueName) ?? new EmptyUmlTaggedValue();
-        }
     }
 }

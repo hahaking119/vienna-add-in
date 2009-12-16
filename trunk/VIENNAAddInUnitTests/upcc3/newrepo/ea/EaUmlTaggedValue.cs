@@ -7,7 +7,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
 {
     internal class EaUmlTaggedValue : IUmlTaggedValue
     {
-        private static readonly EaUmlTaggedValue EmptyTaggedValue = new EaUmlTaggedValue(null);
+        private static readonly EaUmlTaggedValue UndefinedTaggedValue = new EaUmlTaggedValue(null);
 
         private readonly TaggedValue eaTaggedValue;
 
@@ -18,25 +18,26 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
 
         #region IUmlTaggedValue Members
 
+        public bool IsDefined
+        {
+            get { return eaTaggedValue != null; }
+        }
+
         public string Value
         {
-            get { return eaTaggedValue == null ? String.Empty : eaTaggedValue.Value; }
+            get { return IsDefined ? eaTaggedValue.Value : String.Empty; }
         }
 
         public string[] SplitValues
         {
-            get
-            {
-                string value = Value;
-                return String.IsNullOrEmpty(value) ? new string[0] : value.Split(MultiPartTaggedValue.ValueSeparator);
-            }
+            get { return IsDefined ? Value.Split(MultiPartTaggedValue.ValueSeparator) : new string[0]; }
         }
 
         #endregion
 
         public static EaUmlTaggedValue ForEaTaggedValue(TaggedValue eaTaggedValue)
         {
-            return eaTaggedValue == null ? EmptyTaggedValue : new EaUmlTaggedValue(eaTaggedValue);
+            return eaTaggedValue == null ? UndefinedTaggedValue : new EaUmlTaggedValue(eaTaggedValue);
         }
     }
 }

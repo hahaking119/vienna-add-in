@@ -1,8 +1,15 @@
+using System;
+
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml
 {
     internal class EmptyUmlTaggedValue : IUmlTaggedValue
     {
         #region IUmlTaggedValue Members
+
+        public bool IsDefined
+        {
+            get { throw new NotImplementedException(); }
+        }
 
         public string Value
         {

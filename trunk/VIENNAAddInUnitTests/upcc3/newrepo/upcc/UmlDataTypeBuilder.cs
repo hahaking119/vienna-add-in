@@ -37,7 +37,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             var taggedValueMock = new Mock<IUmlTaggedValue>();
             taggedValueMock.SetupGet(taggedValue => taggedValue.Value).Returns(value);
             taggedValueMock.SetupGet(taggedValue => taggedValue.SplitValues).Returns(new[] {value});
-            mock.Setup(dataType => dataType.GetTaggedValue(taggedValueName)).Returns(taggedValueMock.Object);
+            mock.Setup(dataType => dataType.GetTaggedValue(taggedValueName.ToString())).Returns(taggedValueMock.Object);
             return this;
         }
 
@@ -46,7 +46,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
             var taggedValueMock = new Mock<IUmlTaggedValue>();
             taggedValueMock.SetupGet(taggedValue => taggedValue.Value).Returns(string.Join(MultiPartTaggedValue.ValueSeparator.ToString(), values));
             taggedValueMock.SetupGet(taggedValue => taggedValue.SplitValues).Returns(values);
-            mock.Setup(dataType => dataType.GetTaggedValue(taggedValueName)).Returns(taggedValueMock.Object);
+            mock.Setup(dataType => dataType.GetTaggedValue(taggedValueName.ToString())).Returns(taggedValueMock.Object);
             return this;
         }
 
@@ -58,10 +58,10 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 
         public UmlDataTypeBuilder WithDependencies(string stereotype, params IUmlDataType[] targets)
         {
-            var dependencies = new List<IUmlDependency<IUmlClassifier>>();
+            var dependencies = new List<IUmlDependency<IUmlDataType>>();
             foreach (var target in targets)
             {
-                var dependencyMock = new Mock<IUmlDependency<IUmlClassifier>>();
+                var dependencyMock = new Mock<IUmlDependency<IUmlDataType>>();
                 dependencyMock.SetupGet(dependency => dependency.Target).Returns(target);
                 dependencies.Add(dependencyMock.Object);
             }

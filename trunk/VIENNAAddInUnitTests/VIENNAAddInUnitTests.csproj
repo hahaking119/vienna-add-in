@@ -120,16 +120,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccPrimLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\newrepo\upcc\UpccPrimLibraryTests.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UpccPrimLibraryTests.tt</DependentUpon>
-    </Compile>
-    <Compile Include="upcc3\newrepo\upcc\UpccPrimTests.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UpccPrimTests.tt</DependentUpon>
-    </Compile>
     <Compile Include="upcc3\newrepo\upcc\uml\IUmlDataType.cs" />
     <Compile Include="upcc3\newrepo\upcc\UpccBdt.cs" />
     <Compile Include="upcc3\newrepo\upcc\UpccBdtLibrary.cs" />
@@ -284,14 +274,6 @@
     <None Include="upcc3\newrepo\upcc\UpccPrimLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccPrimLibrary.cs</LastGenOutput>
-    </None>
-    <None Include="upcc3\newrepo\upcc\UpccPrimLibraryTests.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UpccPrimLibraryTests.cs</LastGenOutput>
-    </None>
-    <None Include="upcc3\newrepo\upcc\UpccPrimTests.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UpccPrimTests.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
