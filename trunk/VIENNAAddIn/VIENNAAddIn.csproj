@@ -360,7 +360,7 @@
     <Compile Include="upcc3\import\ebInterface\ASCCMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\BCCMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\ConstantComponent.cs" />
-    <Compile Include="upcc3\import\ebInterface\ASBIEMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\AsmaMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\Edge.cs" />
     <Compile Include="upcc3\import\ebInterface\Entry.cs" />
     <Compile Include="upcc3\import\ebInterface\Graph.cs" />

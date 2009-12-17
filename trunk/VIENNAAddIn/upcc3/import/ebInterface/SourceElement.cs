@@ -78,17 +78,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public bool HasSimpleType()
         {
-            return Children.Count == 0;
+            return (XsdType is XmlSchemaSimpleType);
         }
 
         public bool HasComplexType()
         {
-            return Children.Count > 0;
-        }
-
-        public string GetComplexTypeName()
-        {
-            return Name;
+            return (XsdType is XmlSchemaComplexType);
         }
     }
 }

@@ -49,6 +49,94 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         private IBcc bccPartyName;
         private IAscc asccPartyResidenceAddress;
 
+        [Test]
+        public void Test_mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            var addressTypeMapping = new ComplexTypeMapping("AddressType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "78432424")), TargetCCElement.ForBcc("CityName", bccCityName)),
+                                                            });
+            var personTypeMapping = new ComplexTypeMapping("PersonType",
+                                                                new List<ElementMapping>
+                                                                    {
+                                                                        new BCCMapping(new SourceElement("Name", InputOutputKey.PrependPrefix(mappingFileName, "84559328")), TargetCCElement.ForBcc("Name", bccPartyName)),
+                                                                        new ASCCMapping(new SourceElement("HomeAddress", InputOutputKey.PrependPrefix(mappingFileName, "84558664")), TargetCCElement.ForAscc("ResidenceAddress", asccPartyResidenceAddress), addressTypeMapping),
+                                                                    });
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       addressTypeMapping,
+                                       personTypeMapping,
+                                   };
+            var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
+        public void Test_mapping_complex_type_with_two_simple_elements_to_single_acc()
+        {
+            string mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_single_acc.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_single_acc.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            var addressTypeMapping = new ComplexTypeMapping("AddressType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "93036432")), TargetCCElement.ForBcc("CityName", bccCityName)),
+                                                                new BCCMapping(new SourceElement("StreetName", InputOutputKey.PrependPrefix(mappingFileName, "93041400")), TargetCCElement.ForBcc("StreetName", bccCityName)),
+                                                            });
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       addressTypeMapping,
+                                   };
+            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
+        public void Test_mapping_complex_type_with_two_simple_elements_to_two_accs()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_two_accs.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_two_accs.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            var addressTypeMapping = new ComplexTypeMapping("AddressType",
+                                                 new List<ElementMapping>
+                                                     {
+                                                         new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "80085696")), TargetCCElement.ForBcc("CityName", bccCityName)),
+                                                         new BCCMapping(new SourceElement("PersonName", InputOutputKey.PrependPrefix(mappingFileName, "80065224")), TargetCCElement.ForBcc("Name", bccPartyName)),
+                                                     });
+
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       addressTypeMapping,
+                                   };
+            
+            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
+        public void TestCreateSourceElementTree()
+        {
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice.xsd");            
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
+
+            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+            AssertTreesAreEqual(expectedAddress, mappings.RootSourceElement, string.Empty);
+        }
+
         private static void AssertTreesAreEqual(SourceElement expected, SourceElement actual, string path)
         {
             Assert.AreEqual(expected.Name, actual.Name, "Name mismatch at " + path);
@@ -59,34 +147,19 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             }
         }
 
-        [Test]
-        public void Test_mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc()
+        private SchemaMapping CreateSchemaMapping(string mappingFileName, string xsdFileName)
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc.xsd");
             mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
 
-            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+            return new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+        }
 
+        private static void AssertMappings(SchemaMapping mappings, List<IMapping> expectedMappings, AsmaMapping expectedRootElementMapping)
+        {
             var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
-            var homeAddressMapping = new ComplexTypeMapping("HomeAddress",
-                                                            new List<ElementMapping>
-                                                            {
-                                                                new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "78432424")), TargetCCElement.ForBcc("CityName", bccCityName)),
-                                                            });
-            var expectedMappings = new List<IMapping>
-                                   {
-                                       homeAddressMapping,
-                                       new ComplexTypeMapping("Person",
-                                                              new List<ElementMapping>
-                                                              {
-                                                                  new BCCMapping(new SourceElement("Name", InputOutputKey.PrependPrefix(mappingFileName, "84559328")), TargetCCElement.ForBcc("Name", bccPartyName)),
-                                                                  new ASCCMapping(new SourceElement("HomeAddress", InputOutputKey.PrependPrefix(mappingFileName, "84558664")), TargetCCElement.ForAscc("ResidenceAddress", asccPartyResidenceAddress), homeAddressMapping),
-                                                              }),
-                                   };
             Console.Out.WriteLine("=================================================================================");
             Console.Out.WriteLine("Expected Mappings:");
             foreach (IMapping expectedMapping in expectedMappings)
@@ -100,63 +173,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                 complexTypeMapping.TraverseDepthFirst(new MappingPrettyPrinter(Console.Out, "  "));
             }
             Assert.That(complexTypeMappings, Is.EquivalentTo(expectedMappings));
-        }
-
-        [Test]
-        public void Test_mapping_complex_type_with_two_simple_elements_to_single_acc()
-        {
-            string mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_single_acc.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_single_acc.xsd");
-
-            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);
-
-            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
-
-            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
-
-            var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
-            Assert.That(complexTypeMappings.Count, Is.EqualTo(1));
-            Assert.That(complexTypeMappings[0], Is.TypeOf(typeof (ComplexTypeMapping)));
-            ComplexTypeMapping accMapping = complexTypeMappings[0];
-            Assert.That(accMapping.BCCMappings(accMapping.TargetACCs.ElementAt(0)).Count(), Is.EqualTo(2));
-        }
-
-        [Test]
-        public void Test_mapping_complex_type_with_two_simple_elements_to_two_accs()
-        {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_two_accs.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_two_simple_elements_to_two_accs.xsd");
-            
-            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);
-
-            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
-
-            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
-
-            var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
-            var expectedMappings = new List<IMapping>
-                                   {
-                                       new ComplexTypeMapping("Address",
-                                                              new List<ElementMapping>
-                                                              {
-                                                                  new BCCMapping(new SourceElement("CityName", InputOutputKey.PrependPrefix(mappingFileName, "80085696")), TargetCCElement.ForBcc("CityName", bccCityName)),
-                                                                  new BCCMapping(new SourceElement("PersonName", InputOutputKey.PrependPrefix(mappingFileName, "80065224")), TargetCCElement.ForBcc("Name", bccPartyName)),
-                                                              }),
-                                   };
-            Assert.That(complexTypeMappings, Is.EquivalentTo(expectedMappings));
-        }
-
-        [Test]
-        public void TestCreateSourceElementTree()
-        {
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice.xsd");            
-            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
-
-            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
-            AssertTreesAreEqual(expectedAddress, mappings.RootSourceElement, string.Empty);
+            Assert.That(mappings.RootElementMapping, Is.EqualTo(expectedRootElementMapping));
         }
     }
 }
