@@ -6,4 +6,4 @@
 	var metaPackage = MetaModel.PrimLibrary;
 	var extendManually = false;
 #>
-<#@ include file="UpccUmlPackage.tt" #>
+<#@ include file="t4/UpccUmlPackage.tt" #>

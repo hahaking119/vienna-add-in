@@ -6,4 +6,4 @@
 	var metaPackage = MetaModel.EnumLibrary;
 	var extendManually = false;
 #>
-<#@ include file="UpccUmlPackage.tt" #>
+<#@ include file="t4/UpccUmlPackage.tt" #>
