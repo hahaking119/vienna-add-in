@@ -4,8 +4,8 @@ using System.Linq;
 using CctsRepository.PrimLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using VIENNAAddInUnitTests.upcc3.newrepo.ea;
-using VIENNAAddInUnitTests.upcc3.newrepo.upcc;
+using VIENNAAddIn.upcc3.ea;
+using VIENNAAddIn.upcc3.repo;
 using ICctsRepository=CctsRepository.ICctsRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo

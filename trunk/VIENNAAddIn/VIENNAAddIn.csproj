@@ -203,6 +203,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaggedValues.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\ea\EaUmlClass.cs" />
+    <Compile Include="upcc3\ea\EaUmlClassifier.cs" />
+    <Compile Include="upcc3\ea\EaUmlDataType.cs" />
+    <Compile Include="upcc3\ea\EaUmlDependency.cs" />
+    <Compile Include="upcc3\ea\EaUmlEnumeration.cs" />
+    <Compile Include="upcc3\ea\EaUmlPackage.cs" />
+    <Compile Include="upcc3\ea\EaUmlRepository.cs" />
+    <Compile Include="upcc3\ea\EaUmlTaggedValue.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTExtensionComplexType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTRestrictionComplexType.cs" />
@@ -211,6 +219,39 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
+    <Compile Include="upcc3\repo\UpccBdt.cs" />
+    <Compile Include="upcc3\repo\UpccBdtLibrary.cs" />
+    <Compile Include="upcc3\repo\UpccBLibrary.cs" />
+    <Compile Include="upcc3\repo\UpccEnum.cs" />
+    <Compile Include="upcc3\repo\UpccEnumLibrary.cs">
+      <DependentUpon>UpccEnumLibrary.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccIdScheme.cs" />
+    <Compile Include="upcc3\repo\UpccPrim.cs">
+      <DependentUpon>UpccPrim.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccPrimLibrary.cs">
+      <DependentUpon>UpccPrimLibrary.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccRepository.cs" />
+    <Compile Include="upcc3\uml\EmptyUmlTaggedValue.cs" />
+    <Compile Include="upcc3\uml\IUmlClass.cs" />
+    <Compile Include="upcc3\uml\IUmlClassifier.cs" />
+    <Compile Include="upcc3\uml\IUmlDataType.cs" />
+    <Compile Include="upcc3\uml\IUmlDependency.cs" />
+    <Compile Include="upcc3\uml\IUmlEnumeration.cs" />
+    <Compile Include="upcc3\uml\IUmlPackage.cs" />
+    <Compile Include="upcc3\uml\IUmlRepository.cs" />
+    <Compile Include="upcc3\uml\IUmlTaggedValue.cs" />
+    <Compile Include="upcc3\uml\UmlDataTypeSpec.cs" />
+    <Compile Include="upcc3\uml\UmlDependencySpec.cs" />
+    <Compile Include="upcc3\uml\UmlTaggedValueSpec.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\exceptions\TemporaryAbieModelException.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateBdtLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateCdt.cs" />
@@ -326,6 +367,22 @@
     <None Include="Settings\SynchTaggedValuesGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SynchTaggedValuesGenerated.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\CctsRepositoryNamespaces.tt">
+    </None>
+    <None Include="upcc3\repo\UpccEnumLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccEnumLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccPrim.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccPrim.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccPrimLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccPrimLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccUmlPackage.tt">
     </None>
     <Compile Include="Settings\SynchStereotypesForm.cs">
       <SubType>Form</SubType>
@@ -601,8 +658,5 @@
   <ItemGroup>
     <Folder Include="doc\" />
     <Folder Include="images\" />
-    <Folder Include="upcc3\ea\" />
-    <Folder Include="upcc3\repo\" />
-    <Folder Include="upcc3\uml\" />
   </ItemGroup>
 </Project>

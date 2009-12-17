@@ -98,54 +98,13 @@
     <Compile Include="upcc3\ccts\dra\CdtLibraryTests.cs" />
     <Compile Include="upcc3\ccts\dra\CdtLibraryTestRepository.cs" />
     <Compile Include="upcc3\ccts\util\AsbieAggregationKindTests.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlClass.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlDataType.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlDependency.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlEnumeration.cs" />
     <Compile Include="upcc3\newrepo\UmlPackageBuilder.cs" />
     <Compile Include="upcc3\newrepo\UmlRepositoryBuilder.cs" />
     <Compile Include="upcc3\newrepo\UmlTaggedValueBuilder.cs" />
     <Compile Include="upcc3\newrepo\UpccRepositoryTests.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UmlDataTypeBuilder.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlClassifier.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlEnumeration.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\UmlDataTypeSpec.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\UmlDependencySpec.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\UmlTaggedValueSpec.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccEnum.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccEnumLibrary.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UpccEnumLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="upcc3\newrepo\upcc\UpccIdScheme.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccPrim.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UpccPrim.tt</DependentUpon>
-    </Compile>
-    <Compile Include="upcc3\newrepo\upcc\UpccPrimLibrary.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>UpccPrimLibrary.tt</DependentUpon>
-    </Compile>
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlDataType.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccBdt.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccBdtLibrary.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccBLibrary.cs" />
+    <Compile Include="upcc3\newrepo\UmlDataTypeBuilder.cs" />
     <Compile Include="upcc3\newrepo\NewRepoTests.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlDependency.cs" />
-    <Compile Include="upcc3\newrepo\upcc\UpccRepository.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlRepository.cs" />
     <Compile Include="upcc3\newrepo\EARepositoryWithTwoPRIMs.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\EmptyUmlTaggedValue.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlClass.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlPackage.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlRepository.cs" />
-    <Compile Include="upcc3\newrepo\upcc\uml\IUmlTaggedValue.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlClassifier.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlPackage.cs" />
-    <Compile Include="upcc3\newrepo\ea\EaUmlTaggedValue.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BLibraryValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BusinessLibraryValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\validators\PRIMLibraryValidatorTests.cs" />
@@ -276,22 +235,6 @@
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_ResolvesBDTTypeNamesAccordingToTheNDR.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_simple_type.xsd" />
     <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_SUPBasicTypesAreDeterminedFromXsdTypes.xsd" />
-    <None Include="upcc3\newrepo\upcc\CctsRepositoryNamespaces.tt">
-    </None>
-    <None Include="upcc3\newrepo\upcc\UpccEnumLibrary.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UpccEnumLibrary.cs</LastGenOutput>
-    </None>
-    <None Include="upcc3\newrepo\upcc\UpccPrim.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UpccPrim.cs</LastGenOutput>
-    </None>
-    <None Include="upcc3\newrepo\upcc\UpccPrimLibrary.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>UpccPrimLibrary.cs</LastGenOutput>
-    </None>
-    <None Include="upcc3\newrepo\upcc\UpccUmlPackage.tt">
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

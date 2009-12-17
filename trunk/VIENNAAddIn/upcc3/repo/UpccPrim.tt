@@ -1,0 +1,81 @@
+<#@ template language="C#v3.5" hostspecific="True" debug="True" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="Upcc.dll" #>
+<#@ assembly name="VIENNAAddInUtils.dll" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Upcc"#>
+<#@ import namespace="VIENNAAddInUtils"#>
+<#@ import namespace="VIENNAAddInUtils.t4"#>
+using System.Collections.Generic;
+using CctsRepository.PrimLibrary;
+using VIENNAAddIn.upcc3.uml;
+
+<# 
+	var metaClassifier = MetaModel.Prim;
+	var library = MetaModel.GetPackageRelationsFor(metaClassifier).First().PackageType;
+	var umlClassifierType = "DataType";
+	var umlClassifier = "uml" + umlClassifierType;
+#>
+namespace VIENNAAddIn.upcc3.repo
+{
+    internal class Upcc<#= metaClassifier.Name #> : I<#= metaClassifier.Name #>
+    {
+        private readonly IUml<#= umlClassifierType #> <#= umlClassifier #>;
+
+        public UpccPrim(IUml<#= umlClassifierType #> <#= umlClassifier #>)
+        {
+            this.<#= umlClassifier #> = <#= umlClassifier #>;
+        }
+
+        #region I<#= metaClassifier.Name #> Members
+
+        public int Id
+        {
+            get { return <#= umlClassifier #>.Id; }
+        }
+
+        public string Name
+        {
+            get { return <#= umlClassifier #>.Name; }
+        }
+
+		public I<#= library.Name #> <#= library.Name #>
+        {
+            get { return new Upcc<#= library.Name #>(<#= umlClassifier #>.Package); }
+        }
+<# 
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
+		{
+#>
+
+		public I<#= dependency.TargetClassifierType.Name #> <#= dependency.Stereotype.ToString().FirstCharToUpperCase() #>
+        {
+            get
+            {
+                var dependency = <#= umlClassifier #>.GetFirstDependencyByStereotype("<#= dependency.Stereotype.ToString() #>");
+                return dependency == null ? null : new Upcc<#= dependency.TargetClassifierType.Name #>(dependency.Target);
+            }
+        }
+<#
+		}
+
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
+
+		foreach (var metaTaggedValue in metaClassifier.TaggedValues)
+		{
+#>
+
+        public <#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string" #> <#= metaTaggedValue.AsPropertyName() #>
+        {
+            get { return uml<#= umlClassifierType #>.GetTaggedValue("<#= metaTaggedValue.Name #>").<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
+        }
+<#
+		}
+#>
+
+        #endregion
+    }
+}
