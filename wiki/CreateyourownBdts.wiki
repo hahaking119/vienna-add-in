@@ -1,24 +1,32 @@
-#summary Import Standard Core Component Libraries
+#summary Create your own BDTs
 
 =Business Data Types=
 
-...
+Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Add-In provides the _BDT Editor_ dialog for creating new BDTs based on specific CDTs.
 
 =Create BDTs=
 
-  # Prepare an Enterprise Architect model and set it as UPCC3 model
-  # In the _Project Browser_, select the model and right-click on the bLibrary
-  # Select _Add-In / VIENNAAddIn / Import Standard CC Libraries_ from the context menu:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/ImportStandardCCLibraries_01.gif
-  # In the _Standard Core Component Library Importer_ dialog, you can choose the desired version of the CCL from two drop-down lists
-  # After choosing the CCL version, detailed information to the selected version is shown in the _Comments_ section:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/ImportStandardCCLibraries_02.gif
-  # Finally, click _Import_
-  # If there are existing libraries in the current project with the same name as the Core Components Libraries, you will need to confirm that these old liberaries may be overwritten:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/ImportStandardCCLibraries_03.gif
-  # The Add-In will now download the Core Component Libraries as XMI files and import them into the current project
-  # You can observe the import process by watching the status messages that are printed to the _Status_ section regularly:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/ImportStandardCCLibraries_04.gif
+  # Prepare a UPCC3 model in Enterprise Architect
+  # In the _Project Browser_, select the model and right-click on the BDTLibrary
+  # Select _Add-In / VIENNAAddIn / Create new BDT_ from the context menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_01.gif
+  # The _BDT Editor_ dialog provides all options available for creating BDTs:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_02.gif
+  # First, you have to decide which CDT the new BDT should be based on. From the first drop down list, select the CDT Library the chosen CDT is located in. Then, you can select the desired CDT from the second drop down list.
+  # After selecting a CDT, all potential Content Components and Supplementary Components the CDT contains are shown in the center of the dialog
+  # Each CDT contains exactly one Content Component that is already selected, therefore you cannot change the selection in the _CON_ list:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_03.gif
+  # From the _SUP_ list, you can select all Supplementary Components the BDT should contain:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_04.gif
+  # Enter a name and a prefix fot the BDT to be created:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_05.gif
+  # Select the BDT Library the new BDT should be located in from the drop down list at the bottom of the dialog
+  # Finally, clickt the _Create BDT_ button:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_06.gif
+  # If a BDT with the desired name exists already, a warning will be displayed:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
+  # After the BDT was created successfully, a confirmation message is shown:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_08.gif
 
 
 =References=
