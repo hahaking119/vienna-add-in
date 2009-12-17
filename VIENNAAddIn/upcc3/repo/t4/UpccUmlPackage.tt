@@ -7,7 +7,6 @@
 	var library = metaPackage.Name.FirstCharToLowerCase();
 #>
 <#@ include file="t4/CctsRepositoryNamespaces.tt" #>
-using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
@@ -126,21 +125,42 @@ namespace VIENNAAddIn.upcc3.repo
 		foreach (var relation in MetaModel.GetClassifierRelationsFor(metaPackage))
 		{
 			var element = relation.ClassifierType.Stereotype;
-			var classifier = relation.ClassifierType.Name.FirstCharToLowerCase();
+			var classifierType = relation.ClassifierType.Name;
+			var classifier = classifierType.FirstCharToLowerCase();
 			if (classifier == "enum") classifier = "@enum"; // dirty hack to avoid naming conflict with 'enum'
 			var umlClassifierType = relation.ClassifierType.GetType().Name.Substring(4);
+			var umlClassifier = "uml" + umlClassifierType.FirstCharToLowerCase();
 #>
+
+        private static Uml<#= umlClassifierType #>Spec <#= classifierType #>SpecToUml<#= umlClassifierType #>Spec(<#= classifierType #>Spec <#= classifier #>Spec)
+        {
+            return new Uml<#= umlClassifierType #>Spec
+                   {
+                       Name = <#= classifier #>Spec.Name,
+                       TaggedValues = new[]
+                                      {
+<# 
+		foreach (var metaTaggedValue in relation.ClassifierType.TaggedValues)
+		{
+#>
+										  new UmlTaggedValueSpec("<#= metaTaggedValue.Name #>", <#= classifier #>Spec.<#= metaTaggedValue.AsPropertyName() #>),
+<# 
+		}
+#>
+									  },
+                   };
+        }
 
 		/// <summary>
 		/// The <#= element #>s contained in this <#= metaPackage.Stereotype #>.
 		/// </summary>
-		public IEnumerable<I<#= relation.ClassifierType.Name #>> <#= relation.ClassifierType.Name #>s
+		public IEnumerable<I<#= classifierType #>> <#= classifierType.Plural() #>
 		{
             get
             {
-                foreach (var uml<#= umlClassifierType #> in umlPackage.<#= umlClassifierType.Plural() #>)
+                foreach (var <#= umlClassifier #> in umlPackage.<#= umlClassifierType.Plural() #>)
                 {
-                    yield return new Upcc<#= relation.ClassifierType.Name #>(uml<#= umlClassifierType #>);
+                    yield return new Upcc<#= classifierType #>(<#= umlClassifier #>);
                 }
             }
 		}
@@ -150,9 +170,9 @@ namespace VIENNAAddIn.upcc3.repo
 		/// <param name="name">A <#= element #>'s name.</param>
 		/// <returns>The <#= element #> with the given <paramref name="name"/> or <c>null</c> if no such <#= element #> is found.</returns>
 		/// </summary>
-        public I<#= relation.ClassifierType.Name #> Get<#= relation.ClassifierType.Name #>ByName(string name)
+        public I<#= classifierType #> Get<#= classifierType #>ByName(string name)
 		{
-            foreach (I<#= relation.ClassifierType.Name #> <#= classifier #> in <#= relation.ClassifierType.Name.Plural() #>)
+            foreach (I<#= classifierType #> <#= classifier #> in <#= classifierType.Plural() #>)
             {
                 if (<#= classifier #>.Name == name)
                 {
@@ -167,9 +187,9 @@ namespace VIENNAAddIn.upcc3.repo
 		/// <param name="specification">A specification for a <#= element #>.</param>
 		/// <returns>The newly created <#= element #>.</returns>
 		/// </summary>
-		public I<#= relation.ClassifierType.Name #> Create<#= relation.ClassifierType.Name #>(<#= relation.ClassifierType.Name #>Spec specification)
+		public I<#= classifierType #> Create<#= classifierType #>(<#= classifierType #>Spec specification)
 		{
-			throw new NotImplementedException();
+		    return new Upcc<#= classifierType #>(umlPackage.Create<#= umlClassifierType #>(<#= classifierType #>SpecToUml<#= umlClassifierType #>Spec(specification)));
 		}
 
 		/// <summary>
@@ -178,9 +198,9 @@ namespace VIENNAAddIn.upcc3.repo
 		/// <param name="specification">A new specification for the given <#= element #>.</param>
 		/// <returns>The updated <#= element #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public I<#= relation.ClassifierType.Name #> Update<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= classifier #>, <#= relation.ClassifierType.Name #>Spec specification)
+        public I<#= classifierType #> Update<#= classifierType #>(I<#= classifierType #> <#= classifier #>, <#= classifierType #>Spec specification)
 		{
-			throw new NotImplementedException();
+		    return new Upcc<#= classifierType #>(umlPackage.Update<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>, <#= classifierType #>SpecToUml<#= umlClassifierType #>Spec(specification)));
 		}
 
 		/// <summary>
@@ -189,7 +209,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void Remove<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= classifier #>)
 		{
-			throw new NotImplementedException();
+            umlPackage.Remove<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>);
 		}
 <#
 		}

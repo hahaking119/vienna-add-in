@@ -6,122 +6,122 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccPrim : IPrim
     {
-        private readonly IUmlDataType umlDataType;
-
         public UpccPrim(IUmlDataType umlDataType)
         {
-            this.umlDataType = umlDataType;
+            UmlDataType = umlDataType;
         }
+
+        public IUmlDataType UmlDataType { get; private set; }
 
         #region IPrim Members
 
         public int Id
         {
-            get { return umlDataType.Id; }
+            get { return UmlDataType.Id; }
         }
 
         public string Name
         {
-            get { return umlDataType.Name; }
+            get { return UmlDataType.Name; }
         }
 
 		public IPrimLibrary PrimLibrary
         {
-            get { return new UpccPrimLibrary(umlDataType.Package); }
+            get { return new UpccPrimLibrary(UmlDataType.Package); }
         }
 
 		public IPrim IsEquivalentTo
         {
             get
             {
-                var dependency = umlDataType.GetFirstDependencyByStereotype("isEquivalentTo");
+                var dependency = UmlDataType.GetFirstDependencyByStereotype("isEquivalentTo");
                 return dependency == null ? null : new UpccPrim(dependency.Target);
             }
         }
 
         public IEnumerable<string> BusinessTerms
         {
-            get { return umlDataType.GetTaggedValue("businessTerm").SplitValues; }
+            get { return UmlDataType.GetTaggedValue("businessTerm").SplitValues; }
         }
 
         public string Definition
         {
-            get { return umlDataType.GetTaggedValue("definition").Value; }
+            get { return UmlDataType.GetTaggedValue("definition").Value; }
         }
 
         public string DictionaryEntryName
         {
-            get { return umlDataType.GetTaggedValue("dictionaryEntryName").Value; }
+            get { return UmlDataType.GetTaggedValue("dictionaryEntryName").Value; }
         }
 
         public string FractionDigits
         {
-            get { return umlDataType.GetTaggedValue("fractionDigits").Value; }
+            get { return UmlDataType.GetTaggedValue("fractionDigits").Value; }
         }
 
         public string LanguageCode
         {
-            get { return umlDataType.GetTaggedValue("languageCode").Value; }
+            get { return UmlDataType.GetTaggedValue("languageCode").Value; }
         }
 
         public string Length
         {
-            get { return umlDataType.GetTaggedValue("length").Value; }
+            get { return UmlDataType.GetTaggedValue("length").Value; }
         }
 
         public string MaximumExclusive
         {
-            get { return umlDataType.GetTaggedValue("maximumExclusive").Value; }
+            get { return UmlDataType.GetTaggedValue("maximumExclusive").Value; }
         }
 
         public string MaximumInclusive
         {
-            get { return umlDataType.GetTaggedValue("maximumInclusive").Value; }
+            get { return UmlDataType.GetTaggedValue("maximumInclusive").Value; }
         }
 
         public string MaximumLength
         {
-            get { return umlDataType.GetTaggedValue("maximumLength").Value; }
+            get { return UmlDataType.GetTaggedValue("maximumLength").Value; }
         }
 
         public string MinimumExclusive
         {
-            get { return umlDataType.GetTaggedValue("minimumExclusive").Value; }
+            get { return UmlDataType.GetTaggedValue("minimumExclusive").Value; }
         }
 
         public string MinimumInclusive
         {
-            get { return umlDataType.GetTaggedValue("minimumInclusive").Value; }
+            get { return UmlDataType.GetTaggedValue("minimumInclusive").Value; }
         }
 
         public string MinimumLength
         {
-            get { return umlDataType.GetTaggedValue("minimumLength").Value; }
+            get { return UmlDataType.GetTaggedValue("minimumLength").Value; }
         }
 
         public string Pattern
         {
-            get { return umlDataType.GetTaggedValue("pattern").Value; }
+            get { return UmlDataType.GetTaggedValue("pattern").Value; }
         }
 
         public string TotalDigits
         {
-            get { return umlDataType.GetTaggedValue("totalDigits").Value; }
+            get { return UmlDataType.GetTaggedValue("totalDigits").Value; }
         }
 
         public string UniqueIdentifier
         {
-            get { return umlDataType.GetTaggedValue("uniqueIdentifier").Value; }
+            get { return UmlDataType.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
         public string VersionIdentifier
         {
-            get { return umlDataType.GetTaggedValue("versionIdentifier").Value; }
+            get { return UmlDataType.GetTaggedValue("versionIdentifier").Value; }
         }
 
         public string WhiteSpace
         {
-            get { return umlDataType.GetTaggedValue("whiteSpace").Value; }
+            get { return UmlDataType.GetTaggedValue("whiteSpace").Value; }
         }
 
         #endregion

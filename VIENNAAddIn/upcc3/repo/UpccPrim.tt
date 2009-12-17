@@ -15,18 +15,18 @@ using VIENNAAddIn.upcc3.uml;
 	var metaClassifier = MetaModel.Prim;
 	var library = MetaModel.GetPackageRelationsFor(metaClassifier).First().PackageType;
 	var umlClassifierType = "DataType";
-	var umlClassifier = "uml" + umlClassifierType;
+	var umlClassifier = "Uml" + umlClassifierType;
 #>
 namespace VIENNAAddIn.upcc3.repo
 {
     internal class Upcc<#= metaClassifier.Name #> : I<#= metaClassifier.Name #>
     {
-        private readonly IUml<#= umlClassifierType #> <#= umlClassifier #>;
-
-        public UpccPrim(IUml<#= umlClassifierType #> <#= umlClassifier #>)
+        public UpccPrim(IUml<#= umlClassifierType #> <#= umlClassifier.FirstCharToLowerCase() #>)
         {
-            this.<#= umlClassifier #> = <#= umlClassifier #>;
+            <#= umlClassifier #> = <#= umlClassifier.FirstCharToLowerCase() #>;
         }
+
+        public IUml<#= umlClassifierType #> <#= umlClassifier #> { get; private set; }
 
         #region I<#= metaClassifier.Name #> Members
 
@@ -70,7 +70,7 @@ namespace VIENNAAddIn.upcc3.repo
 
         public <#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string" #> <#= metaTaggedValue.AsPropertyName() #>
         {
-            get { return uml<#= umlClassifierType #>.GetTaggedValue("<#= metaTaggedValue.Name #>").<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
+            get { return <#= umlClassifier #>.GetTaggedValue("<#= metaTaggedValue.Name #>").<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
         }
 <#
 		}
