@@ -14,7 +14,7 @@ using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal class Upcc<#= metaPackage.Name #> : I<#= metaPackage.Name #>
+    internal <#= extendManually ? "partial " : "" #>class Upcc<#= metaPackage.Name #> : I<#= metaPackage.Name #>
     {
         private readonly IUmlPackage umlPackage;
 
@@ -103,7 +103,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// <param name="specification">A new specification for the given <#= subPackage #>.</param>
 		/// <returns>The updated <#= subPackage #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public I<#= relation.SubPackageType.Name #> Update<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>, <#= relation.SubPackageType.Name #>Spec specification);
+        public I<#= relation.SubPackageType.Name #> Update<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>, <#= relation.SubPackageType.Name #>Spec specification)
 		{
 			throw new NotImplementedException();
 		}
@@ -112,7 +112,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// Removes a <#= subPackage #> from this <#= metaPackage.Stereotype #>.
 		/// <param name="<#= subPackageParamName #>">A <#= subPackage #>.</param>
 		/// </summary>
-        public void Remove<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>);
+        public void Remove<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>)
 		{
 			throw new NotImplementedException();
 		}
@@ -138,7 +138,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var uml<#= umlClassifierType #> in umlPackage.<#= umlClassifierType #>s)
+                foreach (var uml<#= umlClassifierType #> in umlPackage.<#= umlClassifierType.Plural() #>)
                 {
                     yield return new Upcc<#= relation.ClassifierType.Name #>(uml<#= umlClassifierType #>);
                 }
@@ -152,7 +152,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public I<#= relation.ClassifierType.Name #> Get<#= relation.ClassifierType.Name #>ByName(string name)
 		{
-            foreach (I<#= relation.ClassifierType.Name #> <#= classifier #> in <#= relation.ClassifierType.Name #>s)
+            foreach (I<#= relation.ClassifierType.Name #> <#= classifier #> in <#= relation.ClassifierType.Name.Plural() #>)
             {
                 if (<#= classifier #>.Name == name)
                 {

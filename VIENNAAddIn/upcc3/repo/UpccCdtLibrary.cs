@@ -15,19 +15,19 @@ using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal class UpccBdtLibrary : IBdtLibrary
+    internal class UpccCdtLibrary : ICdtLibrary
     {
         private readonly IUmlPackage umlPackage;
 
-        public UpccBdtLibrary(IUmlPackage umlPackage)
+        public UpccCdtLibrary(IUmlPackage umlPackage)
         {
             this.umlPackage = umlPackage;
         }
 
-        #region IBdtLibrary Members
+        #region ICdtLibrary Members
 
 		/// <summary>
-		/// The BDTLibrary's unique ID.
+		/// The CDTLibrary's unique ID.
 		/// </summary>
         public int Id
         {
@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTLibrary's name.
+		/// The CDTLibrary's name.
 		/// </summary>
         public string Name
         {
@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The bLibrary containing this BDTLibrary.
+		/// The bLibrary containing this CDTLibrary.
 		/// </summary>
 		public IBLibrary BLibrary
         {
@@ -51,62 +51,62 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTs contained in this BDTLibrary.
+		/// The CDTs contained in this CDTLibrary.
 		/// </summary>
-		public IEnumerable<IBdt> Bdts
+		public IEnumerable<ICdt> Cdts
 		{
             get
             {
                 foreach (var umlClass in umlPackage.Classes)
                 {
-                    yield return new UpccBdt(umlClass);
+                    yield return new UpccCdt(umlClass);
                 }
             }
 		}
 
 		/// <summary>
-		/// Retrieves a BDT by name.
-		/// <param name="name">A BDT's name.</param>
-		/// <returns>The BDT with the given <paramref name="name"/> or <c>null</c> if no such BDT is found.</returns>
+		/// Retrieves a CDT by name.
+		/// <param name="name">A CDT's name.</param>
+		/// <returns>The CDT with the given <paramref name="name"/> or <c>null</c> if no such CDT is found.</returns>
 		/// </summary>
-        public IBdt GetBdtByName(string name)
+        public ICdt GetCdtByName(string name)
 		{
-            foreach (IBdt bdt in Bdts)
+            foreach (ICdt cdt in Cdts)
             {
-                if (bdt.Name == name)
+                if (cdt.Name == name)
                 {
-                    return bdt;
+                    return cdt;
                 }
             }
             return null;
 		}
 
 		/// <summary>
-		/// Creates a BDT based on the given <paramref name="specification"/>.
-		/// <param name="specification">A specification for a BDT.</param>
-		/// <returns>The newly created BDT.</returns>
+		/// Creates a CDT based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a CDT.</param>
+		/// <returns>The newly created CDT.</returns>
 		/// </summary>
-		public IBdt CreateBdt(BdtSpec specification)
+		public ICdt CreateCdt(CdtSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Updates a BDT to match the given <paramref name="specification"/>.
-		/// <param name="bdt">A BDT.</param>
-		/// <param name="specification">A new specification for the given BDT.</param>
-		/// <returns>The updated BDT. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// Updates a CDT to match the given <paramref name="specification"/>.
+		/// <param name="cdt">A CDT.</param>
+		/// <param name="specification">A new specification for the given CDT.</param>
+		/// <returns>The updated CDT. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public IBdt UpdateBdt(IBdt bdt, BdtSpec specification)
+        public ICdt UpdateCdt(ICdt cdt, CdtSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Removes a BDT from this BDTLibrary.
-		/// <param name="bdt">A BDT.</param>
+		/// Removes a CDT from this CDTLibrary.
+		/// <param name="cdt">A CDT.</param>
 		/// </summary>
-        public void RemoveBdt(IBdt bdt)
+        public void RemoveCdt(ICdt cdt)
 		{
 			throw new NotImplementedException();
 		}

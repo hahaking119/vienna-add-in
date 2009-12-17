@@ -15,19 +15,19 @@ using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal class UpccBdtLibrary : IBdtLibrary
+    internal partial class UpccDocLibrary : IDocLibrary
     {
         private readonly IUmlPackage umlPackage;
 
-        public UpccBdtLibrary(IUmlPackage umlPackage)
+        public UpccDocLibrary(IUmlPackage umlPackage)
         {
             this.umlPackage = umlPackage;
         }
 
-        #region IBdtLibrary Members
+        #region IDocLibrary Members
 
 		/// <summary>
-		/// The BDTLibrary's unique ID.
+		/// The DOCLibrary's unique ID.
 		/// </summary>
         public int Id
         {
@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTLibrary's name.
+		/// The DOCLibrary's name.
 		/// </summary>
         public string Name
         {
@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The bLibrary containing this BDTLibrary.
+		/// The bLibrary containing this DOCLibrary.
 		/// </summary>
 		public IBLibrary BLibrary
         {
@@ -51,62 +51,62 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTs contained in this BDTLibrary.
+		/// The MAs contained in this DOCLibrary.
 		/// </summary>
-		public IEnumerable<IBdt> Bdts
+		public IEnumerable<IMa> Mas
 		{
             get
             {
                 foreach (var umlClass in umlPackage.Classes)
                 {
-                    yield return new UpccBdt(umlClass);
+                    yield return new UpccMa(umlClass);
                 }
             }
 		}
 
 		/// <summary>
-		/// Retrieves a BDT by name.
-		/// <param name="name">A BDT's name.</param>
-		/// <returns>The BDT with the given <paramref name="name"/> or <c>null</c> if no such BDT is found.</returns>
+		/// Retrieves a MA by name.
+		/// <param name="name">A MA's name.</param>
+		/// <returns>The MA with the given <paramref name="name"/> or <c>null</c> if no such MA is found.</returns>
 		/// </summary>
-        public IBdt GetBdtByName(string name)
+        public IMa GetMaByName(string name)
 		{
-            foreach (IBdt bdt in Bdts)
+            foreach (IMa ma in Mas)
             {
-                if (bdt.Name == name)
+                if (ma.Name == name)
                 {
-                    return bdt;
+                    return ma;
                 }
             }
             return null;
 		}
 
 		/// <summary>
-		/// Creates a BDT based on the given <paramref name="specification"/>.
-		/// <param name="specification">A specification for a BDT.</param>
-		/// <returns>The newly created BDT.</returns>
+		/// Creates a MA based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a MA.</param>
+		/// <returns>The newly created MA.</returns>
 		/// </summary>
-		public IBdt CreateBdt(BdtSpec specification)
+		public IMa CreateMa(MaSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Updates a BDT to match the given <paramref name="specification"/>.
-		/// <param name="bdt">A BDT.</param>
-		/// <param name="specification">A new specification for the given BDT.</param>
-		/// <returns>The updated BDT. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// Updates a MA to match the given <paramref name="specification"/>.
+		/// <param name="ma">A MA.</param>
+		/// <param name="specification">A new specification for the given MA.</param>
+		/// <returns>The updated MA. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public IBdt UpdateBdt(IBdt bdt, BdtSpec specification)
+        public IMa UpdateMa(IMa ma, MaSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Removes a BDT from this BDTLibrary.
-		/// <param name="bdt">A BDT.</param>
+		/// Removes a MA from this DOCLibrary.
+		/// <param name="ma">A MA.</param>
 		/// </summary>
-        public void RemoveBdt(IBdt bdt)
+        public void RemoveMa(IMa ma)
 		{
 			throw new NotImplementedException();
 		}
