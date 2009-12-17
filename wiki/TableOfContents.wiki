@@ -6,7 +6,7 @@
       * [CreateaUpccModel Create your first UPCC model]
       * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
       * [CreateyourownBdts Create your own BDTs]
-<!--      * [HowToTemplate How to Template]  -->
+<wiki:comment>      * [HowToTemplate How to Template]  </wiki:comment>
       * [HowToVideos HOW-TO videos]  
       * [ReferenceDefaultUPCCModelCreator Reference: Default UPCC Model Creator]
       * [ReferenceStandardCCLImporter Reference: Standard CCL Importer]
