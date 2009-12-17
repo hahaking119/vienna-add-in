@@ -15,6 +15,16 @@ Every Aggregate Business Information Entity (ABIE) is based on an Aggregated Cor
   # First, you have to decide which ACC the new ABIE should be based on. From the first drop down list, select the CC Library the chosen ACC is located in. Then, you can select the desired ACC from the second drop down list.
   # After selecting an ACC, all potential attributes and associations the ACC contains are shown in the center of the dialog
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_03.gif
+  # In the _Attributes_ section, you can decide which Basic Business Information Entities (BBIEs) the new ABIE should contain.
+  # In the first column, select all Basic Core Components (BCCs) that should be added to the ABIE as BBIEs.
+  # For each BCC selected in the first column, the second and third columns show which  BBIEs will be created based on this BCC, and which Business Data Type (BDT) will be used to typify this BBIE:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_04.gif
+  # In the second column, you can rename BBIES by simply selecting the describing text and entering a new name:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_05.gif
+  # In addition, it is possible to add new BBIEs by clicking the _+_ button:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_06.gif
+
+  
 
   # Each CDT contains exactly one Content Component that is already selected, therefore you cannot change the selection in the _CON_ list:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_03.gif
