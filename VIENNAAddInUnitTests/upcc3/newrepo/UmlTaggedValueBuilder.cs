@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Moq;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
+using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo
 {

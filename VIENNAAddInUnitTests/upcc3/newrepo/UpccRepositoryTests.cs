@@ -5,8 +5,8 @@ using CctsRepository.BLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddInUnitTests.upcc3.newrepo.upcc;
-using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
+using VIENNAAddIn.upcc3.repo;
+using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo
 {
