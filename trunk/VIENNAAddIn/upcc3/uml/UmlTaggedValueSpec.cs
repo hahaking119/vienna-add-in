@@ -1,9 +1,23 @@
 using System;
+using System.Collections.Generic;
+using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.uml
 {
     public class UmlTaggedValueSpec : IEquatable<UmlTaggedValueSpec>
     {
+        public UmlTaggedValueSpec(string name, string value)
+        {
+            Name = name;
+            Value = value;
+        }
+
+        public UmlTaggedValueSpec(string name, IEnumerable<string> values)
+        {
+            Name = name;
+            Value = MultiPartTaggedValue.Merge(values);
+        }
+
         public string Name { get; set; }
         public string Value { get; set; }
 

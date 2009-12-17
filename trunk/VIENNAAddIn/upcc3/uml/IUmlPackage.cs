@@ -14,9 +14,12 @@ namespace VIENNAAddIn.upcc3.uml
         IEnumerable<IUmlClass> Classes { get; }
 
         IEnumerable<IUmlDataType> DataTypes { get; }
-        IEnumerable<IUmlEnumeration> Enumerations { get; }
-        IUmlDataType CreateDataType(UmlDataTypeSpec spec);
         IUmlDataType GetDataTypeById(int id);
+        IUmlDataType CreateDataType(UmlDataTypeSpec spec);
+        IUmlDataType UpdateDataType(IUmlDataType dataType, UmlDataTypeSpec spec);
+        void RemoveDataType(IUmlDataType dataType);
+
+        IEnumerable<IUmlEnumeration> Enumerations { get; }
 
         IUmlTaggedValue GetTaggedValue(TaggedValues name);
     }

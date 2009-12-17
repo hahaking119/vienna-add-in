@@ -8,7 +8,6 @@ using CctsRepository.DocLibrary;
 using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
-using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
@@ -50,6 +49,34 @@ namespace VIENNAAddIn.upcc3.repo
             get { return new UpccBLibrary(umlPackage.Parent); }
         }
 
+        private static UmlDataTypeSpec PrimSpecToUmlDataTypeSpec(PrimSpec primSpec)
+        {
+            return new UmlDataTypeSpec
+                   {
+                       Name = primSpec.Name,
+                       TaggedValues = new[]
+                                      {
+										  new UmlTaggedValueSpec("businessTerm", primSpec.BusinessTerms),
+										  new UmlTaggedValueSpec("definition", primSpec.Definition),
+										  new UmlTaggedValueSpec("dictionaryEntryName", primSpec.DictionaryEntryName),
+										  new UmlTaggedValueSpec("fractionDigits", primSpec.FractionDigits),
+										  new UmlTaggedValueSpec("languageCode", primSpec.LanguageCode),
+										  new UmlTaggedValueSpec("length", primSpec.Length),
+										  new UmlTaggedValueSpec("maximumExclusive", primSpec.MaximumExclusive),
+										  new UmlTaggedValueSpec("maximumInclusive", primSpec.MaximumInclusive),
+										  new UmlTaggedValueSpec("maximumLength", primSpec.MaximumLength),
+										  new UmlTaggedValueSpec("minimumExclusive", primSpec.MinimumExclusive),
+										  new UmlTaggedValueSpec("minimumInclusive", primSpec.MinimumInclusive),
+										  new UmlTaggedValueSpec("minimumLength", primSpec.MinimumLength),
+										  new UmlTaggedValueSpec("pattern", primSpec.Pattern),
+										  new UmlTaggedValueSpec("totalDigits", primSpec.TotalDigits),
+										  new UmlTaggedValueSpec("uniqueIdentifier", primSpec.UniqueIdentifier),
+										  new UmlTaggedValueSpec("versionIdentifier", primSpec.VersionIdentifier),
+										  new UmlTaggedValueSpec("whiteSpace", primSpec.WhiteSpace),
+									  },
+                   };
+        }
+
 		/// <summary>
 		/// The PRIMs contained in this PRIMLibrary.
 		/// </summary>
@@ -57,9 +84,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlDataType in umlPackage.DataTypes)
+                foreach (var umldataType in umlPackage.DataTypes)
                 {
-                    yield return new UpccPrim(umlDataType);
+                    yield return new UpccPrim(umldataType);
                 }
             }
 		}
@@ -88,7 +115,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IPrim CreatePrim(PrimSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccPrim(umlPackage.CreateDataType(PrimSpecToUmlDataTypeSpec(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +126,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IPrim UpdatePrim(IPrim prim, PrimSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccPrim(umlPackage.UpdateDataType(((UpccPrim) prim).UmlDataType, PrimSpecToUmlDataTypeSpec(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +135,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemovePrim(IPrim prim)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveDataType(((UpccPrim) prim).UmlDataType);
 		}
 
         ///<summary>

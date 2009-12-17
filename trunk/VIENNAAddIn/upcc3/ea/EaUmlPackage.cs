@@ -29,6 +29,16 @@ namespace VIENNAAddIn.upcc3.ea
             throw new NotImplementedException();
         }
 
+        public IUmlDataType UpdateDataType(IUmlDataType dataType, UmlDataTypeSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveDataType(IUmlDataType dataType)
+        {
+            throw new NotImplementedException();
+        }
+
         public IUmlDataType GetDataTypeById(int id)
         {
             throw new NotImplementedException();
