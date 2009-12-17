@@ -14,7 +14,7 @@ Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Ad
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_02.gif
   # First, you have to decide which CDT the new BDT should be based on. From the first drop down list, select the CDT Library the chosen CDT is located in. Then, you can select the desired CDT from the second drop down list.
   # After selecting a CDT, all potential Content Components and Supplementary Components the CDT contains are shown in the center of the dialog
-  # Each CDT contains exactly one Content Component that is already selected, therefore you annot change the selection in the _CON_ list:
+  # Each CDT contains exactly one Content Component that is already selected, therefore you cannot change the selection in the _CON_ list:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_03.gif
   # From the _SUP_ list, you can select all Supplementary Components the BDT should contain:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_04.gif
