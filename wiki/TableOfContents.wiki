@@ -5,6 +5,7 @@
       * [CreateaModelinEA Create a model in Enterprise Architect]
       * [CreateaUpccModel Create your first UPCC model]
       * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
+      * [CreateyourownAbies Create your own ABIEs]
       * [CreateyourownBdts Create your own BDTs]
       * [HowToTemplate How to Template]
       * [HowToVideos HOW-TO videos]  
