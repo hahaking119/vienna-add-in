@@ -23,11 +23,11 @@ Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Ad
   # Select the BDT Library the new BDT should be located in from the drop down list at the bottom of the dialog
   # Finally, clickt the _Create BDT_ button:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_06.gif
-  # If a BDT with the desired name exists already, a warning will be displayed:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
   # After the BDT was created successfully, a confirmation message is shown:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_08.gif
 
+If a BDT with the desired name exists already, a warning will be displayed:
+http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
 
 =References=
 (1) UMM Development Site http://umm-dev.org/
@@ -35,4 +35,6 @@ Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Ad
 (2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
 
 =Related Tasks=
-...
+[CreateaModelinEA Create a model in Enterprise Architect]
+
+[CreateaModelinEA Create your first UPCC model]
