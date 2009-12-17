@@ -26,7 +26,9 @@ Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Ad
   # After the BDT was created successfully, a confirmation message is shown:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_08.gif
 
+
 If a BDT with the desired name exists already, a warning will be displayed:
+
 http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
 
 =References=
@@ -38,3 +40,5 @@ http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
 [CreateaModelinEA Create a model in Enterprise Architect]
 
 [CreateaModelinEA Create your first UPCC model]
+
+[ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
