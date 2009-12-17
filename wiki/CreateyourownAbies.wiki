@@ -28,20 +28,14 @@ Every Aggregate Business Information Entity (ABIE) is based on an Aggregated Cor
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_08.gif
   # The section _Associations_ shows all existing ABIEs that can be associated with the new one. You can select the ABIEs you want to associate from the first column, and for each of those ABIE you can select the Association Business Information Entities (ASBIEs) that should be used from the second column:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_09.gif
-
-  
-
-  # Each CDT contains exactly one Content Component that is already selected, therefore you cannot change the selection in the _CON_ list:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_03.gif
-  # From the _SUP_ list, you can select all Supplementary Components the BDT should contain:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_04.gif
-  # Enter a name and a prefix fot the BDT to be created:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_05.gif
-  # Select the BDT Library the new BDT should be located in from the drop down list at the bottom of the dialog
-  # Finally, clickt the _Create BDT_ button:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_06.gif
-  # After the BDT was created successfully, a confirmation message is shown:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_08.gif
+  # Enter a name and a prefix fot the ABIE to be created:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_10.gif
+  # Select the BIE Library the new ABIE should be located in, as well as the BDT Library the newly created BDTs should be stored in, from the two drop down lists at the bottom of the dialog:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_11.gif
+  # Finally, clickt the _Create ABIE_ button:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_12.gif
+  # After the ABIE was created successfully, a confirmation message is shown:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_13.gif
 
 
 If a BDT with the desired name exists already, a warning will be displayed:
@@ -59,3 +53,5 @@ http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
 [CreateaModelinEA Create your first UPCC model]
 
 [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
+
+[CreateyourownBdts Create your own BDTs]
