@@ -30,7 +30,9 @@ Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Ad
 
 
 =References=
-...
+(1) UMM Development Site http://umm-dev.org/
+
+(2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
 
 =Related Tasks=
 ...
