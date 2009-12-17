@@ -38,10 +38,6 @@ Every Aggregate Business Information Entity (ABIE) is based on an Aggregated Cor
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_13.gif
 
 
-If a BDT with the desired name exists already, a warning will be displayed:
-
-http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
-
 =References=
 (1) UMM Development Site http://umm-dev.org/
 
