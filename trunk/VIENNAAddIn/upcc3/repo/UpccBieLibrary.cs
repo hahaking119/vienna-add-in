@@ -15,19 +15,19 @@ using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal class UpccBdtLibrary : IBdtLibrary
+    internal class UpccBieLibrary : IBieLibrary
     {
         private readonly IUmlPackage umlPackage;
 
-        public UpccBdtLibrary(IUmlPackage umlPackage)
+        public UpccBieLibrary(IUmlPackage umlPackage)
         {
             this.umlPackage = umlPackage;
         }
 
-        #region IBdtLibrary Members
+        #region IBieLibrary Members
 
 		/// <summary>
-		/// The BDTLibrary's unique ID.
+		/// The BIELibrary's unique ID.
 		/// </summary>
         public int Id
         {
@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTLibrary's name.
+		/// The BIELibrary's name.
 		/// </summary>
         public string Name
         {
@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The bLibrary containing this BDTLibrary.
+		/// The bLibrary containing this BIELibrary.
 		/// </summary>
 		public IBLibrary BLibrary
         {
@@ -51,62 +51,62 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTs contained in this BDTLibrary.
+		/// The ABIEs contained in this BIELibrary.
 		/// </summary>
-		public IEnumerable<IBdt> Bdts
+		public IEnumerable<IAbie> Abies
 		{
             get
             {
                 foreach (var umlClass in umlPackage.Classes)
                 {
-                    yield return new UpccBdt(umlClass);
+                    yield return new UpccAbie(umlClass);
                 }
             }
 		}
 
 		/// <summary>
-		/// Retrieves a BDT by name.
-		/// <param name="name">A BDT's name.</param>
-		/// <returns>The BDT with the given <paramref name="name"/> or <c>null</c> if no such BDT is found.</returns>
+		/// Retrieves a ABIE by name.
+		/// <param name="name">A ABIE's name.</param>
+		/// <returns>The ABIE with the given <paramref name="name"/> or <c>null</c> if no such ABIE is found.</returns>
 		/// </summary>
-        public IBdt GetBdtByName(string name)
+        public IAbie GetAbieByName(string name)
 		{
-            foreach (IBdt bdt in Bdts)
+            foreach (IAbie abie in Abies)
             {
-                if (bdt.Name == name)
+                if (abie.Name == name)
                 {
-                    return bdt;
+                    return abie;
                 }
             }
             return null;
 		}
 
 		/// <summary>
-		/// Creates a BDT based on the given <paramref name="specification"/>.
-		/// <param name="specification">A specification for a BDT.</param>
-		/// <returns>The newly created BDT.</returns>
+		/// Creates a ABIE based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a ABIE.</param>
+		/// <returns>The newly created ABIE.</returns>
 		/// </summary>
-		public IBdt CreateBdt(BdtSpec specification)
+		public IAbie CreateAbie(AbieSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Updates a BDT to match the given <paramref name="specification"/>.
-		/// <param name="bdt">A BDT.</param>
-		/// <param name="specification">A new specification for the given BDT.</param>
-		/// <returns>The updated BDT. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// Updates a ABIE to match the given <paramref name="specification"/>.
+		/// <param name="abie">A ABIE.</param>
+		/// <param name="specification">A new specification for the given ABIE.</param>
+		/// <returns>The updated ABIE. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public IBdt UpdateBdt(IBdt bdt, BdtSpec specification)
+        public IAbie UpdateAbie(IAbie abie, AbieSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Removes a BDT from this BDTLibrary.
-		/// <param name="bdt">A BDT.</param>
+		/// Removes a ABIE from this BIELibrary.
+		/// <param name="abie">A ABIE.</param>
 		/// </summary>
-        public void RemoveBdt(IBdt bdt)
+        public void RemoveAbie(IAbie abie)
 		{
 			throw new NotImplementedException();
 		}

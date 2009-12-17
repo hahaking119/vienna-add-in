@@ -15,19 +15,19 @@ using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal class UpccBdtLibrary : IBdtLibrary
+    internal class UpccCcLibrary : ICcLibrary
     {
         private readonly IUmlPackage umlPackage;
 
-        public UpccBdtLibrary(IUmlPackage umlPackage)
+        public UpccCcLibrary(IUmlPackage umlPackage)
         {
             this.umlPackage = umlPackage;
         }
 
-        #region IBdtLibrary Members
+        #region ICcLibrary Members
 
 		/// <summary>
-		/// The BDTLibrary's unique ID.
+		/// The CCLibrary's unique ID.
 		/// </summary>
         public int Id
         {
@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTLibrary's name.
+		/// The CCLibrary's name.
 		/// </summary>
         public string Name
         {
@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The bLibrary containing this BDTLibrary.
+		/// The bLibrary containing this CCLibrary.
 		/// </summary>
 		public IBLibrary BLibrary
         {
@@ -51,62 +51,62 @@ namespace VIENNAAddIn.upcc3.repo
         }
 
 		/// <summary>
-		/// The BDTs contained in this BDTLibrary.
+		/// The ACCs contained in this CCLibrary.
 		/// </summary>
-		public IEnumerable<IBdt> Bdts
+		public IEnumerable<IAcc> Accs
 		{
             get
             {
                 foreach (var umlClass in umlPackage.Classes)
                 {
-                    yield return new UpccBdt(umlClass);
+                    yield return new UpccAcc(umlClass);
                 }
             }
 		}
 
 		/// <summary>
-		/// Retrieves a BDT by name.
-		/// <param name="name">A BDT's name.</param>
-		/// <returns>The BDT with the given <paramref name="name"/> or <c>null</c> if no such BDT is found.</returns>
+		/// Retrieves a ACC by name.
+		/// <param name="name">A ACC's name.</param>
+		/// <returns>The ACC with the given <paramref name="name"/> or <c>null</c> if no such ACC is found.</returns>
 		/// </summary>
-        public IBdt GetBdtByName(string name)
+        public IAcc GetAccByName(string name)
 		{
-            foreach (IBdt bdt in Bdts)
+            foreach (IAcc acc in Accs)
             {
-                if (bdt.Name == name)
+                if (acc.Name == name)
                 {
-                    return bdt;
+                    return acc;
                 }
             }
             return null;
 		}
 
 		/// <summary>
-		/// Creates a BDT based on the given <paramref name="specification"/>.
-		/// <param name="specification">A specification for a BDT.</param>
-		/// <returns>The newly created BDT.</returns>
+		/// Creates a ACC based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a ACC.</param>
+		/// <returns>The newly created ACC.</returns>
 		/// </summary>
-		public IBdt CreateBdt(BdtSpec specification)
+		public IAcc CreateAcc(AccSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Updates a BDT to match the given <paramref name="specification"/>.
-		/// <param name="bdt">A BDT.</param>
-		/// <param name="specification">A new specification for the given BDT.</param>
-		/// <returns>The updated BDT. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// Updates a ACC to match the given <paramref name="specification"/>.
+		/// <param name="acc">A ACC.</param>
+		/// <param name="specification">A new specification for the given ACC.</param>
+		/// <returns>The updated ACC. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public IBdt UpdateBdt(IBdt bdt, BdtSpec specification)
+        public IAcc UpdateAcc(IAcc acc, AccSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Removes a BDT from this BDTLibrary.
-		/// <param name="bdt">A BDT.</param>
+		/// Removes a ACC from this CCLibrary.
+		/// <param name="acc">A ACC.</param>
 		/// </summary>
-        public void RemoveBdt(IBdt bdt)
+        public void RemoveAcc(IAcc acc)
 		{
 			throw new NotImplementedException();
 		}
