@@ -20,6 +20,10 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		/// </summary>
         string Name { get; }
 <# 
+///==========================================================================================================================
+/// Parent packages
+///==========================================================================================================================
+
 		foreach (var relation in MetaModel.GetParentPackageRelationsFor(metaPackage))
 		{
 #>
@@ -30,8 +34,11 @@ namespace CctsRepository.<#= metaPackage.Name #>
 		I<#= relation.ParentPackageType.Name #> <#= relation.ParentPackageRole #> { get; }
 <#
 		}
-#>
-<# 
+
+///==========================================================================================================================
+/// Sub-packages
+///==========================================================================================================================
+
 		foreach (var relation in MetaModel.GetSubPackageRelationsFor(metaPackage))
 		{
 			var subPackage = relation.SubPackageType.Stereotype;
@@ -72,8 +79,11 @@ namespace CctsRepository.<#= metaPackage.Name #>
         void Remove<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>);
 <#
 		}
-#>
-<# 
+
+///==========================================================================================================================
+/// Classifiers
+///==========================================================================================================================
+
 		foreach (var relation in MetaModel.GetClassifierRelationsFor(metaPackage))
 		{
 			var element = relation.ClassifierType.Stereotype;
@@ -115,10 +125,11 @@ namespace CctsRepository.<#= metaPackage.Name #>
         void Remove<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= classifierParamName #>);
 <#
 		}
-#>
 
-		#region Tagged Values
-<# 
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
+
 		foreach (var taggedValue in metaPackage.TaggedValues)
 		{
 #>
@@ -130,7 +141,5 @@ namespace CctsRepository.<#= metaPackage.Name #>
 <#
 		}
 #>
-
-		#endregion
     }
 }

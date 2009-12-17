@@ -75,8 +75,6 @@ namespace CctsRepository.DocLibrary
 		/// </summary>
         void RemoveMa(IMa ma);
 
-		#region Tagged Values
-
         ///<summary>
         /// Tagged value 'businessTerm'.
         ///</summary>
@@ -121,8 +119,6 @@ namespace CctsRepository.DocLibrary
         /// Tagged value 'namespacePrefix'.
         ///</summary>
 		string NamespacePrefix { get; }
-
-		#endregion
     }
 }
 

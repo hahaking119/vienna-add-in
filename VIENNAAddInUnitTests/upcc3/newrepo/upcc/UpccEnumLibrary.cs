@@ -15,19 +15,19 @@ using VIENNAAddInUnitTests.upcc3.newrepo.upcc.uml;
 
 namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
 {
-    internal class UpccPrimLibrary : IPrimLibrary
+    internal class UpccEnumLibrary : IEnumLibrary
     {
         private readonly IUmlPackage umlPackage;
 
-        public UpccPrimLibrary(IUmlPackage umlPackage)
+        public UpccEnumLibrary(IUmlPackage umlPackage)
         {
             this.umlPackage = umlPackage;
         }
 
-        #region IPrimLibrary Members
+        #region IEnumLibrary Members
 
 		/// <summary>
-		/// The PRIMLibrary's unique ID.
+		/// The ENUMLibrary's unique ID.
 		/// </summary>
         public int Id
         {
@@ -35,7 +35,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
 		/// <summary>
-		/// The PRIMLibrary's name.
+		/// The ENUMLibrary's name.
 		/// </summary>
         public string Name
         {
@@ -43,7 +43,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
 		/// <summary>
-		/// The bLibrary containing this PRIMLibrary.
+		/// The bLibrary containing this ENUMLibrary.
 		/// </summary>
 		public IBLibrary BLibrary
         {
@@ -51,62 +51,123 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.upcc
         }
 
 		/// <summary>
-		/// The PRIMs contained in this PRIMLibrary.
+		/// The ENUMs contained in this ENUMLibrary.
 		/// </summary>
-		public IEnumerable<IPrim> Prims
+		public IEnumerable<IEnum> Enums
 		{
             get
             {
-                foreach (var umlDataType in umlPackage.DataTypes)
+                foreach (var umlEnumeration in umlPackage.Enumerations)
                 {
-                    yield return new UpccPrim(umlDataType);
+                    yield return new UpccEnum(umlEnumeration);
                 }
             }
 		}
 
 		/// <summary>
-		/// Retrieves a PRIM by name.
-		/// <param name="name">A PRIM's name.</param>
-		/// <returns>The PRIM with the given <paramref name="name"/> or <c>null</c> if no such PRIM is found.</returns>
+		/// Retrieves a ENUM by name.
+		/// <param name="name">A ENUM's name.</param>
+		/// <returns>The ENUM with the given <paramref name="name"/> or <c>null</c> if no such ENUM is found.</returns>
 		/// </summary>
-        public IPrim GetPrimByName(string name)
+        public IEnum GetEnumByName(string name)
 		{
-            foreach (IPrim prim in Prims)
+            foreach (IEnum @enum in Enums)
             {
-                if (prim.Name == name)
+                if (@enum.Name == name)
                 {
-                    return prim;
+                    return @enum;
                 }
             }
             return null;
 		}
 
 		/// <summary>
-		/// Creates a PRIM based on the given <paramref name="specification"/>.
-		/// <param name="specification">A specification for a PRIM.</param>
-		/// <returns>The newly created PRIM.</returns>
+		/// Creates a ENUM based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a ENUM.</param>
+		/// <returns>The newly created ENUM.</returns>
 		/// </summary>
-		public IPrim CreatePrim(PrimSpec specification)
+		public IEnum CreateEnum(EnumSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Updates a PRIM to match the given <paramref name="specification"/>.
-		/// <param name="prim">A PRIM.</param>
-		/// <param name="specification">A new specification for the given PRIM.</param>
-		/// <returns>The updated PRIM. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// Updates a ENUM to match the given <paramref name="specification"/>.
+		/// <param name="@enum">A ENUM.</param>
+		/// <param name="specification">A new specification for the given ENUM.</param>
+		/// <returns>The updated ENUM. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public IPrim UpdatePrim(IPrim prim, PrimSpec specification)
+        public IEnum UpdateEnum(IEnum @enum, EnumSpec specification)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <summary>
-		/// Removes a PRIM from this PRIMLibrary.
-		/// <param name="prim">A PRIM.</param>
+		/// Removes a ENUM from this ENUMLibrary.
+		/// <param name="@enum">A ENUM.</param>
 		/// </summary>
-        public void RemovePrim(IPrim prim)
+        public void RemoveEnum(IEnum @enum)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// The IDSCHEMEs contained in this ENUMLibrary.
+		/// </summary>
+		public IEnumerable<IIdScheme> IdSchemes
+		{
+            get
+            {
+                foreach (var umlDataType in umlPackage.DataTypes)
+                {
+                    yield return new UpccIdScheme(umlDataType);
+                }
+            }
+		}
+
+		/// <summary>
+		/// Retrieves a IDSCHEME by name.
+		/// <param name="name">A IDSCHEME's name.</param>
+		/// <returns>The IDSCHEME with the given <paramref name="name"/> or <c>null</c> if no such IDSCHEME is found.</returns>
+		/// </summary>
+        public IIdScheme GetIdSchemeByName(string name)
+		{
+            foreach (IIdScheme idScheme in IdSchemes)
+            {
+                if (idScheme.Name == name)
+                {
+                    return idScheme;
+                }
+            }
+            return null;
+		}
+
+		/// <summary>
+		/// Creates a IDSCHEME based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a IDSCHEME.</param>
+		/// <returns>The newly created IDSCHEME.</returns>
+		/// </summary>
+		public IIdScheme CreateIdScheme(IdSchemeSpec specification)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Updates a IDSCHEME to match the given <paramref name="specification"/>.
+		/// <param name="idScheme">A IDSCHEME.</param>
+		/// <param name="specification">A new specification for the given IDSCHEME.</param>
+		/// <returns>The updated IDSCHEME. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// </summary>
+        public IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Removes a IDSCHEME from this ENUMLibrary.
+		/// <param name="idScheme">A IDSCHEME.</param>
+		/// </summary>
+        public void RemoveIdScheme(IIdScheme idScheme)
 		{
 			throw new NotImplementedException();
 		}

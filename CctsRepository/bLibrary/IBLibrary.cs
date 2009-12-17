@@ -306,8 +306,6 @@ namespace CctsRepository.BLibrary
 		/// </summary>
         void RemoveDocLibrary(IDocLibrary docLibrary);
 
-		#region Tagged Values
-
         ///<summary>
         /// Tagged value 'businessTerm'.
         ///</summary>
@@ -342,8 +340,6 @@ namespace CctsRepository.BLibrary
         /// Tagged value 'versionIdentifier'.
         ///</summary>
 		string VersionIdentifier { get; }
-
-		#endregion
     }
 }
 

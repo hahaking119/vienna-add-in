@@ -108,8 +108,6 @@ namespace CctsRepository.EnumLibrary
 		/// </summary>
         void RemoveIdScheme(IIdScheme idScheme);
 
-		#region Tagged Values
-
         ///<summary>
         /// Tagged value 'businessTerm'.
         ///</summary>
@@ -154,8 +152,6 @@ namespace CctsRepository.EnumLibrary
         /// Tagged value 'namespacePrefix'.
         ///</summary>
 		string NamespacePrefix { get; }
-
-		#endregion
     }
 }
 

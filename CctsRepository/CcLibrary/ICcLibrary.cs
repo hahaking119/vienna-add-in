@@ -75,8 +75,6 @@ namespace CctsRepository.CcLibrary
 		/// </summary>
         void RemoveAcc(IAcc acc);
 
-		#region Tagged Values
-
         ///<summary>
         /// Tagged value 'businessTerm'.
         ///</summary>
@@ -121,8 +119,6 @@ namespace CctsRepository.CcLibrary
         /// Tagged value 'namespacePrefix'.
         ///</summary>
 		string NamespacePrefix { get; }
-
-		#endregion
     }
 }
 

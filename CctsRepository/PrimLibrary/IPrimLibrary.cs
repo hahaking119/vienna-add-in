@@ -75,8 +75,6 @@ namespace CctsRepository.PrimLibrary
 		/// </summary>
         void RemovePrim(IPrim prim);
 
-		#region Tagged Values
-
         ///<summary>
         /// Tagged value 'businessTerm'.
         ///</summary>
@@ -121,8 +119,6 @@ namespace CctsRepository.PrimLibrary
         /// Tagged value 'namespacePrefix'.
         ///</summary>
 		string NamespacePrefix { get; }
-
-		#endregion
     }
 }
 

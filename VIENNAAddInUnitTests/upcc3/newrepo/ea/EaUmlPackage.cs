@@ -71,6 +71,17 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo.ea
             }
         }
 
+        public IEnumerable<IUmlEnumeration> Enumerations
+        {
+            get
+            {
+                foreach (Element eaElement in eaPackage.Elements)
+                {
+                    yield return new EaUmlEnumeration(eaRepository, eaElement);
+                }
+            }
+        }
+
         public IUmlPackage Parent
         {
             get { return new EaUmlPackage(eaRepository, eaRepository.GetPackageByID(eaPackage.ParentID)); }
