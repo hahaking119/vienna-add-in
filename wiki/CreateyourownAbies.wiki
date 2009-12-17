@@ -1,19 +1,21 @@
-#summary Create your own BDTs
+#summary Create your own ABIEs
 
-=Business Data Types=
+=Aggregate Business Information Entities=
 
-Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Add-In provides the _BDT Editor_ dialog for creating new BDTs based on specific CDTs.
+Every Aggregate Business Information Entity (ABIE) is based on an Aggregated Core Component (ACC). When creating a new ABIE, this ABIE is derivated from an ACC by specifying which attributes and associations of the ACC should be inherited by the ABIE. The VIENNA Add-In provides the _ABIE Editor_ dialog for creating new ABIEs based on specific ACCs.
 
-=Create BDTs=
+=Create ABIEs=
 
   # Prepare a UPCC3 model in Enterprise Architect
-  # In the _Project Browser_, select the model and right-click on the BDTLibrary
-  # Select _Add-In / VIENNAAddIn / Create new BDT_ from the context menu:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_01.gif
-  # The _BDT Editor_ dialog provides all options available for creating BDTs:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_02.gif
-  # First, you have to decide which CDT the new BDT should be based on. From the first drop down list, select the CDT Library the chosen CDT is located in. Then, you can select the desired CDT from the second drop down list.
-  # After selecting a CDT, all potential Content Components and Supplementary Components the CDT contains are shown in the center of the dialog
+  # In the _Project Browser_, select the model and right-click on the BIELibrary
+  # Select _Add-In / VIENNAAddIn / Create new ABIE_ from the context menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_01.gif
+  # The _ABIE Editor_ dialog provides all options available for creating ABIEs:
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_02.gif
+  # First, you have to decide which ACC the new ABIE should be based on. From the first drop down list, select the CC Library the chosen ACC is located in. Then, you can select the desired ACC from the second drop down list.
+  # After selecting an ACC, all potential attributes and associations the ACC contains are shown in the center of the dialog
+    http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownAbies_03.gif
+
   # Each CDT contains exactly one Content Component that is already selected, therefore you cannot change the selection in the _CON_ list:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_03.gif
   # From the _SUP_ list, you can select all Supplementary Components the BDT should contain:
