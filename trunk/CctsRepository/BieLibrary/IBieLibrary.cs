@@ -75,8 +75,6 @@ namespace CctsRepository.BieLibrary
 		/// </summary>
         void RemoveAbie(IAbie abie);
 
-		#region Tagged Values
-
         ///<summary>
         /// Tagged value 'businessTerm'.
         ///</summary>
@@ -121,8 +119,6 @@ namespace CctsRepository.BieLibrary
         /// Tagged value 'namespacePrefix'.
         ///</summary>
 		string NamespacePrefix { get; }
-
-		#endregion
     }
 }
 

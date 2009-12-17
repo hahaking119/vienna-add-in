@@ -601,5 +601,8 @@
   <ItemGroup>
     <Folder Include="doc\" />
     <Folder Include="images\" />
+    <Folder Include="upcc3\ea\" />
+    <Folder Include="upcc3\repo\" />
+    <Folder Include="upcc3\uml\" />
   </ItemGroup>
 </Project>

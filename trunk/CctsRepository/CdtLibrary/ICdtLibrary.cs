@@ -75,8 +75,6 @@ namespace CctsRepository.CdtLibrary
 		/// </summary>
         void RemoveCdt(ICdt cdt);
 
-		#region Tagged Values
-
         ///<summary>
         /// Tagged value 'businessTerm'.
         ///</summary>
@@ -121,8 +119,6 @@ namespace CctsRepository.CdtLibrary
         /// Tagged value 'namespacePrefix'.
         ///</summary>
 		string NamespacePrefix { get; }
-
-		#endregion
     }
 }
 
