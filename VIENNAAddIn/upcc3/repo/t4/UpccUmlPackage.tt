@@ -6,7 +6,7 @@
 <# 
 	var library = metaPackage.Name.FirstCharToLowerCase();
 #>
-<#@ include file="CctsRepositoryNamespaces.tt" #>
+<#@ include file="t4/CctsRepositoryNamespaces.tt" #>
 using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;

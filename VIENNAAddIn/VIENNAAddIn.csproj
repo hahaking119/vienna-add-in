@@ -240,7 +240,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="upcc3\repo\UpccRepository.cs" />
-    <Compile Include="upcc3\uml\EmptyUmlTaggedValue.cs" />
     <Compile Include="upcc3\uml\IUmlClass.cs" />
     <Compile Include="upcc3\uml\IUmlClassifier.cs" />
     <Compile Include="upcc3\uml\IUmlDataType.cs" />
@@ -368,7 +367,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SynchTaggedValuesGenerated.cs</LastGenOutput>
     </None>
-    <None Include="upcc3\repo\CctsRepositoryNamespaces.tt">
+    <None Include="upcc3\repo\t4\CctsRepositoryNamespaces.tt">
     </None>
     <None Include="upcc3\repo\UpccEnumLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -382,7 +381,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccPrimLibrary.cs</LastGenOutput>
     </None>
-    <None Include="upcc3\repo\UpccUmlPackage.tt">
+    <None Include="upcc3\repo\t4\UpccUmlPackage.tt">
     </None>
     <Compile Include="Settings\SynchStereotypesForm.cs">
       <SubType>Form</SubType>
