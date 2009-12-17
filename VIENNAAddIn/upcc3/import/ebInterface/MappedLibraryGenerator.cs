@@ -85,9 +85,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private void GenerateRootABIE()
         {
             var rootElementMapping = schemaMapping.RootElementMapping;
-            if (rootElementMapping is ASBIEMapping)
+            if (rootElementMapping is AsmaMapping)
             {
-                ComplexTypeMapping rootComplexTypeMapping = ((ASBIEMapping) rootElementMapping).TargetMapping;
+                ComplexTypeMapping rootComplexTypeMapping = ((AsmaMapping) rootElementMapping).TargetMapping;
                 var ma = docLibrary.CreateMa(new MaSpec
                                              {
                                                  Name = qualifier + "_" + rootElementName,
@@ -194,7 +194,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     var accABIESpec = GenerateABIESpec(abieMapping, acc, abieMapping.ComplexTypeName + "_" + acc.Name);
                     asmasToGenerateForThisMa.Add(new AsmaToGenerate(bieLibrary, acc.Name, accABIESpec.Name));
                 }
-                foreach (var asbieMapping in abieMapping.ASBIEMappings)
+                foreach (var asbieMapping in abieMapping.AsmaMappings)
                 {
                     asmasToGenerateForThisMa.Add(new AsmaToGenerate(docLibrary, asbieMapping.BIEName, asbieMapping.TargetMapping.BIEName));
                 }

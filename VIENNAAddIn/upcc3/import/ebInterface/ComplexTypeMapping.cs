@@ -38,7 +38,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public bool IsMappedToSingleACC
         {
-            get { return TargetACCs.Count() == 1 && ASBIEMappings.Count() == 0; }
+            get { return TargetACCs.Count() == 1 && AsmaMappings.Count() == 0; }
         }
 
         public IEnumerable<IAcc> TargetACCs
@@ -72,9 +72,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public string ComplexTypeName { get; private set; }
 
-        public IEnumerable<ASBIEMapping> ASBIEMappings
+        public IEnumerable<AsmaMapping> AsmaMappings
         {
-            get { return Children.FilterByType<ElementMapping, ASBIEMapping>(); }
+            get { return Children.FilterByType<ElementMapping, AsmaMapping>(); }
         }
 
         public override string BIEName

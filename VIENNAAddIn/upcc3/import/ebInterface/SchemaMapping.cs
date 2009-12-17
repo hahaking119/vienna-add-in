@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 ComplexTypeMapping complexTypeMapping = MapComplexType(element);
                 if (IsUnmapped(element))
                 {
-                    return new ASBIEMapping(element.Name, complexTypeMapping);
+                    return new AsmaMapping(element.Name, complexTypeMapping);
                 }
                 if (IsMappedToASCC(element))
                 {
@@ -82,7 +82,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private ComplexTypeMapping MapComplexType(SourceElement sourceElement)
         {
-            string complexTypeName = sourceElement.GetComplexTypeName();
+            string complexTypeName = sourceElement.XsdTypeName;
             if (ComplexTypeIsUnmapped(complexTypeName))
             {
                 var complexTypeMapping = new ComplexTypeMapping(complexTypeName, MapChildren(sourceElement));

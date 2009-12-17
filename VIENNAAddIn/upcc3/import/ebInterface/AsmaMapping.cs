@@ -2,9 +2,9 @@ using System;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    public class ASBIEMapping : ElementMapping, IEquatable<ASBIEMapping>
+    public class AsmaMapping : ElementMapping, IEquatable<AsmaMapping>
     {
-        public ASBIEMapping(string sourceElementName, ComplexTypeMapping targetMapping)
+        public AsmaMapping(string sourceElementName, ComplexTypeMapping targetMapping)
         {
             SourceElementName = sourceElementName;
             TargetMapping = targetMapping;
@@ -16,10 +16,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("ASBIEMapping <SourceElement: {0}, ComplexType: {1}>", SourceElementName, TargetMapping.ComplexTypeName);
+            return string.Format("AsmaMapping <SourceElement: {0}, ComplexType: {1}>", SourceElementName, TargetMapping.ComplexTypeName);
         }
 
-        public bool Equals(ASBIEMapping other)
+        public bool Equals(AsmaMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -30,8 +30,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (ASBIEMapping)) return false;
-            return Equals((ASBIEMapping) obj);
+            if (obj.GetType() != typeof (AsmaMapping)) return false;
+            return Equals((AsmaMapping) obj);
         }
 
         public override int GetHashCode()
@@ -39,12 +39,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return (TargetMapping != null ? TargetMapping.GetHashCode() : 0);
         }
 
-        public static bool operator ==(ASBIEMapping left, ASBIEMapping right)
+        public static bool operator ==(AsmaMapping left, AsmaMapping right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ASBIEMapping left, ASBIEMapping right)
+        public static bool operator !=(AsmaMapping left, AsmaMapping right)
         {
             return !Equals(left, right);
         }
