@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
+using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using VIENNAAddInUtils;
@@ -139,7 +140,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 //         representation term of the basic business information entity (BBIE) it represents
                 //         with the word 'Type' appended. 
                 elementBBIE.SchemaTypeName =
-                    new XmlQualifiedName(NSPREFIX_BDT + ":" + bbie.Bdt.Name + bbie.Bdt.Con.BasicType.Name + "Type");
+                    new XmlQualifiedName(NSPREFIX_BDT + ":" + NDR.GetXsdTypeNameFromBdt(bbie.Bdt));
 
 
                 // R 90F9: cardinality of elements within the ABIE

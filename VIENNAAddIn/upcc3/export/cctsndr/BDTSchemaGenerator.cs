@@ -55,7 +55,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                         var attribute = new XmlSchemaAttribute
                                         {
                                             // Deviation from rule [R ABC1]: Using only attribute name and type as xml attribute name (instead of complete DEN), following the examples given in the specification.
-                                            Name = GetAttributeName(sup),
+                                            Name = NDR.GetXsdAttributeNameFromSup(sup),
                                             SchemaTypeName = new XmlQualifiedName(GetXSDType(sup.BasicType.Name),
                                                                                   "http://www.w3.org/2001/XMLSchema"),
                                         };
@@ -142,12 +142,6 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         private static XmlQualifiedName GetXmlQualifiedName(string basicTypeName)
         {
             return new XmlQualifiedName(GetXSDType(basicTypeName), "http://www.w3.org/2001/XMLSchema");
-        }
-
-        private static string GetAttributeName(IBdtSup sup)
-        {
-            string name = sup.Name + sup.BasicType.Name;
-            return name.Replace(".", string.Empty);
         }
 
         private static string GetXSDType(string primitiveTypeName)

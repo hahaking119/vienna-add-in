@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
@@ -67,6 +68,38 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     // else ignore child
                 }
                 return targetACCs;
+            }
+        }
+
+        public bool IsMappedToCdt
+        {
+            get { return TargetCdt != null; }
+        }
+
+        public ICdt TargetCdt
+        {
+            get
+            {
+                ICdt targetCdt = null;
+                foreach (ElementMapping child in Children)
+                {
+                    if (child is SupMapping)
+                    {
+                        ICdt cdt = ((SupMapping)child).Cdt;
+                        if (targetCdt == null)
+                        {
+                            targetCdt = cdt;
+                        }
+                        else
+                        {
+                            if (targetCdt != cdt)
+                            {
+                                throw new MappingError("Complex type mapped to more than one CDTs");
+                            }
+                        }
+                    }
+                }
+                return targetCdt;
             }
         }
 
