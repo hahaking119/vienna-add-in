@@ -2,10 +2,10 @@ using System.Threading;
 using System.Windows;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.Wizards;
+using VIENNAAddIn.upcc3.Wizards.dev.ui;
 using VIENNAAddInUnitTests.upcc3.Wizards.TestRepository;
 
-namespace VIENNAAddInUnitTests.upcc3.Wizards
+namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.ui
 {
     [TestFixture]
     public class XsdImporterFormTest
