@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using CctsRepository;
-using EA;
+using Microsoft.Win32;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.import.cctsndr;
-using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddIn.upcc3.Wizards.util;
 using System.Linq;
 
-namespace VIENNAAddIn.upcc3.Wizards
+namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     /// <summary>
     /// Interaction logic for XsdImporterForm.xaml
@@ -22,14 +18,17 @@ namespace VIENNAAddIn.upcc3.Wizards
     {
         private readonly ICctsRepository cctsRepository;
         private readonly MultipleFilesSelector mappingFilesSelector;
+        public XsdImporterFormViewModel Model;
 
         public XsdImporterForm(ICctsRepository cctsRepository)
         {
+            Model = new XsdImporterFormViewModel();
+            DataContext = this;
             this.cctsRepository = cctsRepository;
 
             InitializeComponent();
 
-//            mappingFilesSelector = new MultipleFilesSelector(".*", "Mapping files|*.*")
+            //mappingFilesSelector = new MultipleFilesSelector(".*", "Mapping files|*.*")
 //                                   {
 //                                       Width = 415,
 //                                   };
@@ -48,12 +47,11 @@ namespace VIENNAAddIn.upcc3.Wizards
 
         private void buttonImport_Click(object sender, RoutedEventArgs e)
         {
-            var viewModel = Resources["viewModel"] as XsdImporterFormViewModel;
-            var files = new List<FileName>(viewModel.MappingFiles)
-                        {
-                            "foo"
-                        };
-            viewModel.MappingFiles = files;
+            var files = new List<FileName>(Model.MappingFiles)
+                            {
+                                "foo"
+                            };
+            Model.MappingFiles = files;
 //            MessageBox.Show("Mapped schema: " + viewModel.MappedSchemaFile););
             return;
             //Cursor = Cursors.Wait;
@@ -72,6 +70,33 @@ namespace VIENNAAddIn.upcc3.Wizards
             //progressBar.Value = 100;
             //textboxStatus.Text += "Import completed!\n";
             //Cursor = Cursors.Arrow;
+        }
+
+        private void MultipleFileSelector_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog
+                          {
+                              DefaultExt = ".xsd",
+                              Filter = "XML Schema files (.xsd)|*.xsd",
+                              Multiselect = true,
+            };
+            if(dlg.ShowDialog()==true)
+            {
+                foreach (var fileName in dlg.FileNames)
+                {
+                    Model.MappingFiles.Add(new FileName(fileName));
+                }
+            }
+        }
+
+        private void RemoveSelection_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void mappingFilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
     }
 
@@ -133,9 +158,9 @@ namespace VIENNAAddIn.upcc3.Wizards
             var emptyFileName = new FileName(string.Empty);
             emptyFileName.ValueChanged += FileNameValueChanged;
             mappingFiles = new List<FileName>
-                           {
-                               emptyFileName
-                           };
+                               {
+                                   emptyFileName
+                               };
         }
 
         private void FileNameValueChanged(string newValue)
@@ -145,9 +170,9 @@ namespace VIENNAAddIn.upcc3.Wizards
                 var emptyFileName = new FileName(string.Empty);
                 emptyFileName.ValueChanged += FileNameValueChanged;
                 var files = new List<FileName>(mappingFiles)
-                            {
-                                emptyFileName
-                            };
+                                {
+                                    emptyFileName
+                                };
 
                 MappingFiles = files;
             }
@@ -162,6 +187,15 @@ namespace VIENNAAddIn.upcc3.Wizards
         }
 
         private List<FileName> mappingFiles;
+
+        public List<string> MappingFilesNames
+        {
+            get { return mappingFiles.ConvertAll(filename => filename.Value); }
+            set
+            {
+                MappingFiles = value.ConvertAll(filename => new FileName(filename));   
+            }
+        }
 
         public List<FileName> MappingFiles
         {

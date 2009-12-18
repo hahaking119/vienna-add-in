@@ -1,18 +1,13 @@
-﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.XsdImporterForm"
+﻿<Window x:Class="VIENNAAddIn.upcc3.Wizards.dev.ui.XsdImporterForm"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:viennaaddin="clr-namespace:VIENNAAddInWpfUserControls;assembly=VIENNAAddInWpfUserControls"
-        xmlns:vm="clr-namespace:VIENNAAddIn.upcc3.Wizards"
     Height="500" Width="516" WindowStyle="SingleBorderWindow" ShowInTaskbar="False" ResizeMode="CanResize" Title="XML Schema Importer Wizard">
-    <Window.Resources>
-        <vm:XsdImporterFormViewModel x:Key="viewModel" />
-    </Window.Resources>
     <DockPanel Background="#FFD4D0C8">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,5,5">
             <Button HorizontalAlignment="Left" Height="23" Name="buttonImport" Width="175" Click="buttonImport_Click">_Import XML Schemas</Button>
             <Button HorizontalAlignment="Left" Height="23" Name="buttonClose" Width="75" Margin="30,0,0,0" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
-        <ProgressBar DockPanel.Dock="Bottom" Name="progressBar" Margin="22,5,5,0" Minimum="0" Maximum="100"/>
         <TextBox DockPanel.Dock="Bottom" Height="66" Margin="22,5,5,0" Name="textboxStatus" IsReadOnly="True" IsUndoEnabled="False" TextWrapping="Wrap" Background="#FFD4D0C8"/>
         <Label DockPanel.Dock="Bottom" Name="label2" Margin="22,5,5,0" Height="23"  HorizontalAlignment="Left">Status:</Label>
         <TabControl Name="tabControl1" TabStripPlacement="Left" Margin="5,5,5,0">
@@ -23,9 +18,13 @@
                 <TabItem.Content>
                     <DockPanel>
                         <Label DockPanel.Dock="Top" Height="23" Name="label12">Select ebInterface Schema:</Label>
-                        <viennaaddin:FileSelector Name="mappedSchemaFileSelector" DockPanel.Dock="Top" Height="21" Width="{Binding}" Margin="5,0,5,0" DefaultExt=".xsd" Filter="XML Schema files (.xsd)|*.xsd" FileName="{Binding MappedSchemaFile, Source={StaticResource viewModel}, Mode=OneWayToSource}"/>
+                        <viennaaddin:FileSelector Name="mappedSchemaFileSelector" DockPanel.Dock="Top" Height="21" Width="{Binding}" Margin="5,0,5,0" DefaultExt=".xsd" Filter="XML Schema files (.xsd)|*.xsd" FileName="{Binding Path=Model.MappedSchemaFile}"/>
                         <StackPanel Name="mappedSchemaFileSelectorPanel" DockPanel.Dock="Top" VerticalAlignment="Stretch" Margin="5,0,5,0" />
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                         <Label DockPanel.Dock="Top" Name="label3" Height="23">Select mapping files:</Label>
+                            <Button Name="MultipleFileSelector" Click="MultipleFileSelector_Click">+</Button>
+                            <Button Name="RemoveSelection" Click="RemoveSelection_Click">-</Button>
+                            </StackPanel>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Label Height="23" Width="150">Qualifier:</Label>
                             <TextBox Name="qualifierTextBox" Width="305">ebInterface</TextBox>
@@ -47,10 +46,11 @@
                             <TextBox Name="docLibraryNameTextBox" Width="305">ebInterface Invoice</TextBox>
                         </StackPanel>
                         <Border BorderThickness="1" BorderBrush="Gray" Margin="5,0,5,0">
-                            <ListBox ItemsSource="{Binding MappingFiles, Source={StaticResource viewModel}}" Name="mappingFilesListBox" Margin="0,0,0,0" Background="Aqua" >
-                                <ListBox.ItemTemplate>
+                            <ListBox ItemsSource="{Binding Path=Model.MappingFiles}" Name="mappingFilesListBox" Margin="0,0,0,0" Background="LightBlue" SelectionChanged="mappingFilesListBox_SelectionChanged">
+                               <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <viennaaddin:FileSelector Name="mappedSchemaFileSelector" Width="{Binding ElementName=mappingFilesListBox, Path=ActualWidth}" Height="21" DefaultExt=".xsd" Filter="XML Schema files (.xsd)|*.xsd" FileName="{Binding Value,Mode=TwoWay}"/>
+                                        <Label Content="{Binding Path=Value}"/>
+                                         <!--<TextBox Name="FileNameItem" Text="{Binding FileName}" Width="200" />-->
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
