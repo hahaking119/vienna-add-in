@@ -8,11 +8,11 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccBdt : IBdt
     {
-        private readonly IUmlClass umlClass;
+        public IUmlClass UmlClass { get; private set; }
 
         public UpccBdt(IUmlClass umlClass)
         {
-            this.umlClass = umlClass;
+            UmlClass = umlClass;
         }
 
         public int Id

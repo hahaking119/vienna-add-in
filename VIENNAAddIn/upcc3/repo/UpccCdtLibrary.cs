@@ -57,9 +57,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlClass in umlPackage.Classes)
+                foreach (var umlclass in umlPackage.Classes)
                 {
-                    yield return new UpccCdt(umlClass);
+                    yield return new UpccCdt(umlclass);
                 }
             }
 		}
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public ICdt CreateCdt(CdtSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccCdt(umlPackage.CreateClass(CdtSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public ICdt UpdateCdt(ICdt cdt, CdtSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccCdt(umlPackage.UpdateClass(((UpccCdt) cdt).UmlClass, CdtSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveCdt(ICdt cdt)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveClass(((UpccCdt) cdt).UmlClass);
 		}
 
         ///<summary>

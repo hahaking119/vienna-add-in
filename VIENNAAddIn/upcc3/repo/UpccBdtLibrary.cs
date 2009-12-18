@@ -57,9 +57,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlClass in umlPackage.Classes)
+                foreach (var umlclass in umlPackage.Classes)
                 {
-                    yield return new UpccBdt(umlClass);
+                    yield return new UpccBdt(umlclass);
                 }
             }
 		}
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBdt CreateBdt(BdtSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBdt(umlPackage.CreateClass(BdtSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBdt UpdateBdt(IBdt bdt, BdtSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBdt(umlPackage.UpdateClass(((UpccBdt) bdt).UmlClass, BdtSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveBdt(IBdt bdt)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveClass(((UpccBdt) bdt).UmlClass);
 		}
 
         ///<summary>

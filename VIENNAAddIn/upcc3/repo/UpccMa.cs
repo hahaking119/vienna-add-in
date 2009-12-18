@@ -7,8 +7,11 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccMa : IMa
     {
+        public IUmlClass UmlClass { get; set; }
+
         public UpccMa(IUmlClass umlClass)
         {
+            UmlClass = umlClass;
             throw new NotImplementedException();
         }
 

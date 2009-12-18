@@ -15,6 +15,10 @@ namespace CctsRepository.<#= library.Name #>
     {
 		public string Name { get; set; }
 <# 
+///==========================================================================================================================
+/// Dependencies
+///==========================================================================================================================
+					
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
 		{
 #>
@@ -23,6 +27,10 @@ namespace CctsRepository.<#= library.Name #>
 <#
 		}
 		
+///==========================================================================================================================
+/// Attributes
+///==========================================================================================================================
+					
 		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
 		{
 			var specName = attribute.ClassName + "Spec";
@@ -33,6 +41,10 @@ namespace CctsRepository.<#= library.Name #>
 <#
 		}
 
+///==========================================================================================================================
+/// Enumeration Literals
+///==========================================================================================================================
+					
 		foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(metaClassifier))
 		{
 			var specName = enumerationLiteral.ClassName + "Spec";
@@ -43,6 +55,10 @@ namespace CctsRepository.<#= library.Name #>
 <#
 		}
 		
+///==========================================================================================================================
+/// Associations
+///==========================================================================================================================
+					
 		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
 		{
 			var specName = association.ClassName + "Spec";
@@ -53,6 +69,10 @@ namespace CctsRepository.<#= library.Name #>
 <#
 		}
 
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
+					
 		if (metaClassifier.HasTaggedValues)
 		{
 #>
@@ -75,6 +95,10 @@ namespace CctsRepository.<#= library.Name #>
 <#
 		}
 
+///==========================================================================================================================
+/// Clone Method
+///==========================================================================================================================
+					
 		var cloned = FirstCharToLowerCase(metaClassifier.Name);
 		if (cloned == "enum")
 		{
@@ -88,12 +112,21 @@ namespace CctsRepository.<#= library.Name #>
                    {
                    	   Name = <#= cloned #>.Name,
 <#
+///==========================================================================================================================
+/// Clone Dependencies
+///==========================================================================================================================
+					
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
 		{
 #>
 					   <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> = <#= cloned #>.<#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #>,
 <#
 		}
+
+///==========================================================================================================================
+/// Clone Attributes
+///==========================================================================================================================
+					
 		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
 		{
 			if (attribute.Cardinality == MetaCardinality.Many)
@@ -109,6 +142,11 @@ namespace CctsRepository.<#= library.Name #>
 <#
 			}
 		}
+		
+///==========================================================================================================================
+/// Clone Enumeration Literals
+///==========================================================================================================================
+					
 		foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(metaClassifier))
 		{
 			if (enumerationLiteral.Cardinality == MetaCardinality.Many)
@@ -124,6 +162,11 @@ namespace CctsRepository.<#= library.Name #>
 <#
 			}
 		}
+		
+///==========================================================================================================================
+/// Clone Associations
+///==========================================================================================================================
+					
 		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
 		{
 			if (association.Cardinality == MetaCardinality.Many)
@@ -139,6 +182,11 @@ namespace CctsRepository.<#= library.Name #>
 <#
 			}
 		}
+		
+///==========================================================================================================================
+/// Clone Tagged Values
+///==========================================================================================================================
+					
 		foreach (var taggedValue in metaClassifier.TaggedValues)
 		{
 			if (!(taggedValue.AutoGenerated))

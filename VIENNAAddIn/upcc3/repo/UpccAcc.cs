@@ -7,9 +7,11 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccAcc : IAcc
     {
+        public IUmlClass UmlClass { get; private set; }
+
         public UpccAcc(IUmlClass umlClass)
         {
-            throw new NotImplementedException();
+            UmlClass = umlClass;
         }
 
         public int Id

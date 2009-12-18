@@ -12,10 +12,12 @@ namespace VIENNAAddIn.upcc3.uml
             Value = value;
         }
 
-        public UmlTaggedValueSpec(string name, IEnumerable<string> values)
+        public UmlTaggedValueSpec(string name, IEnumerable<string> values) : this(name, MultiPartTaggedValue.Merge(values))
         {
-            Name = name;
-            Value = MultiPartTaggedValue.Merge(values);
+        }
+
+        public UmlTaggedValueSpec(string name, bool value) : this(name, value.ToString())
+        {
         }
 
         public string Name { get; set; }

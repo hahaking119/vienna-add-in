@@ -7,8 +7,11 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccIdScheme : IIdScheme
     {
+        public IUmlDataType UmlDataType { get; set; }
+
         public UpccIdScheme(IUmlDataType umlDataType)
         {
+            UmlDataType = umlDataType;
             throw new NotImplementedException();
         }
 

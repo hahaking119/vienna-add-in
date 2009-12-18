@@ -57,9 +57,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlClass in umlPackage.Classes)
+                foreach (var umlclass in umlPackage.Classes)
                 {
-                    yield return new UpccMa(umlClass);
+                    yield return new UpccMa(umlclass);
                 }
             }
 		}
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IMa CreateMa(MaSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccMa(umlPackage.CreateClass(MaSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IMa UpdateMa(IMa ma, MaSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccMa(umlPackage.UpdateClass(((UpccMa) ma).UmlClass, MaSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveMa(IMa ma)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveClass(((UpccMa) ma).UmlClass);
 		}
 
         ///<summary>

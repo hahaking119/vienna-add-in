@@ -57,9 +57,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlClass in umlPackage.Classes)
+                foreach (var umlclass in umlPackage.Classes)
                 {
-                    yield return new UpccAcc(umlClass);
+                    yield return new UpccAcc(umlclass);
                 }
             }
 		}
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IAcc CreateAcc(AccSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccAcc(umlPackage.CreateClass(AccSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IAcc UpdateAcc(IAcc acc, AccSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccAcc(umlPackage.UpdateClass(((UpccAcc) acc).UmlClass, AccSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveAcc(IAcc acc)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveClass(((UpccAcc) acc).UmlClass);
 		}
 
         ///<summary>

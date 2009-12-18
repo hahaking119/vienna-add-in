@@ -7,8 +7,11 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccCdt : ICdt
     {
+        public IUmlClass UmlClass { get; set; }
+
         public UpccCdt(IUmlClass umlClass)
         {
+            UmlClass = umlClass;
             throw new NotImplementedException();
         }
 

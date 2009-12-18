@@ -219,6 +219,52 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
     <Compile Include="upcc3\NDR.cs" />
+    <Compile Include="upcc3\repo\AbieSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AbieSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\AccSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AccSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\AsbieSpecConverter.cs" />
+    <Compile Include="upcc3\repo\AsccSpecConverter.cs" />
+    <Compile Include="upcc3\repo\AsmaSpecConverter.cs" />
+    <Compile Include="upcc3\repo\BbieSpecConverter.cs" />
+    <Compile Include="upcc3\repo\BccSpecConverter.cs" />
+    <Compile Include="upcc3\repo\BdtConSpecConverter.cs" />
+    <Compile Include="upcc3\repo\BdtSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BdtSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\BdtSupSpecConverter.cs" />
+    <Compile Include="upcc3\repo\CdtConSpecConverter.cs" />
+    <Compile Include="upcc3\repo\CdtSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CdtSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\CdtSupSpecConverter.cs" />
+    <Compile Include="upcc3\repo\CodelistEntrySpecConverter.cs" />
+    <Compile Include="upcc3\repo\EnumSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnumSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\IdSchemeSpecConverter.cs" />
+    <Compile Include="upcc3\repo\MaSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\PrimSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrimSpecConverter.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccAbie.cs" />
     <Compile Include="upcc3\repo\UpccAcc.cs" />
     <Compile Include="upcc3\repo\UpccBdt.cs" />
@@ -281,6 +327,8 @@
     <Compile Include="upcc3\uml\IUmlPackage.cs" />
     <Compile Include="upcc3\uml\IUmlRepository.cs" />
     <Compile Include="upcc3\uml\IUmlTaggedValue.cs" />
+    <Compile Include="upcc3\uml\UmlAssociationSpec.cs" />
+    <Compile Include="upcc3\uml\UmlAttributeSpec.cs" />
     <Compile Include="upcc3\uml\UmlDataTypeSpec.cs" />
     <Compile Include="upcc3\uml\UmlDependencySpec.cs" />
     <Compile Include="upcc3\uml\UmlTaggedValueSpec.cs" />
@@ -400,7 +448,37 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SynchTaggedValuesGenerated.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\AbieSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AbieSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\AccSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AccSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\BdtSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BdtSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\CdtSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CdtSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\EnumSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EnumSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\MaSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MaSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\PrimSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PrimSpecConverter.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\t4\CctsRepositoryNamespaces.tt">
+    </None>
+    <None Include="upcc3\repo\t4\ClassifierSpecConverter.tt">
     </None>
     <None Include="upcc3\repo\UpccBdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
