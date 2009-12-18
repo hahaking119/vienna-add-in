@@ -4,7 +4,10 @@
 	<xs:complexType name="AddressType">
 		<xs:sequence>
 			<xs:element name="CityName" type="xs:string"/>
+			<xs:element name="UnmappedSimpleElement" type="xs:string"/>
 			<xs:element name="StreetName" type="xs:string"/>
 		</xs:sequence>
+		<xs:attribute name="CountryName" type="xs:string"/>
+		<xs:attribute name="UnmappedAttribute" type="xs:string"/>
 	</xs:complexType>
 </xs:schema>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -52,6 +53,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     return new BCCMapping(element, GetTargetElement(element));
                 }
+                if (IsMappedToSup(element))
+                {
+                    return new SupMapping(element, GetTargetElement(element));
+                }
                 throw new MappingError("Simple typed element mapped to non-BCC CCTS element.");
             }
             if (element.HasComplexType())
@@ -74,6 +79,23 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                         throw new MappingError("Complex typed element mapped to ASCC with associated ACC other than the target ACC for the complex type.");
                     }
                     throw new MappingError("Complex typed element mapped to ASCC, but the complex type is not mapped to a single ACC.");
+                }
+                if (IsMappedToBCC(element))
+                {
+                    if (complexTypeMapping.IsMappedToCdt)
+                    {
+                        ICdt complexTypeCdt = complexTypeMapping.TargetCdt;
+                        ICdt targetCdt = GetTargetElement(element).Bcc.Cdt;
+
+                        if (complexTypeCdt.Id == targetCdt.Id)
+                        {
+                            return new BCCMapping(element, GetTargetElement(element));
+                        }
+
+                        throw new MappingError("Complex typed element mapped to BCC with CDT other than the target CDT for the complex type.");
+                    }
+                    throw new MappingError("Complex typed element mapped to BCC, but the complex type is not mapped to a CDT.");                    
+
                 }
                 throw new MappingError("Complex typed element mapped to non-ASCC CCTS element.");
             }
@@ -129,6 +151,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             TargetCCElement targetElement = GetTargetElement(element);
             return targetElement != null && targetElement.IsBCC;
+        }
+
+        private bool IsMappedToSup(SourceElement element)
+        {
+            TargetCCElement targetElement = GetTargetElement(element);
+            return targetElement != null && targetElement.IsSup;
         }
 
         private TargetCCElement GetTargetElement(SourceElement element)

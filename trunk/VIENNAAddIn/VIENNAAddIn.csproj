@@ -218,6 +218,7 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTSimpleType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
+    <Compile Include="upcc3\import\ebInterface\SupMapping.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\repo\AbieSpecConverter.cs">
       <AutoGen>True</AutoGen>

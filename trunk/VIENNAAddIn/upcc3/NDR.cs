@@ -6,6 +6,7 @@ using System.Xml.Schema;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddIn.upcc3.import.util;
 using VIENNAAddInUtils;
@@ -78,6 +79,19 @@ namespace VIENNAAddIn.upcc3
         {
             return element.Ref.Name.Minus(associatedElementName);
         }
+
+        public static string GetXsdAttributeNameFromSup(IBdtSup sup)
+        {
+            string name = sup.Name + sup.BasicType.Name;
+            return name.Replace(".", String.Empty);
+        }
+
+        public static string GetXsdAttributeNameFromSup(ICdtSup sup)
+        {
+            string name = sup.Name + sup.BasicType.Name;
+            return name.Replace(".", String.Empty);
+        }
+
 
         /// <summary>
         /// [R A7B8]

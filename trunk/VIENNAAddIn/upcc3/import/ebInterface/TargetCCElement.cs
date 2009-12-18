@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -21,6 +22,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return new TargetCCElement(name, reference);
         }
 
+        public static TargetCCElement ForSup(string name, ICdtSup reference)
+        {
+            return new TargetCCElement(name, reference);
+        }
+
         public string Name { get; private set; }
         private readonly object reference;
         public IBcc Bcc
@@ -34,6 +40,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public IAscc Ascc
         {
             get { return (IAscc) reference; }
+        }
+        public ICdtSup Sup
+        {
+            get { return (ICdtSup)reference; }
         }
 
         private readonly List<TargetCCElement> children;
@@ -92,6 +102,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public bool IsBCC
         {
             get { return reference is IBcc; }
+        }
+
+        public bool IsSup
+        {
+            get { return reference is ICdtSup; }
         }
 
         public bool IsASCC

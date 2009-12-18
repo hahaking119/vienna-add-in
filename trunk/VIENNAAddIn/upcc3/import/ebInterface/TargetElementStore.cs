@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -44,7 +45,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 var bcc = GetBCC(acc, subEntry.Name);
                 if (bcc != null)
                 {
-                    targetCCElement.AddChild(CreateTargetCCElementForBcc(subEntry, bcc));
+                    var targetBccElement = CreateTargetCCElementForBcc(subEntry, bcc);
+                    CreateChildren(targetBccElement, subEntry, bcc.Cdt);
+                    targetCCElement.AddChild(targetBccElement);
                 }
                 else
                 {
@@ -59,6 +62,23 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     {
                         throw new MappingError("BCC or ASCC '" + subEntry.Name + "' not found.");
                     }
+                }
+            }
+        }
+
+        private void CreateChildren(TargetCCElement targetCCElement, Entry entry, ICdt cdt)
+        {
+            foreach (var subEntry in entry.SubEntries)
+            {
+                var sup = GetSup(cdt, subEntry.Name);
+
+                if (sup != null)
+                {
+                    targetCCElement.AddChild(CreateTargetCcElementForSup(subEntry, sup));
+                }
+                else
+                {
+                    throw new MappingError("SUP '" + subEntry.Name + "' not found.");
                 }
             }
         }
@@ -84,6 +104,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return targetCCElement;
         }
 
+        private TargetCCElement CreateTargetCcElementForSup(Entry entry, ICdtSup sup)
+        {
+            var targetCCElement = TargetCCElement.ForSup(entry.Name, sup);
+            AddToIndex(entry, targetCCElement);
+            return targetCCElement;
+        }
+
+
         private IAcc GetACC(SchemaComponent component)
         {
             return ccLibrary.GetAccByName(component.RootEntry.Name);
@@ -100,6 +128,19 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
             return null;
         }
+
+        private ICdtSup GetSup(ICdt cdt, string name)
+        {
+            foreach (var sup in cdt.Sups)
+            {
+                if (name == NDR.GetXsdAttributeNameFromSup(sup))
+                {
+                    return sup;
+                }
+            }
+            return null;
+        }
+
 
         private static IAscc GetASCC(IAcc acc, string name)
         {

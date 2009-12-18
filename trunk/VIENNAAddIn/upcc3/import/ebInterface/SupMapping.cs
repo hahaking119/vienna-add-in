@@ -1,64 +1,66 @@
 using System;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    public class BCCMapping : ElementMapping, IEquatable<BCCMapping>
+    public class SupMapping : ElementMapping, IEquatable<SupMapping>
     {
         private readonly SourceElement sourceElement;
         private readonly TargetCCElement targetElement;
 
-        public BCCMapping(SourceElement sourceElement, TargetCCElement targetElement)
+        public SupMapping(SourceElement sourceElement, TargetCCElement targetElement)
         {
             this.sourceElement = sourceElement;
             this.targetElement = targetElement;
-            BCC = targetElement.Bcc;
-            ACC = BCC.Acc;
+            Sup = targetElement.Sup;
+            Cdt = Sup.Cdt;
             ElementName = sourceElement.Name;
         }
 
+        // TODO
         public override string BIEName
         {
-            get { return ElementName + "_" + BCC.Name; }
+            get { return Sup.Name; }
         }
 
-        public IBcc BCC { get; private set; }
+        public ICdtSup Sup { get; private set; }
 
         public override string ToString()
         {
-            return string.Format("BCCMapping <SourceElement: {0}, TargetElement: {1}, ACC: {2} [{3}]>", sourceElement.Name, targetElement.Name, ACC.Name, ACC.Id);
+            return string.Format("SUPMapping <SourceElement: {0}, TargetElement: {1}, CDT: {2} [{3}]>", sourceElement.Name, targetElement.Name, Cdt.Name, Cdt.Id);
         }
 
-        public IAcc ACC { get; private set; }
+        public ICdt Cdt { get; private set; }
 
         public string ElementName { get; private set; }
 
-        public bool Equals(BCCMapping other)
+        public bool Equals(SupMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.targetElement.Bcc.Id, targetElement.Bcc.Id) && Equals(other.ACC.Id, ACC.Id);
+            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.targetElement.Sup.Id, targetElement.Sup.Id) && Equals(other.Cdt.Id, Cdt.Id);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (BCCMapping)) return false;
-            return Equals((BCCMapping) obj);
+            if (obj.GetType() != typeof (SupMapping)) return false;
+            return Equals((SupMapping) obj);
         }
 
         public override int GetHashCode()
         {
-            return (ACC != null ? ACC.GetHashCode() : 0);
+            return (Cdt != null ? Cdt.GetHashCode() : 0);
         }
 
-        public static bool operator ==(BCCMapping left, BCCMapping right)
+        public static bool operator ==(SupMapping left, SupMapping right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(BCCMapping left, BCCMapping right)
+        public static bool operator !=(SupMapping left, SupMapping right)
         {
             return !Equals(left, right);
         }

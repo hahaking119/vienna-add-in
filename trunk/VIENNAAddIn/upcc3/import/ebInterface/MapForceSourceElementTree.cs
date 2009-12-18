@@ -89,21 +89,32 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     if (complexType.Particle is XmlSchemaGroupBase)
                     {
                         XmlSchemaGroupBase xmlSchemaGroupBase = (XmlSchemaGroupBase)complexType.Particle;
-                        
-                        foreach (XmlSchemaObject item in xmlSchemaGroupBase.Items)
-                        {
-                            XmlSchemaElement element = ((XmlSchemaElement) item);
 
+                        foreach (XmlSchemaElement element in xmlSchemaGroupBase.Items)
+                        {
                             string name = element.Name ?? element.RefName.Name;
                             
                             if (name == child.Name)
                             {
-                                AttachXsdInformationToSourceElements(child, (XmlSchemaElement) item);
+                                AttachXsdInformationToSourceElements(child, element);
                             }
+                        }                        
+                    }    
+                    
+                    foreach (XmlSchemaAttribute attribute in complexType.Attributes)
+                    {
+                        if (attribute.Name == child.Name)
+                        {
+                            AttachXsdInformationToSourceElements(child, attribute);
                         }
-                    }                                        
+                    }
                 }
             }
+        }
+
+        private static void AttachXsdInformationToSourceElements(SourceElement sourceElement, XmlSchemaAttribute attribute)
+        {
+            sourceElement.XsdType = attribute.AttributeSchemaType;
         }
 
         /// <summary>
