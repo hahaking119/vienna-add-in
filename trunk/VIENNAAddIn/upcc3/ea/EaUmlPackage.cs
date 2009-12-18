@@ -49,6 +49,21 @@ namespace VIENNAAddIn.upcc3.ea
             return EaUmlTaggedValue.ForEaTaggedValue(GetEATaggedValueByName(name.ToString()));
         }
 
+        public IUmlClass CreateClass(UmlClassSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlClass UpdateClass(IUmlClass umlClass, UmlClassSpec umlClassSpec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveClass(IUmlClass umlClass)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Id
         {
             get { return eaPackage.PackageID; }
@@ -90,6 +105,21 @@ namespace VIENNAAddIn.upcc3.ea
                     yield return new EaUmlEnumeration(eaRepository, eaElement);
                 }
             }
+        }
+
+        public IUmlEnumeration CreateEnumeration(UmlEnumerationSpec umlEnumerationSpec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlEnumeration UpdateEnumeration(IUmlEnumeration umlEnumeration, UmlEnumerationSpec umlEnumerationSpec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveEnumeration(IUmlEnumeration umlEnumeration)
+        {
+            throw new NotImplementedException();
         }
 
         public IUmlPackage Parent

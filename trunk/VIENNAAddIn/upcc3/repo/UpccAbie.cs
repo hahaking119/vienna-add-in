@@ -8,8 +8,11 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccAbie : IAbie
     {
+        public IUmlClass UmlClass { get; set; }
+
         public UpccAbie(IUmlClass umlClass)
         {
+            UmlClass = umlClass;
             throw new NotImplementedException();
         }
 

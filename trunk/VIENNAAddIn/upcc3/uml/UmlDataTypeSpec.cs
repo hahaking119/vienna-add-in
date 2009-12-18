@@ -1,50 +1,31 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace VIENNAAddIn.upcc3.uml
 {
-    public class UmlDataTypeSpec : IEquatable<UmlDataTypeSpec>
+    public class UmlDataTypeSpec
     {
         public string Name { get; set; }
-
+        public IEnumerable<UmlAttributeSpec> Attributes { get; set; }
+        public IEnumerable<UmlDependencySpec<IUmlDataType>> Dependencies { get; set; }
+        public IEnumerable<UmlAssociationSpec> Associations { get; set; }
         public IEnumerable<UmlTaggedValueSpec> TaggedValues { get; set; }
+    }
 
-        #region IEquatable<UmlDataTypeSpec> Members
+    public class UmlClassSpec
+    {
+        public string Name { get; set; }
+        public IEnumerable<UmlAttributeSpec> Attributes { get; set; }
+        public IEnumerable<UmlDependencySpec<IUmlClass>> Dependencies { get; set; }
+        public IEnumerable<UmlAssociationSpec> Associations { get; set; }
+        public IEnumerable<UmlTaggedValueSpec> TaggedValues { get; set; }
+    }
 
-        public bool Equals(UmlDataTypeSpec other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.Name, Name) && other.TaggedValues.SequenceEqual(TaggedValues);
-        }
-
-        #endregion
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (UmlDataTypeSpec)) return false;
-            return Equals((UmlDataTypeSpec) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((Name != null ? Name.GetHashCode() : 0)*397) ^ (TaggedValues != null ? TaggedValues.GetHashCode() : 0);
-            }
-        }
-
-        public static bool operator ==(UmlDataTypeSpec left, UmlDataTypeSpec right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(UmlDataTypeSpec left, UmlDataTypeSpec right)
-        {
-            return !Equals(left, right);
-        }
+    public class UmlEnumerationSpec
+    {
+        public string Name { get; set; }
+        public IEnumerable<UmlEnumerationLiteralSpec> EnumerationLiterals { get; set; }
+        public IEnumerable<UmlDependencySpec<IUmlEnumeration>> Dependencies { get; set; }
+        public IEnumerable<UmlAssociationSpec> Associations { get; set; }
+        public IEnumerable<UmlTaggedValueSpec> TaggedValues { get; set; }
     }
 }

@@ -7,6 +7,7 @@
 	var library = metaPackage.Name.FirstCharToLowerCase();
 #>
 <#@ include file="t4/CctsRepositoryNamespaces.tt" #>
+using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
@@ -132,25 +133,6 @@ namespace VIENNAAddIn.upcc3.repo
 			var umlClassifier = "uml" + umlClassifierType.FirstCharToLowerCase();
 #>
 
-        private static Uml<#= umlClassifierType #>Spec <#= classifierType #>SpecToUml<#= umlClassifierType #>Spec(<#= classifierType #>Spec <#= classifier #>Spec)
-        {
-            return new Uml<#= umlClassifierType #>Spec
-                   {
-                       Name = <#= classifier #>Spec.Name,
-                       TaggedValues = new[]
-                                      {
-<# 
-		foreach (var metaTaggedValue in relation.ClassifierType.TaggedValues)
-		{
-#>
-										  new UmlTaggedValueSpec("<#= metaTaggedValue.Name #>", <#= classifier #>Spec.<#= metaTaggedValue.AsPropertyName() #>),
-<# 
-		}
-#>
-									  },
-                   };
-        }
-
 		/// <summary>
 		/// The <#= element #>s contained in this <#= metaPackage.Stereotype #>.
 		/// </summary>
@@ -189,7 +171,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public I<#= classifierType #> Create<#= classifierType #>(<#= classifierType #>Spec specification)
 		{
-		    return new Upcc<#= classifierType #>(umlPackage.Create<#= umlClassifierType #>(<#= classifierType #>SpecToUml<#= umlClassifierType #>Spec(specification)));
+		    return new Upcc<#= classifierType #>(umlPackage.Create<#= umlClassifierType #>(<#= classifierType #>SpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -200,7 +182,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public I<#= classifierType #> Update<#= classifierType #>(I<#= classifierType #> <#= classifier #>, <#= classifierType #>Spec specification)
 		{
-		    return new Upcc<#= classifierType #>(umlPackage.Update<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>, <#= classifierType #>SpecToUml<#= umlClassifierType #>Spec(specification)));
+		    return new Upcc<#= classifierType #>(umlPackage.Update<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>, <#= classifierType #>SpecConverter.Convert(specification)));
 		}
 
 		/// <summary>

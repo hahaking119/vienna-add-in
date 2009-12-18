@@ -57,9 +57,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlEnumeration in umlPackage.Enumerations)
+                foreach (var umlenumeration in umlPackage.Enumerations)
                 {
-                    yield return new UpccEnum(umlEnumeration);
+                    yield return new UpccEnum(umlenumeration);
                 }
             }
 		}
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnum CreateEnum(EnumSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccEnum(umlPackage.CreateEnumeration(EnumSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IEnum UpdateEnum(IEnum @enum, EnumSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccEnum(umlPackage.UpdateEnumeration(((UpccEnum) @enum).UmlEnumeration, EnumSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveEnum(IEnum @enum)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveEnumeration(((UpccEnum) @enum).UmlEnumeration);
 		}
 
 		/// <summary>
@@ -118,9 +118,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlDataType in umlPackage.DataTypes)
+                foreach (var umldataType in umlPackage.DataTypes)
                 {
-                    yield return new UpccIdScheme(umlDataType);
+                    yield return new UpccIdScheme(umldataType);
                 }
             }
 		}
@@ -149,7 +149,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IIdScheme CreateIdScheme(IdSchemeSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccIdScheme(umlPackage.CreateDataType(IdSchemeSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -160,7 +160,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccIdScheme(umlPackage.UpdateDataType(((UpccIdScheme) idScheme).UmlDataType, IdSchemeSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -169,7 +169,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveIdScheme(IIdScheme idScheme)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveDataType(((UpccIdScheme) idScheme).UmlDataType);
 		}
 
         ///<summary>

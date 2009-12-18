@@ -57,9 +57,9 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlClass in umlPackage.Classes)
+                foreach (var umlclass in umlPackage.Classes)
                 {
-                    yield return new UpccAbie(umlClass);
+                    yield return new UpccAbie(umlclass);
                 }
             }
 		}
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IAbie CreateAbie(AbieSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccAbie(umlPackage.CreateClass(AbieSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IAbie UpdateAbie(IAbie abie, AbieSpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccAbie(umlPackage.UpdateClass(((UpccAbie) abie).UmlClass, AbieSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveAbie(IAbie abie)
 		{
-			throw new NotImplementedException();
+            umlPackage.RemoveClass(((UpccAbie) abie).UmlClass);
 		}
 
         ///<summary>

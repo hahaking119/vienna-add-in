@@ -7,9 +7,11 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccEnum : IEnum
     {
+        public IUmlEnumeration UmlEnumeration { get; set; }
+
         public UpccEnum(IUmlEnumeration umlEnumeration)
         {
-            throw new NotImplementedException();
+            UmlEnumeration = umlEnumeration;
         }
 
         public int Id

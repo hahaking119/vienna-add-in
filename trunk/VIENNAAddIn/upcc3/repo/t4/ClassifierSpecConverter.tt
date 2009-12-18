@@ -1,0 +1,192 @@
+<#@ assembly name="VIENNAAddInUtils.dll" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="VIENNAAddInUtils"#>
+<#@ import namespace="VIENNAAddInUtils.t4"#>
+<#@ include file="t4/CctsRepositoryNamespaces.tt" #>
+using VIENNAAddIn.upcc3.uml;
+using System.Collections.Generic;
+
+<# 
+	var classifierType = metaClassifier.Name;
+	var specType = classifierType + "Spec";
+	var spec = specType.FirstCharToLowerCase();
+	var umlClassifierType = metaClassifier.GetType().Name.Substring(4);
+	var umlSpecType = "Uml" + umlClassifierType + "Spec";
+	var umlSpec = umlSpecType.FirstCharToLowerCase();
+#>
+namespace VIENNAAddIn.upcc3.repo
+{
+    internal static class <#= specType #>Converter
+    {
+		internal static <#= umlSpecType #> Convert(<#= specType #> <#= spec #>)
+		{
+			var <#= umlSpec #> = new <#= umlSpecType #>
+				{
+					Name = <#= spec #>.Name,
+<#
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
+	
+	if (metaClassifier.HasTaggedValues)
+	{
+#>
+					TaggedValues = new[]
+						{
+<# 
+		foreach (var metaTaggedValue in metaClassifier.TaggedValues)
+		{
+#>
+							new UmlTaggedValueSpec("<#= metaTaggedValue.Name #>", <#= spec #>.<#= metaTaggedValue.AsPropertyName() #>),
+<# 
+		}
+#>
+						},
+<#
+	}
+	
+///==========================================================================================================================
+/// Dependencies
+///==========================================================================================================================
+					
+	if (MetaModel.HasDependencies(metaClassifier))
+	{
+#>
+					Dependencies = new []
+						{
+<#
+		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
+		{
+			var dependencyStereotype = dependency.Stereotype.ToString();
+			var dependencyProperty = dependency.Stereotype.ToString().FirstCharToUpperCase();
+			var dependencyTargetType = dependency.TargetClassifierType.Name;
+			var dependencyTargetUmlType = "Uml" + dependency.TargetClassifierType.GetType().Name.Substring(4);
+#>
+							new UmlDependencySpec<I<#= dependencyTargetUmlType #>>
+							{
+								Stereotype = "<#= dependencyStereotype #>",
+								Target = ((Upcc<#= dependencyTargetType #>) <#= spec #>.<#= dependencyProperty #>).<#= dependencyTargetUmlType #>,
+								LowerBound = "0",
+								UpperBound = "1",
+							},
+<#
+		}
+#>
+						},
+<#
+	}
+#>
+				};
+<#
+///==========================================================================================================================
+/// Attributes
+///==========================================================================================================================
+					
+	if (MetaModel.HasAttributes(metaClassifier))
+	{
+#>
+
+			var attributeSpecs = new List<UmlAttributeSpec>();
+<#
+		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
+		{
+			var attributeSpecType = attribute.ClassName + "Spec";
+			var attributeSpec = attributeSpecType.FirstCharToLowerCase();
+			if (attribute.Cardinality == MetaCardinality.Many)
+			{
+#>
+			foreach (var <#= attributeSpec #> in <#= spec #>.<#= attribute.AttributeName #>)
+			{
+				attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= attributeSpec #>));
+			}
+			<#= umlSpec #>.Attributes = attributeSpecs;
+<#
+			}
+			else
+			{
+#>
+			attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= spec #>.<#= attribute.AttributeName #>));
+<#
+			}
+#>
+			<#= umlSpec #>.Attributes = attributeSpecs;
+<#
+		}
+	}
+	
+///==========================================================================================================================
+/// Enumeration Literals
+///==========================================================================================================================
+					
+	if (MetaModel.HasEnumerationLiterals(metaClassifier))
+	{
+#>
+
+			var enumerationLiteralSpecs = new List<UmlEnumerationLiteralSpec>();
+<#
+		foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(metaClassifier))
+		{
+			var enumerationLiteralSpecType = enumerationLiteral.ClassName + "Spec";
+			var enumerationLiteralSpec = enumerationLiteralSpecType.FirstCharToLowerCase();
+			if (enumerationLiteral.Cardinality == MetaCardinality.Many)
+			{
+#>
+			foreach (var <#= enumerationLiteralSpec #> in <#= spec #>.<#= enumerationLiteral.Name #>)
+			{
+				enumerationLiteralSpecs.Add(<#= enumerationLiteralSpecType #>Converter.Convert(<#= enumerationLiteralSpec #>));
+			}
+<#
+			}
+			else
+			{
+#>
+			enumerationLiteralSpecs.Add(<#= enumerationLiteralSpecType #>Converter.Convert(<#= spec #>.<#= enumerationLiteral.Name #>));
+<#
+			}
+#>
+			<#= umlSpec #>.EnumerationLiterals = enumerationLiteralSpecs;
+<#
+		}
+	}
+	
+///==========================================================================================================================
+/// Associations
+///==========================================================================================================================
+					
+	if (MetaModel.IsAssociatingClassifier(metaClassifier))
+	{
+#>
+
+			var associationSpecs = new List<UmlAssociationSpec>();
+<#
+		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
+		{
+			var associationSpecType = association.ClassName + "Spec";
+			var associationSpec = associationSpecType.FirstCharToLowerCase();
+			if (association.Cardinality == MetaCardinality.Many)
+			{
+#>
+			foreach (var <#= associationSpec #> in <#= spec #>.<#= association.Name #>)
+			{
+				associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= associationSpec #>));
+			}
+<#
+			}
+			else
+			{
+#>
+			associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= spec #>.<#= association.Name #>));
+<#
+			}
+#>
+			<#= umlSpec #>.Associations = associationSpecs;
+<#
+		}
+	}
+#>
+
+			return <#= umlSpec #>;
+		}
+	}
+}
