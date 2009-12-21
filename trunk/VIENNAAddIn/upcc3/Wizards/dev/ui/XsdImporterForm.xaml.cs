@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using CctsRepository;
 using Microsoft.Win32;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.util;
 using System.Linq;
 
@@ -18,11 +20,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     {
         private readonly ICctsRepository cctsRepository;
         private readonly MultipleFilesSelector mappingFilesSelector;
-        public XsdImporterFormViewModel Model;
+        public XsdImporterFormViewModel Model2;
+        public XsdImporterViewModel Model { get; set; }
 
         public XsdImporterForm(ICctsRepository cctsRepository)
         {
-            Model = new XsdImporterFormViewModel();
+            Model = new XsdImporterViewModel();
             DataContext = this;
             this.cctsRepository = cctsRepository;
 
@@ -47,9 +50,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void buttonImport_Click(object sender, RoutedEventArgs e)
         {
-            var files = new List<FileName>(Model.MappingFiles)
+            var files = new List<Filename>(Model.MappingFiles)
                             {
-                                "foo"
+                                new Filename("foo")
                             };
             Model.MappingFiles = files;
 //            MessageBox.Show("Mapped schema: " + viewModel.MappedSchemaFile););
@@ -72,35 +75,97 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             //Cursor = Cursors.Arrow;
         }
 
-        private void MultipleFileSelector_Click(object sender, RoutedEventArgs e)
-        {
-            var dlg = new OpenFileDialog
-                          {
-                              DefaultExt = ".xsd",
-                              Filter = "XML Schema files (.xsd)|*.xsd",
-                              Multiselect = true,
-            };
-            if(dlg.ShowDialog()==true)
-            {
-                foreach (var fileName in dlg.FileNames)
-                {
-                    Model.MappingFiles.Add(new FileName(fileName));
-                }
-            }
-        }
-
         private void RemoveSelection_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void mappingFilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
+            /*List<Filename> files = new List<Filename>();
+            foreach(Filename file in Model.MappingFiles)
+            {
+                if(!file.File.Equals(((FileSelector)((StackPanel)((Button)sender).Parent).Children[0]).FileName))
+                {
+                    files.Add(file);
+                }
+            }
+            Model.MappingFiles = files;*/
         }
     }
 
-    public class DelegateCommand : ICommand
+    public class XsdImporterViewModel : INotifyPropertyChanged
+    {
+        private List<Filename> mappingFiles;
+
+        public XsdImporterViewModel()
+        {
+            Filename newFilename = new Filename();
+            newFilename.ValueChanged += FileNameValueChanged;
+            mappingFiles = new List<Filename>{ newFilename };
+        }
+
+        public List<Filename> MappingFiles
+        {
+            get { return mappingFiles; }
+            set
+            {
+                mappingFiles = value;
+                OnPropertyChanged("MappingFiles");
+            }
+        }
+
+        private void FileNameValueChanged(string newValue)
+        {
+            if (mappingFiles.Last().File.Length != 0)
+            {
+                var emptyFilename = new Filename();
+                emptyFilename.ValueChanged += FileNameValueChanged;
+                var files = new List<Filename>(mappingFiles)
+                {
+                    emptyFilename
+                };
+                MappingFiles = files;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string fieldName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(fieldName));
+            }
+        }
+    }
+
+    public class Filename
+    {
+        private string file;
+
+        public string File
+        {
+            get
+            {
+                return file;
+            }
+            set
+            {
+                file = value;
+                ValueChanged(value);
+            }
+        }
+
+        public event Action<string> ValueChanged = s => { };
+
+        public Filename()
+        {
+            File = string.Empty;
+        }
+
+        public Filename(string newFile)
+        {
+            File = newFile;
+        }
+    }
+
+ /*   public class DelegateCommand : ICommand
     {
         private readonly Action execute;
         private readonly Func<bool> canExecute;
@@ -131,7 +196,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
-    }
+    }*/
 
     public class ViewModel : INotifyPropertyChanged
     {
