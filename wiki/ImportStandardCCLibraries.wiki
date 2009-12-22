@@ -30,3 +30,5 @@ The VIENNA Add-In helps you to automatically download several versions of the st
 [CreateaModelinEA Create a model in Enterprise Architect]
 
 [CreateaModelinEA Create your first UPCC model]
+
+[HowToVideos Getting Started Videos]
