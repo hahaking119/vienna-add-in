@@ -31,8 +31,8 @@ The UML Profile for Core Components is a representation of UN/CEFACT’s Core Co
 (2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
 
 =Related Tasks=
-[CreateaModelinEA Create a model in Enterprise Architect]
+[CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
 
-[ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
+[ImportStandardCCLibraries Import standard CC Libraries]: This page explains how to download and import standard Core Component Libraries into an existing UPCC3 model
 
-[HowToVideos Getting Started Videos]
+[GettingStartedVideos Getting Started Videos]: This page contains a few videos explaining common tasks using the VIENNA Add-In
