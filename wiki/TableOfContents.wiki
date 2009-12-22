@@ -7,7 +7,7 @@
       * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
       * [CreateyourownBdts Create your own BDTs]
       * [CreateyourownAbies Create your own ABIEs]
-      * [HowToVideos Getting Started Videos]  
+      * [GettingStartedVideos Getting Started Videos]  
     * [Troubleshooting Troubleshooting]
     * [Release_Notes Release Notes]
     * [EnterpriseArchitect The Enterprise Architect]
