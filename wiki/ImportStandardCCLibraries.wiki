@@ -27,8 +27,8 @@ The VIENNA Add-In helps you to automatically download several versions of the st
 (2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
 
 =Related Tasks=
-[CreateaModelinEA Create a model in Enterprise Architect]
+[CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
 
-[CreateaModelinEA Create your first UPCC model]
+[CreateaUpccModel Create your first UPCC model]: This page explains how to create a UPCC model
 
-[HowToVideos Getting Started Videos]
+[GettingStartedVideos Getting Started Videos]: This page contains a few videos explaining common tasks using the VIENNA Add-In
