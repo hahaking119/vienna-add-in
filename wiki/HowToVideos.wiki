@@ -1,5 +1,6 @@
 #summary VIENNA Add-In HOW-TO videos
 
+<wiki:comment>
 = Create a default UPCC sample model =
 
 This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos01.htm video] shows how to create a sample model in Enterprise Architect and set it as UPCC model.
@@ -11,6 +12,7 @@ This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos02.htm vide
 = Create ABIEs =
 
 This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos03.htm video] shows how to create ABIEs using the _ABIE Editor_.
+</wiki:comment>
 
 = Using the toolbox to create UPCC Artifacts =
 
