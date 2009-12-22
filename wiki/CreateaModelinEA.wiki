@@ -27,8 +27,8 @@ The VIENNA Add-In is an extension to the UML modeling tool Enterprise Architect 
 (2) Enterprise Architect UML Tool Guide http://www.sparxsystems.com/uml_tool_guide/index.html
 
 =Related Tasks=
-[CreateaUpccModel Create your first UPCC model]
+[CreateaUpccModel Create your first UPCC model]: This page explains how to create a UPCC model
 
-[ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
+[ImportStandardCCLibraries Import standard CC Libraries]: This page explains how to download and import standard Core Component Libraries into an existing UPCC3 model
 
 [GettingStartedVideos Getting Started Videos]: This page contains a few videos explaining common tasks using the VIENNA Add-In
