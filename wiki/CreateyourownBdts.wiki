@@ -44,3 +44,5 @@ http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_07.gif
 [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
 
 [CreateyourownAbies Create your own ABIEs]
+
+[HowToVideos Getting Started Videos]
