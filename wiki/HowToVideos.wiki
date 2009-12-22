@@ -1,6 +1,5 @@
 #summary VIENNA Add-In HOW-TO videos
 
-This [http://vienna-add-in.googlecode.com/svn/wiki/videos/tool-demo-2.htm video] shows 
 <wiki:comment>
 = Create a default UPCC sample model =
 
