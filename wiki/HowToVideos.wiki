@@ -1,18 +1,16 @@
 #summary VIENNA Add-In HOW-TO videos
 
-<wiki:comment>
 = Create a default UPCC sample model =
 
-This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos01.htm video] shows how to create a sample model in Enterprise Architect and set it as UPCC model.
+This [http://umm-dev.org/wp-content/videos/HowToVideos_create_default_upcc_sample_model.htm video] shows how to create a sample model in Enterprise Architect and set it as UPCC model.
 
 = Create BDTs =
 
-This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos02.htm video] shows how to create BDTs using the _BDT Editor_.
+This [http://umm-dev.org/wp-content/videos/HowToVideos_create_bdt_using_the_bdt_editor.htm video] shows how to create BDTs using the _BDT Editor_.
 
 = Create ABIEs =
 
-This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos03.htm video] shows how to create ABIEs using the _ABIE Editor_.
-</wiki:comment>
+This [http://umm-dev.org/wp-content/videos/HowToVideos_create_abie_using_the_abie_editor.htm video] shows how to create ABIEs using the _ABIE Editor_.
 
 = Using the toolbox to create UPCC Artifacts =
 
