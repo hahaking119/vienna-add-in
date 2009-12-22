@@ -1,13 +1,21 @@
 #summary VIENNA Add-In HOW-TO videos
 
-= Video 1 =
+= Create a default UPCC sample model =
 
-[http://umm-dev.org/wp-content/videos/tool-demo-2.htm Video 1]
+This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos01.htm video] shows how to ...
 
-This video shows how to use the UML Profile for Core Components (UPCC) toolbox in order to create UPCC artifacts
+= Create BDTs =
 
-= Video 2 =
+This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos02.htm video] shows how to create BDTs using the _BDT Editor_.
 
-[http://umm-dev.org/wp-content/videos/tool-demo-4.htm Video 2]
+= Create ABIEs =
 
-This video shows how to generate XML schema files from core component models
+This [http://vienna-add-in.googlecode.com/svn/wiki/videos/HowToVideos03.htm video] shows how to create ABIEs using the _ABIE Editor_.
+
+= Using the toolbox to create UPCC Artifacts =
+
+This [http://umm-dev.org/wp-content/videos/tool-demo-2.htm video] shows how to use the UML Profile for Core Components (UPCC) toolbox in order to create UPCC artifacts.
+
+= Generate XML schema files =
+
+This [http://umm-dev.org/wp-content/videos/tool-demo-4.htm video] shows how to generate XML schema files from core component models
