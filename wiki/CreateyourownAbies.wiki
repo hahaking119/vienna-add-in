@@ -52,3 +52,5 @@ Every Aggregate Business Information Entity (ABIE) is based on an Aggregated Cor
 [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
 
 [CreateyourownBdts Create your own BDTs]
+
+[HowToVideos Getting Started Videos]
