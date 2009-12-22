@@ -19,8 +19,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class XsdImporterForm : Window
     {
         private readonly ICctsRepository cctsRepository;
-        private readonly MultipleFilesSelector mappingFilesSelector;
-        public XsdImporterFormViewModel Model2;
         public XsdImporterViewModel Model { get; set; }
 
         public XsdImporterForm(ICctsRepository cctsRepository)
@@ -30,12 +28,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             this.cctsRepository = cctsRepository;
 
             InitializeComponent();
-
-            //mappingFilesSelector = new MultipleFilesSelector(".*", "Mapping files|*.*")
-//                                   {
-//                                       Width = 415,
-//                                   };
-//            mappingFileSelectorScrollViewer.Content = mappingFilesSelector;
         }
 
         public static void ShowForm(AddInContext context)
@@ -50,13 +42,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void buttonImport_Click(object sender, RoutedEventArgs e)
         {
-            var files = new List<Filename>(Model.MappingFiles)
-                            {
-                                new Filename("foo")
-                            };
-            Model.MappingFiles = files;
-//            MessageBox.Show("Mapped schema: " + viewModel.MappedSchemaFile););
-            return;
             //Cursor = Cursors.Wait;
             //buttonImport.Visibility = Visibility.Collapsed;
 
@@ -75,29 +60,90 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             //Cursor = Cursors.Arrow;
         }
 
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog
+                          {
+                              DefaultExt = ".xsd",
+                              Filter = "XML Schema files (.xsd)|*.xsd",
+                              Multiselect = true
+                          };
+            if (dlg.ShowDialog() == true)
+            {
+                List<string> tempList = new List<string>(Model.MappingFiles);
+                foreach(string file in dlg.FileNames)
+                {
+                    bool exists = false;
+                    foreach(string item in Model.MappingFiles)
+                    {
+                        if(item.Equals(file))
+                        {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists)
+                        tempList.Add(file);
+                    else
+                        MessageBox.Show("The file '" + file + "' already exists in the list!", this.Title,
+                                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+                Model.MappingFiles = tempList;
+            }
+        }
+
         private void RemoveSelection_Click(object sender, RoutedEventArgs e)
         {
-            /*List<Filename> files = new List<Filename>();
-            foreach(Filename file in Model.MappingFiles)
+            if (mappingFilesListBox.SelectedIndex > -1)
             {
-                if(!file.File.Equals(((FileSelector)((StackPanel)((Button)sender).Parent).Children[0]).FileName))
-                {
-                    files.Add(file);
-                }
+                List<string> tempList = new List<string>(Model.MappingFiles);
+                tempList.RemoveAt(mappingFilesListBox.SelectedIndex);
+                Model.MappingFiles = tempList;
             }
-            Model.MappingFiles = files;*/
         }
     }
 
     public class XsdImporterViewModel : INotifyPropertyChanged
     {
+        private List<string> mappingFiles;
+
+        public XsdImporterViewModel()
+        {
+            mappingFiles = new List<string>();
+        }
+
+        public List<string> MappingFiles
+        {
+            get { return mappingFiles; }
+            set
+            {
+                mappingFiles = value;
+                OnPropertyChanged("MappingFiles");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string fieldName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(fieldName));
+            }
+        }
+    }
+
+/*    public class XsdImporterViewModel : INotifyPropertyChanged
+    {
         private List<Filename> mappingFiles;
 
         public XsdImporterViewModel()
         {
-            Filename newFilename = new Filename();
-            newFilename.ValueChanged += FileNameValueChanged;
-            mappingFiles = new List<Filename>{ newFilename };
+            Filename newFilename1 = new Filename();
+            Filename newFilename2 = new Filename();
+            newFilename1.ValueChanged += FileNameValueChanged;
+            newFilename2.ValueChanged += FileNameValueChanged;
+            mappingFiles = new List<Filename> { newFilename1, newFilename2 };
         }
 
         public List<Filename> MappingFiles
@@ -112,7 +158,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void FileNameValueChanged(string newValue)
         {
-            if (mappingFiles.Last().File.Length != 0)
+            if (mappingFiles[mappingFiles.Count - 2].File.Length != 0 || mappingFiles.Last().File.Length != 0)
             {
                 var emptyFilename = new Filename();
                 emptyFilename.ValueChanged += FileNameValueChanged;
@@ -163,143 +209,5 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             File = newFile;
         }
-    }
-
- /*   public class DelegateCommand : ICommand
-    {
-        private readonly Action execute;
-        private readonly Func<bool> canExecute;
-
-        public DelegateCommand(Action execute) : this(execute, () => true)
-        {
-            this.execute = execute;
-        }
-
-        public DelegateCommand(Action execute, Func<bool> canExecute)
-        {
-            this.execute = execute;
-            this.canExecute = canExecute;
-        }
-
-        public void Execute(object parameter)
-        {
-            execute();
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return canExecute();
-        }
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
     }*/
-
-    public class ViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void SetProperty<T>(ref T backingField, T newValue, string propertyName)
-        {
-            if (Equals(backingField, newValue))
-            {
-                return;
-            }
-            backingField = newValue;
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    public class XsdImporterFormViewModel : ViewModel
-    {
-        public XsdImporterFormViewModel()
-        {
-            var emptyFileName = new FileName(string.Empty);
-            emptyFileName.ValueChanged += FileNameValueChanged;
-            mappingFiles = new List<FileName>
-                               {
-                                   emptyFileName
-                               };
-        }
-
-        private void FileNameValueChanged(string newValue)
-        {
-            if (mappingFiles.Last().Value.Length != 0)
-            {
-                var emptyFileName = new FileName(string.Empty);
-                emptyFileName.ValueChanged += FileNameValueChanged;
-                var files = new List<FileName>(mappingFiles)
-                                {
-                                    emptyFileName
-                                };
-
-                MappingFiles = files;
-            }
-        }
-
-        private string mappedSchemaFile;
-
-        public string MappedSchemaFile
-        {
-            get { return mappedSchemaFile; }
-            set { SetProperty(ref mappedSchemaFile, value, "mappedSchemaFile"); }
-        }
-
-        private List<FileName> mappingFiles;
-
-        public List<string> MappingFilesNames
-        {
-            get { return mappingFiles.ConvertAll(filename => filename.Value); }
-            set
-            {
-                MappingFiles = value.ConvertAll(filename => new FileName(filename));   
-            }
-        }
-
-        public List<FileName> MappingFiles
-        {
-            get { return mappingFiles; }
-            set
-            {
-//                if (value.Last().Length != 0)
-//                {
-//                    value.Add(string.Empty);
-//                }
-                SetProperty(ref mappingFiles, value, "mappingFiles");
-            }
-        }
-    }
-
-    public class FileName
-    {
-        public FileName(string value)
-        {
-            this.value = value;
-        }
-
-        public static implicit operator FileName(string value)
-        {
-            return new FileName(value);
-        }
-
-        public event Action<string> ValueChanged = s => { };
-
-        private string value;
-
-        public string Value
-        {
-            get { return value; }
-            set
-            {
-                this.value = value;
-                ValueChanged(value);
-            }
-        }
-    }
 }
