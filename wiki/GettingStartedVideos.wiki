@@ -1,4 +1,4 @@
-#summary VIENNA Add-In HOW-TO videos
+#summary VIENNA Add-In Getting Started Videos
 
 = Create a default UPCC sample model =
 
