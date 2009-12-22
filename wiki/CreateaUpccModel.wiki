@@ -34,3 +34,5 @@ The UML Profile for Core Components is a representation of UN/CEFACT’s Core Co
 [CreateaModelinEA Create a model in Enterprise Architect]
 
 [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
+
+[HowToVideos Getting Started Videos]
