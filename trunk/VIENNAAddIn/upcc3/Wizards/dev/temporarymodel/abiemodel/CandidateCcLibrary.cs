@@ -31,6 +31,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public List<CandidateAcc> CandidateAccs
         {
+            set
+            {
+                mCandidateAccs = value;    
+            }
+
             get
             {
                 if (mCandidateAccs == null)

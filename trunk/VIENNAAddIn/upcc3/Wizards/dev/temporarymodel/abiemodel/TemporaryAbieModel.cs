@@ -13,6 +13,7 @@ using System.ComponentModel;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
+using CctsRepository.CcLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.binding;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel.exceptions;
@@ -64,6 +65,146 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             CandidateBieLibraryNames = new List<string>(mCandidateBieLibraries.ConvertAll(new Converter<CandidateBieLibrary, string>(CandidateBieLibraryToString)));
         }
 
+        public TemporaryAbieModel(ICctsRepository cctsRepository, IAbie abieToBeUpdated)
+        {
+            ccCache = CcCache.GetInstance(cctsRepository);
+
+            // Populate the model with the appropriate BIE library which contains the ABIE to be updated.
+            foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
+            {
+                if ((bieLibrary.GetAbieByName(abieToBeUpdated.Name)) != null)
+                {
+                    List<IBieLibrary> bieLibraries = new List<IBieLibrary>() {bieLibrary};
+                    mCandidateBieLibraries = new List<CandidateBieLibrary>(bieLibraries.ConvertAll(biel => new CandidateBieLibrary(biel)));
+                    mCandidateBieLibraries[0].Selected = true;
+                }
+            }
+
+            // Populate the model with the appropriate CC library which contains the ACC that the ABIE to be updated is based on.
+            foreach (ICcLibrary ccLibrary in ccCache.GetCcLibraries())
+            {
+                foreach (IAcc acc in ccLibrary.Accs)
+                {
+                    if (abieToBeUpdated.BasedOn.Id == acc.Id)                    
+                    {
+                        // Populate the model with the appropriate CC Library which contains the ACC that the ABIE (to be updated) is based on.
+                        List<ICcLibrary> targetCcLibraries = new List<ICcLibrary>() { ccLibrary };
+                        mCandidateCcLibraries = new List<CandidateCcLibrary>(targetCcLibraries.ConvertAll(ccl => new CandidateCcLibrary(ccl)));
+                        mCandidateCcLibraries[0].Selected = true;
+
+                        // Populate the model with the appropriate ACC that the ABIE (to be updated) is based on.
+                        List<CandidateAcc> candidateAccs = new List<CandidateAcc>() { new CandidateAcc(acc) };
+                        mCandidateCcLibraries[0].CandidateAccs = candidateAccs;
+                        mCandidateCcLibraries[0].CandidateAccs[0].Selected = true;
+
+                        #region Populate BCCs, BBIEs, and BDTs
+                        // Populating the model with the available BCCs for the ABIE is automatically
+                        // triggered by accessing the property "CandidateBccs". However, it is necessary
+                        // to populate the model with the BBIEs which already exist in the ABIE to be 
+                        // updated.                        
+                        foreach (CandidateBcc candidateBcc in candidateAccs[0].CandidateBccs)
+                        {
+                            List<PotentialBbie> potentialBbies = new List<PotentialBbie>();
+
+                            foreach (IBbie bbie in abieToBeUpdated.Bbies)
+                            {
+                                // If an BBIE exists which ends with the name of the current BCC
+                                // it is a BBIE which is based on the current BCC. Therefore, we
+                                // need to add the BBIE to the potential BBIEs of the current BCC.
+                                if (bbie.Name.EndsWith(candidateBcc.OriginalBcc.Name))
+                                {
+                                    candidateBcc.Checked = true;
+
+                                    PotentialBbie potentialBbie = new PotentialBbie(bbie.Name, bbie.BasedOn.Cdt);
+                                    potentialBbie.Checked = true;
+
+                                    // Furthermore, it is necessary to add the appropriate list of 
+                                    // BDTs available to typify the current BBIE. Also, among the list
+                                    // of available BDTs we need to select the BDT which is currently
+                                    // used to typify the BDT. 
+                                    List<PotentialBdt> potentialBdts = new List<PotentialBdt>();
+
+                                    foreach (IBdtLibrary bdtLibrary in ccCache.GetBdtLibraries())
+                                    {
+                                        foreach (IBdt bdt in bdtLibrary.Bdts)
+                                        {
+                                            if (bdt.BasedOn.Id == bbie.Bdt.BasedOn.Id)
+                                            {
+                                                PotentialBdt potentialBdt = new PotentialBdt(bdt);
+
+                                                if (bdt.Id == bbie.Bdt.Id)
+                                                {
+                                                    potentialBdt.Checked = true;
+                                                }
+
+                                                potentialBdts.Add(potentialBdt);
+                                            }
+                                        }
+                                    }
+
+                                    potentialBbie.PotentialBdts = potentialBdts;
+
+                                    potentialBbies.Add(potentialBbie);
+                                }
+                            }
+
+                            if (potentialBbies.Count > 0)
+                            {
+                                candidateBcc.PotentialBbies = potentialBbies;
+                            }
+                        }
+                        #endregion
+
+                        List<CandidateAbie> candidateAbies = new List<CandidateAbie>();
+                        foreach (IAscc ascc in acc.Asccs)
+                        {
+                            foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
+                            {
+                                foreach (IAbie abie in bieLibrary.Abies)
+                                {
+                                    bool abieNotYetInCandidateAbies = true;
+                                    CandidateAbie targetAbie = null;
+
+                                    foreach (CandidateAbie candidateAbie in candidateAbies)
+                                    {
+                                        if (candidateAbie.Name == abie.Name)
+                                        {
+                                            targetAbie = candidateAbie;
+                                            abieNotYetInCandidateAbies = false;
+                                        }
+                                    }
+
+                                    if (abieNotYetInCandidateAbies)
+                                    {
+                                        CandidateAbie candidateAbie = new CandidateAbie(abie);
+                                        candidateAbies.Add(candidateAbie);
+
+                                        targetAbie = candidateAbie;
+                                    }    
+                               
+                                    if (targetAbie.PotentialAsbies == null)
+                                    {
+                                        targetAbie.PotentialAsbies = new List<PotentialAsbie>();
+                                    }
+                                    targetAbie.PotentialAsbies.Add(new PotentialAsbie(ascc));
+                                }
+                            }
+
+//                            if (candidateAbieInList.PotentialAsbies == null)
+  //                          {
+    //                            candidateAbieInList.PotentialAsbies = new List<PotentialAsbie>();
+      //                      }
+        //                    candidateAbieInList.PotentialAsbies.Add(new PotentialAsbie(ascc));
+                        }
+
+                        mCandidateCcLibraries[0].CandidateAccs[0].CandidateAbies = candidateAbies;
+                    }
+                }
+            }
+
+            CandidateCcLibraryNames = new List<string>(mCandidateCcLibraries.ConvertAll(new Converter<CandidateCcLibrary, string>(CandidateCcLibraryToString)));            
+            CandidateBieLibraryNames = new List<string>(mCandidateBieLibraries.ConvertAll(new Converter<CandidateBieLibrary, string>(CandidateBieLibraryToString)));
+        }
 
         #region Binding Properties
 
@@ -909,6 +1050,53 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }            
         }
 
+        public void UpdateAbie(IAbie abieToBeUpdated)
+        {
+            foreach (CandidateCcLibrary candidateCcLibrary in mCandidateCcLibraries)
+            {
+                if (candidateCcLibrary.Selected)
+                {
+                    foreach (CandidateAcc candidateAcc in candidateCcLibrary.CandidateAccs)
+                    {
+                        if (candidateAcc.Selected)
+                        {
+                            UpdateAbie(abieToBeUpdated, candidateAcc);
+
+                            ccCache.Refresh();
+                        }
+                        else
+                        {
+                            candidateAcc.Clear();
+                        }
+                    }
+                }
+            }  
+        }
+
+        private void UpdateAbie(IAbie abieToBeUpdated, CandidateAcc candidateAcc)
+        {
+            List<BbieSpec> bbieSpecs = CumulateBbieSpecs(candidateAcc);
+            List<AsbieSpec> asbieSpecs = CumulateAsbieSpecs(candidateAcc);
+            AbieSpec abieSpec = CumulateAbieSpec(candidateAcc);
+
+            abieSpec.Name = AbiePrefix + AbieName;
+            abieSpec.Bbies = bbieSpecs;
+            abieSpec.Asbies = asbieSpecs;
+
+            UpdateAbieInBieLibrary(abieSpec, abieToBeUpdated);  
+        }
+
+        private void UpdateAbieInBieLibrary(AbieSpec abieSpec, IAbie abieToBeUpdated)
+        {
+            foreach (CandidateBieLibrary candidateBieLibrary in mCandidateBieLibraries)
+            {
+                if (candidateBieLibrary.Selected)
+                {
+                    candidateBieLibrary.OriginalBieLibrary.UpdateAbie(abieToBeUpdated, abieSpec);
+                }
+            }
+        }
+
         private void CreateBdts(CandidateAcc candidateAcc)
         {
             foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
@@ -1013,7 +1201,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }                        
         }
 
-        private List<AsbieSpec> CumulateAsbieSpecs(CandidateAcc candidateAcc)
+        private static List<AsbieSpec> CumulateAsbieSpecs(CandidateAcc candidateAcc)
         {
             List<AsbieSpec> asbieSpecs = new List<AsbieSpec>();
 

@@ -52,7 +52,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
             accPerson.AddASCC(accAddress, "workAddress", "0", "*");
 
             bieMyPerson.AddASBIE(bieMyAddress, "homeAddress", EaAggregationKind.Shared);
-            bieMyPerson.AddBasedOnDependency(accPerson);
+            bieMyPerson.AddBasedOnDependency(accPerson);            
             bieMyPerson.AddASBIE(bieMyAddress, "workAddress", EaAggregationKind.Composite, "0", "*");
             bieInvoice.AddASBIE(bieInvoiceInfo, "info", EaAggregationKind.Shared);
             bieInvoiceInfo.AddASBIE(bieMyAddress, "deliveryAddress", EaAggregationKind.Shared);
@@ -245,7 +245,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository
                                                                    postcode.LowerBound = "0";
                                                                    postcode.UpperBound = "*";
                                                                }));
-            bieMyPerson = bieLib1.AddClass("MyPerson").With(ElementStereotype(Stereotype.ABIE), BBIEs(bdtText, "FirstName", "LastName"));
+            bieMyPerson = bieLib1.AddClass("MyPerson").With(ElementStereotype(Stereotype.ABIE), BBIEs(bdtText, "FirstName", "AnotherFirstName", "LastName"));            
             AddInvalidElement(bieLib1);
         }
 
