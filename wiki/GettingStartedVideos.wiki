@@ -17,7 +17,7 @@ This [http://umm-dev.org/wp-content/videos/getting_started_video_create_abie_usi
 This [http://umm-dev.org/wp-content/videos/tool-demo-2.htm video] shows how to use the UML Profile for Core Components (UPCC) toolbox in order to create UPCC artifacts.
 
 = Modeling Passport Information using Core Components =
-The set of videos illustrates creating a UPCC model of information typically stored in a passport. In particular, the set of videos show [http://umm-dev.org/wp-content/videos/passport_part_1.htm creating a default UPCC model], [http://umm-dev.org/wp-content/videos/passport_part_2.htm creating Business Information Entities using the VIENNA Add-In], as well as [http://umm-dev.org/wp-content/videos/passport_part_3.htm assembling Business Information Entities to represent a Passport Information Model].
+The set of videos illustrates creating a UPCC model of information typically stored in a passport. In particular, the set of videos show [http://umm-dev.org/wp-content/videos/passport_part_1.htm creating a default UPCC model], [http://umm-dev.org/wp-content/videos/passport_part_2.htm creating Business Information Entities using the support provided through the VIENNA Add-In], as well as [http://umm-dev.org/wp-content/videos/passport_part_3.htm assembling Business Information Entities to represent a Passport Information Model].
 
 
 = Generate XML schema files =
