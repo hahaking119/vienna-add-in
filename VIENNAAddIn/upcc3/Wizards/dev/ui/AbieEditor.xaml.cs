@@ -12,6 +12,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CctsRepository;
+using CctsRepository.BieLibrary;
+using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel.exceptions;
@@ -21,16 +23,23 @@ using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using ListBox=System.Windows.Controls.ListBox;
 using MessageBox=System.Windows.MessageBox;
 using TextBox=System.Windows.Controls.TextBox;
+using AbieEditorModes = VIENNAAddIn.upcc3.Wizards.dev.util.EditorModes.AbieEditorModes;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     public partial class AbieEditor
     {
-        public TemporaryAbieModel Model { get; set; }        
+        public TemporaryAbieModel Model { get; set; }
+        private AbieEditorModes AbieEditorMode { get; set; }
+        private readonly IAbie abieToBeUpdated;
+
 
         public AbieEditor(ICctsRepository cctsRepository)
         {
             InitializeComponent(); 
+
+            AbieEditorMode = AbieEditorModes.Create;
+            abieToBeUpdated = null;
 
             Model = new TemporaryAbieModel(cctsRepository);           
 
@@ -41,9 +50,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             UpdateFormState();
         }
 
+        public AbieEditor(ICctsRepository cctsRepository, Element elementToBeUpdated)
+        {
+            InitializeComponent();
+
+            AbieEditorMode = AbieEditorModes.Update;
+            abieToBeUpdated = cctsRepository.GetAbieById(elementToBeUpdated.ElementID);
+            buttonCreateOrUpdate.Content = "_Update ABIE";
+
+            Model = new TemporaryAbieModel(cctsRepository, abieToBeUpdated);
+
+            DataContext = this;
+        }
+
         public static void ShowCreateDialog(AddInContext context)
         {
             new AbieEditor(context.CctsRepository).ShowDialog();
+        }
+
+        public static void ShowUpdateDialog(AddInContext context)
+        {            
+            new AbieEditor(context.CctsRepository, (Element) context.SelectedItem).ShowDialog();
         }
 
 
@@ -315,28 +342,43 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         // ------------------------------------------------------------------------------------
-        // Event handler: Button Create
-        private void buttonCreate_Click(object sender, RoutedEventArgs e)
+        // Event handler: Button Create / Button Update
+        private void buttonCreateOrUpdate_Click(object sender, RoutedEventArgs e)
         {
-            // Disable the "Create Button" while the ABIE is created
-            buttonCreate.IsEnabled = false;
-
-            try
+            // Disable the "Create Button"/"Update Button" while the ABIE is created
+            buttonCreateOrUpdate.IsEnabled = false;
+            
+            if (AbieEditorMode == AbieEditorModes.Create)
             {
-                Model.CreateAbie();
-                ShowInformativeMessage(String.Format("A new ABIE named \"{0}\" was created successfully.", Model.AbieName));
+                try
+                {
+                    Model.CreateAbie();
+                    ShowInformativeMessage(String.Format("A new ABIE named \"{0}\" was created successfully.", Model.AbieName));
+                }
+                catch (TemporaryAbieModelException tame)
+                {
+                    ShowWarningMessage(tame.Message);
+                }                                                       
             }
-            catch (TemporaryAbieModelException tame)
+            else if (AbieEditorMode == AbieEditorModes.Update)
             {
-                ShowWarningMessage(tame.Message);            
-            }                       
+                try
+                {                                                            
+                    Model.UpdateAbie(abieToBeUpdated);
+                    ShowInformativeMessage(String.Format("The ABIE named \"{0}\" was updated successfully.", Model.AbieName));
+                }
+                catch (TemporaryAbieModelException tame)
+                {
+                    ShowWarningMessage(tame.Message);
+                }                                                                     
+            }
 
-            // After the ABIE is created the "Create Button" is enabled again. 
-            buttonCreate.IsEnabled = true;
+            // After the ABIE is created the "Create Button"/"Update Button" is enabled again. 
+            buttonCreateOrUpdate.IsEnabled = true;
         }
 
         // ------------------------------------------------------------------------------------
-        // Event handler: Button Click
+        // Event handler: Button Close
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -349,31 +391,37 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void UpdateFormState()
         {
-            if (comboboxCcLibraries.SelectedItem != null)
-            {
-                SetEnabledForAccComboBox(true);
-
-                if (comboboxAccs.SelectedItem != null)
+            if (AbieEditorMode == AbieEditorModes.Create)
+            {                
+                if (comboboxCcLibraries.SelectedItem != null)
                 {
-                    SetEnabledForAttributeAndAssoicationTabs(true);
-                    SetEnabledForAbieProperties(true);
+                    SetEnabledForAccComboBox(true);
 
-                    if ((comboboxBieLibraries.SelectedItem != null) && (comboboxBdtLibraries.SelectedItem != null) && (Model.ContainsValidConfiguration()))
+                    if (comboboxAccs.SelectedItem != null)
                     {
-                        SetEnabledForCreateButton(true);
-                    }
-                    else
-                    {
-                        SetEnabledForCreateButton(false);
+                        SetEnabledForAttributeAndAssoicationTabs(true);
+                        SetEnabledForAbieProperties(true);
+
+                        if ((comboboxBieLibraries.SelectedItem != null) && (comboboxBdtLibraries.SelectedItem != null) && (Model.ContainsValidConfiguration()))
+                        {
+                            SetEnabledForCreateButton(true);
+                        }
+                        else
+                        {
+                            SetEnabledForCreateButton(false);
+                        }
                     }
                 }
+                else
+                {
+                    SetEnabledForAccComboBox(false);
+                    SetEnabledForAttributeAndAssoicationTabs(false);
+                    SetEnabledForAbieProperties(false);
+                    SetEnabledForCreateButton(false);
+                }
             }
-            else
+            else if (AbieEditorMode == AbieEditorModes.Update)
             {
-                SetEnabledForAccComboBox(false);
-                SetEnabledForAttributeAndAssoicationTabs(false);
-                SetEnabledForAbieProperties(false);
-                SetEnabledForCreateButton(false);
             }
         }
 
@@ -405,7 +453,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void SetEnabledForCreateButton(bool enabledState)
         {
-            buttonCreate.IsEnabled = enabledState;
+            buttonCreateOrUpdate.IsEnabled = enabledState;
         }
 
         #endregion
@@ -486,8 +534,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void SelectDefaultLibraries()
         {
             comboboxCcLibraries.SelectedIndex = 0;
-            comboboxBieLibraries.SelectedIndex = 0;
-            comboboxBdtLibraries.SelectedIndex = 0;
+            comboboxBdtLibraries.SelectedIndex = 0; 
+            comboboxBieLibraries.SelectedIndex = 0;            
         }
 
         private void SetSelectedItemForBccListBox()
@@ -618,5 +666,5 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         #endregion
-    }
+   }
 }
