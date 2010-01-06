@@ -2,4 +2,6 @@
 
 = Storyboard =
 
-dummy
+  # Create a new project in Enterprise Architect named "passport_model.eap".
+  # Define the project as a UMM2/UPCC3 Model.
+  # Launch the "Default UPCC Model Creator" Wizard and create a default model named "Passport Model". Furthermore, use the wizard to import the standard Core Component Library having the major version "democcl" and the minor version "2".
