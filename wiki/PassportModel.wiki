@@ -34,4 +34,8 @@
       * Check the BCC "Height" and rename the BDT from "New1Measure" to "Measure"
       * Check the BCC "Name" and rename the BBIE from "Name" to "SurName_Name"
       * Check the BCC "Passport" and add as well as check two additional BBIEs. Now rename the first BBIE from "Passport" to "Code_Passport", the second BBIE from "New1Passport" to "Number_Passport", and the third BBIE from "New2Passport" to "Type_Passport". 
+      * Switch to the Associations Tab and for the ABIE "Country" check the ASBIE "Nationality" and for the ABIE "Address" check the ASBIE "Residence". 
       * Click "Create ABIE"
+  # Open the "DOCLibrary" and drag-and-drop the ABIEs created in previous step, namely "Address", "Country", "Period", and "Person" onto the canvas.
+  # From the toolbox drag-and-drop the UPCC Artefact "MA" onto the canvas and rename it to "Passport". 
+  # Finally, select the UPCC Artefact "ASMA" from the toolbox and drag it from the ABIE "Period" to the MA "Passport". Repeat previous step and drag-and-drop a MA from the ABIE "Person" to the MA "Passport". 
