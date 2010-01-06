@@ -18,6 +18,6 @@
     * [Meetings Meeting Notes]
     * [ReSharperSettings]
   * [RoadMap]
-  * [Storyboards VIENNA AddIn Presentation]
+  * [Storyboards VIENNA AddIn Storyboards]
     * [Presentation VIENNA AddIn Tool Presentation]
     * [PassportModel VIENNA AddIn Passport Modeling Presentation]
