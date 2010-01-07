@@ -10,19 +10,18 @@ using CctsRepository.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
 using System;
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccBLibrary : IBLibrary
     {
-        private readonly IUmlPackage umlPackage;
-
         public UpccBLibrary(IUmlPackage umlPackage)
         {
-            this.umlPackage = umlPackage;
+            UmlPackage = umlPackage;
         }
+
+        public IUmlPackage UmlPackage { get; private set; }
 
         #region IBLibrary Members
 
@@ -31,7 +30,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public int Id
         {
-            get { return umlPackage.Id; }
+            get { return UmlPackage.Id; }
         }
 
 		/// <summary>
@@ -39,7 +38,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public string Name
         {
-            get { return umlPackage.Name; }
+            get { return UmlPackage.Name; }
         }
 
 		/// <summary>
@@ -47,7 +46,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBLibrary Parent
         {
-            get { return new UpccBLibrary(umlPackage.Parent); }
+            get { return new UpccBLibrary(UmlPackage.Parent); }
         }
 
 		/// <summary>
@@ -55,7 +54,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<IBLibrary> GetBLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("bLibrary"))
+            {
+                yield return new UpccBLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -65,7 +67,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBLibrary GetBLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("bLibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccBLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -75,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBLibrary CreateBLibrary(BLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBLibrary(UmlPackage.CreatePackage(BLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -86,16 +99,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBLibrary UpdateBLibrary(IBLibrary bLibrary, BLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBLibrary(UmlPackage.UpdatePackage(((UpccBLibrary) bLibrary).UmlPackage, BLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a bLibrary from this bLibrary.
-		/// <param name="bLibrary">A bLibrary.</param>
+		/// Removes a BLibrary from this bLibrary.
+		/// <param name="bLibrary">A BLibrary.</param>
 		/// </summary>
         public void RemoveBLibrary(IBLibrary bLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccBLibrary) bLibrary).UmlPackage);
 		}
 
 		/// <summary>
@@ -103,7 +116,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<IPrimLibrary> GetPrimLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("PRIMLibrary"))
+            {
+                yield return new UpccPrimLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -113,7 +129,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IPrimLibrary GetPrimLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("PRIMLibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccPrimLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -123,7 +150,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IPrimLibrary CreatePrimLibrary(PrimLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccPrimLibrary(UmlPackage.CreatePackage(PrimLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -134,16 +161,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IPrimLibrary UpdatePrimLibrary(IPrimLibrary primLibrary, PrimLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccPrimLibrary(UmlPackage.UpdatePackage(((UpccPrimLibrary) primLibrary).UmlPackage, PrimLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a PRIMLibrary from this bLibrary.
-		/// <param name="primLibrary">A PRIMLibrary.</param>
+		/// Removes a PrimLibrary from this bLibrary.
+		/// <param name="primLibrary">A PrimLibrary.</param>
 		/// </summary>
         public void RemovePrimLibrary(IPrimLibrary primLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccPrimLibrary) primLibrary).UmlPackage);
 		}
 
 		/// <summary>
@@ -151,7 +178,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<IEnumLibrary> GetEnumLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("ENUMLibrary"))
+            {
+                yield return new UpccEnumLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -161,7 +191,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IEnumLibrary GetEnumLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("ENUMLibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccEnumLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -171,7 +212,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumLibrary CreateEnumLibrary(EnumLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccEnumLibrary(UmlPackage.CreatePackage(EnumLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -182,16 +223,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IEnumLibrary UpdateEnumLibrary(IEnumLibrary enumLibrary, EnumLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccEnumLibrary(UmlPackage.UpdatePackage(((UpccEnumLibrary) enumLibrary).UmlPackage, EnumLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a ENUMLibrary from this bLibrary.
-		/// <param name="enumLibrary">A ENUMLibrary.</param>
+		/// Removes a EnumLibrary from this bLibrary.
+		/// <param name="enumLibrary">A EnumLibrary.</param>
 		/// </summary>
         public void RemoveEnumLibrary(IEnumLibrary enumLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccEnumLibrary) enumLibrary).UmlPackage);
 		}
 
 		/// <summary>
@@ -199,7 +240,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<ICdtLibrary> GetCdtLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("CDTLibrary"))
+            {
+                yield return new UpccCdtLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -209,7 +253,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public ICdtLibrary GetCdtLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("CDTLibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccCdtLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -219,7 +274,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public ICdtLibrary CreateCdtLibrary(CdtLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccCdtLibrary(UmlPackage.CreatePackage(CdtLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -230,16 +285,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public ICdtLibrary UpdateCdtLibrary(ICdtLibrary cdtLibrary, CdtLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccCdtLibrary(UmlPackage.UpdatePackage(((UpccCdtLibrary) cdtLibrary).UmlPackage, CdtLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a CDTLibrary from this bLibrary.
-		/// <param name="cdtLibrary">A CDTLibrary.</param>
+		/// Removes a CdtLibrary from this bLibrary.
+		/// <param name="cdtLibrary">A CdtLibrary.</param>
 		/// </summary>
         public void RemoveCdtLibrary(ICdtLibrary cdtLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccCdtLibrary) cdtLibrary).UmlPackage);
 		}
 
 		/// <summary>
@@ -247,7 +302,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<ICcLibrary> GetCcLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("CCLibrary"))
+            {
+                yield return new UpccCcLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -257,7 +315,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public ICcLibrary GetCcLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("CCLibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccCcLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -267,7 +336,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public ICcLibrary CreateCcLibrary(CcLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccCcLibrary(UmlPackage.CreatePackage(CcLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -278,16 +347,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public ICcLibrary UpdateCcLibrary(ICcLibrary ccLibrary, CcLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccCcLibrary(UmlPackage.UpdatePackage(((UpccCcLibrary) ccLibrary).UmlPackage, CcLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a CCLibrary from this bLibrary.
-		/// <param name="ccLibrary">A CCLibrary.</param>
+		/// Removes a CcLibrary from this bLibrary.
+		/// <param name="ccLibrary">A CcLibrary.</param>
 		/// </summary>
         public void RemoveCcLibrary(ICcLibrary ccLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccCcLibrary) ccLibrary).UmlPackage);
 		}
 
 		/// <summary>
@@ -295,7 +364,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<IBdtLibrary> GetBdtLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("BDTLibrary"))
+            {
+                yield return new UpccBdtLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -305,7 +377,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBdtLibrary GetBdtLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("BDTLibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccBdtLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -315,7 +398,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBdtLibrary CreateBdtLibrary(BdtLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBdtLibrary(UmlPackage.CreatePackage(BdtLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -326,16 +409,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBdtLibrary UpdateBdtLibrary(IBdtLibrary bdtLibrary, BdtLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBdtLibrary(UmlPackage.UpdatePackage(((UpccBdtLibrary) bdtLibrary).UmlPackage, BdtLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a BDTLibrary from this bLibrary.
-		/// <param name="bdtLibrary">A BDTLibrary.</param>
+		/// Removes a BdtLibrary from this bLibrary.
+		/// <param name="bdtLibrary">A BdtLibrary.</param>
 		/// </summary>
         public void RemoveBdtLibrary(IBdtLibrary bdtLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccBdtLibrary) bdtLibrary).UmlPackage);
 		}
 
 		/// <summary>
@@ -343,7 +426,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<IBieLibrary> GetBieLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("BIELibrary"))
+            {
+                yield return new UpccBieLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -353,7 +439,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBieLibrary GetBieLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("BIELibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccBieLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -363,7 +460,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBieLibrary CreateBieLibrary(BieLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBieLibrary(UmlPackage.CreatePackage(BieLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -374,16 +471,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBieLibrary UpdateBieLibrary(IBieLibrary bieLibrary, BieLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccBieLibrary(UmlPackage.UpdatePackage(((UpccBieLibrary) bieLibrary).UmlPackage, BieLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a BIELibrary from this bLibrary.
-		/// <param name="bieLibrary">A BIELibrary.</param>
+		/// Removes a BieLibrary from this bLibrary.
+		/// <param name="bieLibrary">A BieLibrary.</param>
 		/// </summary>
         public void RemoveBieLibrary(IBieLibrary bieLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccBieLibrary) bieLibrary).UmlPackage);
 		}
 
 		/// <summary>
@@ -391,7 +488,10 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnumerable<IDocLibrary> GetDocLibraries()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("DOCLibrary"))
+            {
+                yield return new UpccDocLibrary(package);
+            }
 		}
 
 		/// <summary>
@@ -401,7 +501,18 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IDocLibrary GetDocLibraryByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("DOCLibrary"))
+            {
+				if (name == package.Name)
+				{
+                    return new UpccDocLibrary(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
@@ -411,7 +522,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IDocLibrary CreateDocLibrary(DocLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccDocLibrary(UmlPackage.CreatePackage(DocLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -422,16 +533,16 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IDocLibrary UpdateDocLibrary(IDocLibrary docLibrary, DocLibrarySpec specification)
 		{
-			throw new NotImplementedException();
+		    return new UpccDocLibrary(UmlPackage.UpdatePackage(((UpccDocLibrary) docLibrary).UmlPackage, DocLibrarySpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Removes a DOCLibrary from this bLibrary.
-		/// <param name="docLibrary">A DOCLibrary.</param>
+		/// Removes a DocLibrary from this bLibrary.
+		/// <param name="docLibrary">A DocLibrary.</param>
 		/// </summary>
         public void RemoveDocLibrary(IDocLibrary docLibrary)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((UpccDocLibrary) docLibrary).UmlPackage);
 		}
 
         ///<summary>
@@ -439,7 +550,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> BusinessTerms
         {
-            get { return umlPackage.GetTaggedValue("businessTerm").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("businessTerm").SplitValues; }
         }
 
         ///<summary>
@@ -447,7 +558,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Copyrights
         {
-            get { return umlPackage.GetTaggedValue("copyright").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("copyright").SplitValues; }
         }
 
         ///<summary>
@@ -455,7 +566,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Owners
         {
-            get { return umlPackage.GetTaggedValue("owner").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("owner").SplitValues; }
         }
 
         ///<summary>
@@ -463,7 +574,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> References
         {
-            get { return umlPackage.GetTaggedValue("reference").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("reference").SplitValues; }
         }
 
         ///<summary>
@@ -471,7 +582,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string Status
         {
-            get { return umlPackage.GetTaggedValue("status").Value; }
+            get { return UmlPackage.GetTaggedValue("status").Value; }
         }
 
         ///<summary>
@@ -479,7 +590,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string UniqueIdentifier
         {
-            get { return umlPackage.GetTaggedValue("uniqueIdentifier").Value; }
+            get { return UmlPackage.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
         ///<summary>
@@ -487,7 +598,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string VersionIdentifier
         {
-            get { return umlPackage.GetTaggedValue("versionIdentifier").Value; }
+            get { return UmlPackage.GetTaggedValue("versionIdentifier").Value; }
         }
 
         #endregion

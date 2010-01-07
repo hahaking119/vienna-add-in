@@ -122,6 +122,26 @@ namespace VIENNAAddIn.upcc3.ea
             throw new NotImplementedException();
         }
 
+        public IEnumerable<IUmlPackage> GetPackagesByStereotype(string stereotype)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlPackage CreatePackage(UmlPackageSpec umlPackageSpec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlPackage UpdatePackage(IUmlPackage umlPackage, UmlPackageSpec umlPackageSpec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemovePackage(IUmlPackage umlPackage)
+        {
+            throw new NotImplementedException();
+        }
+
         public IUmlPackage Parent
         {
             get { return new EaUmlPackage(eaRepository, eaRepository.GetPackageByID(eaPackage.ParentID)); }

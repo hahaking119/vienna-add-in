@@ -236,13 +236,18 @@
     <Compile Include="upcc3\repo\BbieSpecConverter.cs" />
     <Compile Include="upcc3\repo\BccSpecConverter.cs" />
     <Compile Include="upcc3\repo\BdtConSpecConverter.cs" />
+    <Compile Include="upcc3\repo\BdtLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\BdtSpecConverter.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BdtSpecConverter.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\repo\BdtSupSpecConverter.cs" />
+    <Compile Include="upcc3\repo\BieLibrarySpecConverter.cs" />
+    <Compile Include="upcc3\repo\BLibrarySpecConverter.cs" />
+    <Compile Include="upcc3\repo\CcLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\CdtConSpecConverter.cs" />
+    <Compile Include="upcc3\repo\CdtLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\CdtSpecConverter.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -250,6 +255,8 @@
     </Compile>
     <Compile Include="upcc3\repo\CdtSupSpecConverter.cs" />
     <Compile Include="upcc3\repo\CodelistEntrySpecConverter.cs" />
+    <Compile Include="upcc3\repo\DocLibrarySpecConverter.cs" />
+    <Compile Include="upcc3\repo\EnumLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\EnumSpecConverter.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -261,6 +268,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MaSpecConverter.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\PrimLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\PrimSpecConverter.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -373,6 +381,7 @@
     <Compile Include="upcc3\uml\UmlAttributeSpec.cs" />
     <Compile Include="upcc3\uml\UmlDataTypeSpec.cs" />
     <Compile Include="upcc3\uml\UmlDependencySpec.cs" />
+    <Compile Include="upcc3\uml\UmlPackageSpec.cs" />
     <Compile Include="upcc3\uml\UmlTaggedValueSpec.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\exceptions\TemporaryAbieModelException.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateBdtLibrary.cs" />

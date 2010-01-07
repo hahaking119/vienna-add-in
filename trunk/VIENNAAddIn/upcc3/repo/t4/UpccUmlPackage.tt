@@ -6,19 +6,18 @@
 <#@ include file="t4/CctsRepositoryNamespaces.tt" #>
 using System;
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
     internal <#= extendManually ? "partial " : "" #>class Upcc<#= metaPackage.Name #> : I<#= metaPackage.Name #>
     {
-        private readonly IUmlPackage umlPackage;
-
         public Upcc<#= metaPackage.Name #>(IUmlPackage umlPackage)
         {
-            this.umlPackage = umlPackage;
+            UmlPackage = umlPackage;
         }
+
+        public IUmlPackage UmlPackage { get; private set; }
 
         #region I<#= metaPackage.Name #> Members
 
@@ -27,7 +26,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public int Id
         {
-            get { return umlPackage.Id; }
+            get { return UmlPackage.Id; }
         }
 
 		/// <summary>
@@ -35,7 +34,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public string Name
         {
-            get { return umlPackage.Name; }
+            get { return UmlPackage.Name; }
         }
 <#
 ///==========================================================================================================================
@@ -51,7 +50,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public I<#= relation.ParentPackageType.Name #> <#= relation.ParentPackageRole #>
         {
-            get { return new Upcc<#= relation.ParentPackageType.Name #>(umlPackage.Parent); }
+            get { return new Upcc<#= relation.ParentPackageType.Name #>(UmlPackage.Parent); }
         }
 <#
 		}
@@ -62,56 +61,75 @@ namespace VIENNAAddIn.upcc3.repo
 
 		foreach (var relation in MetaModel.GetSubPackageRelationsFor(metaPackage))
 		{
-			var subPackage = relation.SubPackageType.Stereotype;
-			var subPackageParamName = relation.SubPackageType.Name.FirstCharToLowerCase();
+			var subPackage = relation.SubPackageType.Name;
+			var subPackageParamName = subPackage.FirstCharToLowerCase();
+			var subPackageStereotype = relation.SubPackageType.Stereotype;
+			var subPackageInterface = "I" + relation.SubPackageType.Name;
+			var subPackageSpec = relation.SubPackageType.Name + "Spec";
+			var subPackageSpecConverter = subPackageSpec + "Converter";
+			var subPackageUpccClass = "Upcc" + relation.SubPackageType.Name;
 #>
 
 		/// <summary>
-		/// The <#= subPackage #>s contained in this <#= metaPackage.Stereotype #>.
+		/// The <#= subPackageStereotype #>s contained in this <#= metaPackage.Stereotype #>.
 		/// </summary>
-		public IEnumerable<I<#= relation.SubPackageType.Name #>> Get<#= relation.SubPackageRole #>()
+		public IEnumerable<<#= subPackageInterface #>> Get<#= relation.SubPackageRole #>()
 		{
-			throw new NotImplementedException();
+            foreach (var package in UmlPackage.GetPackagesByStereotype("<#= subPackageStereotype #>"))
+            {
+                yield return new <#= subPackageUpccClass #>(package);
+            }
 		}
 
 		/// <summary>
-		/// Retrieves a <#= subPackage #> by name.
-		/// <param name="name">A <#= subPackage #>'s name.</param>
-		/// <returns>The <#= subPackage #> with the given <paramref name="name"/> or <c>null</c> if no such <#= subPackage #> is found.</returns>
+		/// Retrieves a <#= subPackageStereotype #> by name.
+		/// <param name="name">A <#= subPackageStereotype #>'s name.</param>
+		/// <returns>The <#= subPackageStereotype #> with the given <paramref name="name"/> or <c>null</c> if no such <#= subPackageStereotype #> is found.</returns>
 		/// </summary>
-        public I<#= relation.SubPackageType.Name #> Get<#= relation.SubPackageType.Name #>ByName(string name)
+        public <#= subPackageInterface #> Get<#= subPackage #>ByName(string name)
 		{
-			throw new NotImplementedException();
+			if (string.IsNullOrEmpty(name))
+			{
+				return null;
+			}
+            foreach (var package in UmlPackage.GetPackagesByStereotype("<#= subPackageStereotype #>"))
+            {
+				if (name == package.Name)
+				{
+                    return new <#= subPackageUpccClass #>(package);
+				}
+            }
+			return null;
 		}
 
 		/// <summary>
-		/// Creates a <#= subPackage #> based on the given <paramref name="specification"/>.
-		/// <param name="specification">A specification for a <#= subPackage #>.</param>
-		/// <returns>The newly created <#= subPackage #>.</returns>
+		/// Creates a <#= subPackageStereotype #> based on the given <paramref name="specification"/>.
+		/// <param name="specification">A specification for a <#= subPackageStereotype #>.</param>
+		/// <returns>The newly created <#= subPackageStereotype #>.</returns>
 		/// </summary>
-		public I<#= relation.SubPackageType.Name #> Create<#= relation.SubPackageType.Name #>(<#= relation.SubPackageType.Name #>Spec specification)
+		public <#= subPackageInterface #> Create<#= subPackage #>(<#= subPackageSpec #> specification)
 		{
-			throw new NotImplementedException();
+		    return new <#= subPackageUpccClass #>(UmlPackage.CreatePackage(<#= subPackageSpecConverter #>.Convert(specification)));
 		}
 
 		/// <summary>
-		/// Updates a <#= subPackage #> to match the given <paramref name="specification"/>.
-		/// <param name="<#= subPackageParamName #>">A <#= subPackage #>.</param>
-		/// <param name="specification">A new specification for the given <#= subPackage #>.</param>
-		/// <returns>The updated <#= subPackage #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
+		/// Updates a <#= subPackageStereotype #> to match the given <paramref name="specification"/>.
+		/// <param name="<#= subPackageParamName #>">A <#= subPackageStereotype #>.</param>
+		/// <param name="specification">A new specification for the given <#= subPackageStereotype #>.</param>
+		/// <returns>The updated <#= subPackageStereotype #>. Depending on the implementation, this might be the same updated instance or a new instance!</returns>
 		/// </summary>
-        public I<#= relation.SubPackageType.Name #> Update<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>, <#= relation.SubPackageType.Name #>Spec specification)
+        public <#= subPackageInterface #> Update<#= subPackage #>(<#= subPackageInterface #> <#= subPackageParamName #>, <#= subPackageSpec #> specification)
 		{
-			throw new NotImplementedException();
+		    return new <#= subPackageUpccClass #>(UmlPackage.UpdatePackage(((<#= subPackageUpccClass #>) <#= subPackageParamName #>).UmlPackage, <#= subPackageSpecConverter #>.Convert(specification)));
 		}
 
 		/// <summary>
 		/// Removes a <#= subPackage #> from this <#= metaPackage.Stereotype #>.
 		/// <param name="<#= subPackageParamName #>">A <#= subPackage #>.</param>
 		/// </summary>
-        public void Remove<#= relation.SubPackageType.Name #>(I<#= relation.SubPackageType.Name #> <#= subPackageParamName #>)
+        public void Remove<#= subPackage #>(<#= subPackageInterface #> <#= subPackageParamName #>)
 		{
-			throw new NotImplementedException();
+            UmlPackage.RemovePackage(((<#= subPackageUpccClass #>) <#= subPackageParamName #>).UmlPackage);
 		}
 <#
 		}
@@ -137,7 +155,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var <#= umlClassifier #> in umlPackage.<#= umlClassifierType.Plural() #>)
+                foreach (var <#= umlClassifier #> in UmlPackage.<#= umlClassifierType.Plural() #>)
                 {
                     yield return new Upcc<#= classifierType #>(<#= umlClassifier #>);
                 }
@@ -168,7 +186,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public I<#= classifierType #> Create<#= classifierType #>(<#= classifierType #>Spec specification)
 		{
-		    return new Upcc<#= classifierType #>(umlPackage.Create<#= umlClassifierType #>(<#= classifierType #>SpecConverter.Convert(specification)));
+		    return new Upcc<#= classifierType #>(UmlPackage.Create<#= umlClassifierType #>(<#= classifierType #>SpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -179,7 +197,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public I<#= classifierType #> Update<#= classifierType #>(I<#= classifierType #> <#= classifier #>, <#= classifierType #>Spec specification)
 		{
-		    return new Upcc<#= classifierType #>(umlPackage.Update<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>, <#= classifierType #>SpecConverter.Convert(specification)));
+		    return new Upcc<#= classifierType #>(UmlPackage.Update<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>, <#= classifierType #>SpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -188,7 +206,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void Remove<#= relation.ClassifierType.Name #>(I<#= relation.ClassifierType.Name #> <#= classifier #>)
 		{
-            umlPackage.Remove<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>);
+            UmlPackage.Remove<#= umlClassifierType #>(((Upcc<#= classifierType #>) <#= classifier #>).Uml<#= umlClassifierType #>);
 		}
 <#
 		}
@@ -206,7 +224,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public <#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string" #> <#= metaTaggedValue.AsPropertyName() #>
         {
-            get { return umlPackage.GetTaggedValue("<#= metaTaggedValue.Name #>").<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
+            get { return UmlPackage.GetTaggedValue("<#= metaTaggedValue.Name #>").<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
         }
 <#
 		}

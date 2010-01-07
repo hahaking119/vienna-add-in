@@ -17,12 +17,12 @@ namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccBdtLibrary : IBdtLibrary
     {
-        private readonly IUmlPackage umlPackage;
-
         public UpccBdtLibrary(IUmlPackage umlPackage)
         {
-            this.umlPackage = umlPackage;
+            UmlPackage = umlPackage;
         }
+
+        public IUmlPackage UmlPackage { get; private set; }
 
         #region IBdtLibrary Members
 
@@ -31,7 +31,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public int Id
         {
-            get { return umlPackage.Id; }
+            get { return UmlPackage.Id; }
         }
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public string Name
         {
-            get { return umlPackage.Name; }
+            get { return UmlPackage.Name; }
         }
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBLibrary BLibrary
         {
-            get { return new UpccBLibrary(umlPackage.Parent); }
+            get { return new UpccBLibrary(UmlPackage.Parent); }
         }
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlClass in umlPackage.Classes)
+                foreach (var umlClass in UmlPackage.Classes)
                 {
                     yield return new UpccBdt(umlClass);
                 }
@@ -88,7 +88,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBdt CreateBdt(BdtSpec specification)
 		{
-		    return new UpccBdt(umlPackage.CreateClass(BdtSpecConverter.Convert(specification)));
+		    return new UpccBdt(UmlPackage.CreateClass(BdtSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBdt UpdateBdt(IBdt bdt, BdtSpec specification)
 		{
-		    return new UpccBdt(umlPackage.UpdateClass(((UpccBdt) bdt).UmlClass, BdtSpecConverter.Convert(specification)));
+		    return new UpccBdt(UmlPackage.UpdateClass(((UpccBdt) bdt).UmlClass, BdtSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveBdt(IBdt bdt)
 		{
-            umlPackage.RemoveClass(((UpccBdt) bdt).UmlClass);
+            UmlPackage.RemoveClass(((UpccBdt) bdt).UmlClass);
 		}
 
         ///<summary>
@@ -116,7 +116,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> BusinessTerms
         {
-            get { return umlPackage.GetTaggedValue("businessTerm").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("businessTerm").SplitValues; }
         }
 
         ///<summary>
@@ -124,7 +124,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Copyrights
         {
-            get { return umlPackage.GetTaggedValue("copyright").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("copyright").SplitValues; }
         }
 
         ///<summary>
@@ -132,7 +132,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Owners
         {
-            get { return umlPackage.GetTaggedValue("owner").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("owner").SplitValues; }
         }
 
         ///<summary>
@@ -140,7 +140,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> References
         {
-            get { return umlPackage.GetTaggedValue("reference").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("reference").SplitValues; }
         }
 
         ///<summary>
@@ -148,7 +148,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string Status
         {
-            get { return umlPackage.GetTaggedValue("status").Value; }
+            get { return UmlPackage.GetTaggedValue("status").Value; }
         }
 
         ///<summary>
@@ -156,7 +156,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string UniqueIdentifier
         {
-            get { return umlPackage.GetTaggedValue("uniqueIdentifier").Value; }
+            get { return UmlPackage.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
         ///<summary>
@@ -164,7 +164,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string VersionIdentifier
         {
-            get { return umlPackage.GetTaggedValue("versionIdentifier").Value; }
+            get { return UmlPackage.GetTaggedValue("versionIdentifier").Value; }
         }
 
         ///<summary>
@@ -172,7 +172,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string BaseURN
         {
-            get { return umlPackage.GetTaggedValue("baseURN").Value; }
+            get { return UmlPackage.GetTaggedValue("baseURN").Value; }
         }
 
         ///<summary>
@@ -180,7 +180,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string NamespacePrefix
         {
-            get { return umlPackage.GetTaggedValue("namespacePrefix").Value; }
+            get { return UmlPackage.GetTaggedValue("namespacePrefix").Value; }
         }
 
         #endregion

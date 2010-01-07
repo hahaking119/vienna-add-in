@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.uml
@@ -28,5 +29,10 @@ namespace VIENNAAddIn.upcc3.uml
         IUmlEnumeration CreateEnumeration(UmlEnumerationSpec umlEnumerationSpec);
         IUmlEnumeration UpdateEnumeration(IUmlEnumeration umlEnumeration, UmlEnumerationSpec umlEnumerationSpec);
         void RemoveEnumeration(IUmlEnumeration umlEnumeration);
+
+        IEnumerable<IUmlPackage> GetPackagesByStereotype(string stereotype);
+        IUmlPackage CreatePackage(UmlPackageSpec umlPackageSpec);
+        IUmlPackage UpdatePackage(IUmlPackage umlPackage, UmlPackageSpec umlPackageSpec);
+        void RemovePackage(IUmlPackage umlPackage);
     }
 }
