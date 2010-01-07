@@ -225,11 +225,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AbieSpecConverter.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\AbieSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\AccSpecConverter.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AccSpecConverter.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\AccSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\AsbieSpecConverter.cs" />
     <Compile Include="upcc3\repo\AsccSpecConverter.cs" />
     <Compile Include="upcc3\repo\AsmaSpecConverter.cs" />
@@ -242,6 +244,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BdtSpecConverter.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\BdtSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\BdtSupSpecConverter.cs" />
     <Compile Include="upcc3\repo\BieLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\BLibrarySpecConverter.cs" />
@@ -253,6 +256,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CdtSpecConverter.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\CdtSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\CdtSupSpecConverter.cs" />
     <Compile Include="upcc3\repo\CodelistEntrySpecConverter.cs" />
     <Compile Include="upcc3\repo\DocLibrarySpecConverter.cs" />
@@ -262,6 +266,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EnumSpecConverter.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\EnumSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\IdSchemeSpecConverter.cs" />
     <Compile Include="upcc3\repo\MaSpecConverter.cs">
       <AutoGen>True</AutoGen>
@@ -274,6 +279,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PrimSpecConverter.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\PrimSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\UpccAbie.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

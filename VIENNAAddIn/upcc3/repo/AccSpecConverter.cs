@@ -1,4 +1,5 @@
 // ReSharper disable RedundantUsingDirective
+using System;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -14,7 +15,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal static class AccSpecConverter
+    internal static partial class AccSpecConverter
     {
 		internal static UmlClassSpec Convert(AccSpec accSpec)
 		{
@@ -23,13 +24,13 @@ namespace VIENNAAddIn.upcc3.repo
 					Name = accSpec.Name,
 					TaggedValues = new[]
 						{
-							new UmlTaggedValueSpec("businessTerm", accSpec.BusinessTerms),
-							new UmlTaggedValueSpec("definition", accSpec.Definition),
-							new UmlTaggedValueSpec("dictionaryEntryName", accSpec.DictionaryEntryName),
-							new UmlTaggedValueSpec("languageCode", accSpec.LanguageCode),
-							new UmlTaggedValueSpec("uniqueIdentifier", accSpec.UniqueIdentifier),
-							new UmlTaggedValueSpec("versionIdentifier", accSpec.VersionIdentifier),
-							new UmlTaggedValueSpec("usageRule", accSpec.UsageRules),
+							new UmlTaggedValueSpec("businessTerm", accSpec.BusinessTerms) ,
+							new UmlTaggedValueSpec("definition", accSpec.Definition) ,
+							new UmlTaggedValueSpec("dictionaryEntryName", accSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(accSpec) },
+							new UmlTaggedValueSpec("languageCode", accSpec.LanguageCode) ,
+							new UmlTaggedValueSpec("uniqueIdentifier", accSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(accSpec) },
+							new UmlTaggedValueSpec("versionIdentifier", accSpec.VersionIdentifier) ,
+							new UmlTaggedValueSpec("usageRule", accSpec.UsageRules) ,
 						},
 					Dependencies = new []
 						{

@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal static class MaSpecConverter
+    internal static partial class MaSpecConverter
     {
 		internal static UmlClassSpec Convert(MaSpec maSpec)
 		{
