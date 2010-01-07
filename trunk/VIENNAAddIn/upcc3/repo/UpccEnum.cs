@@ -55,7 +55,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var enumerationLiteral in UmlEnumeration.GetEnumerationLiteralsByStereotype("CodelistEntry"))
                 {
-                    yield return new UpccCodelistEntry(enumerationLiteral);
+                    yield return new UpccCodelistEntry(enumerationLiteral, this);
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public ICodelistEntry CreateCodelistEntry(CodelistEntrySpec specification)
 		{
-		    return new UpccCodelistEntry(UmlEnumeration.CreateEnumerationLiteral(CodelistEntrySpecConverter.Convert(specification)));
+		    return new UpccCodelistEntry(UmlEnumeration.CreateEnumerationLiteral(CodelistEntrySpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public ICodelistEntry UpdateCodelistEntry(ICodelistEntry codelistEntry, CodelistEntrySpec specification)
 		{
-		    return new UpccCodelistEntry(UmlEnumeration.UpdateEnumerationLiteral(((UpccCodelistEntry) codelistEntry).UmlEnumerationLiteral, CodelistEntrySpecConverter.Convert(specification)));
+		    return new UpccCodelistEntry(UmlEnumeration.UpdateEnumerationLiteral(((UpccCodelistEntry) codelistEntry).UmlEnumerationLiteral, CodelistEntrySpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>

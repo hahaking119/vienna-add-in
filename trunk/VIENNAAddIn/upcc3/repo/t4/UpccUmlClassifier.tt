@@ -210,7 +210,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var enumerationLiteral in <#= umlClassifier #>.GetEnumerationLiteralsByStereotype("<#= enumerationLiteral.Stereotype #>"))
                 {
-                    yield return new Upcc<#= enumerationLiteral.ClassName #>(enumerationLiteral);
+                    yield return new Upcc<#= enumerationLiteral.ClassName #>(enumerationLiteral, this);
                 }
             }
         }
@@ -227,7 +227,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public I<#= enumerationLiteral.ClassName #> Create<#= enumerationLiteral.ClassName #>(<#= enumerationLiteral.ClassName #>Spec specification)
 		{
-		    return new Upcc<#= enumerationLiteral.ClassName #>(<#= umlClassifier #>.CreateEnumerationLiteral(<#= enumerationLiteral.ClassName #>SpecConverter.Convert(specification)));
+		    return new Upcc<#= enumerationLiteral.ClassName #>(<#= umlClassifier #>.CreateEnumerationLiteral(<#= enumerationLiteral.ClassName #>SpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -238,7 +238,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public I<#= enumerationLiteral.ClassName #> Update<#= enumerationLiteral.ClassName #>(I<#= enumerationLiteral.ClassName #> <#= enumerationLiteralParamName #>, <#= enumerationLiteral.ClassName #>Spec specification)
 		{
-		    return new Upcc<#= enumerationLiteral.ClassName #>(<#= umlClassifier #>.UpdateEnumerationLiteral(((Upcc<#= enumerationLiteral.ClassName #>) <#= enumerationLiteralParamName #>).UmlEnumerationLiteral, <#= enumerationLiteral.ClassName #>SpecConverter.Convert(specification)));
+		    return new Upcc<#= enumerationLiteral.ClassName #>(<#= umlClassifier #>.UpdateEnumerationLiteral(((Upcc<#= enumerationLiteral.ClassName #>) <#= enumerationLiteralParamName #>).UmlEnumerationLiteral, <#= enumerationLiteral.ClassName #>SpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
