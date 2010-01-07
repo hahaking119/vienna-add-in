@@ -3,9 +3,6 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="VIENNAAddInUtils"#>
 <#@ import namespace="VIENNAAddInUtils.t4"#>
-<# 
-	var library = metaPackage.Name.FirstCharToLowerCase();
-#>
 <#@ include file="t4/CctsRepositoryNamespaces.tt" #>
 using System;
 using System.Collections.Generic;
@@ -130,7 +127,7 @@ namespace VIENNAAddIn.upcc3.repo
 			var classifier = classifierType.FirstCharToLowerCase();
 			if (classifier == "enum") classifier = "@enum"; // dirty hack to avoid naming conflict with 'enum'
 			var umlClassifierType = relation.ClassifierType.GetType().Name.Substring(4);
-			var umlClassifier = "uml" + umlClassifierType.FirstCharToLowerCase();
+			var umlClassifier = "uml" + umlClassifierType;
 #>
 
 		/// <summary>
@@ -209,7 +206,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public <#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "IEnumerable<string>" : "string" #> <#= metaTaggedValue.AsPropertyName() #>
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.<#= metaTaggedValue.Name #>).<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
+            get { return umlPackage.GetTaggedValue("<#= metaTaggedValue.Name #>").<#= metaTaggedValue.Cardinality == MetaCardinality.Many ? "SplitValues" : "Value" #>; }
         }
 <#
 		}

@@ -44,9 +44,9 @@ namespace VIENNAAddIn.upcc3.ea
             throw new NotImplementedException();
         }
 
-        public IUmlTaggedValue GetTaggedValue(TaggedValues name)
+        public IUmlTaggedValue GetTaggedValue(string name)
         {
-            return EaUmlTaggedValue.ForEaTaggedValue(GetEATaggedValueByName(name.ToString()));
+            return EaUmlTaggedValue.ForEaTaggedValue(GetEATaggedValueByName(name));
         }
 
         public IUmlClass CreateClass(UmlClassSpec spec)

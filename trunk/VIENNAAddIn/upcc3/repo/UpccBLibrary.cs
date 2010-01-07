@@ -439,7 +439,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> BusinessTerms
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.businessTerm).SplitValues; }
+            get { return umlPackage.GetTaggedValue("businessTerm").SplitValues; }
         }
 
         ///<summary>
@@ -447,7 +447,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Copyrights
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.copyright).SplitValues; }
+            get { return umlPackage.GetTaggedValue("copyright").SplitValues; }
         }
 
         ///<summary>
@@ -455,7 +455,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Owners
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.owner).SplitValues; }
+            get { return umlPackage.GetTaggedValue("owner").SplitValues; }
         }
 
         ///<summary>
@@ -463,7 +463,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> References
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.reference).SplitValues; }
+            get { return umlPackage.GetTaggedValue("reference").SplitValues; }
         }
 
         ///<summary>
@@ -471,7 +471,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string Status
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.status).Value; }
+            get { return umlPackage.GetTaggedValue("status").Value; }
         }
 
         ///<summary>
@@ -479,7 +479,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string UniqueIdentifier
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.uniqueIdentifier).Value; }
+            get { return umlPackage.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
         ///<summary>
@@ -487,7 +487,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string VersionIdentifier
         {
-            get { return umlPackage.GetTaggedValue(TaggedValues.versionIdentifier).Value; }
+            get { return umlPackage.GetTaggedValue("versionIdentifier").Value; }
         }
 
         #endregion

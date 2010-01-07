@@ -87,10 +87,7 @@ namespace Upcc
 
         internal readonly MetaTaggedValue MinimumLength = new MetaTaggedValue("minimumLength");
 
-        internal readonly MetaTaggedValue ModificationAllowedIndicator = new MetaTaggedValue("modificationAllowedIndicator")
-                                                                       {
-                                                                           Type = "bool",
-                                                                       };
+        internal readonly MetaTaggedValue ModificationAllowedIndicator = new MetaTaggedValue("modificationAllowedIndicator");
 
         internal readonly MetaTaggedValue NamespacePrefix = new MetaTaggedValue("namespacePrefix")
                                                           {
