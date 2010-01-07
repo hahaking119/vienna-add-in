@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal static class CdtSpecConverter
+    internal static partial class CdtSpecConverter
     {
 		internal static UmlClassSpec Convert(CdtSpec cdtSpec)
 		{
@@ -23,13 +23,13 @@ namespace VIENNAAddIn.upcc3.repo
 					Name = cdtSpec.Name,
 					TaggedValues = new[]
 						{
-							new UmlTaggedValueSpec("businessTerm", cdtSpec.BusinessTerms),
-							new UmlTaggedValueSpec("definition", cdtSpec.Definition),
-							new UmlTaggedValueSpec("dictionaryEntryName", cdtSpec.DictionaryEntryName),
-							new UmlTaggedValueSpec("languageCode", cdtSpec.LanguageCode),
-							new UmlTaggedValueSpec("uniqueIdentifier", cdtSpec.UniqueIdentifier),
-							new UmlTaggedValueSpec("versionIdentifier", cdtSpec.VersionIdentifier),
-							new UmlTaggedValueSpec("usageRule", cdtSpec.UsageRules),
+							new UmlTaggedValueSpec("businessTerm", cdtSpec.BusinessTerms) ,
+							new UmlTaggedValueSpec("definition", cdtSpec.Definition) ,
+							new UmlTaggedValueSpec("dictionaryEntryName", cdtSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(cdtSpec) },
+							new UmlTaggedValueSpec("languageCode", cdtSpec.LanguageCode) ,
+							new UmlTaggedValueSpec("uniqueIdentifier", cdtSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(cdtSpec) },
+							new UmlTaggedValueSpec("versionIdentifier", cdtSpec.VersionIdentifier) ,
+							new UmlTaggedValueSpec("usageRule", cdtSpec.UsageRules) ,
 						},
 					Dependencies = new []
 						{

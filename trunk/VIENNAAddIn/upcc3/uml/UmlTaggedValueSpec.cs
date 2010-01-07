@@ -10,18 +10,17 @@ namespace VIENNAAddIn.upcc3.uml
         {
             Name = name;
             Value = value;
+            DefaultValue = string.Empty;
         }
 
         public UmlTaggedValueSpec(string name, IEnumerable<string> values) : this(name, MultiPartTaggedValue.Merge(values))
         {
         }
 
-        public UmlTaggedValueSpec(string name, bool value) : this(name, value.ToString())
-        {
-        }
-
         public string Name { get; set; }
         public string Value { get; set; }
+
+        public string DefaultValue { get; set; }
 
         #region IEquatable<UmlTaggedValueSpec> Members
 

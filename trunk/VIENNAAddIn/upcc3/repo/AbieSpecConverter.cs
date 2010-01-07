@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal static class AbieSpecConverter
+    internal static partial class AbieSpecConverter
     {
 		internal static UmlClassSpec Convert(AbieSpec abieSpec)
 		{
@@ -23,13 +23,13 @@ namespace VIENNAAddIn.upcc3.repo
 					Name = abieSpec.Name,
 					TaggedValues = new[]
 						{
-							new UmlTaggedValueSpec("businessTerm", abieSpec.BusinessTerms),
-							new UmlTaggedValueSpec("definition", abieSpec.Definition),
-							new UmlTaggedValueSpec("dictionaryEntryName", abieSpec.DictionaryEntryName),
-							new UmlTaggedValueSpec("languageCode", abieSpec.LanguageCode),
-							new UmlTaggedValueSpec("uniqueIdentifier", abieSpec.UniqueIdentifier),
-							new UmlTaggedValueSpec("versionIdentifier", abieSpec.VersionIdentifier),
-							new UmlTaggedValueSpec("usageRule", abieSpec.UsageRules),
+							new UmlTaggedValueSpec("businessTerm", abieSpec.BusinessTerms) ,
+							new UmlTaggedValueSpec("definition", abieSpec.Definition) ,
+							new UmlTaggedValueSpec("dictionaryEntryName", abieSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(abieSpec) },
+							new UmlTaggedValueSpec("languageCode", abieSpec.LanguageCode) ,
+							new UmlTaggedValueSpec("uniqueIdentifier", abieSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(abieSpec) },
+							new UmlTaggedValueSpec("versionIdentifier", abieSpec.VersionIdentifier) ,
+							new UmlTaggedValueSpec("usageRule", abieSpec.UsageRules) ,
 						},
 					Dependencies = new []
 						{

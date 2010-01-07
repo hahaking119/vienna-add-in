@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.repo
 {
-    internal static class EnumSpecConverter
+    internal static partial class EnumSpecConverter
     {
 		internal static UmlEnumerationSpec Convert(EnumSpec enumSpec)
 		{
@@ -23,20 +23,20 @@ namespace VIENNAAddIn.upcc3.repo
 					Name = enumSpec.Name,
 					TaggedValues = new[]
 						{
-							new UmlTaggedValueSpec("businessTerm", enumSpec.BusinessTerms),
-							new UmlTaggedValueSpec("codeListAgencyIdentifier", enumSpec.CodeListAgencyIdentifier),
-							new UmlTaggedValueSpec("codeListAgencyName", enumSpec.CodeListAgencyName),
-							new UmlTaggedValueSpec("codeListIdentifier", enumSpec.CodeListIdentifier),
-							new UmlTaggedValueSpec("codeListName", enumSpec.CodeListName),
-							new UmlTaggedValueSpec("dictionaryEntryName", enumSpec.DictionaryEntryName),
-							new UmlTaggedValueSpec("definition", enumSpec.Definition),
-							new UmlTaggedValueSpec("enumerationURI", enumSpec.EnumerationURI),
-							new UmlTaggedValueSpec("languageCode", enumSpec.LanguageCode),
-							new UmlTaggedValueSpec("modificationAllowedIndicator", enumSpec.ModificationAllowedIndicator),
-							new UmlTaggedValueSpec("restrictedPrimitive", enumSpec.RestrictedPrimitive),
-							new UmlTaggedValueSpec("status", enumSpec.Status),
-							new UmlTaggedValueSpec("uniqueIdentifier", enumSpec.UniqueIdentifier),
-							new UmlTaggedValueSpec("versionIdentifier", enumSpec.VersionIdentifier),
+							new UmlTaggedValueSpec("businessTerm", enumSpec.BusinessTerms) ,
+							new UmlTaggedValueSpec("codeListAgencyIdentifier", enumSpec.CodeListAgencyIdentifier) ,
+							new UmlTaggedValueSpec("codeListAgencyName", enumSpec.CodeListAgencyName) ,
+							new UmlTaggedValueSpec("codeListIdentifier", enumSpec.CodeListIdentifier) ,
+							new UmlTaggedValueSpec("codeListName", enumSpec.CodeListName) ,
+							new UmlTaggedValueSpec("dictionaryEntryName", enumSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(enumSpec) },
+							new UmlTaggedValueSpec("definition", enumSpec.Definition) ,
+							new UmlTaggedValueSpec("enumerationURI", enumSpec.EnumerationURI) ,
+							new UmlTaggedValueSpec("languageCode", enumSpec.LanguageCode) ,
+							new UmlTaggedValueSpec("modificationAllowedIndicator", enumSpec.ModificationAllowedIndicator) ,
+							new UmlTaggedValueSpec("restrictedPrimitive", enumSpec.RestrictedPrimitive) ,
+							new UmlTaggedValueSpec("status", enumSpec.Status) ,
+							new UmlTaggedValueSpec("uniqueIdentifier", enumSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(enumSpec) },
+							new UmlTaggedValueSpec("versionIdentifier", enumSpec.VersionIdentifier) ,
 						},
 					Dependencies = new []
 						{
