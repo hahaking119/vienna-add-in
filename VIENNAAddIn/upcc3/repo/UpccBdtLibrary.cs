@@ -1,4 +1,5 @@
 // ReSharper disable RedundantUsingDirective
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.BLibrary;
@@ -10,7 +11,6 @@ using CctsRepository.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
 using System;
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo

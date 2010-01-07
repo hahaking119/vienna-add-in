@@ -1,4 +1,5 @@
 // ReSharper disable RedundantUsingDirective
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.BLibrary;
@@ -62,7 +63,7 @@ namespace VIENNAAddIn.upcc3.repo
             get
             {
                 var attribute = UmlClass.GetFirstAttributeByStereotype("CON");
-                return attribute == null ? null : new UpccBdtCon(attribute);
+                return attribute == null ? null : new UpccBdtCon(attribute, this);
             }
         }
 
@@ -72,7 +73,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var attribute in UmlClass.GetAttributesByStereotype("SUP"))
                 {
-                    yield return new UpccBdtSup(attribute);
+                    yield return new UpccBdtSup(attribute, this);
                 }
             }
         }
@@ -84,7 +85,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBdtSup CreateBdtSup(BdtSupSpec specification)
 		{
-		    return new UpccBdtSup(UmlClass.CreateAttribute(BdtSupSpecConverter.Convert(specification)));
+		    return new UpccBdtSup(UmlClass.CreateAttribute(BdtSupSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -95,7 +96,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBdtSup UpdateBdtSup(IBdtSup bdtSup, BdtSupSpec specification)
 		{
-		    return new UpccBdtSup(UmlClass.UpdateAttribute(((UpccBdtSup) bdtSup).UmlAttribute, BdtSupSpecConverter.Convert(specification)));
+		    return new UpccBdtSup(UmlClass.UpdateAttribute(((UpccBdtSup) bdtSup).UmlAttribute, BdtSupSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>

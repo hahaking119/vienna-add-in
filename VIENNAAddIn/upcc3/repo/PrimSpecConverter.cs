@@ -1,4 +1,5 @@
 // ReSharper disable RedundantUsingDirective
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.BLibrary;

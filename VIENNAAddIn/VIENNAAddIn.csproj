@@ -287,20 +287,36 @@
     <Compile Include="upcc3\repo\UpccAsbie.cs" />
     <Compile Include="upcc3\repo\UpccAscc.cs" />
     <Compile Include="upcc3\repo\UpccAsma.cs" />
-    <Compile Include="upcc3\repo\UpccBbie.cs" />
-    <Compile Include="upcc3\repo\UpccBcc.cs" />
+    <Compile Include="upcc3\repo\UpccBbie.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccBbie.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccBcc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccBcc.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccBdt.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccBdt.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccBdtCon.cs" />
+    <Compile Include="upcc3\repo\UpccBdtCon.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccBdtCon.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccBdtLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccBdtLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccBdtSup.cs" />
+    <Compile Include="upcc3\repo\UpccBdtSup.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccBdtSup.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccBieLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -321,13 +337,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccCdt.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccCdtCon.cs" />
+    <Compile Include="upcc3\repo\UpccCdtCon.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccCdtCon.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccCdtLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccCdtLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccCdtSup.cs" />
+    <Compile Include="upcc3\repo\UpccCdtSup.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccCdtSup.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccCodelistEntry.cs" />
     <Compile Include="upcc3\repo\UpccDocLibrary.cs">
       <AutoGen>True</AutoGen>
@@ -532,6 +556,8 @@
     </None>
     <None Include="upcc3\repo\t4\ClassifierSpecConverter.tt">
     </None>
+    <None Include="upcc3\repo\t4\UpccUmlAttribute.tt">
+    </None>
     <None Include="upcc3\repo\t4\UpccUmlClassifier.tt">
     </None>
     <None Include="upcc3\repo\UpccAbie.tt">
@@ -542,13 +568,29 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccAcc.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\UpccBbie.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccBbie.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccBcc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccBcc.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\UpccBdt.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccBdt.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\UpccBdtCon.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccBdtCon.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\UpccBdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccBdtLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccBdtSup.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccBdtSup.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\UpccBieLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -566,9 +608,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccCdt.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\UpccCdtCon.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccCdtCon.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\UpccCdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccCdtLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccCdtSup.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccCdtSup.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\UpccDocLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

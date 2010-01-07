@@ -1,3 +1,4 @@
+using System;
 using EA;
 using VIENNAAddIn.upcc3.uml;
 
@@ -34,6 +35,11 @@ namespace VIENNAAddIn.upcc3.ea
         public IUmlPackage Package
         {
             get { return new EaUmlPackage(eaRepository, eaRepository.GetPackageByID(eaElement.PackageID)); }
+        }
+
+        public string Stereotype
+        {
+            get { return eaElement.Stereotype; }
         }
 
         public IUmlTaggedValue GetTaggedValue(string name)

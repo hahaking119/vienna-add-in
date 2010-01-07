@@ -1,4 +1,5 @@
 // ReSharper disable RedundantUsingDirective
+using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.BLibrary;
@@ -63,7 +64,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var attribute in UmlClass.GetAttributesByStereotype("BBIE"))
                 {
-                    yield return new UpccBbie(attribute);
+                    yield return new UpccBbie(attribute, this);
                 }
             }
         }
@@ -75,7 +76,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBbie CreateBbie(BbieSpec specification)
 		{
-		    return new UpccBbie(UmlClass.CreateAttribute(BbieSpecConverter.Convert(specification)));
+		    return new UpccBbie(UmlClass.CreateAttribute(BbieSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -86,7 +87,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBbie UpdateBbie(IBbie bbie, BbieSpec specification)
 		{
-		    return new UpccBbie(UmlClass.UpdateAttribute(((UpccBbie) bbie).UmlAttribute, BbieSpecConverter.Convert(specification)));
+		    return new UpccBbie(UmlClass.UpdateAttribute(((UpccBbie) bbie).UmlAttribute, BbieSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
