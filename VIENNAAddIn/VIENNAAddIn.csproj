@@ -370,7 +370,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccCdtSup.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccCodelistEntry.cs" />
+    <Compile Include="upcc3\repo\UpccCodelistEntry.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccCodelistEntry.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccDocLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -574,6 +578,8 @@
     </None>
     <None Include="upcc3\repo\t4\ClassifierSpecConverter.tt">
     </None>
+    <None Include="upcc3\repo\t4\UpccUmlEnumerationLiteral.tt">
+    </None>
     <None Include="upcc3\repo\t4\UpccUmlAssociation.tt">
     </None>
     <None Include="upcc3\repo\t4\UpccUmlAttribute.tt">
@@ -651,6 +657,10 @@
     <None Include="upcc3\repo\UpccCdtSup.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccCdtSup.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccCodelistEntry.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccCodelistEntry.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\UpccDocLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
