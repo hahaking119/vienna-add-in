@@ -8,12 +8,38 @@ namespace VIENNAAddIn.upcc3.repo
     {
         public IMa DocumentRoot
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var mas = new List<IMa>(Mas);
+                // collect ASMAs
+                var asmas = new List<IAsma>();
+                foreach (var ma in Mas)
+                {
+                    if (ma.Asmas != null)
+                    {
+                        asmas.AddRange(ma.Asmas);
+                    }
+                }
+                // remove all MAs that are associated via an ASMA
+                foreach (var asma in asmas)
+                {
+                    if (asma.AssociatedBieAggregator.IsMa)
+                    {
+                        mas.Remove(asma.AssociatedBieAggregator.Ma);
+                    }
+                }
+                return mas.Count == 0 ? null : mas[0];
+            }
         }
 
         public IEnumerable<IMa> NonRootMas
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var mas = new List<IMa>(Mas);
+                mas.Remove(DocumentRoot);
+                return mas;
+            }
         }
     }
 }

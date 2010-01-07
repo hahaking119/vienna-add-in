@@ -1,83 +1,124 @@
-using System;
-using System.Collections.Generic;
+// ReSharper disable RedundantUsingDirective
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
 using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
+using System.Collections.Generic;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccIdScheme : IIdScheme
     {
-        public IUmlDataType UmlDataType { get; set; }
-
         public UpccIdScheme(IUmlDataType umlDataType)
         {
             UmlDataType = umlDataType;
-            throw new NotImplementedException();
         }
+
+        public IUmlDataType UmlDataType { get; private set; }
+
+        #region IIdScheme Members
 
         public int Id
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.Id; }
         }
 
         public string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.Name; }
         }
 
-        public IEnumLibrary EnumLibrary
+		public IEnumLibrary EnumLibrary
         {
-            get { throw new NotImplementedException(); }
+            get { return new UpccEnumLibrary(UmlDataType.Package); }
         }
 
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
         public IEnumerable<string> BusinessTerms
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("businessTerm").SplitValues; }
         }
 
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
         public string Definition
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("definition").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
         public string DictionaryEntryName
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("dictionaryEntryName").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'identifierSchemeAgencyIdentifier'.
+        ///</summary>
         public string IdentifierSchemeAgencyIdentifier
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("identifierSchemeAgencyIdentifier").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'identifierSchemeAgencyName'.
+        ///</summary>
         public string IdentifierSchemeAgencyName
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("identifierSchemeAgencyName").Value; }
         }
 
-        public bool ModificationAllowedIndicator
+        ///<summary>
+        /// Tagged value 'modificationAllowedIndicator'.
+        ///</summary>
+        public string ModificationAllowedIndicator
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("modificationAllowedIndicator").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'pattern'.
+        ///</summary>
         public string Pattern
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("pattern").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'restrictedPrimitive'.
+        ///</summary>
         public string RestrictedPrimitive
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("restrictedPrimitive").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
         public string UniqueIdentifier
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
         public string VersionIdentifier
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlDataType.GetTaggedValue("versionIdentifier").Value; }
         }
+
+        #endregion
     }
 }

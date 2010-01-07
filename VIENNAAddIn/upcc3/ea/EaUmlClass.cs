@@ -40,6 +40,51 @@ namespace VIENNAAddIn.upcc3.ea
             throw new NotImplementedException();
         }
 
+        public IEnumerable<IUmlAttribute> GetAttributesByStereotype(string stereotype)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlAttribute GetFirstAttributeByStereotype(string stereotype)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlAttribute CreateAttribute(UmlAttributeSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlAttribute UpdateAttribute(IUmlAttribute attribute, UmlAttributeSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAttribute(IUmlAttribute attribute)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IUmlAssociation> GetAssociationsByStereotype(string stereotype)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlAssociation CreateAssociation(UmlAssociationSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlAssociation UpdateAssociation(IUmlAssociation association, UmlAssociationSpec spec)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAssociation(IUmlAssociation association)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

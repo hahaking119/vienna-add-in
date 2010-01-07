@@ -82,9 +82,9 @@ namespace VIENNAAddIn.upcc3.ccts.dra
             get { return GetTaggedValue(TaggedValues.versionIdentifier); }
         }
 
-        public bool ModificationAllowedIndicator
+        public string ModificationAllowedIndicator
         {
-            get { return "true" == GetTaggedValue(TaggedValues.modificationAllowedIndicator).DefaultTo("true").ToLower(); }
+            get { return GetTaggedValue(TaggedValues.modificationAllowedIndicator); }
         }
 
         public IEnumerable<string> BusinessTerms

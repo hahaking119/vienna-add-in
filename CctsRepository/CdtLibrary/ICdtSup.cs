@@ -63,7 +63,7 @@ namespace CctsRepository.CdtLibrary
         ///<summary>
         /// Tagged value 'modificationAllowedIndicator'.
         ///</summary>
-		bool ModificationAllowedIndicator { get; }
+		string ModificationAllowedIndicator { get; }
 
         ///<summary>
         /// Tagged value 'uniqueIdentifier'.

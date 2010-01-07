@@ -103,7 +103,7 @@ namespace CctsRepository.BdtLibrary
         ///<summary>
         /// Tagged value 'modificationAllowedIndicator'.
         ///</summary>
-		bool ModificationAllowedIndicator { get; }
+		string ModificationAllowedIndicator { get; }
 
         ///<summary>
         /// Tagged value 'pattern'.

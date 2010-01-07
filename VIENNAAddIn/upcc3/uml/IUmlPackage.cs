@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.uml
 {
@@ -11,7 +10,7 @@ namespace VIENNAAddIn.upcc3.uml
 
         IUmlPackage Parent { get; }
 
-        IUmlTaggedValue GetTaggedValue(TaggedValues name);
+        IUmlTaggedValue GetTaggedValue(string name);
 
         IEnumerable<IUmlClass> Classes { get; }
         IUmlClass CreateClass(UmlClassSpec umlClassSpec);

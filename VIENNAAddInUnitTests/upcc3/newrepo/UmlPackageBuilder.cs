@@ -71,7 +71,7 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo
             foreach (var taggedValue in taggedValues)
             {
                 TaggedValues taggedValueName = taggedValue.Key;
-                mock.Setup(dataType => dataType.GetTaggedValue(taggedValueName)).Returns(taggedValue.Value);
+                mock.Setup(dataType => dataType.GetTaggedValue(taggedValueName.ToString())).Returns(taggedValue.Value);
             }
             return mock;
         }

@@ -18,6 +18,11 @@ namespace CctsRepository.<#= library.Name #>
 		
         I<#= library.Name #> <#= library.Name #> { get; }
 <# 
+
+///==========================================================================================================================
+/// Dependencies
+///==========================================================================================================================
+
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
 		{
 #>
@@ -25,6 +30,10 @@ namespace CctsRepository.<#= library.Name #>
 		I<#= dependency.TargetClassifierType.Name #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; }
 <#
 		}
+
+///==========================================================================================================================
+/// Attributes
+///==========================================================================================================================
 
 		foreach (var attribute in MetaModel.GetAttributesFor(metaClassifier))
 		{
@@ -60,7 +69,11 @@ namespace CctsRepository.<#= library.Name #>
 <#
 			}
 		}
-		
+
+///==========================================================================================================================
+/// Associations
+///==========================================================================================================================
+
 		foreach (var association in MetaModel.GetAssociationsForAssociatingClassifier(metaClassifier))
 		{
 #>
@@ -96,6 +109,10 @@ namespace CctsRepository.<#= library.Name #>
 			}
 		}
 
+///==========================================================================================================================
+/// Enumeration Literals
+///==========================================================================================================================
+
 		foreach (var enumerationLiteral in MetaModel.GetEnumerationLiteralsFor(metaClassifier))
 		{
 #>
@@ -130,7 +147,11 @@ namespace CctsRepository.<#= library.Name #>
 <#
 			}
 		}
-		
+
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
+
 		if (metaClassifier.HasTaggedValues)
 		{
 #>

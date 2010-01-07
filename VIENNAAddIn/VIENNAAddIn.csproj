@@ -266,14 +266,33 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PrimSpecConverter.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccAbie.cs" />
-    <Compile Include="upcc3\repo\UpccAcc.cs" />
-    <Compile Include="upcc3\repo\UpccBdt.cs" />
+    <Compile Include="upcc3\repo\UpccAbie.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccAbie.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccAcc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccAcc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccAsbie.cs" />
+    <Compile Include="upcc3\repo\UpccAscc.cs" />
+    <Compile Include="upcc3\repo\UpccAsma.cs" />
+    <Compile Include="upcc3\repo\UpccBbie.cs" />
+    <Compile Include="upcc3\repo\UpccBcc.cs" />
+    <Compile Include="upcc3\repo\UpccBdt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccBdt.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccBdtCon.cs" />
     <Compile Include="upcc3\repo\UpccBdtLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccBdtLibrary.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\UpccBdtSup.cs" />
     <Compile Include="upcc3\repo\UpccBieLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -289,26 +308,45 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccCcLibrary.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccCdt.cs" />
+    <Compile Include="upcc3\repo\UpccCdt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccCdt.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccCdtCon.cs" />
     <Compile Include="upcc3\repo\UpccCdtLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccCdtLibrary.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\repo\UpccCdtSup.cs" />
+    <Compile Include="upcc3\repo\UpccCodelistEntry.cs" />
     <Compile Include="upcc3\repo\UpccDocLibrary.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccDocLibrary.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\repo\UpccDocLibraryManualExtensions.cs" />
-    <Compile Include="upcc3\repo\UpccEnum.cs" />
+    <Compile Include="upcc3\repo\UpccEnum.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccEnum.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccEnumLibrary.cs">
       <DependentUpon>UpccEnumLibrary.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="upcc3\repo\UpccIdScheme.cs" />
-    <Compile Include="upcc3\repo\UpccMa.cs" />
+    <Compile Include="upcc3\repo\UpccIdScheme.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccIdScheme.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccMa.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccMa.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccPrim.cs">
       <DependentUpon>UpccPrim.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -320,11 +358,14 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="upcc3\repo\UpccRepository.cs" />
+    <Compile Include="upcc3\uml\IUmlAssociation.cs" />
+    <Compile Include="upcc3\uml\IUmlAttribute.cs" />
     <Compile Include="upcc3\uml\IUmlClass.cs" />
     <Compile Include="upcc3\uml\IUmlClassifier.cs" />
     <Compile Include="upcc3\uml\IUmlDataType.cs" />
     <Compile Include="upcc3\uml\IUmlDependency.cs" />
     <Compile Include="upcc3\uml\IUmlEnumeration.cs" />
+    <Compile Include="upcc3\uml\IUmlEnumerationLiteral.cs" />
     <Compile Include="upcc3\uml\IUmlPackage.cs" />
     <Compile Include="upcc3\uml\IUmlRepository.cs" />
     <Compile Include="upcc3\uml\IUmlTaggedValue.cs" />
@@ -482,6 +523,20 @@
     </None>
     <None Include="upcc3\repo\t4\ClassifierSpecConverter.tt">
     </None>
+    <None Include="upcc3\repo\t4\UpccUmlClassifier.tt">
+    </None>
+    <None Include="upcc3\repo\UpccAbie.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccAbie.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccAcc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccAcc.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccBdt.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccBdt.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\UpccBdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccBdtLibrary.cs</LastGenOutput>
@@ -498,6 +553,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccCcLibrary.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\UpccCdt.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccCdt.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\UpccCdtLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccCdtLibrary.cs</LastGenOutput>
@@ -506,9 +565,21 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccDocLibrary.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\UpccEnum.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccEnum.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\UpccEnumLibrary.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccEnumLibrary.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccIdScheme.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccIdScheme.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccMa.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccMa.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\UpccPrim.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

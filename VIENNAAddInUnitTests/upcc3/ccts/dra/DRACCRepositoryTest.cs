@@ -606,7 +606,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                                CodeListIdentifier = "code list identifier",
                                CodeListName = "code list name",
                                EnumerationURI = "enumeration URI",
-                               ModificationAllowedIndicator = true,
+                               ModificationAllowedIndicator = "true",
                                RestrictedPrimitive = "String",
                                Status = "status",
                                IsEquivalentTo = enumAbcCodes,

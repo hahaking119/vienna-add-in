@@ -3,7 +3,7 @@
 <#@ assembly name="Upcc.dll" #>
 <#@ import namespace="Upcc"#>
 <# 
-	var metaClassifier = MetaModel.Prim;
+	var metaClassifier = MetaModel.Bdt;
 	var extendManually = false;
 #>
 <#@ include file="t4/UpccUmlClassifier.tt" #>
