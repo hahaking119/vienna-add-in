@@ -10,19 +10,18 @@ using CctsRepository.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
 using System;
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccEnumLibrary : IEnumLibrary
     {
-        private readonly IUmlPackage umlPackage;
-
         public UpccEnumLibrary(IUmlPackage umlPackage)
         {
-            this.umlPackage = umlPackage;
+            UmlPackage = umlPackage;
         }
+
+        public IUmlPackage UmlPackage { get; private set; }
 
         #region IEnumLibrary Members
 
@@ -31,7 +30,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public int Id
         {
-            get { return umlPackage.Id; }
+            get { return UmlPackage.Id; }
         }
 
 		/// <summary>
@@ -39,7 +38,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public string Name
         {
-            get { return umlPackage.Name; }
+            get { return UmlPackage.Name; }
         }
 
 		/// <summary>
@@ -47,7 +46,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBLibrary BLibrary
         {
-            get { return new UpccBLibrary(umlPackage.Parent); }
+            get { return new UpccBLibrary(UmlPackage.Parent); }
         }
 
 		/// <summary>
@@ -57,7 +56,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlEnumeration in umlPackage.Enumerations)
+                foreach (var umlEnumeration in UmlPackage.Enumerations)
                 {
                     yield return new UpccEnum(umlEnumeration);
                 }
@@ -88,7 +87,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IEnum CreateEnum(EnumSpec specification)
 		{
-		    return new UpccEnum(umlPackage.CreateEnumeration(EnumSpecConverter.Convert(specification)));
+		    return new UpccEnum(UmlPackage.CreateEnumeration(EnumSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -99,7 +98,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IEnum UpdateEnum(IEnum @enum, EnumSpec specification)
 		{
-		    return new UpccEnum(umlPackage.UpdateEnumeration(((UpccEnum) @enum).UmlEnumeration, EnumSpecConverter.Convert(specification)));
+		    return new UpccEnum(UmlPackage.UpdateEnumeration(((UpccEnum) @enum).UmlEnumeration, EnumSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -108,7 +107,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveEnum(IEnum @enum)
 		{
-            umlPackage.RemoveEnumeration(((UpccEnum) @enum).UmlEnumeration);
+            UmlPackage.RemoveEnumeration(((UpccEnum) @enum).UmlEnumeration);
 		}
 
 		/// <summary>
@@ -118,7 +117,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
             get
             {
-                foreach (var umlDataType in umlPackage.DataTypes)
+                foreach (var umlDataType in UmlPackage.DataTypes)
                 {
                     yield return new UpccIdScheme(umlDataType);
                 }
@@ -149,7 +148,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IIdScheme CreateIdScheme(IdSchemeSpec specification)
 		{
-		    return new UpccIdScheme(umlPackage.CreateDataType(IdSchemeSpecConverter.Convert(specification)));
+		    return new UpccIdScheme(UmlPackage.CreateDataType(IdSchemeSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -160,7 +159,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IIdScheme UpdateIdScheme(IIdScheme idScheme, IdSchemeSpec specification)
 		{
-		    return new UpccIdScheme(umlPackage.UpdateDataType(((UpccIdScheme) idScheme).UmlDataType, IdSchemeSpecConverter.Convert(specification)));
+		    return new UpccIdScheme(UmlPackage.UpdateDataType(((UpccIdScheme) idScheme).UmlDataType, IdSchemeSpecConverter.Convert(specification)));
 		}
 
 		/// <summary>
@@ -169,7 +168,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public void RemoveIdScheme(IIdScheme idScheme)
 		{
-            umlPackage.RemoveDataType(((UpccIdScheme) idScheme).UmlDataType);
+            UmlPackage.RemoveDataType(((UpccIdScheme) idScheme).UmlDataType);
 		}
 
         ///<summary>
@@ -177,7 +176,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> BusinessTerms
         {
-            get { return umlPackage.GetTaggedValue("businessTerm").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("businessTerm").SplitValues; }
         }
 
         ///<summary>
@@ -185,7 +184,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Copyrights
         {
-            get { return umlPackage.GetTaggedValue("copyright").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("copyright").SplitValues; }
         }
 
         ///<summary>
@@ -193,7 +192,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> Owners
         {
-            get { return umlPackage.GetTaggedValue("owner").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("owner").SplitValues; }
         }
 
         ///<summary>
@@ -201,7 +200,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public IEnumerable<string> References
         {
-            get { return umlPackage.GetTaggedValue("reference").SplitValues; }
+            get { return UmlPackage.GetTaggedValue("reference").SplitValues; }
         }
 
         ///<summary>
@@ -209,7 +208,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string Status
         {
-            get { return umlPackage.GetTaggedValue("status").Value; }
+            get { return UmlPackage.GetTaggedValue("status").Value; }
         }
 
         ///<summary>
@@ -217,7 +216,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string UniqueIdentifier
         {
-            get { return umlPackage.GetTaggedValue("uniqueIdentifier").Value; }
+            get { return UmlPackage.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
         ///<summary>
@@ -225,7 +224,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string VersionIdentifier
         {
-            get { return umlPackage.GetTaggedValue("versionIdentifier").Value; }
+            get { return UmlPackage.GetTaggedValue("versionIdentifier").Value; }
         }
 
         ///<summary>
@@ -233,7 +232,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string BaseURN
         {
-            get { return umlPackage.GetTaggedValue("baseURN").Value; }
+            get { return UmlPackage.GetTaggedValue("baseURN").Value; }
         }
 
         ///<summary>
@@ -241,7 +240,7 @@ namespace VIENNAAddIn.upcc3.repo
         ///</summary>
         public string NamespacePrefix
         {
-            get { return umlPackage.GetTaggedValue("namespacePrefix").Value; }
+            get { return UmlPackage.GetTaggedValue("namespacePrefix").Value; }
         }
 
         #endregion
