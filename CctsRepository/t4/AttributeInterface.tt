@@ -25,6 +25,10 @@ namespace CctsRepository.<#= library.Name #>
 		
 		<#= typeClassName #> <#= metaAttribute.Type.Name #> { get; }
 <#
+///==========================================================================================================================
+/// Dependencies
+///==========================================================================================================================
+
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaAttribute))
 		{
 #>
@@ -32,6 +36,10 @@ namespace CctsRepository.<#= library.Name #>
 		I<#= dependency.TargetAttribute.ClassName #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; }
 <#
 		}
+
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
 
 		if (metaAttribute.HasTaggedValues)
 		{

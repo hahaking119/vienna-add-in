@@ -105,7 +105,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var association in UmlClass.GetAssociationsByStereotype("ASBIE"))
                 {
-                    yield return new UpccAsbie(association);
+                    yield return new UpccAsbie(association, this);
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IAsbie CreateAsbie(AsbieSpec specification)
 		{
-		    return new UpccAsbie(UmlClass.CreateAssociation(AsbieSpecConverter.Convert(specification)));
+		    return new UpccAsbie(UmlClass.CreateAssociation(AsbieSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IAsbie UpdateAsbie(IAsbie asbie, AsbieSpec specification)
 		{
-		    return new UpccAsbie(UmlClass.UpdateAssociation(((UpccAsbie) asbie).UmlAssociation, AsbieSpecConverter.Convert(specification)));
+		    return new UpccAsbie(UmlClass.UpdateAssociation(((UpccAsbie) asbie).UmlAssociation, AsbieSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>

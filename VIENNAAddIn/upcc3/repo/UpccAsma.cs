@@ -1,52 +1,78 @@
-using System;
+// ReSharper disable RedundantUsingDirective
 using CctsRepository;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
+using System;
+using System.Collections.Generic;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccAsma : IAsma
     {
-        public IUmlAssociation UmlAssociation { get; set; }
-
-        public UpccAsma(IUmlAssociation umlAssociation)
+        public UpccAsma(IUmlAssociation umlAssociation, IMa associatingMa)
         {
             UmlAssociation = umlAssociation;
+			AssociatingMa = associatingMa;
         }
+
+        public IUmlAssociation UmlAssociation { get; private set; }
+
+        #region IAsma Members
 
         public int Id
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.Id; }
         }
 
         public string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.Name; }
         }
 
         public string UpperBound
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+		{
+            get { return UmlAssociation.UpperBound; }
+		}
+		
         public string LowerBound
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+		{
+            get { return UmlAssociation.LowerBound; }
+		}
+		
         public bool IsOptional()
         {
-            throw new NotImplementedException();
+            int i;
+            return Int32.TryParse(LowerBound, out i) && i == 0;
         }
+		
+        public IMa AssociatingMa { get; private set; }
+		
+		public BieAggregator AssociatedBieAggregator
+		{
+			get
+			{
+				var associatedClassifier = UmlAssociation.AssociatedClassifier;
+                switch (associatedClassifier.Stereotype)
+                {
+                    case "ABIE":
+                    	return new BieAggregator(new UpccAbie((IUmlClass) associatedClassifier));
+                    case "MA":
+                    	return new BieAggregator(new UpccMa((IUmlClass) associatedClassifier));
+                    default:
+                        return null;
+                }
+			}
+		}
 
-        public IMa AssociatingMa
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public BieAggregator AssociatedBieAggregator
-        {
-            get { throw new NotImplementedException(); }
-        }
+		#endregion
     }
 }
+
