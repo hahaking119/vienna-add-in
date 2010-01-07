@@ -6,6 +6,7 @@ namespace VIENNAAddIn.upcc3.uml
         string GUID { get; }
         string Name { get; }
         IUmlPackage Package { get; }
+        string Stereotype { get; }
         IUmlTaggedValue GetTaggedValue(string name);
     }
 }
