@@ -35,6 +35,10 @@ namespace CctsRepository.<#= library.Name #>
 
 		<#= associatedClassifierClassName #> Associated<#= metaAssociation.AssociatedClassifierType.Name #> { get; }
 <#
+///==========================================================================================================================
+/// Dependencies
+///==========================================================================================================================
+
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaAssociation))
 		{
 #>
@@ -42,6 +46,10 @@ namespace CctsRepository.<#= library.Name #>
 		I<#= dependency.TargetAssociation.ClassName #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; }
 <#
 		}
+
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
 
 		if (metaAssociation.HasTaggedValues)
 		{

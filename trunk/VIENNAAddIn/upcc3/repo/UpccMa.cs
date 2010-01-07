@@ -46,7 +46,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var association in UmlClass.GetAssociationsByStereotype("ASMA"))
                 {
-                    yield return new UpccAsma(association);
+                    yield return new UpccAsma(association, this);
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IAsma CreateAsma(AsmaSpec specification)
 		{
-		    return new UpccAsma(UmlClass.CreateAssociation(AsmaSpecConverter.Convert(specification)));
+		    return new UpccAsma(UmlClass.CreateAssociation(AsmaSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IAsma UpdateAsma(IAsma asma, AsmaSpec specification)
 		{
-		    return new UpccAsma(UmlClass.UpdateAssociation(((UpccAsma) asma).UmlAssociation, AsmaSpecConverter.Convert(specification)));
+		    return new UpccAsma(UmlClass.UpdateAssociation(((UpccAsma) asma).UmlAssociation, AsmaSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>

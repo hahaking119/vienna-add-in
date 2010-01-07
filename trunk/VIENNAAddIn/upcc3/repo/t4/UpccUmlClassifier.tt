@@ -152,7 +152,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var association in <#= umlClassifier #>.GetAssociationsByStereotype("<#= association.Stereotype #>"))
                 {
-                    yield return new Upcc<#= association.ClassName #>(association);
+                    yield return new Upcc<#= association.ClassName #>(association, this);
                 }
             }
         }
@@ -169,7 +169,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public I<#= association.ClassName #> Create<#= association.ClassName #>(<#= association.ClassName #>Spec specification)
 		{
-		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.CreateAssociation(<#= association.ClassName #>SpecConverter.Convert(specification)));
+		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.CreateAssociation(<#= association.ClassName #>SpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -180,7 +180,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public I<#= association.ClassName #> Update<#= association.ClassName #>(I<#= association.ClassName #> <#= associationParamName #>, <#= association.ClassName #>Spec specification)
 		{
-		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.UpdateAssociation(((Upcc<#= association.ClassName #>) <#= associationParamName #>).UmlAssociation, <#= association.ClassName #>SpecConverter.Convert(specification)));
+		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.UpdateAssociation(((Upcc<#= association.ClassName #>) <#= associationParamName #>).UmlAssociation, <#= association.ClassName #>SpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>

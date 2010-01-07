@@ -96,7 +96,7 @@ namespace VIENNAAddIn.upcc3.repo
             {
                 foreach (var association in UmlClass.GetAssociationsByStereotype("ASCC"))
                 {
-                    yield return new UpccAscc(association);
+                    yield return new UpccAscc(association, this);
                 }
             }
         }
@@ -108,7 +108,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IAscc CreateAscc(AsccSpec specification)
 		{
-		    return new UpccAscc(UmlClass.CreateAssociation(AsccSpecConverter.Convert(specification)));
+		    return new UpccAscc(UmlClass.CreateAssociation(AsccSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IAscc UpdateAscc(IAscc ascc, AsccSpec specification)
 		{
-		    return new UpccAscc(UmlClass.UpdateAssociation(((UpccAscc) ascc).UmlAssociation, AsccSpecConverter.Convert(specification)));
+		    return new UpccAscc(UmlClass.UpdateAssociation(((UpccAscc) ascc).UmlAssociation, AsccSpecConverter.Convert(specification)), this);
 		}
 
 		/// <summary>

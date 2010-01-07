@@ -1,104 +1,163 @@
+// ReSharper disable RedundantUsingDirective
+using CctsRepository;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
+// ReSharper restore RedundantUsingDirective
 using System;
 using System.Collections.Generic;
-using CctsRepository;
-using CctsRepository.BieLibrary;
-using CctsRepository.CcLibrary;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.repo
 {
     internal class UpccAsbie : IAsbie
     {
-        public IUmlAssociation UmlAssociation { get; set; }
-
-        public UpccAsbie(IUmlAssociation umlAssociation)
+        public UpccAsbie(IUmlAssociation umlAssociation, IAbie associatingAbie)
         {
             UmlAssociation = umlAssociation;
+			AssociatingAbie = associatingAbie;
         }
+
+        public IUmlAssociation UmlAssociation { get; private set; }
+
+        #region IAsbie Members
 
         public int Id
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.Id; }
         }
 
         public string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.Name; }
         }
 
         public string UpperBound
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+		{
+            get { return UmlAssociation.UpperBound; }
+		}
+		
         public string LowerBound
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+		{
+            get { return UmlAssociation.LowerBound; }
+		}
+		
         public bool IsOptional()
         {
-            throw new NotImplementedException();
+            int i;
+            return Int32.TryParse(LowerBound, out i) && i == 0;
         }
 
-        public AggregationKind AggregationKind
+		public AggregationKind AggregationKind
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.AggregationKind; }
         }
+		
+        public IAbie AssociatingAbie { get; private set; }
+		
+		public IAbie AssociatedAbie
+		{
+			get
+			{
+				return new UpccAbie((IUmlClass) UmlAssociation.AssociatedClassifier);
+			}
+		}
 
-        public IAbie AssociatingAbie
+		public IAscc BasedOn
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (AssociatingAbie == null)
+                {
+                    return null;
+                }
+                var acc = AssociatingAbie.BasedOn;
+                if (acc == null)
+                {
+                    return null;
+                }
+                string nameWithoutQualifiers = Name.Substring(Name.LastIndexOf('_') + 1);
+                foreach (var ascc in acc.Asccs)
+                {
+                    if (nameWithoutQualifiers == ascc.Name)
+                    {
+                        return ascc;
+                    }
+                }
+                return null;
+            }
         }
 
-        public IAbie AssociatedAbie
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IAscc BasedOn
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+        ///<summary>
+        /// Tagged value 'businessTerm'.
+        ///</summary>
         public IEnumerable<string> BusinessTerms
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("businessTerm").SplitValues; }
         }
 
+        ///<summary>
+        /// Tagged value 'definition'.
+        ///</summary>
         public string Definition
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("definition").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'dictionaryEntryName'.
+        ///</summary>
         public string DictionaryEntryName
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("dictionaryEntryName").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'languageCode'.
+        ///</summary>
         public string LanguageCode
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("languageCode").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'sequencingKey'.
+        ///</summary>
         public string SequencingKey
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("sequencingKey").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'uniqueIdentifier'.
+        ///</summary>
         public string UniqueIdentifier
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("uniqueIdentifier").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'versionIdentifier'.
+        ///</summary>
         public string VersionIdentifier
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("versionIdentifier").Value; }
         }
 
+        ///<summary>
+        /// Tagged value 'usageRule'.
+        ///</summary>
         public IEnumerable<string> UsageRules
         {
-            get { throw new NotImplementedException(); }
+            get { return UmlAssociation.GetTaggedValue("usageRule").SplitValues; }
         }
+
+		#endregion
     }
 }
+

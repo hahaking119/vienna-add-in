@@ -290,9 +290,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpccAcc.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\repo\UpccAsbie.cs" />
-    <Compile Include="upcc3\repo\UpccAscc.cs" />
-    <Compile Include="upcc3\repo\UpccAsma.cs" />
+    <Compile Include="upcc3\repo\UpccAsbie.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccAsbie.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccAscc.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccAscc.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\UpccAsma.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccAsma.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\UpccBbie.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -562,6 +574,8 @@
     </None>
     <None Include="upcc3\repo\t4\ClassifierSpecConverter.tt">
     </None>
+    <None Include="upcc3\repo\t4\UpccUmlAssociation.tt">
+    </None>
     <None Include="upcc3\repo\t4\UpccUmlAttribute.tt">
     </None>
     <None Include="upcc3\repo\t4\UpccUmlClassifier.tt">
@@ -573,6 +587,18 @@
     <None Include="upcc3\repo\UpccAcc.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpccAcc.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccAsbie.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccAsbie.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccAscc.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccAscc.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\UpccAsma.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccAsma.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\UpccBbie.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
