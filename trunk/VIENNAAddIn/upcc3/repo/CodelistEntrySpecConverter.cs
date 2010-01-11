@@ -17,7 +17,7 @@ namespace VIENNAAddIn.upcc3.repo
     {
 		internal static UmlEnumerationLiteralSpec Convert(CodelistEntrySpec codelistEntrySpec)
 		{
-			var umlEnumerationLiteralySpec = new UmlEnumerationLiteralSpec
+			var umlEnumerationLiteralSpec = new UmlEnumerationLiteralSpec
 				{
 					Stereotype = "CodelistEntry",
 					Name = codelistEntrySpec.Name,
@@ -29,7 +29,7 @@ namespace VIENNAAddIn.upcc3.repo
 	
 				};
 
-			return umlEnumerationLiteralySpec;
+			return umlEnumerationLiteralSpec;
 		}
 	}
 }
