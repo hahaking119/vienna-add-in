@@ -85,7 +85,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBdtSup CreateBdtSup(BdtSupSpec specification)
 		{
-		    return new UpccBdtSup(UmlClass.CreateAttribute(BdtSupSpecConverter.Convert(specification)), this);
+		    return new UpccBdtSup(UmlClass.CreateAttribute(BdtSupSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -96,7 +96,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBdtSup UpdateBdtSup(IBdtSup bdtSup, BdtSupSpec specification)
 		{
-		    return new UpccBdtSup(UmlClass.UpdateAttribute(((UpccBdtSup) bdtSup).UmlAttribute, BdtSupSpecConverter.Convert(specification)), this);
+		    return new UpccBdtSup(UmlClass.UpdateAttribute(((UpccBdtSup) bdtSup).UmlAttribute, BdtSupSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>

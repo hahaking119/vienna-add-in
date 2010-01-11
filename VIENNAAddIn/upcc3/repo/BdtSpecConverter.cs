@@ -20,6 +20,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var umlClassSpec = new UmlClassSpec
 				{
+					Stereotype = "BDT",
 					Name = bdtSpec.Name,
 					TaggedValues = new[]
 						{
@@ -51,11 +52,11 @@ namespace VIENNAAddIn.upcc3.repo
 				};
 
 			var attributeSpecs = new List<UmlAttributeSpec>();
-			attributeSpecs.Add(BdtConSpecConverter.Convert(bdtSpec.Con));
+			attributeSpecs.Add(BdtConSpecConverter.Convert(bdtSpec.Con, bdtSpec.Name));
 			umlClassSpec.Attributes = attributeSpecs;
 			foreach (var bdtSupSpec in bdtSpec.Sups)
 			{
-				attributeSpecs.Add(BdtSupSpecConverter.Convert(bdtSupSpec));
+				attributeSpecs.Add(BdtSupSpecConverter.Convert(bdtSupSpec, bdtSpec.Name));
 			}
 			umlClassSpec.Attributes = attributeSpecs;
 			umlClassSpec.Attributes = attributeSpecs;

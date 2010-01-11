@@ -1,5 +1,4 @@
 // ReSharper disable RedundantUsingDirective
-using System;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -21,6 +20,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var umlClassSpec = new UmlClassSpec
 				{
+					Stereotype = "ACC",
 					Name = accSpec.Name,
 					TaggedValues = new[]
 						{
@@ -47,7 +47,7 @@ namespace VIENNAAddIn.upcc3.repo
 			var attributeSpecs = new List<UmlAttributeSpec>();
 			foreach (var bccSpec in accSpec.Bccs)
 			{
-				attributeSpecs.Add(BccSpecConverter.Convert(bccSpec));
+				attributeSpecs.Add(BccSpecConverter.Convert(bccSpec, accSpec.Name));
 			}
 			umlClassSpec.Attributes = attributeSpecs;
 			umlClassSpec.Attributes = attributeSpecs;

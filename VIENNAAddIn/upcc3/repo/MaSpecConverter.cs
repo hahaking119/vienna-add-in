@@ -20,6 +20,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var umlClassSpec = new UmlClassSpec
 				{
+					Stereotype = "MA",
 					Name = maSpec.Name,
 				};
 

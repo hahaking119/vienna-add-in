@@ -20,6 +20,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var umlClassSpec = new UmlClassSpec
 				{
+					Stereotype = "ABIE",
 					Name = abieSpec.Name,
 					TaggedValues = new[]
 						{
@@ -53,7 +54,7 @@ namespace VIENNAAddIn.upcc3.repo
 			var attributeSpecs = new List<UmlAttributeSpec>();
 			foreach (var bbieSpec in abieSpec.Bbies)
 			{
-				attributeSpecs.Add(BbieSpecConverter.Convert(bbieSpec));
+				attributeSpecs.Add(BbieSpecConverter.Convert(bbieSpec, abieSpec.Name));
 			}
 			umlClassSpec.Attributes = attributeSpecs;
 			umlClassSpec.Attributes = attributeSpecs;

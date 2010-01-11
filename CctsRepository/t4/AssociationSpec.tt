@@ -31,6 +31,10 @@ namespace CctsRepository.<#= library.Name #>
 
 		public <#= associatedClassifierClassName #> Associated<#= metaAssociation.AssociatedClassifierType.Name #> { get; set; }
 <#
+///==========================================================================================================================
+/// Dependencies
+///==========================================================================================================================
+
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaAssociation))
 		{
 #>
@@ -38,6 +42,10 @@ namespace CctsRepository.<#= library.Name #>
 		public I<#= dependency.TargetAssociation.ClassName #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; set; }
 <#
 		}
+
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
 
 		if (metaAssociation.HasTaggedValues)
 		{
@@ -60,6 +68,10 @@ namespace CctsRepository.<#= library.Name #>
 		#endregion
 <#
 		}
+
+///==========================================================================================================================
+/// Clone Method
+///==========================================================================================================================
 
 		var cloned = FirstCharToLowerCase(metaAssociation.ClassName);
 #>

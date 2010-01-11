@@ -76,7 +76,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBbie CreateBbie(BbieSpec specification)
 		{
-		    return new UpccBbie(UmlClass.CreateAttribute(BbieSpecConverter.Convert(specification)), this);
+		    return new UpccBbie(UmlClass.CreateAttribute(BbieSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBbie UpdateBbie(IBbie bbie, BbieSpec specification)
 		{
-		    return new UpccBbie(UmlClass.UpdateAttribute(((UpccBbie) bbie).UmlAttribute, BbieSpecConverter.Convert(specification)), this);
+		    return new UpccBbie(UmlClass.UpdateAttribute(((UpccBbie) bbie).UmlAttribute, BbieSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
