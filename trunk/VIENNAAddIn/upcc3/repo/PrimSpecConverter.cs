@@ -20,6 +20,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var umlDataTypeSpec = new UmlDataTypeSpec
 				{
+					Stereotype = "PRIM",
 					Name = primSpec.Name,
 					TaggedValues = new[]
 						{

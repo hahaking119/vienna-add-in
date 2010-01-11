@@ -76,7 +76,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public ICdtSup CreateCdtSup(CdtSupSpec specification)
 		{
-		    return new UpccCdtSup(UmlClass.CreateAttribute(CdtSupSpecConverter.Convert(specification)), this);
+		    return new UpccCdtSup(UmlClass.CreateAttribute(CdtSupSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public ICdtSup UpdateCdtSup(ICdtSup cdtSup, CdtSupSpec specification)
 		{
-		    return new UpccCdtSup(UmlClass.UpdateAttribute(((UpccCdtSup) cdtSup).UmlAttribute, CdtSupSpecConverter.Convert(specification)), this);
+		    return new UpccCdtSup(UmlClass.UpdateAttribute(((UpccCdtSup) cdtSup).UmlAttribute, CdtSupSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>

@@ -23,6 +23,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var <#= umlSpec #> = new <#= umlSpecType #>
 				{
+					Stereotype = "<#= metaClassifier.Stereotype.ToString() #>",
 					Name = <#= spec #>.Name,
 <#
 ///==========================================================================================================================
@@ -98,7 +99,7 @@ namespace VIENNAAddIn.upcc3.repo
 #>
 			foreach (var <#= attributeSpec #> in <#= spec #>.<#= attribute.AttributeName #>)
 			{
-				attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= attributeSpec #>));
+				attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= attributeSpec #>, <#= spec #>.Name));
 			}
 			<#= umlSpec #>.Attributes = attributeSpecs;
 <#
@@ -106,7 +107,7 @@ namespace VIENNAAddIn.upcc3.repo
 			else
 			{
 #>
-			attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= spec #>.<#= attribute.AttributeName #>));
+			attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= spec #>.<#= attribute.AttributeName #>, <#= spec #>.Name));
 <#
 			}
 #>

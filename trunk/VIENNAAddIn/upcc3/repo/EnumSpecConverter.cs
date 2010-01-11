@@ -20,6 +20,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var umlEnumerationSpec = new UmlEnumerationSpec
 				{
+					Stereotype = "ENUM",
 					Name = enumSpec.Name,
 					TaggedValues = new[]
 						{

@@ -20,6 +20,7 @@ namespace VIENNAAddIn.upcc3.repo
 		{
 			var umlClassSpec = new UmlClassSpec
 				{
+					Stereotype = "CDT",
 					Name = cdtSpec.Name,
 					TaggedValues = new[]
 						{
@@ -44,11 +45,11 @@ namespace VIENNAAddIn.upcc3.repo
 				};
 
 			var attributeSpecs = new List<UmlAttributeSpec>();
-			attributeSpecs.Add(CdtConSpecConverter.Convert(cdtSpec.Con));
+			attributeSpecs.Add(CdtConSpecConverter.Convert(cdtSpec.Con, cdtSpec.Name));
 			umlClassSpec.Attributes = attributeSpecs;
 			foreach (var cdtSupSpec in cdtSpec.Sups)
 			{
-				attributeSpecs.Add(CdtSupSpecConverter.Convert(cdtSupSpec));
+				attributeSpecs.Add(CdtSupSpecConverter.Convert(cdtSupSpec, cdtSpec.Name));
 			}
 			umlClassSpec.Attributes = attributeSpecs;
 			umlClassSpec.Attributes = attributeSpecs;

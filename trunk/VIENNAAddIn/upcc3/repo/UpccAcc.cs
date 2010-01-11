@@ -67,7 +67,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
 		public IBcc CreateBcc(BccSpec specification)
 		{
-		    return new UpccBcc(UmlClass.CreateAttribute(BccSpecConverter.Convert(specification)), this);
+		    return new UpccBcc(UmlClass.CreateAttribute(BccSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </summary>
         public IBcc UpdateBcc(IBcc bcc, BccSpec specification)
 		{
-		    return new UpccBcc(UmlClass.UpdateAttribute(((UpccBcc) bcc).UmlAttribute, BccSpecConverter.Convert(specification)), this);
+		    return new UpccBcc(UmlClass.UpdateAttribute(((UpccBcc) bcc).UmlAttribute, BccSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>

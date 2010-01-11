@@ -232,12 +232,41 @@
       <DependentUpon>AccSpecConverter.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\repo\AccSpecConverterManualExtensions.cs" />
-    <Compile Include="upcc3\repo\AsbieSpecConverter.cs" />
-    <Compile Include="upcc3\repo\AsccSpecConverter.cs" />
-    <Compile Include="upcc3\repo\AsmaSpecConverter.cs" />
-    <Compile Include="upcc3\repo\BbieSpecConverter.cs" />
-    <Compile Include="upcc3\repo\BccSpecConverter.cs" />
-    <Compile Include="upcc3\repo\BdtConSpecConverter.cs" />
+    <Compile Include="upcc3\repo\AsbieSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AsbieSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\AsbieSpecConverterManualExtensions.cs" />
+    <Compile Include="upcc3\repo\AsccSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AsccSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\AsccSpecConverterManualExtensions.cs" />
+    <Compile Include="upcc3\repo\AsmaSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AsmaSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\BbieSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BbieSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\BbieSpecConverterManualExtensions.cs" />
+    <Compile Include="upcc3\repo\BccSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BccSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\BccSpecConverterManualExtensions.cs" />
+    <Compile Include="upcc3\repo\BdtConSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BdtConSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\BdtConSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\BdtLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\BdtSpecConverter.cs">
       <AutoGen>True</AutoGen>
@@ -245,11 +274,21 @@
       <DependentUpon>BdtSpecConverter.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\repo\BdtSpecConverterManualExtensions.cs" />
-    <Compile Include="upcc3\repo\BdtSupSpecConverter.cs" />
+    <Compile Include="upcc3\repo\BdtSupSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BdtSupSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\BdtSupSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\BieLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\BLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\CcLibrarySpecConverter.cs" />
-    <Compile Include="upcc3\repo\CdtConSpecConverter.cs" />
+    <Compile Include="upcc3\repo\CdtConSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CdtConSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\CdtConSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\CdtLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\CdtSpecConverter.cs">
       <AutoGen>True</AutoGen>
@@ -257,8 +296,17 @@
       <DependentUpon>CdtSpecConverter.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\repo\CdtSpecConverterManualExtensions.cs" />
-    <Compile Include="upcc3\repo\CdtSupSpecConverter.cs" />
-    <Compile Include="upcc3\repo\CodelistEntrySpecConverter.cs" />
+    <Compile Include="upcc3\repo\CdtSupSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CdtSupSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\CdtSupSpecConverterManualExtensions.cs" />
+    <Compile Include="upcc3\repo\CodelistEntrySpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CodelistEntrySpecConverter.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\repo\DocLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\EnumLibrarySpecConverter.cs" />
     <Compile Include="upcc3\repo\EnumSpecConverter.cs">
@@ -267,7 +315,12 @@
       <DependentUpon>EnumSpecConverter.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\repo\EnumSpecConverterManualExtensions.cs" />
-    <Compile Include="upcc3\repo\IdSchemeSpecConverter.cs" />
+    <Compile Include="upcc3\repo\IdSchemeSpecConverter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IdSchemeSpecConverter.tt</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\repo\IdSchemeSpecConverterManualExtensions.cs" />
     <Compile Include="upcc3\repo\MaSpecConverter.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -427,6 +480,7 @@
     <Compile Include="upcc3\uml\UmlAttributeSpec.cs" />
     <Compile Include="upcc3\uml\UmlDataTypeSpec.cs" />
     <Compile Include="upcc3\uml\UmlDependencySpec.cs" />
+    <Compile Include="upcc3\uml\UmlEnumerationLiteralSpec.cs" />
     <Compile Include="upcc3\uml\UmlPackageSpec.cs" />
     <Compile Include="upcc3\uml\UmlTaggedValueSpec.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\exceptions\TemporaryAbieModelException.cs" />
@@ -554,17 +608,61 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AccSpecConverter.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\AsbieSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsbieSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\AsccSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsccSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\AsmaSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AsmaSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\BbieSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BbieSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\BccSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BccSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\BdtConSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BdtConSpecConverter.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\BdtSpecConverter.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>BdtSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\BdtSupSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BdtSupSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\CdtConSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CdtConSpecConverter.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\CdtSpecConverter.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CdtSpecConverter.cs</LastGenOutput>
     </None>
+    <None Include="upcc3\repo\CdtSupSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CdtSupSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\CodelistEntrySpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CodelistEntrySpecConverter.cs</LastGenOutput>
+    </None>
     <None Include="upcc3\repo\EnumSpecConverter.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EnumSpecConverter.cs</LastGenOutput>
+    </None>
+    <None Include="upcc3\repo\IdSchemeSpecConverter.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IdSchemeSpecConverter.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\MaSpecConverter.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -577,6 +675,12 @@
     <None Include="upcc3\repo\t4\CctsRepositoryNamespaces.tt">
     </None>
     <None Include="upcc3\repo\t4\ClassifierSpecConverter.tt">
+    </None>
+    <None Include="upcc3\repo\t4\AttributeSpecConverter.tt">
+    </None>
+    <None Include="upcc3\repo\t4\AssociationSpecConverter.tt">
+    </None>
+    <None Include="upcc3\repo\t4\EnumerationLiteralSpecConverter.tt">
     </None>
     <None Include="upcc3\repo\t4\UpccUmlEnumerationLiteral.tt">
     </None>

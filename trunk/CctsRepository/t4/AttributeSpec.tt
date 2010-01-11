@@ -19,6 +19,10 @@ namespace CctsRepository.<#= library.Name #>
 		
 		public <#= typeClassName #> <#= metaAttribute.Type.Name #> { get; set; }
 <#
+///==========================================================================================================================
+/// Dependencies
+///==========================================================================================================================
+
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaAttribute))
 		{
 #>
@@ -26,6 +30,10 @@ namespace CctsRepository.<#= library.Name #>
 		public I<#= dependency.TargetAttribute.ClassName #> <#= FirstCharToUpperCase(dependency.Stereotype.ToString()) #> { get; set; }
 <#
 		}
+
+///==========================================================================================================================
+/// Tagged Values
+///==========================================================================================================================
 
 		if (metaAttribute.HasTaggedValues)
 		{
@@ -48,6 +56,10 @@ namespace CctsRepository.<#= library.Name #>
 		#endregion
 <#
 		}
+
+///==========================================================================================================================
+/// Clone Method
+///==========================================================================================================================
 
 		var cloned = FirstCharToLowerCase(metaAttribute.ClassName);
 #>
