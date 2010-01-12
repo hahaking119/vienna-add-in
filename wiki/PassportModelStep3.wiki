@@ -27,3 +27,11 @@
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild50.gif
   # The final model should look as follows:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild51.gif
+
+----
+
+[http://umm-dev.org/wp-content/videos/passport_part_3.htm Passport Modeling Step 3 - Video]: This page shows the above steps in a video tutorial
+
+[PassportModelStep4 Passport Modeling - Outlook]: This page explains what to do with the newly created passport model
+
+----
