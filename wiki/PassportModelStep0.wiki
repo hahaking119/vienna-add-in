@@ -2,7 +2,7 @@
 
 = Passport Modeling Storyboard =
 
-Imagine two organisations planning to exchange information, for example human passport data, electronically. They decide to use Core Components for creating a sample model for this passport information. The two parties must agree on which information is included in the passport model and how it is organised.
+Imagine two organisations planning to exchange information electronically, for example human passport data. They decide to use Core Components for creating a sample model for this passport information. The two parties must agree on which information is included in the passport model and how it is organised.
 
 This storyboard shows how to create such a sample passport model using Enterprise Architect and the VIENNA Add-In in three steps. Sample images are included, as well as video tutorials.
 
