@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 using VIENNAAddInUtils;
-using Assert=Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using Assert=NUnit.Framework.Assert;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
 {
