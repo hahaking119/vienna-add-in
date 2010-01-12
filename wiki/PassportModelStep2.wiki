@@ -6,8 +6,9 @@ In the project browser, right-click the BIELibrary and select _Add-Ins / VIENNAA
 http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild10.gif
 
 In the _ABIE Editor_, create the following ABIEs in the order listed. Note that the ABIEs are created based on the Core Components imported in previous step. It is also necessary to create appropriate BDTs. In the following all necessary steps are listed. 
-  # ABIE "Address"
-    * Choose the ACC "Address"
+  # ABIE _Address_
+    * Choose the ACC _Address_:
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild10.gif
     * Check the BCC "BuildingNumber" and rename the BDT from "New1Text" to "Text"
     * Check the BCC "CityName"
     * Check the BCC "CountryName"
