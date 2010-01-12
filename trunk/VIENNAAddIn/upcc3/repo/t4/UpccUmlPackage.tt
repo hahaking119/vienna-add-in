@@ -3,12 +3,12 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="VIENNAAddInUtils"#>
 <#@ import namespace="VIENNAAddInUtils.t4"#>
-<#@ include file="t4/CctsRepositoryNamespaces.tt" #>
+<#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
 using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.uml;
 
-namespace VIENNAAddIn.upcc3.repo
+namespace VIENNAAddIn.upcc3.repo.<#= metaPackage.Name #>
 {
     internal <#= extendManually ? "partial " : "" #>class Upcc<#= metaPackage.Name #> : I<#= metaPackage.Name #>
     {

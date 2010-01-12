@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="VIENNAAddInUtils"#>
 <#@ import namespace="VIENNAAddInUtils.t4"#>
-<#@ include file="t4/CctsRepositoryNamespaces.tt" #>
+<#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
 using VIENNAAddIn.upcc3.uml;
 
 <# 
@@ -11,7 +11,7 @@ using VIENNAAddIn.upcc3.uml;
 	var spec = specType.FirstCharToLowerCase();
 	var umlSpec = "umlEnumerationLiteralSpec";
 #>
-namespace VIENNAAddIn.upcc3.repo
+namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaEnumerationLiteral.ContainingEnumerationType).First().PackageType.Name #>
 {
     internal static partial class <#= specType #>Converter
     {
