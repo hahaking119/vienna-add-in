@@ -1,0 +1,9 @@
+#summary Storyboard for modeling typical Passport Information using the VIENNA Add-In.
+
+= Step 3 - Model associations =
+
+  # Open the _DOCLibrary_ by doucle-clicking it in the Project Browser:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif and drag-and-drop the ABIEs created in previous step, namely "Address", "Country", "Period", and "Person" onto the canvas.
+  # From the toolbox drag-and-drop the UPCC Artefact "MA" onto the canvas and rename it to "Passport". 
+  # Finally, select the UPCC Artefact "ASMA" from the toolbox and drag it from the ABIE "Period" to the MA "Passport". Repeat previous step and drag-and-drop a MA from the ABIE "Person" to the MA "Passport". 
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
