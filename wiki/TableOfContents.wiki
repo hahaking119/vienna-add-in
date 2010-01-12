@@ -7,8 +7,14 @@
       * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
       * [CreateyourownBdts Create your own BDTs]
       * [CreateyourownAbies Create your own ABIEs]
-      * [GettingStartedVideos Getting Started Videos]  
-    * [Troubleshooting Troubleshooting]
+      * [GettingStartedVideos Getting Started Videos] 
+    * Sample Scenarios
+      * VIENNA Add-In Passport Modeling
+        * [PassportModelStep0 Introduction]
+        * [PassportModelStep1 Step 1 - Create a UPCC model & Import CC Libraries]
+        * [PassportModelStep2 Step 2 - Create ABIEs]
+        * [PassportModelStep3 Step 3 - Model associations]
+        * [PassportModelStep4 Outlook]    * [Troubleshooting Troubleshooting]
     * [Release_Notes Release Notes]
     * [EnterpriseArchitect The Enterprise Architect]
   * [ForDevelopers Developer infos]
@@ -20,9 +26,4 @@
   * [RoadMap]
   * [Storyboards Storyboards]
     * [Presentation VIENNA AddIn Tool Presentation]
-    * VIENNA AddIn Passport Modeling
-      * [PassportModelStep0 Introduction]
-      * [PassportModelStep1 Step 1 - Create a UPCC model & Import CC Libraries]
-      * [PassportModelStep2 Step 2 - Create ABIEs]
-      * [PassportModelStep3 Step 3 - Model associations]
-      * [PassportModelStep4 Outlook]
+    * [PassportModel VIENNA AddIn Passport Modeling]
