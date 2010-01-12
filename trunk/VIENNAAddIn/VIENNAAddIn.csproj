@@ -504,7 +504,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="upcc3\repo\UpccRepository.cs" />
+    <Compile Include="upcc3\repo\UpccRepository.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpccRepository.tt</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\uml\IUmlAssociation.cs" />
     <Compile Include="upcc3\uml\IUmlAttribute.cs" />
     <Compile Include="upcc3\uml\IUmlClass.cs" />
@@ -869,6 +873,10 @@
       <LastGenOutput>UpccPrimLibrary.cs</LastGenOutput>
     </None>
     <None Include="upcc3\repo\t4\UpccUmlPackage.tt">
+    </None>
+    <None Include="upcc3\repo\UpccRepository.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UpccRepository.cs</LastGenOutput>
     </None>
     <Compile Include="Settings\SynchStereotypesForm.cs">
       <SubType>Form</SubType>

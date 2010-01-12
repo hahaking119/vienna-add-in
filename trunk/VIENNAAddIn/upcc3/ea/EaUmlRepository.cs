@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.uml;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.ea
 {
@@ -29,6 +31,56 @@ namespace VIENNAAddIn.upcc3.ea
                     yield return new EaUmlPackage(eaRepository, eaPackage);
                 }
             }
+        }
+
+        public IUmlPackage GetPackageById(int id)
+        {
+            return new EaUmlPackage(eaRepository, eaRepository.GetPackageByID(id));
+        }
+
+        public IUmlPackage GetPackageByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlDataType GetDataTypeById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlDataType GetDataTypeByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlEnumeration GetEnumerationById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlEnumeration GetEnumerationByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlClass GetClassById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlClass GetClassByPath(Path path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Path> GetRootLocations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUmlPackage CreateRootPackage(Path rootLocation, UmlPackageSpec spec)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
