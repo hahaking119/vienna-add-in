@@ -11,7 +11,20 @@
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild42.gif
   # The DOCLibrary canvas should now contain the four ABIEs, including the associating ASBIEs:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild43.gif
-  # Open the _UPCC 3.0_ toolbox...
-  # From the toolbox drag-and-drop the UPCC Artefact "MA" onto the canvas and rename it to "Passport". 
-  # Finally, select the UPCC Artefact "ASMA" from the toolbox and drag it from the ABIE "Period" to the MA "Passport". Repeat previous step and drag-and-drop a MA from the ABIE "Person" to the MA "Passport". 
-    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
+  # If the _UPCC DOCLibrary_ toolbox is not visible, load it by clicking the _More tools..._ button
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild44.gif
+    and choosing _UPCC 3.0 / UPCC3 - DOCLIbrary Abstract Syntax_ from the menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild45.gif
+  # From the toolbox drag-and-drop the UPCC Artefact _MA_ onto the canvas
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild46.gif
+    and rename it to _Passport_:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild47.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild47a.gif
+  # Select the UPCC Artefact _ASMA_ from the toolbox
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild48.gif
+    and drag it from the ABIE _Period_ to the MA _Passport_:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild49.gif
+  # Repeat the previous step and drag-and-drop a MA from the ABIE _Person_ to the MA _Passport_:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild50.gif
+  # The final model should look as follows:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild51.gif
