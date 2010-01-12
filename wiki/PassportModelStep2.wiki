@@ -9,7 +9,7 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
   # ABIE _Address_
     * Choose the ACC _Address_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild11.gif
-    * Check the BCC _BuildingNumber_:
+    * Check the BCC _BuildingNumber _ :
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild12.gif
     * Rename the BDT from _New1Text_ to _Text_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild13.gif
