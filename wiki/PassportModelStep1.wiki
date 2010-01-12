@@ -12,3 +12,12 @@
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild07.gif
   # Finally, click the _Generate Default Model_ button. After the default model was generated, a confirmation message is shown:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild09.gif
+
+
+= Related Tasks =
+
+[PassportModelStep2 Step 2 - Create ABIEs]
+
+[CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
+
+[ImportStandardCCLibraries Import standard CC Libraries]: This page explains how to download and import standard Core Component Libraries into an existing UPCC3 model
