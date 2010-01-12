@@ -48,9 +48,9 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild29.gif
     * Check the BCC _Start_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild30.gif
-    * Rename the BBIE from _End_ to _DateOfIssue_Start_:
+    * Rename the BBIE from _Start_ to _'DateOfIssue_Start'_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild31.gif
-    * Click _Create ABIE"_
+    * Click _Create ABIE_
   # ABIE "Person"
     * Choose the ACC "Person"
     * Check the BCC "Birth"
