@@ -16,7 +16,7 @@
 
 = Related Tasks =
 
-[PassportModelStep2 Step 2 - Create ABIEs]
+[PassportModelStep2 Passport Modeling Step 2]: This page explains how to create the ABIEs needed for building a passport model
 
 [CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
 
