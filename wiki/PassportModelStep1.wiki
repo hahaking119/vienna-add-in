@@ -23,4 +23,6 @@
 
 [CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
 
+[CreateaUpccModel Create your first UPCC model]: This page explains how to create a UPCC model
+
 [ImportStandardCCLibraries Import standard CC Libraries]: This page explains how to download and import standard Core Component Libraries into an existing UPCC3 model
