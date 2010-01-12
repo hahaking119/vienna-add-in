@@ -74,3 +74,15 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
   # For the ABIE _Address_ check the ASBIE _Residence_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild38.gif
   # Click _Create ABIE_
+
+----
+
+[http://umm-dev.org/wp-content/videos/passport_part_2.htm Passport Modeling Step 2 - Video]: This page shows the above steps in a video tutorial
+
+[PassportModelStep3 Passport Modeling - Continue with step 3]: This page explains how to create associations inside the passport model
+
+= Related Tasks =
+
+[CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
+
+[ImportStandardCCLibraries Import standard CC Libraries]: This page explains how to download and import standard Core Component Libraries into an existing UPCC3 model
