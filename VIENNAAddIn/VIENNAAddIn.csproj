@@ -203,7 +203,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaggedValues.tt</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\ea\EaUmlClass.cs" />
+    <Compile Include="upcc3\ea\EaUmlAttribute.cs" />
     <Compile Include="upcc3\ea\EaUmlClassifier.cs" />
     <Compile Include="upcc3\ea\EaUmlDataType.cs" />
     <Compile Include="upcc3\ea\EaUmlDependency.cs" />
