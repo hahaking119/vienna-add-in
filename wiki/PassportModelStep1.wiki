@@ -3,20 +3,20 @@
 = Step 1 - Create a UPCC model & Import CC Libraries =
 
   # From the main menu, select _File / New Project..._ to create a new Enterprise Architect project:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild01.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild01.gif
   # In the _New Project_ dialog, select a directory to store the EA project file and name it _passport_model.eap_:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild02.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild02.gif
   # In the _Select model(s)_ dialog, choose _`<`default`>`_ from the _Technology_ list and select none of the check boxes in the second list:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild03.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild03.gif
   # After clicking _OK_, the new project is generated. To start modeling business documents using the newly created model, you must define the model as a UPCC Model by selecting _Add-Ins / VIENNAAddIn / Set Model as UMM2/UPCC3 Model_ from the main menu:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild04.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild04.gif
   # The VIENNA Add-In confirms that the model is defined as a UPCC model:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild05.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild05.gif
   # For creating the standard libraries, launch the _Default UPCC Model Creator_ dialog by selecting _Add-Ins / VIENNAAddIn / Create initial UPCC3 model structure_ from the main menu:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild06.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild06.gif
   # In this dialog, create a default model named "Passport Model". Furthermore, select the _Import standard CC Libraries_ checkbox for importing the standard Core Component Library having the major version "democcl" and the minor version "2":
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild07.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild07.gif
   # Finally, click the _Generate Default Model_ button. You can observe process of model generation by watching the status messages that are printed to the Status section regularly:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild08.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild08.gif
   # After the default model was generated, a confirmation message is shown:
-    http://vienna-add-in.googlecode.com/svn/wiki/images/PassportModel/Bild09.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild09.gif
