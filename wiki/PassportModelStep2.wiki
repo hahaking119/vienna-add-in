@@ -14,11 +14,11 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
     * Rename the BDT from _New1Text_ to _Text_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild13.gif
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
-    * Check the BCC "CityName"
-    * Check the BCC "CountryName"
-    * Check the BCC "Postcode" and rename the BDT from "New1Code" to "Code"
-    * Check the BCC "StreetName"
-    * Click "Create ABIE"
+    * Check the BCC _CityName_
+    * Check the BCC _CountryName_
+    * Check the BCC _Postcode_ and rename the BDT from _New1Code_ to _Code_
+    * Check the BCC _StreetName_
+    * Click _Create ABIE_
   # ABIE "Country"
     * Choose the ACC "Country"
     * Check the BCC "Identification" and rename the BDT from "New1Identifier" to "Identifier"
