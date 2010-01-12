@@ -17,13 +17,11 @@
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild45.gif
   # From the toolbox drag-and-drop the UPCC Artefact _MA_ onto the canvas
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild46.gif
-
-    and rename it to _Passport_:
-
+  # Rename the newly created MA to _Passport_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild47.gif
   # Select the UPCC Artefact _ASMA_ from the toolbox
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild48.gif
-    and drag it from the ABIE _Period_ to the MA _Passport_:
+  # Drag an ASMA from the ABIE _Period_ to the MA _Passport_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild49.gif
   # Repeat the previous step and drag-and-drop a MA from the ABIE _Person_ to the MA _Passport_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild50.gif
