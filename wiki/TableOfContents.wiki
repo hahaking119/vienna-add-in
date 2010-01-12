@@ -20,7 +20,7 @@
   * [RoadMap]
   * [Storyboards Storyboards]
     * [Presentation VIENNA AddIn Tool Presentation]
-    * [PassportModel VIENNA AddIn Passport Modeling]
+    * VIENNA AddIn Passport Modeling
       * [PassportModelStep0 Introduction]
       * [PassportModelStep1 Step 1 - Create a UPCC model & Import CC Libraries]
       * [PassportModelStep2 Step 2 - Create ABIEs]
