@@ -37,10 +37,20 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
     * Check the BCC _Name_
     * Click _Create ABIE_
   # ABIE _Period_
-    * Choose the ACC "Period"
-    * Check the BCC "End", rename the BBIE from "End" to "DateOfExpiry_End", and rename the BDT from "New1DateTime" to "DateTime"
-    * Check the BCC "Start", rename the BBIE from "End" to "DateOfIssue_Start"
-    * Click "Create ABIE"
+    * Choose the ACC _Period_
+    * Check the BCC _End_:
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild25.gif
+    * Rename the BBIE from _End_ to _DateOfExpiry_End_:
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild26.gif
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild27.gif
+    * Rename the BDT from _New1DateTime_ to _DateTime_:
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild28.gif
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild29.gif
+    * Check the BCC _Start_:
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild30.gif
+    * Rename the BBIE from _End_ to _DateOfIssue_Start_:
+      http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild31.gif
+    * Click _Create ABIE"_
   # ABIE "Person"
     * Choose the ACC "Person"
     * Check the BCC "Birth"
