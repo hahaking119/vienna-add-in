@@ -31,13 +31,12 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild22.gif
     * In the Project Browser you can see that the ABIE including all BBIEs was created as member of the BIELibrary:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild23.gif
-
-  # ABIE "Country"
-    * Choose the ACC "Country"
-    * Check the BCC "Identification" and rename the BDT from "New1Identifier" to "Identifier"
-    * Check the BCC "Name"
-    * Click "Create ABIE"
-  # ABIE "Period"
+  # ABIE _Country_
+    * Choose the ACC _Country_
+    * Check the BCC _Identification_ and rename the BDT from _New1Identifier_ to _Identifier_
+    * Check the BCC _Name_
+    * Click _Create ABIE_
+  # ABIE _Period_
     * Choose the ACC "Period"
     * Check the BCC "End", rename the BBIE from "End" to "DateOfExpiry_End", and rename the BDT from "New1DateTime" to "DateTime"
     * Check the BCC "Start", rename the BBIE from "End" to "DateOfIssue_Start"
