@@ -3,7 +3,10 @@
 = Step 3 - Model associations =
 
   # Open the _DOCLibrary_ by doucle-clicking it in the Project Browser:
-    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif and drag-and-drop the ABIEs created in previous step, namely "Address", "Country", "Period", and "Person" onto the canvas.
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild39.gif
+  # Select the ABIEs created in the previous step, namely _Address_, _Country_, _Period_, and _Person_ in the Project Browser, and drag-and-drop them onto the canvas:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild40.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild41.gif
   # From the toolbox drag-and-drop the UPCC Artefact "MA" onto the canvas and rename it to "Passport". 
   # Finally, select the UPCC Artefact "ASMA" from the toolbox and drag it from the ABIE "Period" to the MA "Passport". Repeat previous step and drag-and-drop a MA from the ABIE "Person" to the MA "Passport". 
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
