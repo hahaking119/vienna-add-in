@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.ea
@@ -80,7 +79,7 @@ namespace VIENNAAddIn.upcc3.ea
             {
                 foreach (Element eaElement in eaPackage.Elements)
                 {
-                    yield return new EaUmlClass(eaRepository, eaElement);
+                    yield return new EaUmlClassifier(eaRepository, eaElement);
                 }
             }
         }
