@@ -7,31 +7,31 @@ http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild10.gif
 
 In the _ABIE Editor_, create the following ABIEs in the order listed. Note that the ABIEs are created based on the Core Components imported in previous step. It is also necessary to create appropriate BDTs. In the following all necessary steps are listed. 
 === ABIE _Address_ ===
-    * Choose the ACC _Address_:
+  # Choose the ACC _Address_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild11.gif
-    * Check the BCC _BuildingNumber_:
+  # Check the BCC _BuildingNumber_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild12.gif
-    * Rename the BDT from _New1Text_ to _Text_:
+  # Rename the BDT from _New1Text_ to _Text_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild13.gif
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
-    * Check the BCC _CityName_:
+  # Check the BCC _CityName_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild15.gif
-    * Check the BCC _CountryName_:
+  # Check the BCC _CountryName_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild16.gif
-    * Check the BCC _Postcode_:
+  # Check the BCC _Postcode_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild17.gif
-    * Rename the BDT from _New1Code_ to _Code_:
+  # Rename the BDT from _New1Code_ to _Code_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild18.gif
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild19.gif
-    * Check the BCC _StreetName_:
+  # Check the BCC _StreetName_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild20.gif
-    * Click _Create ABIE_:
+  # Click _Create ABIE_:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild21.gif
-    * A confirmation message shows that the ABIE was created successfully:
+  # A confirmation message shows that the ABIE was created successfully:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild22.gif
-    * In the Project Browser you can see that the ABIE including all BBIEs was created as member of the BIELibrary:
+  # In the Project Browser you can see that the ABIE including all BBIEs was created as member of the BIELibrary:
       http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild23.gif
-  # ABIE _Country_
+=== ABIE _Country_ ===
     * Choose the ACC _Country_
     * Check the BCC _Identification_ and rename the BDT from _New1Identifier_ to _Identifier_
     * Check the BCC _Name_
