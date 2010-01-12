@@ -13,10 +13,13 @@
   # Finally, click the _Generate Default Model_ button. After the default model was generated, a confirmation message is shown:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild09.gif
 
+---
+
+[http://umm-dev.org/wp-content/videos/passport_part_1.htm Passport Modeling Step 1 - Video]: This page shows the above steps in a video tutorial
+
+[PassportModelStep2 Passport Modeling - Continue with step 2]: This page explains how to create the ABIEs needed for building a passport model
 
 = Related Tasks =
-
-[PassportModelStep2 Passport Modeling Step 2]: This page explains how to create the ABIEs needed for building a passport model
 
 [CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
 
