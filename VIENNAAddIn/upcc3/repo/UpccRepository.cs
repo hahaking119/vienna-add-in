@@ -18,6 +18,15 @@ using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
 using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
+using VIENNAAddIn.upcc3.repo;
+using VIENNAAddIn.upcc3.repo.BdtLibrary;
+using VIENNAAddIn.upcc3.repo.BieLibrary;
+using VIENNAAddIn.upcc3.repo.BLibrary;
+using VIENNAAddIn.upcc3.repo.CcLibrary;
+using VIENNAAddIn.upcc3.repo.CdtLibrary;
+using VIENNAAddIn.upcc3.repo.DocLibrary;
+using VIENNAAddIn.upcc3.repo.EnumLibrary;
+using VIENNAAddIn.upcc3.repo.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
@@ -27,24 +36,12 @@ namespace VIENNAAddIn.upcc3.repo
 {
     public class UpccRepository : ICctsRepository
     {
-        private IUmlRepository umlRepository;
-
         public UpccRepository(IUmlRepository umlRepository)
         {
             UmlRepository = umlRepository;
         }
 		
-		public IUmlRepository UmlRepository
-		{
-			get
-			{
-				return umlRepository;
-			}
-			private set
-			{
-				umlRepository = value;
-			}
-		}
+		public IUmlRepository UmlRepository { get; private set; }
 
         #region ICctsRepository Members
 
@@ -55,7 +52,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("BDTLibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("BDTLibrary"))
             {
                 yield return new UpccBdtLibrary(umlPackage);
             }
@@ -88,7 +85,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<IBieLibrary> GetBieLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("BIELibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("BIELibrary"))
             {
                 yield return new UpccBieLibrary(umlPackage);
             }
@@ -121,7 +118,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<IBLibrary> GetBLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("bLibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("bLibrary"))
             {
                 yield return new UpccBLibrary(umlPackage);
             }
@@ -154,7 +151,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<ICcLibrary> GetCcLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("CCLibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("CCLibrary"))
             {
                 yield return new UpccCcLibrary(umlPackage);
             }
@@ -187,7 +184,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<ICdtLibrary> GetCdtLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("CDTLibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("CDTLibrary"))
             {
                 yield return new UpccCdtLibrary(umlPackage);
             }
@@ -220,7 +217,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<IDocLibrary> GetDocLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("DOCLibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("DOCLibrary"))
             {
                 yield return new UpccDocLibrary(umlPackage);
             }
@@ -253,7 +250,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<IEnumLibrary> GetEnumLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("ENUMLibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("ENUMLibrary"))
             {
                 yield return new UpccEnumLibrary(umlPackage);
             }
@@ -286,7 +283,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<IPrimLibrary> GetPrimLibraries()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("PRIMLibrary"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("PRIMLibrary"))
             {
                 yield return new UpccPrimLibrary(umlPackage);
             }

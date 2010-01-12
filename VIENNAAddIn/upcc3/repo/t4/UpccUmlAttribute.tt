@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="VIENNAAddInUtils"#>
 <#@ import namespace="VIENNAAddInUtils.t4"#>
-<#@ include file="t4/CctsRepositoryNamespaces.tt" #>
+<#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
 using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3.uml;
@@ -14,7 +14,7 @@ using VIENNAAddIn.upcc3.uml;
 	var containingClassifier = metaAttribute.ContainingClassifierType.Name;
 	var containingClassifierParamName = containingClassifier.FirstCharToLowerCase();
 #>
-namespace VIENNAAddIn.upcc3.repo
+namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaAttribute.ContainingClassifierType).First().PackageType.Name #>
 {
     internal class <#= attributeUpccClass #> : <#= attributeInterface #>
     {

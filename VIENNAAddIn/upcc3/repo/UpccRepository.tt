@@ -27,24 +27,12 @@ namespace VIENNAAddIn.upcc3.repo
 {
     public class UpccRepository : ICctsRepository
     {
-        private IUmlRepository umlRepository;
-
         public UpccRepository(IUmlRepository umlRepository)
         {
             UmlRepository = umlRepository;
         }
 		
-		public IUmlRepository UmlRepository
-		{
-			get
-			{
-				return umlRepository;
-			}
-			private set
-			{
-				umlRepository = value;
-			}
-		}
+		public IUmlRepository UmlRepository { get; private set; }
 
         #region ICctsRepository Members
 
@@ -59,7 +47,7 @@ namespace VIENNAAddIn.upcc3.repo
 		/// </returns>
         public IEnumerable<I<#= package.Name #>> Get<#= package.Name.Plural() #>()
         {
-            foreach (IUmlPackage umlPackage in umlRepository.GetPackagesByStereotype("<#= package.Stereotype.ToString() #>"))
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("<#= package.Stereotype.ToString() #>"))
             {
                 yield return new Upcc<#= package.Name #>(umlPackage);
             }
