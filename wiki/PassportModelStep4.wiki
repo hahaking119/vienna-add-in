@@ -1,0 +1,6 @@
+#summary Storyboard for modeling typical Passport Information using the VIENNA Add-In.
+
+= Outlook =
+
+  # Open the _DOCLibrary_ by doucle-clicking it in the Project Browser:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild39.gif
