@@ -7,6 +7,11 @@
   # Select the ABIEs created in the previous step, namely _Address_, _Country_, _Period_, and _Person_ in the Project Browser, and drag-and-drop them onto the canvas:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild40.gif
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild41.gif
+  # In the _Paste Element_ dialog, choose to paste the element as simple link:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild42.gif
+  # The DOCLibrary canvas should now contain the four ABIEs, including the associating ASBIEs:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild43.gif
+  # Open the _UPCC 3.0_ toolbox...
   # From the toolbox drag-and-drop the UPCC Artefact "MA" onto the canvas and rename it to "Passport". 
   # Finally, select the UPCC Artefact "ASMA" from the toolbox and drag it from the ABIE "Period" to the MA "Passport". Repeat previous step and drag-and-drop a MA from the ABIE "Person" to the MA "Passport". 
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
