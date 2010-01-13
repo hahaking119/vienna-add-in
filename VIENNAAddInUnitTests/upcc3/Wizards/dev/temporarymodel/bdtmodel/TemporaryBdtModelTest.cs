@@ -85,7 +85,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for Prefix
         ///</summary>
         [Test]
-        public void ShouldSetPrefix()
+        public void ShouldSetPrefixInTemporaryBdtModel()
         {
             const string expected = "MyPrefix";
             target.Prefix = expected;
@@ -97,7 +97,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for Name
         ///</summary>
         [Test]
-        public void ShouldSetName()
+        public void ShouldSetNameInTemporaryBdtModel()
         {
             const string expected = "MyName";
             target.Name = expected;
@@ -109,7 +109,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for CandidateSupItems
         ///</summary>
         [Test]
-        public void ShouldSetCandidateSupItems()
+        public void ShouldSetCandidateSupItemsInTemporaryBdtModel()
         {
             var expected = new List<CheckableItem> {new CheckableItem(true,"test",false,false,Cursors.Arrow)};
             target.CandidateSupItems = expected;
@@ -121,7 +121,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for CandidateConItems
         ///</summary>
         [Test]
-        public void ShouldSetCandidateConItems()
+        public void ShouldSetCandidateConItemsInTemporaryBdtModel()
         {
             var expected = new List<CheckableItem> { new CheckableItem(true, "test", false, false, Cursors.Arrow) };
             target.CandidateConItems = expected;
@@ -133,7 +133,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for CandidateCdtNames
         ///</summary>
         [Test]
-        public void ShouldSetCandidateCdtNames()
+        public void ShouldSetCandidateCdtNamesInTemporaryBdtModel()
         {
             var expected = new List<string>{"test1","test2"};
             target.CandidateCdtNames = expected;
@@ -145,7 +145,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for CandidateCdtLibraryNames
         ///</summary>
         [Test]
-        public void ShouldSetCandidateCdtLibraryNames()
+        public void ShouldSetCandidateCdtLibraryNamesInTemporaryBdtModel()
         {
             var expected = new List<string> { "test1", "test2" };
             target.CandidateCdtLibraryNames = expected;
@@ -157,7 +157,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for CandidateBdtLibraryNames
         ///</summary>
         [Test]
-        public void ShouldSetCandidateBdtLibraryNames()
+        public void ShouldSetCandidateBdtLibraryNamesInTemporaryBdtModel()
         {
             var expected = new List<string> { "test1", "test2" };
             target.CandidateBdtLibraryNames = expected;
@@ -169,7 +169,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for setSelectedCandidateCdtLibrary
         ///</summary>
         [Test]
-        public void ShouldSelectCandidateCdtLibraryByName()
+        public void ShouldSelectCandidateCdtLibraryByNameInTemporaryBdtModel()
         {
             const string selectedCdtLibrary = "cdtlib1";
             target.setSelectedCandidateCdtLibrary(selectedCdtLibrary);
@@ -180,7 +180,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for setSelectedCandidateCdt
         ///</summary>
         [Test]
-        public void ShouldSelectCandidateCdtByName()
+        public void ShouldSelectCandidateCdtByNameInTemporaryBdtModel()
         {
             const string selectedCdtLibrary = "cdtlib1";
             const string selectedCdt = "Text";
@@ -193,7 +193,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for setSelectedCandidateBdtLibrary
         ///</summary>
         [Test]
-        public void ShouldSelectCandidateBdtLibrary()
+        public void ShouldSelectCandidateBdtLibraryInTemporaryBdtModel()
         {
             const string selectedBdtLibrary = "bdtlib1";
             target.setSelectedCandidateBdtLibrary(selectedBdtLibrary);
@@ -204,7 +204,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for setCheckedPotentialSup
         ///</summary>
         [Test]
-        public void ShouldSetCheckedPotentialSup()
+        public void ShouldSetCheckedPotentialSupInTemporaryBdtModel()
         {
             const bool checkedValue = true;
             const string selectedSup = "Language";
@@ -220,7 +220,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for setCheckedAllPotentialSups
         ///</summary>
         [Test]
-        public void ShouldSetCheckedAllPotentialSups()
+        public void ShouldSetCheckedAllPotentialSupsInTemporaryBdtModel()
         {
             const string selectedCdtLibrary = "cdtlib1";
             const string selectedCdt = "Code";
@@ -238,7 +238,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         ///A test for CreateBdt
         ///</summary>
         [Test]
-        public void ShouldCreateBdt()
+        public void ShouldPrepareTemporaryBdtModelandCreateBdt()
         {
             const string selectedCdtLibrary = "cdtlib1";
             const string selectedCdt = "Code";
@@ -261,28 +261,5 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
             }
             Assert.IsTrue(testsuccess);
         }
-
-        #region unused
-        ///// <summary>
-        /////A test for TemporaryBdtModel Constructor: see no sense in that
-        /////</summary>
-        //[Test()]
-        //public void TemporaryBdtModelConstructorTest()
-        //{
-        //    ICctsRepository cctsRepository = null; // TODO: Initialize to an appropriate value
-        //    TemporaryBdtModel target = new TemporaryBdtModel(cctsRepository);
-        //    Assert.Inconclusive("TODO: Implement code to verify target");
-        //}
-
-        /// <summary>
-        ///A test for Reset: Testing the refresh Method of cccache is not in the scope of TemporaryBdtModelTest see TODO: add reference
-        ///</summary>
-        //[Test]
-        //public void ResetTest()
-        //{
-        //    target.Reset();
-        //    Assert.Inconclusive("A method that does not return a value cannot be verified.");
-        //}
-        #endregion
     }
 }
