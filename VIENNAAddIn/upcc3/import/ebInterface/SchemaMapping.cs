@@ -10,6 +10,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class SchemaMapping
     {
         private readonly Dictionary<string, ComplexTypeMapping> complexTypeMappings = new Dictionary<string, ComplexTypeMapping>();
+        private readonly List<SimpleTypeMapping> simpleTypeMappings = new List<SimpleTypeMapping>();
         private readonly Dictionary<string, string> edges = new Dictionary<string, string>();
         private readonly MapForceSourceElementTree sourceElementStore;
         private readonly TargetElementStore targetElementStore;
@@ -51,6 +52,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
                 if (IsMappedToBCC(element))
                 {
+                    SimpleTypeMapping simpleTypeMapping = MapSimpleType(element);
                     return new BCCMapping(element, GetTargetElement(element));
                 }
                 if (IsMappedToSup(element))
@@ -100,6 +102,22 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 throw new MappingError("Complex typed element mapped to non-ASCC CCTS element.");
             }
             throw new Exception("Source element has neither simple nor complex type.");
+        }
+
+        private SimpleTypeMapping MapSimpleType(SourceElement sourceElement)
+        {
+            var simpleTypeName = sourceElement.XsdTypeName;
+            var cdt = GetTargetElement(sourceElement).Bcc.Cdt;
+            foreach (SimpleTypeMapping simpleTypeMapping in simpleTypeMappings)
+            {
+                if (simpleTypeMapping.SimpleTypeName == simpleTypeName && simpleTypeMapping.TargetCDT.Id == cdt.Id)
+                {
+                    return simpleTypeMapping;
+                }
+            }
+            SimpleTypeMapping newMapping = new SimpleTypeMapping(simpleTypeName, cdt);
+            simpleTypeMappings.Add(newMapping);
+            return newMapping;
         }
 
         private ComplexTypeMapping MapComplexType(SourceElement sourceElement)
@@ -177,6 +195,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public IEnumerable<ComplexTypeMapping> GetComplexTypeMappings()
         {
             return complexTypeMappings.Values;
+        }
+
+        public IEnumerable<SimpleTypeMapping> GetSimpleTypeMappings()
+        {
+            return simpleTypeMappings;
         }
     }
 }

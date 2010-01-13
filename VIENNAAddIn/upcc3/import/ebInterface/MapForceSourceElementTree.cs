@@ -79,10 +79,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             XmlSchemaType xsdType = xsdElement.ElementSchemaType;
             sourceElement.XsdType = xsdType;
-            
-            foreach (SourceElement child in sourceElement.Children)
+
+            if (xsdType is XmlSchemaComplexType)
             {
-                if (xsdType is XmlSchemaComplexType)
+                foreach (SourceElement child in sourceElement.Children)
                 {
                     XmlSchemaComplexType complexType = (XmlSchemaComplexType) xsdType;
 
