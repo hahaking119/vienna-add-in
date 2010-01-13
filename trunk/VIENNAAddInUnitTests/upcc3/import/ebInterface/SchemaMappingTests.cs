@@ -88,9 +88,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        addressTypeMapping,
                                        personTypeMapping,
                                    };
+
+            var expectedSimpleTypeMappings = new List<SimpleTypeMapping>
+                                                 {
+                                                     new SimpleTypeMapping("String", cdtText),
+                                                 };
+
             var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
 
-            AssertMappings(mappings, expectedComplexTypeMappings, expectedRootElementMapping);
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
         
 
@@ -113,9 +119,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                    {
                                        addressTypeMapping,
                                    };
+            var expectedSimpleTypeMappings = new List<SimpleTypeMapping>
+                                                 {
+                                                     new SimpleTypeMapping("String", cdtText),
+                                                 };
             var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
 
-            AssertMappings(mappings, expectedComplexTypeMappings, expectedRootElementMapping);
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
 
         [Test]
@@ -137,10 +147,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                    {
                                        addressTypeMapping,
                                    };
+
+            var expectedSimpleTypeMappings = new List<SimpleTypeMapping>
+                                                 {
+                                                     new SimpleTypeMapping("String", cdtText),
+                                                 };
             
             var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
 
-            AssertMappings(mappings, expectedComplexTypeMappings, expectedRootElementMapping);
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
 
         [Test]
@@ -173,7 +188,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
 
-            AssertMappings(mappings, expectedComplexTypeMappings, expectedRootElementMapping);
+            AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeMapping>(), expectedRootElementMapping);
         }
 
         [Test]
@@ -186,6 +201,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
             AssertTreesAreEqual(expectedAddress, mappings.RootSourceElement, string.Empty);
         }
+
 
         private static void AssertTreesAreEqual(SourceElement expected, SourceElement actual, string path)
         {
@@ -207,22 +223,37 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
         }
 
-        private static void AssertMappings(SchemaMapping mappings, List<IMapping> expectedMappings, AsmaMapping expectedRootElementMapping)
+        private static void AssertMappings(SchemaMapping mappings, List<IMapping> expectedComplexTypeMappings, List<SimpleTypeMapping> expectedSimpleTypeMappings, AsmaMapping expectedRootElementMapping)
         {
             var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
             Console.Out.WriteLine("=================================================================================");
-            Console.Out.WriteLine("Expected Mappings:");
-            foreach (IMapping expectedMapping in expectedMappings)
+            Console.Out.WriteLine("Expected Complex Type Mappings:");
+            foreach (IMapping expectedMapping in expectedComplexTypeMappings)
             {
                 expectedMapping.TraverseDepthFirst(new MappingPrettyPrinter(Console.Out, "  "));
             }
             Console.Out.WriteLine("=================================================================================");
-            Console.Out.WriteLine("Actual Mappings:");
+            Console.Out.WriteLine("Actual Complex Type Mappings:");
             foreach (ComplexTypeMapping complexTypeMapping in complexTypeMappings)
             {
                 complexTypeMapping.TraverseDepthFirst(new MappingPrettyPrinter(Console.Out, "  "));
             }
-            Assert.That(complexTypeMappings, Is.EquivalentTo(expectedMappings));
+
+            var simpleTypeMappings = new List<SimpleTypeMapping>(mappings.GetSimpleTypeMappings());
+            Console.Out.WriteLine("=================================================================================");
+            Console.Out.WriteLine("Expected Simple Type Mappings:");
+            foreach (IMapping expectedMapping in expectedSimpleTypeMappings)
+            {
+                expectedMapping.TraverseDepthFirst(new MappingPrettyPrinter(Console.Out, "  "));
+            }
+            Console.Out.WriteLine("=================================================================================");
+            Console.Out.WriteLine("Actual Simple Type Mappings:");
+            foreach (var simpleTypeMapping in simpleTypeMappings)
+            {
+                simpleTypeMapping.TraverseDepthFirst(new MappingPrettyPrinter(Console.Out, "  "));
+            }
+            Assert.That(complexTypeMappings, Is.EquivalentTo(expectedComplexTypeMappings));
+            Assert.That(simpleTypeMappings, Is.EquivalentTo(expectedSimpleTypeMappings));
             Assert.That(mappings.RootElementMapping, Is.EqualTo(expectedRootElementMapping));
         }
     }
