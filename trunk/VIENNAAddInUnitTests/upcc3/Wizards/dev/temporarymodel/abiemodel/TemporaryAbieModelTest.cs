@@ -60,10 +60,6 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
             IAbie testAbie = cctsRepository.GetAbieByPath((Path) "test model"/"blib1"/"bielib1"/"MyPrefixMyAbie");
             Assert.IsNotNull(testAbie);
             Assert.That(testAbie.BasedOn.Name, Is.EqualTo("Address"));
-            foreach (IBcc bcc in testAbie.BasedOn.Bccs)
-            {
-                Assert.That(bcc.Name, Is.EqualTo("CountryName"));
-            }
             foreach (IBbie bbie in testAbie.Bbies)
             {
                 Assert.That(bbie.Name, Is.EqualTo("CountryName"));
