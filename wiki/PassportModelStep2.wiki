@@ -3,27 +3,29 @@
 = Step 2 - Create ABIEs =
 
 In the Project Browser, right-click the BIELibrary and select _Add-Ins / VIENNAAddIn / Create new ABIE_ to launch the _ABIE Editor_ wizard:
+
 http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild10.gif
 
-In the _ABIE Editor_, create the following ABIEs in the order listed. Note that the ABIEs are created based on the Core Components imported in the previous step. It is also necessary to create appropriate BDTs. In the following all necessary steps are listed. 
+In the _ABIE Editor_, create the following ABIEs in the order listed. Note that the ABIEs are created based on the Core Components imported in the previous step. It is also necessary to create appropriate BDTs. In the following all tasks necessary will be illustrated.
+
 === ABIE _Address_ ===
-  # Choose the ACC _Address_:
+  # Choose ACC _Address_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild11.gif
-  # Check the BCC _BuildingNumber_:
+  # Check BCC _BuildingNumber_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild12.gif
-  # Rename the BDT from _New1Text_ to _Text_:
+  # Rename BDT from _New1Text_ to _Text_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild13.gif
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
-  # Check the BCC _CityName_:
+  # Check BCC _CityName_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild16.gif
-  # Check the BCC _CountryName_:
+  # Check BCC _CountryName_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild15.gif
-  # Check the BCC _Postcode_:
+  # Check BCC _Postcode_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild17.gif
-  # Rename the BDT from _New1Code_ to _Code_:
+  # Rename BDT from _New1Code_ to _Code_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild18.gif
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild19.gif
-  # Check the BCC _StreetName_:
+  # Check BCC _StreetName_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild20.gif
   # Click _Create ABIE_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild21.gif
@@ -32,13 +34,13 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
   # In the Project Browser you can see that the ABIE "Address" including all BBIEs was created as member of the BIELibrary:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild23.gif
 === ABIE _Country_ ===
-  # Choose the ACC _Country_
-  # Check the BCC _Identification_ and rename the BDT from _New1Identifier_ to _Identifier_
-  # Check the BCC _Name_
+  # Choose ACC _Country_
+  # Check BCC _Identification_ and rename the BDT from _New1Identifier_ to _Identifier_
+  # Check BCC _Name_
   # Click _Create ABIE_
 === ABIE _Period_ ===
-  # Choose the ACC _Period_
-  # Check the BCC _End_:
+  # Choose ACC _Period_
+  # Check BCC _End_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild25.gif
   # Rename the BBIE from _End_ to _DateOfExpiry_End_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild26.gif
@@ -46,21 +48,21 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
   # Rename the BDT from _New1DateTime_ to _DateTime_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild28.gif
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild29.gif
-  # Check the BCC _Start_:
+  # Check BCC _Start_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild30.gif
   # Rename the BBIE from _Start_ to _DateOfIssue_Start_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild31.gif
   # Click _Create ABIE_
 === ABIE _Person_ ===
-  # Choose the ACC _Person_
-  # Check the BCC _Birth_
-  # Check the BCC _BirthCountry_
-  # Check the BCC _EyeColor_ 
-  # Check the BCC _Gender_
-  # Check the BCC _GivenName_
-  # Check the BCC _Height_ and rename the BDT from _New1Measure_ to _Measure_
-  # Check the BCC _Name_ and rename the BBIE from _Name_ to _SurName_Name_
-  # Check the BCC _Passport_:
+  # Choose ACC _Person_
+  # Check BCC _Birth_
+  # Check BCC _BirthCountry_
+  # Check BCC _EyeColor_ 
+  # Check BCC _Gender_
+  # Check BCC _GivenName_
+  # Check BCC _Height_ and rename the BDT from _New1Measure_ to _Measure_
+  # Check BCC _Name_ and rename the BBIE from _Name_ to _SurName_Name_
+  # Check BCC _Passport_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild32.gif
   # Add as well as check two additional BBIEs:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild33.gif
@@ -69,9 +71,9 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild35.gif
   # Switch to the Associations Tab:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild36.gif
-  # For the ABIE _Country_ check the ASBIE _Nationality_:
+  # For ABIE _Country_ check the ASBIE _Nationality_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild37.gif
-  # For the ABIE _Address_ check the ASBIE _Residence_:
+  # For ABIE _Address_ check the ASBIE _Residence_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild38.gif
   # Click _Create ABIE_
 
