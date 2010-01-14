@@ -15,9 +15,9 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild13.gif
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild14.gif
   # Check the BCC _CityName_:
-    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild15.gif
-  # Check the BCC _CountryName_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild16.gif
+  # Check the BCC _CountryName_:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild15.gif
   # Check the BCC _Postcode_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild17.gif
   # Rename the BDT from _New1Code_ to _Code_:
