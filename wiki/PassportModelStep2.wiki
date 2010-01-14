@@ -29,7 +29,7 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild21.gif
   # A confirmation message shows that the ABIE was created successfully:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild22.gif
-  # In the Project Browser you can see that the ABIE including all BBIEs was created as member of the BIELibrary:
+  # In the Project Browser you can see that the ABIE "Address" including all BBIEs was created as member of the BIELibrary:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild23.gif
 === ABIE _Country_ ===
   # Choose the ACC _Country_
