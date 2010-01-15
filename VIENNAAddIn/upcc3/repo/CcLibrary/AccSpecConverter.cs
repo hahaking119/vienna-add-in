@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 						},
 					Dependencies = new []
 						{
-							new UmlDependencySpec<IUmlClass>
+							new UmlDependencySpec
 							{
 								Stereotype = "isEquivalentTo",
 								Target = ((UpccAcc) accSpec.IsEquivalentTo).UmlClass,

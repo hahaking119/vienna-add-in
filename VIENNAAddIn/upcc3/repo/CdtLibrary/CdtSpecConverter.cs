@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.repo.CdtLibrary
 						},
 					Dependencies = new []
 						{
-							new UmlDependencySpec<IUmlClass>
+							new UmlDependencySpec
 							{
 								Stereotype = "isEquivalentTo",
 								Target = ((UpccCdt) cdtSpec.IsEquivalentTo).UmlClass,

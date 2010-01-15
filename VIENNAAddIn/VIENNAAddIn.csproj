@@ -203,11 +203,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaggedValues.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\ea\EaCardinality.cs" />
+    <Compile Include="upcc3\ea\EaUmlAssociation.cs" />
     <Compile Include="upcc3\ea\EaUmlAttribute.cs" />
     <Compile Include="upcc3\ea\EaUmlClassifier.cs" />
-    <Compile Include="upcc3\ea\EaUmlDataType.cs" />
     <Compile Include="upcc3\ea\EaUmlDependency.cs" />
-    <Compile Include="upcc3\ea\EaUmlEnumeration.cs" />
+    <Compile Include="upcc3\ea\EaUmlEnumerationLiteral.cs" />
     <Compile Include="upcc3\ea\EaUmlPackage.cs" />
     <Compile Include="upcc3\ea\EaUmlRepository.cs" />
     <Compile Include="upcc3\ea\EaUmlTaggedValue.cs" />
@@ -523,9 +524,12 @@
     <Compile Include="upcc3\uml\IUmlTaggedValue.cs" />
     <Compile Include="upcc3\uml\UmlAssociationSpec.cs" />
     <Compile Include="upcc3\uml\UmlAttributeSpec.cs" />
+    <Compile Include="upcc3\uml\UmlClassifierSpec.cs" />
+    <Compile Include="upcc3\uml\UmlClassSpec.cs" />
     <Compile Include="upcc3\uml\UmlDataTypeSpec.cs" />
     <Compile Include="upcc3\uml\UmlDependencySpec.cs" />
     <Compile Include="upcc3\uml\UmlEnumerationLiteralSpec.cs" />
+    <Compile Include="upcc3\uml\UmlEnumerationSpec.cs" />
     <Compile Include="upcc3\uml\UmlPackageSpec.cs" />
     <Compile Include="upcc3\uml\UmlTaggedValueSpec.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\exceptions\TemporaryAbieModelException.cs" />

@@ -43,14 +43,14 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
 						},
 					Dependencies = new []
 						{
-							new UmlDependencySpec<IUmlClass>
+							new UmlDependencySpec
 							{
 								Stereotype = "isEquivalentTo",
 								Target = ((UpccAbie) abieSpec.IsEquivalentTo).UmlClass,
 								LowerBound = "0",
 								UpperBound = "1",
 							},
-							new UmlDependencySpec<IUmlClass>
+							new UmlDependencySpec
 							{
 								Stereotype = "basedOn",
 								Target = ((UpccAcc) abieSpec.BasedOn).UmlClass,

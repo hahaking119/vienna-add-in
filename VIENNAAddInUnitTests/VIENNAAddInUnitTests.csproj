@@ -98,6 +98,7 @@
       <DependentUpon>SynchTaggedValuesTests.tt</DependentUpon>
     </Compile>
     <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesTestRepository.cs" />
+    <Compile Include="upcc3\ea\EaCollectionTests.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModelTest.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModelTest.cs" />
     <Compile Include="TestCategories.cs" />

@@ -58,10 +58,10 @@ namespace VIENNAAddInUnitTests.upcc3.newrepo
 
         public UmlDataTypeBuilder WithDependencies(string stereotype, params IUmlDataType[] targets)
         {
-            var dependencies = new List<IUmlDependency<IUmlDataType>>();
+            var dependencies = new List<IUmlDependency>();
             foreach (var target in targets)
             {
-                var dependencyMock = new Mock<IUmlDependency<IUmlDataType>>();
+                var dependencyMock = new Mock<IUmlDependency>();
                 dependencyMock.SetupGet(dependency => dependency.Target).Returns(target);
                 dependencies.Add(dependencyMock.Object);
             }

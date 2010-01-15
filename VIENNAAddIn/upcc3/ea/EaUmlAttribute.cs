@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.uml;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ea
 {
@@ -41,18 +44,69 @@ namespace VIENNAAddIn.upcc3.ea
             get { return new EaUmlClassifier(eaRepository, eaRepository.GetElementByID(eaAttribute.ClassifierID)); }
         }
 
-        public IUmlTaggedValue GetTaggedValue(string name)
+        public IEnumerable<IUmlTaggedValue> GetTaggedValues()
         {
             foreach (AttributeTag eaAttributeTag in eaAttribute.TaggedValues)
             {
-                if (eaAttributeTag.Name.Equals(name))
-                {
-                    return EaUmlTaggedValue.ForEaAttributeTag(eaAttributeTag);
-                }
+                yield return new EaAttributeTag(eaAttributeTag);
             }
-            return null;
+        }
+
+        public IUmlTaggedValue GetTaggedValue(string name)
+        {
+            try
+            {
+                var eaAttributeTag = eaAttribute.TaggedValues.GetByName(name) as AttributeTag;
+                return eaAttributeTag == null ? (IUmlTaggedValue) new UndefinedTaggedValue(name) : new EaAttributeTag(eaAttributeTag);
+            }
+            catch (Exception)
+            {
+                return new UndefinedTaggedValue(name);
+            }
+        }
+
+        private void CreateTaggedValue(UmlTaggedValueSpec taggedValueSpec)
+        {
+            var eaAttributeTag = (AttributeTag) eaAttribute.TaggedValues.AddNew(taggedValueSpec.Name, String.Empty);
+            eaAttributeTag.Value = taggedValueSpec.Value ?? taggedValueSpec.DefaultValue;
+            eaAttributeTag.Update();
         }
 
         #endregion
+
+        public void Initialize(UmlAttributeSpec spec)
+        {
+            eaAttribute.Stereotype = spec.Stereotype;
+            eaAttribute.ClassifierID = spec.Type.Id;
+            eaAttribute.LowerBound = spec.LowerBound;
+            eaAttribute.UpperBound = spec.UpperBound;
+            eaAttribute.Update();
+            foreach (var taggedValueSpec in spec.TaggedValues)
+            {
+                CreateTaggedValue(taggedValueSpec);
+            }
+        }
+
+        public void Update(UmlAttributeSpec spec)
+        {
+            eaAttribute.Name = spec.Name;
+            eaAttribute.Stereotype = spec.Stereotype;
+            eaAttribute.ClassifierID = spec.Type.Id;
+            eaAttribute.LowerBound = spec.LowerBound;
+            eaAttribute.UpperBound = spec.UpperBound;
+            eaAttribute.Update();
+            foreach (var taggedValueSpec in spec.TaggedValues)
+            {
+                var taggedValue = GetTaggedValue(taggedValueSpec.Name);
+                if (taggedValue.IsDefined)
+                {
+                    taggedValue.Update(taggedValueSpec);
+                }
+                else
+                {
+                    CreateTaggedValue(taggedValueSpec);
+                }
+            }
+        }
     }
 }

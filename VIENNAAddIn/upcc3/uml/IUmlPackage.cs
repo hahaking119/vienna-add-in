@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.uml
@@ -11,28 +10,27 @@ namespace VIENNAAddIn.upcc3.uml
 
         IUmlPackage Parent { get; }
 
+        IEnumerable<IUmlClass> Classes { get; }
+        IEnumerable<IUmlDataType> DataTypes { get; }
+        IEnumerable<IUmlEnumeration> Enumerations { get; }
+
         IUmlTaggedValue GetTaggedValue(string name);
 
-        IEnumerable<IUmlClass> Classes { get; }
-        IUmlClass CreateClass(UmlClassSpec umlClassSpec);
-        IUmlClass UpdateClass(IUmlClass umlClass, UmlClassSpec umlClassSpec);
+        IUmlClass CreateClass(UmlClassSpec spec);
+        IUmlClass UpdateClass(IUmlClass umlClass, UmlClassSpec spec);
         void RemoveClass(IUmlClass umlClass);
 
-        IEnumerable<IUmlDataType> DataTypes { get; }
-        IUmlDataType GetDataTypeById(int id);
         IUmlDataType CreateDataType(UmlDataTypeSpec spec);
         IUmlDataType UpdateDataType(IUmlDataType dataType, UmlDataTypeSpec spec);
         void RemoveDataType(IUmlDataType dataType);
 
-        IEnumerable<IUmlEnumeration> Enumerations { get; }
-
-        IUmlEnumeration CreateEnumeration(UmlEnumerationSpec umlEnumerationSpec);
-        IUmlEnumeration UpdateEnumeration(IUmlEnumeration umlEnumeration, UmlEnumerationSpec umlEnumerationSpec);
+        IUmlEnumeration CreateEnumeration(UmlEnumerationSpec spec);
+        IUmlEnumeration UpdateEnumeration(IUmlEnumeration umlEnumeration, UmlEnumerationSpec spec);
         void RemoveEnumeration(IUmlEnumeration umlEnumeration);
 
         IEnumerable<IUmlPackage> GetPackagesByStereotype(string stereotype);
-        IUmlPackage CreatePackage(UmlPackageSpec umlPackageSpec);
-        IUmlPackage UpdatePackage(IUmlPackage umlPackage, UmlPackageSpec umlPackageSpec);
+        IUmlPackage CreatePackage(UmlPackageSpec spec);
+        IUmlPackage UpdatePackage(IUmlPackage umlPackage, UmlPackageSpec spec);
         void RemovePackage(IUmlPackage umlPackage);
     }
 }

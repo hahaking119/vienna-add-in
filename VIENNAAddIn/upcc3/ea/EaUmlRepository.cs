@@ -40,47 +40,69 @@ namespace VIENNAAddIn.upcc3.ea
 
         public IUmlPackage GetPackageByPath(Path path)
         {
-            throw new NotImplementedException();
+            return new EaUmlPackage(eaRepository, eaRepository.Resolve<Package>(path));
         }
 
         public IUmlDataType GetDataTypeById(int id)
         {
-            throw new NotImplementedException();
+            return new EaUmlClassifier(eaRepository, eaRepository.GetElementByID(id));
         }
 
         public IUmlDataType GetDataTypeByPath(Path path)
         {
-            throw new NotImplementedException();
+            return new EaUmlClassifier(eaRepository, eaRepository.Resolve<Element>(path));
         }
 
         public IUmlEnumeration GetEnumerationById(int id)
         {
-            throw new NotImplementedException();
+            return new EaUmlClassifier(eaRepository, eaRepository.GetElementByID(id));
         }
 
         public IUmlEnumeration GetEnumerationByPath(Path path)
         {
-            throw new NotImplementedException();
+            return new EaUmlClassifier(eaRepository, eaRepository.Resolve<Element>(path));
         }
 
         public IUmlClass GetClassById(int id)
         {
-            throw new NotImplementedException();
+            return new EaUmlClassifier(eaRepository, eaRepository.GetElementByID(id));
         }
 
         public IUmlClass GetClassByPath(Path path)
         {
-            throw new NotImplementedException();
+            return new EaUmlClassifier(eaRepository, eaRepository.Resolve<Element>(path));
         }
 
         public IEnumerable<Path> GetRootLocations()
         {
-            throw new NotImplementedException();
+            foreach (Package eaModel in eaRepository.Models)
+            {
+                yield return eaModel.Name;
+                foreach (Package rootPackage in eaModel.Packages)
+                {
+                    if (rootPackage.Element.Stereotype == "bInformationV")
+                    {
+                        yield return (Path) eaModel.Name / rootPackage.Name;
+                    }
+                }
+            }
         }
 
         public IUmlPackage CreateRootPackage(Path rootLocation, UmlPackageSpec spec)
         {
-            throw new NotImplementedException();
+            var rootLocationPackage = eaRepository.Resolve<Package>(rootLocation);
+            if (rootLocationPackage == null)
+            {
+                throw new ArgumentException("Invalid root location: " + rootLocation);
+            }
+
+            var eaPackage = (Package)rootLocationPackage.Packages.AddNew(spec.Name, string.Empty);
+            eaPackage.ParentID = rootLocationPackage.PackageID;
+            eaPackage.Update();
+
+            var package = new EaUmlPackage(eaRepository, eaPackage);
+            package.Initialize(spec);
+            return package;
         }
 
         #endregion

@@ -53,7 +53,7 @@ namespace VIENNAAddIn.upcc3.repo.PrimLibrary
 						},
 					Dependencies = new []
 						{
-							new UmlDependencySpec<IUmlDataType>
+							new UmlDependencySpec
 							{
 								Stereotype = "isEquivalentTo",
 								Target = ((UpccPrim) primSpec.IsEquivalentTo).UmlDataType,

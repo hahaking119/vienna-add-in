@@ -54,7 +54,15 @@ namespace VIENNAAddIn.upcc3.repo.PrimLibrary
             get
             {
                 var dependency = UmlDataType.GetFirstDependencyByStereotype("isEquivalentTo");
-                return dependency == null ? null : new UpccPrim(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUmlDataType;
+					if (target != null)
+					{
+						return new UpccPrim(target);
+					}
+				}
+				return null;
             }
         }
 
