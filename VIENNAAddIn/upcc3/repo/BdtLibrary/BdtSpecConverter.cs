@@ -41,24 +41,30 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
 							new UmlTaggedValueSpec("versionIdentifier", bdtSpec.VersionIdentifier) ,
 							new UmlTaggedValueSpec("usageRule", bdtSpec.UsageRules) ,
 						},
-					Dependencies = new []
-						{
-							new UmlDependencySpec
-							{
-								Stereotype = "isEquivalentTo",
-								Target = ((UpccBdt) bdtSpec.IsEquivalentTo).UmlClass,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-							new UmlDependencySpec
-							{
-								Stereotype = "basedOn",
-								Target = ((UpccCdt) bdtSpec.BasedOn).UmlClass,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-						},
 				};
+
+			var dependencySpecs = new List<UmlDependencySpec>();
+			if (bdtSpec.IsEquivalentTo != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "isEquivalentTo",
+										Target = ((UpccBdt) bdtSpec.IsEquivalentTo).UmlClass,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			if (bdtSpec.BasedOn != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "basedOn",
+										Target = ((UpccCdt) bdtSpec.BasedOn).UmlClass,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			umlClassSpec.Dependencies = dependencySpecs;
 
 			var attributeSpecs = new List<UmlAttributeSpec>();
 			attributeSpecs.Add(BdtConSpecConverter.Convert(bdtSpec.Con, bdtSpec.Name));

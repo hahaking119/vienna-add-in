@@ -30,8 +30,6 @@ namespace CctsRepository.DocLibrary
 		
         public string LowerBound { get; set; }
 		
-		public IMa AssociatingMa { get; set; }
-
 		public BieAggregator AssociatedBieAggregator { get; set; }
 
         public static AsmaSpec CloneAsma(IAsma asma)
@@ -41,7 +39,6 @@ namespace CctsRepository.DocLibrary
                    	   Name = asma.Name,
                        UpperBound = asma.UpperBound,
                        LowerBound = asma.LowerBound,
-                       AssociatingMa = asma.AssociatingMa,
                        AssociatedBieAggregator = asma.AssociatedBieAggregator,
                    };
         }
