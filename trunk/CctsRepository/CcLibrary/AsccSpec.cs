@@ -30,8 +30,6 @@ namespace CctsRepository.CcLibrary
 		
         public string LowerBound { get; set; }
 		
-		public IAcc AssociatingAcc { get; set; }
-
 		public IAcc AssociatedAcc { get; set; }
 
 		#region Tagged Values
@@ -85,7 +83,6 @@ namespace CctsRepository.CcLibrary
                    	   Name = ascc.Name,
                        UpperBound = ascc.UpperBound,
                        LowerBound = ascc.LowerBound,
-                       AssociatingAcc = ascc.AssociatingAcc,
                        AssociatedAcc = ascc.AssociatedAcc,
 					   BusinessTerms = new List<string>(ascc.BusinessTerms),
 					   Definition = ascc.Definition,
