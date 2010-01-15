@@ -66,7 +66,7 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 		{
             get
             {
-                foreach (var umlClass in UmlPackage.Classes)
+                foreach (var umlClass in UmlPackage.GetClassesByStereotype("ACC"))
                 {
                     yield return new UpccAcc(umlClass);
                 }
@@ -193,5 +193,35 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
         }
 
         #endregion
+
+        public bool Equals(UpccCcLibrary other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccCcLibrary)) return false;
+            return Equals((UpccCcLibrary) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccCcLibrary left, UpccCcLibrary right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccCcLibrary left, UpccCcLibrary right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }

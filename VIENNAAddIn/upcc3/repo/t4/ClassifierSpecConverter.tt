@@ -46,6 +46,9 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 						},
 <#
 	}
+#>
+				};
+<#
 	
 ///==========================================================================================================================
 /// Dependencies
@@ -54,8 +57,8 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 	if (MetaModel.HasDependencies(metaClassifier))
 	{
 #>
-					Dependencies = new []
-						{
+
+			var dependencySpecs = new List<UmlDependencySpec>();
 <#
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaClassifier))
 		{
@@ -64,22 +67,22 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 			var dependencyTargetType = dependency.TargetClassifierType.Name;
 			var dependencyTargetUmlType = "Uml" + dependency.TargetClassifierType.GetType().Name.Substring(4);
 #>
-							new UmlDependencySpec
-							{
-								Stereotype = "<#= dependencyStereotype #>",
-								Target = ((Upcc<#= dependencyTargetType #>) <#= spec #>.<#= dependencyProperty #>).<#= dependencyTargetUmlType #>,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
+			if (<#= spec #>.<#= dependencyProperty #> != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "<#= dependencyStereotype #>",
+										Target = ((Upcc<#= dependencyTargetType #>) <#= spec #>.<#= dependencyProperty #>).<#= dependencyTargetUmlType #>,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
 <#
 		}
 #>
-						},
+			<#= umlSpec #>.Dependencies = dependencySpecs;
 <#
 	}
-#>
-				};
-<#
 ///==========================================================================================================================
 /// Attributes
 ///==========================================================================================================================
@@ -170,14 +173,14 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 #>
 			foreach (var <#= associationSpec #> in <#= spec #>.<#= association.Name #>)
 			{
-				associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= associationSpec #>));
+				associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= associationSpec #>, <#= spec #>.Name));
 			}
 <#
 			}
 			else
 			{
 #>
-			associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= spec #>.<#= association.Name #>));
+			associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= spec #>.<#= association.Name #>, <#= spec #>.Name));
 <#
 			}
 #>

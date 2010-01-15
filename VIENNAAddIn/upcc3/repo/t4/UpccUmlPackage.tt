@@ -155,7 +155,7 @@ namespace VIENNAAddIn.upcc3.repo.<#= metaPackage.Name #>
 		{
             get
             {
-                foreach (var <#= umlClassifier #> in UmlPackage.<#= umlClassifierType.Plural() #>)
+                foreach (var <#= umlClassifier #> in UmlPackage.Get<#= umlClassifierType.Plural() #>ByStereotype("<#= relation.ClassifierType.Stereotype #>"))
                 {
                     yield return new Upcc<#= classifierType #>(<#= umlClassifier #>);
                 }
@@ -231,5 +231,35 @@ namespace VIENNAAddIn.upcc3.repo.<#= metaPackage.Name #>
 #>
 
         #endregion
+
+        public bool Equals(Upcc<#= metaPackage.Name #> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Upcc<#= metaPackage.Name #>)) return false;
+            return Equals((Upcc<#= metaPackage.Name #>) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(Upcc<#= metaPackage.Name #> left, Upcc<#= metaPackage.Name #> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Upcc<#= metaPackage.Name #> left, Upcc<#= metaPackage.Name #> right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }

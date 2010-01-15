@@ -66,7 +66,7 @@ namespace VIENNAAddIn.upcc3.repo.PrimLibrary
 		{
             get
             {
-                foreach (var umlDataType in UmlPackage.DataTypes)
+                foreach (var umlDataType in UmlPackage.GetDataTypesByStereotype("PRIM"))
                 {
                     yield return new UpccPrim(umlDataType);
                 }
@@ -193,5 +193,35 @@ namespace VIENNAAddIn.upcc3.repo.PrimLibrary
         }
 
         #endregion
+
+        public bool Equals(UpccPrimLibrary other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccPrimLibrary)) return false;
+            return Equals((UpccPrimLibrary) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccPrimLibrary left, UpccPrimLibrary right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccPrimLibrary left, UpccPrimLibrary right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }

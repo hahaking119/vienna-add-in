@@ -6,7 +6,7 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ea
 {
-    internal class EaUmlAttribute : IUmlAttribute
+    internal class EaUmlAttribute : IUmlAttribute, IEquatable<EaUmlAttribute>
     {
         private readonly Attribute eaAttribute;
         private readonly Repository eaRepository;
@@ -107,6 +107,36 @@ namespace VIENNAAddIn.upcc3.ea
                     CreateTaggedValue(taggedValueSpec);
                 }
             }
+        }
+
+        public bool Equals(EaUmlAttribute other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.eaAttribute.AttributeID, eaAttribute.AttributeID);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (EaUmlAttribute)) return false;
+            return Equals((EaUmlAttribute) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (eaAttribute != null ? eaAttribute.AttributeID : 0);
+        }
+
+        public static bool operator ==(EaUmlAttribute left, EaUmlAttribute right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(EaUmlAttribute left, EaUmlAttribute right)
+        {
+            return !Equals(left, right);
         }
     }
 }

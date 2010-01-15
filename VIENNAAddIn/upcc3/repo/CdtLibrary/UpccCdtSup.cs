@@ -148,6 +148,36 @@ namespace VIENNAAddIn.upcc3.repo.CdtLibrary
         }
 
 		#endregion
-    }
+
+        public bool Equals(UpccCdtSup other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlAttribute, UmlAttribute);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccCdtSup)) return false;
+            return Equals((UpccCdtSup) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlAttribute != null ? UmlAttribute.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccCdtSup left, UpccCdtSup right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccCdtSup left, UpccCdtSup right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }
 

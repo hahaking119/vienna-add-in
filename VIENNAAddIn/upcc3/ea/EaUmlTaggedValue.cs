@@ -56,7 +56,7 @@ namespace VIENNAAddIn.upcc3.ea
 
         public string[] SplitValues
         {
-            get { return IsDefined ? Value.Split(MultiPartTaggedValue.ValueSeparator) : new string[0]; }
+            get { return IsDefined && !string.IsNullOrEmpty(Value) ? Value.Split(MultiPartTaggedValue.ValueSeparator) : new string[0]; }
         }
 
         public abstract void Update(UmlTaggedValueSpec spec);
@@ -90,7 +90,8 @@ namespace VIENNAAddIn.upcc3.ea
         public override void Update(UmlTaggedValueSpec spec)
         {
             eaTaggedValue.Name = spec.Name;
-            eaTaggedValue.Value = spec.Value;
+            if (spec.Value != null)
+                eaTaggedValue.Value = spec.Value;
             eaTaggedValue.Update();
         }
     }
@@ -121,7 +122,8 @@ namespace VIENNAAddIn.upcc3.ea
         public override void Update(UmlTaggedValueSpec spec)
         {
             eaAttributeTag.Name = spec.Name;
-            eaAttributeTag.Value = spec.Value;
+            if (spec.Value != null)
+                eaAttributeTag.Value = spec.Value;
             eaAttributeTag.Update();
         }
     }
@@ -152,7 +154,8 @@ namespace VIENNAAddIn.upcc3.ea
         public override void Update(UmlTaggedValueSpec spec)
         {
             eaConnectorTag.Name = spec.Name;
-            eaConnectorTag.Value = spec.Value;
+            if (spec.Value != null)
+                eaConnectorTag.Value = spec.Value;
             eaConnectorTag.Update();
         }
     }

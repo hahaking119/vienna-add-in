@@ -41,17 +41,20 @@ namespace VIENNAAddIn.upcc3.repo.CdtLibrary
 							new UmlTaggedValueSpec("versionIdentifier", cdtSpec.VersionIdentifier) ,
 							new UmlTaggedValueSpec("usageRule", cdtSpec.UsageRules) ,
 						},
-					Dependencies = new []
-						{
-							new UmlDependencySpec
-							{
-								Stereotype = "isEquivalentTo",
-								Target = ((UpccCdt) cdtSpec.IsEquivalentTo).UmlClass,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-						},
 				};
+
+			var dependencySpecs = new List<UmlDependencySpec>();
+			if (cdtSpec.IsEquivalentTo != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "isEquivalentTo",
+										Target = ((UpccCdt) cdtSpec.IsEquivalentTo).UmlClass,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			umlClassSpec.Dependencies = dependencySpecs;
 
 			var attributeSpecs = new List<UmlAttributeSpec>();
 			attributeSpecs.Add(CdtConSpecConverter.Convert(cdtSpec.Con, cdtSpec.Name));

@@ -5,7 +5,7 @@ using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.ea
 {
-    internal class EaUmlAssociation : IUmlAssociation
+    internal class EaUmlAssociation : IUmlAssociation, IEquatable<EaUmlAssociation>
     {
         private readonly int associatingElementId;
         private readonly Connector eaConnector;
@@ -47,7 +47,7 @@ namespace VIENNAAddIn.upcc3.ea
 
         public string Name
         {
-            get { return eaConnector.Name; }
+            get { return AssociatedConnectorEnd.Role; }
         }
 
         public string UpperBound
@@ -136,6 +136,36 @@ namespace VIENNAAddIn.upcc3.ea
                     CreateTaggedValue(taggedValueSpec);
                 }
             }
+        }
+
+        public bool Equals(EaUmlAssociation other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return other.eaConnector.ConnectorID == eaConnector.ConnectorID;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (EaUmlAssociation)) return false;
+            return Equals((EaUmlAssociation) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (eaConnector != null ? eaConnector.ConnectorID : 0);
+        }
+
+        public static bool operator ==(EaUmlAssociation left, EaUmlAssociation right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(EaUmlAssociation left, EaUmlAssociation right)
+        {
+            return !Equals(left, right);
         }
     }
 }

@@ -177,7 +177,7 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 		/// </summary>
 		public I<#= association.ClassName #> Create<#= association.ClassName #>(<#= association.ClassName #>Spec specification)
 		{
-		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.CreateAssociation(<#= association.ClassName #>SpecConverter.Convert(specification)), this);
+		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.CreateAssociation(<#= association.ClassName #>SpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -188,7 +188,7 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 		/// </summary>
         public I<#= association.ClassName #> Update<#= association.ClassName #>(I<#= association.ClassName #> <#= associationParamName #>, <#= association.ClassName #>Spec specification)
 		{
-		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.UpdateAssociation(((Upcc<#= association.ClassName #>) <#= associationParamName #>).UmlAssociation, <#= association.ClassName #>SpecConverter.Convert(specification)), this);
+		    return new Upcc<#= association.ClassName #>(<#= umlClassifier #>.UpdateAssociation(((Upcc<#= association.ClassName #>) <#= associationParamName #>).UmlAssociation, <#= association.ClassName #>SpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -282,5 +282,35 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 #>
 
         #endregion
-    }
+
+        public bool Equals(Upcc<#= classifierType #> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.<#= umlClassifier #>, <#= umlClassifier #>);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (Upcc<#= classifierType #>)) return false;
+            return Equals((Upcc<#= classifierType #>) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (<#= umlClassifier #> != null ? <#= umlClassifier #>.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(Upcc<#= classifierType #> left, Upcc<#= classifierType #> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Upcc<#= classifierType #> left, Upcc<#= classifierType #> right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }

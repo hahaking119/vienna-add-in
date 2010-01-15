@@ -27,8 +27,6 @@ namespace CctsRepository.<#= library.Name #>
 		}
 #>
 		
-		public <#= associatingClassifierClassName #> Associating<#= metaAssociation.AssociatingClassifierType.Name #> { get; set; }
-
 		public <#= associatedClassifierClassName #> Associated<#= metaAssociation.AssociatedClassifierType.Name #> { get; set; }
 <#
 ///==========================================================================================================================
@@ -91,7 +89,6 @@ namespace CctsRepository.<#= library.Name #>
 <#
 		}
 #>
-                       Associating<#= metaAssociation.AssociatingClassifierType.Name #> = <#= cloned #>.Associating<#= metaAssociation.AssociatingClassifierType.Name #>,
                        Associated<#= metaAssociation.AssociatedClassifierType.Name #> = <#= cloned #>.Associated<#= metaAssociation.AssociatedClassifierType.Name #>,
 <#
 		foreach (var dependency in MetaModel.GetDependenciesFor(metaAssociation))

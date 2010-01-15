@@ -24,9 +24,8 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
 {
     internal static partial class AsbieSpecConverter
     {
-		internal static UmlAssociationSpec Convert(AsbieSpec asbieSpec)
+		internal static UmlAssociationSpec Convert(AsbieSpec asbieSpec, string associatingClassName)
 		{
-			var associatingClassifierType = ((UpccAbie) asbieSpec.AssociatingAbie).UmlClass;
 			var associatedClassifierType = ((UpccAbie) asbieSpec.AssociatedAbie).UmlClass;
 			var umlAssociationSpec = new UmlAssociationSpec
 				{
@@ -34,17 +33,16 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
 					Name = asbieSpec.Name,
 					UpperBound = asbieSpec.UpperBound,
 					LowerBound = asbieSpec.LowerBound,
-					AggregationKind = asbieSpec.AggregationKind,
-					AssociatingClassifier = associatingClassifierType,
+					AggregationKind = asbieSpec.AggregationKind == AggregationKind.Shared ? AggregationKind.Shared : AggregationKind.Composite,
 					AssociatedClassifier = associatedClassifierType,
 					TaggedValues = new[]
 						{
 							new UmlTaggedValueSpec("businessTerm", asbieSpec.BusinessTerms) ,
 							new UmlTaggedValueSpec("definition", asbieSpec.Definition) ,
-							new UmlTaggedValueSpec("dictionaryEntryName", asbieSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(asbieSpec) },
+							new UmlTaggedValueSpec("dictionaryEntryName", asbieSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(asbieSpec, associatingClassName) },
 							new UmlTaggedValueSpec("languageCode", asbieSpec.LanguageCode) ,
 							new UmlTaggedValueSpec("sequencingKey", asbieSpec.SequencingKey) ,
-							new UmlTaggedValueSpec("uniqueIdentifier", asbieSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(asbieSpec) },
+							new UmlTaggedValueSpec("uniqueIdentifier", asbieSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(asbieSpec, associatingClassName) },
 							new UmlTaggedValueSpec("versionIdentifier", asbieSpec.VersionIdentifier) ,
 							new UmlTaggedValueSpec("usageRule", asbieSpec.UsageRules) ,
 						},

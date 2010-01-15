@@ -8,7 +8,7 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ea
 {
-    internal class EaUmlClassifier : IUmlClass, IUmlDataType, IUmlEnumeration
+    internal class EaUmlClassifier : IUmlClass, IUmlDataType, IUmlEnumeration, IEquatable<EaUmlClassifier>
     {
         private readonly Element eaElement;
         private readonly Repository eaRepository;
@@ -259,9 +259,23 @@ namespace VIENNAAddIn.upcc3.ea
                 eaElement.Attributes.Delete(i);
             }
             eaElement.Attributes.Refresh();
-            foreach (UmlAttributeSpec attributeSpec in spec.Attributes)
+            if (spec.Attributes != null)
             {
-                CreateAttribute(attributeSpec);
+                foreach (UmlAttributeSpec attributeSpec in spec.Attributes)
+                {
+                    CreateAttribute(attributeSpec);
+                }
+            }
+            if (spec is UmlEnumerationSpec)
+            {
+                var enumSpec = (UmlEnumerationSpec) spec;
+                if (enumSpec.EnumerationLiterals != null)
+                {
+                    foreach (UmlEnumerationLiteralSpec enumerationLiteralSpec in enumSpec.EnumerationLiterals)
+                    {
+                        CreateEnumerationLiteral(enumerationLiteralSpec);
+                    }
+                }
             }
             eaElement.Attributes.Refresh();
 
@@ -272,13 +286,19 @@ namespace VIENNAAddIn.upcc3.ea
                     eaElement.Connectors.Delete(i);
                 }
             }
-            foreach (UmlAssociationSpec associationSpec in spec.Associations)
+            if (spec.Associations != null)
             {
-                CreateAssociation(associationSpec);
+                foreach (UmlAssociationSpec associationSpec in spec.Associations)
+                {
+                    CreateAssociation(associationSpec);
+                }
             }
-            foreach (UmlDependencySpec dependencySpec in spec.Dependencies)
+            if (spec.Dependencies != null)
             {
-                CreateDependency(dependencySpec);
+                foreach (UmlDependencySpec dependencySpec in spec.Dependencies)
+                {
+                    CreateDependency(dependencySpec);
+                }
             }
             eaElement.Connectors.Refresh();
         }
@@ -308,7 +328,6 @@ namespace VIENNAAddIn.upcc3.ea
 
         public void Initialize(UmlClassifierSpec spec)
         {
-            eaElement.PackageID = Id;
             eaElement.Stereotype = spec.Stereotype;
             eaElement.Update();
 
@@ -318,21 +337,71 @@ namespace VIENNAAddIn.upcc3.ea
             }
             eaElement.TaggedValues.Refresh();
 
-            foreach (UmlAttributeSpec attributeSpec in spec.Attributes)
+            if (spec.Attributes != null)
             {
-                CreateAttribute(attributeSpec);
+                foreach (UmlAttributeSpec attributeSpec in spec.Attributes)
+                {
+                    CreateAttribute(attributeSpec);
+                }
+            }
+            if (spec is UmlEnumerationSpec)
+            {
+                var enumSpec = (UmlEnumerationSpec)spec;
+                if (enumSpec.EnumerationLiterals != null)
+                {
+                    foreach (UmlEnumerationLiteralSpec enumerationLiteralSpec in enumSpec.EnumerationLiterals)
+                    {
+                        CreateEnumerationLiteral(enumerationLiteralSpec);
+                    }
+                }
             }
             eaElement.Attributes.Refresh();
 
-            foreach (UmlAssociationSpec associationSpec in spec.Associations)
+            if (spec.Associations != null)
             {
-                CreateAssociation(associationSpec);
+                foreach (UmlAssociationSpec associationSpec in spec.Associations)
+                {
+                    CreateAssociation(associationSpec);
+                }
             }
-            foreach (UmlDependencySpec dependencySpec in spec.Dependencies)
+            if (spec.Dependencies != null)
             {
-                CreateDependency(dependencySpec);
+                foreach (UmlDependencySpec dependencySpec in spec.Dependencies)
+                {
+                    CreateDependency(dependencySpec);
+                }
             }
             eaElement.Connectors.Refresh();
+        }
+
+        public bool Equals(EaUmlClassifier other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.eaElement.ElementID, eaElement.ElementID);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (EaUmlClassifier)) return false;
+            return Equals((EaUmlClassifier) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (eaElement != null ? eaElement.ElementID : 0);
+        }
+
+        public static bool operator ==(EaUmlClassifier left, EaUmlClassifier right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(EaUmlClassifier left, EaUmlClassifier right)
+        {
+            return !Equals(left, right);
         }
     }
 }

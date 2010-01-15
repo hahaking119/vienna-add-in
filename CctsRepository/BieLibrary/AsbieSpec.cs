@@ -32,8 +32,6 @@ namespace CctsRepository.BieLibrary
 
 		public AggregationKind AggregationKind { get; set; }
 		
-		public IAbie AssociatingAbie { get; set; }
-
 		public IAbie AssociatedAbie { get; set; }
 
 		public IAscc BasedOn { get; set; }
@@ -90,7 +88,6 @@ namespace CctsRepository.BieLibrary
                        UpperBound = asbie.UpperBound,
                        LowerBound = asbie.LowerBound,
                        AggregationKind = asbie.AggregationKind,
-                       AssociatingAbie = asbie.AssociatingAbie,
                        AssociatedAbie = asbie.AssociatedAbie,
 					   BasedOn = asbie.BasedOn,
 					   BusinessTerms = new List<string>(asbie.BusinessTerms),

@@ -24,9 +24,8 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 {
     internal static partial class AsccSpecConverter
     {
-		internal static UmlAssociationSpec Convert(AsccSpec asccSpec)
+		internal static UmlAssociationSpec Convert(AsccSpec asccSpec, string associatingClassName)
 		{
-			var associatingClassifierType = ((UpccAcc) asccSpec.AssociatingAcc).UmlClass;
 			var associatedClassifierType = ((UpccAcc) asccSpec.AssociatedAcc).UmlClass;
 			var umlAssociationSpec = new UmlAssociationSpec
 				{
@@ -35,16 +34,15 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 					UpperBound = asccSpec.UpperBound,
 					LowerBound = asccSpec.LowerBound,
 					AggregationKind = AggregationKind.Shared,
-					AssociatingClassifier = associatingClassifierType,
 					AssociatedClassifier = associatedClassifierType,
 					TaggedValues = new[]
 						{
 							new UmlTaggedValueSpec("businessTerm", asccSpec.BusinessTerms) ,
 							new UmlTaggedValueSpec("definition", asccSpec.Definition) ,
-							new UmlTaggedValueSpec("dictionaryEntryName", asccSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(asccSpec) },
+							new UmlTaggedValueSpec("dictionaryEntryName", asccSpec.DictionaryEntryName) { DefaultValue = GenerateDictionaryEntryNameDefaultValue(asccSpec, associatingClassName) },
 							new UmlTaggedValueSpec("languageCode", asccSpec.LanguageCode) ,
 							new UmlTaggedValueSpec("sequencingKey", asccSpec.SequencingKey) ,
-							new UmlTaggedValueSpec("uniqueIdentifier", asccSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(asccSpec) },
+							new UmlTaggedValueSpec("uniqueIdentifier", asccSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(asccSpec, associatingClassName) },
 							new UmlTaggedValueSpec("versionIdentifier", asccSpec.VersionIdentifier) ,
 							new UmlTaggedValueSpec("usageRule", asccSpec.UsageRules) ,
 						},

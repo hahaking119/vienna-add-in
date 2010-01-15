@@ -48,17 +48,20 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
 							new UmlTaggedValueSpec("uniqueIdentifier", enumSpec.UniqueIdentifier) { DefaultValue = GenerateUniqueIdentifierDefaultValue(enumSpec) },
 							new UmlTaggedValueSpec("versionIdentifier", enumSpec.VersionIdentifier) ,
 						},
-					Dependencies = new []
-						{
-							new UmlDependencySpec
-							{
-								Stereotype = "isEquivalentTo",
-								Target = ((UpccEnum) enumSpec.IsEquivalentTo).UmlEnumeration,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-						},
 				};
+
+			var dependencySpecs = new List<UmlDependencySpec>();
+			if (enumSpec.IsEquivalentTo != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "isEquivalentTo",
+										Target = ((UpccEnum) enumSpec.IsEquivalentTo).UmlEnumeration,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			umlEnumerationSpec.Dependencies = dependencySpecs;
 
 			var enumerationLiteralSpecs = new List<UmlEnumerationLiteralSpec>();
 			foreach (var codelistEntrySpec in enumSpec.CodelistEntries)

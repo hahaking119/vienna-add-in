@@ -41,17 +41,20 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 							new UmlTaggedValueSpec("versionIdentifier", accSpec.VersionIdentifier) ,
 							new UmlTaggedValueSpec("usageRule", accSpec.UsageRules) ,
 						},
-					Dependencies = new []
-						{
-							new UmlDependencySpec
-							{
-								Stereotype = "isEquivalentTo",
-								Target = ((UpccAcc) accSpec.IsEquivalentTo).UmlClass,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-						},
 				};
+
+			var dependencySpecs = new List<UmlDependencySpec>();
+			if (accSpec.IsEquivalentTo != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "isEquivalentTo",
+										Target = ((UpccAcc) accSpec.IsEquivalentTo).UmlClass,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			umlClassSpec.Dependencies = dependencySpecs;
 
 			var attributeSpecs = new List<UmlAttributeSpec>();
 			foreach (var bccSpec in accSpec.Bccs)
@@ -64,7 +67,7 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 			var associationSpecs = new List<UmlAssociationSpec>();
 			foreach (var asccSpec in accSpec.Asccs)
 			{
-				associationSpecs.Add(AsccSpecConverter.Convert(asccSpec));
+				associationSpecs.Add(AsccSpecConverter.Convert(asccSpec, accSpec.Name));
 			}
 			umlClassSpec.Associations = associationSpecs;
 

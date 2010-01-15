@@ -41,24 +41,30 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
 							new UmlTaggedValueSpec("versionIdentifier", abieSpec.VersionIdentifier) ,
 							new UmlTaggedValueSpec("usageRule", abieSpec.UsageRules) ,
 						},
-					Dependencies = new []
-						{
-							new UmlDependencySpec
-							{
-								Stereotype = "isEquivalentTo",
-								Target = ((UpccAbie) abieSpec.IsEquivalentTo).UmlClass,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-							new UmlDependencySpec
-							{
-								Stereotype = "basedOn",
-								Target = ((UpccAcc) abieSpec.BasedOn).UmlClass,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-						},
 				};
+
+			var dependencySpecs = new List<UmlDependencySpec>();
+			if (abieSpec.IsEquivalentTo != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "isEquivalentTo",
+										Target = ((UpccAbie) abieSpec.IsEquivalentTo).UmlClass,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			if (abieSpec.BasedOn != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "basedOn",
+										Target = ((UpccAcc) abieSpec.BasedOn).UmlClass,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			umlClassSpec.Dependencies = dependencySpecs;
 
 			var attributeSpecs = new List<UmlAttributeSpec>();
 			foreach (var bbieSpec in abieSpec.Bbies)
@@ -71,7 +77,7 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
 			var associationSpecs = new List<UmlAssociationSpec>();
 			foreach (var asbieSpec in abieSpec.Asbies)
 			{
-				associationSpecs.Add(AsbieSpecConverter.Convert(asbieSpec));
+				associationSpecs.Add(AsbieSpecConverter.Convert(asbieSpec, abieSpec.Name));
 			}
 			umlClassSpec.Associations = associationSpecs;
 

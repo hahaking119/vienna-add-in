@@ -66,7 +66,7 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
 		{
             get
             {
-                foreach (var umlEnumeration in UmlPackage.Enumerations)
+                foreach (var umlEnumeration in UmlPackage.GetEnumerationsByStereotype("ENUM"))
                 {
                     yield return new UpccEnum(umlEnumeration);
                 }
@@ -127,7 +127,7 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
 		{
             get
             {
-                foreach (var umlDataType in UmlPackage.DataTypes)
+                foreach (var umlDataType in UmlPackage.GetDataTypesByStereotype("IDSCHEME"))
                 {
                     yield return new UpccIdScheme(umlDataType);
                 }
@@ -254,5 +254,35 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
         }
 
         #endregion
+
+        public bool Equals(UpccEnumLibrary other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccEnumLibrary)) return false;
+            return Equals((UpccEnumLibrary) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccEnumLibrary left, UpccEnumLibrary right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccEnumLibrary left, UpccEnumLibrary right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }

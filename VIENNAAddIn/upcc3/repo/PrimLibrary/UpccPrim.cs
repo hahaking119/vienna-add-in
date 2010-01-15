@@ -203,5 +203,35 @@ namespace VIENNAAddIn.upcc3.repo.PrimLibrary
         }
 
         #endregion
-    }
+
+        public bool Equals(UpccPrim other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlDataType, UmlDataType);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccPrim)) return false;
+            return Equals((UpccPrim) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlDataType != null ? UmlDataType.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccPrim left, UpccPrim right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccPrim left, UpccPrim right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }

@@ -130,5 +130,35 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
         }
 
         #endregion
-    }
+
+        public bool Equals(UpccIdScheme other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlDataType, UmlDataType);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccIdScheme)) return false;
+            return Equals((UpccIdScheme) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlDataType != null ? UmlDataType.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccIdScheme left, UpccIdScheme right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccIdScheme left, UpccIdScheme right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }
