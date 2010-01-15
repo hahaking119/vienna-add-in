@@ -5,12 +5,12 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 {
     internal static partial class AsccSpecConverter
     {
-        private static string GenerateDictionaryEntryNameDefaultValue(AsccSpec asccSpec)
+        private static string GenerateDictionaryEntryNameDefaultValue(AsccSpec asccSpec, string associatingClassName)
         {
-            return asccSpec.AssociatingAcc.Name + ". " + asccSpec.Name + ". " + asccSpec.AssociatedAcc.Name;
+            return associatingClassName + ". " + asccSpec.Name + ". " + asccSpec.AssociatedAcc.Name;
         }
 
-        private static string GenerateUniqueIdentifierDefaultValue(AsccSpec asccSpec)
+        private static string GenerateUniqueIdentifierDefaultValue(AsccSpec asccSpec, string associatingClassName)
         {
             return Guid.NewGuid().ToString();
         }

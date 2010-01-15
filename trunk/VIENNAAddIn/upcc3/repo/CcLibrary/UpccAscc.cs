@@ -137,6 +137,36 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
         }
 
 		#endregion
-    }
+
+        public bool Equals(UpccAscc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlAssociation, UmlAssociation);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccAscc)) return false;
+            return Equals((UpccAscc) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlAssociation != null ? UmlAssociation.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccAscc left, UpccAscc right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccAscc left, UpccAscc right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }
 

@@ -612,5 +612,35 @@ namespace VIENNAAddIn.upcc3.repo.BLibrary
         }
 
         #endregion
+
+        public bool Equals(UpccBLibrary other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccBLibrary)) return false;
+            return Equals((UpccBLibrary) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccBLibrary left, UpccBLibrary right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccBLibrary left, UpccBLibrary right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }

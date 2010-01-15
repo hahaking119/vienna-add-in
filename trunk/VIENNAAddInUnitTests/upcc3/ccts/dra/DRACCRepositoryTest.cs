@@ -22,9 +22,12 @@ using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ea;
+using VIENNAAddIn.upcc3.repo;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
+using ICollection=System.Collections.ICollection;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 {
@@ -37,7 +40,8 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void Init()
         {
             eaRepository = new EARepository1();
-            cctsRepository = new CCRepository(eaRepository);
+            //cctsRepository = new CCRepository(eaRepository);
+            cctsRepository = new UpccRepository(new EaUmlRepository(eaRepository));
         }
 
         #endregion
@@ -84,7 +88,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(expectedCON.Definition, actualCON.Definition);
             Assert.AreEqual(actualBDT.Name + ". Content", actualCON.DictionaryEntryName);
             Assert.AreEqual(expectedCON.LanguageCode, actualCON.LanguageCode);
-            Assert.AreEqual(actualCON.Id.ToString(), actualCON.UniqueIdentifier);
+            Assert.That(actualCON.UniqueIdentifier, Is.Not.Null);
             Assert.AreEqual(expectedCON.VersionIdentifier, actualCON.VersionIdentifier);
             Assert.AreEqual(expectedCON.LowerBound, actualCON.LowerBound);
             Assert.AreEqual(expectedCON.ModificationAllowedIndicator, actualCON.ModificationAllowedIndicator);
@@ -282,9 +286,9 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
                 Assert.AreEqual(bcc.Definition, bbie.Definition);
                 Assert.AreEqual(abiePerson.Name + ". " + bbie.Name + ". " + bbie.Bdt.Name, bbie.DictionaryEntryName);
                 Assert.AreEqual(bcc.LanguageCode, bbie.LanguageCode);
-                Assert.AreEqual(bbie.Id.ToString(), bbie.UniqueIdentifier);
+                Assert.That(bbie.UniqueIdentifier, Is.Not.Null);
                 Assert.AreEqual(bcc.VersionIdentifier, bbie.VersionIdentifier);
-                Assert.AreEqual(bcc.UsageRules, bbie.UsageRules);
+                Assert.That(bbie.UsageRules, Is.EquivalentTo((ICollection) bcc.UsageRules));
                 Assert.AreEqual(bcc.BusinessTerms, bbie.BusinessTerms);
                 Assert.AreEqual(bcc.LowerBound, bbie.LowerBound);
                 Assert.AreEqual(bcc.UpperBound, bbie.UpperBound);
@@ -470,7 +474,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
             Assert.AreEqual(cdtDate.Definition, cdtDatum.Definition);
             Assert.AreEqual(cdtDatum.Name + ". Type", cdtDatum.DictionaryEntryName);
             Assert.AreEqual(cdtDate.LanguageCode, cdtDatum.LanguageCode);
-            Assert.AreEqual(cdtDatum.Id.ToString(), cdtDatum.UniqueIdentifier);
+            Assert.That(cdtDatum.UniqueIdentifier, Is.Not.Null);
             Assert.AreEqual(cdtDate.VersionIdentifier, cdtDatum.VersionIdentifier);
             Assert.AreEqual(cdtDate.BusinessTerms, cdtDatum.BusinessTerms);
             Assert.AreEqual(cdtDate.UsageRules, cdtDatum.UsageRules);

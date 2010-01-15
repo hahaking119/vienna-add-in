@@ -163,6 +163,36 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
         }
 
 		#endregion
-    }
+
+        public bool Equals(UpccBbie other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlAttribute, UmlAttribute);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccBbie)) return false;
+            return Equals((UpccBbie) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlAttribute != null ? UmlAttribute.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccBbie left, UpccBbie right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccBbie left, UpccBbie right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }
 

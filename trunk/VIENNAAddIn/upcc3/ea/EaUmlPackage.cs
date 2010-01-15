@@ -5,7 +5,7 @@ using VIENNAAddIn.upcc3.uml;
 
 namespace VIENNAAddIn.upcc3.ea
 {
-    internal class EaUmlPackage : IUmlPackage
+    internal class EaUmlPackage : IUmlPackage, IEquatable<EaUmlPackage>
     {
         private readonly Package eaPackage;
         private readonly Repository eaRepository;
@@ -21,6 +21,11 @@ namespace VIENNAAddIn.upcc3.ea
         public string Stereotype
         {
             get { return eaPackage.Element != null ? eaPackage.Element.Stereotype : string.Empty; }
+        }
+
+        public IEnumerable<IUmlDataType> GetDataTypesByStereotype(string stereotype)
+        {
+            return GetClassifiersByStereotype<IUmlDataType>(stereotype);
         }
 
         public IUmlDataType CreateDataType(UmlDataTypeSpec spec)
@@ -39,6 +44,11 @@ namespace VIENNAAddIn.upcc3.ea
             RemoveEaUmlClassifier((EaUmlClassifier) dataType);
         }
 
+        public IEnumerable<IUmlEnumeration> GetEnumerationsByStereotype(string stereotype)
+        {
+            return GetClassifiersByStereotype<IUmlEnumeration>(stereotype);
+        }
+
         public IUmlTaggedValue GetTaggedValue(string name)
         {
             try
@@ -55,6 +65,11 @@ namespace VIENNAAddIn.upcc3.ea
             {
                 return new UndefinedTaggedValue(name);
             }
+        }
+
+        public IEnumerable<IUmlClass> GetClassesByStereotype(string stereotype)
+        {
+            return GetClassifiersByStereotype<IUmlClass>(stereotype);
         }
 
         public IUmlClass CreateClass(UmlClassSpec spec)
@@ -85,17 +100,17 @@ namespace VIENNAAddIn.upcc3.ea
 
         public IEnumerable<IUmlClass> Classes
         {
-            get { return (IEnumerable<IUmlClass>) GetClassifiers(); }
+            get { return GetClassifiers<IUmlClass>(); }
         }
 
         public IEnumerable<IUmlDataType> DataTypes
         {
-            get { return (IEnumerable<IUmlDataType>) GetClassifiers(); }
+            get { return GetClassifiers<IUmlDataType>(); }
         }
 
         public IEnumerable<IUmlEnumeration> Enumerations
         {
-            get { return (IEnumerable<IUmlEnumeration>) GetClassifiers(); }
+            get { return GetClassifiers<IUmlEnumeration>(); }
         }
 
         public IUmlEnumeration CreateEnumeration(UmlEnumerationSpec spec)
@@ -170,6 +185,7 @@ namespace VIENNAAddIn.upcc3.ea
         private EaUmlClassifier CreateEaUmlClassifier(UmlClassifierSpec spec)
         {
             var eaElement = (Element) eaPackage.Elements.AddNew(spec.Name, "Class");
+            eaElement.PackageID = Id;
             var eaUmlClassifier = new EaUmlClassifier(eaRepository, eaElement);
             eaUmlClassifier.Initialize(spec);
             AddToClassDiagram(eaElement);
@@ -218,11 +234,22 @@ namespace VIENNAAddIn.upcc3.ea
             eaElements.Refresh();
         }
 
-        private IEnumerable<EaUmlClassifier> GetClassifiers()
+        private IEnumerable<T> GetClassifiers<T>() where T : class
         {
             foreach (Element eaElement in eaPackage.Elements)
             {
-                yield return new EaUmlClassifier(eaRepository, eaElement);
+                yield return new EaUmlClassifier(eaRepository, eaElement) as T;
+            }
+        }
+
+        private IEnumerable<T> GetClassifiersByStereotype<T>(string stereotype) where T : class
+        {
+            foreach (Element eaElement in eaPackage.Elements)
+            {
+                if (eaElement.Stereotype == stereotype)
+                {
+                    yield return new EaUmlClassifier(eaRepository, eaElement) as T;
+                }
             }
         }
 
@@ -251,7 +278,7 @@ namespace VIENNAAddIn.upcc3.ea
             diagram.Update();
         }
 
-        public void Update(UmlPackageSpec spec)
+        private void Update(UmlPackageSpec spec)
         {
             eaPackage.Element.Stereotype = spec.Stereotype;
             eaPackage.Update();
@@ -268,6 +295,36 @@ namespace VIENNAAddIn.upcc3.ea
                     CreateTaggedValue(taggedValueSpec);
                 }
             }
+        }
+
+        public bool Equals(EaUmlPackage other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.eaPackage.PackageID, eaPackage.PackageID);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (EaUmlPackage)) return false;
+            return Equals((EaUmlPackage) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (eaPackage != null ? eaPackage.PackageID : 0);
+        }
+
+        public static bool operator ==(EaUmlPackage left, EaUmlPackage right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(EaUmlPackage left, EaUmlPackage right)
+        {
+            return !Equals(left, right);
         }
     }
 }

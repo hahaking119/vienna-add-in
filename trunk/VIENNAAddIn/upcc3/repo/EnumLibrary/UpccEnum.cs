@@ -220,5 +220,35 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
         }
 
         #endregion
-    }
+
+        public bool Equals(UpccEnum other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlEnumeration, UmlEnumeration);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccEnum)) return false;
+            return Equals((UpccEnum) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlEnumeration != null ? UmlEnumeration.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccEnum left, UpccEnum right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccEnum left, UpccEnum right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }

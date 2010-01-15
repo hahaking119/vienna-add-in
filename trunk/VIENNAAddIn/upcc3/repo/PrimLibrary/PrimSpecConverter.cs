@@ -51,17 +51,20 @@ namespace VIENNAAddIn.upcc3.repo.PrimLibrary
 							new UmlTaggedValueSpec("versionIdentifier", primSpec.VersionIdentifier) ,
 							new UmlTaggedValueSpec("whiteSpace", primSpec.WhiteSpace) ,
 						},
-					Dependencies = new []
-						{
-							new UmlDependencySpec
-							{
-								Stereotype = "isEquivalentTo",
-								Target = ((UpccPrim) primSpec.IsEquivalentTo).UmlDataType,
-								LowerBound = "0",
-								UpperBound = "1",
-							},
-						},
 				};
+
+			var dependencySpecs = new List<UmlDependencySpec>();
+			if (primSpec.IsEquivalentTo != null)
+			{
+				dependencySpecs.Add(new UmlDependencySpec
+									{
+										Stereotype = "isEquivalentTo",
+										Target = ((UpccPrim) primSpec.IsEquivalentTo).UmlDataType,
+										LowerBound = "0",
+										UpperBound = "1",
+									});
+			}
+			umlDataTypeSpec.Dependencies = dependencySpecs;
 
 			return umlDataTypeSpec;
 		}

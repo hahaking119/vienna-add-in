@@ -5,7 +5,7 @@ using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ea
 {
-    internal class EaUmlEnumerationLiteral : IUmlEnumerationLiteral
+    internal class EaUmlEnumerationLiteral : IUmlEnumerationLiteral, IEquatable<EaUmlEnumerationLiteral>
     {
         private readonly Attribute eaAttribute;
 
@@ -74,6 +74,36 @@ namespace VIENNAAddIn.upcc3.ea
                     CreateTaggedValue(taggedValueSpec);
                 }
             }
+        }
+
+        public bool Equals(EaUmlEnumerationLiteral other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.eaAttribute.AttributeID, eaAttribute.AttributeID);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (EaUmlEnumerationLiteral)) return false;
+            return Equals((EaUmlEnumerationLiteral) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (eaAttribute != null ? eaAttribute.AttributeID : 0);
+        }
+
+        public static bool operator ==(EaUmlEnumerationLiteral left, EaUmlEnumerationLiteral right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(EaUmlEnumerationLiteral left, EaUmlEnumerationLiteral right)
+        {
+            return !Equals(left, right);
         }
     }
 }

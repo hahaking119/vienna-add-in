@@ -66,7 +66,7 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
 		{
             get
             {
-                foreach (var umlClass in UmlPackage.Classes)
+                foreach (var umlClass in UmlPackage.GetClassesByStereotype("BDT"))
                 {
                     yield return new UpccBdt(umlClass);
                 }
@@ -193,5 +193,35 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
         }
 
         #endregion
+
+        public bool Equals(UpccBdtLibrary other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccBdtLibrary)) return false;
+            return Equals((UpccBdtLibrary) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccBdtLibrary left, UpccBdtLibrary right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccBdtLibrary left, UpccBdtLibrary right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }

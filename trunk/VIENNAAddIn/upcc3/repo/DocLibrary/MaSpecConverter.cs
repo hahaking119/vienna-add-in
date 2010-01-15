@@ -36,7 +36,7 @@ namespace VIENNAAddIn.upcc3.repo.DocLibrary
 			var associationSpecs = new List<UmlAssociationSpec>();
 			foreach (var asmaSpec in maSpec.Asmas)
 			{
-				associationSpecs.Add(AsmaSpecConverter.Convert(asmaSpec));
+				associationSpecs.Add(AsmaSpecConverter.Convert(asmaSpec, maSpec.Name));
 			}
 			umlClassSpec.Associations = associationSpecs;
 

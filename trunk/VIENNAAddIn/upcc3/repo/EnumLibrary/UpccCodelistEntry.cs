@@ -66,6 +66,36 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
         }
 
 		#endregion
-    }
+
+        public bool Equals(UpccCodelistEntry other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlEnumerationLiteral, UmlEnumerationLiteral);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccCodelistEntry)) return false;
+            return Equals((UpccCodelistEntry) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlEnumerationLiteral != null ? UmlEnumerationLiteral.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccCodelistEntry left, UpccCodelistEntry right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccCodelistEntry left, UpccCodelistEntry right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }
 

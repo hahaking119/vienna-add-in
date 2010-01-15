@@ -67,7 +67,7 @@ namespace VIENNAAddIn.upcc3.repo.DocLibrary
 		/// </summary>
 		public IAsma CreateAsma(AsmaSpec specification)
 		{
-		    return new UpccAsma(UmlClass.CreateAssociation(AsmaSpecConverter.Convert(specification)), this);
+		    return new UpccAsma(UmlClass.CreateAssociation(AsmaSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -78,7 +78,7 @@ namespace VIENNAAddIn.upcc3.repo.DocLibrary
 		/// </summary>
         public IAsma UpdateAsma(IAsma asma, AsmaSpec specification)
 		{
-		    return new UpccAsma(UmlClass.UpdateAssociation(((UpccAsma) asma).UmlAssociation, AsmaSpecConverter.Convert(specification)), this);
+		    return new UpccAsma(UmlClass.UpdateAssociation(((UpccAsma) asma).UmlAssociation, AsmaSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -91,5 +91,35 @@ namespace VIENNAAddIn.upcc3.repo.DocLibrary
 		}
 
         #endregion
-    }
+
+        public bool Equals(UpccMa other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlClass, UmlClass);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccMa)) return false;
+            return Equals((UpccMa) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlClass != null ? UmlClass.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccMa left, UpccMa right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccMa left, UpccMa right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }

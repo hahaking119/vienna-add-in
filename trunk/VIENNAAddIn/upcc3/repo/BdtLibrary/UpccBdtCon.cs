@@ -228,6 +228,36 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
         }
 
 		#endregion
-    }
+
+        public bool Equals(UpccBdtCon other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlAttribute, UmlAttribute);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccBdtCon)) return false;
+            return Equals((UpccBdtCon) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlAttribute != null ? UmlAttribute.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccBdtCon left, UpccBdtCon right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccBdtCon left, UpccBdtCon right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }
 

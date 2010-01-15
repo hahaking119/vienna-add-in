@@ -125,7 +125,7 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 		/// </summary>
 		public IAscc CreateAscc(AsccSpec specification)
 		{
-		    return new UpccAscc(UmlClass.CreateAssociation(AsccSpecConverter.Convert(specification)), this);
+		    return new UpccAscc(UmlClass.CreateAssociation(AsccSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -136,7 +136,7 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
 		/// </summary>
         public IAscc UpdateAscc(IAscc ascc, AsccSpec specification)
 		{
-		    return new UpccAscc(UmlClass.UpdateAssociation(((UpccAscc) ascc).UmlAssociation, AsccSpecConverter.Convert(specification)), this);
+		    return new UpccAscc(UmlClass.UpdateAssociation(((UpccAscc) ascc).UmlAssociation, AsccSpecConverter.Convert(specification, Name)), this);
 		}
 
 		/// <summary>
@@ -205,5 +205,35 @@ namespace VIENNAAddIn.upcc3.repo.CcLibrary
         }
 
         #endregion
-    }
+
+        public bool Equals(UpccAcc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlClass, UmlClass);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccAcc)) return false;
+            return Equals((UpccAcc) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlClass != null ? UmlClass.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccAcc left, UpccAcc right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccAcc left, UpccAcc right)
+        {
+            return !Equals(left, right);
+        }
+	}
 }

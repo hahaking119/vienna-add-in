@@ -24,9 +24,8 @@ namespace VIENNAAddIn.upcc3.repo.DocLibrary
 {
     internal static partial class AsmaSpecConverter
     {
-		internal static UmlAssociationSpec Convert(AsmaSpec asmaSpec)
+		internal static UmlAssociationSpec Convert(AsmaSpec asmaSpec, string associatingClassName)
 		{
-			var associatingClassifierType = ((UpccMa) asmaSpec.AssociatingMa).UmlClass;
 			IUmlClassifier associatedClassifierType;
 			var multiType = asmaSpec.AssociatedBieAggregator;
             if (multiType.IsAbie)
@@ -49,7 +48,6 @@ namespace VIENNAAddIn.upcc3.repo.DocLibrary
 					UpperBound = asmaSpec.UpperBound,
 					LowerBound = asmaSpec.LowerBound,
 					AggregationKind = AggregationKind.Shared,
-					AssociatingClassifier = associatingClassifierType,
 					AssociatedClassifier = associatedClassifierType,
 				};
 

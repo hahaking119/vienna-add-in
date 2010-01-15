@@ -66,7 +66,7 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
 		{
             get
             {
-                foreach (var umlClass in UmlPackage.Classes)
+                foreach (var umlClass in UmlPackage.GetClassesByStereotype("ABIE"))
                 {
                     yield return new UpccAbie(umlClass);
                 }
@@ -193,5 +193,35 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
         }
 
         #endregion
+
+        public bool Equals(UpccBieLibrary other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccBieLibrary)) return false;
+            return Equals((UpccBieLibrary) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccBieLibrary left, UpccBieLibrary right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccBieLibrary left, UpccBieLibrary right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }

@@ -66,7 +66,7 @@ namespace VIENNAAddIn.upcc3.repo.CdtLibrary
 		{
             get
             {
-                foreach (var umlClass in UmlPackage.Classes)
+                foreach (var umlClass in UmlPackage.GetClassesByStereotype("CDT"))
                 {
                     yield return new UpccCdt(umlClass);
                 }
@@ -193,5 +193,35 @@ namespace VIENNAAddIn.upcc3.repo.CdtLibrary
         }
 
         #endregion
+
+        public bool Equals(UpccCdtLibrary other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.UmlPackage, UmlPackage);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (UpccCdtLibrary)) return false;
+            return Equals((UpccCdtLibrary) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (UmlPackage != null ? UmlPackage.GetHashCode() : 0);
+        }
+
+        public static bool operator ==(UpccCdtLibrary left, UpccCdtLibrary right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(UpccCdtLibrary left, UpccCdtLibrary right)
+        {
+            return !Equals(left, right);
+        }
 	}
 }
