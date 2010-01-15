@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VIENNAAddIn.upcc3.uml
 {
     public interface IUmlClassifier
@@ -8,5 +10,9 @@ namespace VIENNAAddIn.upcc3.uml
         IUmlPackage Package { get; }
         string Stereotype { get; }
         IUmlTaggedValue GetTaggedValue(string name);
+
+        IEnumerable<IUmlDependency> GetDependenciesByStereotype(string stereotype);
+        IUmlDependency GetFirstDependencyByStereotype(string stereotype);
+        IUmlDependency CreateDependency(UmlDependencySpec spec);
     }
 }

@@ -64,7 +64,7 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 			var dependencyTargetType = dependency.TargetClassifierType.Name;
 			var dependencyTargetUmlType = "Uml" + dependency.TargetClassifierType.GetType().Name.Substring(4);
 #>
-							new UmlDependencySpec<I<#= dependencyTargetUmlType #>>
+							new UmlDependencySpec
 							{
 								Stereotype = "<#= dependencyStereotype #>",
 								Target = ((Upcc<#= dependencyTargetType #>) <#= spec #>.<#= dependencyProperty #>).<#= dependencyTargetUmlType #>,

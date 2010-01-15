@@ -43,14 +43,14 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
 						},
 					Dependencies = new []
 						{
-							new UmlDependencySpec<IUmlClass>
+							new UmlDependencySpec
 							{
 								Stereotype = "isEquivalentTo",
 								Target = ((UpccBdt) bdtSpec.IsEquivalentTo).UmlClass,
 								LowerBound = "0",
 								UpperBound = "1",
 							},
-							new UmlDependencySpec<IUmlClass>
+							new UmlDependencySpec
 							{
 								Stereotype = "basedOn",
 								Target = ((UpccCdt) bdtSpec.BasedOn).UmlClass,

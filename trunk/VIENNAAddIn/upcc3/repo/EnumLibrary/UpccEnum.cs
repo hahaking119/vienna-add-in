@@ -54,7 +54,15 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
             get
             {
                 var dependency = UmlEnumeration.GetFirstDependencyByStereotype("isEquivalentTo");
-                return dependency == null ? null : new UpccEnum(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUmlEnumeration;
+					if (target != null)
+					{
+						return new UpccEnum(target);
+					}
+				}
+				return null;
             }
         }
 

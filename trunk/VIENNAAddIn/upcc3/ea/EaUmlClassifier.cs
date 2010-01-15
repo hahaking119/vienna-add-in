@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ea
 {
-    internal class EaUmlClassifier : IUmlClass
+    internal class EaUmlClassifier : IUmlClass, IUmlDataType, IUmlEnumeration
     {
-        protected readonly Element eaElement;
-        protected readonly Repository eaRepository;
+        private readonly Element eaElement;
+        private readonly Repository eaRepository;
 
         public EaUmlClassifier(Repository eaRepository, Element eaElement)
         {
@@ -18,7 +19,7 @@ namespace VIENNAAddIn.upcc3.ea
             this.eaElement = eaElement;
         }
 
-        #region IUmlClassifier Members
+        #region IUmlClass Members
 
         public int Id
         {
@@ -47,105 +48,291 @@ namespace VIENNAAddIn.upcc3.ea
 
         public IUmlTaggedValue GetTaggedValue(string name)
         {
-            return EaUmlTaggedValue.ForEaTaggedValue(GetEATaggedValueByName(name));
-        }
-
-        #endregion
-
-        private TaggedValue GetEATaggedValueByName(string name)
-        {
-            foreach (TaggedValue eaTaggedValue in eaElement.TaggedValues)
+            try
             {
-                if (eaTaggedValue.Name.Equals(name))
-                {
-                    return eaTaggedValue;
-                }
+                var eaTaggedValue = eaElement.TaggedValues.GetByName(name) as TaggedValue;
+                return eaTaggedValue == null ? (IUmlTaggedValue) new UndefinedTaggedValue(name) : new EaTaggedValue(eaTaggedValue);
             }
-            return null;
+            catch (Exception)
+            {
+                return new UndefinedTaggedValue(name);
+            }
         }
 
-        public IEnumerable<IUmlDependency<IUmlClass>> GetDependenciesByStereotype(string stereotype)
+        public IEnumerable<IUmlDependency> GetDependenciesByStereotype(string stereotype)
         {
-            foreach (Connector connector in eaElement.Connectors)
+            foreach (Connector eaConnector in eaElement.Connectors)
             {
-                if (connector.Type == EAConnectorTypes.Dependency.ToString())
+                if (eaConnector.Type == EAConnectorTypes.Dependency.ToString())
                 {
-                    if (connector.Stereotype == stereotype)
+                    if (eaConnector.Stereotype == stereotype)
                     {
-                        yield return new EaUmlDependency<IUmlClass>(eaRepository, connector, targetElement => new EaUmlClassifier(eaRepository, targetElement));
+                        yield return new EaUmlDependency(eaRepository, eaConnector);
                     }
                 }
             }
         }
 
-        public IUmlDependency<IUmlClass> GetFirstDependencyByStereotype(string stereotype)
+        public IUmlDependency GetFirstDependencyByStereotype(string stereotype)
         {
-            var dependencies = new List<IUmlDependency<IUmlClass>>(GetDependenciesByStereotype(stereotype));
-            return dependencies.Count == 0 ? null : dependencies[0];
+            var umlDependencies = new List<IUmlDependency>(GetDependenciesByStereotype(stereotype));
+            return umlDependencies.Count == 0 ? null : umlDependencies[0];
         }
 
-        public IUmlDependency<IUmlClass> CreateDependency(UmlDependencySpec<IUmlClass> spec)
+        public IUmlDependency CreateDependency(UmlDependencySpec spec)
         {
-            var connector = (Connector) eaElement.Connectors.AddNew(string.Empty, EAConnectorTypes.Dependency.ToString());
-            connector.Type = EAConnectorTypes.Dependency.ToString();
-            connector.Stereotype = spec.Stereotype;
-            connector.ClientID = Id;
-            connector.SupplierID = spec.Target.Id;
-            connector.SupplierEnd.Role = spec.Stereotype;
-            connector.SupplierEnd.Cardinality = spec.LowerBound + ".." + spec.UpperBound;
-            connector.Update();
-            return new EaUmlDependency<IUmlClass>(eaRepository, connector, targetElement => new EaUmlClassifier(eaRepository, targetElement));
+            var eaConnector = (Connector) eaElement.Connectors.AddNew(String.Empty, EAConnectorTypes.Dependency.ToString());
+            eaConnector.ClientID = Id;
+            eaConnector.Stereotype = spec.Stereotype;
+            eaConnector.SupplierID = spec.Target.Id;
+            eaConnector.SupplierEnd.Role = spec.Stereotype;
+            eaConnector.SupplierEnd.Cardinality = spec.LowerBound + ".." + spec.UpperBound;
+            eaConnector.Update();
+            return new EaUmlDependency(eaRepository, eaConnector);
         }
 
         public IEnumerable<IUmlAttribute> GetAttributesByStereotype(string stereotype)
         {
-            foreach (Attribute attribute in eaElement.Attributes)
+            foreach (Attribute eaAttribute in eaElement.Attributes)
             {
-                if (attribute.Stereotype == stereotype)
+                if (eaAttribute.Stereotype == stereotype)
                 {
-                    yield return new EaUmlAttribute(eaRepository, attribute);
+                    yield return new EaUmlAttribute(eaRepository, eaAttribute);
                 }
             }
         }
 
         public IUmlAttribute GetFirstAttributeByStereotype(string stereotype)
         {
-            throw new NotImplementedException();
+            var umlAttributes = new List<IUmlAttribute>(GetAttributesByStereotype(stereotype));
+            return umlAttributes.Count == 0 ? null : umlAttributes[0];
         }
 
         public IUmlAttribute CreateAttribute(UmlAttributeSpec spec)
         {
-            throw new NotImplementedException();
+            var attribute = new EaUmlAttribute(eaRepository, (Attribute) eaElement.Attributes.AddNew(spec.Name, spec.Type.Name));
+            attribute.Initialize(spec);
+            return attribute;
         }
 
         public IUmlAttribute UpdateAttribute(IUmlAttribute attribute, UmlAttributeSpec spec)
         {
-            throw new NotImplementedException();
+            ((EaUmlAttribute) attribute).Update(spec);
+            return attribute;
         }
 
         public void RemoveAttribute(IUmlAttribute attribute)
         {
-            throw new NotImplementedException();
+            short i = 0;
+            Collection eaAttributes = eaElement.Attributes;
+            foreach (Attribute eaAttribute in eaAttributes)
+            {
+                if (eaAttribute.AttributeID == attribute.Id)
+                {
+                    eaAttributes.Delete(i);
+                }
+                i++;
+            }
+            eaAttributes.Refresh();
         }
 
         public IEnumerable<IUmlAssociation> GetAssociationsByStereotype(string stereotype)
         {
-            throw new NotImplementedException();
+            foreach (Connector eaConnector in eaElement.Connectors)
+            {
+                if (eaConnector.Type == EAConnectorTypes.Aggregation.ToString())
+                {
+                    if (eaConnector.Stereotype == stereotype)
+                    {
+                        if ((eaConnector.ClientID == Id && eaConnector.ClientEnd.Aggregation != (int) EaAggregationKind.None) ||
+                            (eaConnector.SupplierID == Id && eaConnector.SupplierEnd.Aggregation != (int) EaAggregationKind.None))
+                        {
+                            yield return new EaUmlAssociation(eaRepository, eaConnector, Id);
+                        }
+                    }
+                }
+            }
         }
 
         public IUmlAssociation CreateAssociation(UmlAssociationSpec spec)
         {
-            throw new NotImplementedException();
+            var association = new EaUmlAssociation(eaRepository, (Connector) eaElement.Connectors.AddNew(string.Empty, EAConnectorTypes.Aggregation.ToString()), Id);
+            association.Initialize(spec);
+            return association;
         }
 
         public IUmlAssociation UpdateAssociation(IUmlAssociation association, UmlAssociationSpec spec)
         {
-            throw new NotImplementedException();
+            ((EaUmlAssociation) association).Update(spec);
+            return association;
         }
 
         public void RemoveAssociation(IUmlAssociation association)
         {
-            throw new NotImplementedException();
+            short i = 0;
+            Collection eaConnectors = eaElement.Connectors;
+            foreach (Connector eaConnector in eaConnectors)
+            {
+                if (eaConnector.ConnectorID == association.Id)
+                {
+                    eaConnectors.Delete(i);
+                }
+                i++;
+            }
+            eaConnectors.Refresh();
+        }
+
+        #endregion
+
+        #region IUmlEnumeration Members
+
+        public IEnumerable<IUmlEnumerationLiteral> GetEnumerationLiteralsByStereotype(string stereotype)
+        {
+            foreach (Attribute eaAttribute in eaElement.Attributes)
+            {
+                if (eaAttribute.Stereotype == stereotype)
+                {
+                    yield return new EaUmlEnumerationLiteral(eaAttribute);
+                }
+            }
+        }
+
+        public IUmlEnumerationLiteral CreateEnumerationLiteral(UmlEnumerationLiteralSpec spec)
+        {
+            var enumerationLiteral = new EaUmlEnumerationLiteral((Attribute) eaElement.Attributes.AddNew(spec.Name, "String"));
+            enumerationLiteral.Initialize(spec);
+            return enumerationLiteral;
+        }
+
+        public IUmlEnumerationLiteral UpdateEnumerationLiteral(IUmlEnumerationLiteral enumerationLiteral, UmlEnumerationLiteralSpec spec)
+        {
+            ((EaUmlEnumerationLiteral) enumerationLiteral).Update(spec);
+            return enumerationLiteral;
+        }
+
+        public void RemoveEnumerationLiteral(IUmlEnumerationLiteral enumerationLiteral)
+        {
+            short i = 0;
+            Collection eaAttributes = eaElement.Attributes;
+            foreach (Attribute eaAttribute in eaAttributes)
+            {
+                if (eaAttribute.AttributeID == enumerationLiteral.Id)
+                {
+                    eaAttributes.Delete(i);
+                }
+                i++;
+            }
+            eaAttributes.Refresh();
+        }
+
+        #endregion
+
+        private void CreateTaggedValue(UmlTaggedValueSpec taggedValueSpec)
+        {
+            var eaTaggedValue = (TaggedValue) eaElement.TaggedValues.AddNew(taggedValueSpec.Name, String.Empty);
+            eaTaggedValue.Value = taggedValueSpec.Value ?? taggedValueSpec.DefaultValue;
+            eaTaggedValue.Update();
+        }
+
+        public void Update(UmlClassifierSpec spec)
+        {
+            eaElement.Name = spec.Name;
+            eaElement.Stereotype = spec.Stereotype;
+            eaElement.Update();
+
+            foreach (UmlTaggedValueSpec taggedValueSpec in spec.TaggedValues)
+            {
+                IUmlTaggedValue taggedValue = GetTaggedValue(taggedValueSpec.Name);
+                if (taggedValue.IsDefined)
+                {
+                    taggedValue.Update(taggedValueSpec);
+                }
+                else
+                {
+                    CreateTaggedValue(taggedValueSpec);
+                }
+            }
+            eaElement.TaggedValues.Refresh();
+
+            for (var i = (short) (eaElement.Attributes.Count - 1); i >= 0; i--)
+            {
+                eaElement.Attributes.Delete(i);
+            }
+            eaElement.Attributes.Refresh();
+            foreach (UmlAttributeSpec attributeSpec in spec.Attributes)
+            {
+                CreateAttribute(attributeSpec);
+            }
+            eaElement.Attributes.Refresh();
+
+            for (var i = (short) (eaElement.Connectors.Count - 1); i >= 0; i--)
+            {
+                if (DeleteConnectorOnUpdate((Connector) eaElement.Connectors.GetAt(i)))
+                {
+                    eaElement.Connectors.Delete(i);
+                }
+            }
+            foreach (UmlAssociationSpec associationSpec in spec.Associations)
+            {
+                CreateAssociation(associationSpec);
+            }
+            foreach (UmlDependencySpec dependencySpec in spec.Dependencies)
+            {
+                CreateDependency(dependencySpec);
+            }
+            eaElement.Connectors.Refresh();
+        }
+
+        private bool DeleteConnectorOnUpdate(Connector eaConnector)
+        {
+            if (eaConnector.Type == EAConnectorTypes.Dependency.ToString())
+            {
+                if (eaConnector.ClientID == Id)
+                {
+                    return true;
+                }
+            }
+            if (eaConnector.Type == EAConnectorTypes.Aggregation.ToString())
+            {
+                if (eaConnector.ClientID == Id)
+                {
+                    return eaConnector.ClientEnd.Aggregation != (int) EaAggregationKind.None;
+                }
+                if (eaConnector.SupplierID == Id)
+                {
+                    return eaConnector.SupplierEnd.Aggregation != (int) EaAggregationKind.None;
+                }
+            }
+            return false;
+        }
+
+        public void Initialize(UmlClassifierSpec spec)
+        {
+            eaElement.PackageID = Id;
+            eaElement.Stereotype = spec.Stereotype;
+            eaElement.Update();
+
+            foreach (UmlTaggedValueSpec taggedValueSpec in spec.TaggedValues)
+            {
+                CreateTaggedValue(taggedValueSpec);
+            }
+            eaElement.TaggedValues.Refresh();
+
+            foreach (UmlAttributeSpec attributeSpec in spec.Attributes)
+            {
+                CreateAttribute(attributeSpec);
+            }
+            eaElement.Attributes.Refresh();
+
+            foreach (UmlAssociationSpec associationSpec in spec.Associations)
+            {
+                CreateAssociation(associationSpec);
+            }
+            foreach (UmlDependencySpec dependencySpec in spec.Dependencies)
+            {
+                CreateDependency(dependencySpec);
+            }
+            eaElement.Connectors.Refresh();
         }
     }
 }

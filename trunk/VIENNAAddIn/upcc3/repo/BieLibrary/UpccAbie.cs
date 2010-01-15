@@ -54,7 +54,15 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
             get
             {
                 var dependency = UmlClass.GetFirstDependencyByStereotype("isEquivalentTo");
-                return dependency == null ? null : new UpccAbie(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUmlClass;
+					if (target != null)
+					{
+						return new UpccAbie(target);
+					}
+				}
+				return null;
             }
         }
 
@@ -63,7 +71,15 @@ namespace VIENNAAddIn.upcc3.repo.BieLibrary
             get
             {
                 var dependency = UmlClass.GetFirstDependencyByStereotype("basedOn");
-                return dependency == null ? null : new UpccAcc(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUmlClass;
+					if (target != null)
+					{
+						return new UpccAcc(target);
+					}
+				}
+				return null;
             }
         }
 

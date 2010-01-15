@@ -1,7 +1,7 @@
 namespace VIENNAAddIn.upcc3.uml
 {
-    public interface IUmlDependency<TTarget>
+    public interface IUmlDependency
     {
-        TTarget Target { get; }
+        IUmlClassifier Target { get; }
     }
 }

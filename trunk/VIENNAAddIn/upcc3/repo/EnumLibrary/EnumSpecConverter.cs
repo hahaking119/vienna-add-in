@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.repo.EnumLibrary
 						},
 					Dependencies = new []
 						{
-							new UmlDependencySpec<IUmlEnumeration>
+							new UmlDependencySpec
 							{
 								Stereotype = "isEquivalentTo",
 								Target = ((UpccEnum) enumSpec.IsEquivalentTo).UmlEnumeration,

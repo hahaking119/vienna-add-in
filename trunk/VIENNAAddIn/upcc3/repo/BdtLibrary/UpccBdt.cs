@@ -54,7 +54,15 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
             get
             {
                 var dependency = UmlClass.GetFirstDependencyByStereotype("isEquivalentTo");
-                return dependency == null ? null : new UpccBdt(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUmlClass;
+					if (target != null)
+					{
+						return new UpccBdt(target);
+					}
+				}
+				return null;
             }
         }
 
@@ -63,7 +71,15 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
             get
             {
                 var dependency = UmlClass.GetFirstDependencyByStereotype("basedOn");
-                return dependency == null ? null : new UpccCdt(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUmlClass;
+					if (target != null)
+					{
+						return new UpccCdt(target);
+					}
+				}
+				return null;
             }
         }
 

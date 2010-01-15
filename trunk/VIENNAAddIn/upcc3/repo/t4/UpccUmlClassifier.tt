@@ -58,7 +58,15 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
             get
             {
                 var dependency = <#= umlClassifier #>.GetFirstDependencyByStereotype("<#= dependency.Stereotype.ToString() #>");
-                return dependency == null ? null : new Upcc<#= dependency.TargetClassifierType.Name #>(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUml<#= umlClassifierType #>;
+					if (target != null)
+					{
+						return new Upcc<#= dependency.TargetClassifierType.Name #>(target);
+					}
+				}
+				return null;
             }
         }
 <#

@@ -54,7 +54,15 @@ namespace VIENNAAddIn.upcc3.repo.CdtLibrary
             get
             {
                 var dependency = UmlClass.GetFirstDependencyByStereotype("isEquivalentTo");
-                return dependency == null ? null : new UpccCdt(dependency.Target);
+				if (dependency != null)
+				{
+					var target = dependency.Target as IUmlClass;
+					if (target != null)
+					{
+						return new UpccCdt(target);
+					}
+				}
+				return null;
             }
         }
 

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VIENNAAddIn.upcc3.uml
 {
     public interface IUmlAttribute
@@ -7,6 +9,8 @@ namespace VIENNAAddIn.upcc3.uml
         string UpperBound { get; }
         string LowerBound { get; }
         IUmlClassifier Type { get; }
+
+        IEnumerable<IUmlTaggedValue> GetTaggedValues();
         IUmlTaggedValue GetTaggedValue(string name);
     }
 }
