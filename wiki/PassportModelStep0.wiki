@@ -2,6 +2,10 @@
 
 = Passport Modeling Storyboard =
 
+An example for exchanging information electronically using Core Components is the following scenario: Two neighbouring countries decide to implement additional security standards on the border. When inhabitants move from one of the two countries to the other, their passports should be compared to a central database to check the document's authenticity and therefore prohibit the use of forged passport documents.
+
+To establish such a central database, the two countries need to exchange the passport data of all inhibitants. They decide to 
+
 Imagine two organisations that are planning to exchange information electronically, for example human passport data. They decide to use Core Components for creating a sample model for this passport information. The two parties must agree on which information is included in the passport model and how this information is organised.
 
 This sample scenario shows how to create such a sample passport model using Enterprise Architect and the VIENNA Add-In in three steps. Sample images are included, as well as video tutorials.
