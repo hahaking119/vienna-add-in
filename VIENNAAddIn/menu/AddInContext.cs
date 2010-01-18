@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using CctsRepository;
 using EA;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 
@@ -52,7 +53,7 @@ namespace VIENNAAddIn.menu
         ///</summary>
         public ICctsRepository CctsRepository
         {
-            get { return new CCRepository(EARepository); }
+            get { return CctsRepositoryFactory.CreateCctsRepository(EARepository); }
         }
 
         ///<summary>

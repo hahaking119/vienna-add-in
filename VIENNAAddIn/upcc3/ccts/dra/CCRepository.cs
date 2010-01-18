@@ -33,7 +33,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     {
         private readonly Repository eaRepository;
 
-        public CCRepository(Repository eaRepository)
+        internal CCRepository(Repository eaRepository)
         {
             this.eaRepository = eaRepository;
         }

@@ -6,6 +6,7 @@ using CctsRepository.DocLibrary;
 using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUnitTests.TestRepository;
@@ -22,7 +23,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [SetUp]
         public void Context()
         {
-            ccRepository = new CCRepository(new MappingTestRepository());
+            ccRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
 //            temporaryFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Repository-with-CDTs-and-CCs.eap"));
 //            ccRepository = new CCRepository(temporaryFileBasedRepository);
         }
@@ -173,7 +174,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                 mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\" + part + ".mfd"));
             }
             string[] schemaFiles = new[] {TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd")};
-            new MappingImporter(mappingFiles, schemaFiles, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(new CCRepository(repo));
+            new MappingImporter(mappingFiles, schemaFiles, DOCLibraryName, BIELibraryName, BDTLibraryName, Qualifier, RootElementName).ImportMapping(CctsRepositoryFactory.CreateCctsRepository(repo));
         }
 
         [Test]

@@ -10,6 +10,7 @@ using Moq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.import.cctsndr;
@@ -47,7 +48,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
                                                                                                                });
                                                                              bLibrary.AddPackage("BDTLibrary", bdtLib => { bdtLib.Element.Stereotype = Stereotype.BDTLibrary; });
                                                                          }));
-            ICctsRepository cctsRepository = new CCRepository(eaRepository);
+            ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
             var primLibrary = cctsRepository.GetPrimLibraryByPath((Path) "Model"/"bLibrary"/"PRIMLibrary");
             var bdtLibrary = cctsRepository.GetBdtLibraryByPath((Path) "Model"/"bLibrary"/"BDTLibrary");
             var cdtLibrary = cctsRepository.GetCdtLibraryByPath((Path) "Model"/"bLibrary"/"CDTLibrary");
