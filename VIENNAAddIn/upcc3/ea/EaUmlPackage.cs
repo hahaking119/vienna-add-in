@@ -147,6 +147,7 @@ namespace VIENNAAddIn.upcc3.ea
         public IUmlPackage CreatePackage(UmlPackageSpec spec)
         {
             var eaSubPackage = (Package) eaPackage.Packages.AddNew(spec.Name, string.Empty);
+            eaSubPackage.Update(); // must update before accessing Package.Element!
             eaSubPackage.ParentID = Id;
             var eaUmlPackage = new EaUmlPackage(eaRepository, eaSubPackage);
             eaUmlPackage.Initialize(spec);

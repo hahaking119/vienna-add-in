@@ -6,6 +6,7 @@ namespace VIENNAAddIn.upcc3.ccts.dra
     public enum EAConnectorTypes
     {
         Dependency,
-        Aggregation
+        Aggregation,
+        Association,
     }
 }

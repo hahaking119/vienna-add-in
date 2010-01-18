@@ -98,6 +98,7 @@
       <DependentUpon>SynchTaggedValuesTests.tt</DependentUpon>
     </Compile>
     <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesTestRepository.cs" />
+    <Compile Include="upcc3\ea\EaUmlRepositoryTest.cs" />
     <Compile Include="upcc3\ea\EaCollectionTests.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModelTest.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModelTest.cs" />
@@ -111,13 +112,6 @@
     <Compile Include="upcc3\ccts\dra\CdtLibraryTests.cs" />
     <Compile Include="upcc3\ccts\dra\CdtLibraryTestRepository.cs" />
     <Compile Include="upcc3\ccts\util\AsbieAggregationKindTests.cs" />
-    <Compile Include="upcc3\newrepo\UmlPackageBuilder.cs" />
-    <Compile Include="upcc3\newrepo\UmlRepositoryBuilder.cs" />
-    <Compile Include="upcc3\newrepo\UmlTaggedValueBuilder.cs" />
-    <Compile Include="upcc3\newrepo\UpccRepositoryTests.cs" />
-    <Compile Include="upcc3\newrepo\UmlDataTypeBuilder.cs" />
-    <Compile Include="upcc3\newrepo\NewRepoTests.cs" />
-    <Compile Include="upcc3\newrepo\EARepositoryWithTwoPRIMs.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BLibraryValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BusinessLibraryValidatorTests.cs" />
     <Compile Include="upcc3\ccts\otf\validators\PRIMLibraryValidatorTests.cs" />

@@ -22,29 +22,29 @@ using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ea;
+using VIENNAAddIn.upcc3.repo;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
 using ICollection=System.Collections.ICollection;
 
-namespace VIENNAAddInUnitTests.upcc3.ccts.dra
+namespace VIENNAAddInUnitTests.upcc3.ea
 {
     [TestFixture]
-    public class DRACCRepositoryTest
+    public class EaUmlRepositoryTest
     {
         #region Setup/Teardown
 
         [SetUp]
         public void Init()
         {
-            eaRepository = new EARepository1();
-            cctsRepository = new CCRepository(eaRepository);
+            cctsRepository = new UpccRepository(new EaUmlRepository(new EARepository1()));
         }
 
         #endregion
 
         private ICctsRepository cctsRepository;
-        private Repository eaRepository;
 
         private static void AssertCDTSUPs(ICdt expectedCDT, ICdt actualCDT)
         {
@@ -521,7 +521,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             using (var repository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("XSDGeneratorTest.eap")))
             {
-                cctsRepository = new CCRepository(repository);
+                cctsRepository = new UpccRepository(new EaUmlRepository(repository));
 
                 IBLibrary bLib = cctsRepository.GetBLibraries().First();
                 Assert.IsNotNull(bLib, "bLib not found");

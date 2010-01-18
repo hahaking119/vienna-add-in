@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using CctsRepository.CcLibrary;
+using VIENNAAddIn.upcc3.uml;
+using VIENNAAddIn.Utils;
 
 namespace VIENNAAddIn.upcc3.repo.CcLibrary
 {
