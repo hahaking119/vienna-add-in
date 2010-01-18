@@ -16,7 +16,7 @@
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild49.gif
   # Repeat the previous step and drag-and-drop a MA from the ABIE _Person_ to the MA _Passport_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild50.gif
-  # A passport contains information about exactly one person, and it has only one period of validity. To model this you must change the cardinality values of the two ASMAs: Double-click the ASMAs, in the Aggregation Properties dialog switch to the Source Role tab and change the Multiplicity value to 1: 
+  # A passport contains information about exactly one person, and it has only one period of validity. To model this you must change the cardinality values of the two ASMAs: Double-click the ASMAs, in the _Aggregation Properties_ dialog switch to the _Source Role_ tab and set the _Multiplicity_ value to 1: 
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild51.gif
   # The final model should look as follows:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild52.gif
