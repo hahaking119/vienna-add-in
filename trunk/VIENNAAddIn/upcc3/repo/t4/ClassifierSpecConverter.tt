@@ -5,6 +5,7 @@
 <#@ import namespace="VIENNAAddInUtils.t4"#>
 <#@ include file="../t4/CctsRepositoryNamespaces.tt" #>
 using VIENNAAddIn.upcc3.uml;
+using VIENNAAddIn.Utils;
 using System.Collections.Generic;
 
 <# 
@@ -100,23 +101,28 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 			if (attribute.Cardinality == MetaCardinality.Many)
 			{
 #>
-			foreach (var <#= attributeSpec #> in <#= spec #>.<#= attribute.AttributeName #>)
+			if (<#= spec #>.<#= attribute.AttributeName #> != null)
 			{
-				attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= attributeSpec #>, <#= spec #>.Name));
+				foreach (var <#= attributeSpec #> in <#= spec #>.<#= attribute.AttributeName #>)
+				{
+					attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= attributeSpec #>, <#= spec #>.Name));
+				}
 			}
-			<#= umlSpec #>.Attributes = attributeSpecs;
 <#
 			}
 			else
 			{
 #>
-			attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= spec #>.<#= attribute.AttributeName #>, <#= spec #>.Name));
+			if (<#= spec #>.<#= attribute.AttributeName #> != null)
+			{
+				attributeSpecs.Add(<#= attributeSpecType #>Converter.Convert(<#= spec #>.<#= attribute.AttributeName #>, <#= spec #>.Name));
+			}
 <#
 			}
-#>
-			<#= umlSpec #>.Attributes = attributeSpecs;
-<#
 		}
+#>
+			<#= umlSpec #>.Attributes = MakeAttributeNamesUnique(attributeSpecs);
+<#
 	}
 	
 ///==========================================================================================================================
@@ -136,16 +142,22 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 			if (enumerationLiteral.Cardinality == MetaCardinality.Many)
 			{
 #>
-			foreach (var <#= enumerationLiteralSpec #> in <#= spec #>.<#= enumerationLiteral.Name #>)
+			if (<#= spec #>.<#= enumerationLiteral.Name #> != null)
 			{
-				enumerationLiteralSpecs.Add(<#= enumerationLiteralSpecType #>Converter.Convert(<#= enumerationLiteralSpec #>));
+				foreach (var <#= enumerationLiteralSpec #> in <#= spec #>.<#= enumerationLiteral.Name #>)
+				{
+					enumerationLiteralSpecs.Add(<#= enumerationLiteralSpecType #>Converter.Convert(<#= enumerationLiteralSpec #>));
+				}
 			}
 <#
 			}
 			else
 			{
 #>
-			enumerationLiteralSpecs.Add(<#= enumerationLiteralSpecType #>Converter.Convert(<#= spec #>.<#= enumerationLiteral.Name #>));
+			if (<#= spec #>.<#= enumerationLiteral.Name #> != null)
+			{
+				enumerationLiteralSpecs.Add(<#= enumerationLiteralSpecType #>Converter.Convert(<#= spec #>.<#= enumerationLiteral.Name #>));
+			}
 <#
 			}
 #>
@@ -171,20 +183,26 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 			if (association.Cardinality == MetaCardinality.Many)
 			{
 #>
-			foreach (var <#= associationSpec #> in <#= spec #>.<#= association.Name #>)
+			if (<#= spec #>.<#= association.Name #> != null)
 			{
-				associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= associationSpec #>, <#= spec #>.Name));
+				foreach (var <#= associationSpec #> in <#= spec #>.<#= association.Name #>)
+				{
+					associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= associationSpec #>, <#= spec #>.Name));
+				}
 			}
 <#
 			}
 			else
 			{
 #>
-			associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= spec #>.<#= association.Name #>, <#= spec #>.Name));
+			if (<#= spec #>.<#= association.Name #> != null)
+			{
+				associationSpecs.Add(<#= associationSpecType #>Converter.Convert(<#= spec #>.<#= association.Name #>, <#= spec #>.Name));
+			}
 <#
 			}
 #>
-			<#= umlSpec #>.Associations = associationSpecs;
+			<#= umlSpec #>.Associations = MakeAssociationNamesUnique(associationSpecs);
 <#
 		}
 	}
@@ -192,5 +210,45 @@ namespace VIENNAAddIn.upcc3.repo.<#= MetaModel.GetPackageRelationsFor(metaClassi
 
 			return <#= umlSpec #>;
 		}
+
+        private static IEnumerable<UmlAttributeSpec> MakeAttributeNamesUnique(List<UmlAttributeSpec> specs)
+        {
+            var specsByName = new Dictionary<string, List<UmlAttributeSpec>>();
+            foreach (var spec in specs)
+            {
+                specsByName.GetAndCreate(spec.Name).Add(spec);
+            }
+            foreach (var specList in specsByName.Values)
+            {
+                if (specList.Count > 1)
+                {
+                    foreach (var spec in specList)
+                    {
+                        spec.Name = spec.Name + spec.Type.Name;
+                    }
+                }
+            }
+            return specs;
+        }
+
+        private static IEnumerable<UmlAssociationSpec> MakeAssociationNamesUnique(List<UmlAssociationSpec> specs)
+        {
+            var specsByName = new Dictionary<string, List<UmlAssociationSpec>>();
+            foreach (var spec in specs)
+            {
+                specsByName.GetAndCreate(spec.Name).Add(spec);
+            }
+            foreach (var specList in specsByName.Values)
+            {
+                if (specList.Count > 1)
+                {
+                    foreach (var spec in specList)
+                    {
+                        spec.Name = spec.Name + spec.AssociatedClassifier.Name;
+                    }
+                }
+            }
+            return specs;
+        }
 	}
 }

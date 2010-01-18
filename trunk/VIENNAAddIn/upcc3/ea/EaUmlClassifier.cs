@@ -140,7 +140,7 @@ namespace VIENNAAddIn.upcc3.ea
         {
             foreach (Connector eaConnector in eaElement.Connectors)
             {
-                if (eaConnector.Type == EAConnectorTypes.Aggregation.ToString())
+                if (eaConnector.Type == EAConnectorTypes.Association.ToString() || eaConnector.Type == EAConnectorTypes.Aggregation.ToString())
                 {
                     if (eaConnector.Stereotype == stereotype)
                     {
