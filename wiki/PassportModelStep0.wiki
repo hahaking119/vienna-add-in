@@ -8,6 +8,6 @@ To establish such a central database, the two countries need to exchange the pas
 
 The next pages show how to create such a sample passport model using Enterprise Architect and the VIENNA Add-In in three steps. Sample images are included, as well as video tutorials.
 
-Start with [PassportModelStep1 Passport Model - Step 1] to see how to open an Enterprise Architect project file, create a UPCC model and import the standard libraries needed for Core Component compliance.<br>
-[PassportModelStep2 Passport Model - Step 2] explains which ABIE elements are needed for modeling the passport data and how they are created.<br>
-Finally, [PassportModelStep3 Passport Model - Step 3] illustrates how to combine these elements in order to create a complete business document.
+  * [PassportModelStep1 Passport Model - Step 1] shows how to open an Enterprise Architect project file, create a UPCC model and import the standard libraries needed for Core Component compliance.<br>
+  * [PassportModelStep2 Passport Model - Step 2] explains which ABIE elements are needed for modeling the passport data and how they are created.<br>
+  * [PassportModelStep3 Passport Model - Step 3] illustrates how to combine these elements in order to create a complete business document.
