@@ -111,6 +111,7 @@ namespace VIENNAAddIn.upcc3.import.cctsndr.bdt
             {
                 conSpec = new BdtConSpec
                           {
+                              Name = "Content",
                               BasicType = new BasicType(FindPRIM(NDR.ConvertXsdTypeNameToBasicTypeName(ContentComponentXsdTypeName)))
                           };
             }

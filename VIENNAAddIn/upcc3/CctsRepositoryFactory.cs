@@ -1,6 +1,7 @@
 ﻿using CctsRepository;
 using EA;
-using VIENNAAddIn.upcc3.ccts.dra;
+using VIENNAAddIn.upcc3.ea;
+using VIENNAAddIn.upcc3.repo;
 
 namespace VIENNAAddIn.upcc3
 {
@@ -8,7 +9,8 @@ namespace VIENNAAddIn.upcc3
     {
         public static ICctsRepository CreateCctsRepository(Repository eaRepository)
         {
-            return new CCRepository(eaRepository);
+            return new UpccRepository(new EaUmlRepository(eaRepository));
+            //return new CCRepository(eaRepository);
         }
     }
 }
