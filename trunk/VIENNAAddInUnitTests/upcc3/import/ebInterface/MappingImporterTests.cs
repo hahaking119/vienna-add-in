@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using EA;
@@ -46,7 +47,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         private const string Qualifier = "ebInterface";
         private const string RootElementName = "Invoice";
 
-        private CCRepository ccRepository;
+        private ICctsRepository ccRepository;
         private TemporaryFileBasedRepository temporaryFileBasedRepository;
 
         /// <summary>
