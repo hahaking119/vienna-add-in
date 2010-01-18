@@ -19,6 +19,7 @@ using VIENNAAddIn.upcc3.repo.EnumLibrary;
 using VIENNAAddIn.upcc3.repo.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
 using VIENNAAddIn.upcc3.uml;
+using VIENNAAddIn.Utils;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.repo.DocLibrary
@@ -34,14 +35,57 @@ namespace VIENNAAddIn.upcc3.repo.DocLibrary
 				};
 
 			var associationSpecs = new List<UmlAssociationSpec>();
-			foreach (var asmaSpec in maSpec.Asmas)
+			if (maSpec.Asmas != null)
 			{
-				associationSpecs.Add(AsmaSpecConverter.Convert(asmaSpec, maSpec.Name));
+				foreach (var asmaSpec in maSpec.Asmas)
+				{
+					associationSpecs.Add(AsmaSpecConverter.Convert(asmaSpec, maSpec.Name));
+				}
 			}
-			umlClassSpec.Associations = associationSpecs;
+			umlClassSpec.Associations = MakeAssociationNamesUnique(associationSpecs);
 
 			return umlClassSpec;
 		}
+
+        private static IEnumerable<UmlAttributeSpec> MakeAttributeNamesUnique(List<UmlAttributeSpec> specs)
+        {
+            var specsByName = new Dictionary<string, List<UmlAttributeSpec>>();
+            foreach (var spec in specs)
+            {
+                specsByName.GetAndCreate(spec.Name).Add(spec);
+            }
+            foreach (var specList in specsByName.Values)
+            {
+                if (specList.Count > 1)
+                {
+                    foreach (var spec in specList)
+                    {
+                        spec.Name = spec.Name + spec.Type.Name;
+                    }
+                }
+            }
+            return specs;
+        }
+
+        private static IEnumerable<UmlAssociationSpec> MakeAssociationNamesUnique(List<UmlAssociationSpec> specs)
+        {
+            var specsByName = new Dictionary<string, List<UmlAssociationSpec>>();
+            foreach (var spec in specs)
+            {
+                specsByName.GetAndCreate(spec.Name).Add(spec);
+            }
+            foreach (var specList in specsByName.Values)
+            {
+                if (specList.Count > 1)
+                {
+                    foreach (var spec in specList)
+                    {
+                        spec.Name = spec.Name + spec.AssociatedClassifier.Name;
+                    }
+                }
+            }
+            return specs;
+        }
 	}
 }
 
