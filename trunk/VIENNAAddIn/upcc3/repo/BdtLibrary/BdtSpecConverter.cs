@@ -19,6 +19,7 @@ using VIENNAAddIn.upcc3.repo.EnumLibrary;
 using VIENNAAddIn.upcc3.repo.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
 using VIENNAAddIn.upcc3.uml;
+using VIENNAAddIn.Utils;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.repo.BdtLibrary
@@ -67,17 +68,61 @@ namespace VIENNAAddIn.upcc3.repo.BdtLibrary
 			umlClassSpec.Dependencies = dependencySpecs;
 
 			var attributeSpecs = new List<UmlAttributeSpec>();
-			attributeSpecs.Add(BdtConSpecConverter.Convert(bdtSpec.Con, bdtSpec.Name));
-			umlClassSpec.Attributes = attributeSpecs;
-			foreach (var bdtSupSpec in bdtSpec.Sups)
+			if (bdtSpec.Con != null)
 			{
-				attributeSpecs.Add(BdtSupSpecConverter.Convert(bdtSupSpec, bdtSpec.Name));
+				attributeSpecs.Add(BdtConSpecConverter.Convert(bdtSpec.Con, bdtSpec.Name));
 			}
-			umlClassSpec.Attributes = attributeSpecs;
-			umlClassSpec.Attributes = attributeSpecs;
+			if (bdtSpec.Sups != null)
+			{
+				foreach (var bdtSupSpec in bdtSpec.Sups)
+				{
+					attributeSpecs.Add(BdtSupSpecConverter.Convert(bdtSupSpec, bdtSpec.Name));
+				}
+			}
+			umlClassSpec.Attributes = MakeAttributeNamesUnique(attributeSpecs);
 
 			return umlClassSpec;
 		}
+
+        private static IEnumerable<UmlAttributeSpec> MakeAttributeNamesUnique(List<UmlAttributeSpec> specs)
+        {
+            var specsByName = new Dictionary<string, List<UmlAttributeSpec>>();
+            foreach (var spec in specs)
+            {
+                specsByName.GetAndCreate(spec.Name).Add(spec);
+            }
+            foreach (var specList in specsByName.Values)
+            {
+                if (specList.Count > 1)
+                {
+                    foreach (var spec in specList)
+                    {
+                        spec.Name = spec.Name + spec.Type.Name;
+                    }
+                }
+            }
+            return specs;
+        }
+
+        private static IEnumerable<UmlAssociationSpec> MakeAssociationNamesUnique(List<UmlAssociationSpec> specs)
+        {
+            var specsByName = new Dictionary<string, List<UmlAssociationSpec>>();
+            foreach (var spec in specs)
+            {
+                specsByName.GetAndCreate(spec.Name).Add(spec);
+            }
+            foreach (var specList in specsByName.Values)
+            {
+                if (specList.Count > 1)
+                {
+                    foreach (var spec in specList)
+                    {
+                        spec.Name = spec.Name + spec.AssociatedClassifier.Name;
+                    }
+                }
+            }
+            return specs;
+        }
 	}
 }
 
