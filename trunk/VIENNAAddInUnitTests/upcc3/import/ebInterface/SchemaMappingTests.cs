@@ -7,6 +7,7 @@ using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUtils;
@@ -21,7 +22,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [SetUp]
         public void CreateExpectedSourceElementTree()
         {
-            var ccRepository = new CCRepository(new MappingTestRepository());
+            var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
 
             cdtl = ccRepository.GetCdtLibraryByPath((Path) "test"/"bLibrary"/"CDTLibrary");
             cdtText = cdtl.GetCdtByName("Text");

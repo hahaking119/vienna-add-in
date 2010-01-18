@@ -5,6 +5,7 @@ using CctsRepository;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using EA;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using File=System.IO.File;
 using Path=VIENNAAddInUtils.Path;
@@ -32,7 +33,7 @@ namespace CCLImporter
             string targetRepoPath = originalRepoPath.WithoutSuffix(".eap") + "-and-CCs.eap";
             File.Copy(originalRepoPath, targetRepoPath, true);
             eaRepository.OpenFile(targetRepoPath);
-            ICctsRepository cctsRepository = new CCRepository(eaRepository);
+            ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
             var bLibrary = cctsRepository.GetBLibraryByPath((Path) "Model"/"bLibrary");
             var cdtLibrary = bLibrary.GetCdtLibraryByName("CDTLibrary");
 

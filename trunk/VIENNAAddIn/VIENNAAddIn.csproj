@@ -128,6 +128,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SynchTaggedValuesGenerated.tt</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\CctsRepositoryFactory.cs" />
     <Compile Include="upcc3\ccts\dra\AttributeSpec.cs" />
     <Compile Include="upcc3\ccts\dra\BDTSupplementaryComponent.cs" />
     <Compile Include="upcc3\ccts\dra\Cardinality.cs" />

@@ -10,6 +10,7 @@
 using System.Windows.Input;
 using CctsRepository.BdtLibrary;
 using NUnit.Framework;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -45,7 +46,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.bdtmodel
         [SetUp]
         public void SetUp()
         {
-            cctsRepository = new CCRepository(new EARepositoryBdtEditor());
+            cctsRepository = CctsRepositoryFactory.CreateCctsRepository(new EARepositoryBdtEditor());
             target = new TemporaryBdtModel(cctsRepository);
                 var candidateCdtLibraryIndex = 0;
                 target.mCandidateCdtLibraries[candidateCdtLibraryIndex].mCandidateCdts = new List<CandidateCdt>();

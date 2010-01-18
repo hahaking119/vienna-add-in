@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using EA;
 using NUnit.Framework;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.cctsndr;
 using VIENNAAddIn.upcc3.import.cctsndr.bdt;
@@ -67,7 +68,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             eaRepository = (new Repository());
             eaRepository.OpenFile(backupFile);
 
-            return new CCRepository(eaRepository);
+            return CctsRepositoryFactory.CreateCctsRepository(eaRepository);
         }
 
         private static ImporterContext PrepareTestContext()

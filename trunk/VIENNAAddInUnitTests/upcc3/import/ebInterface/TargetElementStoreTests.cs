@@ -3,6 +3,7 @@ using System.Linq;
 using CctsRepository.CcLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUtils;
@@ -17,7 +18,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [SetUp]
         public void CreateExpectedSourceElementTree()
         {
-            var ccRepository = new CCRepository(new MappingTestRepository());
+            var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
             ccLibrary = ccRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
             accParty = ccLibrary.GetAccByName("Party");
             bccPartyName = accParty.Bccs.First(bcc => bcc.Name == "Name");

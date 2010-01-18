@@ -21,6 +21,7 @@ using CctsRepository.PrimLibrary;
 using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUtils;
@@ -38,7 +39,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         public void Init()
         {
             eaRepository = new EARepository1();
-            cctsRepository = new CCRepository(eaRepository);
+            cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
         }
 
         #endregion
@@ -521,7 +522,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.dra
         {
             using (var repository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("XSDGeneratorTest.eap")))
             {
-                cctsRepository = new CCRepository(repository);
+                cctsRepository = CctsRepositoryFactory.CreateCctsRepository(repository);
 
                 IBLibrary bLib = cctsRepository.GetBLibraries().First();
                 Assert.IsNotNull(bLib, "bLib not found");

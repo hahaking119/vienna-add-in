@@ -16,6 +16,7 @@ using CctsRepository.DocLibrary;
 using Moq;
 using NUnit.Framework;
 using VIENNAAddIn.Settings;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddInUnitTests.TestRepository;
@@ -137,7 +138,7 @@ Actual output file: {2}",
             var docLibraryMock = new Mock<IDocLibrary>();
             docLibraryMock.SetupGet(l => l.VersionIdentifier).Returns("2");
 
-            var ccRepository = new CCRepository(new EARepository2());
+            var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new EARepository2());
             var context = new GeneratorContext(ccRepository, "urn:test:namespace", "test", true, true, "C:\\dump\\", docLibraryMock.Object);
             BDTSchemaGenerator.GenerateXSD(context,
                                            VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.CollectBDTs(context));
@@ -153,7 +154,7 @@ Actual output file: {2}",
             var docLibraryMock = new Mock<IDocLibrary>();
             docLibraryMock.SetupGet(l => l.VersionIdentifier).Returns("2");
 
-            var ccRepository = new CCRepository(new EARepository2());
+            var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new EARepository2());
             var context = new GeneratorContext(ccRepository, "urn:test:namespace", "test", true, true, "C:\\dump\\", docLibraryMock.Object);
             BIESchemaGenerator.GenerateXSD(context,
                                            VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.CollectABIEs(context));
@@ -167,7 +168,7 @@ Actual output file: {2}",
         [Ignore("NDR XSD Generator not yet adapted to UPCC MAs")]
         public void TestGenerateSchemas()
         {
-            var ccRepository = new CCRepository(new EARepository2());
+            var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new EARepository2());
             var docLibrary = ccRepository.GetDocLibraryByPath((Path) "test model"/"bLibrary"/"DOCLibrary");
             string outputDirectory = PathToTestResource(
                 "\\XSDGeneratorTest\\all");
@@ -181,7 +182,7 @@ Actual output file: {2}",
         {
             using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
             {
-                var ccRepository = new CCRepository(tempFileBasedRepository);
+                var ccRepository = CctsRepositoryFactory.CreateCctsRepository(tempFileBasedRepository);
                 var docLibrary = ccRepository.GetDocLibraryByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
                 var context = new GeneratorContext(ccRepository, "urn:test:namespace", "eb", true, true, "C:\\dump\\", docLibrary);
                 RootSchemaGenerator.GenerateXSD(context);
@@ -199,7 +200,7 @@ Actual output file: {2}",
         {
             using (var tempFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource("cc-for-ebInterface-0.5.eap")))
             {
-                var ccRepository = new CCRepository(tempFileBasedRepository);
+                var ccRepository = CctsRepositoryFactory.CreateCctsRepository(tempFileBasedRepository);
                 var docLibrary = ccRepository.GetDocLibraryByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
                 AddInSettings.LoadRegistryEntries();
                 var context = VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "ebInterface", "eb", false, true, "C:\\dump\\", docLibrary));

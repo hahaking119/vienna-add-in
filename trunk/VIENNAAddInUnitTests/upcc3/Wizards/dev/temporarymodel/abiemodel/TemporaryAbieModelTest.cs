@@ -10,6 +10,7 @@
 using CctsRepository.CcLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel;
 using CctsRepository;
@@ -37,7 +38,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         [SetUp]
         public void SetUp()
         {
-            cctsRepository = new CCRepository(new EARepositoryAbieEditor());
+            cctsRepository = CctsRepositoryFactory.CreateCctsRepository(new EARepositoryAbieEditor());
             target = new TemporaryAbieModel(cctsRepository);
         }
 
