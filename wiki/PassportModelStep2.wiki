@@ -76,6 +76,19 @@ In the _ABIE Editor_, create the following ABIEs in the order listed. Note that 
   # For ABIE _Address_ check the ASBIE _Residence_:
     http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild38.gif
   # Click _Create ABIE_
+  # Open the _DOCLibrary_ by doucle-clicking it in the Project Browser:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild39.gif
+  # Select the ABIEs created in the previous step, namely _Address_, _Country_, _Period_, and _Person_ in the Project Browser, and drag-and-drop them onto the canvas:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild40.gif
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild41.gif
+  # In the _Paste Element_ dialog, choose to paste the element as simple link:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild42.gif
+  # The DOCLibrary canvas should now contain the four ABIEs, including the associating ASBIEs:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild43.gif
+  # Exactly one address and one country is assigned to a person, to model this you must change the cardinality values of the two ASBIEs: Double-click the ASBIEs, in the _Aggregation Properties_ dialog switch to the _Target Role_ tab and change the _Multiplicity_ value to 1:
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild43a.gif
+  # Then click _OK_
+    http://vienna-add-in.googlecode.com/svn/wiki/PassportModel/Bild43b.gif
 
 ----
 
