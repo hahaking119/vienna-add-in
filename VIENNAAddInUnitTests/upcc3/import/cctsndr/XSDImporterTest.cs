@@ -8,6 +8,7 @@
 // *******************************************************************************
 using System;
 using System.IO;
+using CctsRepository;
 using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3;
@@ -55,7 +56,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.cctsndr
             return backupRepositoryFile;
         }
 
-        private static CCRepository GetFileBasedTestRepository()
+        private static ICctsRepository GetFileBasedTestRepository()
         {
             string repositoryDirectory = Directory.GetCurrentDirectory() +
                                          "\\..\\..\\testresources\\XSDImporterTest\\ccts\\simpleXSDs\\";
