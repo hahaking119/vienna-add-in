@@ -109,9 +109,13 @@ namespace VIENNAAddIn.upcc3.ea
             eaConnector.SupplierEnd.Role = spec.Name;
             eaConnector.SupplierEnd.Cardinality = new EaCardinality(spec.LowerBound, spec.UpperBound).ToString();
             eaConnector.Update();
-            foreach (UmlTaggedValueSpec taggedValueSpec in spec.TaggedValues)
+
+            if (spec.TaggedValues != null)
             {
-                CreateTaggedValue(taggedValueSpec);
+                foreach (UmlTaggedValueSpec taggedValueSpec in spec.TaggedValues)
+                {
+                    CreateTaggedValue(taggedValueSpec);
+                }
             }
         }
 

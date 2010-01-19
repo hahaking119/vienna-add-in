@@ -7,7 +7,7 @@ using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    public class ComplexTypeMapping : AbstractMapping, IEquatable<ComplexTypeMapping>
+    public abstract class ComplexTypeMapping : AbstractMapping
     {
         #region LibraryType enum
 
@@ -21,7 +21,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private readonly List<ElementMapping> children;
 
-        public ComplexTypeMapping(string complexTypeName, IEnumerable<ElementMapping> children)
+        protected ComplexTypeMapping(string complexTypeName, IEnumerable<ElementMapping> children)
         {
             ComplexTypeName = complexTypeName;
             this.children = new List<ElementMapping>(children);
@@ -49,17 +49,17 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 var targetACCs = new List<IAcc>();
                 foreach (ElementMapping child in Children)
                 {
-                    if (child is BCCMapping)
+                    if (child is AttributeOrSimpleElementOrComplexElementToBccMapping)
                     {
-                        IAcc acc = ((BCCMapping) child).ACC;
+                        IAcc acc = ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).ACC;
                         if (!targetACCs.Contains(acc))
                         {
                             targetACCs.Add(acc);
                         }
                     }
-                    else if (child is ASCCMapping)
+                    else if (child is ComplexElementToAsccMapping)
                     {
-                        IAcc acc = ((ASCCMapping) child).ACC;
+                        IAcc acc = ((ComplexElementToAsccMapping) child).ACC;
                         if (!targetACCs.Contains(acc))
                         {
                             targetACCs.Add(acc);
@@ -83,9 +83,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 ICdt targetCdt = null;
                 foreach (ElementMapping child in Children)
                 {
-                    if (child is SupMapping)
+                    if (child is AttributeOrSimpleElementToSupMapping)
                     {
-                        ICdt cdt = ((SupMapping)child).Cdt;
+                        ICdt cdt = ((AttributeOrSimpleElementToSupMapping)child).Cdt;
                         if (targetCdt == null)
                         {
                             targetCdt = cdt;
@@ -110,14 +110,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return Children.FilterByType<ElementMapping, AsmaMapping>(); }
         }
 
-        public override string BIEName
+        public IEnumerable<AttributeOrSimpleElementOrComplexElementToBccMapping> BCCMappings(IAcc targetACC)
         {
-            get { return ComplexTypeName; }
-        }
-
-        public IEnumerable<BCCMapping> BCCMappings(IAcc targetACC)
-        {
-            foreach (BCCMapping bccMapping in Children.FilterByType<ElementMapping, BCCMapping>())
+            foreach (AttributeOrSimpleElementOrComplexElementToBccMapping bccMapping in Children.FilterByType<ElementMapping, AttributeOrSimpleElementOrComplexElementToBccMapping>())
             {
                 IAcc acc = bccMapping.ACC;
                 if (targetACC.Id == acc.Id)
@@ -127,9 +122,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        public IEnumerable<ASCCMapping> ASCCMappings(IAcc targetACC)
+        public IEnumerable<ComplexElementToAsccMapping> ASCCMappings(IAcc targetACC)
         {
-            foreach (ASCCMapping asccMapping in Children.FilterByType<ElementMapping, ASCCMapping>())
+            foreach (ComplexElementToAsccMapping asccMapping in Children.FilterByType<ElementMapping, ComplexElementToAsccMapping>())
             {
                 IAcc acc = asccMapping.ACC;
                 if (targetACC.Id == acc.Id)
@@ -139,19 +134,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        public override string ToString()
-        {
-            return string.Format("ComplexTypeMapping <ComplexType: {0}>", ComplexTypeName);
-        }
-
-        public bool Equals(ComplexTypeMapping other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return ChildrenEqual(other) && Equals(other.ComplexTypeName, ComplexTypeName);
-        }
-
-        private bool ChildrenEqual(ComplexTypeMapping other)
+        protected bool ChildrenEqual(ComplexTypeMapping other)
         {
             if (other.children.Count != children.Count) return false;
             for (int i = 0; i < children.Count; i++)
@@ -160,31 +143,5 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
             return true;
         }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (ComplexTypeMapping)) return false;
-            return Equals((ComplexTypeMapping) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ComplexTypeName != null ? ComplexTypeName.GetHashCode() : 0;
-            }
-        }
-
-        public static bool operator ==(ComplexTypeMapping left, ComplexTypeMapping right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(ComplexTypeMapping left, ComplexTypeMapping right)
-        {
-            return !Equals(left, right);
-        }
-    }
+   }
 }

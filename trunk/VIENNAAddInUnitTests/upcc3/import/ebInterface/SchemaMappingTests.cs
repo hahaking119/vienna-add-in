@@ -8,7 +8,6 @@ using CctsRepository.CdtLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.ebInterface;
 using VIENNAAddInUtils;
 
@@ -73,16 +72,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
-            var addressTypeMapping = new ComplexTypeMapping("AddressType",
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new BCCMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),
                                                             });
-            var personTypeMapping = new ComplexTypeMapping("PersonType",
+            var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
                                                                 new List<ElementMapping>
                                                                     {
-                                                                        new BCCMapping(new SourceElement("Name", ""), TargetCCElement.ForBcc("Name", bccPartyName)),
-                                                                        new ASCCMapping(new SourceElement("HomeAddress", ""), TargetCCElement.ForAscc("ResidenceAddress", asccPartyResidenceAddress), addressTypeMapping),
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Name", ""), TargetCCElement.ForBcc("Name", bccPartyName)),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), TargetCCElement.ForAscc("ResidenceAddress", asccPartyResidenceAddress), addressTypeMapping),
                                                                     });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
@@ -90,9 +89,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        personTypeMapping,
                                    };
 
-            var expectedSimpleTypeMappings = new List<SimpleTypeMapping>
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
                                                  {
-                                                     new SimpleTypeMapping("String", cdtText),
+                                                     new SimpleTypeToCdtMapping("String", cdtText),
                                                  };
 
             var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
@@ -109,20 +108,20 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
-            var addressTypeMapping = new ComplexTypeMapping("AddressType",
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new BCCMapping(new SourceElement("CountryName", ""), TargetCCElement.ForBcc("CountryName", bccCountryName)),
-                                                                new BCCMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),
-                                                                new BCCMapping(new SourceElement("StreetName", ""), TargetCCElement.ForBcc("StreetName", bccCityName)),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), TargetCCElement.ForBcc("CountryName", bccCountryName)),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCCElement.ForBcc("StreetName", bccCityName)),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
                                        addressTypeMapping,
                                    };
-            var expectedSimpleTypeMappings = new List<SimpleTypeMapping>
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
                                                  {
-                                                     new SimpleTypeMapping("String", cdtText),
+                                                     new SimpleTypeToCdtMapping("String", cdtText),
                                                  };
             var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
 
@@ -137,11 +136,11 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
-            var addressTypeMapping = new ComplexTypeMapping("AddressType",
+            var addressTypeMapping = new ComplexTypeToMaMapping("AddressType",
                                                  new List<ElementMapping>
                                                      {
-                                                         new BCCMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),
-                                                         new BCCMapping(new SourceElement("PersonName", ""), TargetCCElement.ForBcc("Name", bccPartyName)),
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("PersonName", ""), TargetCCElement.ForBcc("Name", bccPartyName)),
                                                      });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -149,9 +148,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        addressTypeMapping,
                                    };
 
-            var expectedSimpleTypeMappings = new List<SimpleTypeMapping>
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
                                                  {
-                                                     new SimpleTypeMapping("String", cdtText),
+                                                     new SimpleTypeToCdtMapping("String", cdtText),
                                                  };
             
             var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
@@ -167,17 +166,17 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
-            var textTypeMapping = new ComplexTypeMapping("TextType",
+            var textTypeMapping = new ComplexTypeToCdtMapping("TextType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new SupMapping(new SourceElement("LanguageLocale", ""), TargetCCElement.ForSup("LanguageLocaleString", supLanguageLocale)),
-                                                                new SupMapping(new SourceElement("Language", ""), TargetCCElement.ForSup("LanguageString", supLanguage)),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("LanguageLocale", ""), TargetCCElement.ForSup("LanguageLocaleString", supLanguageLocale)),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), TargetCCElement.ForSup("LanguageString", supLanguage)),
                                                             });
 
-            var addressTypeMapping = new ComplexTypeMapping("AddressType",
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                  new List<ElementMapping>
                                                      {
-                                                         new BCCMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),                                                         
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName)),                                                         
                                                      });
 
 
@@ -189,7 +188,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
 
-            AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeMapping>(), expectedRootElementMapping);
+            AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeToCdtMapping>(), expectedRootElementMapping);
         }
 
         [Test]
@@ -224,7 +223,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
         }
 
-        private static void AssertMappings(SchemaMapping mappings, List<IMapping> expectedComplexTypeMappings, List<SimpleTypeMapping> expectedSimpleTypeMappings, AsmaMapping expectedRootElementMapping)
+        private static void AssertMappings(SchemaMapping mappings, List<IMapping> expectedComplexTypeMappings, List<SimpleTypeToCdtMapping> expectedSimpleTypeMappings, AsmaMapping expectedRootElementMapping)
         {
             var complexTypeMappings = new List<ComplexTypeMapping>(mappings.GetComplexTypeMappings());
             Console.Out.WriteLine("=================================================================================");
@@ -240,7 +239,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                 complexTypeMapping.TraverseDepthFirst(new MappingPrettyPrinter(Console.Out, "  "));
             }
 
-            var simpleTypeMappings = new List<SimpleTypeMapping>(mappings.GetSimpleTypeMappings());
+            var simpleTypeMappings = new List<SimpleTypeToCdtMapping>(mappings.GetSimpleTypeMappings());
             Console.Out.WriteLine("=================================================================================");
             Console.Out.WriteLine("Expected Simple Type Mappings:");
             foreach (IMapping expectedMapping in expectedSimpleTypeMappings)

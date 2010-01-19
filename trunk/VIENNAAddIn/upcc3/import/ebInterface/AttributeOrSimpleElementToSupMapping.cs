@@ -4,12 +4,12 @@ using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    public class SupMapping : ElementMapping, IEquatable<SupMapping>
+    public class AttributeOrSimpleElementToSupMapping : ElementMapping, IEquatable<AttributeOrSimpleElementToSupMapping>
     {
         private readonly SourceElement sourceElement;
         private readonly TargetCCElement targetElement;
 
-        public SupMapping(SourceElement sourceElement, TargetCCElement targetElement)
+        public AttributeOrSimpleElementToSupMapping(SourceElement sourceElement, TargetCCElement targetElement)
         {
             this.sourceElement = sourceElement;
             this.targetElement = targetElement;
@@ -35,7 +35,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public string ElementName { get; private set; }
 
-        public bool Equals(SupMapping other)
+        public bool Equals(AttributeOrSimpleElementToSupMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -46,8 +46,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (SupMapping)) return false;
-            return Equals((SupMapping) obj);
+            if (obj.GetType() != typeof (AttributeOrSimpleElementToSupMapping)) return false;
+            return Equals((AttributeOrSimpleElementToSupMapping) obj);
         }
 
         public override int GetHashCode()
@@ -55,12 +55,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return (Cdt != null ? Cdt.GetHashCode() : 0);
         }
 
-        public static bool operator ==(SupMapping left, SupMapping right)
+        public static bool operator ==(AttributeOrSimpleElementToSupMapping left, AttributeOrSimpleElementToSupMapping right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(SupMapping left, SupMapping right)
+        public static bool operator !=(AttributeOrSimpleElementToSupMapping left, AttributeOrSimpleElementToSupMapping right)
         {
             return !Equals(left, right);
         }
