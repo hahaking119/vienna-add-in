@@ -11,6 +11,7 @@
                     <vc:Chart.Series>
                         <vc:DataSeries>
                             <vc:DataSeries.DataPoints>
+                                <vc:DataPoint />
                             </vc:DataSeries.DataPoints>
                         </vc:DataSeries>
                     </vc:Chart.Series>
