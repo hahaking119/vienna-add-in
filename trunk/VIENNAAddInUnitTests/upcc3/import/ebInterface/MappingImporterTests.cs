@@ -204,6 +204,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         
         #endregion
 
+        // NOTE: DONE
         [Test]
         public void TestNestedInputToFlatOutputMapping()
         {
@@ -234,11 +235,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
+        // NOTE: DONE
         [Test]
         public void TestNestedMapping()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice-for-nested-mapping.xsd") };
 
 
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
@@ -246,13 +248,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
 
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
-            IAbie biePerson = ShouldContainAbie(bieLibrary, "Person", "Party", new[] {"Name_Name"}, new[]
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { "Town_CityName" }, null);
+
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Party", "Party", new[] {"Name_Name"}, new[]
                                                                                                     {
                                                                                                         new AsbieDescriptor("Address_Residence", bieAddress.Id),
                                                                                                     });
 
-            IMa maInvoice = ShouldContainMa(docLibrary, "Invoice", new[]
+
+
+            IMa maInvoice = ShouldContainMa(docLibrary, "InvoiceType", new[]
                                                                                {
                                                                                    new AsmaDescriptor("Person", biePerson.Id),
                                                                                });
@@ -262,26 +267,27 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
+        // NOTE: DONE
         [Test]
         public void TestOneComplexTypeToMultipleACCsMapping()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.xsd") };
 
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
 
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "Address_Address", "Address", new[] {"Town_CityName"}, null);
-            IAbie biePerson = ShouldContainAbie(bieLibrary, "Address_Person", "Person", new[] {"PersonName_Name"}, null);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "AddressType_Person", "Person", new[] {"PersonName_Name"}, null);
 
-            var maAddress = ShouldContainMa(docLibrary, "Address", new[]
+            var maAddress = ShouldContainMa(docLibrary, "AddressType", new[]
                                                                                {
                                                                                    new AsmaDescriptor("Address", bieAddress.Id),
                                                                                    new AsmaDescriptor("Person", biePerson.Id),
                                                                                });
-            var maInvoice = ShouldContainMa(docLibrary, "Invoice", new[]
+            var maInvoice = ShouldContainMa(docLibrary, "InvoiceType", new[]
                                                                                {
                                                                                    new AsmaDescriptor("Address", maAddress.Id),
                                                                                });
@@ -291,16 +297,17 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
+        // NOTE: DONE
         [Test]
         public void TestSimpleMappingWithOneTargetComponent()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice.xsd") };
 
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] {"Town_CityName"}, null);
 
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
             ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
@@ -309,21 +316,22 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
+        // NOTE: DONE
         [Test]
         public void TestSimpleMappingWithTwoTargetComponents()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping-2-target-components.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice.xsd") };
 
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
 
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "Address", "Address", new[] {"Town_CityName"}, null);
-            IAbie biePerson = ShouldContainAbie(bieLibrary, "Person", "Person", new[] {"Name_Name"}, null);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] {"Town_CityName"}, null);
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Person", "Person", new[] {"Name_Name"}, null);
 
-            var maInvoice = ShouldContainMa(docLibrary, "Invoice", new[]
+            var maInvoice = ShouldContainMa(docLibrary, "InvoiceType", new[]
                                                                                {
                                                                                    new AsmaDescriptor("Address", bieAddress.Id),
                                                                                    new AsmaDescriptor("Person", biePerson.Id),
@@ -339,14 +347,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public void ShouldMapASingleSimpleElement()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\mapping_single_simple_typed_element.xsd") };
 
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             ShouldContainBieLibrary(BieLibraryName);
-            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);            
 
-            //ShouldContainMa(docLibrary, "ebInterface_Invoice", "Party", new[] {"PersonName_Name"}, null);
+            //ShouldContainMa(docLibrary, "ebInterface_Invoice", new[] {"PersonName_Name"});
         }
     }
 
