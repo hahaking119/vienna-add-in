@@ -8,126 +8,79 @@
 // *******************************************************************************
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.util;
+using Visifire.Charts;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     public partial class SchemaAnalyzer
     {
-        private readonly Repository eaRepository;
-        FileBasedVersionHandler versionHandler;
+        private AnalyzerResults results;
 
-        public SchemaAnalyzer(Repository eaRepository)
+        public SchemaAnalyzer(string File1, string File2)
         {
-            this.eaRepository = eaRepository;
             InitializeComponent();
-            WindowLoaded();
+            results = new AnalyzerResults(new AnalyzerResult("item1", 5)).Add(new AnalyzerResult("item2", 3)).Add(new AnalyzerResult("item 3", 10));
+            foreach(AnalyzerResult dataset in results.Items)
+            {
+                DataPoint item = new DataPoint();
+                item.YValue = dataset.Count;
+                chart1.Series[0].DataPoints.Add(item);
+            }
+            Chart dummy = new Chart(); // workaround for assembly-error, we will never use this dummy object
         }
 
         public static void ShowForm(AddInContext context)
         {
-            new StandardLibraryImporter(context.EARepository).ShowDialog();
+            new SchemaAnalyzer("","").ShowDialog();
         }
+    }
 
-        private void WindowLoaded()
+    public class AnalyzerResult
+    {
+        public string Caption { get; set; }
+        public int Count { get; set; }
+
+        public AnalyzerResult(string newCaption, int newCount)
         {
-            try
+            Caption = newCaption;
+            Count = newCount;
+        }
+    }
+
+    public class AnalyzerResults
+    {
+        private List<AnalyzerResult> items;
+        public List<AnalyzerResult> Items
+        {
+            get
             {
-                versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile("http://www.umm-dev.org/xmi/ccl_versions.txt"));
-
-                versionHandler.RetrieveAvailableVersions();
-
-                foreach (string majorVersion in versionHandler.GetMajorVersions())
-                {
-                    cbxMajor.Items.Add(majorVersion);
-                }
-
-                cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
-
-                PopulateCbxMinor();
-            }
-                // ReSharper disable EmptyGeneralCatchClause
-            catch (Exception)
-                // ReSharper restore EmptyGeneralCatchClause
-            {
-                // TODO
-            }
-        }
-
-        private void PopulateCbxMinor()
-        {
-            cbxMinor.Items.Clear();
-
-            foreach (string minorVersion in versionHandler.GetMinorVersions(cbxMajor.SelectedItem.ToString()))
-            {
-                cbxMinor.Items.Add(minorVersion);
-            }
-
-            cbxMinor.SelectedIndex = cbxMinor.Items.Count - 1;
-            PopulateTxtComment();
-        }
-
-        private void PopulateTxtComment()
-        {
-            if (cbxMajor.SelectedItem != null && cbxMinor.SelectedItem != null)
-                txtComment.Text = versionHandler.GetComment(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
-        }
-
-        private void OnStatusChanged(string statusMessage)
-        {
-            rtxtStatus.Text = statusMessage + "\n" + rtxtStatus.Text;
-        }
-
-        private void cbxMinor_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            PopulateTxtComment();
-        }
-
-        private void cbxMajor_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-            PopulateCbxMinor();
-        }
-
-        private void buttonImport_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            const string warnMessage = "Importing the standard CC libraries will overwrite all existing:\n\n"
-                                       + "    - ENUM libraries named \"ENUMLibrary\",\n"
-                                       + "    - PRIM libraries named \"PRIMLibrary\",\n"
-                                       + "    - CDT libraries named \"CDTLibrary \", and \n"
-                                       + "    - CC libraries named \"CCLibrary\"\n\n"
-                                       + "Are you sure you want to proceed?";
-            const string caption = "VIENNA Add-In Warning";
-
-            DialogResult dialogResult = MessageBox.Show(warnMessage, caption, MessageBoxButtons.YesNo,
-                                                        MessageBoxIcon.Exclamation);
-
-            if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-            {
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
-                buttonClose.IsEnabled = false;
-                buttonImport.IsEnabled = false;
-
-                string bLibraryGuid = eaRepository.GetTreeSelectedPackage().Element.ElementGUID;
-                Package bLibrary = eaRepository.GetPackageByGuid(bLibraryGuid);
-
-                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
-
-                LibraryImporter importer = new LibraryImporter(eaRepository, resourceDescriptor);
-                importer.StatusChanged += OnStatusChanged;
-                importer.ImportStandardCcLibraries(bLibrary);
-
-                buttonClose.IsEnabled = true;
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                return items;
             }
         }
 
-        private void buttonClose_Click(object sender, System.Windows.RoutedEventArgs e)
+        public AnalyzerResults()
         {
-            Close();
+            items = new List<AnalyzerResult>();
+        }
+
+        public AnalyzerResults(AnalyzerResult newItem)
+        {
+            items = new List<AnalyzerResult>();
+            Add(newItem);
+        }
+
+        public AnalyzerResults Add(AnalyzerResult newItem)
+        {
+            items.Add(newItem);
+            return this;
         }
     }
 }
