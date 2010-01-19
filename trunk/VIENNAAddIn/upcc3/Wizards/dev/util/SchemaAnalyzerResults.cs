@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
-    class SchemaAnalyzerResults
+    public class SchemaAnalyzerResults
     {
         private List<SchemaAnalyzerResult> items;
         public List<SchemaAnalyzerResult> Items

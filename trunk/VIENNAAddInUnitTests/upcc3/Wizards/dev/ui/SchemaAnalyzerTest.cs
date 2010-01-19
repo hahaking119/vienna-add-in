@@ -22,7 +22,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.ui
         [Ignore]
         public void ShouldLaunchAndPopulateSchemaAnalyzer()
         {
-            var t = new Thread(() => new Application().Run(new SchemaAnalyzer("file1", "file2")));
+            var t = new Thread(() => new Application().Run(new SchemaAnalyzer()));
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
             t.Join();

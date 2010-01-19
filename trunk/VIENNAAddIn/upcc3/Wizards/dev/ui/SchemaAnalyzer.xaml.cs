@@ -7,16 +7,8 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Input;
-using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
-using VIENNAAddIn.upcc3.Wizards.util;
 using Visifire.Charts;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
@@ -24,25 +16,57 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class SchemaAnalyzer
     {
         private SchemaAnalyzerResults results;
+        private bool started = false;
 
-        public SchemaAnalyzer(string File1, string File2)
+        public SchemaAnalyzer()
         {
             InitializeComponent();
-            results = new SchemaAnalyzerResults(new SchemaAnalyzerResult("item1", 5)).Add(new SchemaAnalyzerResult("item2", 3)).Add(new SchemaAnalyzerResult("item 3", 10));
-            chart1.Series[0].DataPoints.Clear();
+            Chart dummy = new Chart(); // workaround for assembly-error, we will never use this dummy object
+            new SchemaAnalyzerFileSelector("", "", this).ShowDialog();
+        }
+
+        public void SetFiles(string file1, string file2)
+        {
+            if (file1.Length == 0) {
+                FileSelectorCancelled();
+                return;
+            }
+            Analyze(file1, 1);
+            if (file2.Length > 0)
+            {
+                Analyze(file2, 2);
+                tab2.IsEnabled = true;
+                tab3.IsEnabled = true;
+            }
+            else
+            {
+                tab2.IsEnabled = false;
+                tab3.IsEnabled = false;
+            }
+        }
+
+        public void FileSelectorCancelled()
+        {
+            if(!started) Close();
+        }
+
+        private void Analyze(string file, int chart)
+        {
+            started = true;
+            results = XMLSchemaReader.Read(file);
+            (chart==1 ? chart1 : chart2).Series[0].DataPoints.Clear();
             foreach (SchemaAnalyzerResult dataset in results.Items)
             {
                 DataPoint item = new DataPoint();
                 item.YValue = dataset.Count;
                 item.AxisXLabel = dataset.Caption;
-                chart1.Series[0].DataPoints.Add(item);
+                (chart == 1 ? chart1 : chart2).Series[0].DataPoints.Add(item);
             }
-            Chart dummy = new Chart(); // workaround for assembly-error, we will never use this dummy object
         }
 
         public static void ShowForm(AddInContext context)
         {
-            new SchemaAnalyzer("","").ShowDialog();
+            new SchemaAnalyzer().ShowDialog();
         }
     }
 }
