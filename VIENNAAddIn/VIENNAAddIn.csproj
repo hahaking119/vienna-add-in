@@ -553,6 +553,9 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzer.xaml.cs">
+      <DependentUpon>SchemaAnalyzer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporter.xaml.cs">
       <DependentUpon>StandardLibraryImporter.xaml</DependentUpon>
     </Compile>
@@ -1118,6 +1121,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\BdtEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\SchemaAnalyzer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
