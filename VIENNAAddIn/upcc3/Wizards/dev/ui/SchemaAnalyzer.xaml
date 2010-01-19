@@ -2,11 +2,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts"
-    xmlns:ui="clr-namespace:VIENNAAddIn.upcc3.Wizards.dev.ui"
-    Height="340" Width="568" WindowStyle="SingleBorderWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="True" ResizeMode="NoResize" Title="Schema Analyzer" FontSize="11">
+    Height="421" Width="537" WindowStyle="SingleBorderWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="True" ResizeMode="NoResize" Title="Schema Analyzer" FontSize="11">
     <DockPanel Margin="2,5,5,5">
         <TabControl>
-            <TabItem Header="File1">
+            <TabItem Header="File1" Name="tab1">
                 <vc:Chart Name="chart1">
                     <vc:Chart.Series>
                         <vc:DataSeries>
@@ -17,9 +16,18 @@
                     </vc:Chart.Series>
                 </vc:Chart>
             </TabItem>
-            <TabItem Header="File2">
+            <TabItem Header="File2" Name="tab2">
+                <vc:Chart Name="chart2">
+                    <vc:Chart.Series>
+                        <vc:DataSeries>
+                            <vc:DataSeries.DataPoints>
+                                <vc:DataPoint />
+                            </vc:DataSeries.DataPoints>
+                        </vc:DataSeries>
+                    </vc:Chart.Series>
+                </vc:Chart>
             </TabItem>
-            <TabItem Header="Both"></TabItem>
+            <TabItem Header="Both" Name="tab3"></TabItem>
         </TabControl>
     </DockPanel>
 </Window>

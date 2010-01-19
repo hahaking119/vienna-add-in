@@ -13,9 +13,9 @@ using System.Xml;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
-    public class XMLSchemaReader
+    public static class XMLSchemaReader
     {
-        public XMLSchemaReader(string filename)
+        public static SchemaAnalyzerResults Read(string filename)
         {
             int xselement = 0;
             int xscomplextype=0;
@@ -102,6 +102,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             Console.WriteLine("Schema features " + xssubstitutionGroup + " SubstitutionGroups.");
             Console.WriteLine("Schema features " + xsredefine + " Redefines.");
             Console.WriteLine("Schema features " + xsitype + " xsi:Types.");
+
+            return results;
         }
     }
 }
