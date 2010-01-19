@@ -21,10 +21,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
     {
         private static CcCache ClassInstance;
         private readonly ICctsRepository mCctsRepository;
-        private List<CacheItemBdtLibrary> mBdtLibraries;
-        private List<CacheItemBieLibrary> mBieLibraries;
-        private List<CacheItemCcLibrary> mCcLibraries;
-        private List<CacheItemCdtLibrary> mCdtLibraries;
+        private readonly List<CacheItemBdtLibrary> mBdtLibraries;
+        private readonly List<CacheItemBieLibrary> mBieLibraries;
+        private readonly List<CacheItemCcLibrary> mCcLibraries;
+        private readonly List<CacheItemCdtLibrary> mCdtLibraries;
+        private bool librariesLoaded;
 
         /// <summary>
         /// Saves Representations of EA Elements in lists and implements "Lazy Loading" from repository
@@ -32,10 +33,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <param name="cctsRepository">The Repository where Elements are stored in.</param>
         private CcCache(ICctsRepository cctsRepository)
         {
-            mCdtLibraries = null;
-            mCcLibraries = null;
-            mBdtLibraries = null;
-            mBieLibraries = null;
+            mCdtLibraries = new List<CacheItemCdtLibrary>();
+            mCcLibraries = new List<CacheItemCcLibrary>();
+            mBdtLibraries = new List<CacheItemBdtLibrary>();
+            mBieLibraries = new List<CacheItemBieLibrary>();
+            librariesLoaded = false;
             mCctsRepository = cctsRepository;
         }
 
@@ -69,18 +71,33 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A list of CC Libraries in the repository.</returns>
         public List<ICcLibrary> GetCcLibraries()
         {
-            LoadCcLibraries();
+            LoadLibraries();
             return mCcLibraries.ConvertAll(new Converter<CacheItemCcLibrary, ICcLibrary>(CacheItemCCLibraryToCCLibrary));
         }
 
-        private void LoadCcLibraries()
+        private void LoadLibraries()
         {
-            if (mCcLibraries == null)
+            if (!librariesLoaded)
             {
-                mCcLibraries = new List<CacheItemCcLibrary>();
-                foreach (ICcLibrary ccLibrary in mCctsRepository.GetCcLibraries())
+                librariesLoaded = true;
+                foreach (object library in mCctsRepository.GetAllLibraries())
                 {
-                    mCcLibraries.Add(new CacheItemCcLibrary(ccLibrary));
+                    if (library is ICcLibrary)
+                    {
+                        mCcLibraries.Add(new CacheItemCcLibrary((ICcLibrary) library));
+                    }
+                    else if (library is IBdtLibrary)
+                    {
+                        mBdtLibraries.Add(new CacheItemBdtLibrary((IBdtLibrary) library));
+                    }
+                    else if (library is IBieLibrary)
+                    {
+                        mBieLibraries.Add(new CacheItemBieLibrary((IBieLibrary) library));
+                    }
+                    else if (library is ICdtLibrary)
+                    {
+                        mCdtLibraries.Add(new CacheItemCdtLibrary((ICdtLibrary) library));
+                    }
                 }
             }
         }
@@ -91,22 +108,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A list of CDT Libraries in the repository.</returns>
         public List<ICdtLibrary> GetCdtLibraries()
         {
-            LoadCdtLibraries();
+            LoadLibraries();
             return
                 mCdtLibraries.ConvertAll(new Converter<CacheItemCdtLibrary, ICdtLibrary>(CacheItemCDTLibraryToCDTLibrary));
-        }
-
-        private void LoadCdtLibraries()
-        {
-            if (mCdtLibraries == null)
-            {
-                mCdtLibraries = new List<CacheItemCdtLibrary>();
-
-                foreach (ICdtLibrary cdtLibrary in mCctsRepository.GetCdtLibraries())
-                {
-                    mCdtLibraries.Add(new CacheItemCdtLibrary(cdtLibrary));
-                }
-            }
         }
 
         /// <summary>
@@ -115,21 +119,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A list of BDT Libraries in the repository.</returns>
         public List<IBdtLibrary> GetBdtLibraries()
         {
-            LoadBdtLibraries();
+            LoadLibraries();
             return
                 mBdtLibraries.ConvertAll(new Converter<CacheItemBdtLibrary, IBdtLibrary>(CacheItemBDTLibraryToBDTLibrary));
-        }
-
-        private void LoadBdtLibraries()
-        {
-            if (mBdtLibraries == null)
-            {
-                mBdtLibraries = new List<CacheItemBdtLibrary>();
-                foreach (IBdtLibrary bdtLibrary in mCctsRepository.GetBdtLibraries())
-                {
-                    mBdtLibraries.Add(new CacheItemBdtLibrary(bdtLibrary));
-                }
-            }
         }
 
         /// <summary>
@@ -138,21 +130,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A list of BIE Libraries in the repository.</returns>
         public List<IBieLibrary> GetBieLibraries()
         {
-            LoadBieLibraries();
+            LoadLibraries();
             return
                 mBieLibraries.ConvertAll(new Converter<CacheItemBieLibrary, IBieLibrary>(CacheItemBIELibraryToBIELibrary));
-        }
-
-        private void LoadBieLibraries()
-        {
-            if (mBieLibraries == null)
-            {
-                mBieLibraries = new List<CacheItemBieLibrary>();
-                foreach (IBieLibrary bieLibrary in mCctsRepository.GetBieLibraries())
-                {
-                    mBieLibraries.Add(new CacheItemBieLibrary(bieLibrary));
-                }
-            }
         }
 
         /// <summary>
@@ -162,7 +142,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A list of CDTs.</returns>
         public List<ICdt> GetCdtsFromCdtLibrary(string cdtLibraryName)
         {
-            LoadCdtLibraries();
+            LoadLibraries();
             foreach (CacheItemCdtLibrary cdtLibrary in mCdtLibraries)
             {
                 if (cdtLibrary.CdtLibrary.Name.Equals(cdtLibraryName))
@@ -206,7 +186,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A list of ACCs.</returns>
         public List<IAcc> GetCcsFromCcLibrary(string ccLibraryName)
         {
-            LoadCcLibraries();
+            LoadLibraries();
             foreach (CacheItemCcLibrary ccLibrary in mCcLibraries)
             {
                 if (ccLibrary.CcLibrary.Name.Equals(ccLibraryName))
@@ -250,7 +230,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A UPPC3 BDT Library Element.</returns>
         public IBdtLibrary GetBdtLibraryByName(string bdtLibraryName)
         {
-            LoadBdtLibraries();
+            LoadLibraries();
             foreach (CacheItemBdtLibrary bdtLibrary in mBdtLibraries)
             {
                 if (bdtLibrary.BdtLibrary.Name.Equals(bdtLibraryName))
@@ -263,7 +243,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 
         public List<IBdt> GetBdtsFromBdtLibrary(string bdtLibraryName)
         {
-            LoadBdtLibraries();
+            LoadLibraries();
             foreach (CacheItemBdtLibrary bdtLibrary in mBdtLibraries)
             {
                 if (bdtLibrary.BdtLibrary.Name.Equals(bdtLibraryName))
@@ -287,7 +267,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         /// <returns>A UPCC3 BIE Library Element.</returns>
         public IBieLibrary GetBieLibraryByName(string bieLibraryName)
         {
-            LoadBieLibraries();
+            LoadLibraries();
             foreach (CacheItemBieLibrary bieLibrary in mBieLibraries)
             {
                 if (bieLibrary.BieLibrary.Name.Equals(bieLibraryName))
@@ -300,7 +280,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 
         public List<IAbie> GetBiesFromBieLibrary(string bieLibraryName)
         {
-            LoadBieLibraries();
+            LoadLibraries();
             foreach (CacheItemBieLibrary bieLibrary in mBieLibraries)
             {
                 if (bieLibrary.BieLibrary.Name.Equals(bieLibraryName))
@@ -319,8 +299,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 
         public void Refresh()
         {
-            mBdtLibraries = null;
-            mBieLibraries = null;
+            librariesLoaded = false;
+            mCdtLibraries.Clear();
+            mBdtLibraries.Clear();
+            mBieLibraries.Clear();
+            mCcLibraries.Clear();
         }
 
 

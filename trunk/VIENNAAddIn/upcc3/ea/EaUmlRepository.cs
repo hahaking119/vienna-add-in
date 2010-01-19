@@ -17,8 +17,9 @@ namespace VIENNAAddIn.upcc3.ea
 
         #region IUmlRepository Members
 
-        public IEnumerable<IUmlPackage> GetPackagesByStereotype(string stereotype)
+        public IEnumerable<IUmlPackage> GetPackagesByStereotype(params string[] stereotypes)
         {
+            var stereotypeSet = new HashSet<string>(stereotypes);
             var eaPackages = new List<Package>();
             foreach (Package eaModel in eaRepository.Models)
             {
@@ -26,7 +27,7 @@ namespace VIENNAAddIn.upcc3.ea
             }
             foreach (Package eaPackage in eaPackages)
             {
-                if (eaPackage.Element != null && eaPackage.Element.Stereotype == stereotype)
+                if (eaPackage.Element != null && stereotypeSet.Contains(eaPackage.Element.Stereotype))
                 {
                     yield return new EaUmlPackage(eaRepository, eaPackage);
                 }
