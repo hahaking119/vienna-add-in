@@ -224,8 +224,11 @@
     <Compile Include="upcc3\import\cctsndr\bdt\BDTSimpleType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\BDTXsdType.cs" />
     <Compile Include="upcc3\import\cctsndr\bdt\SUPXsdAttributes.cs" />
-    <Compile Include="upcc3\import\ebInterface\SimpleTypeMapping.cs" />
-    <Compile Include="upcc3\import\ebInterface\SupMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\ComplexTypeToAccMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\ComplexTypeToCdtMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\ComplexTypeToMaMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\SimpleTypeToCdtMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\AttributeOrSimpleElementToSupMapping.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\repo\BieLibrary\AbieSpecConverter.cs">
       <AutoGen>True</AutoGen>
@@ -619,8 +622,8 @@
     <Compile Include="upcc3\import\cctsndr\RootSchemaImporter.cs" />
     <Compile Include="upcc3\import\cctsndr\XSDImporter.cs" />
     <Compile Include="upcc3\import\ebInterface\AbstractMapping.cs" />
-    <Compile Include="upcc3\import\ebInterface\ASCCMapping.cs" />
-    <Compile Include="upcc3\import\ebInterface\BCCMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\ComplexElementToAsccMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\AttributeOrSimpleElementOrComplexElementToBccMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\ConstantComponent.cs" />
     <Compile Include="upcc3\import\ebInterface\AsmaMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\Edge.cs" />

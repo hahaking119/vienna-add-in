@@ -3,12 +3,12 @@ using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    public class ASCCMapping : ElementMapping, IEquatable<ASCCMapping>
+    public class ComplexElementToAsccMapping : ElementMapping, IEquatable<ComplexElementToAsccMapping>
     {
         private readonly SourceElement sourceElement;
         private readonly TargetCCElement targetElement;
 
-        public ASCCMapping(SourceElement sourceElement, TargetCCElement targetElement, ComplexTypeMapping targetMapping)
+        public ComplexElementToAsccMapping(SourceElement sourceElement, TargetCCElement targetElement, ComplexTypeMapping targetMapping)
         {
             TargetMapping = targetMapping;
             this.sourceElement = sourceElement;
@@ -19,7 +19,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("ASCCMapping <SourceElement: {0}, TargetElement: {1}, ACC: {2} [{3}]>", sourceElement.Name, targetElement.Name, ACC.Name, ACC.Id);
+            return string.Format("ComplexElementToAsccMapping <SourceElement: {0}, TargetElement: {1}, ACC: {2} [{3}]>", sourceElement.Name, targetElement.Name, ACC.Name, ACC.Id);
         }
 
         public override string BIEName
@@ -33,7 +33,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public ComplexTypeMapping TargetMapping { get; private set; }
 
-        public bool Equals(ASCCMapping other)
+        public bool Equals(ComplexElementToAsccMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -44,8 +44,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (ASCCMapping)) return false;
-            return Equals((ASCCMapping) obj);
+            if (obj.GetType() != typeof (ComplexElementToAsccMapping)) return false;
+            return Equals((ComplexElementToAsccMapping) obj);
         }
 
         public override int GetHashCode()
@@ -59,12 +59,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        public static bool operator ==(ASCCMapping left, ASCCMapping right)
+        public static bool operator ==(ComplexElementToAsccMapping left, ComplexElementToAsccMapping right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(ASCCMapping left, ASCCMapping right)
+        public static bool operator !=(ComplexElementToAsccMapping left, ComplexElementToAsccMapping right)
         {
             return !Equals(left, right);
         }

@@ -4,9 +4,9 @@ using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    public class SimpleTypeMapping : AbstractMapping
+    public class SimpleTypeToCdtMapping : AbstractMapping
     {
-        public SimpleTypeMapping(string simpleTypeName, ICdt targetCdt)
+        public SimpleTypeToCdtMapping(string simpleTypeName, ICdt targetCdt)
         {
             SimpleTypeName = simpleTypeName;
             TargetCDT = targetCdt;
@@ -18,10 +18,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("SimpleTypeMapping <SimpleType: {0}>", SimpleTypeName);
+            return string.Format("SimpleTypeToCdtMapping <SimpleType: {0}>", SimpleTypeName);
         }
 
-        public bool Equals(SimpleTypeMapping other)
+        public bool Equals(SimpleTypeToCdtMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -32,8 +32,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (SimpleTypeMapping)) return false;
-            return Equals((SimpleTypeMapping) obj);
+            if (obj.GetType() != typeof (SimpleTypeToCdtMapping)) return false;
+            return Equals((SimpleTypeToCdtMapping) obj);
         }
 
         public override int GetHashCode()

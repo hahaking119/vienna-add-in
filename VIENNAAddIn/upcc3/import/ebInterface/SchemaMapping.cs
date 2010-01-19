@@ -10,7 +10,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class SchemaMapping
     {
         private readonly Dictionary<string, ComplexTypeMapping> complexTypeMappings = new Dictionary<string, ComplexTypeMapping>();
-        private readonly List<SimpleTypeMapping> simpleTypeMappings = new List<SimpleTypeMapping>();
+        private readonly List<SimpleTypeToCdtMapping> simpleTypeMappings = new List<SimpleTypeToCdtMapping>();
         private readonly Dictionary<string, string> edges = new Dictionary<string, string>();
         private readonly MapForceSourceElementTree sourceElementStore;
         private readonly TargetElementStore targetElementStore;
@@ -52,12 +52,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
                 if (IsMappedToBCC(element))
                 {
-                    SimpleTypeMapping simpleTypeMapping = MapSimpleType(element);
-                    return new BCCMapping(element, GetTargetElement(element));
+                    SimpleTypeToCdtMapping simpleTypeToCdtMapping = MapSimpleType(element);
+                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element));
                 }
                 if (IsMappedToSup(element))
                 {
-                    return new SupMapping(element, GetTargetElement(element));
+                    return new AttributeOrSimpleElementToSupMapping(element, GetTargetElement(element));
                 }
                 throw new MappingError("Simple typed element mapped to non-BCC CCTS element.");
             }
@@ -76,7 +76,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                         IAcc targetACC = GetTargetElement(element).Ascc.AssociatedAcc;
                         if (complexTypeACC.Id == targetACC.Id)
                         {
-                            return new ASCCMapping(element, GetTargetElement(element), complexTypeMapping);
+                            return new ComplexElementToAsccMapping(element, GetTargetElement(element), complexTypeMapping);
                         }
                         throw new MappingError("Complex typed element mapped to ASCC with associated ACC other than the target ACC for the complex type.");
                     }
@@ -91,7 +91,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                         if (complexTypeCdt.Id == targetCdt.Id)
                         {
-                            return new BCCMapping(element, GetTargetElement(element));
+                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element));
                         }
 
                         throw new MappingError("Complex typed element mapped to BCC with CDT other than the target CDT for the complex type.");
@@ -101,21 +101,21 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
                 throw new MappingError("Complex typed element mapped to non-ASCC CCTS element.");
             }
-            throw new Exception("Source element has neither simple nor complex type.");
+            throw new Exception("Source element " + element.Name + " has neither simple nor complex type.");
         }
 
-        private SimpleTypeMapping MapSimpleType(SourceElement sourceElement)
+        private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement)
         {
             var simpleTypeName = sourceElement.XsdTypeName;
             var cdt = GetTargetElement(sourceElement).Bcc.Cdt;
-            foreach (SimpleTypeMapping simpleTypeMapping in simpleTypeMappings)
+            foreach (SimpleTypeToCdtMapping simpleTypeMapping in simpleTypeMappings)
             {
                 if (simpleTypeMapping.SimpleTypeName == simpleTypeName && simpleTypeMapping.TargetCDT.Id == cdt.Id)
                 {
                     return simpleTypeMapping;
                 }
             }
-            SimpleTypeMapping newMapping = new SimpleTypeMapping(simpleTypeName, cdt);
+            SimpleTypeToCdtMapping newMapping = new SimpleTypeToCdtMapping(simpleTypeName, cdt);
             simpleTypeMappings.Add(newMapping);
             return newMapping;
         }
@@ -125,7 +125,100 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             string complexTypeName = sourceElement.XsdTypeName;
             if (ComplexTypeIsUnmapped(complexTypeName))
             {
-                var complexTypeMapping = new ComplexTypeMapping(complexTypeName, MapChildren(sourceElement));
+                IEnumerable<ElementMapping> childMappings = MapChildren(sourceElement);
+
+                IAcc targetAcc = null;
+                ICdt targetCdt = null;
+                bool hasMultipleAccMappings = false;
+                bool hasAsmaMapping = false;
+                ComplexTypeMapping complexTypeMapping = null;
+
+                foreach (ElementMapping child in childMappings)
+                {
+                    if (child is AttributeOrSimpleElementToSupMapping)
+                    {
+                        if (targetCdt == null)
+                        {
+                            targetCdt = ((AttributeOrSimpleElementToSupMapping)child).Cdt;
+                        }
+                        else
+                        {
+                            if (targetCdt.Id != ((AttributeOrSimpleElementToSupMapping)child).Cdt.Id)
+                            {
+                                throw new MappingError("Complex type mapped to more than one CDTs");
+                            }
+                        }
+                    }
+
+                    if (child is AttributeOrSimpleElementOrComplexElementToBccMapping)
+                    {
+                        if (targetAcc == null)
+                        {
+                            targetAcc = ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).ACC;
+                        }
+                        else
+                        {
+                            if (targetAcc.Id != ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).ACC.Id)
+                            {
+                                hasMultipleAccMappings = true;
+                            }
+                        }
+                    }
+
+                    if (child is ComplexElementToAsccMapping)
+                    {
+                        if (targetAcc == null)
+                        {
+                            targetAcc = ((ComplexElementToAsccMapping) child).ACC;
+                        }
+                        else
+                        {
+                            if (targetAcc.Id != ((ComplexElementToAsccMapping) child).ACC.Id)
+                            {
+                                hasMultipleAccMappings = true;
+                            }
+                        }
+                    }
+
+                    if (child is AsmaMapping)
+                    {
+                        hasAsmaMapping = true;
+                    }
+                }
+
+                bool hasCdtMapping = targetCdt != null;
+                bool hasAccMapping = targetAcc != null;
+
+                if (hasCdtMapping)
+                {
+                    if ((!hasAccMapping) && (!hasMultipleAccMappings) && (!hasAsmaMapping))
+                    {
+                        // CDT
+                        complexTypeMapping = new ComplexTypeToCdtMapping(complexTypeName, childMappings);
+                    }
+                    else
+                    {
+                        throw new MappingError("Mapping Error #374.");
+                    }
+                }
+                else
+                {
+                    if ((hasAccMapping) && (!hasMultipleAccMappings) && (!hasAsmaMapping))
+                    {
+                        // ACC
+                        complexTypeMapping = new ComplexTypeToAccMapping(complexTypeName, childMappings);
+                    }
+                    else if ((!hasMultipleAccMappings && hasAsmaMapping) || ((hasAccMapping) && hasMultipleAccMappings))
+                    {
+                        // MA
+                        complexTypeMapping = new ComplexTypeToMaMapping(complexTypeName, childMappings);
+                    }
+                    else
+                    {
+                        throw new MappingError("Mapping Error #375.");
+                    }
+                }
+
                 complexTypeMappings[complexTypeName] = complexTypeMapping;
                 return complexTypeMapping;
             }
@@ -197,7 +290,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return complexTypeMappings.Values;
         }
 
-        public IEnumerable<SimpleTypeMapping> GetSimpleTypeMappings()
+        public IEnumerable<SimpleTypeToCdtMapping> GetSimpleTypeMappings()
         {
             return simpleTypeMappings;
         }

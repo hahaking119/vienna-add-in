@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
@@ -24,6 +25,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly string qualifier;
         private readonly string rootElementName;
         private readonly SchemaMapping schemaMapping;
+        private readonly List<BdtSpec> bdtSpecs = new List<BdtSpec>();
         private readonly List<AbieSpec> abieSpecs = new List<AbieSpec>();
         private readonly Dictionary<string, List<AsbieToGenerate>> asbiesToGenerate = new Dictionary<string, List<AsbieToGenerate>>();
         private readonly List<MaSpec> maSpecs = new List<MaSpec>();
@@ -78,59 +80,30 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                                                    {
                                                        Name = docLibraryName
                                                    });
-            GenerateBDTsAndABIEs();
+            GenerateBdtsAndAbiesAndMas();
+
             GenerateRootABIE();
         }
 
-        private void GenerateRootABIE()
-        {
-            var rootElementMapping = schemaMapping.RootElementMapping;
-            if (rootElementMapping is AsmaMapping)
-            {
-                ComplexTypeMapping rootComplexTypeMapping = ((AsmaMapping) rootElementMapping).TargetMapping;
-                var ma = docLibrary.CreateMa(new MaSpec
-                                             {
-                                                 Name = qualifier + "_" + rootElementName,
-                                             });
-                ma.CreateAsma(new AsmaSpec
-                              {
-                                  Name = rootComplexTypeMapping.BIEName,
-                                  AssociatedBieAggregator = new BieAggregator(bieLibrary.GetAbieByName(rootComplexTypeMapping.BIEName)),
-                              });
-            }
-            else if (rootElementMapping is BCCMapping)
-            {
-                var bccMapping = (BCCMapping) rootElementMapping;
-                var abie = bieLibrary.CreateAbie(new AbieSpec
-                                         {
-                                             BasedOn = bccMapping.ACC,
-                                             Name = bccMapping.ACC.Name,
-                                             Bbies = new List<BbieSpec>(GenerateBCCMappings(new List<BCCMapping>{bccMapping})),
-                                         });
-                var ma = docLibrary.CreateMa(new MaSpec
-                                         {
-                                             Name = qualifier + "_" + rootElementName,
-                                         });
-                ma.CreateAsma(new AsmaSpec
-                {
-                    Name = abie.Name,
-                    AssociatedBieAggregator = new BieAggregator(abie),
-                });
-            }
-            else
-            {
-                throw new MappingError("Root element can only be mapped to BCC, but is mapped to something else.");
-            }
-        }
 
-        private void GenerateBDTsAndABIEs()
+        private void GenerateBdtsAndAbiesAndMas()
         {
             foreach (var complexTypeMapping in schemaMapping.GetComplexTypeMappings())
             {
-                GenerateComplexTypeBIESpecs(complexTypeMapping);
+                GenerateSpecsFromComplexTypeMapping(complexTypeMapping);
             }
+
+            CreateBdts();
             CreateAbies();
             CreateMas();
+        }
+
+        private void CreateBdts()
+        {
+            foreach (var bdtSpec in bdtSpecs)
+            {
+                bdtLibrary.CreateBdt(bdtSpec);            
+            }
         }
 
         private void CreateAbies()
@@ -162,10 +135,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private void CreateMas()
         {
             var mas = new List<IMa>();
+
             foreach (var maSpec in maSpecs)
             {
                 mas.Add(docLibrary.CreateMa(maSpec));
             }
+
             foreach (var ma in mas)
             {
                 foreach (var asmaSpec in GenerateAsmaSpecsForMa(ma))
@@ -175,46 +150,68 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private void GenerateComplexTypeBIESpecs(ComplexTypeMapping abieMapping)
+        private void GenerateSpecsFromComplexTypeMapping(ComplexTypeMapping complexTypeMapping)
         {
-            if (abieMapping.IsMappedToSingleACC)
+            if (complexTypeMapping is ComplexTypeToAccMapping)
             {
-                GenerateABIESpec(abieMapping, abieMapping.TargetACCs.ElementAt(0), abieMapping.ComplexTypeName + "_" + abieMapping.TargetACCs.First().Name);
+                GenerateAbieSpec(complexTypeMapping, complexTypeMapping.TargetACCs.ElementAt(0), complexTypeMapping.BIEName);
+            }
+            else if (complexTypeMapping is ComplexTypeToMaMapping)
+            {
+                string maName = complexTypeMapping.ComplexTypeName;
+
+                maSpecs.Add(new MaSpec
+                {
+                    Name = maName,
+                });
+
+                List<AsmaToGenerate> asmasToGenerateForThisMa = asmasToGenerate.GetAndCreate(maName);
+
+                foreach (IAcc acc in complexTypeMapping.TargetACCs)
+                {
+                    var accABIESpec = GenerateAbieSpec(complexTypeMapping, acc, complexTypeMapping.ComplexTypeName + "_" + acc.Name);
+                    asmasToGenerateForThisMa.Add(new AsmaToGenerate(bieLibrary, acc.Name, accABIESpec.Name));
+                }
+
+                foreach (var asmaMapping in complexTypeMapping.AsmaMappings)
+                {
+                    if (asmaMapping.TargetMapping is ComplexTypeToAccMapping)
+                    {
+                        asmasToGenerateForThisMa.Add(new AsmaToGenerate(bieLibrary, asmaMapping.BIEName,
+                                                                        asmaMapping.TargetMapping.BIEName));
+                    }
+                    else
+                    {
+                        asmasToGenerateForThisMa.Add(new AsmaToGenerate(docLibrary, asmaMapping.BIEName,
+                                                                        asmaMapping.TargetMapping.BIEName));
+                    }
+                }                
+            }
+            else if (complexTypeMapping is ComplexTypeToCdtMapping)
+            {
+                BdtSpec bdtSpec = BdtSpec.CloneCdt(complexTypeMapping.TargetCdt, complexTypeMapping.BIEName);
+                bdtSpecs.Add(bdtSpec);
             }
             else
             {
-                var maName = abieMapping.ComplexTypeName;
-                maSpecs.Add(new MaSpec
-                            {
-                                Name = maName,
-                            });
-                var asmasToGenerateForThisMa = asmasToGenerate.GetAndCreate(maName);
-                foreach (IAcc acc in abieMapping.TargetACCs)
-                {
-                    var accABIESpec = GenerateABIESpec(abieMapping, acc, abieMapping.ComplexTypeName + "_" + acc.Name);
-                    asmasToGenerateForThisMa.Add(new AsmaToGenerate(bieLibrary, acc.Name, accABIESpec.Name));
-                }
-                foreach (var asbieMapping in abieMapping.AsmaMappings)
-                {
-                    asmasToGenerateForThisMa.Add(new AsmaToGenerate(docLibrary, asbieMapping.BIEName, asbieMapping.TargetMapping.BIEName));
-                }
+                throw new MappingError("Mapping Error #559.");
             }
         }
 
-        private AbieSpec GenerateABIESpec(ComplexTypeMapping abieMapping, IAcc acc, string name)
+        private AbieSpec GenerateAbieSpec(ComplexTypeMapping complexTypeMapping, IAcc acc, string name)
         {
             var abieSpec = new AbieSpec
                            {
                                BasedOn = acc,
                                Name = name,
-                               Bbies = new List<BbieSpec>(GenerateBCCMappings(abieMapping.BCCMappings(acc))),
+                               Bbies = new List<BbieSpec>(GenerateBbieSpecs(complexTypeMapping.BCCMappings(acc))),
                            };
             abieSpecs.Add(abieSpec);
-            asbiesToGenerate.GetAndCreate(name).AddRange(DetermineAsbiesToGenerate(abieMapping.ASCCMappings(acc)));
+            asbiesToGenerate.GetAndCreate(name).AddRange(DetermineAsbiesToGenerate(complexTypeMapping.ASCCMappings(acc)));
             return abieSpec;
         }
 
-        private IEnumerable<AsbieToGenerate> DetermineAsbiesToGenerate(IEnumerable<ASCCMapping> asccMappings)
+        private IEnumerable<AsbieToGenerate> DetermineAsbiesToGenerate(IEnumerable<ComplexElementToAsccMapping> asccMappings)
         {
             foreach (var asccMapping in asccMappings)
             {
@@ -222,7 +219,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private IEnumerable<BbieSpec> GenerateBCCMappings(IEnumerable<BCCMapping> bccMappings)
+        private IEnumerable<BbieSpec> GenerateBbieSpecs(IEnumerable<AttributeOrSimpleElementOrComplexElementToBccMapping> bccMappings)
         {
             foreach (var bccMapping in bccMappings)
             {
@@ -232,6 +229,58 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 yield return bbieSpec;
             }
         }
+
+        private void GenerateRootABIE()
+        {
+            var rootElementMapping = schemaMapping.RootElementMapping;
+            if (rootElementMapping is AsmaMapping)
+            {
+                AsmaMapping asmaMapping = (AsmaMapping) rootElementMapping;
+                var ma = docLibrary.CreateMa(new MaSpec
+                {
+                    Name = qualifier + "_" + rootElementName,
+                });
+                AsmaSpec asmaSpec = new AsmaSpec
+                                             {
+                                                 Name = asmaMapping.SourceElementName,
+                                             };
+                if (asmaMapping.TargetMapping is ComplexTypeToAccMapping)
+                {
+                    asmaSpec.AssociatedBieAggregator =
+                        new BieAggregator(bieLibrary.GetAbieByName(asmaMapping.TargetMapping.BIEName));
+                }
+                else
+                {
+                    asmaSpec.AssociatedBieAggregator =
+                        new BieAggregator(docLibrary.GetMaByName(asmaMapping.TargetMapping.BIEName));
+                }
+                ma.CreateAsma(asmaSpec);
+            }
+            else if (rootElementMapping is AttributeOrSimpleElementOrComplexElementToBccMapping)
+            {
+                var bccMapping = (AttributeOrSimpleElementOrComplexElementToBccMapping)rootElementMapping;
+                var abie = bieLibrary.CreateAbie(new AbieSpec
+                {
+                    BasedOn = bccMapping.ACC,
+                    Name = bccMapping.ACC.Name,
+                    Bbies = new List<BbieSpec>(GenerateBbieSpecs(new List<AttributeOrSimpleElementOrComplexElementToBccMapping> { bccMapping })),
+                });
+                var ma = docLibrary.CreateMa(new MaSpec
+                {
+                    Name = qualifier + "_" + rootElementName,
+                });
+                ma.CreateAsma(new AsmaSpec
+                {
+                    Name = abie.Name,
+                    AssociatedBieAggregator = new BieAggregator(abie),
+                });
+            }
+            else
+            {
+                throw new MappingError("Root element can only be mapped to BCC, but is mapped to something else.");
+            }
+        }
+
     }
 
     internal class AsmaToGenerate

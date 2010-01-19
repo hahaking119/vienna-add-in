@@ -156,7 +156,9 @@ namespace VIENNAAddIn.upcc3.ea
 
         public IUmlAssociation CreateAssociation(UmlAssociationSpec spec)
         {
-            var association = new EaUmlAssociation(eaRepository, (Connector) eaElement.Connectors.AddNew(string.Empty, EAConnectorTypes.Aggregation.ToString()), Id);
+            Connector eaConnector = (Connector) eaElement.Connectors.AddNew(string.Empty, EAConnectorTypes.Aggregation.ToString());
+            eaConnector.Update();
+            var association = new EaUmlAssociation(eaRepository, eaConnector, Id);
             association.Initialize(spec);
             return association;
         }
@@ -331,11 +333,14 @@ namespace VIENNAAddIn.upcc3.ea
             eaElement.Stereotype = spec.Stereotype;
             eaElement.Update();
 
-            foreach (UmlTaggedValueSpec taggedValueSpec in spec.TaggedValues)
+            if (spec.TaggedValues != null)
             {
-                CreateTaggedValue(taggedValueSpec);
+                foreach (UmlTaggedValueSpec taggedValueSpec in spec.TaggedValues)
+                {
+                    CreateTaggedValue(taggedValueSpec);
+                }
+                eaElement.TaggedValues.Refresh();
             }
-            eaElement.TaggedValues.Refresh();
 
             if (spec.Attributes != null)
             {
