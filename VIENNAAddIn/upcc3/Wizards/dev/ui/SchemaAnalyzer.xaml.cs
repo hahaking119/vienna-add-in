@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using EA;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.upcc3.Wizards.dev.util;
 using VIENNAAddIn.upcc3.Wizards.util;
 using Visifire.Charts;
 
@@ -22,16 +23,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     public partial class SchemaAnalyzer
     {
-        private AnalyzerResults results;
+        private SchemaAnalyzerResults results;
 
         public SchemaAnalyzer(string File1, string File2)
         {
             InitializeComponent();
-            results = new AnalyzerResults(new AnalyzerResult("item1", 5)).Add(new AnalyzerResult("item2", 3)).Add(new AnalyzerResult("item 3", 10));
-            foreach(AnalyzerResult dataset in results.Items)
+            results = new SchemaAnalyzerResults(new SchemaAnalyzerResult("item1", 5)).Add(new SchemaAnalyzerResult("item2", 3)).Add(new SchemaAnalyzerResult("item 3", 10));
+            chart1.Series[0].DataPoints.Clear();
+            foreach (SchemaAnalyzerResult dataset in results.Items)
             {
                 DataPoint item = new DataPoint();
                 item.YValue = dataset.Count;
+                //item.
                 chart1.Series[0].DataPoints.Add(item);
             }
             Chart dummy = new Chart(); // workaround for assembly-error, we will never use this dummy object
@@ -40,47 +43,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         public static void ShowForm(AddInContext context)
         {
             new SchemaAnalyzer("","").ShowDialog();
-        }
-    }
-
-    public class AnalyzerResult
-    {
-        public string Caption { get; set; }
-        public int Count { get; set; }
-
-        public AnalyzerResult(string newCaption, int newCount)
-        {
-            Caption = newCaption;
-            Count = newCount;
-        }
-    }
-
-    public class AnalyzerResults
-    {
-        private List<AnalyzerResult> items;
-        public List<AnalyzerResult> Items
-        {
-            get
-            {
-                return items;
-            }
-        }
-
-        public AnalyzerResults()
-        {
-            items = new List<AnalyzerResult>();
-        }
-
-        public AnalyzerResults(AnalyzerResult newItem)
-        {
-            items = new List<AnalyzerResult>();
-            Add(newItem);
-        }
-
-        public AnalyzerResults Add(AnalyzerResult newItem)
-        {
-            items.Add(newItem);
-            return this;
         }
     }
 }
