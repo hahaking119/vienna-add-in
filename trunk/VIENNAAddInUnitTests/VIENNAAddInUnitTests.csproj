@@ -103,6 +103,15 @@
     <Compile Include="upcc3\ea\CdtLibraryTests.cs" />
     <Compile Include="upcc3\ea\EaUmlRepositoryTest.cs" />
     <Compile Include="upcc3\ea\EaCollectionTests.cs" />
+    <Compile Include="upcc3\import\cctsndr\BDTXsdImporterTests.cs" />
+    <Compile Include="upcc3\import\cctsndr\XSDImporterTest.cs" />
+    <Compile Include="upcc3\import\ebInterface\MapForceMappingImporterTest.cs" />
+    <Compile Include="upcc3\import\ebInterface\MapForceSourceElementTreeTests.cs" />
+    <Compile Include="upcc3\import\ebInterface\MappingImporterTests.cs" />
+    <Compile Include="upcc3\import\ebInterface\MappingTestRepository.cs" />
+    <Compile Include="upcc3\import\ebInterface\SchemaMappingTests.cs" />
+    <Compile Include="upcc3\import\ebInterface\TargetElementStoreTests.cs" />
+    <Compile Include="upcc3\import\util\CustomSchemaReaderTest.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModelTest.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModelTest.cs" />
     <Compile Include="TestCategories.cs" />
@@ -140,7 +149,6 @@
     <Compile Include="upcc3\ccts\otf\RepositoryContentLoaderTests.cs" />
     <Compile Include="upcc3\ccts\otf\ValidatingCCRepositoryIntegrationTests.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValueTests.cs" />
-    <Compile Include="upcc3\export\import\cctsndr\BDTXsdImporterTests.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryBdtEditor.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\AbieEditorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CcCacheTest.cs" />
@@ -163,14 +171,6 @@
     <Compile Include="upcc3\Wizards\StandardLibraryImporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\util\VersionDescriptorTest.cs" />
     <Compile Include="upcc3\Wizards\util\VersionHandlerTest.cs" />
-    <Compile Include="upcc3\export\import\cctsndr\XSDImporterTest.cs" />
-    <Compile Include="upcc3\export\import\ebInterface\MapForceMappingImporterTest.cs" />
-    <Compile Include="upcc3\export\import\ebInterface\MapForceSourceElementTreeTests.cs" />
-    <Compile Include="upcc3\export\import\ebInterface\SchemaMappingTests.cs" />
-    <Compile Include="upcc3\export\import\ebInterface\MappingImporterTests.cs" />
-    <Compile Include="upcc3\export\import\ebInterface\MappingTestRepository.cs" />
-    <Compile Include="upcc3\export\import\ebInterface\TargetElementStoreTests.cs" />
-    <Compile Include="upcc3\export\import\util\CustomSchemaReaderTest.cs" />
     <Compile Include="Utils\EAAssert.cs" />
     <Compile Include="Utils\PropertyEqualityAssertion.cs" />
     <Compile Include="Utils\PropertyEqualityAssertionTest.cs" />
@@ -242,15 +242,15 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SynchTaggedValuesTests.cs</LastGenOutput>
     </None>
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTCanProhibitInheritanceOfSUPFromParentBDT.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsCONFromParentBDT.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsSUPsFromParentBDT.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_complex_type.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_CONFacetsAreAppliedToComplexTypes.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_CONFacetsAreAppliedToSimpleTypes.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_ResolvesBDTTypeNamesAccordingToTheNDR.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_simple_type.xsd" />
-    <None Include="upcc3\export\import\cctsndr\BDTImporterTestResources\BusinessDataType_SUPBasicTypesAreDeterminedFromXsdTypes.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTCanProhibitInheritanceOfSUPFromParentBDT.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsCONFromParentBDT.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_BDTInheritsSUPsFromParentBDT.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_complex_type.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_CONFacetsAreAppliedToComplexTypes.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_CONFacetsAreAppliedToSimpleTypes.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_ResolvesBDTTypeNamesAccordingToTheNDR.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_simple_type.xsd" />
+    <None Include="upcc3\import\cctsndr\BDTImporterTestResources\BusinessDataType_SUPBasicTypesAreDeterminedFromXsdTypes.xsd" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

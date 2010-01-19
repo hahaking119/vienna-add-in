@@ -34,7 +34,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             {
                 DataPoint item = new DataPoint();
                 item.YValue = dataset.Count;
-                //item.
+                item.AxisXLabel = dataset.Caption;
                 chart1.Series[0].DataPoints.Add(item);
             }
             Chart dummy = new Chart(); // workaround for assembly-error, we will never use this dummy object
