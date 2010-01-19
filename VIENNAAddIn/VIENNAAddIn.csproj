@@ -580,6 +580,7 @@
     </Compile>
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModel.cs" />
     <Compile Include="upcc3\Wizards\dev\util\AbieEditorModes.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\XMLSchemaReader.cs" />
     <Compile Include="upcc3\Wizards\dev\util\ProspectiveBdts.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\XsdImporterForm.xaml.cs">
       <DependentUpon>XsdImporterForm.xaml</DependentUpon>

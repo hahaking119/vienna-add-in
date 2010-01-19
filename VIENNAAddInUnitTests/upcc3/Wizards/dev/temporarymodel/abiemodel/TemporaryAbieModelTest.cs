@@ -7,11 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using CctsRepository.CcLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel;
 using CctsRepository;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
@@ -49,25 +47,41 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         public void ShouldCreateAbieInRepository()
         {
             target.SetSelectedCandidateCcLibrary("cclib1");
-            target.SetSelectedCandidateAcc("Address");
-            target.SetSelectedAndCheckedCandidateBcc("CountryName", true);
-            target.SetSelectedAndCheckedPotentialBbie("CountryName", true);
+            target.SetSelectedCandidateAcc("Person");
+            target.SetSelectedAndCheckedCandidateBcc("FirstName", true);
+            target.SetSelectedAndCheckedPotentialBbie("FirstName", true);
             target.SetSelectedAndCheckedPotentialBdt("Text", true);
             target.AbiePrefix = "MyPrefix";
             target.AbieName = "MyAbie";
             target.SetSelectedCandidateBdtLibrary("bdtlib1");
             target.SetSelectedCandidateBieLibrary("bielib1");
+            target.SetSelectedAndCheckedPotentialAsbie("homeAddress",true);
+            target.SetSelectedAndCheckedPotentialAsbie("workAddress",true);
             target.CreateAbie();
             IAbie testAbie = cctsRepository.GetAbieByPath((Path) "test model"/"blib1"/"bielib1"/"MyPrefixMyAbie");
             Assert.IsNotNull(testAbie);
-            Assert.That(testAbie.BasedOn.Name, Is.EqualTo("Address"));
+            Assert.That(testAbie.BasedOn.Name, Is.EqualTo("Person"));
             foreach (IBbie bbie in testAbie.Bbies)
             {
-                Assert.That(bbie.Name, Is.EqualTo("CountryName"));
+                Assert.That(bbie.Name, Is.EqualTo("FirstName"));
                 Assert.That(bbie.Bdt.Name, Is.EqualTo("Text"));
             }
             Assert.That(testAbie.BieLibrary.Name, Is.EqualTo("bielib1"));
             Assert.That(testAbie.BasedOn.CcLibrary.Name, Is.EqualTo("cclib1"));
+            int i = 0;
+            foreach (IAsbie asbie in testAbie.Asbies)
+            {
+                Console.WriteLine(asbie.Name);
+                if(i==0)
+                {
+                    Assert.That(asbie.Name, Is.EqualTo("homeAddress"));
+                }
+                else
+                {
+                    Assert.That(asbie.Name, Is.EqualTo("workAddress"));
+                }
+                i++;
+            }   
         }
 
         #region notyetimplemented
@@ -75,6 +89,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for TemporaryAbieModel Constructor
         ///</summary>
         [Test]
+        [Ignore]
         public void ShouldLoadTemporaryAbieModelWithExistingAbieInEditMode()
         {
             IAbie abieToBeUpdated = null; // TODO: Initialize to an appropriate value
@@ -86,6 +101,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for AddPotentialBbie
         ///</summary>
         [Test]
+        [Ignore]
         public void ShouldAddPotentialBbieToTemporaryAbieModel()
         {
             target.AddPotentialBbie();
@@ -96,6 +112,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for AddPotentialBdt
         ///</summary>
         [Test]
+        [Ignore]
         public void AddPotentialBdtTest()
         {
             target.AddPotentialBdt();
@@ -106,6 +123,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for SetNoSelectedCandidateAbie
         ///</summary>
         [Test]
+        [Ignore]
         public void SetNoSelectedCandidateAbieTest()
         {
             ICctsRepository cctsRepository = null; // TODO: Initialize to an appropriate value
@@ -118,6 +136,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for SetSelectedAndCheckedCandidateAbie
         ///</summary>
         [Test]
+        [Ignore]
         public void SetSelectedAndCheckedCandidateAbieTest()
         {
             string selectedAbie = string.Empty; // TODO: Initialize to an appropriate value
@@ -130,6 +149,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for SetSelectedAndCheckedCandidateBcc
         ///</summary>
         [Test]
+        [Ignore]
         public void SetSelectedAndCheckedCandidateBccTest()
         {
             string selectedBcc = string.Empty; // TODO: Initialize to an appropriate value
@@ -142,6 +162,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for SetSelectedAndCheckedPotentialAsbie
         ///</summary>
         [Test]
+        [Ignore]
         public void SetSelectedAndCheckedPotentialAsbieTest()
         {
             string selectedAsbie = string.Empty; // TODO: Initialize to an appropriate value
@@ -154,6 +175,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for SetSelectedAndCheckedPotentialBbie
         ///</summary>
         [Test]
+        [Ignore]
         public void SetSelectedAndCheckedPotentialBbieTest()
         {
             string selectedBbie = string.Empty; // TODO: Initialize to an appropriate value
@@ -166,6 +188,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for SetSelectedAndCheckedPotentialBdt
         ///</summary>
         [Test]
+        [Ignore]
         public void SetSelectedAndCheckedPotentialBdtTest()
         {
             string selectedBdt = string.Empty; // TODO: Initialize to an appropriate value
@@ -178,6 +201,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for UpdateAbie
         ///</summary>
         [Test]
+        [Ignore]
         public void UpdateAbieTest()
         {
             IAbie abieToBeUpdated = null; // TODO: Initialize to an appropriate value
@@ -191,6 +215,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for UpdateBbieName
         ///</summary>
         [Test]
+        [Ignore]
         public void UpdateBbieNameTest()
         {
             string updatedBbieName = string.Empty; // TODO: Initialize to an appropriate value
@@ -202,6 +227,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for UpdateBdtName
         ///</summary>
         [Test]
+        [Ignore]
         public void UpdateBdtNameTest()
         {
             string updatedBdtName = string.Empty; // TODO: Initialize to an appropriate value
@@ -213,6 +239,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for AbieName
         ///</summary>
         [Test]
+        [Ignore]
         public void AbieNameTest()
         {
             string expected = string.Empty; // TODO: Initialize to an appropriate value
@@ -227,6 +254,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for AbiePrefix
         ///</summary>
         [Test]
+        [Ignore]
         public void AbiePrefixTest()
         {
             string expected = string.Empty; // TODO: Initialize to an appropriate value
@@ -241,6 +269,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for CandidateAbieItems
         ///</summary>
         [Test]
+        [Ignore]
         public void CandidateAbieItemsTest()
         {
             List<CheckableItem> expected = null; // TODO: Initialize to an appropriate value
@@ -255,6 +284,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for CandidateAccNames
         ///</summary>
         [Test]
+        [Ignore]
         public void CandidateAccNamesTest()
         {
             List<string> expected = null; // TODO: Initialize to an appropriate value
@@ -269,6 +299,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for CandidateBccItems
         ///</summary>
         [Test]
+        [Ignore]
         public void CandidateBccItemsTest()
         {
             List<CheckableItem> expected = null; // TODO: Initialize to an appropriate value
@@ -283,6 +314,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for CandidateBdtLibraryNames
         ///</summary>
         [Test]
+        [Ignore]
         public void CandidateBdtLibraryNamesTest()
         {
             List<string> expected = null; // TODO: Initialize to an appropriate value
@@ -297,6 +329,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for CandidateBieLibraryNames
         ///</summary>
         [Test]
+        [Ignore]
         public void CandidateBieLibraryNamesTest()
         {
             List<string> expected = null; // TODO: Initialize to an appropriate value
@@ -311,6 +344,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for CandidateCcLibraryNames
         ///</summary>
         [Test]
+        [Ignore]
         public void CandidateCcLibraryNamesTest()
         {
             List<string> expected = null; // TODO: Initialize to an appropriate value
@@ -325,6 +359,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for PotentialAsbieItems
         ///</summary>
         [Test]
+        [Ignore]
         public void PotentialAsbieItemsTest()
         {
             List<CheckableItem> expected = null; // TODO: Initialize to an appropriate value
@@ -339,6 +374,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for PotentialBbieItems
         ///</summary>
         [Test]
+        [Ignore]
         public void PotentialBbieItemsTest()
         {
             List<CheckableItem> expected = null; // TODO: Initialize to an appropriate value
@@ -353,6 +389,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
         ///A test for PotentialBdtItems
         ///</summary>
         [Test]
+        [Ignore]
         public void PotentialBdtItemsTest()
         {
             List<CheckableItem> expected = null; // TODO: Initialize to an appropriate value
