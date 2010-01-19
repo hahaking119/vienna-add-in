@@ -12,6 +12,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 <#@ include file="t4/CctsRepositoryNamespaces.tt" #>
 using VIENNAAddInUtils;
@@ -21,6 +22,8 @@ namespace CctsRepository
     public interface ICctsRepository
     {
 		#region Libraries
+		
+		IEnumerable<Object> GetAllLibraries();
 <#
 	foreach (var package in MetaModel.GetAllPackages())
 	{

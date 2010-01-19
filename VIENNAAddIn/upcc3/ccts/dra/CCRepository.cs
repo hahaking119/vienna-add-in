@@ -94,6 +94,11 @@ namespace VIENNAAddIn.upcc3.ccts.dra
                    select (ICcLibrary) new CCLibrary(this, p);
         }
 
+        public IEnumerable<object> GetAllLibraries()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
             return from p in ContainedPackages

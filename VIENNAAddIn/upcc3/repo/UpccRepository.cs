@@ -46,6 +46,40 @@ namespace VIENNAAddIn.upcc3.repo
         #region ICctsRepository Members
 
 		#region Libraries
+		
+		public IEnumerable<object> GetAllLibraries()
+        {
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype("BDTLibrary", "BIELibrary", "bLibrary", "CCLibrary", "CDTLibrary", "DOCLibrary", "ENUMLibrary", "PRIMLibrary"))
+            {
+                switch (umlPackage.Stereotype)
+                {
+                    case "BDTLibrary":
+                        yield return new UpccBdtLibrary(umlPackage);
+                        break;
+                    case "BIELibrary":
+                        yield return new UpccBieLibrary(umlPackage);
+                        break;
+                    case "bLibrary":
+                        yield return new UpccBLibrary(umlPackage);
+                        break;
+                    case "CCLibrary":
+                        yield return new UpccCcLibrary(umlPackage);
+                        break;
+                    case "CDTLibrary":
+                        yield return new UpccCdtLibrary(umlPackage);
+                        break;
+                    case "DOCLibrary":
+                        yield return new UpccDocLibrary(umlPackage);
+                        break;
+                    case "ENUMLibrary":
+                        yield return new UpccEnumLibrary(umlPackage);
+                        break;
+                    case "PRIMLibrary":
+                        yield return new UpccPrimLibrary(umlPackage);
+                        break;
+                }
+            }
+        }
 
 		/// <returns>
 		/// All BDTLibraries contained in this repository.

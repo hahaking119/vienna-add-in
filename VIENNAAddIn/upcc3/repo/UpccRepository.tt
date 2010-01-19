@@ -5,6 +5,7 @@
 <#@ assembly name="System.Core.dll" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
 <#@ import namespace="VIENNAAddInUtils"#>
 <#@ import namespace="VIENNAAddInUtils.t4"#>
 <#@ import namespace="Upcc"#>
@@ -37,6 +38,40 @@ namespace VIENNAAddIn.upcc3.repo
         #region ICctsRepository Members
 
 		#region Libraries
+		
+<#
+	var allPackageStereotypes = new StringBuilder();
+	var allPackages = new List<MetaPackage>(MetaModel.GetAllPackages());
+	for (int i = 0; i < allPackages.Count; ++i)
+	{
+		if (i > 0)
+		{
+			allPackageStereotypes.Append(", ");
+		}
+		allPackageStereotypes.Append("\"");
+		allPackageStereotypes.Append(allPackages[i].Stereotype);
+		allPackageStereotypes.Append("\"");
+	}
+#>
+		public IEnumerable<object> GetAllLibraries()
+        {
+            foreach (IUmlPackage umlPackage in UmlRepository.GetPackagesByStereotype(<#= allPackageStereotypes.ToString() #>))
+            {
+                switch (umlPackage.Stereotype)
+                {
+<#
+	foreach (var package in MetaModel.GetAllPackages())
+	{
+#>
+                    case "<#= package.Stereotype #>":
+                        yield return new Upcc<#= package.Name #>(umlPackage);
+                        break;
+<#
+	}
+#>
+                }
+            }
+        }
 <#
 	foreach (var package in MetaModel.GetAllPackages())
 	{

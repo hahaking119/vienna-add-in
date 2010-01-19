@@ -86,6 +86,11 @@ namespace VIENNAAddIn.upcc3.ccts.otf
                    select WrapItem(item) as ICcLibrary;
         }
 
+        public IEnumerable<object> GetAllLibraries()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IBdtLibrary> GetBdtLibraries()
         {
             return from item in repository.AllItems()
