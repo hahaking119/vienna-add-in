@@ -37,11 +37,21 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             StorageDirectory = storageDirectory;
         }
 
-        public ResourceDescriptor(string majorVersion, string minorVersion) : this()
+        public ResourceDescriptor(string downloadUri, string majorVersion, string minorVersion) : this()
         {
             string relativePath = majorVersion + "_" + minorVersion;
 
-            DownloadUri += relativePath + "/";
+            DownloadUri = downloadUri + relativePath;
+
+            if (downloadUri.StartsWith("http://"))
+            {
+                DownloadUri += "/";
+            }
+            else
+            {
+                DownloadUri += "\\";
+            }
+            
             StorageDirectory += relativePath + "\\";            
         }
 

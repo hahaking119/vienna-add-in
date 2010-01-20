@@ -7,7 +7,9 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using System;
 using System.Collections.Generic;
+using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
@@ -28,9 +30,9 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         public void RetrieveAvailableVersions()
         {
             AvailableVersions = new List<VersionDescriptor>();
-            
-            string versionsString = versionsFile.GetContent();
 
+            string versionsString = versionsFile.GetContent();
+            
             foreach (string version in versionsString.Split('\n'))
             {
                 if (version.Trim() != "")

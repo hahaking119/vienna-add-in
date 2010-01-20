@@ -8,10 +8,12 @@
 // *******************************************************************************
 
 using System;
+using System.Net;
 using System.Windows.Forms;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.Wizards.util;
 
 namespace VIENNAAddIn.upcc3.Wizards
@@ -41,6 +43,7 @@ namespace VIENNAAddIn.upcc3.Wizards
         private const string statusMessage = "Creating a default model named \"{0}\" completed successfully.";
 // ReSharper restore InconsistentNaming
 
+        private string cclPath;
         private bool importStandardLibraries;
         
         private readonly Repository repository;
@@ -223,7 +226,7 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             if (checkboxImportStandardLibraries.CheckState == CheckState.Checked)
             {
-                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());                
+                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cclPath, cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());                
                 creator.CreateUpccModel(modelName, bdtLibraryName, bieLibraryName, docLibraryName, resourceDescriptor);
             }
             else
@@ -325,23 +328,25 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 try
                 {
-                    versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile("http://www.umm-dev.org/xmi/ccl_versions.txt"));
-
-                    versionHandler.RetrieveAvailableVersions();
-
-                    foreach (string majorVersion in versionHandler.GetMajorVersions())
-                    {
-                        cbxMajor.Items.Add(majorVersion);
-                    }
-
-                    cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
-
-                    PopulateCbxMinor();
+                    cclPath = "http://www.umm-dev.org/xmi/";
+                    versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile(cclPath + "ccl_versions.txt"));
                 }
-                catch (Exception)
+                catch (WebException)
                 {
-                    // TODO
+                    cclPath = AddInSettings.HomeDirectory + "upcc3\\resources\\ccl\\";
+                    versionHandler = new FileBasedVersionHandler(new LocalVersionsFile(cclPath + "ccl_verions.txt"));
                 }
+
+                versionHandler.RetrieveAvailableVersions();
+
+                foreach (string majorVersion in versionHandler.GetMajorVersions())
+                {
+                    cbxMajor.Items.Add(majorVersion);
+                }
+
+                cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
+
+                PopulateCbxMinor();
             }
         }
 

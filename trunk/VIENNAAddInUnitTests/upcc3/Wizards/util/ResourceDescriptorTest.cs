@@ -7,10 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Net;
-using Moq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.Wizards.util;
@@ -21,13 +17,24 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
     public class ResourceDescriptorTest
     {
         [Test]
-        public void ShouldAppendRelativePathForMajorAndMinorVersion()
+        public void ShouldAppendRelativePathForMajorAndMinorVersionForRemoteVersions()
         {
             ResourceDescriptor defaultDescriptor = new ResourceDescriptor();
-            ResourceDescriptor customDescriptor = new ResourceDescriptor("major", "minor");
+            ResourceDescriptor customDescriptor = new ResourceDescriptor("http://xmi/", "major", "minor");
 
-            Assert.That(customDescriptor.DownloadUri, Is.EqualTo(defaultDescriptor.DownloadUri + "major_minor/"));
+            Assert.That(customDescriptor.DownloadUri, Is.EqualTo("http://xmi/" + "major_minor/"));
             Assert.That(customDescriptor.StorageDirectory, Is.EqualTo(defaultDescriptor.StorageDirectory+ "major_minor\\"));
         }
+
+        [Test]
+        public void ShouldAppendRelativePathForMajorAndMinorVersionForLocalVersions()
+        {
+            ResourceDescriptor defaultDescriptor = new ResourceDescriptor();
+            ResourceDescriptor customDescriptor = new ResourceDescriptor("X:\\arbitrary\\path\\", "major", "minor");
+
+            Assert.That(customDescriptor.DownloadUri, Is.EqualTo("X:\\arbitrary\\path\\" + "major_minor\\"));
+            Assert.That(customDescriptor.StorageDirectory, Is.EqualTo(defaultDescriptor.StorageDirectory+ "major_minor\\"));
+        }
+
     }
 }

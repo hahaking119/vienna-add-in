@@ -560,6 +560,7 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\util\LocalVersionsFile.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzer.xaml.cs">
       <DependentUpon>SchemaAnalyzer.xaml</DependentUpon>
     </Compile>
