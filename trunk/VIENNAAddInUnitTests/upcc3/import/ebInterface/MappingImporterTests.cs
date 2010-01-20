@@ -231,7 +231,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             {
                 mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\" + part + ".mfd"));
             }
-            string[] schemaFiles = new[] {TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd")};
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd")};
             new MappingImporter(mappingFiles, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(CctsRepositoryFactory.CreateCctsRepository(repo));
         }
         
