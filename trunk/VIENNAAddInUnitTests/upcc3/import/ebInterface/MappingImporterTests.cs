@@ -347,13 +347,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public void ShouldMapASingleSimpleElement()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\mapping_single_simple_typed_element.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.xsd") };
 
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);            
 
+            Assert.Fail("not implemented");
             //ShouldContainMa(docLibrary, "ebInterface_Invoice", new[] {"PersonName_Name"});
         }
     }
