@@ -49,9 +49,19 @@ namespace VIENNAAddIn.upcc3.Wizards.util
                 Directory.CreateDirectory(resourceDescriptor.StorageDirectory);
             }
 
-            foreach (string resourceFile in resourceDescriptor.Resources)
+            if (resourceDescriptor.DownloadUri.StartsWith("http://"))
             {
-                CacheSingleResourceLocally(resourceDescriptor.DownloadUri, resourceDescriptor.StorageDirectory, resourceFile);
+                foreach (string resourceFile in resourceDescriptor.Resources)
+                {
+                    CacheSingleResourceLocally(resourceDescriptor.DownloadUri, resourceDescriptor.StorageDirectory, resourceFile);
+                }                
+            }
+            else
+            {
+                foreach (string resourceFile in resourceDescriptor.Resources)
+                {
+                    CopySingleResourceLocally(resourceDescriptor.DownloadUri, resourceDescriptor.StorageDirectory, resourceFile);
+                }                                
             }
         }
 
@@ -100,6 +110,17 @@ namespace VIENNAAddIn.upcc3.Wizards.util
                 {
                     writer.Write(RetrieveContentFromUri(downloadUri + resourceFile));
                 }
+            }
+        }
+
+        private static void CopySingleResourceLocally(string downloadUri, string storageDirectory, string resourceFile)
+        {
+            string resourcePathSource = downloadUri + resourceFile;
+            string resourcePathTarget = storageDirectory + resourceFile;
+
+            if (!(File.Exists(resourcePathTarget)))
+            {
+                File.Copy(resourcePathSource, resourcePathTarget);
             }
         }
 

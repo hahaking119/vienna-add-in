@@ -7,11 +7,12 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System;
+using System.Net;
 using System.Windows.Forms;
 using System.Windows.Input;
 using EA;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.Wizards.util;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
@@ -20,6 +21,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     {
         private readonly Repository eaRepository;
         FileBasedVersionHandler versionHandler;
+        private string cclPath;
 
         public StandardLibraryImporter(Repository eaRepository)
         {
@@ -37,25 +39,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             try
             {
-                versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile("http://www.umm-dev.org/xmi/ccl_versions.txt"));
-
+                cclPath = "http://www.umm-dev.org/xmi/";
+                versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile(cclPath + "ccl_versions.txt"));
                 versionHandler.RetrieveAvailableVersions();
-
-                foreach (string majorVersion in versionHandler.GetMajorVersions())
-                {
-                    cbxMajor.Items.Add(majorVersion);
-                }
-
-                cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
-
-                PopulateCbxMinor();
             }
-                // ReSharper disable EmptyGeneralCatchClause
-            catch (Exception)
-                // ReSharper restore EmptyGeneralCatchClause
+            catch (WebException)
             {
-                // TODO
+                cclPath = AddInSettings.HomeDirectory + "upcc3\\resources\\ccl\\";
+                versionHandler = new FileBasedVersionHandler(new LocalVersionsFile(cclPath + "ccl_versions.txt"));
+                versionHandler.RetrieveAvailableVersions();
             }
+            
+            foreach (string majorVersion in versionHandler.GetMajorVersions())
+            {
+                cbxMajor.Items.Add(majorVersion);
+            }
+
+            cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
+
+            PopulateCbxMinor();
         }
 
         private void PopulateCbxMinor()
@@ -114,7 +116,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 string bLibraryGuid = eaRepository.GetTreeSelectedPackage().Element.ElementGUID;
                 Package bLibrary = eaRepository.GetPackageByGuid(bLibraryGuid);
 
-                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
+                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cclPath, cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
 
                 LibraryImporter importer = new LibraryImporter(eaRepository, resourceDescriptor);
                 importer.StatusChanged += OnStatusChanged;

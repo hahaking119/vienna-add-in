@@ -53,7 +53,6 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
             return webClientMediator;
         }
 
-
         [Test]
         public void ShouldDownloadOnlineVersionFileAndExtractAvailableVersions()
         {
@@ -72,7 +71,6 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
 
             Assert.That(versionHandler.AvailableVersions, Is.EquivalentTo(expectedVersions));
         }
-
 
         [Test]
         public void ShouldProvideAvailableMajorVersions()
@@ -174,6 +172,23 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.util
                                                 };
 
             Assert.That(versionHandler.AvailableVersions, Is.EquivalentTo(expectedVersions));
-        }        
+        }
+
+        [Test]
+        [Category(TestCategories.FileBased)]
+        public void ShouldLoadLocalVersionFileAndExtractAvailableVersions()
+        {
+            FileBasedVersionHandler versionHandler = new FileBasedVersionHandler(new LocalVersionsFile("C:\\_work\\vienna-add-in\\VIENNAAddInUnitTests\\testresources\\VersionHandlerTest\\ccl_versions.txt"));
+            versionHandler.RetrieveAvailableVersions();
+
+            List<VersionDescriptor> expectedVersions = new List<VersionDescriptor>
+                                                {
+                                                    new VersionDescriptor {Major = "simplified", Minor = "1", Comment = "Simplified Core Component Library v08B published by UN/CEFACT.\r"},
+                                                    new VersionDescriptor {Major = "simplified", Minor = "2", Comment = "Simplified Core Component Library v08B published by UN/CEFACT which has been adapted by Research Studios Austria to fix mistakes in the Core Component model. \r"},
+                                                    new VersionDescriptor {Major = "complex", Minor = "1", Comment = "Complex Core Component Library v09A published by UN/CEFACT."},                                                    
+                                                };         
+
+            Assert.That(versionHandler.AvailableVersions, Is.EquivalentTo(expectedVersions));
+        }
     }
 }

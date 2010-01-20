@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.Wizards.util;
 
 namespace VIENNAAddIn.upcc3.Wizards
@@ -10,6 +12,7 @@ namespace VIENNAAddIn.upcc3.Wizards
     {
         private readonly Repository eaRepository;
         FileBasedVersionHandler versionHandler;
+        private string cclPath;
 
         public static void ShowForm(AddInContext context)
         {
@@ -34,7 +37,14 @@ namespace VIENNAAddIn.upcc3.Wizards
 
             try
             {
-                versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile("http://www.umm-dev.org/xmi/ccl_versions.txt"));
+                cclPath = "http://www.umm-dev.org/xmi/";
+                versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile(cclPath + "ccl_versions.txt"));
+            }
+            catch (WebException)
+            {
+                cclPath = AddInSettings.HomeDirectory + "upcc3\\resources\\ccl\\";
+                versionHandler = new FileBasedVersionHandler(new LocalVersionsFile(cclPath + "ccl_verions.txt"));
+            }
 
                 versionHandler.RetrieveAvailableVersions();
 
@@ -46,13 +56,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
                 
                 PopulateCbxMinor();
-            }
-// ReSharper disable EmptyGeneralCatchClause
-            catch (Exception)
-// ReSharper restore EmptyGeneralCatchClause
-            {
-                // TODO
-            }
+
         }
 
         private void cbxMajor_SelectionChangeCommitted(object sender, EventArgs e)
@@ -105,7 +109,7 @@ namespace VIENNAAddIn.upcc3.Wizards
                 string bLibraryGuid = eaRepository.GetTreeSelectedPackage().Element.ElementGUID;
                 Package bLibrary = eaRepository.GetPackageByGuid(bLibraryGuid);
 
-                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());                
+                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cclPath, cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());                
 
                 LibraryImporter importer = new LibraryImporter(eaRepository, resourceDescriptor);
                 importer.StatusChanged += OnStatusChanged;

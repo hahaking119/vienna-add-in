@@ -8,11 +8,13 @@
 // *******************************************************************************
 
 using System;
+using System.Net;
 using System.Windows.Forms;
 using System.Windows.Input;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.menu;
+using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.Wizards.util;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
@@ -40,6 +42,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private string bdtLibraryName = "";
         private string bieLibraryName = "";
         private string docLibraryName = "";
+        private string cclPath = "";
         private FileBasedVersionHandler versionHandler; 
         private readonly Repository repository;
         private readonly ICctsRepository cctsRepository;
@@ -250,29 +253,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             {
                 try
                 {
-                    versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile("http://www.umm-dev.org/xmi/ccl_versions.txt"));
-
+                    cclPath = "http://www.umm-dev.org/xmi/";
+                    versionHandler = new FileBasedVersionHandler(new RemoteVersionsFile(cclPath + "ccl_versions.txt"));
                     versionHandler.RetrieveAvailableVersions();
-
-                    foreach (string majorVersion in versionHandler.GetMajorVersions())
-                    {
-                        cbxMajor.Items.Add(majorVersion);
-                    }
-
-                    cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
-
-                    PopulateCbxMinor();
                 }
-                catch (Exception)
+                catch (WebException)
                 {
-                    // TODO: proper exxception handling
-                    // a) "lokales" abfangen wenn ein fehler beim retrieven der library passiert
-                    // b) ansonsten ein weiterwerfen der exception an das VIENNA Addin
-                    // 
-                    // approach: eine statische klasse in den utils welche statische methdoen
-                    // zur verfuegung stellt zum anzeigen einer fehlermeldung und zwar:
-                    // MessageBox.Show("text", "caption", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cclPath = AddInSettings.HomeDirectory + "upcc3\\resources\\ccl\\";
+                    versionHandler = new FileBasedVersionHandler(new LocalVersionsFile(cclPath + "ccl_versions.txt"));
+                    versionHandler.RetrieveAvailableVersions();
+                }                
+
+                foreach (string majorVersion in versionHandler.GetMajorVersions())
+                {
+                    cbxMajor.Items.Add(majorVersion);
                 }
+
+                cbxMajor.SelectedIndex = cbxMajor.Items.Count - 1;
+
+                PopulateCbxMinor();
             }
         }
 
@@ -447,7 +446,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             if (checkboxImportStandardLibraries.IsChecked == true)
             {
-                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
+                ResourceDescriptor resourceDescriptor = new ResourceDescriptor(cclPath, cbxMajor.SelectedItem.ToString(), cbxMinor.SelectedItem.ToString());
                 creator.CreateUpccModel(modelName, bdtLibraryName, bieLibraryName, docLibraryName, resourceDescriptor);
             }
             else
