@@ -9,6 +9,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {            
         }
 
+        public IEnumerable<AttributeOrSimpleElementToSupMapping> GetSupMappings()
+        {
+            foreach (ElementMapping child in Children)
+            {
+                yield return (AttributeOrSimpleElementToSupMapping) child;
+            }
+        }
+
         public override string ToString()
         {
             return string.Format("ComplexTypeToCdtMapping <ComplexType: {0}>", ComplexTypeName);
@@ -16,7 +24,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string BIEName
         {
-            get { return TargetCdt.Name + "_" + ComplexTypeName; }
+            get { return ComplexTypeName + "_" + TargetCdt.Name; }
         }
 
         public bool Equals(ComplexTypeToCdtMapping other)

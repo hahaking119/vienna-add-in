@@ -46,7 +46,7 @@ namespace CctsRepository.BdtLibrary
             };
         }
 
-        private static BdtSupSpec CloneCdtSup(ICdtSup cdtSup)
+        public static BdtSupSpec CloneCdtSup(ICdtSup cdtSup)
         {
             return new BdtSupSpec
                    {

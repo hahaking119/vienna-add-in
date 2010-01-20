@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
+using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using EA;
@@ -52,13 +53,24 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         #region Helpers
 
         /// <summary>
+        /// Returns an array of the names of all SUPs of the given BDT.
+        /// </summary>
+        /// <param name="bdt"></param>
+        /// <returns></returns>
+        private static string[] SupNames(IBdt bdt)
+        {
+            return (from sup in bdt.Sups select sup.Name).ToArray();
+        }
+
+        
+        /// <summary>
         /// Returns an array of the names of all BBIEs of the given ABIE.
         /// </summary>
         /// <param name="abie"></param>
         /// <returns></returns>
-        private static string[] BbieNames(IAbie abie)
+        private static BbieDescriptor[] BbieDescriptors(IAbie abie)
         {
-            return (from bbie in abie.Bbies select bbie.Name).ToArray();
+            return (from bbie in abie.Bbies select new BbieDescriptor(bbie.Name, bbie.Bdt.Id)).ToArray();
         }
 
         /// <summary>
@@ -81,6 +93,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return (from asma in ma.Asmas select new AsmaDescriptor(asma.Name, asma.AssociatedBieAggregator.Id)).ToArray();
         }
 
+        private IBdtLibrary ShouldContainBdtLibrary(string bdtLibraryName)
+        {
+            var library = ccRepository.GetBdtLibraryByPath((Path)"test" / "bLibrary" / bdtLibraryName);
+            Assert.That(library, Is.Not.Null, "BDTLibrary '" + bdtLibraryName + "' not generated");
+            return library;
+        }
+ 
+
         private IBieLibrary ShouldContainBieLibrary(string name)
         {
             var library = ccRepository.GetBieLibraryByPath((Path) "test"/"bLibrary"/name);
@@ -95,23 +115,31 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             return library;
         }
 
-        private static IAbie ShouldContainAbie(IBieLibrary bieLibrary, string name, string accName, string[] bbieNames, AsbieDescriptor[] asbieDescriptors)
+        private IBdt ShouldContainBdt(IBdtLibrary bdtLibrary, string name, string cdtName, string[] generatedSups)
+        {
+            IBdt bdt = bdtLibrary.GetBdtByName(name);
+            Assert.IsNotNull(bdt, "BDT '" + name + "' not generated");
+
+            Assert.That(bdt.BasedOn, Is.Not.Null, "BasedOn reference not specified");
+            Assert.AreEqual(cdtName, bdt.BasedOn.Name, "BasedOn wrong CDT");
+
+            if (generatedSups == null || generatedSups.Length == 0)
+            {
+                Assert.That(SupNames(bdt), Is.Empty);
+            }
+            else
+            {
+                Assert.That(SupNames(bdt), Is.EquivalentTo(generatedSups));
+            }
+
+            return bdt;
+        }
+
+        private static IAbie ShouldContainAbie(IBieLibrary bieLibrary, string name, string accName, BbieDescriptor[] bbieDescriptors, AsbieDescriptor[] asbieDescriptors)
         {
             IAbie abie = bieLibrary.GetAbieByName(name);
-            VerifyAbie(name, abie, accName, bbieNames, asbieDescriptors);
-            return abie;
-        }
-
-        private static IMa ShouldContainMa(IDocLibrary docLibrary, string name, AsmaDescriptor[] asmaDescriptors)
-        {
-            var ma = docLibrary.GetMaByName(name);
-            VerifyMa(name, ma, asmaDescriptors);
-            return ma;
-        }
-
-        private static void VerifyAbie(string name, IAbie abie, string accName, string[] bbieNames, AsbieDescriptor[] asbieDescriptors)
-        {
             Assert.IsNotNull(abie, "ABIE '" + name + "' not generated");
+
             if (accName != null)
             {
                 Assert.That(abie.BasedOn, Is.Not.Null, "BasedOn reference not specified");
@@ -121,14 +149,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             {
                 Assert.That(abie.BasedOn, Is.Null, "Unexpected BasedOn reference to ACC '" + abie.BasedOn + "'");
             }
-            if (bbieNames == null || bbieNames.Length == 0)
+
+            if (bbieDescriptors == null || bbieDescriptors.Length == 0)
             {
-                Assert.That(BbieNames(abie), Is.Empty);
+                Assert.That(BbieDescriptors(abie), Is.Empty);
             }
             else
             {
-                Assert.That(BbieNames(abie), Is.EquivalentTo(bbieNames));
+                Assert.That(BbieDescriptors(abie), Is.EquivalentTo(bbieDescriptors));
             }
+
             if (asbieDescriptors == null || asbieDescriptors.Length == 0)
             {
                 Assert.That(AsbieDescriptors(abie), Is.Empty);
@@ -137,10 +167,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             {
                 Assert.That(AsbieDescriptors(abie), Is.EquivalentTo(asbieDescriptors));
             }
+            return abie;
         }
 
-        private static void VerifyMa(string name, IMa ma, AsmaDescriptor[] asmaDescriptors)
+        private static IMa ShouldContainMa(IDocLibrary docLibrary, string name, AsmaDescriptor[] asmaDescriptors)
         {
+            var ma = docLibrary.GetMaByName(name);
             Assert.IsNotNull(ma, "MA '" + name + "' not generated");
 
             if (asmaDescriptors == null || asmaDescriptors.Length == 0)
@@ -151,6 +183,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             {
                 Assert.That(AsmaDescriptors(ma), Is.EquivalentTo(asmaDescriptors));
             }
+            return ma;
         }
 
         #endregion
@@ -204,7 +237,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         
         #endregion
 
-        // NOTE: DONE
         [Test]
         public void TestNestedInputToFlatOutputMapping()
         {
@@ -215,10 +247,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
 
-            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Person", "Person", new[] { "Name_Name" }, null);
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] {"Town_CityName"}, null);
-                        
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+            
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Person", "Person", new[] { new BbieDescriptor("Name_Name", bdtText.Id) }, null);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("Town_CityName", bdtText.Id) }, null);
+
+
             IMa maAddressType = ShouldContainMa(docLibrary, "AddressType", new[]
                                                                                {
                                                                                     new AsmaDescriptor("Person", biePerson.Id),
@@ -235,7 +273,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
-        // NOTE: DONE
         [Test]
         public void TestNestedMapping()
         {
@@ -248,9 +285,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
 
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { "Town_CityName" }, null);
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
 
-            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Party", "Party", new[] {"Name_Name"}, new[]
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("Town_CityName", bdtText.Id)  }, null);
+
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Party", "Party", new[] { new BbieDescriptor("Name_Name", bdtText.Id), }, new[]
                                                                                                     {
                                                                                                         new AsbieDescriptor("Address_Residence", bieAddress.Id),
                                                                                                     });
@@ -267,7 +310,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
-        // NOTE: DONE
         [Test]
         public void TestOneComplexTypeToMultipleACCsMapping()
         {
@@ -279,8 +321,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
 
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] {"Town_CityName"}, null);
-            IAbie biePerson = ShouldContainAbie(bieLibrary, "AddressType_Person", "Person", new[] {"PersonName_Name"}, null);
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "AddressType_Person", "Person", new[] { new BbieDescriptor("PersonName_Name", bdtText.Id) }, null);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("Town_CityName", bdtText.Id) }, null);
 
             var maAddress = ShouldContainMa(docLibrary, "AddressType", new[]
                                                                                {
@@ -297,7 +345,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
-        // NOTE: DONE
         [Test]
         public void TestSimpleMappingWithOneTargetComponent()
         {
@@ -307,7 +354,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] {"Town_CityName"}, null);
+
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("Town_CityName", bdtText.Id) }, null);
 
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
             ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
@@ -316,7 +370,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
-        // NOTE: DONE
         [Test]
         public void TestSimpleMappingWithTwoTargetComponents()
         {
@@ -328,8 +381,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
 
-            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] {"Town_CityName"}, null);
-            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Person", "Person", new[] {"Name_Name"}, null);
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Person", "Person", new[] { new BbieDescriptor("Name_Name", bdtText.Id) }, null);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("Town_CityName", bdtText.Id) }, null);
 
             var maInvoice = ShouldContainMa(docLibrary, "InvoiceType", new[]
                                                                                {
@@ -350,12 +409,69 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.xsd") };
 
             new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+                      
+            var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
 
-            ShouldContainBieLibrary(BieLibraryName);
-            var docLibrary = ShouldContainDocLibrary(DocLibraryName);            
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
 
-            Assert.Fail("not implemented");
-            //ShouldContainMa(docLibrary, "ebInterface_Invoice", new[] {"PersonName_Name"});
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IAbie bieParty = ShouldContainAbie(bieLibrary, "ebInterface_Party", "Party", new[] { new BbieDescriptor("PersonName_Name", bdtText.Id),  }, null);
+
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
+                                                                           {
+                                                                               new AsmaDescriptor("ebInterface_Party", bieParty.Id),
+                                                                           });
+        }
+
+        [Test]
+        public void TestAttributeMappedToBccWithinSingleAcc()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_attribute_to_single_acc.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_attribute_to_single_acc.xsd") };
+
+            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("Town_CityName", bdtText.Id) }, null);
+
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
+                                                                {
+                                                                    new AsmaDescriptor("Address", bieAddress.Id),
+                                                                });
+        }
+
+        [Test]
+        public void TestComplexTypeWithSimpleElementsAndAttributesMappedToSingleCdt()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_and_attributes_to_cdt.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_and_attributes_to_cdt.xsd") };
+
+            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            var bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "TextType_Text", "Text", new [] { "Language", "LanguageLocale"});
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("CityName_CityName", bdtText.Id) }, null);
+
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
+                                                                {
+                                                                    new AsmaDescriptor("Address", bieAddress.Id),
+                                                                });
         }
     }
 
@@ -464,6 +580,56 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public override string ToString()
         {
             return string.Format("Name: {0}, AssociatedElementId: {1}", name, associatedElementId);
+        }
+    }
+
+    internal class BbieDescriptor : IEquatable<BbieDescriptor>
+    {
+        private readonly int bdtId;
+        private readonly string bbieName;
+
+        public BbieDescriptor(string bbieName, int bdtId)
+        {
+            this.bbieName = bbieName;
+            this.bdtId = bdtId;
+        }
+
+        public bool Equals(BbieDescriptor other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.bbieName, bbieName) && other.bdtId == bdtId;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof(BbieDescriptor)) return false;
+            return Equals((BbieDescriptor)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((bbieName != null ? bbieName.GetHashCode() : 0) * 397) ^ bdtId;
+            }
+        }
+
+        public static bool operator ==(BbieDescriptor left, BbieDescriptor right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(BbieDescriptor left, BbieDescriptor right)
+        {
+            return !Equals(left, right);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("BBIE Name: {0}, BDT Id: {1}", bbieName, bdtId);
         }
     }
 }

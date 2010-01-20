@@ -8,8 +8,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly SourceElement sourceElement;
         private readonly TargetCCElement targetElement;
 
-        public AttributeOrSimpleElementOrComplexElementToBccMapping(SourceElement sourceElement, TargetCCElement targetElement)
+        public AttributeOrSimpleElementOrComplexElementToBccMapping(SourceElement sourceElement, TargetCCElement targetElement, IMapping bccTypeMapping)
         {
+            BccTypeMapping = bccTypeMapping;
             this.sourceElement = sourceElement;
             this.targetElement = targetElement;
             BCC = targetElement.Bcc;
@@ -33,11 +34,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public string ElementName { get; private set; }
 
+        public IMapping BccTypeMapping { get; private set; }
+
         public bool Equals(AttributeOrSimpleElementOrComplexElementToBccMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.targetElement.Bcc.Id, targetElement.Bcc.Id) && Equals(other.ACC.Id, ACC.Id);
+            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.targetElement.Bcc.Id, targetElement.Bcc.Id) && Equals(other.ACC.Id, ACC.Id) && Equals(other.BccTypeMapping.BIEName, BccTypeMapping.BIEName);
         }
 
         public override bool Equals(object obj)
