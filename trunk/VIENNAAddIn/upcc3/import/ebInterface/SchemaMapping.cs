@@ -53,7 +53,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 if (IsMappedToBCC(element))
                 {
                     SimpleTypeToCdtMapping simpleTypeToCdtMapping = MapSimpleType(element);
-                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element));
+                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element), simpleTypeToCdtMapping);
                 }
                 if (IsMappedToSup(element))
                 {
@@ -91,7 +91,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                         if (complexTypeCdt.Id == targetCdt.Id)
                         {
-                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element));
+                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element), complexTypeMapping);
                         }
 
                         throw new MappingError("Complex typed element mapped to BCC with CDT other than the target CDT for the complex type.");

@@ -48,17 +48,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// <summary>
         /// Retrieves the BDT based on the given CDT from the BDT library. If the BDT does not yet exist, it is created.
         /// </summary>
-        /// <param name="cdt"></param>
+        /// <param name="bccMapping"></param>
         /// <returns></returns>
-        private IBdt GetBDT(ICdt cdt)
+        private IBdt GetBDT(AttributeOrSimpleElementOrComplexElementToBccMapping bccMapping)
         {
-            var bdtName = qualifier + "_" + cdt.Name;
-            var bdt = bdtLibrary.GetBdtByName(bdtName);
-            if (bdt == null)
-            {
-                var bdtSpec = BdtSpec.CloneCdt(cdt, bdtName);
-                bdt = bdtLibrary.CreateBdt(bdtSpec);
-            }
+            IMapping bccTypeMapping = bccMapping.BccTypeMapping;
+            var bdt = bdtLibrary.GetBdtByName(bccTypeMapping.BIEName);
             return bdt;
         }
 
@@ -88,12 +83,22 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private void GenerateBdtsAndAbiesAndMas()
         {
+            foreach (var simpleTypeMapping in schemaMapping.GetSimpleTypeMappings())
+            {
+                GenerateBdtSpecsFromSimpleTypeMapping(simpleTypeMapping);
+            }
             foreach (var complexTypeMapping in schemaMapping.GetComplexTypeMappings())
             {
-                GenerateSpecsFromComplexTypeMapping(complexTypeMapping);
+                GenerateBdtSpecsFromComplexTypeMapping(complexTypeMapping);
             }
 
             CreateBdts();
+            
+            foreach (var complexTypeMapping in schemaMapping.GetComplexTypeMappings())
+            {
+                GenerateAbieAndMaSpecsFromComplexTypeMapping(complexTypeMapping);
+            }
+
             CreateAbies();
             CreateMas();
         }
@@ -150,7 +155,36 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private void GenerateSpecsFromComplexTypeMapping(ComplexTypeMapping complexTypeMapping)
+        private void GenerateBdtSpecsFromSimpleTypeMapping(SimpleTypeToCdtMapping simpleTypeMapping)
+        {
+            // NOTE: at this point there is only one simple type mapping which is the "SimpleTypeToCdtMapping".             
+            var bdtSpec = BdtSpec.CloneCdt(simpleTypeMapping.TargetCDT, simpleTypeMapping.BIEName);
+            bdtSpec.Sups = new List<BdtSupSpec>();
+            bdtSpecs.Add(bdtSpec);
+        }
+
+        private void GenerateBdtSpecsFromComplexTypeMapping(ComplexTypeMapping complexTypeMapping)
+        {
+            if (complexTypeMapping is ComplexTypeToCdtMapping)
+            {
+                ComplexTypeToCdtMapping cdtMapping = (ComplexTypeToCdtMapping) complexTypeMapping;
+
+                List<BdtSupSpec> supSpecs = new List<BdtSupSpec>();
+
+                foreach (AttributeOrSimpleElementToSupMapping supMapping in cdtMapping.GetSupMappings())
+                {
+                    supSpecs.Add(BdtSpec.CloneCdtSup(supMapping.Sup));
+                }
+
+                BdtSpec bdtSpec = BdtSpec.CloneCdt(complexTypeMapping.TargetCdt, complexTypeMapping.BIEName);
+                
+                bdtSpec.Sups = supSpecs;
+
+                bdtSpecs.Add(bdtSpec);
+            }
+        }
+
+        private void GenerateAbieAndMaSpecsFromComplexTypeMapping(ComplexTypeMapping complexTypeMapping)
         {
             if (complexTypeMapping is ComplexTypeToAccMapping)
             {
@@ -187,15 +221,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                 }                
             }
-            else if (complexTypeMapping is ComplexTypeToCdtMapping)
-            {
-                BdtSpec bdtSpec = BdtSpec.CloneCdt(complexTypeMapping.TargetCdt, complexTypeMapping.BIEName);
-                bdtSpecs.Add(bdtSpec);
-            }
-            else
-            {
-                throw new MappingError("Mapping Error #559.");
-            }
         }
 
         private AbieSpec GenerateAbieSpec(ComplexTypeMapping complexTypeMapping, IAcc acc, string name)
@@ -224,7 +249,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             foreach (var bccMapping in bccMappings)
             {
                 var bcc = bccMapping.BCC;
-                var bbieSpec = BbieSpec.CloneBcc(bcc, GetBDT(bcc.Cdt));
+                var bbieSpec = BbieSpec.CloneBcc(bcc, GetBDT(bccMapping));
                 bbieSpec.Name = bccMapping.BIEName;
                 yield return bbieSpec;
             }
@@ -262,7 +287,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 var abie = bieLibrary.CreateAbie(new AbieSpec
                 {
                     BasedOn = bccMapping.ACC,
-                    Name = bccMapping.ACC.Name,
+                    Name = qualifier + "_" + bccMapping.ACC.Name,
                     Bbies = new List<BbieSpec>(GenerateBbieSpecs(new List<AttributeOrSimpleElementOrComplexElementToBccMapping> { bccMapping })),
                 });
                 var ma = docLibrary.CreateMa(new MaSpec

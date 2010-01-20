@@ -30,7 +30,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                                                       {
                                                                                                                                           e.Stereotype = Stereotype.CDT;
                                                                                                                                           e.AddCON(primString);
-                                                                                                                                          e.AddSUPs(primString, "Language", "LanguageLocale");
+                                                                                                                                          e.AddSUPs(primString, "Language", "UnusedSup", "LanguageLocale");
                                                                                                                                       });
                                                                                             });
                                                           bLibrary.AddPackage("CCLibrary", package =>
