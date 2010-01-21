@@ -60,7 +60,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
 
 
             XmlReader reader = XmlReader.Create(new StreamReader(filename));
-            // read (pull) the next node in document order
             while (reader.Read())
             {
                 if (reader.HasAttributes)
@@ -130,7 +129,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                             break;
                     }
                 }
-                // get the current node's (namespace) name
             }
 
             results.Clear();
