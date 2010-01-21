@@ -564,9 +564,6 @@
     <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzer.xaml.cs">
       <DependentUpon>SchemaAnalyzer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzerFileSelector.xaml.cs">
-      <DependentUpon>SchemaAnalyzerFileSelector.xaml</DependentUpon>
-    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporter.xaml.cs">
       <DependentUpon>StandardLibraryImporter.xaml</DependentUpon>
     </Compile>
@@ -1140,10 +1137,6 @@
     <Page Include="upcc3\Wizards\dev\ui\SchemaAnalyzer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="upcc3\Wizards\dev\ui\SchemaAnalyzerFileSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\StandardLibraryImporter.xaml">
       <Generator>MSBuild:Compile</Generator>
