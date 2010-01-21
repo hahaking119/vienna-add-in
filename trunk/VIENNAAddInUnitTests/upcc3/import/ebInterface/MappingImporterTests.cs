@@ -371,6 +371,51 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         }
 
         [Test]
+        public void TestSimpleElementWithinChoiceMappingToSingleAcc()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_choice_to_single_acc.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_choice_to_single_acc.xsd") };
+
+            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("StreetName_StreetName", bdtText.Id), new BbieDescriptor("CityName_CityName", bdtText.Id), new BbieDescriptor("CountryName_CountryName", bdtText.Id) }, null);
+
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
+                                                                           {
+                                                                               new AsmaDescriptor("Address", bieAddress.Id),
+                                                                           });
+        }
+
+        [Test]
+        public void TestSimpleElementWithinAllMappingToSingleAcc()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_all_to_single_acc.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_all_to_single_acc.xsd") };
+
+            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("StreetName_StreetName", bdtText.Id), new BbieDescriptor("CityName_CityName", bdtText.Id), new BbieDescriptor("CountryName_CountryName", bdtText.Id) }, null);
+
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
+                                                                           {
+                                                                               new AsmaDescriptor("Address", bieAddress.Id),
+                                                                           });
+        }
+
+
+        [Test]
         public void TestSimpleMappingWithTwoTargetComponents()
         {
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping-2-target-components.mfd");
@@ -472,6 +517,32 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                 {
                                                                     new AsmaDescriptor("Address", bieAddress.Id),
                                                                 });
+        }
+
+        [Test]
+        public void Test_mapping_with_semisemantic_loss()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_with_semisemantic_loss.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_with_semisemantic_loss.xsd") };
+
+            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+            
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("StreetName_StreetName", bdtText.Id), new BbieDescriptor("Town_CityName", bdtText.Id) }, null);
+
+            IAbie biePerson = ShouldContainAbie(bieLibrary, "PersonType_Party", "Party", new[] { new BbieDescriptor("FirstName_Name", bdtText.Id), new BbieDescriptor("LastName_Name", bdtText.Id) }, new[] { new AsbieDescriptor("HomeAddress_Residence", bieAddress.Id), new AsbieDescriptor("WorkAddress_Residence", bieAddress.Id) });
+
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[]
+                                                                           {
+                                                                               new AsmaDescriptor("Person", biePerson.Id),
+                                                                           });
         }
     }
 

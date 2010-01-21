@@ -15,30 +15,45 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         }
 
         public string Value { get; private set; }
+        public InputOutputKey OutputKey { get; private set; }
 
-        public ConstantComponent(string value)
+        public ConstantComponent(string value, InputOutputKey outputKey)
         {
             Value = value;
+            OutputKey = outputKey;
+        }
+
+        public static bool operator ==(ConstantComponent left, ConstantComponent right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(ConstantComponent left, ConstantComponent right)
+        {
+            return !Equals(left, right);
         }
 
         public bool Equals(ConstantComponent other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.Value, Value);
+            return Equals(other.Value, Value);// && Equals(other.OutputKey, OutputKey);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(ConstantComponent)) return false;
-            return Equals((ConstantComponent)obj);
+            if (obj.GetType() != typeof (ConstantComponent)) return false;
+            return Equals((ConstantComponent) obj);
         }
 
         public override int GetHashCode()
         {
-            return (Value != null ? Value.GetHashCode() : 0);
+            unchecked
+            {
+                return ((Value != null ? Value.GetHashCode() : 0)*397) ^ (OutputKey != null ? OutputKey.GetHashCode() : 0);
+            }
         }
     }
 }

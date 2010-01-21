@@ -227,8 +227,12 @@
     <Compile Include="upcc3\import\ebInterface\ComplexTypeToAccMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\ComplexTypeToCdtMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\ComplexTypeToMaMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\MappingFunction.cs" />
+    <Compile Include="upcc3\import\ebInterface\MappingFunctionStore.cs" />
     <Compile Include="upcc3\import\ebInterface\SimpleTypeToCdtMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\AttributeOrSimpleElementToSupMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\FunctionComponent.cs" />
+    <Compile Include="upcc3\import\ebInterface\SplitMapping.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\repo\BieLibrary\AbieSpecConverter.cs">
       <AutoGen>True</AutoGen>

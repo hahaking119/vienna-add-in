@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -19,7 +20,60 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// <returns></returns>
         public static MapForceMapping ImportFromFiles(params string[] mappingFiles)
         {
-            return new MapForceMapping(ImportSchemaComponents(mappingFiles), ImportConstantComponents(mappingFiles), ImportGraph(mappingFiles));
+            return new MapForceMapping(ImportSchemaComponents(mappingFiles), ImportConstantComponents(mappingFiles), ImportFunctionComponents(mappingFiles), ImportGraph(mappingFiles));
+        }
+
+        private static IEnumerable<FunctionComponent> ImportFunctionComponents(string[] mappingFiles)
+        {
+            foreach (var mappingFile in mappingFiles)
+            {
+                var mappingDocument = XDocument.Load(mappingFile);
+                IEnumerable<XElement> functionComponents = from c in mappingDocument.Descendants("component")
+                                                           where (string)c.Attribute("name") == "split" && (c.Descendants("entry").Count() > 0)
+                                                           select c;
+
+                foreach (XElement component in functionComponents)
+                {
+                    var inputKeys = ImportFunctionInputKeys(mappingFile, component);
+                    var outputKeys = ImportFunctionOutputKeys(mappingFile, component);
+                    yield return new FunctionComponent("split", ImportFunctionNameKey(mappingFile, component), new List<InputOutputKey>(inputKeys).ToArray(), new List<InputOutputKey>(outputKeys).ToArray());
+                }
+            }
+        }
+
+        private static IEnumerable<InputOutputKey> ImportFunctionOutputKeys(string mappingFile, XElement component)
+        {
+            return from entry in component.Descendants("entry")
+                   where entry.Attribute("outkey") != null
+                   select InputOutputKey.Input(mappingFile, (string) entry.Attribute("outkey"));
+        }
+
+        private static IEnumerable<InputOutputKey> ImportFunctionInputKeys(string mappingFile, XElement component)
+        {
+            return from entry in component.Descendants("entry")
+                   where entry.Attribute("inpkey") != null && entry.Attribute("name") != null && ((string)entry.Attribute("name")) != "Tokenizer"
+                   select InputOutputKey.Input(mappingFile, (string) entry.Attribute("inpkey"));
+        }
+
+        private static InputOutputKey ImportFunctionNameKey(string mappingFile, XElement component)
+        {
+            var entries = component.Descendants("entry");
+            var inputEntries = entries.Where(entry => entry.Attribute("inpkey") != null);
+            var namedInputEntries = inputEntries.Where(inputEntry => inputEntry.Attribute("name") != null);
+            var tokenizerInputEntries = namedInputEntries.Where(namedInputEntry => ((string) namedInputEntry.Attribute("name")) == "Tokenizer");
+
+            XElement tokenizerInputEntry = tokenizerInputEntries.First();
+
+            return InputOutputKey.Input(mappingFile, (string) tokenizerInputEntry.Attribute("inpkey"));
+
+
+            //return component.Descendants("entry")
+            //            .Where(entry =>
+            //                entry.Attribute("inpkey") != null && 
+            //                entry.Attribute("name") != null &&
+            //                ((string)entry.Attribute("name"))== "Tokenizer")
+            //            .Select(entry => InputOutputKey.Input(mappingFile, (string) entry.Attribute("inpkey")))
+            //            .First();
         }
 
         /// <summary>
@@ -87,7 +141,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                     else
                     {
-                        yield return new ConstantComponent((string) constantElement.Attribute("value"));
+                        var datapointElement = constantComponentElement.XPathSelectElement("targets/datapoint");
+                        InputOutputKey outputKey = datapointElement != null ? InputOutputKey.Output(mappingFile, (string) datapointElement.Attribute("key")) : InputOutputKey.None;
+                        yield return new ConstantComponent((string)constantElement.Attribute("value"), outputKey);
                     }
                 }
             }
