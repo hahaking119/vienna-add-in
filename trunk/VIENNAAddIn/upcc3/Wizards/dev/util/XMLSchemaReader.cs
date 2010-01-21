@@ -190,6 +190,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             Console.WriteLine("Schema features " + xsdUnique + " Uniques.");
             results.Add(new SchemaAnalyzerResult("Unique", xsdUnique, xsdUniqueWeight));
 
+            results.Sort(new SchemaAnalyzerResultComparer());
+
             return results;
         }
     }
