@@ -132,6 +132,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                 }
                 // get the current node's (namespace) name
             }
+
+            results.Clear();
             
             Console.WriteLine("Schema features " + xsdElement + " Elements.");
             results.Add(new SchemaAnalyzerResult("Element", xsdElement, xsdElementWeight));
@@ -158,7 +160,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             results.Add(new SchemaAnalyzerResult("Sequence", xsdSequence, xsdSequenceWeight));
             
             Console.WriteLine("Schema features " + xsdSubstitutionGroup + " SubstitutionGroups.");
-            results.Add(new SchemaAnalyzerResult("SubstitutionGroup", xsdSubstitutionGroup, xsdSubstitutionGroup));
+            results.Add(new SchemaAnalyzerResult("SubstitutionGroup", xsdSubstitutionGroup, xsdSubstitutionGroupWeight));
             
             Console.WriteLine("Schema features " + xsdRedefine + " Redefines.");
             results.Add(new SchemaAnalyzerResult("Redefine", xsdRedefine, xsdRedefineWeight));
@@ -171,9 +173,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             
             Console.WriteLine("Schema features " + xsdAnyAttribute + " AnyAttributes.");
             results.Add(new SchemaAnalyzerResult("AnyAttribute", xsdAnyAttribute, xsdAnyAttributeWeight));
-
-            Console.WriteLine("Schema features " + xsdSubstitutionGroup + " SubstitutionGroups.");
-            results.Add(new SchemaAnalyzerResult("SubstitutionGroup", xsdSubstitutionGroup, xsdSubstitutionGroupWeight));
 
             Console.WriteLine("Schema features " + xsdKeyRef + " KeyRefs.");
             results.Add(new SchemaAnalyzerResult("KeyRef", xsdKeyRef, xsdKeyRefWeight));
