@@ -39,7 +39,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                package.AddClass("Foo").With(e => e.Stereotype = Stereotype.ACC);
                                                                                                accAddress = package.AddClass("Address")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
-                                                                                                   .With(e => e.AddBCCs(cdtText, "CountryName", "StreetName", "CityName"));
+                                                                                                   .With(e => e.AddBCCs(cdtText, "CountryName", "StreetName", "CityName", "BuildingNumber"));
                                                                                                package.AddClass("AccountingVoucher")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC);
                                                                                                package.AddClass("Person")

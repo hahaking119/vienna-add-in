@@ -28,6 +28,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>(),
+                                                      new List<FunctionComponent>(),
                                                       null);
             var expectedRoot = new SourceElement("Entry1", string.Empty);
             var expectedChild1 = new SourceElement("Entry2", "2");
@@ -68,8 +69,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                       },
                                                       new List<ConstantComponent>
                                                       {
-                                                          new ConstantComponent("Root:Entry1"),
+                                                          new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
+                                                      new List<FunctionComponent>(),
                                                       null);
             var expectedRoot = new SourceElement("Entry1", string.Empty);
             var expectedChild1 = new SourceElement("Entry2", "2");
@@ -112,8 +114,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                       },
                                                       new List<ConstantComponent>
                                                       {
-                                                          new ConstantComponent("Root:Entry1"),
+                                                          new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
+                                                      new List<FunctionComponent>(),
                                                       null);
             var entry1 = new SourceElement("Entry1", string.Empty);
             var entry2 = new SourceElement("Entry2", "2");
@@ -158,8 +161,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                       },
                                                       new List<ConstantComponent>
                                                       {
-                                                          new ConstantComponent("Root:Entry1"),
+                                                          new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
+                                                      new List<FunctionComponent>(),
                                                       null);
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
@@ -199,8 +203,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                       },
                                                       new List<ConstantComponent>
                                                       {
-                                                          new ConstantComponent("Root:Entry1"),
+                                                          new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
+                                                      new List<FunctionComponent>(),
                                                       null);
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
@@ -239,6 +244,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>(),
+                                                      new List<FunctionComponent>(),
                                                       null);
             
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();

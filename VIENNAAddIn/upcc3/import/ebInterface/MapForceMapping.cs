@@ -14,22 +14,25 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     {
         public Graph Graph { get; private set; }
 
-        public MapForceMapping(IEnumerable<SchemaComponent> schemaComponents, IEnumerable<ConstantComponent> constantComponents, Graph graph)
+        public MapForceMapping(IEnumerable<SchemaComponent> schemaComponents, IEnumerable<ConstantComponent> constantComponents, IEnumerable<FunctionComponent> functionComponents, Graph graph)
         {
             Graph = graph;
             SchemaComponents = new List<SchemaComponent>(schemaComponents);
             ConstantComponents = new List<ConstantComponent>(constantComponents);
+            FunctionComponents = new List<FunctionComponent>(functionComponents);
         }
 
-        public IEnumerable<ConstantComponent> ConstantComponents { get; private set; }
         public IEnumerable<SchemaComponent> SchemaComponents { get; private set; }
+        public IEnumerable<ConstantComponent> ConstantComponents { get; private set; }
+        public IEnumerable<FunctionComponent> FunctionComponents{ get; private set; }
+        
 
         #region IEquatable<MapForceMapping> Members
 
         public bool Equals(MapForceMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
-            return ReferenceEquals(this, other) || (other.SchemaComponents.IsEqualTo(SchemaComponents) && other.ConstantComponents.IsEqualTo(ConstantComponents));
+            return ReferenceEquals(this, other) || (other.SchemaComponents.IsEqualTo(SchemaComponents) && other.ConstantComponents.IsEqualTo(ConstantComponents) && other.FunctionComponents.IsEqualTo(FunctionComponents));
         }
 
         #endregion
@@ -43,6 +46,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             foreach (var constantComponent in ConstantComponents)
             {
                 constantComponent.PrettyPrint(writer, indent);
+            }
+            foreach (FunctionComponent functionComponent in FunctionComponents)
+            {
+                functionComponent.PrettyPrint(writer, indent);
             }
             Graph.PrettyPrint(writer, indent);
         }

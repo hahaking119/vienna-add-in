@@ -14,12 +14,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly Dictionary<string, string> edges = new Dictionary<string, string>();
         private readonly MapForceSourceElementTree sourceElementStore;
         private readonly TargetElementStore targetElementStore;
+        private readonly MappingFunctionStore mappingFunctionStore;
 
         public SchemaMapping(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet, ICcLibrary ccLibrary)
         {
             sourceElementStore = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
             targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
-
+            
             foreach (Vertex vertex in mapForceMapping.Graph.Vertices)
             {
                 foreach (Edge edge in vertex.Edges)
@@ -29,6 +30,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     edges[sourceKey] = targetKey;
                 }
             }
+            mappingFunctionStore = new MappingFunctionStore(mapForceMapping, edges, targetElementStore);
 
             RootElementMapping = MapElement(sourceElementStore.RootSourceElement);
         }
@@ -58,6 +60,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 if (IsMappedToSup(element))
                 {
                     return new AttributeOrSimpleElementToSupMapping(element, GetTargetElement(element));
+                }
+                if (IsMappedToSplitFunction(element))
+                {
+                    return new SplitMapping(element, GetMappingFunction(element).TargetCcElements);
                 }
                 throw new MappingError("Simple typed element mapped to non-BCC CCTS element.");
             }
@@ -268,6 +274,24 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             TargetCCElement targetElement = GetTargetElement(element);
             return targetElement != null && targetElement.IsSup;
+        }
+
+
+        private bool IsMappedToSplitFunction(SourceElement element)
+        {
+            MappingFunction mappingFunction = GetMappingFunction(element);
+            return mappingFunction != null && mappingFunction.IsSplit;
+        }
+
+        private MappingFunction GetMappingFunction(SourceElement element)
+        {
+            string mappingFunctionKey;
+
+            if (edges.TryGetValue(element.Key, out mappingFunctionKey))
+            {
+                return mappingFunctionStore.GetMappingFunction(mappingFunctionKey);
+            }
+            return null;
         }
 
         private TargetCCElement GetTargetElement(SourceElement element)

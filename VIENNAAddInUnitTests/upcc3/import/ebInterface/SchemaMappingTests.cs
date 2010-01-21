@@ -32,6 +32,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             accAddress = ccl.GetAccByName("Address");
             bccCityName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "CityName");
             bccCountryName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "CountryName");
+            bccBuildingNumber = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "BuildingNumber");
+            bccStreetName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "bccStreetName");
+
 
             accParty = ccl.GetAccByName("Party");
             bccPartyName = accParty.Bccs.FirstOrDefault(bcc => bcc.Name == "Name");
@@ -51,6 +54,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         private IAcc accAddress;
         private IBcc bccCityName;
         private IBcc bccCountryName;
+        private IBcc bccBuildingNumber;
+        private IBcc bccStreetName;
 
         private SourceElement expectedAddress;
         private SourceElement expectedTown;
@@ -62,7 +67,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         private ICdt cdtText;
         private ICdtSup supLanguage;
         private ICdtSup supLanguageLocale;
-
 
         [Test]
         public void Test_mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc()
@@ -100,8 +104,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
-        
-
+       
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_and_attributes_to_single_acc()
         {
@@ -130,6 +133,113 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                    };
 
             var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
+        public void Test_mapping_complex_type_with_simple_elements_choice_to_single_acc()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_choice_to_single_acc.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_choice_to_single_acc.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            SimpleTypeToCdtMapping stringMapping = new SimpleTypeToCdtMapping("String", cdtText);
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
+                                                 {
+                                                     stringMapping,
+                                                 };
+
+
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCCElement.ForBcc("StreetName", bccCityName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), TargetCCElement.ForBcc("CountryName", bccCountryName), stringMapping),
+                                                            });
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       addressTypeMapping,
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
+        public void Test_mapping_complex_type_with_simple_elements_all_to_single_acc()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_all_to_single_acc.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_all_to_single_acc.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            SimpleTypeToCdtMapping stringMapping = new SimpleTypeToCdtMapping("String", cdtText);
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
+                                                 {
+                                                     stringMapping,
+                                                 };
+
+
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCCElement.ForBcc("StreetName", bccCityName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCCElement.ForBcc("CityName", bccCityName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), TargetCCElement.ForBcc("CountryName", bccCountryName), stringMapping),
+                                                            });
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       addressTypeMapping,
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
+        public void Test_mapping_with_semisemantic_loss()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_with_semisemantic_loss.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_with_semisemantic_loss.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            SimpleTypeToCdtMapping stringMapping = new SimpleTypeToCdtMapping("String", cdtText);
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
+                                                 {
+                                                     stringMapping,
+                                                 };
+
+
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCCElement.ForBcc("StreetName", bccCityName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), TargetCCElement.ForBcc("CityName", bccCityName), stringMapping),                                                                
+                                                            });
+
+            
+            var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
+                                                                new List<ElementMapping>
+                                                                    {
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), TargetCCElement.ForBcc("Name", bccPartyName), stringMapping),
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), TargetCCElement.ForBcc("Name", bccPartyName), stringMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), TargetCCElement.ForAscc("ResidenceAddress", asccPartyResidenceAddress), addressTypeMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("WorkAddress", ""), TargetCCElement.ForAscc("ResidenceAddress", asccPartyResidenceAddress), addressTypeMapping),
+                                                                    });
+
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       addressTypeMapping,
+                                       personTypeMapping
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -207,6 +317,38 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
             var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
             AssertTreesAreEqual(expectedAddress, mappings.RootSourceElement, string.Empty);
+        }
+
+        [Test]
+        public void Test_mapping_simple_element_and_attributes_to_acc_with_mapping_function_split()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            SimpleTypeToCdtMapping stringMapping = new SimpleTypeToCdtMapping("String", cdtText);
+
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
+                                                 {
+                                                     stringMapping,
+                                                 };
+
+
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new SplitMapping(new SourceElement("Street", ""), new[] {TargetCCElement.ForBcc("BuildingNumber", bccBuildingNumber), TargetCCElement.ForBcc("StreetName", bccStreetName)}),                                                                
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), TargetCCElement.ForBcc("CityName", bccCityName), stringMapping),                                                                
+                                                            });
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       addressTypeMapping,
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);            
         }
 
 
