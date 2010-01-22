@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     case "split":
                         {
-                            List<TargetCCElement> targetCcElements = new List<TargetCCElement>();
+                            List<TargetCcElement> targetCcElements = new List<TargetCcElement>();
 
                             foreach (InputOutputKey outputKey in functionComponent.OutputKeys)
                             {

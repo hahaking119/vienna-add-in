@@ -5,7 +5,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     internal class MappingFunction
     {
-        public MappingFunction(List<TargetCCElement> targetCCElements)
+        public MappingFunction(List<TargetCcElement> targetCCElements)
         {
             TargetCcElements = targetCCElements.ToArray();
         }
@@ -15,6 +15,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return true; }
         }
 
-        public TargetCCElement[] TargetCcElements { get; private set; }
+        public TargetCcElement[] TargetCcElements { get; private set; }
     }
 }

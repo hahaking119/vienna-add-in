@@ -6,9 +6,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class AttributeOrSimpleElementOrComplexElementToBccMapping : ElementMapping, IEquatable<AttributeOrSimpleElementOrComplexElementToBccMapping>
     {
         private readonly SourceElement sourceElement;
-        private readonly TargetCCElement targetElement;
+        private readonly TargetCcElement targetElement;
 
-        public AttributeOrSimpleElementOrComplexElementToBccMapping(SourceElement sourceElement, TargetCCElement targetElement, IMapping bccTypeMapping)
+        public AttributeOrSimpleElementOrComplexElementToBccMapping(SourceElement sourceElement, TargetCcElement targetElement, IMapping bccTypeMapping)
         {
             BccTypeMapping = bccTypeMapping;
             this.sourceElement = sourceElement;
@@ -27,7 +27,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("AttributeOrSimpleElementOrComplexElementToBccMapping <SourceElement: {0}, TargetElement: {1}, ACC: {2} [{3}]>", sourceElement.Name, targetElement.Name, ACC.Name, ACC.Id);
+            return string.Format("AttributeOrSimpleElementOrComplexElementToBccMapping <SourceElement: {0}, ACC: {1} [{2}]>", sourceElement.Name, ACC.Name, ACC.Id);
         }
 
         public IAcc ACC { get; private set; }

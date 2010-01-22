@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 if (IsUnmapped(element))
                 {
                     // ignore element
-                    return Mapping.NullElementMapping;
+                    return ElementMapping.NullElementMapping;
                 }
                 if (IsMappedToBCC(element))
                 {
@@ -236,7 +236,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             foreach (var child in sourceElement.Children)
             {
                 var childMapping = MapElement(child);
-                if (childMapping != Mapping.NullElementMapping)
+                if (childMapping != ElementMapping.NullElementMapping)
                 {
                     yield return childMapping;
                 }
@@ -255,25 +255,25 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             {
                 return mapping;
             }
-            return Mapping.NullComplexTypeMapping;
+            return ComplexTypeMapping.NullComplexTypeMapping;
         }
 
         private bool IsMappedToASCC(SourceElement element)
         {
-            TargetCCElement targetElement = GetTargetElement(element);
-            return targetElement != null && targetElement.IsASCC;
+            TargetCcElement targetElement = GetTargetElement(element);
+            return targetElement != null && targetElement.Reference is IAscc;
         }
 
         private bool IsMappedToBCC(SourceElement element)
         {
-            TargetCCElement targetElement = GetTargetElement(element);
-            return targetElement != null && targetElement.IsBCC;
+            TargetCcElement targetElement = GetTargetElement(element);
+            return targetElement != null && targetElement.Reference is IBcc;
         }
 
         private bool IsMappedToSup(SourceElement element)
         {
-            TargetCCElement targetElement = GetTargetElement(element);
-            return targetElement != null && targetElement.IsSup;
+            TargetCcElement targetElement = GetTargetElement(element);
+            return targetElement != null && targetElement.Reference is ICdtSup;
         }
 
 
@@ -294,7 +294,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return null;
         }
 
-        private TargetCCElement GetTargetElement(SourceElement element)
+        private TargetCcElement GetTargetElement(SourceElement element)
         {
             string targetElementKey;
             if (edges.TryGetValue(element.Key, out targetElementKey))

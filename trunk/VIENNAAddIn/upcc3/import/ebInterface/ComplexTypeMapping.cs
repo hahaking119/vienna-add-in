@@ -143,5 +143,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
             return true;
         }
-   }
+
+        public static readonly ComplexTypeMapping NullComplexTypeMapping = new NullComplexTypeMapping();
+    }
 }

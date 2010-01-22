@@ -14,7 +14,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class TargetElementStore
     {
         private readonly ICcLibrary ccLibrary;
-        private readonly Dictionary<string, TargetCCElement> targetCCElementsByKey = new Dictionary<string, TargetCCElement>();
+        private readonly Dictionary<string, TargetCcElement> targetCCElementsByKey = new Dictionary<string, TargetCcElement>();
 
         public TargetElementStore(MapForceMapping mapForceMapping, ICcLibrary ccLibrary)
         {
@@ -31,32 +31,30 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
                 else
                 {
-                    var rootTargetCCElement = CreateTargetCCElementForAcc(entry, acc);
-                    CreateChildren(rootTargetCCElement, entry, acc);
+                    CreateTargetCCElementForAcc(entry, acc);
+                    CreateChildren(entry, acc);
                 }
             }
         }
 
         /// <exception cref="MappingError"><c>MappingError</c>.</exception>
-        private void CreateChildren(TargetCCElement targetCCElement, Entry entry, IAcc acc)
+        private void CreateChildren(Entry entry, IAcc acc)
         {
             foreach (var subEntry in entry.SubEntries)
             {
-                var bcc = GetBCC(acc, subEntry.Name);
+                var bcc = GetBcc(acc, subEntry.Name);
                 if (bcc != null)
                 {
-                    var targetBccElement = CreateTargetCCElementForBcc(subEntry, bcc);
-                    CreateChildren(targetBccElement, subEntry, bcc.Cdt);
-                    targetCCElement.AddChild(targetBccElement);
+                    CreateTargetCCElementForBcc(subEntry, bcc);
+                    CreateChildren(subEntry, bcc.Cdt);
                 }
                 else
                 {
-                    var ascc = GetASCC(acc, subEntry.Name);
+                    var ascc = GetAscc(acc, subEntry.Name);
                     if (ascc != null)
                     {
-                        var targetASCCElement = CreateTargetCCElementForAscc(subEntry, ascc);
-                        CreateChildren(targetASCCElement, subEntry, ascc.AssociatedAcc);
-                        targetCCElement.AddChild(targetASCCElement);
+                        CreateTargetCCElementForAscc(subEntry, ascc);
+                        CreateChildren(subEntry, ascc.AssociatedAcc);
                     }
                     else
                     {
@@ -66,7 +64,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private void CreateChildren(TargetCCElement targetCCElement, Entry entry, ICdt cdt)
+        private void CreateChildren(Entry entry, ICdt cdt)
         {
             foreach (var subEntry in entry.SubEntries)
             {
@@ -74,7 +72,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                 if (sup != null)
                 {
-                    targetCCElement.AddChild(CreateTargetCcElementForSup(subEntry, sup));
+                    CreateTargetCcElementForSup(subEntry, sup);
                 }
                 else
                 {
@@ -83,32 +81,28 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private TargetCCElement CreateTargetCCElementForBcc(Entry entry, IBcc bcc)
+        private void CreateTargetCCElementForBcc(Entry entry, IBcc bcc)
         {
-            var targetCCElement = TargetCCElement.ForBcc(entry.Name, bcc);
+            var targetCCElement = TargetCcElement.ForBcc(bcc);
             AddToIndex(entry, targetCCElement);
-            return targetCCElement;
         }
 
-        private TargetCCElement CreateTargetCCElementForAscc(Entry entry, IAscc ascc)
+        private void CreateTargetCCElementForAscc(Entry entry, IAscc ascc)
         {
-            var targetCCElement = TargetCCElement.ForAscc(entry.Name, ascc);
+            var targetCCElement = TargetCcElement.ForAscc(ascc);
             AddToIndex(entry, targetCCElement);
-            return targetCCElement;
         }
 
-        private TargetCCElement CreateTargetCCElementForAcc(Entry entry, IAcc acc)
+        private void CreateTargetCCElementForAcc(Entry entry, IAcc acc)
         {
-            var targetCCElement = TargetCCElement.ForAcc(entry.Name, acc);
+            var targetCCElement = TargetCcElement.ForAcc(acc);
             AddToIndex(entry, targetCCElement);
-            return targetCCElement;
         }
 
-        private TargetCCElement CreateTargetCcElementForSup(Entry entry, ICdtSup sup)
+        private void CreateTargetCcElementForSup(Entry entry, ICdtSup sup)
         {
-            var targetCCElement = TargetCCElement.ForSup(entry.Name, sup);
+            var targetCCElement = TargetCcElement.ForSup(sup);
             AddToIndex(entry, targetCCElement);
-            return targetCCElement;
         }
 
 
@@ -117,7 +111,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return ccLibrary.GetAccByName(component.RootEntry.Name);
         }
 
-        private static IBcc GetBCC(IAcc acc, string name)
+        private static IBcc GetBcc(IAcc acc, string name)
         {
             foreach (var bcc in acc.Bccs)
             {
@@ -129,7 +123,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return null;
         }
 
-        private ICdtSup GetSup(ICdt cdt, string name)
+        private static ICdtSup GetSup(ICdt cdt, string name)
         {
             foreach (var sup in cdt.Sups)
             {
@@ -142,7 +136,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         }
 
 
-        private static IAscc GetASCC(IAcc acc, string name)
+        private static IAscc GetAscc(IAcc acc, string name)
         {
             foreach (var ascc in acc.Asccs)
             {
@@ -154,7 +148,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return null;
         }
 
-        private void AddToIndex(Entry entry, TargetCCElement targetCCElement)
+        private void AddToIndex(Entry entry, TargetCcElement targetCCElement)
         {
             var key = entry.InputOutputKey.Value;
             if (key != null)
@@ -163,9 +157,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        public TargetCCElement GetTargetElement(string key)
+        public TargetCcElement GetTargetElement(string key)
         {
-            TargetCCElement targetCCElement;
+            TargetCcElement targetCCElement;
             targetCCElementsByKey.TryGetValue(key, out targetCCElement);
             return targetCCElement;
         }

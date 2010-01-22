@@ -15,8 +15,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return new List<SourceElement>(children); }
         }
 
-        public Mapping Mapping { get; set; }
-
         public string Key { get; private set; }
 
         public string XsdTypeName { get
