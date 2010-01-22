@@ -9,12 +9,28 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class SplitMapping : ElementMapping, IEquatable<SplitMapping>
     {
         private readonly SourceElement sourceElement;
-        private readonly object[] targetCcs;
 
-        public SplitMapping(SourceElement sourceElement, IEnumerable<object> targetCcs)
+        public SplitMapping(SourceElement sourceElement, IEnumerable<IBcc> targetBccs,
+                            IEnumerable<SimpleTypeToCdtMapping> cdtMappings)
         {
             this.sourceElement = sourceElement;
-            this.targetCcs = new List<object>(targetCcs).ToArray();
+            CdtMappings = new List<SimpleTypeToCdtMapping>(cdtMappings);
+            TargetBccs = new List<IBcc>(targetBccs);
+        }
+
+        public List<SimpleTypeToCdtMapping> CdtMappings { get; set; }
+
+        public SimpleTypeToCdtMapping GetCdtMappingForTargetBcc(IBcc targetBcc)
+        {
+            ICdt cdt = targetBcc.Cdt;
+            foreach (SimpleTypeToCdtMapping cdtMapping in CdtMappings)
+            {
+                if (cdtMapping.TargetCDT.Id == cdt.Id)
+                {
+                    return cdtMapping;
+                }
+            }
+            return null;
         }
 
         public override string BIEName
@@ -22,69 +38,68 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { throw new NotImplementedException(); }
         }
 
-        public override string ToString()
+        public List<IBcc> TargetBccs { get; private set; }
+
+        public IEnumerable<IAcc> TargetAccs
         {
-            StringBuilder s = new StringBuilder();
-            foreach (object targetCc in targetCcs)
+            get
             {
-                if (targetCc is IBcc)
+                var targetAccs = new List<IAcc>();
+                foreach (IBcc bcc in TargetBccs)
                 {
-                    s.Append("BCC[").Append(((IBcc)targetCc).Name).Append("],");
-                } else if (targetCc is ICdtSup)
-                {
-                    s.Append("SUP[").Append(((ICdtSup)targetCc).Name).Append("],");
+                    IAcc acc = bcc.Acc;
+                    if (!targetAccs.Contains(acc))
+                    {
+                        targetAccs.Add(acc);
+                    }
                 }
-                else
-                {
-                    s.Append("ERROR: Wrong target CC type");
-                }
+                return targetAccs;
             }
-            return string.Format("SplitMapping <SourceElement: {0}, Targets: {1}>", sourceElement.Name, s);
         }
 
+        #region IEquatable<SplitMapping> Members
 
         public bool Equals(SplitMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            if (other.targetCcs.Length != targetCcs.Length)
+            if (other.TargetBccs.Count != TargetBccs.Count)
             {
                 return false;
             }
 
-            for (int i = 0; i < other.targetCcs.Length; i++ )
+            for (int i = 0; i < other.TargetBccs.Count; i++)
             {
-                if (other.targetCcs[i] is IBcc)
+                if (other.TargetBccs[i].Id != TargetBccs[i].Id)
                 {
-                    if (!(targetCcs[i] is IBcc))
-                    {
-                        return false;
-                    }
-
-                    if (((IBcc)other.targetCcs[i]).Id != ((IBcc)targetCcs[i]).Id)
-                    {
-                        return false;
-                    }
-                } 
-                else if (other.targetCcs[i] is ICdtSup)
-                {
-                    if (!(targetCcs[i] is ICdtSup))
-                    {
-                        return false;
-                    }
-
-                    if (((ICdtSup)other.targetCcs[i]).Id != ((ICdtSup)targetCcs[i]).Id)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-
+                //    if (((ICdtSup)other.TargetBccs[i]).Id != ((ICdtSup)TargetBccs[i]).Id)
+                //    {
+                //        return false;
+                //    }
             }
 
             return Equals(other.sourceElement.Name, sourceElement.Name);
         }
-       
+
+        #endregion
+
+        public override string ToString()
+        {
+            var s = new StringBuilder();
+            foreach (IBcc targetBcc in TargetBccs)
+            {
+                s.Append(targetBcc.Name).Append(",");
+                //if (targetBcc is ICdtSup)
+                //{
+                //    s.Append("SUP[").Append(((ICdtSup)targetBcc).Name).Append("],");
+                //}
+            }
+            return string.Format("SplitMapping <SourceElement: {0}, Target BCCs: {1}>", sourceElement.Name, s);
+        }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -98,7 +113,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             unchecked
             {
                 return ((sourceElement != null ? sourceElement.GetHashCode() : 0)*397) ^
-                       (targetCcs != null ? targetCcs.GetHashCode() : 0);
+                       (TargetBccs != null ? TargetBccs.GetHashCode() : 0);
             }
         }
 
@@ -110,6 +125,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public static bool operator !=(SplitMapping left, SplitMapping right)
         {
             return !Equals(left, right);
+        }
+
+        public string GetBbieName(IBcc targetBcc)
+        {
+            return sourceElement.Name + "_" + targetBcc.Name;
         }
     }
 }

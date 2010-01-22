@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Schema;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -43,79 +44,94 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         }
 
         /// <exception cref="MappingError">Simple typed element mapped to non-BCC CCTS element.</exception>
-        private ElementMapping MapElement(SourceElement element)
+        private ElementMapping MapElement(SourceElement sourceElement)
         {
-            if (element.HasSimpleType())
+            if (sourceElement.HasSimpleType())
             {
-                if (IsUnmapped(element))
+                if (IsUnmapped(sourceElement))
                 {
                     // ignore element
                     return ElementMapping.NullElementMapping;
                 }
-                if (IsMappedToBcc(element))
+                if (IsMappedToBcc(sourceElement))
                 {
-                    SimpleTypeToCdtMapping simpleTypeToCdtMapping = MapSimpleType(element);
-                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, (IBcc) GetTargetElement(element), simpleTypeToCdtMapping);
+                    SimpleTypeToCdtMapping simpleTypeToCdtMapping = MapSimpleType(sourceElement);
+                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(sourceElement, (IBcc) GetTargetElement(sourceElement), simpleTypeToCdtMapping);
                 }
-                if (IsMappedToSup(element))
+                if (IsMappedToSup(sourceElement))
                 {
-                    return new AttributeOrSimpleElementToSupMapping(element, (ICdtSup) GetTargetElement(element));
+                    return new AttributeOrSimpleElementToSupMapping(sourceElement, (ICdtSup) GetTargetElement(sourceElement));
                 }
-                if (IsMappedToSplitFunction(element))
+                if (IsMappedToSplitFunction(sourceElement))
                 {
-                    return new SplitMapping(element, GetMappingFunction(element).TargetCcs);
+                    List<SimpleTypeToCdtMapping> simpleTypeToCdtMappings = new List<SimpleTypeToCdtMapping>();
+                    MappingFunction splitFunction = GetMappingFunction(sourceElement);
+                    foreach (IBcc targetBcc in splitFunction.TargetCcs)
+                    {
+                        simpleTypeToCdtMappings.Add(MapSimpleType(sourceElement, targetBcc));
+                    }
+                    return new SplitMapping(sourceElement, splitFunction.TargetCcs.Convert(cc => (IBcc) cc), simpleTypeToCdtMappings);
                 }
                 throw new MappingError("Simple typed element mapped to non-BCC CCTS element.");
             }
-            if (element.HasComplexType())
+            if (sourceElement.HasComplexType())
             {
-                ComplexTypeMapping complexTypeMapping = MapComplexType(element);
-                if (IsUnmapped(element))
+                ComplexTypeMapping complexTypeMapping = MapComplexType(sourceElement);
+                if (complexTypeMapping == null)
                 {
-                    return new AsmaMapping(element.Name, complexTypeMapping);
+                    // ignore element
+                    return ElementMapping.NullElementMapping;
                 }
-                if (IsMappedToAscc(element))
+                if (IsUnmapped(sourceElement))
+                {
+                    return new AsmaMapping(sourceElement.Name, complexTypeMapping);
+                }
+                if (IsMappedToAscc(sourceElement))
                 {
                     if (complexTypeMapping.IsMappedToSingleACC)
                     {
                         IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
-                        IAscc targetAscc = (IAscc)GetTargetElement(element);
+                        IAscc targetAscc = (IAscc)GetTargetElement(sourceElement);
                         IAcc targetACC = targetAscc.AssociatedAcc;
                         if (complexTypeACC.Id == targetACC.Id)
                         {
-                            return new ComplexElementToAsccMapping(element, targetAscc, complexTypeMapping);
+                            return new ComplexElementToAsccMapping(sourceElement, targetAscc, complexTypeMapping);
                         }
                         throw new MappingError("Complex typed element mapped to ASCC with associated ACC other than the target ACC for the complex type.");
                     }
                     throw new MappingError("Complex typed element mapped to ASCC, but the complex type is not mapped to a single ACC.");
                 }
-                if (IsMappedToBcc(element))
+                if (IsMappedToBcc(sourceElement))
                 {
                     if (complexTypeMapping.IsMappedToCdt)
                     {
                         ICdt complexTypeCdt = complexTypeMapping.TargetCdt;
-                        IBcc targetBcc = (IBcc)GetTargetElement(element);
+                        IBcc targetBcc = (IBcc)GetTargetElement(sourceElement);
                         ICdt targetCdt = targetBcc.Cdt;
 
                         if (complexTypeCdt.Id == targetCdt.Id)
                         {
-                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, targetBcc, complexTypeMapping);
+                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(sourceElement, targetBcc, complexTypeMapping);
                         }
 
                         throw new MappingError("Complex typed element mapped to BCC with CDT other than the target CDT for the complex type.");
                     }
                     throw new MappingError("Complex typed element mapped to BCC, but the complex type is not mapped to a CDT.");                    
-
                 }
                 throw new MappingError("Complex typed element mapped to non-ASCC CCTS element.");
             }
-            throw new Exception("Source element " + element.Name + " has neither simple nor complex type.");
+            throw new Exception("Source element " + sourceElement.Name + " has neither simple nor complex type.");
         }
 
         private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement)
         {
+            return MapSimpleType(sourceElement, (IBcc)GetTargetElement(sourceElement));
+        }
+
+        private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement, IBcc targetBcc)
+        {
             var simpleTypeName = sourceElement.XsdTypeName;
-            var cdt = ((IBcc)GetTargetElement(sourceElement)).Cdt;
+            var cdt = targetBcc.Cdt;
             foreach (SimpleTypeToCdtMapping simpleTypeMapping in simpleTypeMappings)
             {
                 if (simpleTypeMapping.SimpleTypeName == simpleTypeName && simpleTypeMapping.TargetCDT.Id == cdt.Id)
@@ -134,6 +150,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             if (ComplexTypeIsUnmapped(complexTypeName))
             {
                 IEnumerable<ElementMapping> childMappings = MapChildren(sourceElement);
+                if (childMappings.Count() == 0)
+                {
+                    // complex type not mapped
+                    return null;
+                }
 
                 IAcc targetAcc = null;
                 ICdt targetCdt = null;
@@ -223,7 +244,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                     else
                     {
-                        throw new MappingError("Mapping Error #375.");
+                        throw new MappingError("Mapping Error #375. Source Element: " + sourceElement.Name);
                     }
                 }
 

@@ -88,17 +88,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                     if (complexType.Particle is XmlSchemaGroupBase)
                     {
-                        XmlSchemaGroupBase xmlSchemaGroupBase = (XmlSchemaGroupBase)complexType.Particle;
-
-                        foreach (XmlSchemaElement element in xmlSchemaGroupBase.Items)
-                        {
-                            string name = element.Name ?? element.RefName.Name;
-                            
-                            if (name == child.Name)
-                            {
-                                AttachXsdInformationToSourceElements(child, element);
-                            }
-                        }                        
+                        AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase)complexType.Particle, child);
                     }    
                     
                     foreach (XmlSchemaAttribute attribute in complexType.Attributes)
@@ -108,6 +98,28 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                             AttachXsdInformationToSourceElements(child, attribute);
                         }
                     }
+                }
+            }
+        }
+
+        private void AttachXsdGroupInformationToSourceElements(XmlSchemaGroupBase xsdGroup, SourceElement child)
+        {
+            foreach (XmlSchemaObject item in xsdGroup.Items)
+            {
+                if (item is XmlSchemaElement)
+                {
+                    XmlSchemaElement element = (XmlSchemaElement) item;
+
+                    string name = element.Name ?? element.RefName.Name;
+
+                    if (name == child.Name)
+                    {
+                        AttachXsdInformationToSourceElements(child, element);
+                    }                                
+                }
+                else if (item is XmlSchemaGroupBase)
+                {
+                    AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase) item, child);
                 }
             }
         }
