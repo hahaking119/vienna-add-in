@@ -157,7 +157,6 @@ namespace VIENNAAddIn.upcc3.ea
         public IUmlAssociation CreateAssociation(UmlAssociationSpec spec)
         {
             Connector eaConnector = (Connector) eaElement.Connectors.AddNew(string.Empty, EAConnectorTypes.Aggregation.ToString());
-            eaConnector.Update();
             var association = new EaUmlAssociation(eaRepository, eaConnector, Id);
             association.Initialize(spec);
             return association;
