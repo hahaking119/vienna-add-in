@@ -23,7 +23,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.SourceElementName, SourceElementName) && Equals(other.TargetMapping, TargetMapping);
+            bool b = Equals(other.TargetMapping, TargetMapping);
+            bool b1 = Equals(other.SourceElementName, SourceElementName);
+            return b1 && b;
         }
 
         public override bool Equals(object obj)

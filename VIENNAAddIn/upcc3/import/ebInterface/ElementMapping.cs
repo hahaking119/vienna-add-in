@@ -8,5 +8,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             get { yield break; }
         }
+
+        public static readonly ElementMapping NullElementMapping = new NullMapping();
     }
 }

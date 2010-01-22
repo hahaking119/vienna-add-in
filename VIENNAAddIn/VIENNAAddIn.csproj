@@ -637,7 +637,6 @@
     <Compile Include="upcc3\import\ebInterface\ElementMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\LinqToXmlMapForceMappingImporter.cs" />
     <Compile Include="upcc3\import\ebInterface\MapForceMapping.cs" />
-    <Compile Include="upcc3\import\ebInterface\Mapping.cs" />
     <Compile Include="upcc3\import\ebInterface\MappedLibraryGenerator.cs" />
     <Compile Include="upcc3\import\ebInterface\MappingError.cs" />
     <Compile Include="upcc3\import\ebInterface\MappingImporter.cs" />
@@ -650,7 +649,7 @@
     <Compile Include="upcc3\import\ebInterface\SchemaComponent.cs" />
     <Compile Include="upcc3\import\ebInterface\SourceElement.cs" />
     <Compile Include="upcc3\import\ebInterface\MapForceSourceElementTree.cs" />
-    <Compile Include="upcc3\import\ebInterface\TargetCCElement.cs" />
+    <Compile Include="upcc3\import\ebInterface\TargetCcElement.cs" />
     <Compile Include="upcc3\import\ebInterface\TargetElementStore.cs" />
     <Compile Include="upcc3\import\ebInterface\Vertex.cs" />
     <Compile Include="upcc3\import\cctsndr\ImporterContext.cs" />

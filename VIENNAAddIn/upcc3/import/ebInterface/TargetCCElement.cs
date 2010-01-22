@@ -1,73 +1,63 @@
 using System;
-using System.Collections.Generic;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    public class TargetCCElement : IEquatable<TargetCCElement>
+    public class TargetCcElement : IEquatable<TargetCcElement>
     {
-        public static TargetCCElement ForBcc(string name, IBcc reference)
+        public static TargetCcElement ForBcc(IBcc reference)
         {
-            return new TargetCCElement(name, reference);
+            return new TargetCcElement(reference);
         }
 
-        public static TargetCCElement ForAscc(string name, IAscc reference)
+        public static TargetCcElement ForAscc(IAscc reference)
         {
-            return new TargetCCElement(name, reference);
+            return new TargetCcElement(reference);
         }
 
-        public static TargetCCElement ForAcc(string name, IAcc reference)
+        public static TargetCcElement ForAcc(IAcc reference)
         {
-            return new TargetCCElement(name, reference);
+            return new TargetCcElement(reference);
         }
 
-        public static TargetCCElement ForSup(string name, ICdtSup reference)
+        public static TargetCcElement ForSup(ICdtSup reference)
         {
-            return new TargetCCElement(name, reference);
+            return new TargetCcElement(reference);
         }
 
-        public string Name { get; private set; }
-        private readonly object reference;
+        public object Reference { get; private set; }
+
         public IBcc Bcc
         {
-            get { return (IBcc) reference; }
+            get { return (IBcc) Reference; }
         }
         public IAcc Acc
         {
-            get { return (IAcc) reference; }
+            get { return (IAcc) Reference; }
         }
         public IAscc Ascc
         {
-            get { return (IAscc) reference; }
+            get { return (IAscc) Reference; }
         }
         public ICdtSup Sup
         {
-            get { return (ICdtSup)reference; }
+            get { return (ICdtSup)Reference; }
         }
 
-        private readonly List<TargetCCElement> children;
-
-        public List<TargetCCElement> Children
+        private TargetCcElement(object reference)
         {
-            get { return new List<TargetCCElement>(children); }
+            Reference = reference;
         }
 
-        private TargetCCElement(string name, object reference)
-        {
-            Name = name;
-            this.reference = reference;
-            children = new List<TargetCCElement>();
-        }
-
-        public bool Equals(TargetCCElement other)
+        public bool Equals(TargetCcElement other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            if (!Equals(other.Name, Name)) return false;
-            if (IsACC) return Equals(other.Acc.Id, Acc.Id);
-            if (IsASCC) return Equals(other.Ascc.Id, Ascc.Id);
-            if (IsBCC) return Equals(other.Bcc.Id, Bcc.Id);
+            if (Reference is IAcc) return Equals(other.Acc.Id, Acc.Id);
+            if (Reference is IAscc) return Equals(other.Ascc.Id, Ascc.Id);
+            if (Reference is IBcc) return Equals(other.Bcc.Id, Bcc.Id);
+            if (Reference is ICdtSup) return Equals(other.Sup.Id, Sup.Id);
             return false;
         }
 
@@ -75,53 +65,23 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (TargetCCElement)) return false;
-            return Equals((TargetCCElement) obj);
+            if (obj.GetType() != typeof (TargetCcElement)) return false;
+            return Equals((TargetCcElement) obj);
         }
 
         public override int GetHashCode()
         {
-            return (Name != null ? Name.GetHashCode() : 0);
+            return (Reference != null ? Reference.GetHashCode() : 0);
         }
 
-        public static bool operator ==(TargetCCElement left, TargetCCElement right)
+        public static bool operator ==(TargetCcElement left, TargetCcElement right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(TargetCCElement left, TargetCCElement right)
+        public static bool operator !=(TargetCcElement left, TargetCcElement right)
         {
             return !Equals(left, right);
-        }
-
-        public bool IsACC
-        {
-            get { return reference is IAcc; }
-        }
-
-        public bool IsBCC
-        {
-            get { return reference is IBcc; }
-        }
-
-        public bool IsSup
-        {
-            get { return reference is ICdtSup; }
-        }
-
-        public bool IsASCC
-        {
-            get { return reference is IAscc; }
-        }
-
-        public Mapping Mapping { get; set; }
-
-        public TargetCCElement Parent { get; set; }
-
-        public void AddChild(TargetCCElement child)
-        {
-            children.Add(child);
-            child.Parent = this;
         }
     }
 }
