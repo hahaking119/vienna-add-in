@@ -20,7 +20,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         {
             Resources = new[] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
             DownloadUri = "http://www.umm-dev.org/xmi/";
-            StorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\xmi\\";
+            StorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\ccl\\";
         }
 
         public ResourceDescriptor(ResourceDescriptor descriptor)
