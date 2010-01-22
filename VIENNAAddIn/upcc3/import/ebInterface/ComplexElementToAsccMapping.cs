@@ -6,30 +6,28 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class ComplexElementToAsccMapping : ElementMapping, IEquatable<ComplexElementToAsccMapping>
     {
         private readonly SourceElement sourceElement;
-        private readonly TargetCcElement targetElement;
 
-        public ComplexElementToAsccMapping(SourceElement sourceElement, TargetCcElement targetElement, ComplexTypeMapping targetMapping)
+        public ComplexElementToAsccMapping(SourceElement sourceElement, IAscc targetAscc, ComplexTypeMapping targetMapping)
         {
             TargetMapping = targetMapping;
             this.sourceElement = sourceElement;
-            this.targetElement = targetElement;
-            ASCC = targetElement.Ascc;
-            ACC = ASCC.AssociatingAcc;
+            Ascc = targetAscc;
+            Acc = Ascc.AssociatingAcc;
         }
 
         public override string ToString()
         {
-            return string.Format("ComplexElementToAsccMapping <SourceElement: {0}, ACC: {1} [{2}]>", sourceElement.Name, ACC.Name, ACC.Id);
+            return string.Format("ComplexElementToAsccMapping <SourceElement: {0}, ACC: {1} [{2}]>", sourceElement.Name, Acc.Name, Acc.Id);
         }
 
         public override string BIEName
         {
-            get { return sourceElement.Name + "_" + ASCC.Name; }
+            get { return sourceElement.Name + "_" + Ascc.Name; }
         }
 
-        public IAcc ACC { get; private set; }
+        public IAcc Acc { get; private set; }
 
-        public IAscc ASCC { get; private set; }
+        public IAscc Ascc { get; private set; }
 
         public ComplexTypeMapping TargetMapping { get; private set; }
 
@@ -37,7 +35,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.targetElement.Ascc.Id, targetElement.Ascc.Id) && Equals(other.ACC.Id, ACC.Id);
+            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.Ascc.Id, Ascc.Id) && Equals(other.Acc.Id, Acc.Id);
         }
 
         public override bool Equals(object obj)
@@ -53,8 +51,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             unchecked
             {
                 int result = (sourceElement != null ? sourceElement.GetHashCode() : 0);
-                result = (result*397) ^ (targetElement != null ? targetElement.GetHashCode() : 0);
-                result = (result*397) ^ (ACC != null ? ACC.GetHashCode() : 0);
+                result = (result*397) ^ (Ascc != null ? Ascc.GetHashCode() : 0);
+                result = (result*397) ^ (Acc != null ? Acc.GetHashCode() : 0);
                 return result;
             }
         }

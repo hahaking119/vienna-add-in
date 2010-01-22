@@ -649,7 +649,6 @@
     <Compile Include="upcc3\import\ebInterface\SchemaComponent.cs" />
     <Compile Include="upcc3\import\ebInterface\SourceElement.cs" />
     <Compile Include="upcc3\import\ebInterface\MapForceSourceElementTree.cs" />
-    <Compile Include="upcc3\import\ebInterface\TargetCcElement.cs" />
     <Compile Include="upcc3\import\ebInterface\TargetElementStore.cs" />
     <Compile Include="upcc3\import\ebInterface\Vertex.cs" />
     <Compile Include="upcc3\import\cctsndr\ImporterContext.cs" />

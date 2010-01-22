@@ -1,59 +1,46 @@
-using System;
 using System.Collections.Generic;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
-    /// <summary>
-    /// Builds a target CC element hierarchy for each target component (i.e. for each ACC).
-    /// Target CC elements can be retrieved via their input/output key.
-    /// 
-    /// Note that the tree depth is currently limited to 2 (meaning that we do not resolve ASCCs within the ACC).
-    /// </summary>
     public class TargetElementStore
     {
-        private readonly ICcLibrary ccLibrary;
-        private readonly Dictionary<string, TargetCcElement> targetCCElementsByKey = new Dictionary<string, TargetCcElement>();
+        private readonly Dictionary<string, object> targetCsByKey = new Dictionary<string, object>();
 
         public TargetElementStore(MapForceMapping mapForceMapping, ICcLibrary ccLibrary)
         {
-            this.ccLibrary = ccLibrary;
-            var targetSchemaComponents = mapForceMapping.GetTargetSchemaComponents();
-            foreach (var component in targetSchemaComponents)
+            IEnumerable<SchemaComponent> targetSchemaComponents = mapForceMapping.GetTargetSchemaComponents();
+            foreach (SchemaComponent component in targetSchemaComponents)
             {
-                var acc = GetACC(component);
-                var entry = component.RootEntry;
+                Entry entry = component.RootEntry;
+                IAcc acc = ccLibrary.GetAccByName(entry.Name);
                 if (acc == null)
                 {
-                    Console.WriteLine("ERROR: ACC '" + entry.Name + "' not found.");
-                    // TODO error
+                    throw new MappingError("ACC '" + entry.Name + "' not found.");
                 }
-                else
-                {
-                    CreateTargetCCElementForAcc(entry, acc);
-                    CreateChildren(entry, acc);
-                }
+                AddToIndex(entry, acc);
+                CreateChildren(entry, acc);
             }
         }
 
         /// <exception cref="MappingError"><c>MappingError</c>.</exception>
         private void CreateChildren(Entry entry, IAcc acc)
         {
-            foreach (var subEntry in entry.SubEntries)
+            foreach (Entry subEntry in entry.SubEntries)
             {
-                var bcc = GetBcc(acc, subEntry.Name);
+                IBcc bcc = GetBcc(acc, subEntry.Name);
                 if (bcc != null)
                 {
-                    CreateTargetCCElementForBcc(subEntry, bcc);
+                    AddToIndex(subEntry, bcc);
                     CreateChildren(subEntry, bcc.Cdt);
                 }
                 else
                 {
-                    var ascc = GetAscc(acc, subEntry.Name);
+                    IAscc ascc = GetAscc(acc, subEntry.Name);
                     if (ascc != null)
                     {
-                        CreateTargetCCElementForAscc(subEntry, ascc);
+                        AddToIndex(subEntry, ascc);
                         CreateChildren(subEntry, ascc.AssociatedAcc);
                     }
                     else
@@ -66,13 +53,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private void CreateChildren(Entry entry, ICdt cdt)
         {
-            foreach (var subEntry in entry.SubEntries)
+            foreach (Entry subEntry in entry.SubEntries)
             {
-                var sup = GetSup(cdt, subEntry.Name);
+                ICdtSup sup = GetSup(cdt, subEntry.Name);
 
                 if (sup != null)
                 {
-                    CreateTargetCcElementForSup(subEntry, sup);
+                    AddToIndex(subEntry, sup);
                 }
                 else
                 {
@@ -81,39 +68,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private void CreateTargetCCElementForBcc(Entry entry, IBcc bcc)
-        {
-            var targetCCElement = TargetCcElement.ForBcc(bcc);
-            AddToIndex(entry, targetCCElement);
-        }
-
-        private void CreateTargetCCElementForAscc(Entry entry, IAscc ascc)
-        {
-            var targetCCElement = TargetCcElement.ForAscc(ascc);
-            AddToIndex(entry, targetCCElement);
-        }
-
-        private void CreateTargetCCElementForAcc(Entry entry, IAcc acc)
-        {
-            var targetCCElement = TargetCcElement.ForAcc(acc);
-            AddToIndex(entry, targetCCElement);
-        }
-
-        private void CreateTargetCcElementForSup(Entry entry, ICdtSup sup)
-        {
-            var targetCCElement = TargetCcElement.ForSup(sup);
-            AddToIndex(entry, targetCCElement);
-        }
-
-
-        private IAcc GetACC(SchemaComponent component)
-        {
-            return ccLibrary.GetAccByName(component.RootEntry.Name);
-        }
-
         private static IBcc GetBcc(IAcc acc, string name)
         {
-            foreach (var bcc in acc.Bccs)
+            foreach (IBcc bcc in acc.Bccs)
             {
                 if (name == NDR.GenerateBCCName(bcc))
                 {
@@ -125,7 +82,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private static ICdtSup GetSup(ICdt cdt, string name)
         {
-            foreach (var sup in cdt.Sups)
+            foreach (ICdtSup sup in cdt.Sups)
             {
                 if (name == NDR.GetXsdAttributeNameFromSup(sup))
                 {
@@ -138,7 +95,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private static IAscc GetAscc(IAcc acc, string name)
         {
-            foreach (var ascc in acc.Asccs)
+            foreach (IAscc ascc in acc.Asccs)
             {
                 if (name == NDR.GenerateASCCName(ascc))
                 {
@@ -148,20 +105,20 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return null;
         }
 
-        private void AddToIndex(Entry entry, TargetCcElement targetCCElement)
+        private void AddToIndex(Entry entry, object targetCc)
         {
-            var key = entry.InputOutputKey.Value;
+            string key = entry.InputOutputKey.Value;
             if (key != null)
             {
-                targetCCElementsByKey[key] = targetCCElement;
+                targetCsByKey[key] = targetCc;
             }
         }
 
-        public TargetCcElement GetTargetElement(string key)
+        public object GetTargetCc(string key)
         {
-            TargetCcElement targetCCElement;
-            targetCCElementsByKey.TryGetValue(key, out targetCCElement);
-            return targetCCElement;
+            object targetCc;
+            targetCsByKey.TryGetValue(key, out targetCc);
+            return targetCc;
         }
     }
 }

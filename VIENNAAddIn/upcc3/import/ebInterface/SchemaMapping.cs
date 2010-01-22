@@ -52,18 +52,18 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     // ignore element
                     return ElementMapping.NullElementMapping;
                 }
-                if (IsMappedToBCC(element))
+                if (IsMappedToBcc(element))
                 {
                     SimpleTypeToCdtMapping simpleTypeToCdtMapping = MapSimpleType(element);
-                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element), simpleTypeToCdtMapping);
+                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, (IBcc) GetTargetElement(element), simpleTypeToCdtMapping);
                 }
                 if (IsMappedToSup(element))
                 {
-                    return new AttributeOrSimpleElementToSupMapping(element, GetTargetElement(element));
+                    return new AttributeOrSimpleElementToSupMapping(element, (ICdtSup) GetTargetElement(element));
                 }
                 if (IsMappedToSplitFunction(element))
                 {
-                    return new SplitMapping(element, GetMappingFunction(element).TargetCcElements);
+                    return new SplitMapping(element, GetMappingFunction(element).TargetCcs);
                 }
                 throw new MappingError("Simple typed element mapped to non-BCC CCTS element.");
             }
@@ -74,30 +74,32 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     return new AsmaMapping(element.Name, complexTypeMapping);
                 }
-                if (IsMappedToASCC(element))
+                if (IsMappedToAscc(element))
                 {
                     if (complexTypeMapping.IsMappedToSingleACC)
                     {
                         IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
-                        IAcc targetACC = GetTargetElement(element).Ascc.AssociatedAcc;
+                        IAscc targetAscc = (IAscc)GetTargetElement(element);
+                        IAcc targetACC = targetAscc.AssociatedAcc;
                         if (complexTypeACC.Id == targetACC.Id)
                         {
-                            return new ComplexElementToAsccMapping(element, GetTargetElement(element), complexTypeMapping);
+                            return new ComplexElementToAsccMapping(element, targetAscc, complexTypeMapping);
                         }
                         throw new MappingError("Complex typed element mapped to ASCC with associated ACC other than the target ACC for the complex type.");
                     }
                     throw new MappingError("Complex typed element mapped to ASCC, but the complex type is not mapped to a single ACC.");
                 }
-                if (IsMappedToBCC(element))
+                if (IsMappedToBcc(element))
                 {
                     if (complexTypeMapping.IsMappedToCdt)
                     {
                         ICdt complexTypeCdt = complexTypeMapping.TargetCdt;
-                        ICdt targetCdt = GetTargetElement(element).Bcc.Cdt;
+                        IBcc targetBcc = (IBcc)GetTargetElement(element);
+                        ICdt targetCdt = targetBcc.Cdt;
 
                         if (complexTypeCdt.Id == targetCdt.Id)
                         {
-                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, GetTargetElement(element), complexTypeMapping);
+                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(element, targetBcc, complexTypeMapping);
                         }
 
                         throw new MappingError("Complex typed element mapped to BCC with CDT other than the target CDT for the complex type.");
@@ -113,7 +115,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement)
         {
             var simpleTypeName = sourceElement.XsdTypeName;
-            var cdt = GetTargetElement(sourceElement).Bcc.Cdt;
+            var cdt = ((IBcc)GetTargetElement(sourceElement)).Cdt;
             foreach (SimpleTypeToCdtMapping simpleTypeMapping in simpleTypeMappings)
             {
                 if (simpleTypeMapping.SimpleTypeName == simpleTypeName && simpleTypeMapping.TargetCDT.Id == cdt.Id)
@@ -137,7 +139,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 ICdt targetCdt = null;
                 bool hasMultipleAccMappings = false;
                 bool hasAsmaMapping = false;
-                ComplexTypeMapping complexTypeMapping = null;
+                ComplexTypeMapping complexTypeMapping;
 
                 foreach (ElementMapping child in childMappings)
                 {
@@ -160,11 +162,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     {
                         if (targetAcc == null)
                         {
-                            targetAcc = ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).ACC;
+                            targetAcc = ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).Acc;
                         }
                         else
                         {
-                            if (targetAcc.Id != ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).ACC.Id)
+                            if (targetAcc.Id != ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).Acc.Id)
                             {
                                 hasMultipleAccMappings = true;
                             }
@@ -175,11 +177,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     {
                         if (targetAcc == null)
                         {
-                            targetAcc = ((ComplexElementToAsccMapping) child).ACC;
+                            targetAcc = ((ComplexElementToAsccMapping) child).Acc;
                         }
                         else
                         {
-                            if (targetAcc.Id != ((ComplexElementToAsccMapping) child).ACC.Id)
+                            if (targetAcc.Id != ((ComplexElementToAsccMapping) child).Acc.Id)
                             {
                                 hasMultipleAccMappings = true;
                             }
@@ -258,22 +260,22 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return ComplexTypeMapping.NullComplexTypeMapping;
         }
 
-        private bool IsMappedToASCC(SourceElement element)
+        private bool IsMappedToAscc(SourceElement element)
         {
-            TargetCcElement targetElement = GetTargetElement(element);
-            return targetElement != null && targetElement.Reference is IAscc;
+            object targetElement = GetTargetElement(element);
+            return targetElement != null && targetElement is IAscc;
         }
 
-        private bool IsMappedToBCC(SourceElement element)
+        private bool IsMappedToBcc(SourceElement element)
         {
-            TargetCcElement targetElement = GetTargetElement(element);
-            return targetElement != null && targetElement.Reference is IBcc;
+            object targetElement = GetTargetElement(element);
+            return targetElement != null && targetElement is IBcc;
         }
 
         private bool IsMappedToSup(SourceElement element)
         {
-            TargetCcElement targetElement = GetTargetElement(element);
-            return targetElement != null && targetElement.Reference is ICdtSup;
+            object targetElement = GetTargetElement(element);
+            return targetElement != null && targetElement is ICdtSup;
         }
 
 
@@ -294,12 +296,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return null;
         }
 
-        private TargetCcElement GetTargetElement(SourceElement element)
+        private object GetTargetElement(SourceElement element)
         {
             string targetElementKey;
             if (edges.TryGetValue(element.Key, out targetElementKey))
             {
-                return targetElementStore.GetTargetElement(targetElementKey);
+                return targetElementStore.GetTargetCc(targetElementKey);
             }
             return null;
         }

@@ -15,7 +15,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     case "split":
                         {
-                            List<TargetCcElement> targetCcElements = new List<TargetCcElement>();
+                            List<object> targetCcElements = new List<object>();
 
                             foreach (InputOutputKey outputKey in functionComponent.OutputKeys)
                             {
@@ -23,7 +23,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                                 if (edges.TryGetValue(outputKey.Value, out targetElementKey))
                                 {
-                                    targetCcElements.Add(targetElementStore.GetTargetElement(targetElementKey));
+                                    targetCcElements.Add(targetElementStore.GetTargetCc(targetElementKey));
                                 }
                             }
 
