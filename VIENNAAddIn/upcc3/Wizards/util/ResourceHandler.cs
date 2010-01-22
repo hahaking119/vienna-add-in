@@ -44,24 +44,20 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///</summary>
         public void CacheResourcesLocally()
         {
-            if (!(Directory.Exists(resourceDescriptor.StorageDirectory)))
-            {
-                Directory.CreateDirectory(resourceDescriptor.StorageDirectory);
-            }
-
             if (resourceDescriptor.DownloadUri.StartsWith("http://"))
             {
+                if (!(Directory.Exists(resourceDescriptor.StorageDirectory)))
+                {
+                    Directory.CreateDirectory(resourceDescriptor.StorageDirectory);
+                }
+
                 foreach (string resourceFile in resourceDescriptor.Resources)
                 {
-                    CacheSingleResourceLocally(resourceDescriptor.DownloadUri, resourceDescriptor.StorageDirectory, resourceFile);
-                }                
-            }
-            else
-            {
-                foreach (string resourceFile in resourceDescriptor.Resources)
-                {
-                    CopySingleResourceLocally(resourceDescriptor.DownloadUri, resourceDescriptor.StorageDirectory, resourceFile);
-                }                                
+                    if (!(File.Exists(resourceDescriptor.StorageDirectory + resourceFile)))
+                    {
+                        CacheSingleResourceLocally(resourceDescriptor.DownloadUri, resourceDescriptor.StorageDirectory, resourceFile);
+                    }                    
+                }
             }
         }
 
@@ -110,17 +106,6 @@ namespace VIENNAAddIn.upcc3.Wizards.util
                 {
                     writer.Write(RetrieveContentFromUri(downloadUri + resourceFile));
                 }
-            }
-        }
-
-        private static void CopySingleResourceLocally(string downloadUri, string storageDirectory, string resourceFile)
-        {
-            string resourcePathSource = downloadUri + resourceFile;
-            string resourcePathTarget = storageDirectory + resourceFile;
-
-            if (!(File.Exists(resourcePathTarget)))
-            {
-                File.Copy(resourcePathSource, resourcePathTarget);
             }
         }
 
