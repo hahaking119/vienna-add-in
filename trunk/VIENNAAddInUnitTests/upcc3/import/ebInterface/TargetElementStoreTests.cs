@@ -34,32 +34,32 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
         private void ShouldContainTargetACCElement(TargetElementStore targetElementStore, string name, IAcc referencedAcc)
         {
-            TargetCcElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedAcc);
-            Assert.That(targetCCElement.Acc.Id, Is.EqualTo(referencedAcc.Id));
-            Assert.IsTrue(targetCCElement.Reference is IAcc);
+            object targetCc = ShouldContainTargetCc(name, targetElementStore, referencedAcc);
+            Assert.IsTrue(targetCc is IAcc);
+            Assert.That(((IAcc)targetCc).Id, Is.EqualTo(referencedAcc.Id));
         }
 
         private void ShouldContainTargetBccElement(TargetElementStore targetElementStore, string name, IBcc referencedBcc)
         {
-            TargetCcElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedBcc);
-            Assert.That(targetCCElement.Bcc.Id, Is.EqualTo(referencedBcc.Id));
-            Assert.IsTrue(targetCCElement.Reference is IBcc);
+            object targetCc = ShouldContainTargetCc(name, targetElementStore, referencedBcc);
+            Assert.IsTrue(targetCc is IBcc);
+            Assert.That(((IBcc)targetCc).Id, Is.EqualTo(referencedBcc.Id));
         }
 
         private void ShouldContainTargetAsccElement(TargetElementStore targetElementStore, string name, IAscc referencedAscc)
         {
-            TargetCcElement targetCCElement = ShouldContainTargetCCElement(name, targetElementStore, referencedAscc);
-            Assert.That(targetCCElement.Ascc.Id, Is.EqualTo(referencedAscc.Id));
-            Assert.IsTrue(targetCCElement.Reference is IAscc);
+            object targetCc = ShouldContainTargetCc(name, targetElementStore, referencedAscc);
+            Assert.IsTrue(targetCc is IAscc);
+            Assert.That(((IAscc)targetCc).Id, Is.EqualTo(referencedAscc.Id));
         }
 
-        private TargetCcElement ShouldContainTargetCCElement(string name, TargetElementStore targetElementStore, object referencedCc)
+        private object ShouldContainTargetCc(string name, TargetElementStore targetElementStore, object referencedCc)
         {
             string entryKey = GetTargetEntryKey(name);
-            TargetCcElement targetCCElement = targetElementStore.GetTargetElement(entryKey);
-            Assert.That(targetCCElement, Is.Not.Null, "Target element '" + name + "' not found");
-            Assert.That(targetCCElement.Reference, Is.EqualTo(referencedCc));
-            return targetCCElement;
+            object targetCc = targetElementStore.GetTargetCc(entryKey);
+            Assert.That(targetCc, Is.Not.Null, "Target CC '" + name + "' not found");
+            Assert.That(targetCc, Is.EqualTo(referencedCc));
+            return targetCc;
         }
 
         private string GetTargetEntryKey(string targetEntryName)

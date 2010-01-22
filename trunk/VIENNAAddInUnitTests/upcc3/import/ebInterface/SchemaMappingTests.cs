@@ -86,13 +86,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
                                                             });
             var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
                                                                 new List<ElementMapping>
                                                                     {
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Name", ""), TargetCcElement.ForBcc(bccPartyName), stringMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), TargetCcElement.ForAscc(asccPartyResidenceAddress), addressTypeMapping),
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Name", ""), bccPartyName, stringMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress, addressTypeMapping),
                                                                     });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
@@ -123,9 +123,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), TargetCcElement.ForBcc(bccCountryName), stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountryName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
@@ -155,9 +155,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), TargetCcElement.ForBcc(bccCountryName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountryName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
@@ -187,9 +187,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), TargetCcElement.ForBcc(bccCountryName), stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountryName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
@@ -219,18 +219,18 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),                                                                
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), bccCityName, stringMapping),                                                                
                                                             });
 
             
             var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
                                                                 new List<ElementMapping>
                                                                     {
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), TargetCcElement.ForBcc(bccPartyName), stringMapping),
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), TargetCcElement.ForBcc(bccPartyName), stringMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), TargetCcElement.ForAscc(asccPartyResidenceAddress), addressTypeMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("WorkAddress", ""), TargetCcElement.ForAscc(asccPartyResidenceAddress), addressTypeMapping),
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), bccPartyName, stringMapping),
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), bccPartyName, stringMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress, addressTypeMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("WorkAddress", ""), asccPartyResidenceAddress, addressTypeMapping),
                                                                     });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -261,8 +261,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToMaMapping("AddressType",
                                                  new List<ElementMapping>
                                                      {
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("PersonName", ""), TargetCcElement.ForBcc(bccPartyName), stringMapping),
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("PersonName", ""), bccPartyName, stringMapping),
                                                      });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -286,14 +286,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var textTypeMapping = new ComplexTypeToCdtMapping("TextType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("LanguageLocale", ""), TargetCcElement.ForSup(supLanguageLocale)),
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), TargetCcElement.ForSup(supLanguage)),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("LanguageLocale", ""), supLanguageLocale),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), supLanguage),
                                                             });
 
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                  new List<ElementMapping>
                                                      {
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), TargetCcElement.ForBcc(bccCityName), textTypeMapping),                                                         
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, textTypeMapping),                                                         
                                                      });
 
 
@@ -338,8 +338,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new SplitMapping(new SourceElement("Street", ""), new[] {TargetCcElement.ForBcc(bccStreetName), TargetCcElement.ForBcc(bccBuildingNumber)}),                                                                
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), TargetCcElement.ForBcc(bccCityName), stringMapping),                                                                
+                                                                new SplitMapping(new SourceElement("Street", ""), new[] {bccStreetName, bccBuildingNumber}),                                                                
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), bccCityName, stringMapping),                                                                
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {

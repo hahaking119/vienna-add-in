@@ -240,7 +240,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             foreach (var asccMapping in asccMappings)
             {
-                yield return new AsbieToGenerate(bieLibrary, asccMapping.ASCC, asccMapping.BIEName, asccMapping.TargetMapping.BIEName);
+                yield return new AsbieToGenerate(bieLibrary, asccMapping.Ascc, asccMapping.BIEName, asccMapping.TargetMapping.BIEName);
             }
         }
 
@@ -248,7 +248,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             foreach (var bccMapping in bccMappings)
             {
-                var bcc = bccMapping.BCC;
+                var bcc = bccMapping.Bcc;
                 var bbieSpec = BbieSpec.CloneBcc(bcc, GetBDT(bccMapping));
                 bbieSpec.Name = bccMapping.BIEName;
                 yield return bbieSpec;
@@ -286,8 +286,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 var bccMapping = (AttributeOrSimpleElementOrComplexElementToBccMapping)rootElementMapping;
                 var abie = bieLibrary.CreateAbie(new AbieSpec
                 {
-                    BasedOn = bccMapping.ACC,
-                    Name = qualifier + "_" + bccMapping.ACC.Name,
+                    BasedOn = bccMapping.Acc,
+                    Name = qualifier + "_" + bccMapping.Acc.Name,
                     Bbies = new List<BbieSpec>(GenerateBbieSpecs(new List<AttributeOrSimpleElementOrComplexElementToBccMapping> { bccMapping })),
                 });
                 var ma = docLibrary.CreateMa(new MaSpec

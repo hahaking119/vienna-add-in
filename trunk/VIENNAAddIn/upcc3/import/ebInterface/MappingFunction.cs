@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     internal class MappingFunction
     {
-        public MappingFunction(List<TargetCcElement> targetCCElements)
+        public MappingFunction(IEnumerable<object> targetCcs)
         {
-            TargetCcElements = targetCCElements.ToArray();
+            TargetCcs = new List<object>(targetCcs).ToArray();
         }
 
         public bool IsSplit
@@ -15,6 +14,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return true; }
         }
 
-        public TargetCcElement[] TargetCcElements { get; private set; }
+        public object[] TargetCcs { get; private set; }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
@@ -7,15 +6,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class AttributeOrSimpleElementToSupMapping : ElementMapping, IEquatable<AttributeOrSimpleElementToSupMapping>
     {
         private readonly SourceElement sourceElement;
-        private readonly TargetCcElement targetElement;
 
-        public AttributeOrSimpleElementToSupMapping(SourceElement sourceElement, TargetCcElement targetElement)
+        public AttributeOrSimpleElementToSupMapping(SourceElement sourceElement, ICdtSup targetSup)
         {
             this.sourceElement = sourceElement;
-            this.targetElement = targetElement;
-            Sup = targetElement.Sup;
+            Sup = targetSup;
             Cdt = Sup.Cdt;
-            ElementName = sourceElement.Name;
         }
 
         // TODO
@@ -33,13 +29,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public ICdt Cdt { get; private set; }
 
-        public string ElementName { get; private set; }
-
         public bool Equals(AttributeOrSimpleElementToSupMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.targetElement.Sup.Id, targetElement.Sup.Id) && Equals(other.Cdt.Id, Cdt.Id);
+            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.Sup.Id, Sup.Id) && Equals(other.Cdt.Id, Cdt.Id);
         }
 
         public override bool Equals(object obj)

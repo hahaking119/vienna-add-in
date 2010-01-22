@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
-using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class SplitMapping : ElementMapping, IEquatable<SplitMapping>
     {
         private readonly SourceElement sourceElement;
-        private readonly TargetCcElement[] targetCcElements;
+        private readonly object[] targetCcs;
 
-        public SplitMapping(SourceElement sourceElement, TargetCcElement[] targetCcElements)
+        public SplitMapping(SourceElement sourceElement, IEnumerable<object> targetCcs)
         {
             this.sourceElement = sourceElement;
-            this.targetCcElements = new List<TargetCcElement>(targetCcElements).ToArray();
+            this.targetCcs = new List<object>(targetCcs).ToArray();
         }
 
         public override string BIEName
@@ -26,14 +25,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public override string ToString()
         {
             StringBuilder s = new StringBuilder();
-            foreach (TargetCcElement targetCCElement in targetCcElements)
+            foreach (object targetCc in targetCcs)
             {
-                if (targetCCElement.Reference is IBcc)
+                if (targetCc is IBcc)
                 {
-                    s.Append(", BCC[").Append(targetCCElement.Bcc.Id).Append("]");
-                } else if (targetCCElement.Reference is ICdtSup)
+                    s.Append("BCC[").Append(((IBcc)targetCc).Name).Append("],");
+                } else if (targetCc is ICdtSup)
                 {
-                    s.Append(", SUP[").Append(targetCCElement.Sup.Id).Append("]");
+                    s.Append("SUP[").Append(((ICdtSup)targetCc).Name).Append("],");
                 }
                 else
                 {
@@ -49,33 +48,33 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            if (other.targetCcElements.Length != targetCcElements.Length)
+            if (other.targetCcs.Length != targetCcs.Length)
             {
                 return false;
             }
 
-            for (int i = 0; i < other.targetCcElements.Length; i++ )
+            for (int i = 0; i < other.targetCcs.Length; i++ )
             {
-                if (other.targetCcElements[i].Reference is IBcc)
+                if (other.targetCcs[i] is IBcc)
                 {
-                    if (!(targetCcElements[i].Reference is IBcc))
+                    if (!(targetCcs[i] is IBcc))
                     {
                         return false;
                     }
 
-                    if (other.targetCcElements[i].Bcc.Id != targetCcElements[i].Bcc.Id)
+                    if (((IBcc)other.targetCcs[i]).Id != ((IBcc)targetCcs[i]).Id)
                     {
                         return false;
                     }
                 } 
-                else if (other.targetCcElements[i].Reference is ICdtSup)
+                else if (other.targetCcs[i] is ICdtSup)
                 {
-                    if (!(targetCcElements[i].Reference is ICdtSup))
+                    if (!(targetCcs[i] is ICdtSup))
                     {
                         return false;
                     }
 
-                    if (other.targetCcElements[i].Sup.Id != targetCcElements[i].Sup.Id)
+                    if (((ICdtSup)other.targetCcs[i]).Id != ((ICdtSup)targetCcs[i]).Id)
                     {
                         return false;
                     }
@@ -99,7 +98,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             unchecked
             {
                 return ((sourceElement != null ? sourceElement.GetHashCode() : 0)*397) ^
-                       (targetCcElements != null ? targetCcElements.GetHashCode() : 0);
+                       (targetCcs != null ? targetCcs.GetHashCode() : 0);
             }
         }
 

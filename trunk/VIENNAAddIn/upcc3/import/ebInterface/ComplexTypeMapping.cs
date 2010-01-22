@@ -51,7 +51,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     if (child is AttributeOrSimpleElementOrComplexElementToBccMapping)
                     {
-                        IAcc acc = ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).ACC;
+                        IAcc acc = ((AttributeOrSimpleElementOrComplexElementToBccMapping) child).Acc;
                         if (!targetACCs.Contains(acc))
                         {
                             targetACCs.Add(acc);
@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                     else if (child is ComplexElementToAsccMapping)
                     {
-                        IAcc acc = ((ComplexElementToAsccMapping) child).ACC;
+                        IAcc acc = ((ComplexElementToAsccMapping) child).Acc;
                         if (!targetACCs.Contains(acc))
                         {
                             targetACCs.Add(acc);
@@ -114,7 +114,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             foreach (AttributeOrSimpleElementOrComplexElementToBccMapping bccMapping in Children.FilterByType<ElementMapping, AttributeOrSimpleElementOrComplexElementToBccMapping>())
             {
-                IAcc acc = bccMapping.ACC;
+                IAcc acc = bccMapping.Acc;
                 if (targetACC.Id == acc.Id)
                 {
                     yield return bccMapping;
@@ -126,7 +126,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             foreach (ComplexElementToAsccMapping asccMapping in Children.FilterByType<ElementMapping, ComplexElementToAsccMapping>())
             {
-                IAcc acc = asccMapping.ACC;
+                IAcc acc = asccMapping.Acc;
                 if (targetACC.Id == acc.Id)
                 {
                     yield return asccMapping;
