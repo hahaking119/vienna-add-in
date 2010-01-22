@@ -19,6 +19,7 @@ using System;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 using VIENNAAddInUtils;
 using Assert=NUnit.Framework.Assert;
+using System.Linq;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
@@ -68,6 +69,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.temporarymodel.abiemodel
             }
             Assert.That(testAbie.BieLibrary.Name, Is.EqualTo("bielib1"));
             Assert.That(testAbie.BasedOn.CcLibrary.Name, Is.EqualTo("cclib1"));
+            Assert.That(testAbie.Asbies.Count(), Is.EqualTo(2));
             int i = 0;
             foreach (IAsbie asbie in testAbie.Asbies)
             {

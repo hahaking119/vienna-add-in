@@ -98,8 +98,8 @@ namespace VIENNAAddIn.upcc3.ea
             }
 
             var eaPackage = (Package)rootLocationPackage.Packages.AddNew(spec.Name, string.Empty);
-            eaPackage.ParentID = rootLocationPackage.PackageID;
             eaPackage.Update();
+            eaPackage.ParentID = rootLocationPackage.PackageID;
 
             var package = new EaUmlPackage(eaRepository, eaPackage);
             package.Initialize(spec);
