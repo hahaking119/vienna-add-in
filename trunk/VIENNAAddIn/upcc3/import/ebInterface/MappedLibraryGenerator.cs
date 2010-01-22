@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
@@ -6,7 +5,6 @@ using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
-using CctsRepository.CdtLibrary;
 using CctsRepository.DocLibrary;
 using VIENNAAddIn.Utils;
 
@@ -50,11 +48,22 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// </summary>
         /// <param name="bccMapping"></param>
         /// <returns></returns>
-        private IBdt GetBDT(AttributeOrSimpleElementOrComplexElementToBccMapping bccMapping)
+        private IBdt GetBdt(AttributeOrSimpleElementOrComplexElementToBccMapping bccMapping)
         {
             IMapping bccTypeMapping = bccMapping.BccTypeMapping;
-            var bdt = bdtLibrary.GetBdtByName(bccTypeMapping.BIEName);
-            return bdt;
+            return bdtLibrary.GetBdtByName(bccTypeMapping.BIEName);
+        }
+
+        /// <summary>
+        /// Retrieves the BDT based on the given CDT from the BDT library. If the BDT does not yet exist, it is created.
+        /// </summary>
+        /// <param name="splitMapping"></param>
+        /// <param name="targetBcc"></param>
+        /// <returns></returns>
+        private IBdt GetBdt(SplitMapping splitMapping, IBcc targetBcc)
+        {
+            SimpleTypeToCdtMapping cdtMapping = splitMapping.GetCdtMappingForTargetBcc(targetBcc);
+            return bdtLibrary.GetBdtByName(cdtMapping.BIEName);
         }
 
         /// <summary>
@@ -225,14 +234,19 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private AbieSpec GenerateAbieSpec(ComplexTypeMapping complexTypeMapping, IAcc acc, string name)
         {
+            List<BbieSpec> bbieSpecs = new List<BbieSpec>();
+            bbieSpecs.AddRange(GenerateBbieSpecs(complexTypeMapping.BccMappings(acc)));
+            bbieSpecs.AddRange(GenerateBbieSpecs(complexTypeMapping.SplitMappings(), acc));
+
             var abieSpec = new AbieSpec
                            {
                                BasedOn = acc,
                                Name = name,
-                               Bbies = new List<BbieSpec>(GenerateBbieSpecs(complexTypeMapping.BCCMappings(acc))),
+                               Bbies = bbieSpecs,
                            };
+
             abieSpecs.Add(abieSpec);
-            asbiesToGenerate.GetAndCreate(name).AddRange(DetermineAsbiesToGenerate(complexTypeMapping.ASCCMappings(acc)));
+            asbiesToGenerate.GetAndCreate(name).AddRange(DetermineAsbiesToGenerate(complexTypeMapping.AsccMappings(acc)));
             return abieSpec;
         }
 
@@ -249,9 +263,25 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             foreach (var bccMapping in bccMappings)
             {
                 var bcc = bccMapping.Bcc;
-                var bbieSpec = BbieSpec.CloneBcc(bcc, GetBDT(bccMapping));
+                var bbieSpec = BbieSpec.CloneBcc(bcc, GetBdt(bccMapping));
                 bbieSpec.Name = bccMapping.BIEName;
                 yield return bbieSpec;
+            }
+        }
+
+        private IEnumerable<BbieSpec> GenerateBbieSpecs(IEnumerable<SplitMapping> splitMappings, IAcc targetAcc)
+        {
+            foreach (var splitMapping in splitMappings)
+            {
+                foreach (IBcc bcc in splitMapping.TargetBccs)
+                {
+                    if (bcc.Acc.Id == targetAcc.Id)
+                    {
+                        var bbieSpec = BbieSpec.CloneBcc(bcc, GetBdt(splitMapping, bcc));
+                        bbieSpec.Name = splitMapping.GetBbieName(bcc);
+                        yield return bbieSpec;
+                    }
+                }
             }
         }
 
@@ -319,14 +349,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             this.bieLibrary = bieLibrary;
             this.name = name;
-            this.associatedBieName = associatedAbieName;
+            associatedBieName = associatedAbieName;
         }
 
         public AsmaToGenerate(IDocLibrary docLibrary, string name, string associatedMaName)
         {
             this.docLibrary = docLibrary;
             this.name = name;
-            this.associatedBieName = associatedMaName;
+            associatedBieName = associatedMaName;
         }
 
         internal AsmaSpec GenerateSpec()
@@ -358,15 +388,5 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             return AsbieSpec.CloneAscc(ascc, asbieName, bieLibrary.GetAbieByName(associatedAbieName));
         }
-    }
-
-    internal class AsmaSpecWithAssociatedMaName : AsmaSpec
-    {
-        internal string AssociatedMaName { get; set; }
-    }
-
-    internal class AsmaSpecWithAssociatedAbieName : AsmaSpec
-    {
-        internal string AssociatedAbieName { get; set; }
     }
 }

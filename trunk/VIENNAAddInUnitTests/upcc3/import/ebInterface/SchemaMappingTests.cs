@@ -338,8 +338,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new SplitMapping(new SourceElement("Street", ""), new[] {bccStreetName, bccBuildingNumber}),                                                                
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), bccCityName, stringMapping),                                                                
+                                                                new SplitMapping(new SourceElement("Street", ""), new[] {bccStreetName, bccBuildingNumber}, new [] {stringMapping, stringMapping}),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), bccCityName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {

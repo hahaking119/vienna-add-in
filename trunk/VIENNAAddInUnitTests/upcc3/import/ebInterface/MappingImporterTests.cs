@@ -414,7 +414,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                            });
         }
 
-
         [Test]
         public void TestSimpleMappingWithTwoTargetComponents()
         {
@@ -544,6 +543,28 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                new AsmaDescriptor("Person", biePerson.Id),
                                                                            });
         }
+
+        [Test]
+        public void Test_mapping_simple_element_and_attributes_to_acc_with_mapping_function_split()
+        {
+
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd") };
+
+            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IBieLibrary bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+            IAbie bieAddress = ShouldContainAbie(bieLibrary, "AddressType_Address", "Address", new[] { new BbieDescriptor("Street_StreetName", bdtText.Id), new BbieDescriptor("Street_BuildingNumber", bdtText.Id), new BbieDescriptor("Town_CityName", bdtText.Id) }, null);
+            Assert.That(bieLibrary.Abies.Count(), Is.EqualTo(1));
+            
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[] { new AsmaDescriptor("Address", bieAddress.Id) });
+            Assert.That(docLibrary.Mas.Count(), Is.EqualTo(1));
+       }
     }
 
     internal class AsbieDescriptor : IEquatable<AsbieDescriptor>

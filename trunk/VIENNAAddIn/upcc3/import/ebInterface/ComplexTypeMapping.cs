@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository.CcLibrary;
@@ -57,6 +56,16 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                             targetACCs.Add(acc);
                         }
                     }
+                    else if (child is SplitMapping)
+                    {
+                        foreach (IAcc acc in ((SplitMapping)child).TargetAccs)
+                        {
+                            if (!targetACCs.Contains(acc))
+                            {
+                                targetACCs.Add(acc);
+                            }
+                        }
+                    }
                     else if (child is ComplexElementToAsccMapping)
                     {
                         IAcc acc = ((ComplexElementToAsccMapping) child).Acc;
@@ -110,7 +119,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return Children.FilterByType<ElementMapping, AsmaMapping>(); }
         }
 
-        public IEnumerable<AttributeOrSimpleElementOrComplexElementToBccMapping> BCCMappings(IAcc targetACC)
+        public IEnumerable<AttributeOrSimpleElementOrComplexElementToBccMapping> BccMappings(IAcc targetACC)
         {
             foreach (AttributeOrSimpleElementOrComplexElementToBccMapping bccMapping in Children.FilterByType<ElementMapping, AttributeOrSimpleElementOrComplexElementToBccMapping>())
             {
@@ -122,7 +131,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        public IEnumerable<ComplexElementToAsccMapping> ASCCMappings(IAcc targetACC)
+        public IEnumerable<SplitMapping> SplitMappings()
+        {
+            return Children.FilterByType<ElementMapping, SplitMapping>();
+        }
+
+        public IEnumerable<ComplexElementToAsccMapping> AsccMappings(IAcc targetACC)
         {
             foreach (ComplexElementToAsccMapping asccMapping in Children.FilterByType<ElementMapping, ComplexElementToAsccMapping>())
             {
