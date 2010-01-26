@@ -4,6 +4,6 @@
     Width="200">
     <DockPanel Name="dockPanel">
         <Button DockPanel.Dock="Right" Margin="5,0,0,0" Name="openFileDialogButton" VerticalAlignment="Stretch" Padding="3,0" Click="openFileDialogButton_Click">...</Button>
-        <TextBox Margin="0,0,0,0" Name="fileNameTextBox" VerticalAlignment="Stretch" />
+        <TextBox Margin="0,0,0,0" Name="fileNameTextBox" VerticalAlignment="Stretch" TextChanged="fileNameTextBox_TextChanged" />
     </DockPanel>
 </UserControl>

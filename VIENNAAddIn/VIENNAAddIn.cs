@@ -81,6 +81,7 @@ namespace VIENNAAddIn
                                       + "Generate &XML Schema".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                                       + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
                                       //+ "Import XML Schemas (old)".OnClick(ImporterWizardFormOld.ShowImporterWizard)
+                                      + "&Schema Anal&yzer".OnClick(SchemaAnalyzer.ShowForm)
                                      )
                                    + "&Options".OnClick(OptionsForm.ShowForm)
                                    + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)));

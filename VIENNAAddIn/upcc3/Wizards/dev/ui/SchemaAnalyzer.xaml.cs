@@ -28,6 +28,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             LoadFiles();
         }
 
+        public SchemaAnalyzer(string _file1, string _file2)
+        {
+            InitializeComponent();
+            Chart dummy = new Chart(); // workaround for assembly-error, we will never use this dummy object
+            this.file1 = _file1;
+            this.file2 = _file2;
+            LoadFiles();
+        }
+
         private void LoadFiles()
         {
             fileSelector1.FileName = file1;
