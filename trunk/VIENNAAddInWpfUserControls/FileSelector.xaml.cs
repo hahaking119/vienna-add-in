@@ -75,5 +75,18 @@ namespace VIENNAAddInWpfUserControls
                 dockPanel.Height = value;
             }
         }
+
+        private static readonly RoutedEvent FileNameChangedEvent = EventManager.RegisterRoutedEvent("FileNameChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileSelector));
+
+        public event RoutedEventHandler FileNameChanged
+        {
+            add { AddHandler(FileNameChangedEvent, value); }
+            remove { RemoveHandler(FileNameChangedEvent, value); }
+        }
+
+        private void fileNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(FileNameChangedEvent));
+        }
     }
 }

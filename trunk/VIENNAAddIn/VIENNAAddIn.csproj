@@ -126,6 +126,11 @@
     <Compile Include="Exceptions\UnexpectedElementException.cs" />
     <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings\SynchTaggedValues.cs" />
     <Compile Include="Settings\SynchTaggedValuesGenerated.cs">
       <AutoGen>True</AutoGen>
@@ -1041,6 +1046,10 @@
       <DependentUpon>ErrorReporterForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Settings\SynchStereotypesForm.resx">
       <DependentUpon>SynchStereotypesForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1175,7 +1184,10 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\analyze.png" />
+    <Resource Include="Resources\IconAnalyze.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="doc\" />
-    <Folder Include="images\" />
   </ItemGroup>
 </Project>

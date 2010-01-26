@@ -28,6 +28,23 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             this.cctsRepository = cctsRepository;
 
             InitializeComponent();
+
+            mappedSchemaFileSelector.FileNameChanged += mappedSchemaFileSelector_FileNameChanged;
+            mappedSchemaFileSelector.FileName = " ";
+            mappedSchemaFileSelector.FileName = "";
+        }
+
+        private void mappedSchemaFileSelector_FileNameChanged(object sender, RoutedEventArgs args)
+        {
+            if (mappedSchemaFileSelector.FileName.Length > 0)
+            {
+                ButtonSchemaAnalyzer.IsEnabled = true;
+                ButtonSchemaAnalyzerImage.Opacity = 1;
+            } else
+            {
+                ButtonSchemaAnalyzer.IsEnabled = false;
+                ButtonSchemaAnalyzerImage.Opacity = 0.3;
+            }
         }
 
         public static void ShowForm(AddInContext context)
@@ -100,6 +117,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 tempList.RemoveAt(mappingFilesListBox.SelectedIndex);
                 Model.MappingFiles = tempList;
             }
+        }
+
+        private void ButtonSchemaAnalyzer_Click(object sender, RoutedEventArgs e)
+        {
+            new SchemaAnalyzer(mappedSchemaFileSelector.FileName, "").ShowDialog();
         }
     }
 
