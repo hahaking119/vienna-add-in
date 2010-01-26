@@ -103,28 +103,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                         case "xsi:type":
                             xsiType++;
                             break;
-                        case "xsd:attribute":
+                        case "xs:attribute":
                             xsdAttribute++;
                             break;
-                        case "xsd:anyAttribute":
+                        case "xs:anyAttribute":
                             xsdAnyAttribute++;
                             break;
-                        case "xsd:substitutionGroup":
-                            xsdSubstitutionGroup++;
-                            break;
-                        case "xsd:keyRef":
+                        case "xs:keyRef":
                             xsdKeyRef++;
                             break;
-                        case "xsd:union":
+                        case "xs:union":
                             xsdUnion++;
                             break;
-                        case "xsd:list":
+                        case "xs:list":
                             xsdList++;
                             break;
-                        case "xsd:attributeGroup":
+                        case "xs:attributeGroup":
                             xsdAttributeGroup++;
                             break;
-                        case "xsd:unique":
+                        case "xs:unique":
                             xsdUnique++;
                             break;
                     }
