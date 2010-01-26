@@ -90,6 +90,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     {
                         AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase)complexType.Particle, child);
                     }    
+
+                    if (complexType.ContentTypeParticle is XmlSchemaSequence)
+                    {
+                        AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase) complexType.ContentTypeParticle, child);
+                    }
                     
                     foreach (XmlSchemaAttribute attribute in complexType.Attributes)
                     {

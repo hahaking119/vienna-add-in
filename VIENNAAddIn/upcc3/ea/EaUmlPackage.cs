@@ -190,6 +190,10 @@ namespace VIENNAAddIn.upcc3.ea
             var eaUmlClassifier = new EaUmlClassifier(eaRepository, eaElement);
             eaUmlClassifier.Initialize(spec);
             AddToClassDiagram(eaElement);
+
+            eaPackage.Update();
+            eaPackage.Elements.Refresh();
+
             return eaUmlClassifier;
         }
 
