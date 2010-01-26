@@ -117,12 +117,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_67B08CC88B17BD6D1DBF9D715854FEA9"
-        "OwnerKey" = "8:_F42B5A0CE003FD525D90A89924B7D6B8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_6D8743B9F18D39A7880C2FDDF3B43B2D"
         "OwnerKey" = "8:_D7277AAD73B5AA00229AF74A623669B4"
         "MsmSig" = "8:_UNDEFINED"
@@ -155,6 +149,12 @@
         {
         "MsmKey" = "8:_9417970650AF4783B22D8CCF56EC77FB"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_950C42EDEFA65661263631FB2581D4C4"
+        "OwnerKey" = "8:_F42B5A0CE003FD525D90A89924B7D6B8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -375,7 +375,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\VIENNAAddIn_0_0_7_000.msi"
+        "OutputFilename" = "8:Debug\\VIENNAAddIn_0_0_8_000.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -796,26 +796,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_67B08CC88B17BD6D1DBF9D715854FEA9"
-            {
-            "SourcePath" = "8:EA.TLB"
-            "TargetName" = "8:EA.TLB"
-            "Tag" = "8:"
-            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6D8743B9F18D39A7880C2FDDF3B43B2D"
             {
             "AssemblyRegister" = "3:1"
@@ -925,6 +905,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_950C42EDEFA65661263631FB2581D4C4"
+            {
+            "SourcePath" = "8:EA.TLB"
+            "TargetName" = "8:EA.TLB"
+            "Tag" = "8:"
+            "Folder" = "8:_BEF988CE29554C8FAB0062D2BC03F4A3"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:2"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_99C115FE3B424B3FA553DA3288C03525"
