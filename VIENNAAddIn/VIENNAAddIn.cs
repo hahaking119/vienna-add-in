@@ -80,15 +80,15 @@ namespace VIENNAAddIn
                                       + createBDT
                                       + "Generate &XML Schema".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                                       + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
-                                      + "Import XML Schemas (old)".OnClick(ImporterWizardFormOld.ShowImporterWizard)
+                                      //+ "Import XML Schemas (old)".OnClick(ImporterWizardFormOld.ShowImporterWizard)
                                      )
                                    + "&Options".OnClick(OptionsForm.ShowForm)
                                    + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)));
-            //menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
-            //                    + (AddInSettings.AddInName
-            //                       + validate
-            //                       + "Import Standard CC Libraries".OnClick(StandardLibraryImporterForm.ShowForm)))
-            //    .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.bLibrary));
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + validate
+                                   + "Import Standard CC Libraries".OnClick(StandardLibraryImporterForm.ShowForm)))
+                .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.bLibrary));
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
                                    + validate
