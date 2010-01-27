@@ -19,9 +19,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
     {
         public string Caption { get; set; }
         public int Count { get; set; }
-        public int Weight { get; set; }
+        public double Weight { get; set; }
 
-        public SchemaAnalyzerResult(string newCaption, int newCount, int newWeight)
+        public SchemaAnalyzerResult(string newCaption, int newCount, double newWeight)
         {
             Caption = newCaption;
             Count = newCount;
