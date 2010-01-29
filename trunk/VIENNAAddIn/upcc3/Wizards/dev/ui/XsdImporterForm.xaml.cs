@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using CctsRepository;
 using Microsoft.Win32;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.Wizards.dev.binding;
-using VIENNAAddIn.upcc3.Wizards.util;
-using System.Linq;
+using VIENNAAddIn.upcc3.import.ebInterface;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
-    /// <summary>
-    /// Interaction logic for XsdImporterForm.xaml
-    /// </summary>
-    public partial class XsdImporterForm : Window
+    public partial class XsdImporterForm
     {
         private readonly ICctsRepository cctsRepository;
         public XsdImporterViewModel Model { get; set; }
@@ -29,12 +23,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             InitializeComponent();
 
-            mappedSchemaFileSelector.FileNameChanged += mappedSchemaFileSelector_FileNameChanged;
+            mappedSchemaFileSelector.FileNameChanged += MappedSchemaFileSelectorFileNameChanged;
             mappedSchemaFileSelector.FileName = " ";
             mappedSchemaFileSelector.FileName = "";
         }
 
-        private void mappedSchemaFileSelector_FileNameChanged(object sender, RoutedEventArgs args)
+        private void MappedSchemaFileSelectorFileNameChanged(object sender, RoutedEventArgs args)
         {
             if (mappedSchemaFileSelector.FileName.Length > 0)
             {
@@ -49,7 +43,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         public static void ShowForm(AddInContext context)
         {
-            new XsdImporterForm(context.CctsRepository).Show();
+            new XsdImporterForm(context.CctsRepository).ShowDialog();
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
@@ -59,30 +53,31 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void buttonImport_Click(object sender, RoutedEventArgs e)
         {
-            //Cursor = Cursors.Wait;
+            Cursor = Cursors.Wait;
+            buttonImport.IsEnabled = false;
             //buttonImport.Visibility = Visibility.Collapsed;
 
-            //switch (tabControl1.SelectedIndex)
-            //{
-            //    case 0: // ebInterface
-            //        new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(cctsRepository);
-            //        break;
-            //    case 1: // CCTS
-            //        XSDImporter.ImportSchemas(new ImporterContext(cctsRepository, cctsSchemaFileSelector.FileName));
-            //        break;
-            //}
-
-            //progressBar.Value = 100;
-            //textboxStatus.Text += "Import completed!\n";
-            //Cursor = Cursors.Arrow;
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0: // ebInterface
+                    //new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(cctsRepository);
+                    new MappingImporter(Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text).ImportMapping(cctsRepository);
+                    break;
+                case 1: // CCTS
+                    throw new NotImplementedException();
+                    //XSDImporter.ImportSchemas(new ImporterContext(cctsRepository, cctsSchemaFileSelector.FileName));
+            }
+            
+            textboxStatus.Text += "Import completed!\n";
+            Cursor = Cursors.Arrow;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
             var dlg = new OpenFileDialog
                           {
-                              DefaultExt = ".xsd",
-                              Filter = "XML Schema files (.xsd)|*.xsd",
+                              DefaultExt = ".mfd",
+                              Filter = "MapForce Mapping files (.mfd)|*.mfd",
                               Multiselect = true
                           };
             if (dlg.ShowDialog() == true)
@@ -102,7 +97,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                     if (!exists)
                         tempList.Add(file);
                     else
-                        MessageBox.Show("The file '" + file + "' already exists in the list!", this.Title,
+                        MessageBox.Show("The file '" + file + "' already exists in the list!", Title,
                                         MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
                 Model.MappingFiles = tempList;
@@ -154,82 +149,4 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
     }
-
-/*    public class XsdImporterViewModel : INotifyPropertyChanged
-    {
-        private List<Filename> mappingFiles;
-
-        public XsdImporterViewModel()
-        {
-            Filename newFilename1 = new Filename();
-            Filename newFilename2 = new Filename();
-            newFilename1.ValueChanged += FileNameValueChanged;
-            newFilename2.ValueChanged += FileNameValueChanged;
-            mappingFiles = new List<Filename> { newFilename1, newFilename2 };
-        }
-
-        public List<Filename> MappingFiles
-        {
-            get { return mappingFiles; }
-            set
-            {
-                mappingFiles = value;
-                OnPropertyChanged("MappingFiles");
-            }
-        }
-
-        private void FileNameValueChanged(string newValue)
-        {
-            if (mappingFiles[mappingFiles.Count - 2].File.Length != 0 || mappingFiles.Last().File.Length != 0)
-            {
-                var emptyFilename = new Filename();
-                emptyFilename.ValueChanged += FileNameValueChanged;
-                var files = new List<Filename>(mappingFiles)
-                {
-                    emptyFilename
-                };
-                MappingFiles = files;
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string fieldName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(fieldName));
-            }
-        }
-    }
-
-    public class Filename
-    {
-        private string file;
-
-        public string File
-        {
-            get
-            {
-                return file;
-            }
-            set
-            {
-                file = value;
-                ValueChanged(value);
-            }
-        }
-
-        public event Action<string> ValueChanged = s => { };
-
-        public Filename()
-        {
-            File = string.Empty;
-        }
-
-        public Filename(string newFile)
-        {
-            File = newFile;
-        }
-    }*/
 }
