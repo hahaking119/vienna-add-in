@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System.Windows;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 using Visifire.Charts;
@@ -17,7 +16,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class SchemaAnalyzer
     {
         private SchemaAnalyzerResults results;
-        private bool started = false;
+        private bool started;
         private string file1 = "";
         private string file2 = "";
 
@@ -28,12 +27,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             LoadFiles();
         }
 
-        public SchemaAnalyzer(string _file1, string _file2)
+        public SchemaAnalyzer(string file1, string file2)
         {
             InitializeComponent();
             Chart dummy = new Chart(); // workaround for assembly-error, we will never use this dummy object
-            this.file1 = _file1;
-            this.file2 = _file2;
+            this.file1 = file1;
+            this.file2 = file2;
             LoadFiles();
         }
 
@@ -90,9 +89,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             (chart==1 ? chart1 : chart2).Series[0].DataPoints.Clear();
             foreach (SchemaAnalyzerResult dataset in results)
             {
-                DataPoint item = new DataPoint();
-                item.YValue = dataset.Count;
-                item.AxisXLabel = dataset.Caption;
+                DataPoint item = new DataPoint {YValue = dataset.Count, AxisXLabel = dataset.Caption};
                 (chart == 1 ? chart1 : chart2).Series[0].DataPoints.Add(item);
             }
             (chart == 1 ? tab1 : tab2).Header = file.Substring(file.LastIndexOf("\\")+1);
