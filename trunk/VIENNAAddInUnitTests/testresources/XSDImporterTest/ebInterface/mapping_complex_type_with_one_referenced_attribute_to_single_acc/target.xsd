@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1">
+
+	<xsd:complexType name="TextStringType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="LanguageString" type="xsd:string"/>
+				<xsd:attribute name="LanguageLocaleString" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	
+	
+	<xsd:complexType name="TradeLineItemType">
+		<xsd:sequence>
+			<xsd:element name="Identifer" type="TextStringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="SequenceNumeric" type="TextStringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="GrossWeightMeasure" type="TextStringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="NetWeightMeasure" type="TextStringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="GrossVolumeMeasure" type="TextStringType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ChargeAmount" type="TextStringType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="TradeLineItem" type="TradeLineItemType"/>
+</xsd:schema>

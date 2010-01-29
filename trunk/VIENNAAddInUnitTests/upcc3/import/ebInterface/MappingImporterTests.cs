@@ -234,7 +234,28 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd")};
             new MappingImporter(mappingFiles, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(CctsRepositoryFactory.CreateCctsRepository(repo));
         }
-        
+
+        [Test]
+        [Ignore("for manual testing")]
+        public void ShouldImportEbInterface()
+        {
+            string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.eap");
+            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
+            var repo = new Repository();
+            repo.OpenFile(repoPath);
+
+            var mappingFileNames = new List<string> { "ebInterface2CCTS_1_1.mfd", "ebInterface2CCTS_2_1.mfd", "ebInterface2CCTS_3_1.mfd", "ebInterface2CCTS_4_1.mfd", "ebInterface2CCTS_5_1.mfd", "ebInterface2CCTS_6_1.mfd", "ebInterface2CCTS_7_1.mfd", "ebInterface2CCTS_8_1.mfd" };            
+            var mappingFiles = new List<string>();
+
+            foreach (var mappingFile in mappingFileNames)
+            {
+                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\" + mappingFile));
+            }
+
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd") };
+            new MappingImporter(mappingFiles, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(CctsRepositoryFactory.CreateCctsRepository(repo));
+        }
+
         #endregion
 
         [Test]
@@ -547,7 +568,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [Test]
         public void Test_mapping_simple_element_and_attributes_to_acc_with_mapping_function_split()
         {
-
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd") };
 
@@ -565,6 +585,27 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             ShouldContainMa(docLibrary, "ebInterface_Invoice", new[] { new AsmaDescriptor("Address", bieAddress.Id) });
             Assert.That(docLibrary.Mas.Count(), Is.EqualTo(1));
        }
+
+        [Test]
+        public void Test_mapping_complex_type_with_one_referenced_attribute_to_single_acc()
+        {
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_referenced_attribute_to_single_acc\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_referenced_attribute_to_single_acc\source.xsd") };
+
+            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+
+            IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
+            Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
+
+            IBieLibrary bieLibrary = ShouldContainBieLibrary(BieLibraryName);
+            IAbie bieQuantity = ShouldContainAbie(bieLibrary, "UnitType_TradeLineItem", "TradeLineItem", new[] { new BbieDescriptor("Unit_GrossWeightMeasure", bdtText.Id) }, null);
+            Assert.That(bieLibrary.Abies.Count(), Is.EqualTo(1));
+
+            var docLibrary = ShouldContainDocLibrary(DocLibraryName);
+            ShouldContainMa(docLibrary, "ebInterface_Invoice", new[] { new AsmaDescriptor("Quantity", bieQuantity.Id) });
+            Assert.That(docLibrary.Mas.Count(), Is.EqualTo(1));
+        }
     }
 
     internal class AsbieDescriptor : IEquatable<AsbieDescriptor>
