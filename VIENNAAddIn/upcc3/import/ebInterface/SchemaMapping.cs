@@ -116,7 +116,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                         throw new MappingError("Complex typed element mapped to BCC with CDT other than the target CDT for the complex type.");
                     }
-                    throw new MappingError("Complex typed element mapped to BCC, but the complex type is not mapped to a CDT.");                    
+                    throw new MappingError("Complex typed element " + sourceElement.Name + " mapped to BCC, but the complex type is not mapped to a CDT.");                    
                 }
                 throw new MappingError("Complex typed element mapped to non-ASCC CCTS element.");
             }

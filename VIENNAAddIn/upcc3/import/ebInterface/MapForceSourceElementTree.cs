@@ -80,6 +80,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             XmlSchemaType xsdType = xsdElement.ElementSchemaType;
             sourceElement.XsdType = xsdType;
 
+            if (sourceElement.Name=="Quantity")
+            {
+                if (sourceElement.Name == "Quantity")
+                {
+                    
+                }
+            }
+
             if (xsdType is XmlSchemaComplexType)
             {
                 foreach (SourceElement child in sourceElement.Children)
@@ -95,10 +103,30 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     {
                         AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase) complexType.ContentTypeParticle, child);
                     }
+
+                    if (complexType.ContentModel is XmlSchemaSimpleContent)
+                    {
+                        XmlSchemaSimpleContent x = (XmlSchemaSimpleContent)complexType.ContentModel;
+                        XmlSchemaSimpleContentExtension y = (XmlSchemaSimpleContentExtension)x.Content;
+
+                        foreach (XmlSchemaAttribute attribute in y.Attributes)
+                        {
+                            string attributeName = attribute.Name ?? attribute.RefName.Name;
+
+                            if (attributeName == child.Name)
+                            {
+                                AttachXsdInformationToSourceElements(child, attribute);
+                            }
+                        }                       
+        
+                        //AttachXsdGroupInformationToSourceElements((XmlSchemaSimpleContent)complexType.ContentModel, child);
+                    }
                     
                     foreach (XmlSchemaAttribute attribute in complexType.Attributes)
                     {
-                        if (attribute.Name == child.Name)
+                        string attributeName = attribute.Name ?? attribute.RefName.Name;
+
+                        if (attributeName == child.Name)
                         {
                             AttachXsdInformationToSourceElements(child, attribute);
                         }

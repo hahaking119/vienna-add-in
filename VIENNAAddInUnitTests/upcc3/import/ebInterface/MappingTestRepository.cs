@@ -49,6 +49,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "Name"))
                                                                                                    .With(e => e.AddASCC(accAddress, "Residence"));
+                                                                                               accAddress = package.AddClass("TradeLineItem")
+                                                                                                   .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                                   .With(e => e.AddBCCs(cdtText, "Identifer", "SequenceNumeric", "GrossWeightMeasure", "NetWeightMeasure", "GrossVolumeMeasure", "ChargeAmount"));
                                                                                            });
                                                       }));
         }
