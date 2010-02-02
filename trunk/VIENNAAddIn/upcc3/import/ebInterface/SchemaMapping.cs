@@ -72,7 +72,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                     return new SplitMapping(sourceElement, splitFunction.TargetCcs.Convert(cc => (IBcc) cc), simpleTypeToCdtMappings);
                 }
-                throw new MappingError("Simple typed element mapped to non-BCC CCTS element.");
+                throw new MappingError("Simple typed element '" + sourceElement.Name + "' mapped to non-BCC CCTS element.");
             }
             if (sourceElement.HasComplexType())
             {
@@ -97,9 +97,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                         {
                             return new ComplexElementToAsccMapping(sourceElement, targetAscc, complexTypeMapping);
                         }
-                        throw new MappingError("Complex typed element mapped to ASCC with associated ACC other than the target ACC for the complex type.");
+                        throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to ASCC with associated ACC other than the target ACC for the complex type.");
                     }
-                    throw new MappingError("Complex typed element mapped to ASCC, but the complex type is not mapped to a single ACC.");
+                    throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to ASCC, but the complex type is not mapped to a single ACC.");
                 }
                 if (IsMappedToBcc(sourceElement))
                 {
@@ -114,13 +114,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                             return new AttributeOrSimpleElementOrComplexElementToBccMapping(sourceElement, targetBcc, complexTypeMapping);
                         }
 
-                        throw new MappingError("Complex typed element mapped to BCC with CDT other than the target CDT for the complex type.");
+                        throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to BCC with CDT other than the target CDT for the complex type.");
                     }
-                    throw new MappingError("Complex typed element " + sourceElement.Name + " mapped to BCC, but the complex type is not mapped to a CDT.");                    
+                    throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to BCC, but the complex type is not mapped to a CDT.");                    
                 }
-                throw new MappingError("Complex typed element mapped to non-ASCC CCTS element.");
+                throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to non-ASCC CCTS element.");
             }
-            throw new Exception("Source element " + sourceElement.Name + " has neither simple nor complex type.");
+            throw new Exception("Source element '" + sourceElement.Name + "' has neither simple nor complex type.");
         }
 
         private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement)
