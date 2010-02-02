@@ -4,6 +4,8 @@ using System.Linq;
 using CctsRepository;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
 using CctsRepository.DocLibrary;
 using EA;
 using NUnit.Framework;
@@ -27,6 +29,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             ccRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
 //            temporaryFileBasedRepository = new TemporaryFileBasedRepository(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Repository-with-CDTs-and-CCs.eap"));
 //            ccRepository = new CCRepository(temporaryFileBasedRepository);
+            ccLibrary = ccRepository.GetCcLibraries().FirstOrDefault();
+            bLibrary = ccLibrary.BLibrary;
         }
 
         [TearDown]
@@ -49,6 +53,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 
         private ICctsRepository ccRepository;
         private TemporaryFileBasedRepository temporaryFileBasedRepository;
+        private ICcLibrary ccLibrary;
+        private IBLibrary bLibrary;
 
         #region Helpers
 
@@ -232,7 +238,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                 mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\" + part + ".mfd"));
             }
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd")};
-            new MappingImporter(mappingFiles, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(CctsRepositoryFactory.CreateCctsRepository(repo));
+
+            var repository = CctsRepositoryFactory.CreateCctsRepository(repo);
+            var ccLibrary = repository.GetCcLibraries().FirstOrDefault();
+            var bLibrary = ccLibrary.BLibrary;
+
+            new MappingImporter(mappingFiles, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(repository);
         }
 
         [Test]
@@ -255,7 +266,11 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\ebInterface\Invoice.xsd") };
 
             Console.Out.WriteLine("Starting mapping");
-            new MappingImporter(mappingFiles, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(CctsRepositoryFactory.CreateCctsRepository(repo));
+            var repository = CctsRepositoryFactory.CreateCctsRepository(repo);
+            var ccLibrary = repository.GetCcLibraries().FirstOrDefault();
+            var bLibrary = ccLibrary.BLibrary;
+
+            new MappingImporter(mappingFiles, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(repository);
         }
 
         #endregion
@@ -266,7 +281,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\nested-input-to-flat-output-mapping.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice-for-nested-input-to-flat-output-mapping.xsd") };
 
-            new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
@@ -303,7 +318,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice-for-nested-mapping.xsd") };
 
 
-            new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
@@ -339,7 +354,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\one-complex-type-to-multiple-accs-mapping.xsd") };
 
-            new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
@@ -374,7 +389,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice.xsd") };
 
-            new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
 
@@ -399,7 +414,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_choice_to_single_acc.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_choice_to_single_acc.xsd") };
 
-            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
             IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
@@ -421,7 +436,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_all_to_single_acc.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_all_to_single_acc.xsd") };
 
-            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
             IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
@@ -443,7 +458,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\simple-mapping-2-target-components.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\Invoice.xsd") };
 
-            new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
@@ -475,7 +490,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_single_simple_typed_element.xsd") };
 
-            new MappingImporter(new[] {mappingFile}, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
                       
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
@@ -500,7 +515,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_attribute_to_single_acc.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_attribute_to_single_acc.xsd") };
 
-            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
 
@@ -525,7 +540,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_and_attributes_to_cdt.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_simple_elements_and_attributes_to_cdt.xsd") };
 
-            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
             IBdt bdtText = ShouldContainBdt(bdtLibrary, "TextType_Text", "Text", new [] { "Language", "LanguageLocale"});
@@ -547,7 +562,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_with_semisemantic_loss.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_with_semisemantic_loss.xsd") };
 
-            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
             var docLibrary = ShouldContainDocLibrary(DocLibraryName);
@@ -573,7 +588,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd") };
 
-            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
             IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
@@ -594,7 +609,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_referenced_attribute_to_single_acc\mapping.mfd");
             string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapping_complex_type_with_one_referenced_attribute_to_single_acc\source.xsd") };
 
-            new MappingImporter(new[] { mappingFile }, schemaFiles, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
+            new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName).ImportMapping(ccRepository);
 
             IBdtLibrary bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
             IBdt bdtText = ShouldContainBdt(bdtLibrary, "String_Text", "Text", null);
