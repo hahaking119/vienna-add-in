@@ -80,8 +80,9 @@ namespace VIENNAAddIn
                                       + createBDT
                                       + "Generate &XML Schema (old)".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                                       + "Generate XML Schema (new)".OnClick(ExporterForm.ShowForm)
-                                     + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
+                                      + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
                                       //+ "Import XML Schemas (old)".OnClick(ImporterWizardFormOld.ShowImporterWizard)
+                                      + _____
                                       + "&Schema Anal&yzer".OnClick(SchemaAnalyzer.ShowForm)
                                      )
                                    + "&Options".OnClick(OptionsForm.ShowForm)

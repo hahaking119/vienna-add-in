@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using CctsRepository;
+using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
 using Microsoft.Win32;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.import.ebInterface;
@@ -13,6 +15,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class XsdImporterForm
     {
         private readonly ICctsRepository cctsRepository;
+        private ICcLibrary selectedCcLibrary;
+        private IBLibrary selectedBLibrary;
         public XsdImporterViewModel Model { get; set; }
 
         public XsdImporterForm(ICctsRepository cctsRepository)
@@ -23,9 +27,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             InitializeComponent();
 
+            buttonImport.IsEnabled = false;
+            Model.CcLibraries = new List<ICcLibrary>(this.cctsRepository.GetCcLibraries());
+            if (Model.CcLibraries.Count > 0)
+                ccLibraryComboBox.SelectedIndex = 0;
+            Model.BLibraries = new List<IBLibrary>(this.cctsRepository.GetBLibraries());
+            if (Model.BLibraries.Count > 0)
+                bLibraryComboBox.SelectedIndex = 0;
+
             mappedSchemaFileSelector.FileNameChanged += MappedSchemaFileSelectorFileNameChanged;
             mappedSchemaFileSelector.FileName = " ";
             mappedSchemaFileSelector.FileName = "";
+        }
+
+        private void CheckIfInputIsValid()
+        {
+            buttonImport.IsEnabled = (ccLibraryComboBox.SelectedIndex > -1 &&
+                                      bLibraryComboBox.SelectedIndex > -1 &&
+                                      mappingFilesListBox.Items.Count > 0 &&
+                                      !string.IsNullOrEmpty(mappedSchemaFileSelector.FileName));
         }
 
         private void MappedSchemaFileSelectorFileNameChanged(object sender, RoutedEventArgs args)
@@ -39,6 +59,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 ButtonSchemaAnalyzer.IsEnabled = false;
                 ButtonSchemaAnalyzerImage.Opacity = 0.3;
             }
+            CheckIfInputIsValid();
         }
 
         public static void ShowForm(AddInContext context)
@@ -55,13 +76,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             Cursor = Cursors.Wait;
             buttonImport.IsEnabled = false;
-            //buttonImport.Visibility = Visibility.Collapsed;
 
             switch (tabControl1.SelectedIndex)
             {
                 case 0: // ebInterface
                     //new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(cctsRepository);
-                    new MappingImporter(Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text).ImportMapping(cctsRepository);
+                    new MappingImporter(selectedCcLibrary, selectedBLibrary, Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text).ImportMapping(cctsRepository);
                     break;
                 case 1: // CCTS
                     throw new NotImplementedException();
@@ -102,6 +122,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 }
                 Model.MappingFiles = tempList;
             }
+            CheckIfInputIsValid();
         }
 
         private void RemoveSelection_Click(object sender, RoutedEventArgs e)
@@ -112,21 +133,64 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 tempList.RemoveAt(mappingFilesListBox.SelectedIndex);
                 Model.MappingFiles = tempList;
             }
+            CheckIfInputIsValid();
         }
 
         private void ButtonSchemaAnalyzer_Click(object sender, RoutedEventArgs e)
         {
             new SchemaAnalyzer(mappedSchemaFileSelector.FileName, "").ShowDialog();
         }
+
+        private void ccLibraryComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (ccLibraryComboBox.SelectedIndex > -1)
+            {
+                selectedCcLibrary = Model.CcLibraries[ccLibraryComboBox.SelectedIndex];
+            }
+            CheckIfInputIsValid();
+        }
+
+        private void bLibraryComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (bLibraryComboBox.SelectedIndex > -1)
+            {
+                selectedBLibrary = Model.BLibraries[bLibraryComboBox.SelectedIndex];
+            }
+            CheckIfInputIsValid();
+        }
     }
 
     public class XsdImporterViewModel : INotifyPropertyChanged
     {
         private List<string> mappingFiles;
+        private List<ICcLibrary> ccLibraries;
+        private List<IBLibrary> bLibraries;
 
         public XsdImporterViewModel()
         {
             mappingFiles = new List<string>();
+            ccLibraries = new List<ICcLibrary>();
+            bLibraries = new List<IBLibrary>();
+        }
+
+        public List<ICcLibrary> CcLibraries
+        {
+            get { return ccLibraries; }
+            set
+            {
+                ccLibraries = value;
+                OnPropertyChanged("CcLibraries");
+            }
+        }
+
+        public List<IBLibrary> BLibraries
+        {
+            get { return bLibraries; }
+            set
+            {
+                bLibraries = value;
+                OnPropertyChanged("BLibraries");
+            }
         }
 
         public List<string> MappingFiles

@@ -80,10 +80,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             // TODO: preselect first item
 
-            //if (comboBIVs.Items.Count > 0)
-            //{
-            //    comboBIVs.SelectedIndex = 0;    
-            //}            
+            if (comboboxBusinessInformationView.Items.Count > 0)
+            {
+                comboboxBusinessInformationView.SelectedIndex = 0;    
+            }            
         }
 
         private void MirrorModelsToUI()
