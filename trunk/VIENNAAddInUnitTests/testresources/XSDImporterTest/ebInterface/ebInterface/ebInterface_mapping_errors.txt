@@ -1,0 +1,67 @@
+The following changes have been made to the original ebInterface
+MapForce files in order to get them through the importer:
+
+ebInterface2CCTS_1_1.mfd:
+=========================
+
+- Add constant component with value "Root:Invoice".
+
+- Expand "Biller", "InvoiceRecipient", "OrderingParty", "Details",
+  "ReductionDetails", "Tax" and "PaymentConditions".
+
+ebInterface2CCTS_2_1.mfd:
+=========================
+
+- Map "Biller/FurtherIndentification/IdentificationType" to
+  SUP "Language".
+
+- Remove ASCC mapping for "Biller/Address".
+
+- Expand "Biller/Address".
+
+ebInterface2CCTS_3_1.mfd:
+=========================
+
+- Split single input component into two components with roots
+  "InvoiceRecipient" and "OrderingParty".
+
+- For both new components:
+
+  - Remove ASCC mapping for "Address".
+
+  - Expand "OrderReference" and "Address".
+
+ebInterface2CCTS_4_1.mfd:
+=========================
+
+- Remove ASCC mappings for:
+
+  - "Details/ItemList"
+  - "Details/ItemList/ListLineItem"
+  - "Details/ItemList/ListLineItem/Delivery"
+
+- Map "Details/ItemList/ListLineItem/Quantity/Unit" to SUP
+  "MeasureUnit" of CDT "Measure".
+
+- Map "Details/ItemList/ListLineItem/TaxRate/TaxCode" to SUP
+  "FormatString" of CDT "Rate".
+
+ebInterface2CCTS_5_1.mfd:
+=========================
+
+ebInterface2CCTS_6_1.mfd:
+=========================
+
+ebInterface2CCTS_7_1.mfd:
+=========================
+
+General notes:
+==============
+
+1) Elements must be expanded in order to be included in the MapForce
+   mapping file. This is important for:
+
+   a) Attaching sub-trees to the main source tree.
+
+   b) Deriving mappings for complex elements in cases where the
+      element's complex type is mapped elsewhere.
