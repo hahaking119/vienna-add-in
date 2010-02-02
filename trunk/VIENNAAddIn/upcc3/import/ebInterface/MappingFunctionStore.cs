@@ -41,7 +41,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public MappingFunction GetMappingFunction(string mappingFunctionKey)
         {
-            return mappingFunctions[mappingFunctionKey];
+            MappingFunction mappingFunction;
+            if (mappingFunctions.TryGetValue(mappingFunctionKey, out mappingFunction))
+            {
+                return mappingFunction;
+            }
+            return null;
         }
     }
 }

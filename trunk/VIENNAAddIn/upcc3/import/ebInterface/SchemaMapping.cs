@@ -19,8 +19,15 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public SchemaMapping(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet, ICcLibrary ccLibrary)
         {
+            Console.Out.WriteLine("Building source tree:");
             sourceElementStore = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+
+            PrintSourceElementTree(sourceElementStore.RootSourceElement, "");
+            Console.Out.WriteLine("Done.");
+
+            Console.Out.WriteLine("Building target element store:");
             targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
+            Console.Out.WriteLine("Done.");
             
             foreach (Vertex vertex in mapForceMapping.Graph.Vertices)
             {
@@ -33,7 +40,18 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
             mappingFunctionStore = new MappingFunctionStore(mapForceMapping, edges, targetElementStore);
 
+            Console.Out.WriteLine("Deriving implicit mappings:");
             RootElementMapping = MapElement(sourceElementStore.RootSourceElement);
+            Console.Out.WriteLine("Done.");
+        }
+
+        private void PrintSourceElementTree(SourceElement element, string indent)
+        {
+            Console.Out.WriteLine(indent + element.Name);
+            foreach (var child in element.Children)
+            {
+                PrintSourceElementTree(child, indent + "    ");
+            }
         }
 
         public ElementMapping RootElementMapping { get; private set; }
