@@ -4,12 +4,15 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
+using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class MappingImporter
     {
+        private readonly ICcLibrary ccLibrary;
+        private readonly IBLibrary bLibrary;
         private readonly string[] mapForceMappingFiles;
         private readonly string[] xmlSchemaFiles; 
         private readonly string docLibraryName;
@@ -37,19 +40,32 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         }
 
         /// <summary>
-        /// We currently assume that there is exactly one CCLibrary in the repository. If none is found, we throw an exception.
-        /// If more than one are found, we choose one arbitrarily.
-        /// 
-        /// The newly generated libraries (BDT, BIE, DOC) will be added to the CCLibrary's parent bLibrary.
+        /// </summary>
+        /// <param name="ccLibrary">The CC Library.</param>
+        /// <param name="bLibrary">The bLibrary.</param>
+        /// <param name="mapForceMappingFiles">The MapForce mapping file.</param>
+        /// <param name="docLibraryName">The name of the DOCLibrary to be created.</param>
+        /// <param name="bieLibraryName">The name of the BIELibrary to be created.</param>
+        /// <param name="bdtLibraryName">The name of the BDTLibrary to be created.</param>
+        /// <param name="qualifier">The qualifier for the business domain (e.g. "ebInterface").</param>
+        public MappingImporter(ICcLibrary ccLibrary, IBLibrary bLibrary, IEnumerable<string> mapForceMappingFiles, IEnumerable<string> xmlSchemaFiles, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
+        {
+            this.ccLibrary = ccLibrary;
+            this.bLibrary = bLibrary;
+            this.mapForceMappingFiles = new List<string>(mapForceMappingFiles).ToArray();
+            this.xmlSchemaFiles = new List<string>(xmlSchemaFiles).ToArray();
+            this.docLibraryName = docLibraryName;
+            this.bieLibraryName = bieLibraryName;
+            this.bdtLibraryName = bdtLibraryName;
+            this.qualifier = qualifier;
+            this.rootElementName = rootElementName;
+        }
+
+        /// <summary>
         /// </summary>
         /// <param name="cctsRepository"></param>
         public void ImportMapping(ICctsRepository cctsRepository)
         {
-            var ccLibrary = cctsRepository.GetCcLibraries().FirstOrDefault();
-            if (ccLibrary == null)
-            {
-                throw new Exception("No CCLibary found in repository.");
-            }
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mapForceMappingFiles);
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
@@ -59,7 +75,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
 
             var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccLibrary);
-            var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, ccLibrary.BLibrary, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
+            var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, bLibrary, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
             mappedLibraryGenerator.GenerateLibraries();
         }
     }
