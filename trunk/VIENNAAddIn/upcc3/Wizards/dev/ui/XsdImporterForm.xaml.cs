@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Forms;
 using CctsRepository;
 using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
-using Microsoft.Win32;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.import.ebInterface;
+using Cursors=System.Windows.Input.Cursors;
+using MessageBox=System.Windows.MessageBox;
+using OpenFileDialog=Microsoft.Win32.OpenFileDialog;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
@@ -80,8 +83,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             switch (tabControl1.SelectedIndex)
             {
                 case 0: // ebInterface
-                    //new MappingImporter(mappingFilesSelector.FileNames, "ebInterface Invoice", "ebInterface", "ebInterface Types", "ebInterface", "Invoice").ImportMapping(cctsRepository);
-                    new MappingImporter(selectedCcLibrary, selectedBLibrary, Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text).ImportMapping(cctsRepository);
+                    if(!StartImportEbInterface())
+                    {
+                        Cursor = Cursors.Arrow;
+                        buttonImport.IsEnabled = true;
+                        return;
+                    }
                     break;
                 case 1: // CCTS
                     throw new NotImplementedException();
@@ -90,6 +97,37 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             
             textboxStatus.Text += "Import completed!\n";
             Cursor = Cursors.Arrow;
+        }
+
+        private bool StartImportEbInterface()
+        {
+            try
+            {
+                new MappingImporter(selectedCcLibrary, selectedBLibrary, Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text).ImportMapping(cctsRepository);
+            }
+            catch(FileNotFoundException fnfe)
+            {
+                System.Windows.Forms.MessageBox.Show("The ebInterface Schema file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;
+            }
+            catch (DirectoryNotFoundException dnfe)
+            {
+                System.Windows.Forms.MessageBox.Show("The ebInterface Schema file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;
+            }
+            catch (MappingError me)
+            {
+                DialogResult errorResult = System.Windows.Forms.MessageBox.Show("An error occured while mapping the following element:\n" + me.Message + "\nYou can edit the mapping file and click 'Retry' to re-start the import process!", Title, System.Windows.Forms.MessageBoxButtons.RetryCancel, System.Windows.Forms.MessageBoxIcon.Error);
+                if (errorResult == System.Windows.Forms.DialogResult.Retry)
+                {
+                    return StartImportEbInterface();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)

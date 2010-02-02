@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using System.IO;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 using Visifire.Charts;
@@ -49,7 +50,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 FileSelectorCancelled();
                 return;
             }
-            Analyze(file1, 1);
+//            try
+//            {
+                Analyze(file1, 1);
+/*            }
+            catch (FileNotFoundException fnfe)
+            {
+                System.Windows.Forms.MessageBox.Show("The file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                LoadFiles();
+                return;
+            }
+            catch (DirectoryNotFoundException dnfe)
+            {
+                System.Windows.Forms.MessageBox.Show("The file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                LoadFiles();
+                return;
+            }*/
             if (file2.Length > 0)
             {
                 Analyze(file2, 2);
@@ -67,8 +83,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             file1 = fileSelector1.FileName;
             file2 = fileSelector2.FileName;
-            SetFiles();
             innerCanvas.Visibility = System.Windows.Visibility.Collapsed;
+            SetFiles();
         }
 
         private void buttonClose_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -84,8 +100,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void Analyze(string file, int chart)
         {
-            started = true;
             results = XMLSchemaReader.Read(file);
+            started = true;
             (chart==1 ? chart1 : chart2).Series[0].DataPoints.Clear();
             foreach (SchemaAnalyzerResult dataset in results)
             {
