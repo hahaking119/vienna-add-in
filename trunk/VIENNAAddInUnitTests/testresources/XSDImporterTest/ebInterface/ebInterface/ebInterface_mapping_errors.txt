@@ -6,8 +6,15 @@ ebInterface2CCTS_1_1.mfd:
 
 - Add constant component with value "Root:Invoice".
 
-- Expand "Biller", "InvoiceRecipient", "OrderingParty", "Details",
-  "ReductionDetails", "Tax" and "PaymentConditions".
+- Expand:
+
+  - "Biller"
+  - "InvoiceRecipient"
+  - "OrderingParty"
+  - "Details"
+  - "ReductionDetails"
+  - "Tax"
+  - "PaymentConditions"
 
 ebInterface2CCTS_2_1.mfd:
 =========================
@@ -46,14 +53,44 @@ ebInterface2CCTS_4_1.mfd:
 - Map "Details/ItemList/ListLineItem/TaxRate/TaxCode" to SUP
   "FormatString" of CDT "Rate".
 
+- Expand:
+
+  - "Details/ItemList/ListLineItem/AdditionalInformation"
+  - "Details/ItemList/ListLineItem/Delivery"
+
 ebInterface2CCTS_5_1.mfd:
 =========================
+
+- Map "AdditionalInformation/Classification/ClassificationSchema" to
+  SUP "Classification/ClassName/Language".
 
 ebInterface2CCTS_6_1.mfd:
 =========================
 
+- Remove mapping for "ReductionDetails/TaxRate/TaxCode" (TaxRate is
+  mapped elsewhere).
+
 ebInterface2CCTS_7_1.mfd:
 =========================
+
+- Remove XOR function:
+
+  - Map "Tax/VAT/TaxExemption" to "Tax/ExemptionReason".
+  - No explicit mapping for "Tax/VAT/Item".
+
+- Remove mapping for "Tax/VAT/Item/TaxRate/TaxCode" (TaxRate is
+  mapped elsewhere).
+
+- Map "Tax/OtherTax/Comment" and "Tax/OtherTax/Amount" to
+  "Tax/AdditionalInformation/Content".
+
+ebInterface2CCTS_8_1.mfd:
+=========================
+
+- "UniversalBankTransaction" cannot be mapped, because it cannot be
+  linked to the main source elemen tree (due to the use of xsi:type).
+
+- Remove mapping for "PaymentConditions".
 
 General notes:
 ==============
@@ -65,3 +102,9 @@ General notes:
 
    b) Deriving mappings for complex elements in cases where the
       element's complex type is mapped elsewhere.
+
+2) If a complex type is mapped to a CDT, the content of elements of
+   this type is implicitly mapped to the CON of the CDT.
+
+   If a complex type is mapped to an ACC or MA, the content cannot be
+   mapped.

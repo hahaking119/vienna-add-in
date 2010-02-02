@@ -23,24 +23,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         /// <summary>
         /// </summary>
-        /// <param name="mapForceMappingFiles">The MapForce mapping file.</param>
-        /// <param name="docLibraryName">The name of the DOCLibrary to be created.</param>
-        /// <param name="bieLibraryName">The name of the BIELibrary to be created.</param>
-        /// <param name="bdtLibraryName">The name of the BDTLibrary to be created.</param>
-        /// <param name="qualifier">The qualifier for the business domain (e.g. "ebInterface").</param>
-        public MappingImporter(IEnumerable<string> mapForceMappingFiles, IEnumerable<string> xmlSchemaFiles, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
-        {
-            this.mapForceMappingFiles = new List<string>(mapForceMappingFiles).ToArray();
-            this.xmlSchemaFiles = new List<string>(xmlSchemaFiles).ToArray();
-            this.docLibraryName = docLibraryName;
-            this.bieLibraryName = bieLibraryName;
-            this.bdtLibraryName = bdtLibraryName;
-            this.qualifier = qualifier;
-            this.rootElementName = rootElementName;
-        }
-
-        /// <summary>
-        /// </summary>
         /// <param name="ccLibrary">The CC Library.</param>
         /// <param name="bLibrary">The bLibrary.</param>
         /// <param name="mapForceMappingFiles">The MapForce mapping file.</param>
@@ -48,7 +30,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// <param name="bieLibraryName">The name of the BIELibrary to be created.</param>
         /// <param name="bdtLibraryName">The name of the BDTLibrary to be created.</param>
         /// <param name="qualifier">The qualifier for the business domain (e.g. "ebInterface").</param>
-        public MappingImporter(ICcLibrary ccLibrary, IBLibrary bLibrary, IEnumerable<string> mapForceMappingFiles, IEnumerable<string> xmlSchemaFiles, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
+        public MappingImporter(IEnumerable<string> mapForceMappingFiles, IEnumerable<string> xmlSchemaFiles, ICcLibrary ccLibrary, IBLibrary bLibrary, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
         {
             this.ccLibrary = ccLibrary;
             this.bLibrary = bLibrary;
