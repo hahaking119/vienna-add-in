@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using VIENNAAddInUtils;
@@ -17,7 +18,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly TargetElementStore targetElementStore;
         private readonly MappingFunctionStore mappingFunctionStore;
 
-        public SchemaMapping(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet, ICcLibrary ccLibrary)
+        public SchemaMapping(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet, ICcLibrary ccLibrary, ICctsRepository cctsRepository)
         {
             Console.Out.WriteLine("Building source tree:");
             sourceElementStore = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
@@ -26,7 +27,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             Console.Out.WriteLine("Done.");
 
             Console.Out.WriteLine("Building target element store:");
-            targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
+            targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary, cctsRepository);
             Console.Out.WriteLine("Done.");
             
             foreach (Vertex vertex in mapForceMapping.Graph.Vertices)

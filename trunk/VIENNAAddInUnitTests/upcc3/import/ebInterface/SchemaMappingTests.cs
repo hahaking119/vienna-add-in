@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using NUnit.Framework;
@@ -21,14 +22,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [SetUp]
         public void CreateExpectedSourceElementTree()
         {
-            var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
+            cctsRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
 
-            cdtl = ccRepository.GetCdtLibraryByPath((Path) "test"/"bLibrary"/"CDTLibrary");
+            cdtl = cctsRepository.GetCdtLibraryByPath((Path) "test"/"bLibrary"/"CDTLibrary");
             cdtText = cdtl.GetCdtByName("Text");
             supLanguage = cdtText.Sups.FirstOrDefault(sup => sup.Name == "Language");
             supLanguageLocale = cdtText.Sups.FirstOrDefault(sup => sup.Name == "LanguageLocale");
             
-            ccl = ccRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
+            ccl = cctsRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
             accAddress = ccl.GetAccByName("Address");
             bccCityName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "CityName");
             bccCountryName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "CountryName");
@@ -67,6 +68,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         private ICdt cdtText;
         private ICdtSup supLanguage;
         private ICdtSup supLanguageLocale;
+        private ICctsRepository cctsRepository;
 
         [Test]
         public void Test_mapping_complex_type_with_one_simple_element_and_one_complex_element_to_one_acc()
@@ -315,7 +317,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
 
-            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl, cctsRepository);
             AssertTreesAreEqual(expectedAddress, mappings.RootSourceElement, string.Empty);
         }
 
@@ -369,7 +371,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
 
-            return new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl);
+            return new SchemaMapping(mapForceMapping, xmlSchemaSet, ccl, cctsRepository);
         }
 
         private static void AssertMappings(SchemaMapping mappings, List<IMapping> expectedComplexTypeMappings, List<SimpleTypeToCdtMapping> expectedSimpleTypeMappings, AsmaMapping expectedRootElementMapping)

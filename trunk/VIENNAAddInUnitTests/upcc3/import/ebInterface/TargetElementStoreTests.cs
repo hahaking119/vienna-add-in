@@ -1,4 +1,5 @@
 using System.Linq;
+using CctsRepository;
 using CctsRepository.CcLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
@@ -16,7 +17,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [SetUp]
         public void CreateExpectedSourceElementTree()
         {
-            var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
+            ccRepository = CctsRepositoryFactory.CreateCctsRepository(new MappingTestRepository());
             ccLibrary = ccRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
             accParty = ccLibrary.GetAccByName("Party");
             bccPartyName = accParty.Bccs.First(bcc => bcc.Name == "Name");
@@ -31,6 +32,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         private IAcc accParty;
         private IBcc bccPartyName;
         private IAscc asccPartyResidence;
+        private ICctsRepository ccRepository;
 
         private void ShouldContainTargetACCElement(TargetElementStore targetElementStore, string name, IAcc referencedAcc)
         {
@@ -100,7 +102,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         [Test]
         public void TestTargetElementStore()
         {
-            var targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary);
+            var targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary, ccRepository);
             ShouldContainTargetACCElement(targetElementStore, "Party", accParty);
             ShouldContainTargetBccElement(targetElementStore, "Name", bccPartyName);
             ShouldContainTargetAsccElement(targetElementStore, "ResidenceAddress", asccPartyResidence);
