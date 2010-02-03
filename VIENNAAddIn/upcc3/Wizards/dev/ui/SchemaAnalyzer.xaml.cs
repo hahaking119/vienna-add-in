@@ -8,6 +8,7 @@
 // *******************************************************************************
 
 using System.IO;
+using System.Xml;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 using Visifire.Charts;
@@ -44,47 +45,35 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             innerCanvas.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void SetFiles()
+        private bool SetFiles()
         {
             if (file1.Length == 0) {
                 FileSelectorCancelled();
-                return;
+                return false;
             }
-//            try
-//            {
-                Analyze(file1, 1);
-/*            }
-            catch (FileNotFoundException fnfe)
-            {
-                System.Windows.Forms.MessageBox.Show("The file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                LoadFiles();
-                return;
-            }
-            catch (DirectoryNotFoundException dnfe)
-            {
-                System.Windows.Forms.MessageBox.Show("The file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                LoadFiles();
-                return;
-            }*/
+            if(!Analyze(file1, 1))
+                return false;
             if (file2.Length > 0)
             {
-                Analyze(file2, 2);
+                if (!Analyze(file2, 2))
+                    return false;
                 tab2.IsEnabled = true;
-                tab3.IsEnabled = true;
+                tab3.IsEnabled = false;
             }
             else
             {
-                tab2.IsEnabled = false;
+                tab2.IsEnabled = true;
                 tab3.IsEnabled = false;
             }
+            return true;
         }
 
         private void buttonOk_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             file1 = fileSelector1.FileName;
             file2 = fileSelector2.FileName;
-            innerCanvas.Visibility = System.Windows.Visibility.Collapsed;
-            SetFiles();
+            if(SetFiles())
+                innerCanvas.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void buttonClose_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -98,9 +87,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             if(!started) Close();
         }
 
-        private void Analyze(string file, int chart)
+        private bool Analyze(string file, int chart)
         {
-            results = XMLSchemaReader.Read(file);
+            try
+            {
+                results = new XMLSchemaReader().Read(file);
+            }
+            catch (FileNotFoundException fnfe)
+            {
+                System.Windows.Forms.MessageBox.Show("The given file could not be opened!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;
+            }
+            catch (DirectoryNotFoundException dnfe)
+            {
+                System.Windows.Forms.MessageBox.Show("The given path could not be opened!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;
+            }
+            catch (XmlException xe)
+            {
+                System.Windows.Forms.MessageBox.Show("The given file could not be read!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;
+            }
             started = true;
             (chart==1 ? chart1 : chart2).Series[0].DataPoints.Clear();
             foreach (SchemaAnalyzerResult dataset in results)
@@ -109,6 +116,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 (chart == 1 ? chart1 : chart2).Series[0].DataPoints.Add(item);
             }
             (chart == 1 ? tab1 : tab2).Header = file.Substring(file.LastIndexOf("\\")+1);
+            return true;
         }
 
         public static void ShowForm(AddInContext context)
