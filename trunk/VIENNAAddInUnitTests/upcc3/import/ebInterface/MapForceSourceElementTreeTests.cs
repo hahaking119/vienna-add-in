@@ -12,6 +12,22 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
     public class MapForceSourceElementTreeTests
     {
         [Test]
+        public void TestCreateSourceElementTree()
+        {
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\CreateSourceElementTree\source.xsd");
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
+
+            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\CreateSourceElementTree\mapping.mfd"));
+
+            var expectedAddress = new SourceElement("Address", "2");
+            var expectedTown = new SourceElement("Town", "3");
+            expectedAddress.AddChild(expectedTown);
+
+            AssertTreesAreEqual(expectedAddress, new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet).RootSourceElement, string.Empty);
+        }
+
+        [Test]
         public void ShouldWorkWithASingleInputSchemaComponent()
         {
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
