@@ -13,7 +13,7 @@ using System.Xml.Schema;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
-    public static class XMLSchemaReader
+    public class XMLSchemaReader
     {
         private const double xsdAttributeWeight = 1;
         private const double xsdAnyWeight = 0.5;
@@ -37,30 +37,30 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         private const double xsdRestrictionWeight = 0;
         private const double xsdExtensionWeight = 0;
 
-        private static int xsdAttribute;
-        private static int xsdAny;
-        private static int xsdAll;
-        private static int xsdAnyAttribute;
-        private static int xsdChoice;
-        private static int xsdRedefine;
-        private static int xsdSubstitutionGroup;
-        private static int xsiType;
-        private static int xsdGroup;
-        private static int xsdKey;
-        private static int xsdKeyRef;
-        private static int xsdUnion;
-        private static int xsdList;
-        private static int xsdAttributeGroup;
-        private static int xsdUnique;
-        private static int xsdComplexType;
-        private static int xsdSimpleType;
-        private static int xsdElement;
-        private static int xsdSequence;
-        private static int xsdRestriction;
-        private static int xsdExtension;
+        private int xsdAttribute;
+        private int xsdAny;
+        private int xsdAll;
+        private int xsdAnyAttribute;
+        private int xsdChoice;
+        private int xsdRedefine;
+        private int xsdSubstitutionGroup;
+        private int xsiType;
+        private int xsdGroup;
+        private int xsdKey;
+        private int xsdKeyRef;
+        private int xsdUnion;
+        private int xsdList;
+        private int xsdAttributeGroup;
+        private int xsdUnique;
+        private int xsdComplexType;
+        private int xsdSimpleType;
+        private int xsdElement;
+        private int xsdSequence;
+        private int xsdRestriction;
+        private int xsdExtension;
 
 
-        public static SchemaAnalyzerResults Read(string filename)
+        public SchemaAnalyzerResults Read(string filename)
         {
 
 
@@ -146,7 +146,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
 
             return results;
         }
-        private static void countXsdElements(XmlSchemaObjectCollection items)
+        private void countXsdElements(XmlSchemaObjectCollection items)
         {
             foreach (var item in items)
             {

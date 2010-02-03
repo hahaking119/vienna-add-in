@@ -33,7 +33,7 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         [Test]
         public void XMLSchemaReaderConstructorTest()
         {
-            XMLSchemaReader.Read("C:/VIENNAAddIn/VIENNAAddIn/upcc3/import/ebInterface/xsd/Invoice.xsd");
+            new XMLSchemaReader().Read("C:/VIENNAAddIn/VIENNAAddIn/upcc3/import/ebInterface/xsd/Invoice.xsd");
         }
     }
 }
