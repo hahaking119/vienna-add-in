@@ -2,7 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:VIENNAAddInWpfUserControls="clr-namespace:VIENNAAddInWpfUserControls;assembly=VIENNAAddInWpfUserControls"
-    Height="446" Width="478" WindowStyle="SingleBorderWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="True" ResizeMode="NoResize" Title="XML Schema Exporter Wizard" FontSize="11">
+    Height="490" Width="478" WindowStyle="SingleBorderWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="True" ResizeMode="NoResize" Title="XML Schema Exporter Wizard" FontSize="11">
     <DockPanel Margin="5,5,5,5">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,10,5,5">
             <Button HorizontalAlignment="Left" Height="23" Name="buttonExport" Width="175" Click="buttonExport_Click">_Export XML Schema</Button>
@@ -15,17 +15,8 @@
             <ComboBox Name="comboboxBusinessInformationView" Width="300" SelectionChanged="comboboxBusinessInformationView_SelectionChanged"></ComboBox>
         </StackPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
-            <Label Height="23" Width="160">Documents to be generated:</Label>
-            <ComboBox Name="comboboxDocuments" Width="300">
-<!--                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox />
-                            <Label />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>-->
-            </ComboBox>
+            <Label Height="75" Width="160">Documents to be generated:</Label>
+            <ListBox Name="comboboxDocuments" Width="300" Height="75" />
         </StackPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,5,0,0">
             <Label Height="23" Width="160">Document Model:</Label>

@@ -69,6 +69,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
+        private static void SetSafeIndex(System.Windows.Controls.ListBox box, int indexToBeSet)
+        {
+            if (box.Items.Count > 0)
+            {
+                if (indexToBeSet < box.Items.Count)
+                {
+                    box.SelectedIndex = indexToBeSet;
+                }
+                else
+                {
+                    box.SelectedIndex = 0;
+                }
+            }
+        }
+
         private void MirrorBIVsToUI()
         {
             comboboxBusinessInformationView.Items.Clear();
@@ -78,12 +93,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 comboboxBusinessInformationView.Items.Add(docl.Name);
             }
 
-            // TODO: preselect first item
-
-            if (comboboxBusinessInformationView.Items.Count > 0)
+            //TODO preselect first item
+/*            if (comboboxBusinessInformationView.Items.Count > 0)
             {
                 comboboxBusinessInformationView.SelectedIndex = 0;    
-            }            
+            }  */          
         }
 
         private void MirrorModelsToUI()
