@@ -59,7 +59,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         {
             if (ClassInstance == null)
             {
-                throw new Exception("Can't return instantiate Cache since Ccts Repository is not net. The method GetInstance(ICctsRepository cctsRepository) needs to be called at least one. ");
+                throw new Exception("Can't return instantiate Cache since Ccts Repository is not set. The method GetInstance(ICctsRepository cctsRepository) needs to be called at least one. ");
             }
 
             return ClassInstance;
@@ -219,7 +219,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                     return acc;
                 }
             }
-            throw new Exception("No corresponding CDT with Name '" + ccName + "' found in CDT Library '" + ccLibraryName +
+            throw new Exception("No corresponding ACC with Name '" + ccName + "' found in CC Library '" + ccLibraryName +
                                 "'.");
         }
 

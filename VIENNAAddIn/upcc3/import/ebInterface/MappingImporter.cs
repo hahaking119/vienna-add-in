@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
@@ -20,9 +18,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly string bdtLibraryName;
         private readonly string qualifier;
         private readonly string rootElementName;
+        private ICctsRepository cctsRepository;
 
         /// <summary>
         /// </summary>
+        /// <param name="xmlSchemaFiles"></param>
         /// <param name="ccLibrary">The CC Library.</param>
         /// <param name="bLibrary">The bLibrary.</param>
         /// <param name="mapForceMappingFiles">The MapForce mapping file.</param>
@@ -30,7 +30,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// <param name="bieLibraryName">The name of the BIELibrary to be created.</param>
         /// <param name="bdtLibraryName">The name of the BDTLibrary to be created.</param>
         /// <param name="qualifier">The qualifier for the business domain (e.g. "ebInterface").</param>
-        public MappingImporter(IEnumerable<string> mapForceMappingFiles, IEnumerable<string> xmlSchemaFiles, ICcLibrary ccLibrary, IBLibrary bLibrary, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName)
+        /// <param name="rootElementName"></param>
+        public MappingImporter(IEnumerable<string> mapForceMappingFiles, IEnumerable<string> xmlSchemaFiles, ICcLibrary ccLibrary, IBLibrary bLibrary, string docLibraryName, string bieLibraryName, string bdtLibraryName, string qualifier, string rootElementName, ICctsRepository cctsRepository)
         {
             this.ccLibrary = ccLibrary;
             this.bLibrary = bLibrary;
@@ -41,12 +42,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             this.bdtLibraryName = bdtLibraryName;
             this.qualifier = qualifier;
             this.rootElementName = rootElementName;
+            this.cctsRepository = cctsRepository;
         }
 
         /// <summary>
         /// </summary>
-        /// <param name="cctsRepository"></param>
-        public void ImportMapping(ICctsRepository cctsRepository)
+        public void ImportMapping()
         {
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mapForceMappingFiles);
 
@@ -56,7 +57,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xmlSchema), null));    
             }
 
-            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccLibrary);
+            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccLibrary, cctsRepository);
             var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, bLibrary, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
             mappedLibraryGenerator.GenerateLibraries();
         }

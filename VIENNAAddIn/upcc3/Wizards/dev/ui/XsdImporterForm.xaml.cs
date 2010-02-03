@@ -103,7 +103,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             try
             {
-                new MappingImporter(Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, selectedCcLibrary, selectedBLibrary, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text).ImportMapping(cctsRepository);
+                new MappingImporter(Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, selectedCcLibrary, selectedBLibrary, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text, cctsRepository).ImportMapping();
             }
             catch(FileNotFoundException fnfe)
             {

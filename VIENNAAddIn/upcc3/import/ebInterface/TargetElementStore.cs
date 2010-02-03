@@ -1,20 +1,28 @@
 using System.Collections.Generic;
+using CctsRepository;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using VIENNAAddIn.upcc3.Wizards.dev.cache;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class TargetElementStore
     {
         private readonly Dictionary<string, object> targetCsByKey = new Dictionary<string, object>();
+        private Dictionary<int, List<IBcc>> bccsByAccId = new Dictionary<int, List<IBcc>>();
+        private readonly CcCache cache;
 
-        public TargetElementStore(MapForceMapping mapForceMapping, ICcLibrary ccLibrary)
+        public TargetElementStore(MapForceMapping mapForceMapping, ICcLibrary ccLibrary, ICctsRepository cctsRepository)
         {
+            cache = CcCache.GetInstance(cctsRepository);
+            
             IEnumerable<SchemaComponent> targetSchemaComponents = mapForceMapping.GetTargetSchemaComponents();
             foreach (SchemaComponent component in targetSchemaComponents)
             {
                 Entry entry = component.RootEntry;
-                IAcc acc = ccLibrary.GetAccByName(entry.Name);
+
+                IAcc acc = cache.GetCcFromCcLibrary(ccLibrary.Name, entry.Name);
+                
                 if (acc == null)
                 {
                     throw new MappingError("ACC '" + entry.Name + "' not found.");
@@ -30,6 +38,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             foreach (Entry subEntry in entry.SubEntries)
             {
                 IBcc bcc = GetBcc(acc, subEntry.Name);
+                
                 if (bcc != null)
                 {
                     AddToIndex(subEntry, bcc);
@@ -68,9 +77,15 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private static IBcc GetBcc(IAcc acc, string name)
+        private IBcc GetBcc(IAcc acc, string name)
         {
-            foreach (IBcc bcc in acc.Bccs)
+            List<IBcc> bccsForAcc;
+            if (!bccsByAccId.TryGetValue(acc.Id, out bccsForAcc))
+            {
+                bccsForAcc = new List<IBcc>(acc.Bccs);
+                bccsByAccId[acc.Id] = bccsForAcc;
+            }
+            foreach (IBcc bcc in bccsForAcc)
             {
                 if (name == NDR.GenerateBCCName(bcc))
                 {
