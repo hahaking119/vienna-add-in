@@ -42,7 +42,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             mappingFunctionStore = new MappingFunctionStore(mapForceMapping, edges, targetElementStore);
 
             Console.Out.WriteLine("Deriving implicit mappings:");
-            RootElementMapping = MapElement(sourceElementStore.RootSourceElement);
+            RootElementMapping = MapElement(sourceElementStore.RootSourceElement, "/" + sourceElementStore.RootSourceElement.Name);
             Console.Out.WriteLine("Done.");
         }
 
@@ -63,7 +63,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         }
 
         /// <exception cref="MappingError">Simple typed element mapped to non-BCC CCTS element.</exception>
-        private ElementMapping MapElement(SourceElement sourceElement)
+        private ElementMapping MapElement(SourceElement sourceElement, string path)
         {
             if (sourceElement.HasSimpleType())
             {
@@ -91,11 +91,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                     return new SplitMapping(sourceElement, splitFunction.TargetCcs.Convert(cc => (IBcc) cc), simpleTypeToCdtMappings);
                 }
-                throw new MappingError("Simple typed element '" + sourceElement.Name + "' mapped to non-BCC CCTS element.");
+                throw new MappingError("Simple typed element '" + path + "' mapped to non-BCC CCTS element.");
             }
             if (sourceElement.HasComplexType())
             {
-                ComplexTypeMapping complexTypeMapping = MapComplexType(sourceElement);
+                ComplexTypeMapping complexTypeMapping = MapComplexType(sourceElement, path);
                 if (complexTypeMapping == null)
                 {
                     // ignore element
@@ -116,9 +116,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                         {
                             return new ComplexElementToAsccMapping(sourceElement, targetAscc, complexTypeMapping);
                         }
-                        throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to ASCC with associated ACC other than the target ACC for the complex type.");
+                        throw new MappingError("Complex typed element '" + path + "' mapped to ASCC with associated ACC other than the target ACC for the complex type.");
                     }
-                    throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to ASCC, but the complex type is not mapped to a single ACC.");
+                    throw new MappingError("Complex typed element '" + path + "' mapped to ASCC, but the complex type is not mapped to a single ACC.");
                 }
                 if (IsMappedToBcc(sourceElement))
                 {
@@ -133,13 +133,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                             return new AttributeOrSimpleElementOrComplexElementToBccMapping(sourceElement, targetBcc, complexTypeMapping);
                         }
 
-                        throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to BCC with CDT other than the target CDT for the complex type.");
+                        throw new MappingError("Complex typed element '" + path + "' mapped to BCC with CDT other than the target CDT for the complex type.");
                     }
-                    throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to BCC, but the complex type is not mapped to a CDT.");                    
+                    throw new MappingError("Complex typed element '" + path + "' mapped to BCC, but the complex type is not mapped to a CDT.");                    
                 }
-                throw new MappingError("Complex typed element '" + sourceElement.Name + "' mapped to non-ASCC CCTS element.");
+                throw new MappingError("Complex typed element '" + path + "' mapped to non-ASCC CCTS element.");
             }
-            throw new Exception("Source element '" + sourceElement.Name + "' has neither simple nor complex type.");
+            throw new Exception("Source element '" + path + "' has neither simple nor complex type.");
         }
 
         private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement)
@@ -163,12 +163,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return newMapping;
         }
 
-        private ComplexTypeMapping MapComplexType(SourceElement sourceElement)
+        private ComplexTypeMapping MapComplexType(SourceElement sourceElement, string path)
         {
             string complexTypeName = sourceElement.XsdTypeName;
             if (ComplexTypeIsUnmapped(complexTypeName))
             {
-                IEnumerable<ElementMapping> childMappings = MapChildren(sourceElement);
+                IEnumerable<ElementMapping> childMappings = MapChildren(sourceElement, path);
                 if (childMappings.Count() == 0)
                 {
                     // complex type not mapped
@@ -273,11 +273,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return GetComplexTypeMapping(complexTypeName);
         }
 
-        private IEnumerable<ElementMapping> MapChildren(SourceElement sourceElement)
+        private IEnumerable<ElementMapping> MapChildren(SourceElement sourceElement, string path)
         {
             foreach (var child in sourceElement.Children)
             {
-                var childMapping = MapElement(child);
+                var childMapping = MapElement(child, path + "/" + child.Name);
                 if (childMapping != ElementMapping.NullElementMapping)
                 {
                     yield return childMapping;

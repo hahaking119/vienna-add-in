@@ -112,6 +112,7 @@
     <Compile Include="upcc3\import\ebInterface\SchemaMappingTests.cs" />
     <Compile Include="upcc3\import\ebInterface\TargetElementStoreTests.cs" />
     <Compile Include="upcc3\import\ubl\MappingImporterTests.cs" />
+    <Compile Include="upcc3\import\ubl\SchemaMappingTests.cs" />
     <Compile Include="upcc3\import\util\CustomSchemaReaderTest.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\TemporaryAbieModelTest.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModelTest.cs" />

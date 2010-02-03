@@ -8,11 +8,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
 {
     internal class MappingTestRepository : EARepository
     {
+
         public MappingTestRepository()
         {
             Element cdtText = null;
+            Element cdtDateTime = null;
             Element primString = null;
-            Element accAddress = null;
             this.AddModel(
                 "test", m => m.AddPackage("bLibrary", bLibrary =>
                                                       {
@@ -32,12 +33,17 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                                                           e.AddCON(primString);
                                                                                                                                           e.AddSUPs(primString, "Language", "UnusedSup", "LanguageLocale");
                                                                                                                                       });
+                                                                                                cdtDateTime = package.AddCDT("DateTime").With(e =>
+                                                                                                                                      {
+                                                                                                                                          e.Stereotype = Stereotype.CDT;
+                                                                                                                                          e.AddCON(primString);
+                                                                                                                                      });
                                                                                             });
                                                           bLibrary.AddPackage("CCLibrary", package =>
                                                                                            {
                                                                                                package.Element.Stereotype = Stereotype.CCLibrary;
                                                                                                package.AddClass("Foo").With(e => e.Stereotype = Stereotype.ACC);
-                                                                                               accAddress = package.AddClass("Address")
+                                                                                               Element accAddress = package.AddClass("Address")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "CountryName", "StreetName", "CityName", "BuildingNumber"));
                                                                                                package.AddClass("AccountingVoucher")
@@ -49,9 +55,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "Name"))
                                                                                                    .With(e => e.AddASCC(accAddress, "Residence"));
-                                                                                               accAddress = package.AddClass("TradeLineItem")
+                                                                                               package.AddClass("TradeLineItem")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "Identifer", "SequenceNumeric", "GrossWeightMeasure", "NetWeightMeasure", "GrossVolumeMeasure", "ChargeAmount"));
+                                                                                               Element accNote = package.AddClass("Note")
+                                                                                                   .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                                   .With(e => e.AddBCCs(cdtText, "Content"));
+                                                                                               package.AddClass("Document")
+                                                                                                   .With(e => e.Stereotype = Stereotype.ACC)
+                                                                                                   .With(e => e.AddBCCs(cdtDateTime, "Issue"))
+                                                                                                   .With(e => e.AddASCC(accNote, "Included"));
                                                                                            });
                                                       }));
         }

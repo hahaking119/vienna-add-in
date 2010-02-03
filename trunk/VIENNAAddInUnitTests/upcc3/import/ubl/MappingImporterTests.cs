@@ -44,14 +44,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
         [Ignore("for manual testing")]
         public void Test_mapping_ubl_to_ccl()
         {
-            // TODO: test cases to be completed
-
             string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\MappingImporterTests\mapping_ubl_to_ccl\Invoice.eap");
             File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\ubl\MappingImporterTests\mapping_ubl_to_ccl\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
             var repo = new Repository();
             repo.OpenFile(repoPath);
 
-            var mappingFileNames = new List<string> { "ebInterface2CCTS_1_1.mfd", "ebInterface2CCTS_2_1.mfd", "ebInterface2CCTS_3_1.mfd", "ebInterface2CCTS_4_1.mfd", "ebInterface2CCTS_5_1.mfd", "ebInterface2CCTS_6_1.mfd", "ebInterface2CCTS_7_1.mfd", "ebInterface2CCTS_8_1.mfd" };            
+            var mappingFileNames = new List<string> { "ubl2cll_1_1.mfd", "ubl2cll_2_1.mfd", "ubl2cll_3_1.mfd", "ubl2cll_4_1.mfd", "ubl2cll_5_1.mfd", "ubl2cll_6_1.mfd", "ubl2cll_7_1.mfd", "ubl2cll_8_1.mfd", "ubl2cll_9_1.mfd", "ubl2cll_10_1.mfd", "ubl2cll_11_1.mfd", "ubl2cll_12_1.mfd", "ubl2cll_13_1.mfd" };
             var mappingFiles = new List<string>();
 
             foreach (var mappingFile in mappingFileNames)
@@ -59,7 +57,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
                 mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\ubl\MappingImporterTests\mapping_ubl_to_ccl\" + mappingFile));
             }
 
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\MappingImporterTests\mapping_ebInterface_to_ccl\Invoice.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\ubl\MappingImporterTests\mapping_ubl_to_ccl\invoice\maindoc\UBL-Invoice-2.0.xsd") };
 
             Console.Out.WriteLine("Starting mapping");
             var repository = CctsRepositoryFactory.CreateCctsRepository(repo);
