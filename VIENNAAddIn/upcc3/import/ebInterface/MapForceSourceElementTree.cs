@@ -80,62 +80,72 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             XmlSchemaType xsdType = xsdElement.ElementSchemaType;
             sourceElement.XsdType = xsdType;
 
-            if (sourceElement.Name=="Quantity")
-            {
-                if (sourceElement.Name == "Quantity")
-                {
-                    
-                }
-            }
-
             if (xsdType is XmlSchemaComplexType)
             {
                 foreach (SourceElement child in sourceElement.Children)
                 {
-                    XmlSchemaComplexType complexType = (XmlSchemaComplexType) xsdType;
-
-                    if (complexType.Particle is XmlSchemaGroupBase)
-                    {
-                        AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase)complexType.Particle, child);
-                    }    
-
-                    if (complexType.ContentTypeParticle is XmlSchemaSequence)
-                    {
-                        AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase) complexType.ContentTypeParticle, child);
-                    }
-
-                    if (complexType.ContentModel is XmlSchemaSimpleContent)
-                    {
-                        XmlSchemaSimpleContent x = (XmlSchemaSimpleContent)complexType.ContentModel;
-                        XmlSchemaSimpleContentExtension y = (XmlSchemaSimpleContentExtension)x.Content;
-
-                        foreach (XmlSchemaAttribute attribute in y.Attributes)
-                        {
-                            string attributeName = attribute.Name ?? attribute.RefName.Name;
-
-                            if (attributeName == child.Name)
-                            {
-                                AttachXsdInformationToSourceElements(child, attribute);
-                            }
-                        }                       
-        
-                        //AttachXsdGroupInformationToSourceElements((XmlSchemaSimpleContent)complexType.ContentModel, child);
-                    }
-                    
-                    foreach (XmlSchemaAttribute attribute in complexType.Attributes)
-                    {
-                        string attributeName = attribute.Name ?? attribute.RefName.Name;
-
-                        if (attributeName == child.Name)
-                        {
-                            AttachXsdInformationToSourceElements(child, attribute);
-                        }
-                    }
+                    AttachXsdInformationToChild(xsdType, child);
                 }
             }
         }
 
-        private void AttachXsdGroupInformationToSourceElements(XmlSchemaGroupBase xsdGroup, SourceElement child)
+        private bool AttachXsdInformationToChild(XmlSchemaType xsdType, SourceElement child)
+        {
+            XmlSchemaComplexType complexType = (XmlSchemaComplexType) xsdType;
+
+            if (complexType.Particle is XmlSchemaGroupBase)
+            {
+                if (AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase)complexType.Particle, child))
+                {
+                    return true;
+                }
+            }    
+
+            if (complexType.ContentTypeParticle is XmlSchemaSequence)
+            {
+                if (AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase) complexType.ContentTypeParticle, child))
+                {
+                    return true;
+                }
+            }
+
+            if (complexType.ContentModel is XmlSchemaSimpleContent)
+            {
+                XmlSchemaSimpleContent x = (XmlSchemaSimpleContent)complexType.ContentModel;
+                XmlSchemaSimpleContentExtension y = (XmlSchemaSimpleContentExtension)x.Content;
+
+                foreach (XmlSchemaAttribute attribute in y.Attributes)
+                {
+                    string attributeName = attribute.Name ?? attribute.RefName.Name;
+
+                    if (attributeName == child.Name)
+                    {
+                        AttachXsdInformationToSourceElements(child, attribute);
+                        return true;
+                    }
+                }                       
+            }
+                    
+            foreach (XmlSchemaAttribute attribute in complexType.Attributes)
+            {
+                string attributeName = attribute.Name ?? attribute.RefName.Name;
+
+                if (attributeName == child.Name)
+                {
+                    AttachXsdInformationToSourceElements(child, attribute);
+                    return true;
+                }
+            }
+
+            if (xsdType.BaseXmlSchemaType != null)
+            {
+                return AttachXsdInformationToChild(xsdType.BaseXmlSchemaType, child);
+            }
+
+            return false;
+        }
+
+        private bool AttachXsdGroupInformationToSourceElements(XmlSchemaGroupBase xsdGroup, SourceElement child)
         {
             foreach (XmlSchemaObject item in xsdGroup.Items)
             {
@@ -148,13 +158,18 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     if (name == child.Name)
                     {
                         AttachXsdInformationToSourceElements(child, element);
+                        return true;
                     }                                
                 }
                 else if (item is XmlSchemaGroupBase)
                 {
-                    AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase) item, child);
+                    if (AttachXsdGroupInformationToSourceElements((XmlSchemaGroupBase) item, child))
+                    {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
 
         private static void AttachXsdInformationToSourceElements(SourceElement sourceElement, XmlSchemaAttribute attribute)

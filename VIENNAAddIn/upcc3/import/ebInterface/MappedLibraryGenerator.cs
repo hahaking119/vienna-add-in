@@ -361,11 +361,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         internal AsmaSpec GenerateSpec()
         {
-            return new AsmaSpec
-                   {
-                       Name = name,
-                       AssociatedBieAggregator = new BieAggregator(bieLibrary != null ? (object) bieLibrary.GetAbieByName(associatedBieName) : docLibrary.GetMaByName(associatedBieName)),
-                   };
+            AsmaSpec asmaSpec = new AsmaSpec
+                                {
+                                    Name = name,
+                                    AssociatedBieAggregator = new BieAggregator(bieLibrary != null ? (object) bieLibrary.GetAbieByName(associatedBieName) : docLibrary.GetMaByName(associatedBieName)),
+                                };
+            return asmaSpec;
         }
     }
 
