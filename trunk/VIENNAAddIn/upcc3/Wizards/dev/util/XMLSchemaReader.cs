@@ -71,8 +71,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
            
             //XmlReader reader = XmlReader.Create(new StreamReader(filename));
             //xmlSchemaSet.Compile();
+            Console.WriteLine(xmlSchemaSet.Schemas().Count);
             foreach (XmlSchema schema in xmlSchemaSet.Schemas())
             {
+                Console.WriteLine(schema.SourceUri);
                 countXsdElements(schema.Items);
             }
 
@@ -150,6 +152,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         {
             foreach (var item in items)
             {
+                Console.WriteLine(item.GetType().FullName);
                 if (item is XmlSchemaComplexType)
                 {
                     xsdComplexType++;
@@ -168,9 +171,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                         xsdSequence++;
                     }
                     countXsdElements(new XmlSchemaObjectCollection(complexType.Particle));
-
                 }
-                if(item is XmlSchemaSimpleContent)
+                if (item is XmlSchemaSimpleContent)
                 {
                     var xmlSchemaSimpleContent = (XmlSchemaSimpleContent) item;
                     if(xmlSchemaSimpleContent.Content is XmlSchemaSimpleContentExtension)

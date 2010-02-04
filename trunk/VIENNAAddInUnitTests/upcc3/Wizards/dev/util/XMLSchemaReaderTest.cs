@@ -33,7 +33,9 @@ namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.util
         [Test]
         public void XMLSchemaReaderConstructorTest()
         {
-            new XMLSchemaReader().Read("C:/VIENNAAddIn/VIENNAAddIn/upcc3/import/ebInterface/xsd/Invoice.xsd");
+            //new XMLSchemaReader().Read("C:/VIENNAAddIn/VIENNAAddIn/upcc3/import/ebInterface/xsd/Invoice.xsd");
+            //new XMLSchemaReader().Read("C:/VIENNAAddIn/VIENNAAddInUnitTests/testresources/XSDImporterTest/ubl/MappingImporterTests/mapping_ubl_to_ccl/invoice/maindoc/UBL-Invoice-2.0.xsd");
+            new XMLSchemaReader().Read("C:/VIENNAAddIn/VIENNAAddInUnitTests/testresources/XSDImporterTest/ubl/MappingImporterTests/mapping_ubl_to_ccl/invoice/common/UBL-QualifiedDatatypes-2.0.xsd");
         }
     }
 }
