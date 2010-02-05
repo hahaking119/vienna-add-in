@@ -213,7 +213,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
                                                  new List<ElementMapping>
                                                      {
                                                          new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, textTypeToTextMapping),                                                         
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Country", ""), bccCountry, textTypeToCodeMapping),                                                         
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountry, textTypeToCodeMapping),                                                         
                                                      });
 
 
