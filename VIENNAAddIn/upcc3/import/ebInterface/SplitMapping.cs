@@ -131,5 +131,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             return sourceElement.Name + "_" + targetBcc.Name;
         }
+
+        public override bool ResolveTypeMapping(SchemaMapping schemaMapping)
+        {
+            // do nothing
+            return true;
+        }
     }
 }

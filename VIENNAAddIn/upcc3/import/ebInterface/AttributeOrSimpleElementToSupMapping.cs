@@ -58,5 +58,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             return !Equals(left, right);
         }
+
+        public override bool ResolveTypeMapping(SchemaMapping schemaMapping)
+        {
+            // do nothing
+            return true;
+        }
     }
 }

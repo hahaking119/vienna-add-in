@@ -6,6 +6,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class SourceElement : IEquatable<SourceElement>
     {
+        private SourceElement parent;
         public string Name { get; private set; }
 
         private readonly List<SourceElement> children;
@@ -36,9 +37,22 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             children = new List<SourceElement>();
         }
 
-        public void AddChild(SourceElement element)
+        public string Path
         {
-            children.Add(element);
+            get
+            {
+                if (parent != null)
+                {
+                    return parent.Path + "/" + Name;
+                }
+                return Name;
+            }
+        }
+
+        public void AddChild(SourceElement child)
+        {
+            children.Add(child);
+            child.parent = this;
         }
 
         public bool Equals(SourceElement other)

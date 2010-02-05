@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
@@ -7,9 +8,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     {
         private readonly SourceElement sourceElement;
 
-        public ComplexElementToAsccMapping(SourceElement sourceElement, IAscc targetAscc, ComplexTypeMapping targetMapping)
+        public ComplexElementToAsccMapping(SourceElement sourceElement, IAscc targetAscc)
         {
-            TargetMapping = targetMapping;
             this.sourceElement = sourceElement;
             Ascc = targetAscc;
             Acc = Ascc.AssociatingAcc;
@@ -29,7 +29,25 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public IAscc Ascc { get; private set; }
 
-        public ComplexTypeMapping TargetMapping { get; private set; }
+        public ComplexTypeMapping TargetMapping { get; set; }
+
+        public override bool ResolveTypeMapping(SchemaMapping schemaMapping)
+        {
+            ComplexTypeMapping complexTypeMapping = schemaMapping.GetComplexTypeMapping(sourceElement.XsdType);
+            if (!complexTypeMapping.IsMappedToSingleACC)
+            {
+                throw new MappingError("Complex typed element '" + sourceElement.Path +
+                                       "' mapped to ASCC, but the complex type is not mapped to a single ACC.");
+            }
+            IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
+            if (complexTypeACC.Id != Ascc.AssociatedAcc.Id)
+            {
+                throw new MappingError("Complex typed element '" + sourceElement.Path +
+                                       "' mapped to ASCC with associated ACC other than the target ACC for the complex type.");
+            }
+            TargetMapping = complexTypeMapping;
+            return true;
+        }
 
         public bool Equals(ComplexElementToAsccMapping other)
         {
@@ -66,5 +84,5 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             return !Equals(left, right);
         }
-    }
+   }
 }

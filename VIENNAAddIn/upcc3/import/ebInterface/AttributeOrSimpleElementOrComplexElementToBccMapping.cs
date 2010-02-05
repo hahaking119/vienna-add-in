@@ -1,5 +1,6 @@
 using System;
 using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -62,6 +63,26 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public static bool operator !=(AttributeOrSimpleElementOrComplexElementToBccMapping left, AttributeOrSimpleElementOrComplexElementToBccMapping right)
         {
             return !Equals(left, right);
+        }
+
+        public override bool ResolveTypeMapping(SchemaMapping schemaMapping)
+        {
+            if (BccTypeMapping == null)
+            {
+                ComplexTypeMapping complexTypeMapping = schemaMapping.GetComplexTypeMapping(sourceElement.XsdType);
+                if (!complexTypeMapping.IsMappedToCdt)
+                {
+                    throw new MappingError("Complex typed element '" + sourceElement.Path +
+                        "' mapped to BCC, but the complex type is not mapped to a CDT.");
+                }
+                if (complexTypeMapping.TargetCdt.Id != Bcc.Cdt.Id)
+                {
+                    throw new MappingError("Complex typed element '" + sourceElement.Path +
+                                           "' mapped to BCC with CDT other than the target CDT for the complex type.");
+                }
+                BccTypeMapping = complexTypeMapping;
+            }
+            return true;
         }
     }
 }

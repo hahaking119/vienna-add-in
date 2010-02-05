@@ -4,15 +4,19 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class AsmaMapping : ElementMapping, IEquatable<AsmaMapping>
     {
-        public AsmaMapping(string sourceElementName, ComplexTypeMapping targetMapping)
+        private readonly SourceElement sourceElement;
+
+        public AsmaMapping(SourceElement sourceElement)
         {
-            SourceElementName = sourceElementName;
-            TargetMapping = targetMapping;
+            this.sourceElement = sourceElement;
         }
 
-        public string SourceElementName { get; private set; }
+        public string SourceElementName
+        {
+            get { return sourceElement.Name; }
+        }
 
-        public ComplexTypeMapping TargetMapping { get; private set; }
+        public ComplexTypeMapping TargetMapping { get; set; }
 
         public override string ToString()
         {
@@ -54,6 +58,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public override string BIEName
         {
             get { return SourceElementName; }
+        }
+
+        public override bool ResolveTypeMapping(SchemaMapping schemaMapping)
+        {
+            TargetMapping = schemaMapping.GetComplexTypeMapping(sourceElement.XsdType);
+            return TargetMapping is ComplexTypeToAccMapping || TargetMapping is ComplexTypeToMaMapping;
         }
     }
 }

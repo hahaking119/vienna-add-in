@@ -10,5 +10,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         }
 
         public static readonly ElementMapping NullElementMapping = new NullMapping();
+        public abstract bool ResolveTypeMapping(SchemaMapping schemaMapping);
     }
 }
