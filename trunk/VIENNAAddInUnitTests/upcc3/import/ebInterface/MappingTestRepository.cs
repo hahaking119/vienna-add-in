@@ -51,10 +51,11 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                package.AddClass("Person")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "Name"));
-                                                                                               package.AddClass("Party")
+                                                                                               Element accParty = package.AddClass("Party")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "Name"))
                                                                                                    .With(e => e.AddASCC(accAddress, "Residence"));
+                                                                                               accParty.AddASCC(accParty, "Children");
                                                                                                package.AddClass("TradeLineItem")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
                                                                                                    .With(e => e.AddBCCs(cdtText, "Identifer", "SequenceNumeric", "GrossWeightMeasure", "NetWeightMeasure", "GrossVolumeMeasure", "ChargeAmount"));

@@ -47,6 +47,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
             accParty = ccl.GetAccByName("Party");
             bccPartyName = accParty.Bccs.FirstOrDefault(bcc => bcc.Name == "Name");
             asccPartyResidenceAddress = accParty.Asccs.FirstOrDefault(ascc => ascc.Name == "Residence");
+            asccPartyChildren = accParty.Asccs.FirstOrDefault(ascc => ascc.Name == "Children");
         }
 
         #endregion
@@ -68,6 +69,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
         private IAcc accParty;
         private IBcc bccPartyName;
         private IAscc asccPartyResidenceAddress;
+        private IAscc asccPartyChildren;
 
         private ICdt cdtText;
         private ICdt cdtDateTime;
@@ -101,7 +103,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
                                        orderReferenceTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("OrderReference", orderReferenceTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("OrderReference", "")) { TargetMapping = orderReferenceTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -139,7 +141,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
                                        orderReferenceTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("OrderReference", orderReferenceTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("OrderReference", "")) { TargetMapping = orderReferenceTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -159,21 +161,21 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
                                                  };
 
 
+            List<ElementMapping> personTypeChildMappings = new List<ElementMapping>
+                            {
+                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), bccPartyName, stringMapping),
+                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), bccPartyName, stringMapping),
+                            };
             var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
-                                                                new List<ElementMapping>
-                                                                    {
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), bccPartyName, stringMapping),
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), bccPartyName, stringMapping),
-                                                                    });
-            //personTypeMapping.C
+                                                                personTypeChildMappings);
+            personTypeMapping.AddChildMapping(new ComplexElementToAsccMapping(new SourceElement("Children", ""), asccPartyChildren){TargetMapping = personTypeMapping});
 
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
-            //                           addressTypeMapping,
-            //                           personTypeMapping
+                                       personTypeMapping
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Person", "")) { TargetMapping = personTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }

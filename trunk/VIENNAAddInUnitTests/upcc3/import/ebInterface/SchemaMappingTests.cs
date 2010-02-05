@@ -85,7 +85,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                 new List<ElementMapping>
                                                                     {
                                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Name", ""), bccPartyName, stringMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress, addressTypeMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
                                                                     });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
@@ -93,7 +93,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        personTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Person", "")) { TargetMapping = personTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -125,7 +125,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -157,7 +157,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -189,7 +189,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -222,8 +222,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                     {
                                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), bccPartyName, stringMapping),
                                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), bccPartyName, stringMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress, addressTypeMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("WorkAddress", ""), asccPartyResidenceAddress, addressTypeMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
+                                                                        new ComplexElementToAsccMapping(new SourceElement("WorkAddress", ""), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
                                                                     });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -232,7 +232,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        personTypeMapping
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Person", "")) { TargetMapping = personTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -262,8 +262,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                    {
                                        addressTypeMapping,
                                    };
-            
-            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -296,7 +296,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeToCdtMapping>(), expectedRootElementMapping);
         }
@@ -328,7 +328,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping("Address", addressTypeMapping);
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);            
         }

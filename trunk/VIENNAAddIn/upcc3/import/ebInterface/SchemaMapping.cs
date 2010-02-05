@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
 using CctsRepository.CcLibrary;
@@ -17,6 +18,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private readonly MapForceSourceElementTree sourceElementStore;
         private readonly TargetElementStore targetElementStore;
         private readonly MappingFunctionStore mappingFunctionStore;
+        private readonly List<ElementMapping> elementMappings = new List<ElementMapping>();
 
         public SchemaMapping(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet, ICcLibrary ccLibrary, ICctsRepository cctsRepository)
         {
@@ -42,11 +44,25 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             mappingFunctionStore = new MappingFunctionStore(mapForceMapping, edges, targetElementStore);
 
             Console.Out.WriteLine("Deriving implicit mappings:");
-            RootElementMapping = MapElement(sourceElementStore.RootSourceElement, "/" + sourceElementStore.RootSourceElement.Name);
+            RootElementMapping = MapElement(sourceElementStore.RootSourceElement, "/" + sourceElementStore.RootSourceElement.Name, new Stack<XmlQualifiedName>());
+            elementMappings.Add(RootElementMapping);
             Console.Out.WriteLine("Done.");
+
+            elementMappings = new List<ElementMapping>(ResolveTypeMappings(elementMappings));
         }
 
-        private void PrintSourceElementTree(SourceElement element, string indent)
+        private IEnumerable<ElementMapping> ResolveTypeMappings(IEnumerable<ElementMapping> unresolvedElementMappings)
+        {
+            foreach (ElementMapping elementMapping in unresolvedElementMappings)
+            {
+                if (elementMapping.ResolveTypeMapping(this))
+                {
+                    yield return elementMapping;
+                }
+            }
+        }
+
+        private static void PrintSourceElementTree(SourceElement element, string indent)
         {
             Console.Out.WriteLine(indent + element.Name);
             foreach (var child in element.Children)
@@ -57,13 +73,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public ElementMapping RootElementMapping { get; private set; }
 
-        public SourceElement RootSourceElement
-        {
-            get { return sourceElementStore.RootSourceElement; }
-        }
-
         /// <exception cref="MappingError">Simple typed element mapped to non-BCC CCTS element.</exception>
-        private ElementMapping MapElement(SourceElement sourceElement, string path)
+        private ElementMapping MapElement(SourceElement sourceElement, string path, Stack<XmlQualifiedName> parentComplexTypeNames)
         {
             if (sourceElement.HasSimpleType())
             {
@@ -96,48 +107,26 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             
             if (sourceElement.HasComplexType())
             {
-                ComplexTypeMapping complexTypeMapping = MapComplexType(sourceElement, path);
+                bool complexTypeIsMapped = MapComplexType(sourceElement, path, parentComplexTypeNames);
 
-                if (complexTypeMapping == null)
+                if (!complexTypeIsMapped)
                 {
                     // ignore element
                     return ElementMapping.NullElementMapping;
                 }
                 if (IsUnmapped(sourceElement))
                 {
-                    return new AsmaMapping(sourceElement.Name, complexTypeMapping);
+                    return new AsmaMapping(sourceElement);
                 }
                 if (IsMappedToAscc(sourceElement))
                 {
-                    if (complexTypeMapping.IsMappedToSingleACC)
-                    {
-                        IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
-                        IAscc targetAscc = (IAscc)GetTargetElement(sourceElement);
-                        IAcc targetACC = targetAscc.AssociatedAcc;
-                        if (complexTypeACC.Id == targetACC.Id)
-                        {
-                            return new ComplexElementToAsccMapping(sourceElement, targetAscc, complexTypeMapping);
-                        }
-                        throw new MappingError("Complex typed element '" + path + "' mapped to ASCC with associated ACC other than the target ACC for the complex type.");
-                    }
-                    throw new MappingError("Complex typed element '" + path + "' mapped to ASCC, but the complex type is not mapped to a single ACC.");
+                    IAscc targetAscc = (IAscc)GetTargetElement(sourceElement);
+                    return new ComplexElementToAsccMapping(sourceElement, targetAscc);
                 }
                 if (IsMappedToBcc(sourceElement))
                 {
-                    if (complexTypeMapping.IsMappedToCdt)
-                    {
-                        ICdt complexTypeCdt = complexTypeMapping.TargetCdt;
-                        IBcc targetBcc = (IBcc)GetTargetElement(sourceElement);
-                        ICdt targetCdt = targetBcc.Cdt;
-
-                        if (complexTypeCdt.Id == targetCdt.Id)
-                        {
-                            return new AttributeOrSimpleElementOrComplexElementToBccMapping(sourceElement, targetBcc, complexTypeMapping);
-                        }
-
-                        throw new MappingError("Complex typed element '" + path + "' mapped to BCC with CDT other than the target CDT for the complex type.");
-                    }
-                    throw new MappingError("Complex typed element '" + path + "' mapped to BCC, but the complex type is not mapped to a CDT.");                    
+                    IBcc targetBcc = (IBcc)GetTargetElement(sourceElement);
+                    return new AttributeOrSimpleElementOrComplexElementToBccMapping(sourceElement, targetBcc, null);
                 }
 
                 throw new MappingError("Complex typed element '" + path + "' mapped to non-ASCC CCTS element.");
@@ -166,10 +155,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return newMapping;
         }
 
-        private ComplexTypeMapping MapComplexType(SourceElement sourceElement, string path)
+        private bool MapComplexType(SourceElement sourceElement, string path, Stack<XmlQualifiedName> parentComplexTypeNames)
         {
+            XmlQualifiedName qualifiedComplexTypeName = sourceElement.XsdType.QualifiedName;
+            if (parentComplexTypeNames.Contains(qualifiedComplexTypeName))
+            {
+                return true;
+            }
             string complexTypeName = sourceElement.XsdTypeName;
-            var x = sourceElement.XsdType.QualifiedName;
             if (ComplexTypeIsUnmapped(complexTypeName))
             {
                 IAcc targetAcc = null;
@@ -178,19 +171,18 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 bool hasAsmaMapping = false;
                 ComplexTypeMapping complexTypeMapping;
 
-                IEnumerable<ElementMapping> childMappings = MapChildren(sourceElement, path);
-                
-                // FRAGE AN CE
-                //if (childMappings.Count() == 0)
-                //{
-                //    if (sourceElement.HasSimpleContent())
-                //    {
-                //        Console.WriteLine("SIMPLE CONTENT: " + sourceElement.Name);
-                //    }
-                    
-                //    // complex type not mapped
-                //    return null;
-                //}
+                List<ElementMapping> childMappings = new List<ElementMapping>();
+                foreach (var child in sourceElement.Children)
+                {
+                    parentComplexTypeNames.Push(qualifiedComplexTypeName);
+                    var childMapping = MapElement(child, path + "/" + child.Name, parentComplexTypeNames);
+                    parentComplexTypeNames.Pop();
+                    if (childMapping != ElementMapping.NullElementMapping)
+                    {
+                        elementMappings.Add(childMapping);
+                        childMappings.Add(childMapping);
+                    }
+                }
 
                 if (childMappings.Count() == 0)
                 {
@@ -202,11 +194,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                         complexTypeMappings[complexTypeName] = complexTypeMapping;
 
-                        return complexTypeMapping;
+                        return true;
                     }
 
                     // complex type not mapped
-                    return null;
+                    return false;
                 }
 
                 foreach (ElementMapping child in childMappings)
@@ -296,21 +288,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
 
                 complexTypeMappings[complexTypeName] = complexTypeMapping;
-                return complexTypeMapping;
+                return true;
             }
-            return GetComplexTypeMapping(complexTypeName);
-        }
-
-        private IEnumerable<ElementMapping> MapChildren(SourceElement sourceElement, string path)
-        {
-            foreach (var child in sourceElement.Children)
-            {
-                var childMapping = MapElement(child, path + "/" + child.Name);
-                if (childMapping != ElementMapping.NullElementMapping)
-                {
-                    yield return childMapping;
-                }
-            }
+            return true;
         }
 
         private bool ComplexTypeIsUnmapped(string complexTypeName)
@@ -318,10 +298,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return !complexTypeMappings.ContainsKey(complexTypeName);
         }
 
-        private ComplexTypeMapping GetComplexTypeMapping(string complexTypeName)
+        public ComplexTypeMapping GetComplexTypeMapping(XmlSchemaType complexType)
         {
             ComplexTypeMapping mapping;
-            if (complexTypeMappings.TryGetValue(complexTypeName, out mapping))
+            if (complexTypeMappings.TryGetValue(complexType.Name, out mapping))
             {
                 return mapping;
             }
