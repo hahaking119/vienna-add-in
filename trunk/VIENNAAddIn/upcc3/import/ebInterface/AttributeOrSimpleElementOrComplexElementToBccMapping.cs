@@ -69,7 +69,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (BccTypeMapping == null)
             {
-                ComplexTypeMapping complexTypeMapping = schemaMapping.GetComplexTypeMapping(sourceElement.XsdType);
+                //complexTypeName + ((IBcc)GetTargetElement(sourceElement)).Cdt.Name
+
+                ComplexTypeMapping complexTypeMapping =
+                    schemaMapping.GetComplexTypeToCdtMapping(sourceElement.XsdTypeName + Bcc.Cdt.Name);
+                
+
+                //ComplexTypeMapping complexTypeMapping = schemaMapping.GetComplexTypeMapping(sourceElement.XsdType);
+
                 if (!complexTypeMapping.IsMappedToCdt)
                 {
                     throw new MappingError("Complex typed element '" + sourceElement.Path +
