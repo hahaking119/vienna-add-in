@@ -93,9 +93,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
                 throw new MappingError("Simple typed element '" + path + "' mapped to non-BCC CCTS element.");
             }
+            
             if (sourceElement.HasComplexType())
             {
                 ComplexTypeMapping complexTypeMapping = MapComplexType(sourceElement, path);
+
                 if (complexTypeMapping == null)
                 {
                     // ignore element
@@ -137,6 +139,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     }
                     throw new MappingError("Complex typed element '" + path + "' mapped to BCC, but the complex type is not mapped to a CDT.");                    
                 }
+
                 throw new MappingError("Complex typed element '" + path + "' mapped to non-ASCC CCTS element.");
             }
             throw new Exception("Source element '" + path + "' has neither simple nor complex type.");
@@ -166,20 +169,45 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         private ComplexTypeMapping MapComplexType(SourceElement sourceElement, string path)
         {
             string complexTypeName = sourceElement.XsdTypeName;
+            var x = sourceElement.XsdType.QualifiedName;
             if (ComplexTypeIsUnmapped(complexTypeName))
             {
-                IEnumerable<ElementMapping> childMappings = MapChildren(sourceElement, path);
-                if (childMappings.Count() == 0)
-                {
-                    // complex type not mapped
-                    return null;
-                }
-
                 IAcc targetAcc = null;
                 ICdt targetCdt = null;
                 bool hasMultipleAccMappings = false;
                 bool hasAsmaMapping = false;
                 ComplexTypeMapping complexTypeMapping;
+
+                IEnumerable<ElementMapping> childMappings = MapChildren(sourceElement, path);
+                
+                // FRAGE AN CE
+                //if (childMappings.Count() == 0)
+                //{
+                //    if (sourceElement.HasSimpleContent())
+                //    {
+                //        Console.WriteLine("SIMPLE CONTENT: " + sourceElement.Name);
+                //    }
+                    
+                //    // complex type not mapped
+                //    return null;
+                //}
+
+                if (childMappings.Count() == 0)
+                {
+                    if ((IsMappedToBcc(sourceElement)) && (sourceElement.HasSimpleContent()))
+                    {
+                        targetCdt = ((IBcc)GetTargetElement(sourceElement)).Cdt;
+
+                        complexTypeMapping = new ComplexTypeToCdtMapping(complexTypeName, childMappings) { TargetCdt = targetCdt };
+
+                        complexTypeMappings[complexTypeName] = complexTypeMapping;
+
+                        return complexTypeMapping;
+                    }
+
+                    // complex type not mapped
+                    return null;
+                }
 
                 foreach (ElementMapping child in childMappings)
                 {

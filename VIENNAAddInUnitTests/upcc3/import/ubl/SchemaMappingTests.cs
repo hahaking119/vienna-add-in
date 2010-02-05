@@ -76,6 +76,37 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
         private ICctsRepository cctsRepository;
 
         [Test]
+        public void Test_mapping_complex_type_with_complex_element_to_single_acc()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\SchemaMappingTests\mapping_complex_type_with_complex_element_to_single_acc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\SchemaMappingTests\mapping_complex_type_with_complex_element_to_single_acc\invoice\maindoc\UBL-Invoice-2.0.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>();
+
+
+            var issueDateTypeMapping = new ComplexTypeToCdtMapping("IssueDateType", new List<ElementMapping>()){TargetCdt = cdtDateTime};
+
+
+            var orderReferenceTypeMapping = new ComplexTypeToAccMapping("OrderReferenceType",
+                                                new List<ElementMapping>
+                                                            {
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("IssueDate", ""), bccIssue, issueDateTypeMapping),
+                                                            });
+
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       issueDateTypeMapping,
+                                       orderReferenceTypeMapping,
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping("OrderReference", orderReferenceTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
         public void Test_mapping_complex_type_with_complex_element_to_acc_and_bcc_of_other_acc()
         {
             var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\SchemaMappingTests\mapping_complex_type_with_complex_element_to_acc_and_bcc_of_other_acc\mapping.mfd");
@@ -86,7 +117,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
             var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>();
 
 
-            var issueDateTypeMapping = new ComplexTypeToCdtMapping("IssueDateType", new List<ElementMapping>());
+            var issueDateTypeMapping = new ComplexTypeToCdtMapping("IssueDateType", new List<ElementMapping>()) { TargetCdt = cdtDateTime };
 
             var customerReferenceTypeMapping = new ComplexTypeToCdtMapping("CustomerReferenceType",
                                                 new List<ElementMapping>
@@ -111,7 +142,41 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
             var expectedRootElementMapping = new AsmaMapping("OrderReference", orderReferenceTypeMapping);
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
-        }       
+        }
+
+        [Test]
+        public void Test_mapping_recursive_complex_type()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\SchemaMappingTests\mapping_recursive_complex_type\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\SchemaMappingTests\mapping_recursive_complex_type\source.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            SimpleTypeToCdtMapping stringMapping = new SimpleTypeToCdtMapping("String", cdtText);
+            var expectedSimpleTypeMappings = new List<SimpleTypeToCdtMapping>
+                                                 {
+                                                     stringMapping,
+                                                 };
+
+
+            var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
+                                                                new List<ElementMapping>
+                                                                    {
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), bccPartyName, stringMapping),
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), bccPartyName, stringMapping),
+                                                                    });
+            //personTypeMapping.C
+
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+            //                           addressTypeMapping,
+            //                           personTypeMapping
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping("Person", personTypeMapping);
+
+            AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
+        }
 
 
         private SchemaMapping CreateSchemaMapping(string mappingFileName, string xsdFileName)

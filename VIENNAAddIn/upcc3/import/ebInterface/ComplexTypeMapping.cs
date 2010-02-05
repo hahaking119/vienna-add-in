@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository.CcLibrary;
@@ -19,7 +20,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         #endregion
 
         private readonly List<ElementMapping> children;
-
+        
         protected ComplexTypeMapping(string complexTypeName, IEnumerable<ElementMapping> children)
         {
             ComplexTypeName = complexTypeName;
@@ -85,32 +86,49 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return TargetCdt != null; }
         }
 
+        private ICdt targetCdt;
+
         public ICdt TargetCdt
         {
             get
             {
-                ICdt targetCdt = null;
-                foreach (ElementMapping child in Children)
+                // if not set explicitly then determine the target-CDT 
+                // through the children mappings of the current element
+                if (targetCdt == null)
                 {
-                    if (child is AttributeOrSimpleElementToSupMapping)
+                    ICdt tCdt = null;
+
+                    foreach (ElementMapping child in Children)
                     {
-                        ICdt cdt = ((AttributeOrSimpleElementToSupMapping)child).Cdt;
-                        if (targetCdt == null)
+                        if (child is AttributeOrSimpleElementToSupMapping)
                         {
-                            targetCdt = cdt;
-                        }
-                        else
-                        {
-                            if (targetCdt != cdt)
+                            ICdt cdt = ((AttributeOrSimpleElementToSupMapping)child).Cdt;
+                            if (tCdt == null)
                             {
-                                throw new MappingError("Complex type mapped to more than one CDTs");
+                                tCdt = cdt;
+                            }
+                            else
+                            {
+                                if (tCdt != cdt)
+                                {
+                                    throw new MappingError("Complex type mapped to more than one CDTs");
+                                }
                             }
                         }
                     }
+
+                    targetCdt = tCdt;
                 }
+
                 return targetCdt;
             }
+
+            set
+            {
+                targetCdt = value;
+            }
         }
+       
 
         public string ComplexTypeName { get; private set; }
 
@@ -158,6 +176,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return true;
         }
 
-        public static readonly ComplexTypeMapping NullComplexTypeMapping = new NullComplexTypeMapping();
+        public static readonly ComplexTypeMapping NullComplexTypeMapping = new NullComplexTypeMapping();        
     }
 }
