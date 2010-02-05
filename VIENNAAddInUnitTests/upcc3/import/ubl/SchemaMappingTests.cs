@@ -27,8 +27,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
 
             cdtl = cctsRepository.GetCdtLibraryByPath((Path) "test"/"bLibrary"/"CDTLibrary");
             cdtText = cdtl.GetCdtByName("Text");
-            supLanguage = cdtText.Sups.FirstOrDefault(sup => sup.Name == "Language");
-            supLanguageLocale = cdtText.Sups.FirstOrDefault(sup => sup.Name == "LanguageLocale");
+            supTextLanguage = cdtText.Sups.FirstOrDefault(sup => sup.Name == "Language");
+            supTextLanguageLocale = cdtText.Sups.FirstOrDefault(sup => sup.Name == "LanguageLocale");
+
+            cdtCode = cdtl.GetCdtByName("Code");
+            supCodeLanguage = cdtCode.Sups.FirstOrDefault(sup => sup.Name == "Language");           
+            
             cdtDateTime = cdtl.GetCdtByName("DateTime");
             
             ccl = cctsRepository.GetCcLibraryByPath((Path) "test"/"bLibrary"/"CCLibrary");
@@ -37,7 +41,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
             bccCountryName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "CountryName");
             bccBuildingNumber = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "BuildingNumber");
             bccStreetName = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "StreetName");
-
+            bccCountry = accAddress.Bccs.FirstOrDefault(bcc => bcc.Name == "Country");
+            
             accDocument = ccl.GetAccByName("Document");
             bccIssue = accDocument.Bccs.FirstOrDefault(bcc => bcc.Name == "Issue");
 
@@ -73,9 +78,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
 
         private ICdt cdtText;
         private ICdt cdtDateTime;
-        private ICdtSup supLanguage;
-        private ICdtSup supLanguageLocale;
+        private ICdtSup supTextLanguage;
+        private ICdtSup supTextLanguageLocale;
         private ICctsRepository cctsRepository;
+        private ICdt cdtCode;
+        private ICdtSup supCodeLanguage;
+        private IBcc bccCountry;
 
         [Test]
         public void Test_mapping_complex_type_with_complex_element_to_single_acc()
@@ -124,7 +132,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
             var customerReferenceTypeMapping = new ComplexTypeToCdtMapping("CustomerReferenceType",
                                                 new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("languageID", ""), supLanguage),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("languageID", ""), supTextLanguage),
                                                             });
 
             var orderReferenceTypeMapping = new ComplexTypeToMaMapping("OrderReferenceType",
@@ -178,6 +186,49 @@ namespace VIENNAAddInUnitTests.upcc3.import.ubl
             var expectedRootElementMapping = new AsmaMapping(new SourceElement("Person", "")) { TargetMapping = personTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
+        }
+
+        [Test]
+        public void Test_mapping_one_complex_type_to_two_cdts()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\SchemaMappingTests\mapping_one_complex_type_to_two_cdts\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ubl\SchemaMappingTests\mapping_one_complex_type_to_two_cdts\source.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+
+            var textTypeToTextMapping = new ComplexTypeToCdtMapping("TextType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), supTextLanguage),
+                                                            });
+
+            var textTypeToCodeMapping = new ComplexTypeToCdtMapping("TextType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), supCodeLanguage),
+                                                            });
+
+            var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
+                                                 new List<ElementMapping>
+                                                     {
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, textTypeToTextMapping),                                                         
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Country", ""), bccCountry, textTypeToCodeMapping),                                                         
+                                                     });
+
+
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       textTypeToTextMapping,
+                                       textTypeToCodeMapping,
+                                       addressTypeMapping,
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+
+            AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeToCdtMapping>(), expectedRootElementMapping);
+
+
         }
 
 

@@ -12,6 +12,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
         public MappingTestRepository()
         {
             Element cdtText = null;
+            Element cdtCode = null;
             Element cdtDateTime = null;
             Element primString = null;
             this.AddModel(
@@ -33,6 +34,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                                                           e.AddCON(primString);
                                                                                                                                           e.AddSUPs(primString, "Language", "UnusedSup", "LanguageLocale");
                                                                                                                                       });
+                                                                                                cdtCode = package.AddCDT("Code").With(e =>
+                                                                                                {
+                                                                                                    e.Stereotype = Stereotype.CDT;
+                                                                                                    e.AddCON(primString);
+                                                                                                    e.AddSUPs(primString, "Language", "Name");
+                                                                                                });
+
                                                                                                 cdtDateTime = package.AddCDT("DateTime").With(e =>
                                                                                                                                       {
                                                                                                                                           e.Stereotype = Stereotype.CDT;
@@ -45,7 +53,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
                                                                                                package.AddClass("Foo").With(e => e.Stereotype = Stereotype.ACC);
                                                                                                Element accAddress = package.AddClass("Address")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC)
-                                                                                                   .With(e => e.AddBCCs(cdtText, "CountryName", "StreetName", "CityName", "BuildingNumber"));
+                                                                                                   .With(e => e.AddBCCs(cdtText, "CountryName", "StreetName", "CityName", "BuildingNumber"))
+                                                                                                   .With(e => e.AddBCCs(cdtCode, "Country"));
                                                                                                package.AddClass("AccountingVoucher")
                                                                                                    .With(e => e.Stereotype = Stereotype.ACC);
                                                                                                package.AddClass("Person")
