@@ -83,5 +83,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             return (XsdType is XmlSchemaComplexType);
         }
+
+        public bool HasSimpleContent()
+        {
+            return (((XmlSchemaComplexType) XsdType).ContentModel is XmlSchemaSimpleContent);            
+        }
     }
 }

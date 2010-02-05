@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CctsRepository.CdtLibrary;
 
 namespace VIENNAAddIn.upcc3.import.ebInterface
 {
@@ -26,7 +27,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             get { return ComplexTypeName + "_" + TargetCdt.Name; }
         }
-
+       
         public bool Equals(ComplexTypeToCdtMapping other)
         {
             if (ReferenceEquals(null, other)) return false;
