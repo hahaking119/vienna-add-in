@@ -162,7 +162,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             {
                 return true;
             }
+            
+
             string complexTypeName = sourceElement.XsdTypeName;
+            
             if (ComplexTypeIsUnmapped(complexTypeName))
             {
                 IAcc targetAcc = null;
