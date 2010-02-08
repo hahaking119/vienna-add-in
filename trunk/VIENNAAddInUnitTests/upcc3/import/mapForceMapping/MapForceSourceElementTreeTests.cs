@@ -14,11 +14,11 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
         [Test]
         public void TestCreateSourceElementTree()
         {
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\CreateSourceElementTree\source.xsd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\CreateSourceElementTree\source.xsd");
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
 
-            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\CreateSourceElementTree\mapping.mfd"));
+            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\CreateSourceElementTree\mapping.mfd"));
 
             var expectedAddress = new SourceElement("Address", "2");
             var expectedTown = new SourceElement("Town", "3");
@@ -52,7 +52,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             expectedRoot.AddChild(expectedChild1);
             expectedChild1.AddChild(expectedChild2);
 
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema1.xsd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema1.xsd");
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
 
@@ -97,8 +97,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema1.xsd")), null));
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema2.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema1.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema2.xsd")), null));
             
             var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
 
@@ -145,7 +145,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             entry4.AddChild(entry5);
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema3.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema3.xsd")), null));
 
             var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
 
@@ -183,7 +183,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                       null);
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema3.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema3.xsd")), null));
 
             var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
 
@@ -225,7 +225,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                       null);
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema4.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema4.xsd")), null));
 
             var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
 
@@ -265,10 +265,33 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema1.xsd")), null));
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\mapForceSourceElementTreeTests\Schema2.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema1.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema2.xsd")), null));
 
             new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+        }
+
+        [Test]
+        public void ShouldBuildCompleteSourceElementTree()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\BuildCompleteSourceElementTree\mapping.mfd");
+            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);
+
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\BuildCompleteSourceElementTree\source.xsd");
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
+
+            var person = new SourceElement("Person", string.Empty);
+            var personName = new SourceElement("Name", "2");
+            var personHomeAddress = new SourceElement("HomeAddress", "3");
+            var addressTown = new SourceElement("Town", "3");
+            person.AddChild(personName);
+            person.AddChild(personHomeAddress);
+            personHomeAddress.AddChild(addressTown);
+
+            var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+
+            AssertTreesAreEqual(person, sourceElementTree.RootSourceElement, string.Empty);
         }
 
         private static void AssertTreesAreEqual(SourceElement expected, SourceElement actual, string path)
