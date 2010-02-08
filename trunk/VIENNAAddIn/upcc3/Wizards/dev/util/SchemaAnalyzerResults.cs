@@ -43,7 +43,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             }
             else if (x != null && y != null)
             {
-                returnValue = x.Weight.CompareTo(y.Weight);
+                returnValue = y.Count.CompareTo(x.Count);
             }
             return returnValue;
         }
