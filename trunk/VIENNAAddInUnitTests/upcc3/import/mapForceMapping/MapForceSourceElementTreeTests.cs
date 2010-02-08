@@ -6,7 +6,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3.import.ebInterface;
 
-namespace VIENNAAddInUnitTests.upcc3.import.ebInterface
+namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 {
     [TestFixture]
     public class MapForceSourceElementTreeTests
