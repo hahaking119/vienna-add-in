@@ -62,8 +62,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
 
         public SchemaAnalyzerResults Read(string filename)
         {
-
-
             var results = new SchemaAnalyzerResults();
             
             var xmlSchemaSet = new XmlSchemaSet();
@@ -171,46 +169,79 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                         xsdSequence++;
                     }
                     countXsdElements(new XmlSchemaObjectCollection(complexType.Particle));
+                    countXsdElements(complexType.Attributes);
+
+                    var obj = (XmlSchemaObject) complexType.ContentModel;
+                    if (obj != null)
+                    {
+                        var list = new XmlSchemaObjectCollection();
+                        list.Add(obj);
+                        countXsdElements(list);
+                    }
+                }
+                if(item is XmlSchemaSimpleContentExtension)
+                {
+                    xsdExtension++;
+                    var extension = (XmlSchemaSimpleContentExtension)item;
+                    countXsdElements(extension.Attributes);
+                }
+                if(item is XmlSchemaSimpleContentRestriction)
+                {
+                    xsdRestriction++;
+                    var restriction = (XmlSchemaSimpleContentRestriction) item;
+                    countXsdElements(restriction.Attributes);
+                    countXsdElements(restriction.Facets);
                 }
                 if (item is XmlSchemaSimpleContent)
                 {
                     var xmlSchemaSimpleContent = (XmlSchemaSimpleContent) item;
-                    if(xmlSchemaSimpleContent.Content is XmlSchemaSimpleContentExtension)
+
+                    var obj = (XmlSchemaObject) xmlSchemaSimpleContent.Content;
+                    if (obj != null)
                     {
-                        xsdExtension++;
+                        var list = new XmlSchemaObjectCollection();
+                        list.Add(obj);
+                        countXsdElements(list);
                     }
                 }
                 if(item is XmlSchemaAttributeGroup)
                 {
                     xsdAttributeGroup++;
                     var xmlSchemaAttributeGroup = (XmlSchemaAttributeGroup) item;
-                    if (xmlSchemaAttributeGroup.Attributes != null)
+                    countXsdElements(xmlSchemaAttributeGroup.Attributes);
+                }
+                if(item is XmlSchemaSimpleTypeUnion)
+                {
+                    var xmlSchemaSimpleTypeUnion = (XmlSchemaSimpleTypeUnion) item;
+                    if(xmlSchemaSimpleTypeUnion.MemberTypes.Length > 0)
                     {
-                        countXsdElements(xmlSchemaAttributeGroup.Attributes);
+                        xsiType++;
                     }
+                    xsdUnion++;
+                    countXsdElements(new XmlSchemaObjectCollection(xmlSchemaSimpleTypeUnion));
+                }
+                if(item is XmlSchemaSimpleTypeList)
+                {
+                    xsdList++;
+                }
+                if(item is XmlSchemaSimpleTypeRestriction)
+                {
+                    xsdRestriction++;
+                    var xmlSchemaSimpleTypeRestriction = (XmlSchemaSimpleTypeRestriction) item;
+                    countXsdElements(xmlSchemaSimpleTypeRestriction.Facets);
                 }
                 if (item is XmlSchemaSimpleType)
                 {
                     var xmlSchemaSimpleType = (XmlSchemaSimpleType) item;
-                    if(xmlSchemaSimpleType.Content is XmlSchemaSimpleTypeUnion)
-                    {
-                        var xmlSchemaSimpleTypeUnion = (XmlSchemaSimpleTypeUnion) xmlSchemaSimpleType.Content;
-                        if(xmlSchemaSimpleTypeUnion.MemberTypes.Length>0)
-                        {
-                            xsiType++;
-                        }
-                        xsdUnion++;
-                    }
-                    if(xmlSchemaSimpleType.Content is XmlSchemaSimpleTypeList)
-                    {
-                        xsdList++;
-                    }
-                    if(xmlSchemaSimpleType.Content is XmlSchemaSimpleTypeRestriction)
-                    {
-                        xsdRestriction++;
-                    }
                     xsdSimpleType++;
-                    countXsdElements(new XmlSchemaObjectCollection(xmlSchemaSimpleType.Content));
+
+                    var obj = (XmlSchemaObject)xmlSchemaSimpleType.Content;
+                    if (obj != null)
+                    {
+                        var list = new XmlSchemaObjectCollection();
+                        list.Add(obj);
+                        countXsdElements(list);
+                    }
                 }
                 if(item is XmlSchemaAny)
                 {
@@ -223,18 +254,26 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                 if(item is XmlSchemaRedefine)
                 {
                     xsdRedefine++;
+                    var xmlSchemaRedefine = (XmlSchemaRedefine) item;
+                    countXsdElements(xmlSchemaRedefine.Items);
                 }
                 if(item is XmlSchemaUnique)
                 {
                     xsdUnique++;
+                    var xmlSchemaUnique = (XmlSchemaUnique) item;
+                    countXsdElements(xmlSchemaUnique.Fields);
                 }
                 if(item is XmlSchemaKey)
                 {
                     xsdKey++;
+                    var xmlSchemaKey = (XmlSchemaKey) item;
+                    countXsdElements(xmlSchemaKey.Fields);
                 }
                 if(item is XmlSchemaKeyref)
                 {
                     xsdKeyRef++;
+                    var xmlSchemaKeyref = (XmlSchemaKeyref)item;
+                    countXsdElements(xmlSchemaKeyref.Fields);
                 }
                 if (item is XmlSchemaElement)
                 {
@@ -247,12 +286,29 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     {
                         xsdSubstitutionGroup++;
                     }
-                    var xmlSchemaComplexType = element.ElementSchemaType as XmlSchemaComplexType;
-                    if(xmlSchemaComplexType!=null)
-                    {
-                        countXsdElements(new XmlSchemaObjectCollection(xmlSchemaComplexType.Particle));
-                    }
+                    if(element.ElementSchemaType is XmlSchemaComplexType) {
+                        var xmlSchemaComplexType = element.ElementSchemaType as XmlSchemaComplexType;
 
+                        var obj = (XmlSchemaObject)xmlSchemaComplexType;
+                        if (obj != null)
+                        {
+                            var list = new XmlSchemaObjectCollection();
+                            list.Add(obj);
+                            countXsdElements(list);
+                        }
+                    }
+                    if (element.ElementSchemaType is XmlSchemaSimpleType)
+                    {
+                        var xmlSchemaSimpleType = element.ElementSchemaType as XmlSchemaSimpleType;
+
+                        var obj = (XmlSchemaObject)xmlSchemaSimpleType;
+                        if (obj != null)
+                        {
+                            var list = new XmlSchemaObjectCollection();
+                            list.Add(obj);
+                            countXsdElements(list);
+                        }
+                    }
                 }
                 if (item is XmlSchemaAttribute)
                 {
@@ -261,10 +317,26 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     {
                         xsdAttribute++;
                     }
+                    var obj = (XmlSchemaObject)attribute.AttributeSchemaType;
+                    if (obj != null)
+                    {
+                        var list = new XmlSchemaObjectCollection();
+                        list.Add(obj);
+                        countXsdElements(list);
+                    }
+                    var obj2 = (XmlSchemaObject) attribute.SchemaType;
+                    if (obj2 != null)
+                    {
+                        var list = new XmlSchemaObjectCollection();
+                        list.Add(obj2);
+                        countXsdElements(list);
+                    }
                 }
                 if (item is XmlSchemaGroup)
                 {
                     xsdGroup++;
+                    var xmlSchemaGroup = (XmlSchemaGroup) item;
+                    countXsdElements(new XmlSchemaObjectCollection(xmlSchemaGroup.Particle));
                 }
                 //switch (element.Name)
                 // {
