@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using CctsRepository.CcLibrary;
 
@@ -37,7 +38,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             if (!complexTypeMapping.IsMappedToSingleACC)
             {
                 throw new MappingError("Complex typed element '" + sourceElement.Path +
-                                       "' mapped to ASCC, but the complex type is not mapped to a single ACC.");
+                                       "' mapped to ASCC, but the complex type is not mapped to a single ACC but mapped to the ACCs " + string.Join(", ", complexTypeMapping.TargetACCs.Select(acc => acc.Name).ToArray()) + "instead.");
             }
             IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
             if (complexTypeACC.Id != Ascc.AssociatedAcc.Id)

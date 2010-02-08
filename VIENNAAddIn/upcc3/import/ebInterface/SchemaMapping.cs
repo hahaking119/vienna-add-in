@@ -49,6 +49,16 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             Console.Out.WriteLine("Done.");
 
             elementMappings = new List<ElementMapping>(ResolveTypeMappings(elementMappings));
+
+            int numberOfExplicitMappings = 0;
+            foreach (ElementMapping em in elementMappings)
+            {
+                if ((em is AttributeOrSimpleElementOrComplexElementToBccMapping) || (em is AttributeOrSimpleElementToSupMapping) || (em is ComplexElementToAsccMapping) || (em is SplitMapping))
+                {
+                    numberOfExplicitMappings++;
+                }
+            }
+            Console.Out.WriteLine("Number of Explicit Mappings: " + numberOfExplicitMappings);
         }
 
         private IEnumerable<ElementMapping> ResolveTypeMappings(IEnumerable<ElementMapping> unresolvedElementMappings)
