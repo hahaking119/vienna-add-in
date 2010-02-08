@@ -13,6 +13,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     /// </summary>
     public static class LinqToXmlMapForceMappingImporter
     {
+        private static int numberOfEdges;
+
         /// <summary>
         /// Takes a MapForce mapping file as input and returns a <see cref="MapForceMapping"/> object.
         /// </summary>
@@ -20,7 +22,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// <returns></returns>
         public static MapForceMapping ImportFromFiles(params string[] mappingFiles)
         {
-            return new MapForceMapping(ImportSchemaComponents(mappingFiles), ImportConstantComponents(mappingFiles), ImportFunctionComponents(mappingFiles), ImportGraph(mappingFiles));
+            numberOfEdges = 0;
+
+            MapForceMapping mapForceMapping = new MapForceMapping(ImportSchemaComponents(mappingFiles), ImportConstantComponents(mappingFiles), ImportFunctionComponents(mappingFiles), ImportGraph(mappingFiles));
+
+            Console.Out.WriteLine("Number of Edges specified in MapForce Mapping: " + numberOfEdges);
+
+            return mapForceMapping;
         }
 
         private static IEnumerable<FunctionComponent> ImportFunctionComponents(string[] mappingFiles)
@@ -112,6 +120,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             var edgeElements = vertexElement.XPathSelectElements("edges/edge");
             foreach (var edgeElement in edgeElements)
             {
+                numberOfEdges++;
                 yield return new Edge((string)edgeElement.Attribute("edgekey"), (string)edgeElement.Attribute("vertexkey"), mappingFile);
             }
         }
