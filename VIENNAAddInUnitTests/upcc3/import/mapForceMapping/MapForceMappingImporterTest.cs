@@ -14,7 +14,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
         [Test]
         public void TestImportSchemaComponents()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\MapForceMappingImporterTests\MapForceMappingImporter_ImportSchemaComponents_Test.mfd");
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MapForceMappingImporterTests\MapForceMappingImporter_ImportSchemaComponents_Test.mfd");
 
             MapForceMapping expectedMapping = new MapForceMapping(new List<SchemaComponent>
                                                                       {
@@ -58,7 +58,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
         [Test]
         public void TestImportSchemaComponentsWithMappingFunctionSplit()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\ebInterface\MapForceMappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MapForceMappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
 
             const string ebInterfaceStreetKey = "72359800";
             const string ebInterfaceTownKey = "72359696";
