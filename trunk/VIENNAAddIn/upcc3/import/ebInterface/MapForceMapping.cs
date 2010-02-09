@@ -12,11 +12,26 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     /// </summary>
     public class MapForceMapping : IEquatable<MapForceMapping>
     {
+        private readonly Dictionary<string, string> edges;
         public Graph Graph { get; private set; }
 
         public MapForceMapping(IEnumerable<SchemaComponent> schemaComponents, IEnumerable<ConstantComponent> constantComponents, IEnumerable<FunctionComponent> functionComponents, Graph graph)
         {
             Graph = graph;
+
+            edges = new Dictionary<string, string>();
+            Console.Out.WriteLine("Assembling Edges");
+            foreach (Vertex vertex in Graph.Vertices)
+            {
+                foreach (Edge edge in vertex.Edges)
+                {
+                    string sourceKey = vertex.Key;
+                    string targetKey = edge.TargetVertexKey;
+                    edges[sourceKey] = targetKey;
+                }
+            }
+            Console.Out.WriteLine("Done.");
+            
             SchemaComponents = new List<SchemaComponent>(schemaComponents);
             ConstantComponents = new List<ConstantComponent>(constantComponents);
             FunctionComponents = new List<FunctionComponent>(functionComponents);
@@ -103,6 +118,16 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     yield return schemaComponent;
                 }
             }
+        }
+
+        public string GetMappingTargetKey(string sourceKey)
+        {
+            string targetKey;
+            if (edges.TryGetValue(sourceKey, out targetKey))
+            {
+                return targetKey;
+            }
+            return null;
         }
     }
 }

@@ -8,9 +8,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class SplitMapping : ElementMapping, IEquatable<SplitMapping>
     {
-        private readonly SourceElement sourceElement;
+        private readonly SourceItem sourceElement;
 
-        public SplitMapping(SourceElement sourceElement, IEnumerable<IBcc> targetBccs,
+        public SplitMapping(SourceItem sourceElement, IEnumerable<IBcc> targetBccs,
                             IEnumerable<SimpleTypeToCdtMapping> cdtMappings)
         {
             this.sourceElement = sourceElement;
@@ -97,7 +97,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 //    s.Append("SUP[").Append(((ICdtSup)targetBcc).Name).Append("],");
                 //}
             }
-            return string.Format("SplitMapping <SourceElement: {0}, Target BCCs: {1}>", sourceElement.Name, s);
+            return string.Format("SplitMapping <SourceItem: {0}, Target BCCs: {1}>", sourceElement.Name, s);
         }
 
         public override bool Equals(object obj)

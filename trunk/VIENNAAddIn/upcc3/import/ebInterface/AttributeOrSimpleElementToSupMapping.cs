@@ -5,9 +5,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class AttributeOrSimpleElementToSupMapping : ElementMapping, IEquatable<AttributeOrSimpleElementToSupMapping>
     {
-        private readonly SourceElement sourceElement;
+        private readonly SourceItem sourceElement;
 
-        public AttributeOrSimpleElementToSupMapping(SourceElement sourceElement, ICdtSup targetSup)
+        public AttributeOrSimpleElementToSupMapping(SourceItem sourceElement, ICdtSup targetSup)
         {
             this.sourceElement = sourceElement;
             Sup = targetSup;
@@ -24,7 +24,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("SUPMapping <SourceElement: {0}, CDT: {1} [{2}]>", sourceElement.Name, Cdt.Name, Cdt.Id);
+            return string.Format("SUPMapping <SourceItem: {0}, CDT: {1} [{2}]>", sourceElement.Name, Cdt.Name, Cdt.Id);
         }
 
         public ICdt Cdt { get; private set; }

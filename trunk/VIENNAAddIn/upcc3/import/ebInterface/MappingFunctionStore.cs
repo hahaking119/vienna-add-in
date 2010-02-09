@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     {
         private readonly Dictionary<string, MappingFunction> mappingFunctions = new Dictionary<string, MappingFunction>();
 
-        public MappingFunctionStore(MapForceMapping mapForceMapping, Dictionary<string, string> edges, TargetElementStore targetElementStore)
+        public MappingFunctionStore(MapForceMapping mapForceMapping, TargetElementStore targetElementStore)
         {
             foreach (FunctionComponent functionComponent in mapForceMapping.FunctionComponents)
             {
@@ -19,9 +19,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
                             foreach (InputOutputKey outputKey in functionComponent.OutputKeys)
                             {
-                                string targetElementKey;
-
-                                if (edges.TryGetValue(outputKey.Value, out targetElementKey))
+                                string targetElementKey = mapForceMapping.GetMappingTargetKey(outputKey.Value);
+                                if (targetElementKey != null)
                                 {
                                     targetCcElements.Add(targetElementStore.GetTargetCc(targetElementKey));
                                 }

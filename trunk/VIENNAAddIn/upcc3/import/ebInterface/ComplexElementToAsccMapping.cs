@@ -7,9 +7,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class ComplexElementToAsccMapping : ElementMapping, IEquatable<ComplexElementToAsccMapping>
     {
-        private readonly SourceElement sourceElement;
+        private readonly SourceItem sourceElement;
 
-        public ComplexElementToAsccMapping(SourceElement sourceElement, IAscc targetAscc)
+        public ComplexElementToAsccMapping(SourceItem sourceElement, IAscc targetAscc)
         {
             this.sourceElement = sourceElement;
             Ascc = targetAscc;
@@ -18,7 +18,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("ComplexElementToAsccMapping <SourceElement: {0}, ACC: {1} [{2}]>", sourceElement.Name, Acc.Name, Acc.Id);
+            return string.Format("ComplexElementToAsccMapping <SourceItem: {0}, ACC: {1} [{2}]>", sourceElement.Name, Acc.Name, Acc.Id);
         }
 
         public override string BIEName

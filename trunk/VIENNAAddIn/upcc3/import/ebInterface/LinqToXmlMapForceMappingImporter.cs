@@ -242,7 +242,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             {
                 inputOutputKey = InputOutputKey.Input(mappingFile, inputKey);
             }
-            return new Entry((string) entryElement.Attribute("name"), inputOutputKey, from childElement in entryElement.Elements("entry") select ImportEntry(childElement, mappingFile));
+            var entryTypeStr = (string) entryElement.Attribute("type");
+            XsdObjectType xsdObjectType = XsdObjectType.Element;
+            if (entryTypeStr == "attribute")
+            {
+                xsdObjectType = XsdObjectType.Attribute;
+            }
+            return new Entry((string) entryElement.Attribute("name"), inputOutputKey, xsdObjectType, from childElement in entryElement.Elements("entry") select ImportEntry(childElement, mappingFile));
         }
     }
 }
