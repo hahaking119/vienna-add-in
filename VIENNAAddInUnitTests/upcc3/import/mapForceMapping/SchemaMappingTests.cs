@@ -108,13 +108,13 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
                                                             });
             var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
                                                                 new List<ElementMapping>
                                                                     {
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Name", ""), bccPartyName, stringMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("Name", null, XsdObjectType.Element, null), bccPartyName, stringMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceItem("HomeAddress", null, XsdObjectType.Element, null), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
                                                                     });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
@@ -122,7 +122,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                        personTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Person", "")) { TargetMapping = personTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Person", null, XsdObjectType.Element, null)) { TargetMapping = personTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -145,16 +145,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountryName, stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("StreetName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CountryName", null, XsdObjectType.Element, null), bccCountryName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -177,16 +177,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountryName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("StreetName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CountryName", null, XsdObjectType.Element, null), bccCountryName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -209,16 +209,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountryName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("StreetName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CountryName", null, XsdObjectType.Element, null), bccCountryName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -241,18 +241,18 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("StreetName", ""), bccCityName, stringMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), bccCityName, stringMapping),                                                                
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("StreetName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("Town", null, XsdObjectType.Element, null), bccCityName, stringMapping),                                                                
                                                             });
 
             
             var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
                                                                 new List<ElementMapping>
                                                                     {
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), bccPartyName, stringMapping),
-                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), bccPartyName, stringMapping),
-                                                                        new ComplexElementToAsccMapping(new SourceElement("HomeAddress", ""), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
-                                                                        new ComplexElementToAsccMapping(new SourceElement("WorkAddress", ""), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("FirstName", null, XsdObjectType.Element, null), bccPartyName, stringMapping),
+                                                                        new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("LastName", null, XsdObjectType.Element, null), bccPartyName, stringMapping),
+                                                                        new ComplexElementToAsccMapping(new SourceItem("HomeAddress", null, XsdObjectType.Element, null), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
+                                                                        new ComplexElementToAsccMapping(new SourceItem("WorkAddress", null, XsdObjectType.Element, null), asccPartyResidenceAddress){TargetMapping = addressTypeMapping},
                                                                     });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -261,7 +261,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                        personTypeMapping
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Person", "")) { TargetMapping = personTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Person", null, XsdObjectType.Element, null)) { TargetMapping = personTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -283,8 +283,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var addressTypeMapping = new ComplexTypeToMaMapping("AddressType",
                                                  new List<ElementMapping>
                                                      {
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, stringMapping),
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("PersonName", ""), bccPartyName, stringMapping),
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, stringMapping),
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("PersonName", null, XsdObjectType.Element, null), bccPartyName, stringMapping),
                                                      });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -292,7 +292,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -308,14 +308,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var textTypeMapping = new ComplexTypeToCdtMapping("TextType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("LanguageLocale", ""), supTextLanguageLocale),
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), supTextLanguage),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceItem("Language", null, XsdObjectType.Attribute, null), supTextLanguage),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceItem("LanguageLocale", null, XsdObjectType.Attribute, null), supTextLanguageLocale),
                                                             });
 
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                  new List<ElementMapping>
                                                      {
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, textTypeMapping),                                                         
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, textTypeMapping),                                                         
                                                      });
 
 
@@ -325,7 +325,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeToCdtMapping>(), expectedRootElementMapping);
         }
@@ -349,15 +349,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new SplitMapping(new SourceElement("Street", ""), new[] {bccStreetName, bccBuildingNumber}, new [] {stringMapping, stringMapping}),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("Town", ""), bccCityName, stringMapping),
+                                                                new SplitMapping(new SourceItem("Street", null, XsdObjectType.Element, null), new[] {bccStreetName, bccBuildingNumber}, new [] {stringMapping, stringMapping}),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("Town", null, XsdObjectType.Element, null), bccCityName, stringMapping),
                                                             });
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);            
         }
@@ -379,7 +379,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var orderReferenceTypeMapping = new ComplexTypeToAccMapping("OrderReferenceType",
                                                 new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("IssueDate", ""), bccIssue, issueDateTypeMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("IssueDate", null, XsdObjectType.Element, null), bccIssue, issueDateTypeMapping),
                                                             });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -388,7 +388,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                        orderReferenceTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("OrderReference", "")) { TargetMapping = orderReferenceTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("OrderReference", null, XsdObjectType.Element, null)) { TargetMapping = orderReferenceTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -409,14 +409,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var customerReferenceTypeMapping = new ComplexTypeToCdtMapping("CustomerReferenceType",
                                                 new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("languageID", ""), supTextLanguage),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceItem("languageID", null, XsdObjectType.Attribute, null), supTextLanguage),
                                                             });
 
             var orderReferenceTypeMapping = new ComplexTypeToMaMapping("OrderReferenceType",
                                                 new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("IssueDate", ""), bccIssue, issueDateTypeMapping),
-                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CustomerReference", ""), bccContent, customerReferenceTypeMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("IssueDate", null, XsdObjectType.Element, null), bccIssue, issueDateTypeMapping),
+                                                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CustomerReference", null, XsdObjectType.Element, null), bccContent, customerReferenceTypeMapping),
                                                             });
 
             var expectedComplexTypeMappings = new List<IMapping>
@@ -426,7 +426,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                        orderReferenceTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("OrderReference", "")) { TargetMapping = orderReferenceTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("OrderReference", null, XsdObjectType.Element, null)) { TargetMapping = orderReferenceTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -448,19 +448,19 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 
             List<ElementMapping> personTypeChildMappings = new List<ElementMapping>
                             {
-                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("FirstName", ""), bccPartyName, stringMapping),
-                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("LastName", ""), bccPartyName, stringMapping),
+                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("FirstName", null, XsdObjectType.Element, null), bccPartyName, stringMapping),
+                                new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("LastName", null, XsdObjectType.Element, null), bccPartyName, stringMapping),
                             };
             var personTypeMapping = new ComplexTypeToAccMapping("PersonType",
                                                                 personTypeChildMappings);
-            personTypeMapping.AddChildMapping(new ComplexElementToAsccMapping(new SourceElement("Children", ""), asccPartyChildren) { TargetMapping = personTypeMapping });
+            personTypeMapping.AddChildMapping(new ComplexElementToAsccMapping(new SourceItem("Children", null, XsdObjectType.Element, null), asccPartyChildren) { TargetMapping = personTypeMapping });
 
             var expectedComplexTypeMappings = new List<IMapping>
                                    {
                                        personTypeMapping
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Person", "")) { TargetMapping = personTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Person", null, XsdObjectType.Element, null)) { TargetMapping = personTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, expectedSimpleTypeMappings, expectedRootElementMapping);
         }
@@ -477,20 +477,20 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var textTypeToTextMapping = new ComplexTypeToCdtMapping("TextType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), supTextLanguage),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceItem("Language", null, XsdObjectType.Attribute, null), supTextLanguage),
                                                             });
 
             var textTypeToCodeMapping = new ComplexTypeToCdtMapping("TextType",
                                                             new List<ElementMapping>
                                                             {
-                                                                new AttributeOrSimpleElementToSupMapping(new SourceElement("Language", ""), supCodeLanguage),
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceItem("Language", null, XsdObjectType.Attribute, null), supCodeLanguage),
                                                             });
 
             var addressTypeMapping = new ComplexTypeToAccMapping("AddressType",
                                                  new List<ElementMapping>
                                                      {
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CityName", ""), bccCityName, textTypeToTextMapping),                                                         
-                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceElement("CountryName", ""), bccCountry, textTypeToCodeMapping),                                                         
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, textTypeToTextMapping),                                                         
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CountryName", null, XsdObjectType.Element, null), bccCountry, textTypeToCodeMapping),                                                         
                                                      });
 
 
@@ -501,7 +501,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                        addressTypeMapping,
                                    };
 
-            var expectedRootElementMapping = new AsmaMapping(new SourceElement("Address", "")) { TargetMapping = addressTypeMapping };
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeToCdtMapping>(), expectedRootElementMapping);
 

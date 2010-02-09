@@ -19,17 +19,17 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             MapForceMapping expectedMapping = new MapForceMapping(new List<SchemaComponent>
                                                                       {
                                                                           new SchemaComponent("CoreComponent_1.xsd", "{}Address", new Namespace[0],
-                                                                                              new Entry("Address", InputOutputKey.None,
+                                                                                              new Entry("Address", InputOutputKey.None, XsdObjectType.Element,
                                                                                                         new[]
                                                                                                             {
-                                                                                                                new Entry("CityName", InputOutputKey.Input(null, CCCityNameKey)),
+                                                                                                                new Entry((string) "CityName", InputOutputKey.Input(null, CCCityNameKey), XsdObjectType.Element),
                                                                                                             })
                                                                               ),
                                                                           new SchemaComponent("Invoice.xsd", "{http://www.ebinterface.at/schema/3p0/}Address", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                                              new Entry("Address", InputOutputKey.None,
+                                                                                              new Entry("Address", InputOutputKey.None, XsdObjectType.Element,
                                                                                                         new[]
                                                                                                             {
-                                                                                                                new Entry("Town", InputOutputKey.Output(null, EbInterfaceTownKey)),
+                                                                                                                new Entry((string) "Town", InputOutputKey.Output(null, EbInterfaceTownKey), XsdObjectType.Element),
                                                                                                             })),
                                                                       },
                                                                   new List<ConstantComponent>(),
@@ -77,20 +77,20 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             MapForceMapping expectedMapping = new MapForceMapping(new List<SchemaComponent>
                                                                       {
                                                                           new SchemaComponent("source.xsd", "{http://www.ebinterface.at/schema/3p0/}Address", new[]{new Namespace("http://www.ebinterface.at/schema/3p0/"), },
-                                                                                              new Entry("Address", InputOutputKey.None,
+                                                                                              new Entry("Address", InputOutputKey.None, XsdObjectType.Element,
                                                                                                         new[]
                                                                                                             {
-                                                                                                                new Entry("Street", InputOutputKey.Output(null, ebInterfaceStreetKey)),
-                                                                                                                new Entry("Town", InputOutputKey.Output(null, ebInterfaceTownKey)),
+                                                                                                                new Entry((string) "Street", InputOutputKey.Output(null, ebInterfaceStreetKey), XsdObjectType.Element),
+                                                                                                                new Entry((string) "Town", InputOutputKey.Output(null, ebInterfaceTownKey), XsdObjectType.Element),
                                                                                                             })
                                                                               ),
                                                                           new SchemaComponent("target.xsd", "{ccts.org}Address", new[] {new Namespace("ccts.org"),},
-                                                                                              new Entry("Address", InputOutputKey.None,
+                                                                                              new Entry("Address", InputOutputKey.None, XsdObjectType.Element,
                                                                                                         new[]
                                                                                                             {
-                                                                                                                new Entry("BuildingNumber", InputOutputKey.Input(null, cclBuildingNumberKey)),
-                                                                                                                new Entry("CityName", InputOutputKey.Input(null, cclCityNameKey)),
-                                                                                                                new Entry("StreetName", InputOutputKey.Input(null, cclStreetNameKey)),
+                                                                                                                new Entry((string) "BuildingNumber", InputOutputKey.Input(null, cclBuildingNumberKey), XsdObjectType.Element),
+                                                                                                                new Entry((string) "CityName", InputOutputKey.Input(null, cclCityNameKey), XsdObjectType.Element),
+                                                                                                                new Entry((string) "StreetName", InputOutputKey.Input(null, cclStreetNameKey), XsdObjectType.Element),
                                                                                                             })),
                                                                       },
                                                                   new List<ConstantComponent>

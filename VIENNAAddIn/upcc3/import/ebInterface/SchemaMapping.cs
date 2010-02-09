@@ -14,8 +14,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     {
         private readonly Dictionary<string, ComplexTypeMapping> complexTypeMappings = new Dictionary<string, ComplexTypeMapping>();
         private readonly List<SimpleTypeToCdtMapping> simpleTypeMappings = new List<SimpleTypeToCdtMapping>();
-        private readonly Dictionary<string, string> edges = new Dictionary<string, string>();
-        private readonly MapForceSourceElementTree sourceElementStore;
+        private readonly MapForceSourceItemTree sourceItemStore;
         private readonly TargetElementStore targetElementStore;
         private readonly MappingFunctionStore mappingFunctionStore;
         private readonly List<ElementMapping> elementMappings = new List<ElementMapping>();
@@ -23,28 +22,19 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public SchemaMapping(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet, ICcLibrary ccLibrary, ICctsRepository cctsRepository)
         {
             Console.Out.WriteLine("Building source tree:");
-            sourceElementStore = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            sourceItemStore = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            PrintSourceElementTree(sourceElementStore.RootSourceElement, "");
+            PrintSourceElementTree(sourceItemStore.RootSourceItem, "");
             Console.Out.WriteLine("Done.");
 
             Console.Out.WriteLine("Building target element store:");
             targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary, cctsRepository);
             Console.Out.WriteLine("Done.");
             
-            foreach (Vertex vertex in mapForceMapping.Graph.Vertices)
-            {
-                foreach (Edge edge in vertex.Edges)
-                {
-                    string sourceKey = vertex.Key;
-                    string targetKey = edge.TargetVertexKey;
-                    edges[sourceKey] = targetKey;
-                }
-            }
-            mappingFunctionStore = new MappingFunctionStore(mapForceMapping, edges, targetElementStore);
+            mappingFunctionStore = new MappingFunctionStore(mapForceMapping, targetElementStore);
 
             Console.Out.WriteLine("Deriving implicit mappings:");
-            RootElementMapping = MapElement(sourceElementStore.RootSourceElement, "/" + sourceElementStore.RootSourceElement.Name, new Stack<XmlQualifiedName>());
+            RootElementMapping = MapElement(sourceItemStore.RootSourceItem, "/" + sourceItemStore.RootSourceItem.Name, new Stack<XmlQualifiedName>());
             elementMappings.Add(RootElementMapping);
             Console.Out.WriteLine("Done.");
 
@@ -72,7 +62,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private static void PrintSourceElementTree(SourceElement element, string indent)
+        private static void PrintSourceElementTree(SourceItem element, string indent)
         {
             Console.Out.WriteLine(indent + element.Name);
             foreach (var child in element.Children)
@@ -84,11 +74,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         public ElementMapping RootElementMapping { get; private set; }
 
         /// <exception cref="MappingError">Simple typed element mapped to non-BCC CCTS element.</exception>
-        private ElementMapping MapElement(SourceElement sourceElement, string path, Stack<XmlQualifiedName> parentComplexTypeNames)
+        private ElementMapping MapElement(SourceItem sourceElement, string path, Stack<XmlQualifiedName> parentComplexTypeNames)
         {
             if (sourceElement.HasSimpleType())
             {
-                if (IsUnmapped(sourceElement))
+                if (!sourceElement.IsMapped)
                 {
                     // ignore element
                     return ElementMapping.NullElementMapping;
@@ -124,7 +114,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     // ignore element
                     return ElementMapping.NullElementMapping;
                 }
-                if (IsUnmapped(sourceElement))
+                if (!sourceElement.IsMapped)
                 {
                     return new AsmaMapping(sourceElement);
                 }
@@ -144,12 +134,12 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             throw new Exception("Source element '" + path + "' has neither simple nor complex type.");
         }
 
-        private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement)
+        private SimpleTypeToCdtMapping MapSimpleType(SourceItem sourceElement)
         {
             return MapSimpleType(sourceElement, (IBcc)GetTargetElement(sourceElement));
         }
 
-        private SimpleTypeToCdtMapping MapSimpleType(SourceElement sourceElement, IBcc targetBcc)
+        private SimpleTypeToCdtMapping MapSimpleType(SourceItem sourceElement, IBcc targetBcc)
         {
             var simpleTypeName = sourceElement.XsdTypeName;
             var cdt = targetBcc.Cdt;
@@ -165,7 +155,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return newMapping;
         }
 
-        private bool MapComplexType(SourceElement sourceElement, string path, Stack<XmlQualifiedName> parentComplexTypeNames)
+        private bool MapComplexType(SourceItem sourceElement, string path, Stack<XmlQualifiedName> parentComplexTypeNames)
         {
             XmlQualifiedName qualifiedComplexTypeName = sourceElement.XsdType.QualifiedName;
             if (parentComplexTypeNames.Contains(qualifiedComplexTypeName))
@@ -343,7 +333,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return true;
         }
 
-        private List<ElementMapping> GetChildMappings(SourceElement sourceElement, Stack<XmlQualifiedName> parentComplexTypeNames, XmlQualifiedName qualifiedComplexTypeName, string path)
+        private List<ElementMapping> GetChildMappings(SourceItem sourceElement, Stack<XmlQualifiedName> parentComplexTypeNames, XmlQualifiedName qualifiedComplexTypeName, string path)
         {
             List<ElementMapping> childMappings = new List<ElementMapping>();
             foreach (var child in sourceElement.Children)
@@ -385,55 +375,49 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             return ComplexTypeMapping.NullComplexTypeMapping;
         }
 
-        private bool IsMappedToAscc(SourceElement element)
+        private bool IsMappedToAscc(SourceItem element)
         {
             object targetElement = GetTargetElement(element);
             return targetElement != null && targetElement is IAscc;
         }
 
-        private bool IsMappedToBcc(SourceElement element)
+        private bool IsMappedToBcc(SourceItem element)
         {
             object targetElement = GetTargetElement(element);
             return targetElement != null && targetElement is IBcc;
         }
 
-        private bool IsMappedToSup(SourceElement element)
+        private bool IsMappedToSup(SourceItem element)
         {
             object targetElement = GetTargetElement(element);
             return targetElement != null && targetElement is ICdtSup;
         }
 
 
-        private bool IsMappedToSplitFunction(SourceElement element)
+        private bool IsMappedToSplitFunction(SourceItem element)
         {
             MappingFunction mappingFunction = GetMappingFunction(element);
             return mappingFunction != null && mappingFunction.IsSplit;
         }
 
-        private MappingFunction GetMappingFunction(SourceElement element)
+        private MappingFunction GetMappingFunction(SourceItem element)
         {
-            string mappingFunctionKey;
-
-            if (edges.TryGetValue(element.Key, out mappingFunctionKey))
+            if (element.IsMapped)
             {
-                return mappingFunctionStore.GetMappingFunction(mappingFunctionKey);
+                return mappingFunctionStore.GetMappingFunction(element.MappingTargetKey);
             }
-            return null;
+
+            return null;            
         }
 
-        private object GetTargetElement(SourceElement element)
+        private object GetTargetElement(SourceItem element)
         {
-            string targetElementKey;
-            if (edges.TryGetValue(element.Key, out targetElementKey))
+            if (element.IsMapped)
             {
-                return targetElementStore.GetTargetCc(targetElementKey);
+                return targetElementStore.GetTargetCc(element.MappingTargetKey);
             }
-            return null;
-        }
 
-        private bool IsUnmapped(SourceElement element)
-        {
-            return !edges.ContainsKey(element.Key);
+            return null;  
         }
 
         public IEnumerable<ComplexTypeMapping> GetComplexTypeMappings()

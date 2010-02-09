@@ -4,9 +4,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class AsmaMapping : ElementMapping, IEquatable<AsmaMapping>
     {
-        private readonly SourceElement sourceElement;
+        private readonly SourceItem sourceElement;
 
-        public AsmaMapping(SourceElement sourceElement)
+        public AsmaMapping(SourceItem sourceElement)
         {
             this.sourceElement = sourceElement;
         }
@@ -20,7 +20,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("AsmaMapping <SourceElement: {0}, ComplexType: {1}>", SourceElementName, TargetMapping.ComplexTypeName);
+            return string.Format("AsmaMapping <SourceItem: {0}, ComplexType: {1}>", SourceElementName, TargetMapping.ComplexTypeName);
         }
 
         public bool Equals(AsmaMapping other)

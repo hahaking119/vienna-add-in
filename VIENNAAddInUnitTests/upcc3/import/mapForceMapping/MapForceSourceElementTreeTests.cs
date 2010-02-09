@@ -20,11 +20,11 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\CreateSourceElementTree\mapping.mfd"));
 
-            var expectedAddress = new SourceElement("Address", "2");
-            var expectedTown = new SourceElement("Town", "3");
+            var expectedAddress = new SourceItem("Address", null, XsdObjectType.Element, null);
+            var expectedTown = new SourceItem("Town", null, XsdObjectType.Element, null);
             expectedAddress.AddChild(expectedTown);
 
-            AssertTreesAreEqual(expectedAddress, new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet).RootSourceElement, string.Empty);
+            AssertTreesAreEqual(expectedAddress, new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet).RootSourceItem, string.Empty);
         }
 
         [Test]
@@ -33,22 +33,22 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
                                                       {
                                                           new SchemaComponent("Schema1.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry1", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry1", InputOutputKey.None,
+                                                                              new Entry("Entry1", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"),
+                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3")),
+                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>(),
                                                       new List<FunctionComponent>(),
-                                                      null);
-            var expectedRoot = new SourceElement("Entry1", string.Empty);
-            var expectedChild1 = new SourceElement("Entry2", "2");
-            var expectedChild2 = new SourceElement("Entry3", "3");
+                                                      new Graph(new Vertex[0]));
+            var expectedRoot = new SourceItem("Entry1", null, XsdObjectType.Element, null);
+            var expectedChild1 = new SourceItem("Entry2", null, XsdObjectType.Element, null);
+            var expectedChild2 = new SourceItem("Entry3", null, XsdObjectType.Element, null);
             expectedRoot.AddChild(expectedChild1);
             expectedChild1.AddChild(expectedChild2);
 
@@ -56,9 +56,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
 
-            var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            var sourceElementTree = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            AssertTreesAreEqual(expectedRoot, sourceElementTree.RootSourceElement, string.Empty);
+            AssertTreesAreEqual(expectedRoot, sourceElementTree.RootSourceItem, string.Empty);
         }
 
         [Test]
@@ -67,20 +67,20 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
                                                       {
                                                           new SchemaComponent("Schema1.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry1", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry1", InputOutputKey.None,
+                                                                              new Entry("Entry1", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"),
+                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3")),
+                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry4", InputOutputKey.None,
+                                                                              new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5")),
+                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>
@@ -88,10 +88,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                           new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
                                                       new List<FunctionComponent>(),
-                                                      null);
-            var expectedRoot = new SourceElement("Entry1", string.Empty);
-            var expectedChild1 = new SourceElement("Entry2", "2");
-            var expectedChild2 = new SourceElement("Entry3", "3");
+                                                      new Graph(new Vertex[0]));
+            var expectedRoot = new SourceItem("Entry1", null, XsdObjectType.Element, null);
+            var expectedChild1 = new SourceItem("Entry2", null, XsdObjectType.Element, null);
+            var expectedChild2 = new SourceItem("Entry3", null, XsdObjectType.Element, null);
             expectedRoot.AddChild(expectedChild1);
             expectedChild1.AddChild(expectedChild2);
 
@@ -100,9 +100,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema1.xsd")), null));
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema2.xsd")), null));
             
-            var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            var sourceElementTree = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            AssertTreesAreEqual(expectedRoot, sourceElementTree.RootSourceElement, string.Empty);
+            AssertTreesAreEqual(expectedRoot, sourceElementTree.RootSourceItem, string.Empty);
         }
 
         [Test]
@@ -111,21 +111,21 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
                                                       {
                                                           new SchemaComponent("Schema3.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry1", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry1", InputOutputKey.None,
+                                                                              new Entry("Entry1", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"),
+                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3")),
+                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
-                                                                                            new Entry("Entry4", InputOutputKey.None),
+                                                                                            new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry4", InputOutputKey.None,
+                                                                              new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5")),
+                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>
@@ -133,12 +133,12 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                           new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
                                                       new List<FunctionComponent>(),
-                                                      null);
-            var entry1 = new SourceElement("Entry1", string.Empty);
-            var entry2 = new SourceElement("Entry2", "2");
-            var entry3 = new SourceElement("Entry3", "3");
-            var entry4 = new SourceElement("Entry4", "4");
-            var entry5 = new SourceElement("Entry5", "5");
+                                                      new Graph(new Vertex[0]));
+            var entry1 = new SourceItem("Entry1", null, XsdObjectType.Element, null);
+            var entry2 = new SourceItem("Entry2", null, XsdObjectType.Element, null);
+            var entry3 = new SourceItem("Entry3", null, XsdObjectType.Element, null);
+            var entry4 = new SourceItem("Entry4", null, XsdObjectType.Element, null);
+            var entry5 = new SourceItem("Entry5", null, XsdObjectType.Element, null);
             entry1.AddChild(entry2);
             entry2.AddChild(entry3);
             entry1.AddChild(entry4);
@@ -147,9 +147,9 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema3.xsd")), null));
 
-            var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            var sourceElementTree = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            AssertTreesAreEqual(entry1, sourceElementTree.RootSourceElement, string.Empty);
+            AssertTreesAreEqual(entry1, sourceElementTree.RootSourceItem, string.Empty);
         }
 
         [Test]
@@ -158,21 +158,21 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
                                                       {
                                                           new SchemaComponent("Schema3.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry1", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry1", InputOutputKey.None,
+                                                                              new Entry("Entry1", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"),
+                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3")),
+                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
-                                                                                            new Entry("Entry4", InputOutputKey.None),
+                                                                                            new Entry((string) "Entry4", InputOutputKey.None, XsdObjectType.Element),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry4", InputOutputKey.None,
+                                                                              new Entry("Entry4", InputOutputKey.None,  XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5")),
+                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>
@@ -180,18 +180,18 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                           new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
                                                       new List<FunctionComponent>(),
-                                                      null);
+                                                      new Graph(new Vertex[0]));
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema3.xsd")), null));
 
-            var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            var sourceElementTree = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            Assert.That(sourceElementTree.RootSourceElement.XsdTypeName, Is.EqualTo("Entry1Type"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[0].XsdTypeName, Is.EqualTo("Entry2Type"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[0].Children[0].XsdTypeName, Is.EqualTo("String"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[1].XsdTypeName, Is.EqualTo("Entry4Type"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[1].Children[0].XsdTypeName, Is.EqualTo("String"));
+            Assert.That(sourceElementTree.RootSourceItem.XsdTypeName, Is.EqualTo("Entry1Type"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[0].XsdTypeName, Is.EqualTo("Entry2Type"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[0].Children[0].XsdTypeName, Is.EqualTo("String"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[1].XsdTypeName, Is.EqualTo("Entry4Type"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[1].Children[0].XsdTypeName, Is.EqualTo("String"));
         }
 
         [Test]
@@ -200,21 +200,21 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
                                                       {
                                                           new SchemaComponent("Schema4.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry1", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry1", InputOutputKey.None,
+                                                                              new Entry("Entry1", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"),
+                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"),  XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3")),
+                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
-                                                                                            new Entry("Entry4", InputOutputKey.None),
+                                                                                            new Entry((string) "Entry4", InputOutputKey.None, XsdObjectType.Element),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry4", InputOutputKey.None,
+                                                                              new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5")),
+                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>
@@ -222,53 +222,53 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                           new ConstantComponent("Root:Entry1", InputOutputKey.Output(null, "6")),
                                                       },
                                                       new List<FunctionComponent>(),
-                                                      null);
+                                                      new Graph(new Vertex[0]));
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema4.xsd")), null));
 
-            var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            var sourceElementTree = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            Assert.That(sourceElementTree.RootSourceElement.XsdTypeName, Is.EqualTo("Entry1Type"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[0].XsdTypeName, Is.EqualTo("Entry2Type"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[0].Children[0].XsdTypeName, Is.EqualTo("String"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[1].XsdTypeName, Is.EqualTo("Entry4Type"));
-            Assert.That(sourceElementTree.RootSourceElement.Children[1].Children[0].XsdTypeName, Is.EqualTo("String"));
+            Assert.That(sourceElementTree.RootSourceItem.XsdTypeName, Is.EqualTo("Entry1Type"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[0].XsdTypeName, Is.EqualTo("Entry2Type"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[0].Children[0].XsdTypeName, Is.EqualTo("String"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[1].XsdTypeName, Is.EqualTo("Entry4Type"));
+            Assert.That(sourceElementTree.RootSourceItem.Children[1].Children[0].XsdTypeName, Is.EqualTo("String"));
         }
 
         [Test]
-        [ExpectedException(ExceptionType = typeof (ArgumentException))]
+        [ExpectedException(ExceptionType = typeof (MappingError))]
         public void ShouldThrowExceptionIfNoRootIsDefinedForMultipleInputSchemaComponents()
         {
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
                                                       {
                                                           new SchemaComponent("Schema1.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry1", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry1", InputOutputKey.None,
+                                                                              new Entry("Entry1", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"),
+                                                                                            new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3")),
+                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
-                                                                              new Entry("Entry4", InputOutputKey.None,
+                                                                              new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5")),
+                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>(),
                                                       new List<FunctionComponent>(),
-                                                      null);
+                                                      new Graph(new Vertex[0]));
             
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema1.xsd")), null));
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\mapForceSourceElementTreeTests\Schema2.xsd")), null));
 
-            new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
         }
 
         [Test]
@@ -281,20 +281,22 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xsdFileName), null));
 
-            var person = new SourceElement("Person", string.Empty);
-            var personName = new SourceElement("Name", "2");
-            var personHomeAddress = new SourceElement("HomeAddress", "3");
-            var addressTown = new SourceElement("Town", "3");
-            person.AddChild(personName);
+            var person = new SourceItem("Person", null, XsdObjectType.Element, null);
+            var personNameElement = new SourceItem("Name", null, XsdObjectType.Element, null);
+            var personNameAttribute = new SourceItem("Name", null, XsdObjectType.Attribute, null);
+            var personHomeAddress = new SourceItem("HomeAddress", null, XsdObjectType.Element, null);
+            var addressTown = new SourceItem("Town", null, XsdObjectType.Element, null);
+            person.AddChild(personNameElement);
             person.AddChild(personHomeAddress);
+            person.AddChild(personNameAttribute);
             personHomeAddress.AddChild(addressTown);
 
-            var sourceElementTree = new MapForceSourceElementTree(mapForceMapping, xmlSchemaSet);
+            var sourceElementTree = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            AssertTreesAreEqual(person, sourceElementTree.RootSourceElement, string.Empty);
+            AssertTreesAreEqual(person, sourceElementTree.RootSourceItem, string.Empty);
         }
 
-        private static void AssertTreesAreEqual(SourceElement expected, SourceElement actual, string path)
+        private static void AssertTreesAreEqual(SourceItem expected, SourceItem actual, string path)
         {
             Assert.AreEqual(expected.Name, actual.Name, "Name mismatch at " + path);
             Assert.AreEqual(expected.Children.Count, actual.Children.Count, "Unequal number of children at " + path + "/" + expected.Name);

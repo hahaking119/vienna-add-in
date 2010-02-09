@@ -233,6 +233,7 @@
     <Compile Include="upcc3\import\ebInterface\AttributeOrSimpleElementToSupMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\FunctionComponent.cs" />
     <Compile Include="upcc3\import\ebInterface\SplitMapping.cs" />
+    <Compile Include="upcc3\import\ebInterface\XsdObjectType.cs" />
     <Compile Include="upcc3\NDR.cs" />
     <Compile Include="upcc3\repo\BieLibrary\AbieSpecConverter.cs">
       <AutoGen>True</AutoGen>
@@ -650,8 +651,8 @@
     <Compile Include="upcc3\import\ebInterface\NullComplexTypeMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\NullMapping.cs" />
     <Compile Include="upcc3\import\ebInterface\SchemaComponent.cs" />
-    <Compile Include="upcc3\import\ebInterface\SourceElement.cs" />
-    <Compile Include="upcc3\import\ebInterface\MapForceSourceElementTree.cs" />
+    <Compile Include="upcc3\import\ebInterface\SourceItem.cs" />
+    <Compile Include="upcc3\import\ebInterface\MapForceSourceItemTree.cs" />
     <Compile Include="upcc3\import\ebInterface\TargetElementStore.cs" />
     <Compile Include="upcc3\import\ebInterface\Vertex.cs" />
     <Compile Include="upcc3\import\cctsndr\ImporterContext.cs" />
