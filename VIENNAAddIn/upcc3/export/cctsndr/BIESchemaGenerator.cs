@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         //private const string NS_CCTS = "urn:un:unece:uncefact:documentation:standard:CoreComponentsTechnicalSpecification:2";
         private const string NSPREFIX_XSD = "xsd";
         private const string NS_XSD = "http://www.w3.org/2001/XMLSchema";
-        private static List<String> globalASBIEs = new List<String>();
+        private static List<String> globalASBIEs;
 
         ///<summary>
         ///</summary>
@@ -60,6 +60,8 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             // Create XML schema file and prepare the XML schema header
             // R 88E2: all XML schema files must use UTF-8 encoding
             // R B387: every XML schema must have a declared target namespace
+            globalASBIEs = new List<String>();
+
             var schema = new XmlSchema {TargetNamespace = context.TargetNamespace};
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
             schema.Version = context.DocLibrary.VersionIdentifier.DefaultTo("1");
