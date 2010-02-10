@@ -508,7 +508,6 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 
         }
 
-
         private SchemaMapping CreateSchemaMapping(string mappingFileName, string xsdFileName)
         {
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFileName);

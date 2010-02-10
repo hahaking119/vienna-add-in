@@ -137,6 +137,24 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return Children.FilterByType<ElementMapping, AsmaMapping>(); }
         }
 
+        public bool IsEmpty
+        {
+            get
+            {
+                return children.Count == 0;
+            }
+        }
+
+        public int NumberOfChildren
+        {
+            get { return children.Count; }
+        }
+
+        public List<ElementMapping> GetChildren
+        {
+            get { return children; }
+        }
+
         public IEnumerable<AttributeOrSimpleElementOrComplexElementToBccMapping> BccMappings(IAcc targetACC)
         {
             foreach (AttributeOrSimpleElementOrComplexElementToBccMapping bccMapping in Children.FilterByType<ElementMapping, AttributeOrSimpleElementOrComplexElementToBccMapping>())

@@ -61,11 +61,33 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 {
                     throw new ArgumentException("The MapForce mapping does not contain an input schema component with the specified root element: " + rootElementName);
                 }
-                foreach (var nonRootElementTree in nonRootElementTrees)
+                List<SourceItem> unattachedNonRootItemTrees = new List<SourceItem>(nonRootElementTrees);
+                while (unattachedNonRootItemTrees.Count > 0)
                 {
-                    // TODO
-                    AttachSubTree(nonRootElementTree, RootSourceItem);
-                }            
+                    bool atLeastOneTreeAttached = false;
+                    foreach (var nonRootElementTree in new List<SourceItem>(unattachedNonRootItemTrees))
+                    {
+                        // TODO iteratively attach trees until no attachable trees are left
+                        if (AttachSubTree(nonRootElementTree, RootSourceItem))
+                        {
+                            atLeastOneTreeAttached = true;
+                            unattachedNonRootItemTrees.Remove(nonRootElementTree);
+                        }
+                    }
+                    if (!atLeastOneTreeAttached)
+                    {
+                        break;
+                    }
+                }
+                if (unattachedNonRootItemTrees.Count > 0)
+                {
+                    List<string> itemTreeNames = new List<string>();
+                    foreach (SourceItem tree in unattachedNonRootItemTrees)
+                    {
+                        itemTreeNames.Add(tree.Name);
+                    }
+                    throw new MappingError("The following schema components could not be attached to the source item tree: " + string.Join(", ", itemTreeNames.ToArray()));
+                }
             }
         }
 
@@ -78,16 +100,20 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         /// </summary>
         /// <param name="subTreeRoot"></param>
         /// <param name="sourceElementTree"></param>
-        private static void AttachSubTree(SourceItem subTreeRoot, SourceItem sourceElementTree)
+        private static bool AttachSubTree(SourceItem subTreeRoot, SourceItem sourceElementTree)
         {
+            bool hasBeenAttached = false;
+            // The al TODO documentation
+            foreach (var child in sourceElementTree.Children)
+            {
+                hasBeenAttached = hasBeenAttached || AttachSubTree(subTreeRoot, child);
+            }
             if (subTreeRoot.XsdTypeName == sourceElementTree.XsdTypeName)
             {
                 sourceElementTree.MergeWith(subTreeRoot);
+                hasBeenAttached = true;
             }
-            foreach (var child in sourceElementTree.Children)
-            {
-                AttachSubTree(subTreeRoot, child);
-            }
+            return hasBeenAttached;
         }
 
 
@@ -151,55 +177,86 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             throw new ArgumentException("Source XSD Object is neither an XSD Element nor an XSD Attribute. The type of the XSD Object is " + sourceXsdObject.GetType());
         }
 
-        private IEnumerable<XmlSchemaObject> GetChildElementsAndAttributesDefinedByXsdType(XmlSchemaType xmlSchemaType)
+        private static IEnumerable<XmlSchemaObject> GetChildElementsAndAttributesDefinedByXsdType(XmlSchemaType xmlSchemaType)
         {
+            List<XmlSchemaObject> myChildren = new List<XmlSchemaObject>();
            if (xmlSchemaType is XmlSchemaComplexType)
            {
                XmlSchemaComplexType complexType = (XmlSchemaComplexType) xmlSchemaType;
 
                if (complexType.Particle is XmlSchemaGroupBase)
                {
-                   foreach (var child in GetChildElementsAndAttributesDefinedByXsdGroup((XmlSchemaGroupBase) complexType.Particle))
-                   {
-                       yield return child;
-                   }
+                    myChildren.AddRange(GetChildElementsAndAttributesDefinedByXsdGroup((XmlSchemaGroupBase) complexType.Particle));
                }
-
-               //if (complexType.ContentTypeParticle is XmlSchemaSequence)
-               //{
-               //    foreach (var child in GetChildElementsAndAttributesDefinedByXsdGroup((XmlSchemaGroupBase) complexType.ContentTypeParticle))
-               //    {
-               //        yield return child;
-               //    }
-               //}
 
                if (complexType.ContentModel is XmlSchemaSimpleContent)
                {
                    XmlSchemaSimpleContent contentModel = (XmlSchemaSimpleContent) complexType.ContentModel;
-                   XmlSchemaSimpleContentExtension content = (XmlSchemaSimpleContentExtension) contentModel.Content;
 
-                   foreach (XmlSchemaAttribute attribute in content.Attributes)
+                   if (contentModel.Content is XmlSchemaSimpleContentExtension)
                    {
-                       yield return attribute;
+                       foreach (XmlSchemaObject attribute in ((XmlSchemaSimpleContentExtension)contentModel.Content).Attributes)
+                       {
+                           myChildren.Add(attribute);
+                       }                       
+                   } 
+                   else if (contentModel.Content is XmlSchemaSimpleContentRestriction)
+                   {
+                       foreach (XmlSchemaObject attribute in ((XmlSchemaSimpleContentRestriction)contentModel.Content).Attributes)
+                       {
+                           myChildren.Add(attribute);
+                       }
                    }
                }
 
                foreach (XmlSchemaAttribute attribute in complexType.Attributes)
                {
-                   yield return attribute;
+                   myChildren.Add(attribute);
                }
-           }
 
-            if (xmlSchemaType.BaseXmlSchemaType != null)
-           {
-               foreach (var child in GetChildElementsAndAttributesDefinedByXsdType(xmlSchemaType.BaseXmlSchemaType))
+               foreach (XmlSchemaObject child in myChildren)
                {
                    yield return child;
                }
            }
+
+           if (xmlSchemaType.BaseXmlSchemaType != null)
+           {
+               List<XmlSchemaObject> x = new List<XmlSchemaObject>(GetChildElementsAndAttributesDefinedByXsdType(xmlSchemaType.BaseXmlSchemaType));
+               foreach (var child in x)
+               {
+                   if (!ContainsXsdObject(myChildren, child))
+                   {
+                       yield return child;
+                   }
+               }
+           }
         }
 
-        private IEnumerable<XmlSchemaObject> GetChildElementsAndAttributesDefinedByXsdGroup(XmlSchemaGroupBase xsdGroup)
+        private static bool ContainsXsdObject(IEnumerable<XmlSchemaObject> xsdObjects, XmlSchemaObject xsdObject)
+        {
+            foreach (XmlSchemaObject o in xsdObjects)
+            {
+                if ((o is XmlSchemaAttribute) && (xsdObject is XmlSchemaAttribute))
+                {
+                    if (((XmlSchemaAttribute) o).Name == ((XmlSchemaAttribute) xsdObject).Name)
+                    {
+                        return true;
+                    }                    
+                }
+                else if ((o is XmlSchemaElement) && (xsdObject is XmlSchemaElement))
+                {
+                    if (((XmlSchemaElement)o).Name == ((XmlSchemaElement)xsdObject).Name)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static IEnumerable<XmlSchemaObject> GetChildElementsAndAttributesDefinedByXsdGroup(XmlSchemaGroupBase xsdGroup)
         {
             foreach (XmlSchemaObject item in xsdGroup.Items)
             {

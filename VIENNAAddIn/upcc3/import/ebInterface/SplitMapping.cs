@@ -18,6 +18,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             TargetBccs = new List<IBcc>(targetBccs);
         }
 
+        public string ElementName
+        {
+            get { return sourceElement.Name; }
+        }
+
         public List<SimpleTypeToCdtMapping> CdtMappings { get; set; }
 
         public SimpleTypeToCdtMapping GetCdtMappingForTargetBcc(IBcc targetBcc)

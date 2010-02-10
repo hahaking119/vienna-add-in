@@ -38,7 +38,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             if (!complexTypeMapping.IsMappedToSingleACC)
             {
                 throw new MappingError("Complex typed element '" + sourceElement.Path +
-                                       "' mapped to ASCC, but the complex type is not mapped to a single ACC but mapped to the ACCs " + string.Join(", ", complexTypeMapping.TargetACCs.Select(acc => acc.Name).ToArray()) + "instead.");
+                                       "' mapped to ASCC, but the complex type is not mapped to a single ACC: TargetACCs: [" + string.Join(", ", complexTypeMapping.TargetACCs.Select(acc => acc.Name).ToArray()) + "], number of children mapped to ASMAs: " + complexTypeMapping.AsmaMappings.Count() + ".");
             }
             IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
             if (complexTypeACC.Id != Ascc.AssociatedAcc.Id)
