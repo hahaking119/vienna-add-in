@@ -338,6 +338,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     var xmlSchemaGroup = (XmlSchemaGroup) item;
                     countXsdElements(new XmlSchemaObjectCollection(xmlSchemaGroup.Particle));
                 }
+                #region SAXImplementation:old
                 //switch (element.Name)
                 // {
                 //     case "xs:element":
@@ -395,6 +396,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                 //         xsdUnique++;
                 //         break;
                 // }
+                #endregion
             }
         }
     }

@@ -6,6 +6,7 @@
 // For further information on the VIENNAAddIn project please visit 
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -28,7 +29,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         {
             BDTSchemaGenerator.GenerateXSD(context, CollectBDTs(context));
             BIESchemaGenerator.GenerateXSD(context, CollectABIEs(context));
-            //RootSchemaGenerator.GenerateXSD(context);
+            RootSchemaGenerator.GenerateXSD(context);
 
             if(context.Allschemas)
             {
@@ -66,8 +67,13 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 {
                     CopyFolder(AddInSettings.CommonXSDPath, context.OutputDirectory);
                 }
+                catch (DirectoryNotFoundException dnfe)
+                {
+                    System.Windows.Forms.MessageBox.Show("Directory '"+AddInSettings.CommonXSDPath+"' not found!", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                }
                 catch (IOException ioe)
                 {
+                    Console.Out.WriteLine("Exception occured:"+ioe.Message);
                 }                
             }
 

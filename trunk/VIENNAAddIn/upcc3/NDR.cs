@@ -7,6 +7,7 @@ using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddIn.upcc3.import.util;
 using VIENNAAddInUtils;
@@ -73,6 +74,11 @@ namespace VIENNAAddIn.upcc3
         public static string GetXsdElementNameFromAsbie(IAsbie asbie)
         {
             return asbie.Name + asbie.AssociatedAbie.Name;
+        }
+
+        public static string GetXsdElementNameFromAsma(IAsma asma)
+        {
+            return asma.Name + asma.AssociatedBieAggregator.Name;
         }
 
         public static string GetAsbieNameFromXsdElement(Element element, string associatedElementName)

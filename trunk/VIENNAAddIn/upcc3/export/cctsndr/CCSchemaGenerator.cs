@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository.CcLibrary;
+using CctsRepository.DocLibrary;
 using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;
 
@@ -19,7 +20,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         private const string NSPREFIX_XSD = "xsd";
         private const string NS_XSD = "http://www.w3.org/2001/XMLSchema";
 
-        private static readonly List<String> globalASCCs = new List<String>();
+        private static List<String> globalASCCs;
    
 
         ///<summary>
@@ -31,7 +32,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             // Create XML schema file and prepare the XML schema header
             // R 88E2: all XML schema files must use UTF-8 encoding
             // R B387: every XML schema must have a declared target namespace
-
+            globalASCCs = new List<string>();
 
             var schema = new XmlSchema { TargetNamespace = context.TargetNamespace };
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
@@ -44,9 +45,20 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             schema.AttributeFormDefault = XmlSchemaForm.Unqualified;
 
             // R 9B18: all XML schemas must utilize the xsd prefix when referring to the W3C XML schema namespace            
-            schema.Namespaces.Add(NSPREFIX_XSD, NS_XSD);
 
-            schema.Namespaces.Add(NSPREFIX_DOC, NS_DOC);
+            schema.Namespaces.Add(NSPREFIX_XSD, NS_XSD);
+            if (context.Annotate)
+            {
+                XmlSchemaImport import = new XmlSchemaImport
+                                             {
+                                                 Namespace =
+                                                     "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3",
+                                                 SchemaLocation = "documentation/standard/XMLNDR_Documentation_3p0.xsd"
+                                             };
+
+                schema.Includes.Add(import);
+                schema.Namespaces.Add(NSPREFIX_DOC, NS_DOC);
+            }
 
             // add namespace to be able to utilize BDTs
             schema.Namespaces.Add(NSPREFIX_CDT, context.TargetNamespace);
@@ -310,5 +322,6 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
             return name;
         }
+
     }
 }

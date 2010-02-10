@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
+using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using VIENNAAddInUtils;
@@ -22,12 +23,14 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
     {
         private static string NSPREFIX_BDT = "bdt";
         private static string NSPREFIX_BIE = "bie";
+        private static List<string> globalAsmas;
 
         ///<summary>
         ///</summary>
         ///<param name="context"></param>
         public static void GenerateXSD(GeneratorContext context)
         {
+            globalAsmas = new List<string>();
             var documentRoot = context.DocLibrary.DocumentRoot;
             var schema = new XmlSchema
                          {
@@ -97,49 +100,98 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             schema.Items.Add(root);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="schema"></param>
+        /// <param name="ma"></param>
+        /// <param name="context"></param>
+        /// <param name="docLibrary"></param>
         private static void AddRootTypeDefinition(XmlSchema schema, IMa ma, GeneratorContext context, IDocLibrary docLibrary)
         {
-            throw new NotImplementedException();
-//            XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, ma, NSPREFIX_BIE);
-//            XmlSchemaElement element;
-//            schema.Items.Add(type);
-//            IList<IMa> temp = new List<IMa>(docLibrary.Mas);
-//            XmlSchemaSequence sequence = type.Particle as XmlSchemaSequence;
-//
-//            if (sequence != null)
-//                foreach (XmlSchemaObject item in sequence.Items)
-//                {
-//                    if (item is XmlSchemaElement)
-//                    {
-//                        element = item as XmlSchemaElement;
-//
-//                        foreach (IAsbie asbie in ma.ASBIEs)
-//                        {
-//                            // this condition makes sure only docLibraryLevel ABIEs get selected
-//                            if (temp.Contains(asbie.AssociatedElement))
-//                            {
-//                                if (element.RefName != null && element.RefName.ToString().Contains(NSPREFIX_BIE + ":" + asbie.Name + asbie.AssociatedElement.Name))
-//                                {
-//                                    String s = element.RefName.ToString();
-//                                    s = s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
-//                                    element.RefName = new XmlQualifiedName(s);
-//                                    UpdateElementTypePrefix(schema, context, element.RefName.ToString());
-//                                    break;
-//                                }
-//// ReSharper disable RedundantIfElseBlock
-//                                else if (element.Name != null && element.Name.ToString().Contains(asbie.Name + asbie.AssociatedElement.Name))
-//// ReSharper restore RedundantIfElseBlock
-//                                {
-//                                    String s = element.SchemaTypeName.ToString();
-//                                    s = s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
-//                                    element.SchemaTypeName = new XmlQualifiedName(s);
-//                                    UpdateElementTypePrefix(schema, context, element.SchemaTypeName.ToString());
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+
+            //XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, ma, NSPREFIX_BIE);
+            
+            XmlSchemaComplexType rootType = new XmlSchemaComplexType();
+            rootType.Name = ma.Name + "Type";
+
+            XmlSchemaSequence sequence = new XmlSchemaSequence(); ;
+
+            foreach (IAsma asma in ma.Asmas.OrderBy(a => a.Name))
+            {
+
+                // Take care of ASMAS aggregating ABIEs
+                if (asma.AssociatedBieAggregator != null)
+                {
+                    XmlSchemaElement elementAsma = new XmlSchemaElement();
+                    elementAsma.Name = NDR.GetXsdElementNameFromAsma(asma);
+                    elementAsma.SchemaTypeName =
+                        new XmlQualifiedName(NSPREFIX_BIE + ":" + asma.AssociatedBieAggregator.Name + "Type");
+
+                    XmlSchemaElement refAsma = new XmlSchemaElement();
+                    refAsma.RefName = new XmlQualifiedName(context.NamespacePrefix + ":" + NDR.GetXsdElementNameFromAsma(asma));
+
+                    // every shared ASCC may only appear once in the XSD file
+                    if (!globalAsmas.Contains(elementAsma.Name))
+                    {
+                        // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.   
+                        schema.Items.Add(elementAsma);
+                        globalAsmas.Add(elementAsma.Name);
+                    }
+
+                    sequence.Items.Add(refAsma);
+                }
+                else
+                {
+                    throw new NotImplementedException("TODO");
+
+                }
+
+
+            }
+
+            rootType.Particle = sequence;
+
+            schema.Items.Add(rootType);
+
+            //IList<IMa> temp = new List<IMa>(docLibrary.Mas);
+
+
+            
+            //if (sequence != null)
+            //    foreach (XmlSchemaObject item in sequence.Items)
+            //    {
+            //        if (item is XmlSchemaElement)
+            //        {
+            //            element = item as XmlSchemaElement;
+
+            //            foreach (IAsbie asbie in ma.ASBIEs)
+            //            {
+            //                // this condition makes sure only docLibraryLevel ABIEs get selected
+            //                if (temp.Contains(asbie.AssociatedElement))
+            //                {
+            //                    if (element.RefName != null && element.RefName.ToString().Contains(NSPREFIX_BIE + ":" + asbie.Name + asbie.AssociatedElement.Name))
+            //                    {
+            //                        String s = element.RefName.ToString();
+            //                        s = s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
+            //                        element.RefName = new XmlQualifiedName(s);
+            //                        UpdateElementTypePrefix(schema, context, element.RefName.ToString());
+            //                        break;
+            //                    }
+            //                    // ReSharper disable RedundantIfElseBlock
+            //                    else if (element.Name != null && element.Name.ToString().Contains(asbie.Name + asbie.AssociatedElement.Name))
+            //                    // ReSharper restore RedundantIfElseBlock
+            //                    {
+            //                        String s = element.SchemaTypeName.ToString();
+            //                        s = s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
+            //                        element.SchemaTypeName = new XmlQualifiedName(s);
+            //                        UpdateElementTypePrefix(schema, context, element.SchemaTypeName.ToString());
+            //                        break;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
 //
 //            //TODO this is now only partially correct implemented, an algorithmn has to take links and instances of ASBIEs into account
 //
