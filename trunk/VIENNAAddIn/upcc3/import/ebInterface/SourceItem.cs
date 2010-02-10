@@ -82,6 +82,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 }
             }
             
+            // New child not found in the current children of the Source Item. Therefore, it
+            // is added to the list of childs. 
             children.Add(newChild);
             newChild.parent = this;
         }
@@ -103,12 +105,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                     MappingTargetKey = otherItem.MappingTargetKey;
                 }
             }
-            MergeChildren(otherItem.Children);
-        }
-
-        public void MergeChildren(List<SourceItem> otherChildren)
-        {
-            foreach (SourceItem otherChild in otherChildren)
+            foreach (SourceItem otherChild in otherItem.Children)
             {
                 AddChild(otherChild);
             }

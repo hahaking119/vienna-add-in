@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
@@ -39,7 +38,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                                                             new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
+                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
                                                                                         })),
                                                       },
@@ -73,14 +72,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                                                             new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
+                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
                                                                               new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
+                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>
@@ -164,15 +163,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                                                             new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
+                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
-                                                                                            new Entry((string) "Entry4", InputOutputKey.None, XsdObjectType.Element),
+                                                                                            new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
                                                                               new Entry("Entry4", InputOutputKey.None,  XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
+                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>
@@ -206,15 +205,15 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                                                             new Entry("Entry2", InputOutputKey.Output(null, "2"),  XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
+                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
-                                                                                            new Entry((string) "Entry4", InputOutputKey.None, XsdObjectType.Element),
+                                                                                            new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
                                                                               new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
+                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>
@@ -249,14 +248,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                                                                                             new Entry("Entry2", InputOutputKey.Output(null, "2"), XsdObjectType.Element,
                                                                                                       new[]
                                                                                                       {
-                                                                                                          new Entry((string) "Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
+                                                                                                          new Entry("Entry3", InputOutputKey.Output(null, "3"), XsdObjectType.Element),
                                                                                                       }),
                                                                                         })),
                                                           new SchemaComponent("Schema2.xsd", "{http://www.ebinterface.at/schema/3p0/}Entry4", new[] {new Namespace("http://www.ebinterface.at/schema/3p0/"),},
                                                                               new Entry("Entry4", InputOutputKey.None, XsdObjectType.Element,
                                                                                         new[]
                                                                                         {
-                                                                                            new Entry((string) "Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
+                                                                                            new Entry("Entry5", InputOutputKey.Output(null, "5"), XsdObjectType.Element),
                                                                                         })),
                                                       },
                                                       new List<ConstantComponent>(),
@@ -294,6 +293,25 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var sourceElementTree = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
             AssertTreesAreEqual(person, sourceElementTree.RootSourceItem, string.Empty);
+        }
+
+        [Test]
+        public void ShouldBuildCompleteSourceItemTreeForUbl()
+        {
+            var mappingFileNames = new List<string> { "ubl2cll_1_1.mfd", "ubl2cll_2_1.mfd", "ubl2cll_3_1.mfd", "ubl2cll_4_1.mfd", "ubl2cll_5_1.mfd", "ubl2cll_6_1.mfd", "ubl2cll_7_1.mfd", "ubl2cll_8_1.mfd", "ubl2cll_9_1.mfd", "ubl2cll_10_1.mfd", "ubl2cll_11_1.mfd", "ubl2cll_12_1.mfd", "ubl2cll_13_1.mfd" };
+            var mappingFiles = new List<string>();
+
+            foreach (var mappingFile in mappingFileNames)
+            {
+                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\" + mappingFile));
+            }
+
+            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFiles.ToArray());
+
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\invoice\maindoc\UBL-Invoice-2.0.xsd")), null));
+
+            new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
         }
 
         private static void AssertTreesAreEqual(SourceItem expected, SourceItem actual, string path)

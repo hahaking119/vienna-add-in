@@ -13,6 +13,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             Sup = targetSup;
             Cdt = Sup.Cdt;
         }
+        
+        public string ElementName
+        {
+            get { return sourceElement.Name; }
+        }
 
         // TODO
         public override string BIEName
