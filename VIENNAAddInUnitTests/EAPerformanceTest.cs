@@ -5,7 +5,6 @@ using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3;
 using VIENNAAddInUnitTests.TestRepository;
-using VIENNAAddInUtils;
 
 namespace VIENNAAddInUnitTests
 {
@@ -13,6 +12,7 @@ namespace VIENNAAddInUnitTests
     public class EAPerformanceTest
     {
         [Test]
+        [Ignore("Depends on test file C:/Temp/test.eap")]
         public void AccessEARepositoryDirectlyAndLoadNamesOfAllElements()
         {
             Repository repository = new Repository();
@@ -27,6 +27,7 @@ namespace VIENNAAddInUnitTests
             }
         }
         [Test]
+        [Ignore("Depends on test file C:/Temp/test.eap")]
         public void AccessCctsRepositoryAndLoadNamesOfAllElements()
         {
             ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(new TemporaryFileBasedRepository("C:/Temp/test.eap"));
