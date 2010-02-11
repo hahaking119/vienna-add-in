@@ -8,19 +8,16 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class SplitMapping : ElementMapping, IEquatable<SplitMapping>
     {
-        private readonly SourceItem sourceElement;
-
         public SplitMapping(SourceItem sourceElement, IEnumerable<IBcc> targetBccs,
-                            IEnumerable<SimpleTypeToCdtMapping> cdtMappings)
+                            IEnumerable<SimpleTypeToCdtMapping> cdtMappings): base(sourceElement)
         {
-            this.sourceElement = sourceElement;
             CdtMappings = new List<SimpleTypeToCdtMapping>(cdtMappings);
             TargetBccs = new List<IBcc>(targetBccs);
         }
 
         public string ElementName
         {
-            get { return sourceElement.Name; }
+            get { return SourceItem.Name; }
         }
 
         public List<SimpleTypeToCdtMapping> CdtMappings { get; set; }
@@ -86,7 +83,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 //    }
             }
 
-            return Equals(other.sourceElement.Name, sourceElement.Name);
+            return Equals(other.SourceItem.Name, SourceItem.Name);
         }
 
         #endregion
@@ -102,7 +99,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 //    s.Append("SUP[").Append(((ICdtSup)targetBcc).Name).Append("],");
                 //}
             }
-            return string.Format("SplitMapping <SourceItem: {0}, Target BCCs: {1}>", sourceElement.Name, s);
+            return string.Format("SplitMapping <SourceItem: {0}, Target BCCs: {1}>", SourceItem.Name, s);
         }
 
         public override bool Equals(object obj)
@@ -117,7 +114,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             unchecked
             {
-                return ((sourceElement != null ? sourceElement.GetHashCode() : 0)*397) ^
+                return ((SourceItem != null ? SourceItem.GetHashCode() : 0)*397) ^
                        (TargetBccs != null ? TargetBccs.GetHashCode() : 0);
             }
         }
@@ -134,7 +131,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public string GetBbieName(IBcc targetBcc)
         {
-            return sourceElement.Name + "_" + targetBcc.Name;
+            return SourceItem.Name + "_" + targetBcc.Name;
         }
 
         public override bool ResolveTypeMapping(SchemaMapping schemaMapping)

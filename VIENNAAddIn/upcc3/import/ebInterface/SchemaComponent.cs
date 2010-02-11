@@ -106,13 +106,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
             foreach (Entry subEntry in entry.SubEntries)
             {
-                var isInput = IsInput(subEntry);
-                if (isInput)
+                var isOutput = IsOutput(subEntry);
+                if (isOutput)
                 {
-                    return true;
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
 
         /// <summary>

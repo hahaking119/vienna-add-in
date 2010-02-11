@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using CctsRepository.CcLibrary;
 
@@ -7,23 +6,21 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class ComplexElementToAsccMapping : ElementMapping, IEquatable<ComplexElementToAsccMapping>
     {
-        private readonly SourceItem sourceElement;
-
         public ComplexElementToAsccMapping(SourceItem sourceElement, IAscc targetAscc)
+            : base(sourceElement)
         {
-            this.sourceElement = sourceElement;
             Ascc = targetAscc;
             Acc = Ascc.AssociatingAcc;
         }
 
         public override string ToString()
         {
-            return string.Format("ComplexElementToAsccMapping <SourceItem: {0}, ACC: {1} [{2}]>", sourceElement.Name, Acc.Name, Acc.Id);
+            return string.Format("ComplexElementToAsccMapping <SourceItem: {0}, ACC: {1} [{2}]>", SourceItem.Name, Acc.Name, Acc.Id);
         }
 
         public override string BIEName
         {
-            get { return sourceElement.Name + "_" + Ascc.Name; }
+            get { return SourceItem.Name + "_" + Ascc.Name; }
         }
 
         public IAcc Acc { get; private set; }
@@ -32,18 +29,23 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public ComplexTypeMapping TargetMapping { get; set; }
 
+        public string ElementName
+        {
+            get { return SourceItem.Name; }
+        }
+
         public override bool ResolveTypeMapping(SchemaMapping schemaMapping)
         {
-            ComplexTypeMapping complexTypeMapping = schemaMapping.GetComplexTypeMapping(sourceElement.XsdType);
+            ComplexTypeMapping complexTypeMapping = schemaMapping.GetComplexTypeMapping(SourceItem.XsdType);
             if (!complexTypeMapping.IsMappedToSingleACC)
             {
-                throw new MappingError("Complex typed element '" + sourceElement.Path +
+                throw new MappingError("Complex typed element '" + SourceItem.Path +
                                        "' mapped to ASCC, but the complex type is not mapped to a single ACC: TargetACCs: [" + string.Join(", ", complexTypeMapping.TargetACCs.Select(acc => acc.Name).ToArray()) + "], number of children mapped to ASMAs: " + complexTypeMapping.AsmaMappings.Count() + ".");
             }
             IAcc complexTypeACC = complexTypeMapping.TargetACCs.ElementAt(0);
             if (complexTypeACC.Id != Ascc.AssociatedAcc.Id)
             {
-                throw new MappingError("Complex typed element '" + sourceElement.Path +
+                throw new MappingError("Complex typed element '" + SourceItem.Path +
                                        "' mapped to ASCC with associated ACC other than the target ACC for the complex type.");
             }
             TargetMapping = complexTypeMapping;
@@ -54,7 +56,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.Ascc.Id, Ascc.Id) && Equals(other.Acc.Id, Acc.Id);
+            return Equals(other.SourceItem.Name, SourceItem.Name) && Equals(other.Ascc.Id, Ascc.Id) && Equals(other.Acc.Id, Acc.Id);
         }
 
         public override bool Equals(object obj)
@@ -69,7 +71,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             unchecked
             {
-                int result = (sourceElement != null ? sourceElement.GetHashCode() : 0);
+                int result = (SourceItem != null ? SourceItem.GetHashCode() : 0);
                 result = (result*397) ^ (Ascc != null ? Ascc.GetHashCode() : 0);
                 result = (result*397) ^ (Acc != null ? Acc.GetHashCode() : 0);
                 return result;

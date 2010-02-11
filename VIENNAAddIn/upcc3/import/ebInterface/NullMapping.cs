@@ -4,6 +4,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class NullMapping : ElementMapping, IEquatable<NullMapping>
     {
+        public NullMapping() : base(null)
+        {
+        }
+
         public override string BIEName
         {
             get { return string.Empty; }
