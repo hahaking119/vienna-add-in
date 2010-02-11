@@ -7,7 +7,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
     public class MapForceSourceItemTree
     {
         private readonly MapForceMapping mapForceMapping;
-        
+
         /// <exception cref="ArgumentException">The MapForce mapping does not contain any input schema components.</exception>
         public MapForceSourceItemTree(MapForceMapping mapForceMapping, XmlSchemaSet xmlSchemaSet)
         {
@@ -26,6 +26,10 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             foreach (SchemaComponent inputSchemaComponent in inputSchemaComponents)
             {
                 XmlSchemaElement rootXsdElement = (XmlSchemaElement) xmlSchemaSet.GlobalElements[inputSchemaComponent.InstanceRoot];
+                if (rootXsdElement == null)
+                {
+                    throw new MappingError("Root element of input schema component [" + inputSchemaComponent.InstanceRoot + "] not found in XSD global elements.");
+                }
                 SourceItem tree = CreateSourceItemTree(inputSchemaComponent.RootEntry, rootXsdElement);
                 schemaComponentTrees.Add(tree);
             }
@@ -93,6 +97,26 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public SourceItem RootSourceItem { get; private set; }
 
+        public IEnumerable<SourceItem> MappedSourceItems
+        {
+            get { return FindMappedSourceItems(RootSourceItem); }
+        }
+
+        private IEnumerable<SourceItem> FindMappedSourceItems(SourceItem sourceItem)
+        {
+            if (sourceItem.MappingTargetKey != null)
+            {
+                yield return sourceItem;
+            }
+            foreach (SourceItem child in sourceItem.Children)
+            {
+                foreach (SourceItem mappedChildren in FindMappedSourceItems(child))
+                {
+                    yield return mappedChildren;
+                }
+            }
+        }
+
         /// <summary>
         /// Perform name matching between the sub-tree's root element name and element names in the sourceElementTree.
         /// 
@@ -123,7 +147,50 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
             var sourceItem = new SourceItem(mapForceEntry.Name, xsdType, mapForceEntry.XsdObjectType, mapForceMapping.GetMappingTargetKey(mapForceEntry.InputOutputKey.Value));
 
-            foreach (XmlSchemaObject childOfXsdType in GetChildElementsAndAttributesDefinedByXsdType(sourceItem.XsdType))
+            IEnumerable<XmlSchemaObject> childrenOfXsdType = GetChildElementsAndAttributesDefinedByXsdType(sourceItem.XsdType);
+            
+            //HashSet<string> childrenOfXsdTypeNames = new HashSet<string>();
+
+            //int unknownChildTypeCount = 0;
+            //foreach (XmlSchemaObject xmlSchemaObject in childrenOfXsdType)
+            //{
+            //    if (xmlSchemaObject is XmlSchemaElement)
+            //    {
+            //        childrenOfXsdTypeNames.Add("E_" + ((XmlSchemaElement)xmlSchemaObject).QualifiedName.Name);
+            //    }
+            //    else if (xmlSchemaObject is XmlSchemaAttribute)
+            //    {
+            //        childrenOfXsdTypeNames.Add("A_" + ((XmlSchemaAttribute)xmlSchemaObject).QualifiedName.Name);
+            //    }
+            //    else
+            //    {
+            //        childrenOfXsdTypeNames.Add("Unknown Child Type["+(++unknownChildTypeCount)+"]: " + xmlSchemaObject.GetType().Name);
+            //    }
+            //}
+
+            //HashSet<string> childrenOfMapForceEntryNames = new HashSet<string>();
+
+            //foreach (Entry subEntry in mapForceEntry.SubEntries)
+            //{
+            //    switch (subEntry.XsdObjectType)
+            //    {
+            //        case XsdObjectType.Element:
+            //            childrenOfMapForceEntryNames.Add("E_" + subEntry.Name);
+            //            break;
+            //        case XsdObjectType.Attribute:
+            //            childrenOfMapForceEntryNames.Add("A_" + subEntry.Name);
+            //            break;
+            //    }
+            //}
+
+            //HashSet<string> mapForceEntriesNotFoundInXsd = new HashSet<string>(childrenOfMapForceEntryNames);
+            //mapForceEntriesNotFoundInXsd.ExceptWith(childrenOfXsdTypeNames);
+            //if (mapForceEntriesNotFoundInXsd.Count > 0)
+            //{
+            //    Console.Out.WriteLine("AAAHHHHHHHHH!!!!!!!!!!!!!!!!!!!!!!");
+            //}
+            
+            foreach (XmlSchemaObject childOfXsdType in childrenOfXsdType)
             {
                 Entry mapForceSubEntry;
 

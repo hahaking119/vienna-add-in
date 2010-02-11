@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.import.ebInterface;
-using VIENNAAddInUtils;
+using File=System.IO.File;
+using Path=VIENNAAddInUtils.Path;
 
 namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 {
@@ -504,8 +507,117 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             var expectedRootElementMapping = new AsmaMapping(new SourceItem("Address", null, XsdObjectType.Element, null)) { TargetMapping = addressTypeMapping };
 
             AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeToCdtMapping>(), expectedRootElementMapping);
+        }
+
+        [Test]
+        [Ignore("for manual testing")]
+        public void Diff_map_force_mappings_with_explicit_element_mappings()
+        {
+            #region Prepare Diff
+
+            var repo = new Repository();
+            repo.OpenFile(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\Repository-with-CDTs-and-CCs.eap"));
+
+            var mappingFileNames = new List<string> { "ubl2cll_1_1.mfd", "ubl2cll_2_1.mfd", "ubl2cll_3_1.mfd", "ubl2cll_4_1.mfd", "ubl2cll_5_1.mfd", "ubl2cll_6_1.mfd", "ubl2cll_7_1.mfd", "ubl2cll_8_1.mfd", "ubl2cll_9_1.mfd", "ubl2cll_10_1.mfd", "ubl2cll_11_1.mfd", "ubl2cll_12_1.mfd", "ubl2cll_13_1.mfd" };
+            var mappingFiles = new List<string>();
+
+            foreach (var mappingFile in mappingFileNames)
+            {
+                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\" + mappingFile));
+            }
+
+            Console.Out.WriteLine("Starting mapping");
+            var repository = CctsRepositoryFactory.CreateCctsRepository(repo);
+            var ccLib = repository.GetCcLibraries().FirstOrDefault();
 
 
+            var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFiles.ToArray());
+
+            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\invoice\maindoc\UBL-Invoice-2.0.xsd")), null));
+
+            #endregion
+
+            SchemaMapping schemaMapping = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccLib, repository);
+
+            HashSet<string> edgeDescriptions = schemaMapping.EdgeDescriptions;
+            
+            TextWriter writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\edgeDescriptions.txt");
+            writer.WriteLine("#edges: " + edgeDescriptions.Count);
+            foreach (string edgeDescription in edgeDescriptions)
+            {
+                writer.WriteLine(edgeDescription);
+            }
+            writer.Close();
+
+
+            HashSet<string> mappingDescriptions = schemaMapping.MappingDescriptions;
+
+            writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\mappingDescriptions.txt");
+            writer.WriteLine("#mappings: " + mappingDescriptions.Count);
+            foreach (string mappingDescription in mappingDescriptions)
+            {
+                writer.WriteLine(mappingDescription);
+            }
+            writer.Close();
+
+
+            writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\missing_mappingDescriptions.txt");
+            HashSet<string> missingMappingDescriptions = new HashSet<string>(edgeDescriptions);
+            missingMappingDescriptions.ExceptWith(mappingDescriptions);
+
+            foreach (string mappingDescription in missingMappingDescriptions)
+            {
+                writer.WriteLine(mappingDescription);
+            }
+            writer.Close();
+        }
+
+        [Test]
+        public void Test_mapping_two_complex_types_with_complex_elements_to_duplicated_bcc()
+        {
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_two_complex_types_with_complex_elements_to_duplicated_bcc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_two_complex_types_with_complex_elements_to_duplicated_bcc\source.xsd");
+
+            SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
+
+            var textTypeToTextMapping = new ComplexTypeToCdtMapping("TextType",
+                                                            new List<ElementMapping>
+                                                            {
+                                                                new AttributeOrSimpleElementToSupMapping(new SourceItem("Language", null, XsdObjectType.Attribute, null), supTextLanguage),
+                                                            });
+
+            var austrianAddressTypeMapping = new ComplexTypeToAccMapping("AustrianAddressType",
+                                                 new List<ElementMapping>
+                                                     {
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, textTypeToTextMapping),                                                         
+                                                     });
+
+            var indianAddressTypeMapping = new ComplexTypeToAccMapping("IndianAddressType",
+                                                 new List<ElementMapping>
+                                                     {
+                                                         new AttributeOrSimpleElementOrComplexElementToBccMapping(new SourceItem("CityName", null, XsdObjectType.Element, null), bccCityName, textTypeToTextMapping),
+                                                     });
+
+            var addressBookTypeMapping = new ComplexTypeToMaMapping("AddressBookType",
+                                     new List<ElementMapping>
+                                                     {
+                                                         new AsmaMapping(new SourceItem("AustrianAddress", null, XsdObjectType.Element, null)) { TargetMapping = austrianAddressTypeMapping },
+                                                         new AsmaMapping(new SourceItem("IndianAddress", null, XsdObjectType.Element, null)) { TargetMapping = indianAddressTypeMapping },                                                         
+                                                     });
+            
+
+            var expectedComplexTypeMappings = new List<IMapping>
+                                   {
+                                       textTypeToTextMapping,
+                                       austrianAddressTypeMapping,
+                                       indianAddressTypeMapping,
+                                       addressBookTypeMapping,
+                                   };
+
+            var expectedRootElementMapping = new AsmaMapping(new SourceItem("InternationalAddressBook", null, XsdObjectType.Element, null)) { TargetMapping = addressBookTypeMapping };
+
+            AssertMappings(mappings, expectedComplexTypeMappings, new List<SimpleTypeToCdtMapping>(), expectedRootElementMapping);
         }
 
         private SchemaMapping CreateSchemaMapping(string mappingFileName, string xsdFileName)

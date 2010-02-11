@@ -5,18 +5,16 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 {
     public class AttributeOrSimpleElementToSupMapping : ElementMapping, IEquatable<AttributeOrSimpleElementToSupMapping>
     {
-        private readonly SourceItem sourceElement;
-
         public AttributeOrSimpleElementToSupMapping(SourceItem sourceElement, ICdtSup targetSup)
+            : base(sourceElement)
         {
-            this.sourceElement = sourceElement;
             Sup = targetSup;
             Cdt = Sup.Cdt;
         }
         
         public string ElementName
         {
-            get { return sourceElement.Name; }
+            get { return SourceItem.Name; }
         }
 
         // TODO
@@ -29,7 +27,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public override string ToString()
         {
-            return string.Format("SUPMapping <SourceItem: {0}, CDT: {1} [{2}]>", sourceElement.Name, Cdt.Name, Cdt.Id);
+            return string.Format("SUPMapping <SourceItem: {0}, CDT: {1} [{2}]>", SourceItem.Name, Cdt.Name, Cdt.Id);
         }
 
         public ICdt Cdt { get; private set; }
@@ -38,7 +36,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.sourceElement.Name, sourceElement.Name) && Equals(other.Sup.Id, Sup.Id) && Equals(other.Cdt.Id, Cdt.Id);
+            return Equals(other.SourceItem.Name, SourceItem.Name) && Equals(other.Sup.Id, Sup.Id) && Equals(other.Cdt.Id, Cdt.Id);
         }
 
         public override bool Equals(object obj)
