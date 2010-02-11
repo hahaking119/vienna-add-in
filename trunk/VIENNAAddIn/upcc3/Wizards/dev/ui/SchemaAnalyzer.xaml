@@ -8,20 +8,69 @@
         <DockPanel Margin="2,2,2,2" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=canvas, Path=ActualWidth}" Height="{Binding ElementName=canvas, Path=ActualHeight}">
             <TabControl>
                 <TabItem Header="File1" Name="tab1">
-                    <vc:Chart Name="chart1">
-                        <vc:Chart.Series>
-                            <vc:DataSeries>
-                                <vc:DataSeries.DataPoints>
-                                    <vc:DataPoint />
-                                </vc:DataSeries.DataPoints>
-                            </vc:DataSeries>
-                        </vc:Chart.Series>
-                    </vc:Chart>
+                    <DockPanel>
+                        <StackPanel Name="stackpanel1" Orientation="Vertical" DockPanel.Dock="Bottom">
+                            <Label>Complexity:</Label>
+                            <Canvas Height="20" Width="{Binding ElementName=stackpanel1, Path=ActualWidth}">
+                                <Rectangle Height="6" Canvas.Top="7" Width="{Binding ElementName=stackpanel1, Path=ActualWidth}">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush>
+                                            <GradientStop Color="Red" Offset="0.0" />
+                                            <GradientStop Color="Orange" Offset="0.5" />
+                                            <GradientStop Color="Green" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Name="complexityMover1" Width="30" Opacity="1" />
+                                    <Rectangle Name="complexity1" Height="20" Canvas.Top="0" Canvas.Left="0" Width="20" Visibility="Collapsed">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="Orange" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.Stroke>
+                                            <SolidColorBrush Color="White" />
+                                        </Rectangle.Stroke>
+                                    </Rectangle>
+                                </StackPanel>
+                            </Canvas>
+                        </StackPanel>
+                        <vc:Chart Name="chart1">
+                            <vc:Chart.Series>
+                                <vc:DataSeries RenderAs="Column">
+                                    <vc:DataSeries.DataPoints>
+                                        <vc:DataPoint />
+                                    </vc:DataSeries.DataPoints>
+                                </vc:DataSeries>
+                            </vc:Chart.Series>
+                        </vc:Chart>
+                    </DockPanel>
                 </TabItem>
                 <TabItem Header="File2" Name="tab2">
-                    <vc:Chart Name="chart2">
+                    <DockPanel>
+                        <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom">
+                        <Label>Complexity:</Label>
+                        <ProgressBar Name="complexity2" Height="15" Minimum="0" Maximum="1" />
+                        </StackPanel>
+                        <vc:Chart Name="chart2">
+                            <vc:Chart.Series>
+                                <vc:DataSeries RenderAs="Column">
+                                    <vc:DataSeries.DataPoints>
+                                        <vc:DataPoint />
+                                    </vc:DataSeries.DataPoints>
+                                </vc:DataSeries>
+                            </vc:Chart.Series>
+                        </vc:Chart>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Both" Name="tab3">
+                    <vc:Chart Name="chart3">
                         <vc:Chart.Series>
-                            <vc:DataSeries>
+                            <vc:DataSeries RenderAs="Column">
+                                <vc:DataSeries.DataPoints>
+                                    <vc:DataPoint />
+                                </vc:DataSeries.DataPoints>
+                            </vc:DataSeries>
+                            <vc:DataSeries RenderAs="Column">
                                 <vc:DataSeries.DataPoints>
                                     <vc:DataPoint />
                                 </vc:DataSeries.DataPoints>
@@ -29,7 +78,6 @@
                         </vc:Chart.Series>
                     </vc:Chart>
                 </TabItem>
-                <TabItem Header="Both" Name="tab3"></TabItem>
             </TabControl>
         </DockPanel>
         <Button Width="100" Height="23" Canvas.Top="0" Canvas.Right="0" Click="Button_Click">Load files...</Button>

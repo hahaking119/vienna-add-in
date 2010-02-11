@@ -69,7 +69,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
            
             //XmlReader reader = XmlReader.Create(new StreamReader(filename));
             //xmlSchemaSet.Compile();
-            Console.WriteLine(xmlSchemaSet.Schemas().Count);
             foreach (XmlSchema schema in xmlSchemaSet.Schemas())
             {
                 Console.WriteLine(schema.SourceUri);
@@ -78,71 +77,71 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
 
             results.Clear();
 
-            Console.WriteLine("Schema features " + xsdElement + " Elements.");
-            results.Add(new SchemaAnalyzerResult("Element", xsdElement, xsdElementWeight));
-
-            Console.WriteLine("Schema features " + xsdSimpleType + " SimpleTypes.");
-            results.Add(new SchemaAnalyzerResult("SimpleType", xsdSimpleType, xsdSimpleTypeWeight));
-
-            Console.WriteLine("Schema features " + xsdComplexType + " ComplexTypes.");
-            results.Add(new SchemaAnalyzerResult("ComplexType", xsdComplexType, xsdComplexTypeWeight));
-
-            Console.WriteLine("Schema features " + xsdChoice + " Choices.");
-            results.Add(new SchemaAnalyzerResult("Choice", xsdChoice, xsdChoiceWeight));
-
-            Console.WriteLine("Schema features " + xsdKey + " xsKey.");
-            results.Add(new SchemaAnalyzerResult("Key", xsdKey, xsdKeyWeight));
+            Console.WriteLine("Schema features " + xsdAll + " All.");
+            results.Add(new SchemaAnalyzerResult("All", xsdAll, xsdAllWeight));
 
             Console.WriteLine("Schema features " + xsdAny + " xsAny.");
             results.Add(new SchemaAnalyzerResult("Any", xsdAny, xsdAnyWeight));
 
-            Console.WriteLine("Schema features " + xsdGroup + " Groups.");
-            results.Add(new SchemaAnalyzerResult("Group", xsdGroup, xsdGroupWeight));
-
-            Console.WriteLine("Schema features " + xsdSequence + " Sequences.");
-            results.Add(new SchemaAnalyzerResult("Sequence", xsdSequence, xsdSequenceWeight));
-
-            Console.WriteLine("Schema features " + xsdSubstitutionGroup + " SubstitutionGroups.");
-            results.Add(new SchemaAnalyzerResult("SubstitutionGroup", xsdSubstitutionGroup, xsdSubstitutionGroupWeight));
-
-            Console.WriteLine("Schema features " + xsdRedefine + " Redefines.");
-            results.Add(new SchemaAnalyzerResult("Redefine", xsdRedefine, xsdRedefineWeight));
-
-            Console.WriteLine("Schema features " + xsiType + " xsi:Types.");
-            results.Add(new SchemaAnalyzerResult("xsi:Type", xsiType, xsiTypeWeight));
+            Console.WriteLine("Schema features " + xsdAnyAttribute + " AnyAttributes.");
+            results.Add(new SchemaAnalyzerResult("AnyAttribute", xsdAnyAttribute, xsdAnyAttributeWeight));
 
             Console.WriteLine("Schema features " + xsdAttribute + " Attributes.");
             results.Add(new SchemaAnalyzerResult("Attribute", xsdAttribute, xsdAttributeWeight));
 
-            Console.WriteLine("Schema features " + xsdAnyAttribute + " AnyAttributes.");
-            results.Add(new SchemaAnalyzerResult("AnyAttribute", xsdAnyAttribute, xsdAnyAttributeWeight));
-
-            Console.WriteLine("Schema features " + xsdKeyRef + " KeyRefs.");
-            results.Add(new SchemaAnalyzerResult("KeyRef", xsdKeyRef, xsdKeyRefWeight));
-
-            Console.WriteLine("Schema features " + xsdUnion + " Unions.");
-            results.Add(new SchemaAnalyzerResult("Union", xsdUnion, xsdUnionWeight));
-
-            Console.WriteLine("Schema features " + xsdList + " Lists.");
-            results.Add(new SchemaAnalyzerResult("List", xsdList, xsdListWeight));
-
             Console.WriteLine("Schema features " + xsdAttributeGroup + " AttributeGroups.");
             results.Add(new SchemaAnalyzerResult("AttributeGroup", xsdAttributeGroup, xsdAttributeGroupWeight));
 
-            Console.WriteLine("Schema features " + xsdUnique + " Uniques.");
-            results.Add(new SchemaAnalyzerResult("Unique", xsdUnique, xsdUniqueWeight));
+            Console.WriteLine("Schema features " + xsdChoice + " Choices.");
+            results.Add(new SchemaAnalyzerResult("Choice", xsdChoice, xsdChoiceWeight));
 
-            Console.WriteLine("Schema features " + xsdAll + " All.");
-            results.Add(new SchemaAnalyzerResult("All", xsdAll, xsdAllWeight));
+            Console.WriteLine("Schema features " + xsdComplexType + " ComplexTypes.");
+            results.Add(new SchemaAnalyzerResult("ComplexType", xsdComplexType, xsdComplexTypeWeight));
 
-            Console.WriteLine("Schema features " + xsdRestriction + " Restrictions.");
-            results.Add(new SchemaAnalyzerResult("Restriction",xsdRestriction,xsdRestrictionWeight));
+            Console.WriteLine("Schema features " + xsdElement + " Elements.");
+            results.Add(new SchemaAnalyzerResult("Element", xsdElement, xsdElementWeight));
 
             Console.WriteLine("Schema features " + xsdExtension + " Extensions.");
             results.Add(new SchemaAnalyzerResult("Extension", xsdExtension, xsdExtensionWeight));
 
+            Console.WriteLine("Schema features " + xsdGroup + " Groups.");
+            results.Add(new SchemaAnalyzerResult("Group", xsdGroup, xsdGroupWeight));
 
-            results.Sort(new SchemaAnalyzerResultComparer());
+            Console.WriteLine("Schema features " + xsdKey + " xsKey.");
+            results.Add(new SchemaAnalyzerResult("Key", xsdKey, xsdKeyWeight));
+
+            Console.WriteLine("Schema features " + xsdKeyRef + " KeyRefs.");
+            results.Add(new SchemaAnalyzerResult("KeyRef", xsdKeyRef, xsdKeyRefWeight));
+
+            Console.WriteLine("Schema features " + xsdList + " Lists.");
+            results.Add(new SchemaAnalyzerResult("List", xsdList, xsdListWeight));
+
+            Console.WriteLine("Schema features " + xsdRedefine + " Redefines.");
+            results.Add(new SchemaAnalyzerResult("Redefine", xsdRedefine, xsdRedefineWeight));
+
+            Console.WriteLine("Schema features " + xsdRestriction + " Restrictions.");
+            results.Add(new SchemaAnalyzerResult("Restriction",xsdRestriction,xsdRestrictionWeight));
+
+            Console.WriteLine("Schema features " + xsdSequence + " Sequences.");
+            results.Add(new SchemaAnalyzerResult("Sequence", xsdSequence, xsdSequenceWeight));
+
+            Console.WriteLine("Schema features " + xsdSimpleType + " SimpleTypes.");
+            results.Add(new SchemaAnalyzerResult("SimpleType", xsdSimpleType, xsdSimpleTypeWeight));
+
+            Console.WriteLine("Schema features " + xsdSubstitutionGroup + " SubstitutionGroups.");
+            results.Add(new SchemaAnalyzerResult("SubstitutionGroup", xsdSubstitutionGroup, xsdSubstitutionGroupWeight));
+
+            Console.WriteLine("Schema features " + xsdUnion + " Unions.");
+            results.Add(new SchemaAnalyzerResult("Union", xsdUnion, xsdUnionWeight));
+
+            Console.WriteLine("Schema features " + xsdUnique + " Uniques.");
+            results.Add(new SchemaAnalyzerResult("Unique", xsdUnique, xsdUniqueWeight));
+
+            Console.WriteLine("Schema features " + xsiType + " xsi:Types.");
+            results.Add(new SchemaAnalyzerResult("xsi:Type", xsiType, xsiTypeWeight));
+
+
+            //results.Sort(new SchemaAnalyzerResultComparer());
 
             return results;
         }
@@ -150,7 +149,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         {
             foreach (var item in items)
             {
-                Console.WriteLine(item.GetType().FullName);
                 if (item is XmlSchemaComplexType)
                 {
                     xsdComplexType++;
