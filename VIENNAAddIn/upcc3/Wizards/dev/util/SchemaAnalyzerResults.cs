@@ -12,7 +12,29 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
 {
     public class SchemaAnalyzerResults:List<SchemaAnalyzerResult>
     {
+        private double complexity;
+        private int totalCount;
+        public double Complexity
+        {
+            get
+            {
+                return complexity/totalCount;
+            }
+        }
 
+        public new void Clear()
+        {
+            complexity = 0.0;
+            totalCount = 0;
+            base.Clear();
+        }
+
+        public new void Add(SchemaAnalyzerResult item)
+        {
+            complexity += (item.Count*item.Weight);
+            totalCount += item.Count;
+            base.Add(item);
+        }
     }
 
     public class SchemaAnalyzerResult 
@@ -28,7 +50,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             Weight = newWeight;
         }
     }
-    public class SchemaAnalyzerResultComparer:IComparer<SchemaAnalyzerResult>
+ /*   public class SchemaAnalyzerResultComparer:IComparer<SchemaAnalyzerResult>
     {
         public int Compare(SchemaAnalyzerResult x, SchemaAnalyzerResult y)
         {
@@ -47,5 +69,5 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             }
             return returnValue;
         }
-    }
+    }*/
 }

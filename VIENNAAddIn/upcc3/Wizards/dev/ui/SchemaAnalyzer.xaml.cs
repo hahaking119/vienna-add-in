@@ -8,6 +8,9 @@
 // *******************************************************************************
 
 using System.IO;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Xml;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
@@ -58,11 +61,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 if (!Analyze(file2, 2))
                     return false;
                 tab2.IsEnabled = true;
-                tab3.IsEnabled = false;
+                tab3.IsEnabled = true;
             }
             else
             {
-                tab2.IsEnabled = true;
+                tab1.Focus();
+                tab2.IsEnabled = false;
                 tab3.IsEnabled = false;
             }
             return true;
@@ -110,12 +114,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
             started = true;
             (chart==1 ? chart1 : chart2).Series[0].DataPoints.Clear();
+            chart3.Series[chart-1].DataPoints.Clear();
             foreach (SchemaAnalyzerResult dataset in results)
             {
                 DataPoint item = new DataPoint {YValue = dataset.Count, AxisXLabel = dataset.Caption};
+                DataPoint item2 = new DataPoint { YValue = dataset.Count, AxisXLabel = dataset.Caption };
                 (chart == 1 ? chart1 : chart2).Series[0].DataPoints.Add(item);
+                chart3.Series[chart-1].DataPoints.Add(item2);
             }
             (chart == 1 ? tab1 : tab2).Header = file.Substring(file.LastIndexOf("\\")+1);
+            complexity1.Fill = new SolidColorBrush(Colors.Green); //TODO
+            complexity1.Visibility = System.Windows.Visibility.Visible;
+            complexityMover1.Width = (int) (results.Complexity*stackpanel1.ActualWidth);
             return true;
         }
 
