@@ -16,6 +16,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         public abstract string BIEName { get; }
 
-        protected abstract IEnumerable<ElementMapping> Children { get; }
+        public abstract IEnumerable<ElementMapping> Children { get; }
     }
 }

@@ -32,7 +32,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return ChildrenEqual(other) && Equals(other.ComplexTypeName, ComplexTypeName);
+            bool b = ChildrenEqual(other);
+            bool b1 = Equals(other.ComplexTypeName, ComplexTypeName);
+            return b && b1;
         }
 
         public override bool Equals(object obj)
