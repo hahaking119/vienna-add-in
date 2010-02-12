@@ -83,7 +83,7 @@
                         </vc:Chart>
                     </DockPanel>
                 </TabItem>
-                <TabItem Header="Both" Name="tab3">
+                <TabItem Header="Comparison" Name="tab3">
                     <vc:Chart Name="chart3">
                         <vc:Chart.Series>
                             <vc:DataSeries RenderAs="Column">
