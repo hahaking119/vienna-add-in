@@ -61,7 +61,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
         }
 
         [Test]
-        public void ShouldWorkWithTwoIndependentInputSchemaComponents()
+        [ExpectedException(typeof(MappingError))]
+        public void ShouldThrowExceptionIfSchemaComponentCouldNotBeAttached()
         {
             var mapForceMapping = new MapForceMapping(new List<SchemaComponent>
                                                       {

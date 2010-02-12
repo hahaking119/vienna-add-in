@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return SimpleTypeName + "_" + TargetCDT.Name; }
         }
 
-        protected override IEnumerable<ElementMapping> Children
+        public override IEnumerable<ElementMapping> Children
         {
             get { yield break; }
         }

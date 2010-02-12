@@ -34,8 +34,6 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
             Console.Out.WriteLine("Done.");
 
-            //return;
-
             Console.Out.WriteLine("Building target element store:");
             targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary, cctsRepository);
             Console.Out.WriteLine("Done.");
@@ -48,6 +46,40 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             Console.Out.WriteLine("Done.");
 
             elementMappings = new List<ElementMapping>(ResolveTypeMappings(elementMappings));
+
+            foreach (KeyValuePair<string, List<ComplexTypeMapping>> pair in complexTypeMappings)
+            {
+                foreach (ComplexTypeMapping complexTypeMapping in pair.Value)
+                {
+                    complexTypeMapping.RemoveInvalidAsmaMappings();
+                }
+            }
+
+            Dictionary<string, List<ComplexTypeMapping>> relevantComplexTypeMappings = new Dictionary<string, List<ComplexTypeMapping>>();
+            foreach (KeyValuePair<string, List<ComplexTypeMapping>> pair in complexTypeMappings)
+            {
+                string complexTypeName = pair.Key;
+                ComplexTypeMapping relevantMapping = GetComplexTypeMappingWithMostChildren(pair.Value);
+                if (relevantMapping is ComplexTypeToMaMapping)
+                {
+                    relevantMapping = CreateComplexTypeMappingForChildMappings(relevantMapping.Children, complexTypeName);
+                }
+                if (relevantMapping != null)
+                {
+                    relevantComplexTypeMappings[complexTypeName] = new List<ComplexTypeMapping> {relevantMapping};
+                }
+            }
+            complexTypeMappings = relevantComplexTypeMappings;
+
+            foreach (ElementMapping elementMapping in elementMappings)
+            {
+                if (elementMapping is AsmaMapping)
+                {
+                    AsmaMapping asmaMapping = (AsmaMapping) elementMapping;
+                    ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(asmaMapping.TargetMapping.Children, asmaMapping.TargetMapping.ComplexTypeName);
+                    asmaMapping.TargetMapping = complexTypeMapping;
+                }
+            }
 
             foreach (KeyValuePair<string, List<ComplexTypeMapping>> pair in complexTypeMappings)
             {
@@ -153,8 +185,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
         private static void PrintSourceElementTree(SourceItem element, string indent, TextWriter writer)
         {
-            writer.WriteLine(indent + element.Name + " [" + element.MappingTargetKey + "]");
-            //Console.Out.WriteLine(indent + element.Name);
+            writer.WriteLine(indent + element.Name + " => [" + element.MappingTargetKey + "]");
             foreach (var child in element.Children)
             {
                 PrintSourceElementTree(child, indent + "    ", writer);
@@ -298,13 +329,8 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             
             if (sourceElement.HasComplexType())
             {
-                bool complexTypeIsMapped = MapComplexType(sourceElement, path, parentComplexTypeNames);
+                MapComplexType(sourceElement, path, parentComplexTypeNames);
 
-                //if (!complexTypeIsMapped)
-                //{
-                //    // ignore element
-                //    return ElementMapping.NullElementMapping;
-                //}
                 if (!sourceElement.IsMapped)
                 {
                     return new AsmaMapping(sourceElement);
@@ -370,18 +396,29 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
                 //}
             }
 
-            IAcc targetAcc = null;
-            bool hasMultipleAccMappings = false;
-            bool hasAsmaMapping = false;
-            ComplexTypeMapping complexTypeMapping;
-
             List<ElementMapping> childMappings = GetChildMappings(sourceElement, parentComplexTypeNames,
                                                                   qualifiedComplexTypeName, path);
+
+            ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(childMappings, sourceElement.XsdTypeName);
+            if (complexTypeMapping == null)
+            {
+                return false;
+            }
+
+            complexTypeMappings.GetAndCreate(complexTypeName).Add(complexTypeMapping);
+            return true;
+        }
+
+        private static ComplexTypeMapping CreateComplexTypeMappingForChildMappings(IEnumerable<ElementMapping> childMappings, string complexTypeName)
+        {
+            IAcc targetAcc = null;
+            bool hasAsmaMapping = false;
+            bool hasMultipleAccMappings = false;
 
             if (childMappings.Count() == 0)
             {
                 // complex type not mapped
-                return false;
+                return null;
             }
 
             foreach (ElementMapping child in childMappings)
@@ -427,20 +464,14 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             if ((hasAccMapping) && (!hasMultipleAccMappings) && (!hasAsmaMapping))
             {
                 // ACC
-                complexTypeMapping = new ComplexTypeToAccMapping(complexTypeName, childMappings);
+                return new ComplexTypeToAccMapping(complexTypeName, childMappings);
             }
-            else if ((!hasMultipleAccMappings && hasAsmaMapping) || ((hasAccMapping) && hasMultipleAccMappings))
+            if ((!hasMultipleAccMappings && hasAsmaMapping) || ((hasAccMapping) && hasMultipleAccMappings))
             {
                 // MA
-                complexTypeMapping = new ComplexTypeToMaMapping(complexTypeName, childMappings);
+                return new ComplexTypeToMaMapping(complexTypeName, childMappings);
             }
-            else
-            {
-                throw new MappingError("Mapping Error #375. Source Element: " + sourceElement.Name);
-            }
-
-            complexTypeMappings.GetAndCreate(complexTypeName).Add(complexTypeMapping);
-            return true;
+            throw new MappingError("Unexpected Mapping Error #375. Complex Type Name: " + complexTypeName);
         }
 
         private bool MapComplexTypeToCdt(SourceItem sourceElement, Stack<XmlQualifiedName> parentComplexTypeNames, XmlQualifiedName qualifiedComplexTypeName, string complexTypeName, string path)
@@ -606,10 +637,9 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             foreach (List<ComplexTypeMapping> mappings in complexTypeMappings.Values)
             {
-                ComplexTypeMapping complexTypeMapping = GetComplexTypeMappingWithMostChildren(mappings);
-                if (complexTypeMapping != null)
+                if (mappings.Count > 0 || mappings[0] != null)
                 {
-                    yield return complexTypeMapping;
+                    yield return mappings[0];
                 }
             }
         }

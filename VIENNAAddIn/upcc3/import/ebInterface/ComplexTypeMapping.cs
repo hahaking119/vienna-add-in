@@ -32,7 +32,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return (IsMappedToSingleACC ? LibraryType.BIE : LibraryType.DOC); }
         }
 
-        protected override IEnumerable<ElementMapping> Children
+        public override IEnumerable<ElementMapping> Children
         {
             get { return children; }
         }
