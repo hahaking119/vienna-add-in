@@ -7,6 +7,7 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
+using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -16,6 +17,8 @@ using System.Xml.Schema;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 using Visifire.Charts;
+using Brush=System.Drawing.Brush;
+using Color=System.Windows.Media.Color;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
@@ -123,13 +126,23 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             started = true;
             (chart==1 ? chart1 : chart2).Series[0].DataPoints.Clear();
             chart3.Series[chart-1].DataPoints.Clear();
+            double curPos = 0.0;
+            double deltaPos = 1 / ((double)results.Count-1);
             foreach (SchemaAnalyzerResult dataset in results)
             {
-                DataPoint item = new DataPoint {YValue = dataset.Count, AxisXLabel = dataset.Caption};
+                var curColor = GetComplexityColor(curPos > 1 ? 1 : curPos);
+                DataPoint item = new DataPoint
+                                     {
+                                         YValue = dataset.Count,
+                                         AxisXLabel = dataset.Caption,
+                                         Color = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(curColor.R, curColor.G, curColor.B))
+                                     };
                 DataPoint item2 = new DataPoint { YValue = dataset.Count, AxisXLabel = dataset.Caption };
                 (chart == 1 ? chart1 : chart2).Series[0].DataPoints.Add(item);
                 chart3.Series[chart-1].DataPoints.Add(item2);
+                curPos += deltaPos;
             }
+            chart3.Series[chart - 1].LegendText = file.Substring(file.LastIndexOf("\\") + 1);
             (chart == 1 ? tab1 : tab2).Header = file.Substring(file.LastIndexOf("\\")+1);
             (chart == 1 ? complexity1 : complexity2).Fill = new SolidColorBrush(GetComplexityColor(results.Complexity));
             (chart == 1 ? complexity1 : complexity2).Visibility = System.Windows.Visibility.Visible;
