@@ -21,7 +21,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     public partial class SchemaAnalyzer
     {
-        private SchemaAnalyzerResults results;
+        private SchemaAnalyzerResults results1;
+        private SchemaAnalyzerResults results2;
         private bool started;
         private string file1 = "";
         private string file2 = "";
@@ -94,6 +95,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private bool Analyze(string file, int chart)
         {
+            SchemaAnalyzerResults results;
             try
             {
                 results = new XMLSchemaReader().Read(file);
@@ -131,7 +133,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             (chart == 1 ? tab1 : tab2).Header = file.Substring(file.LastIndexOf("\\")+1);
             (chart == 1 ? complexity1 : complexity2).Fill = new SolidColorBrush(GetComplexityColor(results.Complexity));
             (chart == 1 ? complexity1 : complexity2).Visibility = System.Windows.Visibility.Visible;
-            (chart == 1 ? complexityMover1 : complexityMover2).Width = (int)(results.Complexity * (chart == 1 ? canvas1 : canvas2).ActualWidth);
+            (chart == 1 ? complexityMover1 : complexityMover2).Width = (int)(results.Complexity * canvas1.ActualWidth);
+            if(chart == 1)
+                results1 = results;
+            else
+                results2 = results;
             return true;
         }
 
@@ -161,13 +167,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (complexity1.Visibility == System.Windows.Visibility.Visible)
+            var actualCanvas = (tabControl.SelectedIndex == 0 ? canvas1 : canvas2);
+            if (results1 != null)
             {
-                complexityMover1.Width = (int) (results.Complexity*canvas1.ActualWidth);
+                complexityMover1.Width = (int)(results1.Complexity * actualCanvas.ActualWidth);
             }
-            if (complexity2.Visibility == System.Windows.Visibility.Visible)
+            if (results2 != null)
             {
-                complexityMover2.Width = (int)(results.Complexity * canvas2.ActualWidth);
+                complexityMover2.Width = (int)(results2.Complexity * actualCanvas.ActualWidth);
             }
         }
     }
