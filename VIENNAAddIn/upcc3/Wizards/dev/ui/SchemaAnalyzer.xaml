@@ -3,10 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts"
     xmlns:viennaaddin="clr-namespace:VIENNAAddInWpfUserControls;assembly=VIENNAAddInWpfUserControls"
-    Height="421" Width="537" MinHeight="200" MinWidth="390" SizeChanged="Window_SizeChanged" WindowStyle="SingleBorderWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="True" ResizeMode="CanResize" Title="Schema Analyzer" FontSize="11">
+    Height="421" Width="537" MinHeight="200" MinWidth="390" WindowStyle="SingleBorderWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="True" ResizeMode="CanResize" Title="Schema Analyzer" FontSize="11">
     <Canvas Name="canvas">
-        <DockPanel Margin="2,2,2,2" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=canvas, Path=ActualWidth}" Height="{Binding ElementName=canvas, Path=ActualHeight}">
-            <TabControl>
+        <DockPanel SizeChanged="Window_SizeChanged" Margin="2,2,2,2" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=canvas, Path=ActualWidth}" Height="{Binding ElementName=canvas, Path=ActualHeight}">
+            <TabControl Name="tabControl">
                 <TabItem Header="File1" Name="tab1">
                     <DockPanel>
                         <StackPanel Name="stackpanel1" Orientation="Vertical" DockPanel.Dock="Bottom">
