@@ -571,6 +571,16 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
                 writer.WriteLine(mappingDescription);
             }
             writer.Close();
+
+            writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\missing_edgeDescriptions.txt");
+            HashSet<string> missingEdgeDescriptions = new HashSet<string>(mappingDescriptions);
+            missingEdgeDescriptions.ExceptWith(edgeDescriptions);
+
+            foreach (string mappingDescription in missingEdgeDescriptions)
+            {
+                writer.WriteLine(mappingDescription);
+            }
+            writer.Close();
         }
 
         [Test]

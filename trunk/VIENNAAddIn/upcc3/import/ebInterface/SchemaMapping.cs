@@ -26,8 +26,15 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             Console.Out.WriteLine("Building source tree:");
             sourceItemStore = new MapForceSourceItemTree(mapForceMapping, xmlSchemaSet);
 
-            //PrintSourceElementTree(sourceItemStore.RootSourceItem, "");
+            TextWriter writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\sourceElementTree.txt");
+
+            PrintSourceElementTree(sourceItemStore.RootSourceItem, "", writer);
+
+            writer.Close();
+
             Console.Out.WriteLine("Done.");
+
+            //return;
 
             Console.Out.WriteLine("Building target element store:");
             targetElementStore = new TargetElementStore(mapForceMapping, ccLibrary, cctsRepository);
@@ -42,7 +49,15 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
 
             elementMappings = new List<ElementMapping>(ResolveTypeMappings(elementMappings));
 
-            TextWriter writer = new StreamWriter("C:\\Temp\\generatedComplexTypeMappings.txt");
+            foreach (KeyValuePair<string, List<ComplexTypeMapping>> pair in complexTypeMappings)
+            {
+                foreach (ComplexTypeMapping complexTypeMapping in pair.Value)
+                {
+                    complexTypeMapping.RemoveInvalidAsmaMappings();
+                }
+            }
+
+            writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\generatedComplexTypeMappings.txt");
 
             foreach (KeyValuePair<string, List<ComplexTypeMapping>> complexTypeMapping in complexTypeMappings)
             {
@@ -136,12 +151,13 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        private static void PrintSourceElementTree(SourceItem element, string indent)
+        private static void PrintSourceElementTree(SourceItem element, string indent, TextWriter writer)
         {
-            Console.Out.WriteLine(indent + element.Name);
+            writer.WriteLine(indent + element.Name + " [" + element.MappingTargetKey + "]");
+            //Console.Out.WriteLine(indent + element.Name);
             foreach (var child in element.Children)
             {
-                PrintSourceElementTree(child, indent + "    ");
+                PrintSourceElementTree(child, indent + "    ", writer);
             }
         }
 
@@ -284,11 +300,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             {
                 bool complexTypeIsMapped = MapComplexType(sourceElement, path, parentComplexTypeNames);
 
-                if (!complexTypeIsMapped)
-                {
-                    // ignore element
-                    return ElementMapping.NullElementMapping;
-                }
+                //if (!complexTypeIsMapped)
+                //{
+                //    // ignore element
+                //    return ElementMapping.NullElementMapping;
+                //}
                 if (!sourceElement.IsMapped)
                 {
                     return new AsmaMapping(sourceElement);

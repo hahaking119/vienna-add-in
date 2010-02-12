@@ -58,6 +58,11 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             get { return SourceElementName; }
         }
 
+        public bool IsValid
+        {
+            get { return TargetMapping != null && (TargetMapping is ComplexTypeToAccMapping || TargetMapping is ComplexTypeToMaMapping); }
+        }
+
         public override bool ResolveTypeMapping(SchemaMapping schemaMapping)
         {
             TargetMapping = schemaMapping.GetComplexTypeMapping(SourceItem.XsdType);

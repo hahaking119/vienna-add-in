@@ -135,6 +135,7 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             if (subTreeRoot.XsdTypeName == sourceElementTree.XsdTypeName)
             {
                 sourceElementTree.MergeWith(subTreeRoot);
+                
                 hasBeenAttached = true;
             }
             return hasBeenAttached;

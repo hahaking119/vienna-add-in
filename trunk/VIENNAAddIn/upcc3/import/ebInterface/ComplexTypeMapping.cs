@@ -200,5 +200,25 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
         {
             children.Add(childMapping);
         }
+
+        public void RemoveInvalidAsmaMappings()
+        {
+            List<ElementMapping> validChildren = new List<ElementMapping>();
+            foreach (ElementMapping elementMapping in Children)
+            {
+                if (elementMapping is AsmaMapping)
+                {
+                    if (((AsmaMapping)elementMapping).IsValid)
+                    {
+                        validChildren.Add(elementMapping);
+                    }
+                } else
+                {
+                    validChildren.Add(elementMapping);
+                }
+            }
+            children.Clear();
+            children.AddRange(validChildren);
+        }
     }
 }
