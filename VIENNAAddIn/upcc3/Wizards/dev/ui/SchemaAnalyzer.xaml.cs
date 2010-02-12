@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml;
+using System.Xml.Schema;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.util;
 using Visifire.Charts;
@@ -112,6 +113,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 System.Windows.Forms.MessageBox.Show("The given file could not be read!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 return false;
             }
+            catch (XmlSchemaException xse)
+            {
+                System.Windows.Forms.MessageBox.Show("The given file could not be read!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                return false;
+            }
             started = true;
             (chart==1 ? chart1 : chart2).Series[0].DataPoints.Clear();
             chart3.Series[chart-1].DataPoints.Clear();
@@ -123,10 +129,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 chart3.Series[chart-1].DataPoints.Add(item2);
             }
             (chart == 1 ? tab1 : tab2).Header = file.Substring(file.LastIndexOf("\\")+1);
-            complexity1.Fill = new SolidColorBrush(Colors.Green); //TODO
-            complexity1.Visibility = System.Windows.Visibility.Visible;
-            complexityMover1.Width = (int) (results.Complexity*stackpanel1.ActualWidth);
+            (chart == 1 ? complexity1 : complexity2).Fill = new SolidColorBrush(GetComplexityColor(results.Complexity));
+            (chart == 1 ? complexity1 : complexity2).Visibility = System.Windows.Visibility.Visible;
+            (chart == 1 ? complexityMover1 : complexityMover2).Width = (int)(results.Complexity * (chart == 1 ? canvas1 : canvas2).ActualWidth);
             return true;
+        }
+
+        private Color GetComplexityColor(double position)
+        {
+            if(position <= 0.5)
+            {
+                byte green = (byte) (position * 255);
+                return Color.FromRgb(255, green, 0);
+            }
+            else
+            {
+                byte red = (byte) ((System.Math.Abs(((position - 0.5) * 2) - 1)) * 255);
+                return Color.FromRgb(red, 128, 0);
+            }
         }
 
         public static void ShowForm(AddInContext context)
@@ -137,6 +157,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             LoadFiles();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (complexity1.Visibility == System.Windows.Visibility.Visible)
+            {
+                complexityMover1.Width = (int) (results.Complexity*canvas1.ActualWidth);
+            }
+            if (complexity2.Visibility == System.Windows.Visibility.Visible)
+            {
+                complexityMover2.Width = (int)(results.Complexity * canvas2.ActualWidth);
+            }
         }
     }
 }

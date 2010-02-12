@@ -50,7 +50,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             Weight = newWeight;
         }
     }
- /*   public class SchemaAnalyzerResultComparer:IComparer<SchemaAnalyzerResult>
+    public class SchemaAnalyzerResultComparer:IComparer<SchemaAnalyzerResult>
     {
         public int Compare(SchemaAnalyzerResult x, SchemaAnalyzerResult y)
         {
@@ -65,9 +65,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             }
             else if (x != null && y != null)
             {
-                returnValue = y.Count.CompareTo(x.Count);
+                if (x.Weight.Equals(y.Weight))
+                {
+                    returnValue = y.Count.CompareTo(x.Count);
+                }
+                else
+                {
+                    returnValue = x.Weight.CompareTo(y.Weight);
+                }
             }
             return returnValue;
         }
-    }*/
+    }
 }
