@@ -53,7 +53,15 @@ namespace VIENNAAddIn.upcc3.import.ebInterface
             }
         }
 
-        public string MappingTargetKey { get; private set; }
+        private string mappingTargetKey;
+        public string MappingTargetKey
+        {
+            get { return mappingTargetKey; }
+            private set
+            {
+                mappingTargetKey = value;
+            }
+        }
 
         public bool IsMapped
         {
