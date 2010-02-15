@@ -45,29 +45,5 @@ namespace VIENNAAddIn.upcc3.ccts.util
         {
             return package.Element.AddTaggedValue(name);
         }
-
-        public static Package PackageByName(this Package package, string name)
-        {
-            foreach (Package child in package.Packages)
-            {
-                if (child.Name == name)
-                {
-                    return child;
-                }
-            }
-            return null;
-        }
-
-        public static Element ElementByName(this Package package, string name)
-        {
-            foreach (Element element in package.Elements)
-            {
-                if (element.Name == name)
-                {
-                    return element;
-                }
-            }
-            return null;
-        }
     }
 }

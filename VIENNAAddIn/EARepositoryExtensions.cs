@@ -2,8 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
-using VIENNAAddIn.upcc3.Wizards.util;
 using VIENNAAddInUtils;
 
 namespace VIENNAAddIn
@@ -67,6 +65,30 @@ namespace VIENNAAddIn
             return Resolve<T>(package.PackageByName(firstPart), path.Rest);
         }
 
+        private static Package PackageByName(this Package package, string name)
+        {
+            foreach (Package child in package.Packages)
+            {
+                if (child.Name == name)
+                {
+                    return child;
+                }
+            }
+            return null;
+        }
+
+        private static Element ElementByName(this Package package, string name)
+        {
+            foreach (Element element in package.Elements)
+            {
+                if (element.Name == name)
+                {
+                    return element;
+                }
+            }
+            return null;
+        }
+
         internal static string DetermineScope(this Repository repository)
         {
             Object obj;
@@ -79,7 +101,7 @@ namespace VIENNAAddIn
                 case ObjectType.otElement:
                     return ((Element) obj).PackageID.ToString();
                 default:
-                    return "";
+                    return string.Empty;
             }
         }
 
