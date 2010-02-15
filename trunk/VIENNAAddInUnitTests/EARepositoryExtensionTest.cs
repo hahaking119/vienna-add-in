@@ -3,7 +3,6 @@ using EA;
 using NUnit.Framework;
 using VIENNAAddIn;
 using VIENNAAddInUnitTests.TestRepository;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;
 
 namespace VIENNAAddInUnitTests
