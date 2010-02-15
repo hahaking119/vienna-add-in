@@ -12,7 +12,6 @@ using CctsRepository;
 using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.cctsndr;
 using VIENNAAddIn.upcc3.import.cctsndr.bdt;
 using File=System.IO.File;

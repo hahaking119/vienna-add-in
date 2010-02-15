@@ -3,7 +3,6 @@ using CctsRepository.CdtLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.dra
 {

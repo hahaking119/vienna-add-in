@@ -6,7 +6,6 @@ using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using EA;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using File=System.IO.File;
 using Path=VIENNAAddInUtils.Path;
 using VIENNAAddIn.Utils;
@@ -48,8 +47,6 @@ namespace CCLImporter
                                                                 Name = "CCLibrary",
                                                                 VersionIdentifier = cclVersion
                                                             });
-
-            accResolver = new ACCResolver(ccLibrary);
 
             StreamReader reader = File.OpenText(string.Format(@"..\..\resources\{0}\{0}-CCs.txt", cclVersion));
             String line;
@@ -152,8 +149,6 @@ namespace CCLImporter
             Console.WriteLine("Press a key to continue...");
             Console.ReadKey();
         }
-
-        private static ACCResolver accResolver;
 
         private static string MapOccurrence(string occurrence)
         {
@@ -342,7 +337,7 @@ namespace CCLImporter
 
         public static string AsName(this string str)
         {
-            return str.Replace(" ", "").Replace("-", "");
+            return str.Replace(" ", string.Empty).Replace("-", string.Empty);
         }
     }
 
@@ -405,22 +400,20 @@ namespace CCLImporter
             switch (errorLevel)
             {
                 case ErrorLevel.Error:
-                    return "must" + (expected ? "" : " not");
+                    return "must" + (expected ? string.Empty : " not");
                 default:
-                    return "should" + (expected ? "" : " not");
+                    return "should" + (expected ? string.Empty : " not");
             }
         }
 
-        public ExpectationBuilder EndWith(string suffix)
+        public void EndWith(string suffix)
         {
             Check(fieldValue.EndsWith(suffix), "end with <{0}>", suffix);
-            return this;
         }
 
-        public ExpectationBuilder Be(string expectedValue)
+        public void Be(string expectedValue)
         {
             Check(fieldValue == expectedValue, "be <{0}>", expectedValue);
-            return this;
         }
 
         public ExpectationBuilder And()
@@ -428,10 +421,9 @@ namespace CCLImporter
             return new ExpectationBuilder(fieldValue, fieldName);
         }
 
-        public ExpectationBuilder BeLongerThan(int maximumLength)
+        public void BeLongerThan(int maximumLength)
         {
             Check(fieldValue.Length > maximumLength, "be longer than {0} characters, but is {1} characters long", maximumLength, fieldValue.Length);
-            return this;
         }
     }
 

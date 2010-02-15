@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using EA;
-using VIENNAAddIn.upcc3.ccts.dra;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.upcc3.ccts.util
@@ -57,21 +56,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
                 }
             }
             return null;
-        }
-
-        public static void SetOrGenerateTaggedValue(this Attribute attribute, TaggedValueSpec taggedValueSpec, string defaultValue)
-        {
-            if (String.IsNullOrEmpty(taggedValueSpec.Value))
-            {
-                if (String.IsNullOrEmpty(attribute.GetTaggedValue(taggedValueSpec.Key)))
-                {
-                    attribute.AddTaggedValue(taggedValueSpec.Key.ToString()).WithValue(defaultValue);
-                }
-            }
-            else
-            {
-                attribute.AddTaggedValue(taggedValueSpec.Key.ToString()).WithValue(taggedValueSpec.Value);
-            }
         }
 
         /// <returns>True if the attribute has the given stereotype, false otherwise.</returns>

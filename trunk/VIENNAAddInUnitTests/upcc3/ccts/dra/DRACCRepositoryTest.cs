@@ -22,7 +22,6 @@ using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;

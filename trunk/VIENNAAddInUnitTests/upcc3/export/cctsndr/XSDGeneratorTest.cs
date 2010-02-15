@@ -17,7 +17,6 @@ using Moq;
 using NUnit.Framework;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddInUnitTests.TestRepository;
 using File=System.IO.File;

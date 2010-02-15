@@ -10,10 +10,8 @@
 using System.Threading;
 using System.Windows;
 using CctsRepository;
-using EA;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.ui;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 
