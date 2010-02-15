@@ -1,9 +1,9 @@
 #summary T4 Templates
 
-= Links =
+= Info =
 
  * [http://www.hanselman.com/blog/T4TextTemplateTransformationToolkitCodeGenerationBestKeptVisualStudioSecret.aspx T4 Code Generation - Best Kept Visual Studio Secret]
- * [http://damieng.com/blog/2009/11/06/multiple-outputs-from-t4-made-easy-revisited]
+ * [http://damieng.com/blog/2009/11/06/multiple-outputs-from-t4-made-easy-revisited Multiple outputs from T4 made easy - revisited]
 
 = Tools =
 
