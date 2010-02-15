@@ -23,6 +23,7 @@
     * [QuickLinker EA quicklinker feature]
     * [Meetings Meeting Notes]
     * [ReSharperSettings]
+    * [T4Templates T4 Templates]
   * [RoadMap]
   * [Storyboards Storyboards]
     * [Presentation VIENNA AddIn Tool Presentation]
