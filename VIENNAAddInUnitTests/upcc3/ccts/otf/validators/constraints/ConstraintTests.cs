@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using VIENNAAddIn.upcc3.ccts.otf;
+using VIENNAAddIn.upcc3.otf;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf.validators.constraints
 {

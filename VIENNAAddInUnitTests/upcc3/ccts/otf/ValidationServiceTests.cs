@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using VIENNAAddIn.upcc3.ccts.otf;
 using System.Linq;
+using VIENNAAddIn.upcc3.otf;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {

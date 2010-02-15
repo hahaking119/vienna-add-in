@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.otf;
+using VIENNAAddIn.upcc3.otf;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
