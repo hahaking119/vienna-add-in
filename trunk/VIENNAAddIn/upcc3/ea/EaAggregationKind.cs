@@ -1,4 +1,4 @@
-namespace VIENNAAddIn.upcc3.ccts.util
+namespace VIENNAAddIn.upcc3.ea
 {
     /// <summary>
     /// Represents UML aggregation kind values as an ENUM.

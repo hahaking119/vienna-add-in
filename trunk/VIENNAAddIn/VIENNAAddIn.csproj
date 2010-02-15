@@ -174,10 +174,9 @@
     <Compile Include="upcc3\ccts\otf\ValidationService.cs" />
     <Compile Include="upcc3\ccts\otf\validators\BLibraryValidator.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentMustBeModelOrBInformationVOrBLibrary.cs" />
-    <Compile Include="upcc3\ccts\util\EaAggregationKind.cs" />
+    <Compile Include="upcc3\ea\EaAggregationKind.cs" />
     <Compile Include="upcc3\ccts\util\EAAttributeExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAConnectorExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\EADiagramExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
@@ -902,7 +901,6 @@
       <DependentUpon>SynchStereotypesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\ccts\util\EACollectionExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\EAException.cs" />
     <Compile Include="upcc3\ccts\util\EAPackageExtensions.cs" />
     <Compile Include="upcc3\Wizards\ABIEWizardForm.cs">
       <SubType>Form</SubType>

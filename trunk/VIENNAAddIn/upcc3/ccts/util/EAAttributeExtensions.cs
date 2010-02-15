@@ -33,47 +33,5 @@ namespace VIENNAAddIn.upcc3.ccts.util
             taggedValue.Update();
             return taggedValue;
         }
-
-        /// <returns>
-        /// En enumeration of the values of a multi-valued tagged value of the attribute. The values must be separated with '|'.
-        /// If the tagged value is not defined or empty, an empty enumeration is returned.
-        /// </returns>
-        internal static IEnumerable<string> GetTaggedValues(this Attribute attribute, TaggedValues key)
-        {
-            return MultiPartTaggedValue.Split(attribute.GetTaggedValue(key));
-        }
-
-        /// <returns>
-        /// The value of the given tagged value of this attribute or null if the tagged value is not defined.
-        /// </returns>
-        internal static string GetTaggedValue(this Attribute attribute, TaggedValues key)
-        {
-            foreach (AttributeTag tv in attribute.TaggedValues)
-            {
-                if (tv.Name.Equals(key.ToString()))
-                {
-                    return tv.Value;
-                }
-            }
-            return null;
-        }
-
-        /// <returns>True if the attribute has the given stereotype, false otherwise.</returns>
-        public static bool IsA(this Attribute attribute, string stereotype)
-        {
-            return attribute != null && attribute.Stereotype == stereotype;
-        }
-
-        /// <returns>True if the attribute has the CON stereotype, false otherwise.</returns>
-        public static bool IsCON(this Attribute attribute)
-        {
-            return attribute.IsA(Stereotype.CON);
-        }
-
-        /// <returns>True if the attribute has the SUP stereotype, false otherwise.</returns>
-        public static bool IsSUP(this Attribute attribute)
-        {
-            return attribute.Stereotype == Stereotype.SUP;
-        }
     }
 }

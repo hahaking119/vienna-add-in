@@ -1,6 +1,7 @@
 using EA;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.ea;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddInUnitTests.TestRepository
