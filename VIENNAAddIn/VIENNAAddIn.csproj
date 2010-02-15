@@ -175,10 +175,7 @@
     <Compile Include="upcc3\ccts\otf\validators\BLibraryValidator.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentMustBeModelOrBInformationVOrBLibrary.cs" />
     <Compile Include="upcc3\ea\EaAggregationKind.cs" />
-    <Compile Include="upcc3\ccts\util\EAAttributeExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\EAConnectorExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAElementExtensions.cs" />
-    <Compile Include="upcc3\ccts\util\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
     <None Include="upcc3\ccts\util\Stereotype.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -900,7 +897,6 @@
     <Compile Include="Settings\SynchStereotypesForm.Designer.cs">
       <DependentUpon>SynchStereotypesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\ccts\util\EACollectionExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAPackageExtensions.cs" />
     <Compile Include="upcc3\Wizards\ABIEWizardForm.cs">
       <SubType>Form</SubType>

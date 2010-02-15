@@ -99,6 +99,8 @@
       <DependentUpon>SynchTaggedValuesTests.tt</DependentUpon>
     </Compile>
     <Compile Include="SynchTaggedValuesTest\SynchTaggedValuesTestRepository.cs" />
+    <Compile Include="TestRepository\EAAttributeExtensions.cs" />
+    <Compile Include="TestRepository\EATaggedValueExtensions.cs" />
     <Compile Include="upcc3\ea\CdtLibraryTestRepository.cs" />
     <Compile Include="upcc3\ea\CdtLibraryTests.cs" />
     <Compile Include="upcc3\ea\EaUmlRepositoryTest.cs" />

@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 using EA;
 using Attribute=EA.Attribute;
 
-namespace VIENNAAddIn.upcc3.ccts.util
+namespace VIENNAAddInUnitTests.TestRepository
 {
     /// <summary>
     /// Extension methods for EA.Attribute.

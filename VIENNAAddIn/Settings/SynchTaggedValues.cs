@@ -24,7 +24,7 @@ namespace VIENNAAddIn.Settings
     {
         private readonly Repository repository;
 
-        public event Action<Path> TaggedValueFixed = path => {};
+        public event Action<Path> TaggedValueFixed = path => { };
 
         public SynchTaggedValues(Repository repository)
         {
@@ -41,10 +41,12 @@ namespace VIENNAAddIn.Settings
 
         private void AddMissingTaggedValues(Path path, Element element, params string[] requiredTaggedValues)
         {
-            IEnumerable<string> existingTaggedValues = element.TaggedValues.AsEnumerable<TaggedValue>().Convert(tv => tv.Name);
+            IEnumerable<string> existingTaggedValues = AsEnumerable<TaggedValue>(element.TaggedValues).Convert(tv => tv.Name);
             foreach (string missingTaggedValue in requiredTaggedValues.Except(existingTaggedValues))
             {
-                element.AddTaggedValue(missingTaggedValue);
+                var taggedValue = (TaggedValue) element.TaggedValues.AddNew(missingTaggedValue, string.Empty);
+                taggedValue.Value = string.Empty;
+                taggedValue.Update();
                 TaggedValueFixed(path/missingTaggedValue);
             }
             element.TaggedValues.Refresh();
@@ -52,24 +54,36 @@ namespace VIENNAAddIn.Settings
 
         private void AddMissingTaggedValues(Path path, Attribute attribute, params string[] requiredTaggedValues)
         {
-            IEnumerable<string> existingTaggedValues = attribute.TaggedValues.AsEnumerable<AttributeTag>().Convert(tv => tv.Name);
+            IEnumerable<string> existingTaggedValues = AsEnumerable<AttributeTag>(attribute.TaggedValues).Convert(tv => tv.Name);
             foreach (string missingTaggedValue in requiredTaggedValues.Except(existingTaggedValues))
             {
-                attribute.AddTaggedValue(missingTaggedValue);
-                TaggedValueFixed(path / missingTaggedValue);
+                var taggedValue = (AttributeTag) attribute.TaggedValues.AddNew(missingTaggedValue, string.Empty);
+                taggedValue.Value = string.Empty;
+                taggedValue.Update();
+                TaggedValueFixed(path/missingTaggedValue);
             }
             attribute.TaggedValues.Refresh();
         }
 
         private void AddMissingTaggedValues(Path path, Connector connector, params string[] requiredTaggedValues)
         {
-            IEnumerable<string> existingTaggedValues = connector.TaggedValues.AsEnumerable<ConnectorTag>().Convert(tv => tv.Name);
+            IEnumerable<string> existingTaggedValues = AsEnumerable<ConnectorTag>(connector.TaggedValues).Convert(tv => tv.Name);
             foreach (string missingTaggedValue in requiredTaggedValues.Except(existingTaggedValues))
             {
-                connector.AddTaggedValue(missingTaggedValue);
-                TaggedValueFixed(path / missingTaggedValue);
+                var taggedValue = (ConnectorTag) connector.TaggedValues.AddNew(missingTaggedValue, string.Empty);
+                taggedValue.Value = string.Empty;
+                taggedValue.Update();
+                TaggedValueFixed(path/missingTaggedValue);
             }
             connector.TaggedValues.Refresh();
+        }
+
+        private static IEnumerable<T> AsEnumerable<T>(Collection collection)
+        {
+            foreach (T item in collection)
+            {
+                yield return item;
+            }
         }
 
         public void FixTaggedValues()
@@ -79,7 +93,7 @@ namespace VIENNAAddIn.Settings
                 var path = (Path) model.Name;
                 foreach (Package package in model.Packages)
                 {
-                    FixPackage(path / package.Name, package);
+                    FixPackage(path/package.Name, package);
                 }
             }
         }
