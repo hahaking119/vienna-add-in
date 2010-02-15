@@ -67,7 +67,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             {
                 if (x.Weight.Equals(y.Weight))
                 {
-                    returnValue = y.Count.CompareTo(x.Count);
+                    returnValue = x.Count.CompareTo(y.Count);
                 }
                 else
                 {
