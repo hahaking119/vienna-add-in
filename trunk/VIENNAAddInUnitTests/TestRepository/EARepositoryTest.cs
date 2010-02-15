@@ -9,7 +9,6 @@
 using System;
 using EA;
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.ccts;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.TestRepository

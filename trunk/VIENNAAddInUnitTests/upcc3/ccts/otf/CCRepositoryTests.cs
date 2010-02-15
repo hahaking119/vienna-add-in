@@ -2,7 +2,7 @@ using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.otf;
+using VIENNAAddIn.upcc3.otf;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUtils;
 

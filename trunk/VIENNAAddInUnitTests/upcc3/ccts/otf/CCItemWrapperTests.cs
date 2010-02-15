@@ -8,7 +8,7 @@ using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.otf;
+using VIENNAAddIn.upcc3.otf;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {
