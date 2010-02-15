@@ -44,35 +44,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
         ///</summary>
         ///<param name="element"></param>
         ///<param name="key"></param>
-        ///<returns></returns>
-        public static IEnumerable<string> GetTaggedValues(this Element element, TaggedValues key)
-        {
-            return MultiPartTaggedValue.Split(element.GetTaggedValue(key));
-        }
-
-        ///<summary>
-        ///</summary>
-        ///<param name="element"></param>
-        ///<param name="key"></param>
-        ///<returns></returns>
-        public static string GetTaggedValue(this Element element, TaggedValues key)
-        {
-            foreach (TaggedValue tv in element.TaggedValues)
-            {
-                if (tv.Name.Equals(key.ToString()))
-                {
-                    return tv.Value;
-                }
-            }
-            return null;
-        }
-
-        ///<summary>
-        ///</summary>
-        ///<param name="element"></param>
-        ///<param name="key"></param>
         ///<param name="value"></param>
-        ///<exception cref="EAException"></exception>
         public static void SetTaggedValue(this Element element, TaggedValues key, string value)
         {
             TaggedValue taggedValue = null;
@@ -91,7 +63,7 @@ namespace VIENNAAddIn.upcc3.ccts.util
             taggedValue.Value = value;
             if (!taggedValue.Update())
             {
-                throw new EAException(taggedValue.GetLastError());
+                throw new Exception(taggedValue.GetLastError());
             }
             element.TaggedValues.Refresh();
         }
@@ -103,18 +75,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
             initConnector(connector);
             connector.Update();
             return connector;
-        }
-
-        /// <returns>True if the element has the given stereotype, false otherwise.</returns>
-        public static bool IsA(this Element element, string stereotype)
-        {
-            return element != null && element.Stereotype == stereotype;
-        }
-
-        /// <returns>True if the element has the ABIE stereotype, false otherwise.</returns>
-        public static bool IsABIE(this Element element)
-        {
-            return element.IsA(Stereotype.ABIE);
         }
     }
 }

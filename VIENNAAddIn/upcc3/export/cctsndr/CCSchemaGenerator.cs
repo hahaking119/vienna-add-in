@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Schema;
 using CctsRepository.CcLibrary;
 using CctsRepository.DocLibrary;
-using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.ea;
 using VIENNAAddInUtils;
 
 namespace VIENNAAddIn.upcc3.export.cctsndr

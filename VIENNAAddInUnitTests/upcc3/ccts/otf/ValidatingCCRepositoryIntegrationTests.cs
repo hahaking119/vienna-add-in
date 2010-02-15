@@ -46,7 +46,7 @@ namespace VIENNAAddInUnitTests.upcc3.ccts.otf
         {
             Package newBLibrary = ABLibraryWithoutIssues(name, parent);
             // introduce a constraint violation by setting a required tagged value to ""
-            newBLibrary.SetTaggedValue(TaggedValues.baseURN, string.Empty);
+            newBLibrary.Element.SetTaggedValue(TaggedValues.baseURN, string.Empty);
             return newBLibrary;
         }
 

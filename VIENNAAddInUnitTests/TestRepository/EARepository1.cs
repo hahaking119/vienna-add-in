@@ -9,6 +9,7 @@
 using EA;
 using VIENNAAddIn;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.ea;
 using VIENNAAddInUtils;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 

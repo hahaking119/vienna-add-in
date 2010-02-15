@@ -46,11 +46,6 @@ namespace VIENNAAddIn.upcc3.ccts.util
             return package.Element.AddTaggedValue(name);
         }
 
-        public static void SetTaggedValue(this Package package, TaggedValues key, string value)
-        {
-            package.Element.SetTaggedValue(key, value);
-        }
-
         public static Package PackageByName(this Package package, string name)
         {
             foreach (Package child in package.Packages)
