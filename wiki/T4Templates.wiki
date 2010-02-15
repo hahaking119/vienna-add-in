@@ -1,4 +1,4 @@
-#summary T4 Templates
+#summary Information about T4 templates and related tools.
 
 = Info =
 
