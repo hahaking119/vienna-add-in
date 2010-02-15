@@ -18,10 +18,7 @@ using CctsRepository.DocLibrary;
 using CctsRepository.EnumLibrary;
 using CctsRepository.PrimLibrary;
 using EA;
-using VIENNAAddIn.upcc3.ccts.dra;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUtils;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {

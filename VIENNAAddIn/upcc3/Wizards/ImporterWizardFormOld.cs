@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.import.cctsndr;
 
 namespace VIENNAAddIn.upcc3.Wizards

@@ -11,7 +11,6 @@ using System.Windows.Input;
 using CctsRepository.BdtLibrary;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CctsRepository;

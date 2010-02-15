@@ -1,9 +1,7 @@
 using System;
-using System.Windows.Forms;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.menu
@@ -63,7 +61,7 @@ namespace VIENNAAddIn.menu
 
         public bool SelectedItemIsLibraryOfType(string stereotype)
         {
-            return (SelectedItem as Package).IsA(stereotype);
+            return (SelectedItem as Package) != null && (SelectedItem as Package).Element != null && (SelectedItem as Package).Element.Stereotype == stereotype;
         }
 
         public bool SelectedItemIsABIE()

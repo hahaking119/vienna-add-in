@@ -1,7 +1,7 @@
 using System;
 using EA;
-using VIENNAAddIn.upcc3.ccts.dra;
 using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3.ea;
 using Attribute=EA.Attribute;
 using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 

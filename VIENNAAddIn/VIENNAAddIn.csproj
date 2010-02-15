@@ -133,15 +133,6 @@
       <DependentUpon>SynchTaggedValuesGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\CctsRepositoryFactory.cs" />
-    <Compile Include="upcc3\ccts\dra\AttributeSpec.cs" />
-    <Compile Include="upcc3\ccts\dra\BDTSupplementaryComponent.cs" />
-    <Compile Include="upcc3\ccts\dra\Cardinality.cs" />
-    <Compile Include="upcc3\ccts\dra\CDTContentComponent.cs" />
-    <Compile Include="upcc3\ccts\dra\CodelistEntry.cs" />
-    <Compile Include="upcc3\ccts\dra\ConnectorSpec.cs" />
-    <Compile Include="upcc3\ccts\dra\EAConnectorTypes.cs" />
-    <Compile Include="upcc3\ccts\dra\Ma.cs" />
-    <Compile Include="upcc3\ccts\dra\TaggedValueSpec.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAItem.cs" />
     <Compile Include="upcc3\ccts\otf\AbstractEAPackage.cs" />
     <Compile Include="upcc3\ccts\otf\BDTLibrary.cs" />
@@ -209,6 +200,7 @@
       <DependentUpon>TaggedValues.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\ea\EaCardinality.cs" />
+    <Compile Include="upcc3\ea\EAConnectorTypes.cs" />
     <Compile Include="upcc3\ea\EaUmlAssociation.cs" />
     <Compile Include="upcc3\ea\EaUmlAttribute.cs" />
     <Compile Include="upcc3\ea\EaUmlClassifier.cs" />
@@ -909,28 +901,6 @@
     <Compile Include="Settings\SynchStereotypesForm.Designer.cs">
       <DependentUpon>SynchStereotypesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\ccts\dra\CDTSupplementaryComponent.cs" />
-    <Compile Include="upcc3\ccts\dra\BDTContentComponent.cs" />
-    <Compile Include="upcc3\ccts\dra\ABIE.cs" />
-    <Compile Include="upcc3\ccts\dra\ACC.cs" />
-    <Compile Include="upcc3\ccts\dra\ASBIE.cs" />
-    <Compile Include="upcc3\ccts\dra\ASCC.cs" />
-    <Compile Include="upcc3\ccts\dra\BBIE.cs" />
-    <Compile Include="upcc3\ccts\dra\BCC.cs" />
-    <Compile Include="upcc3\ccts\dra\BDT.cs" />
-    <Compile Include="upcc3\ccts\dra\BDTLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\BIELibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\BLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\BusinessLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\CCLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\CCRepository.cs" />
-    <Compile Include="upcc3\ccts\dra\CDT.cs" />
-    <Compile Include="upcc3\ccts\dra\CDTLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\DOCLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\ENUM.cs" />
-    <Compile Include="upcc3\ccts\dra\ENUMLibrary.cs" />
-    <Compile Include="upcc3\ccts\dra\PRIM.cs" />
-    <Compile Include="upcc3\ccts\dra\PRIMLibrary.cs" />
     <Compile Include="upcc3\ccts\util\EACollectionExtensions.cs" />
     <Compile Include="upcc3\ccts\util\EAException.cs" />
     <Compile Include="upcc3\ccts\util\EAPackageExtensions.cs" />
