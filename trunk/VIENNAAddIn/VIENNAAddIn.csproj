@@ -1150,6 +1150,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
-    <Folder Include="upcc3\ccts\" />
   </ItemGroup>
 </Project>
