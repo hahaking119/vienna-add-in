@@ -12,7 +12,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.ErrorReporter;
-using VIENNAAddIn.Exceptions;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.otf;
@@ -168,7 +167,7 @@ namespace VIENNAAddIn
             {
                 AddInSettings.LoadRegistryEntries();
             }
-            catch (RegistryAccessException e)
+            catch (Exception e)
             {
                 String err = string.Format("Error loading settings from registry:\n{0}.\n Please reinstall the AddIn.",
                                            e.Message);

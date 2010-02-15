@@ -120,11 +120,6 @@
     <Compile Include="ErrorReporter\ErrorReporterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Exceptions\OCLConstraintNotApplicableException.cs" />
-    <Compile Include="Exceptions\RegistryAccessException.cs" />
-    <Compile Include="Exceptions\AddInException.cs" />
-    <Compile Include="Exceptions\UnexpectedElementException.cs" />
-    <Compile Include="Exceptions\XMLException.cs" />
     <Compile Include="menu\AddInContext.cs" />
     <Compile Include="Settings\SynchTaggedValues.cs" />
     <Compile Include="Settings\SynchTaggedValuesGenerated.cs">

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.Win32;
-using VIENNAAddIn.Exceptions;
 
 namespace VIENNAAddIn.Settings
 {
@@ -16,6 +15,7 @@ namespace VIENNAAddIn.Settings
         ///<summary>
         ///</summary>
         public static string CommonXSDPath { get; private set; }
+
         ///<summary>
         ///</summary>
         public static string HomeDirectory { get; private set; }
@@ -25,23 +25,12 @@ namespace VIENNAAddIn.Settings
         /// </summary>
         public static void LoadRegistryEntries()
         {
-            try
-            {
-                // the addin might be installed for everyone or just for one user
-                const string viennaAddInRegistryKey = "SOFTWARE\\VIENNAAddIn";
-                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(viennaAddInRegistryKey) ??
-                                          Registry.LocalMachine.OpenSubKey(viennaAddInRegistryKey);
-                HomeDirectory = registryKey.LoadRegistryEntry("homedir");
-                CommonXSDPath = HomeDirectory + registryKey.LoadRegistryEntry("commonxsd");
-            }
-            catch (RegistryAccessException)
-            {
-                throw;
-            }
-            catch (Exception e)
-            {
-                throw new RegistryAccessException(e.Message, e);
-            }
+            // the addin might be installed for everyone or just for one user
+            const string viennaAddInRegistryKey = "SOFTWARE\\VIENNAAddIn";
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(viennaAddInRegistryKey) ??
+                                      Registry.LocalMachine.OpenSubKey(viennaAddInRegistryKey);
+            HomeDirectory = registryKey.LoadRegistryEntry("homedir");
+            CommonXSDPath = HomeDirectory + registryKey.LoadRegistryEntry("commonxsd");
         }
     }
 
@@ -52,8 +41,7 @@ namespace VIENNAAddIn.Settings
             var value = (String) registryKey.GetValue(entryName);
             if (value == null || value.Trim().Length == 0)
             {
-                throw new RegistryAccessException(String.Format("Registry entry '{0}' of key '{1}' not found", entryName,
-                                                                registryKey.Name));
+                throw new Exception(String.Format("Registry entry '{0}' of key '{1}' not found", entryName, registryKey.Name));
             }
             return value;
         }
