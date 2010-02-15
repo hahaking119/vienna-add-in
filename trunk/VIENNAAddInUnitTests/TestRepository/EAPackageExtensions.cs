@@ -8,7 +8,6 @@
 // *******************************************************************************
 using System;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddInUnitTests.TestRepository
 {

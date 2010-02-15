@@ -1,8 +1,9 @@
 using System;
 using EA;
+using VIENNAAddIn.upcc3.ccts.util;
 using Attribute=EA.Attribute;
 
-namespace VIENNAAddIn.upcc3.ccts.util
+namespace VIENNAAddInUnitTests.TestRepository
 {
     public static class EAElementExtensions
     {
