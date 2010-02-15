@@ -2,8 +2,7 @@ using System;
 using CctsRepository;
 using EA;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.ccts.util;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
 namespace VIENNAAddIn.menu
 {

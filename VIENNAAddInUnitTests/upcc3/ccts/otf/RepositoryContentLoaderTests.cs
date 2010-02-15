@@ -4,10 +4,10 @@ using System.Text;
 using EA;
 using NUnit.Framework;
 using VIENNAAddIn;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ccts.otf;
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddInUnitTests.TestRepository;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf
 {

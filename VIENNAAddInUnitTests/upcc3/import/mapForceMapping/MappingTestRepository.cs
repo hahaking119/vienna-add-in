@@ -1,7 +1,7 @@
 using EA;
 using VIENNAAddIn;
 using VIENNAAddInUnitTests.TestRepository;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
 namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 {

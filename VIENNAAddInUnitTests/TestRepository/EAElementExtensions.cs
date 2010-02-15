@@ -1,6 +1,6 @@
 using System;
 using EA;
-using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3;
 using Attribute=EA.Attribute;
 
 namespace VIENNAAddInUnitTests.TestRepository

@@ -13,7 +13,6 @@ using CctsRepository.PrimLibrary;
 using EA;
 using VIENNAAddIn.upcc3.ccts.otf.validators;
 using VIENNAAddInUtils;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
 
 namespace VIENNAAddIn.upcc3.ccts.otf
 {

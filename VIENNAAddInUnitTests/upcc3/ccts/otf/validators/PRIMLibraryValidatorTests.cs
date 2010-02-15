@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3;
 
 namespace VIENNAAddInUnitTests.upcc3.ccts.otf.validators
 {
