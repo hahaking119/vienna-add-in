@@ -9,11 +9,11 @@
 
 using EA;
 using VIENNAAddIn;
-using VIENNAAddIn.upcc3.ccts.util;
+using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.ea;
 using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUtils;
-using Stereotype = VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype = VIENNAAddIn.upcc3.Stereotype;
 
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository

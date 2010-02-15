@@ -9,7 +9,7 @@ http://vienna-add-in.googlecode.com
 using EA;
 using VIENNAAddInUtils;
 using Attribute=EA.Attribute;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
 namespace VIENNAAddIn.Settings
 {

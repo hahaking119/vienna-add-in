@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using VIENNAAddIn.upcc3.ccts.util;
 
 namespace VIENNAAddIn.upcc3.ccts.otf.validators.constraints
 {

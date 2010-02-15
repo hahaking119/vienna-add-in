@@ -176,20 +176,20 @@
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentMustBeModelOrBInformationVOrBLibrary.cs" />
     <Compile Include="upcc3\ea\EaAggregationKind.cs" />
     <Compile Include="upcc3\uml\MultiPartTaggedValue.cs" />
-    <None Include="upcc3\ccts\util\Stereotype.tt">
+    <None Include="upcc3\Stereotype.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Stereotype.cs</LastGenOutput>
     </None>
-    <Compile Include="upcc3\ccts\util\Stereotype.cs">
+    <Compile Include="upcc3\Stereotype.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Stereotype.tt</DependentUpon>
     </Compile>
-    <None Include="upcc3\ccts\util\TaggedValues.tt">
+    <None Include="upcc3\TaggedValues.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TaggedValues.cs</LastGenOutput>
     </None>
-    <Compile Include="upcc3\ccts\util\TaggedValues.cs">
+    <Compile Include="upcc3\TaggedValues.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TaggedValues.tt</DependentUpon>
@@ -1150,5 +1150,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
+    <Folder Include="upcc3\ccts\util\" />
   </ItemGroup>
 </Project>

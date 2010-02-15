@@ -3,7 +3,7 @@ using EA;
 using Moq;
 using NUnit.Framework;
 using VIENNAAddIn.menu;
-using Stereotype=VIENNAAddIn.upcc3.ccts.util.Stereotype;
+using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
 namespace VIENNAAddInUnitTests.menu
 {

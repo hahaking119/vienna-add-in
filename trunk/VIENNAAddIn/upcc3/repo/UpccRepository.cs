@@ -28,7 +28,6 @@ using VIENNAAddIn.upcc3.repo.DocLibrary;
 using VIENNAAddIn.upcc3.repo.EnumLibrary;
 using VIENNAAddIn.upcc3.repo.PrimLibrary;
 // ReSharper restore RedundantUsingDirective
-using VIENNAAddIn.upcc3.ccts.util;
 using VIENNAAddIn.upcc3.uml;
 using VIENNAAddInUtils;
 
