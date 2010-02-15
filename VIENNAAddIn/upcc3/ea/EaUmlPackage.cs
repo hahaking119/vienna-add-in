@@ -281,6 +281,7 @@ namespace VIENNAAddIn.upcc3.ea
 
             var diagram = (Diagram) eaPackage.Diagrams.AddNew(spec.Name, spec.DiagramType.ToString());
             diagram.Update();
+            eaPackage.Diagrams.Refresh();
         }
 
         private void Update(UmlPackageSpec spec)
