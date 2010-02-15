@@ -175,7 +175,7 @@
     <Compile Include="upcc3\ccts\otf\validators\BLibraryValidator.cs" />
     <Compile Include="upcc3\ccts\otf\validators\constraints\ParentMustBeModelOrBInformationVOrBLibrary.cs" />
     <Compile Include="upcc3\ea\EaAggregationKind.cs" />
-    <Compile Include="upcc3\ccts\util\MultiPartTaggedValue.cs" />
+    <Compile Include="upcc3\uml\MultiPartTaggedValue.cs" />
     <None Include="upcc3\ccts\util\Stereotype.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Stereotype.cs</LastGenOutput>
