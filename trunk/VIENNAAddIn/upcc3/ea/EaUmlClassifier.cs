@@ -62,7 +62,7 @@ namespace VIENNAAddIn.upcc3.ea
         {
             foreach (Connector eaConnector in eaElement.Connectors)
             {
-                if (eaConnector.Type == EAConnectorTypes.Dependency.ToString())
+                if (eaConnector.Type == EaConnectorTypes.Dependency.ToString())
                 {
                     if (eaConnector.Stereotype == stereotype)
                     {
@@ -80,7 +80,7 @@ namespace VIENNAAddIn.upcc3.ea
 
         public IUmlDependency CreateDependency(UmlDependencySpec spec)
         {
-            var eaConnector = (Connector) eaElement.Connectors.AddNew(String.Empty, EAConnectorTypes.Dependency.ToString());
+            var eaConnector = (Connector) eaElement.Connectors.AddNew(String.Empty, EaConnectorTypes.Dependency.ToString());
             eaConnector.ClientID = Id;
             eaConnector.Stereotype = spec.Stereotype;
             eaConnector.SupplierID = spec.Target.Id;
@@ -139,7 +139,7 @@ namespace VIENNAAddIn.upcc3.ea
         {
             foreach (Connector eaConnector in eaElement.Connectors)
             {
-                if (eaConnector.Type == EAConnectorTypes.Association.ToString() || eaConnector.Type == EAConnectorTypes.Aggregation.ToString())
+                if (eaConnector.Type == EaConnectorTypes.Association.ToString() || eaConnector.Type == EaConnectorTypes.Aggregation.ToString())
                 {
                     if (eaConnector.Stereotype == stereotype)
                     {
@@ -155,7 +155,7 @@ namespace VIENNAAddIn.upcc3.ea
 
         public IUmlAssociation CreateAssociation(UmlAssociationSpec spec)
         {
-            Connector eaConnector = (Connector) eaElement.Connectors.AddNew(string.Empty, EAConnectorTypes.Aggregation.ToString());
+            Connector eaConnector = (Connector) eaElement.Connectors.AddNew(string.Empty, EaConnectorTypes.Aggregation.ToString());
             var association = new EaUmlAssociation(eaRepository, eaConnector, Id);
             association.Initialize(spec);
             return association;
@@ -305,14 +305,14 @@ namespace VIENNAAddIn.upcc3.ea
 
         private bool DeleteConnectorOnUpdate(Connector eaConnector)
         {
-            if (eaConnector.Type == EAConnectorTypes.Dependency.ToString())
+            if (eaConnector.Type == EaConnectorTypes.Dependency.ToString())
             {
                 if (eaConnector.ClientID == Id)
                 {
                     return true;
                 }
             }
-            if (eaConnector.Type == EAConnectorTypes.Aggregation.ToString())
+            if (eaConnector.Type == EaConnectorTypes.Aggregation.ToString())
             {
                 if (eaConnector.ClientID == Id)
                 {

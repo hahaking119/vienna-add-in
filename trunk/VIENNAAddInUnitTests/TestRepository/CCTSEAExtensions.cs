@@ -90,7 +90,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public static void AddASCC(this Element client, Element supplier, string name, string lowerBound, string upperBound)
         {
-            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
+            client.AddConnector(name, EaConnectorTypes.Aggregation.ToString(), c =>
                                                                                {
                                                                                    c.Stereotype = Stereotype.ASCC;
                                                                                    c.ClientEnd.Aggregation = (int) EaAggregationKind.Shared;
@@ -107,7 +107,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public static void AddASBIE(this Element client, Element supplier, string name, EaAggregationKind aggregationKind, string lowerBound, string upperBound)
         {
-            client.AddConnector(name, EAConnectorTypes.Aggregation.ToString(), c =>
+            client.AddConnector(name, EaConnectorTypes.Aggregation.ToString(), c =>
                                                                                {
                                                                                    c.Stereotype = Stereotype.ASBIE;
                                                                                    c.ClientEnd.Aggregation = (int) aggregationKind;
@@ -119,7 +119,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public static void AddBasedOnDependency(this Element client, Element supplier)
         {
-            client.AddConnector("basedOn", EAConnectorTypes.Dependency.ToString(), c =>
+            client.AddConnector("basedOn", EaConnectorTypes.Dependency.ToString(), c =>
                                                                                    {
                                                                                        c.Stereotype = Stereotype.basedOn;
                                                                                        c.ClientEnd.Aggregation = (int) EaAggregationKind.None;
@@ -131,7 +131,7 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         public static void AddIsEquivalentToDependency(this Element client, Element supplier)
         {
-            client.AddConnector("isEquivalentTo", EAConnectorTypes.Dependency.ToString(), c =>
+            client.AddConnector("isEquivalentTo", EaConnectorTypes.Dependency.ToString(), c =>
                                                                                    {
                                                                                        c.Stereotype = Stereotype.isEquivalentTo;
                                                                                        c.ClientEnd.Aggregation = (int) EaAggregationKind.None;
