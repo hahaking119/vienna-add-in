@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using EA;
 using Attribute=EA.Attribute;
 
@@ -34,8 +33,8 @@ namespace VIENNAAddIn.upcc3.ccts.util
 
         public static TaggedValue AddTaggedValue(this Element element, string name)
         {
-            var taggedValue = (TaggedValue) element.TaggedValues.AddNew(name, "");
-            taggedValue.Value = "";
+            var taggedValue = (TaggedValue) element.TaggedValues.AddNew(name, string.Empty);
+            taggedValue.Value = string.Empty;
             taggedValue.Update();
             return taggedValue;
         }
