@@ -84,7 +84,7 @@ namespace VIENNAAddIn.upcc3.ea
             eaConnector.Stereotype = spec.Stereotype;
             eaConnector.SupplierID = spec.Target.Id;
             eaConnector.SupplierEnd.Role = spec.Stereotype;
-            eaConnector.SupplierEnd.Cardinality = spec.LowerBound + ".." + spec.UpperBound;
+            eaConnector.SupplierEnd.Cardinality = new EaCardinality(spec.LowerBound, spec.UpperBound).ToString();
             eaConnector.Update();
             return new EaUmlDependency(eaRepository, eaConnector);
         }

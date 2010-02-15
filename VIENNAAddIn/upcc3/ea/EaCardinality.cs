@@ -6,8 +6,8 @@ namespace VIENNAAddIn.upcc3.ea
     {
         public EaCardinality(string lowerBound, string upperBound)
         {
-            LowerBound = lowerBound;
-            UpperBound = upperBound;
+            LowerBound = string.IsNullOrEmpty(lowerBound) ? "1" : lowerBound;
+            UpperBound = string.IsNullOrEmpty(upperBound) ? lowerBound : upperBound;
         }
 
         public EaCardinality(string cardinality)
@@ -35,6 +35,10 @@ namespace VIENNAAddIn.upcc3.ea
 
         public override string ToString()
         {
+            if (LowerBound == UpperBound)
+            {
+                return LowerBound;
+            }
             return string.Format("{0}..{1}", LowerBound, UpperBound);
         }
     }
