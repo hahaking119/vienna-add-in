@@ -3,7 +3,7 @@ using VIENNAAddIn;
 using VIENNAAddInUnitTests.TestRepository;
 using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
-namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
+namespace VIENNAAddInUnitTests.upcc3.import.mapping
 {
     internal class MappingTestRepository : EARepository
     {

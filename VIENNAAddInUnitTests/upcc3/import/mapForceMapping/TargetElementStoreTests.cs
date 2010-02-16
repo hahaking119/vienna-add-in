@@ -7,7 +7,7 @@ using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.import.mapping;
 using VIENNAAddInUtils;
 
-namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
+namespace VIENNAAddInUnitTests.upcc3.import.mapping
 {
     [TestFixture]
     public class TargetElementStoreTests
