@@ -96,8 +96,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_one_simple_element_and_one_complex_element_to_single_acc()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_single_acc\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_single_acc\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_single_acc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_one_simple_element_and_one_complex_element_to_single_acc\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -133,8 +133,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_and_attributes_to_single_acc()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_single_acc\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_single_acc\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_single_acc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_single_acc\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -165,8 +165,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_choice_to_single_acc()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -197,8 +197,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_all_to_single_acc()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_all_to_single_acc\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_all_to_single_acc\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_all_to_single_acc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_all_to_single_acc\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -229,8 +229,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_with_semisemantic_loss()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_with_semisemantic_loss\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_with_semisemantic_loss\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_with_semisemantic_loss\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_with_semisemantic_loss\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -272,8 +272,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_two_simple_elements_to_two_accs()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_two_simple_elements_to_two_accs\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_two_simple_elements_to_two_accs\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_two_simple_elements_to_two_accs\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_two_simple_elements_to_two_accs\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -303,8 +303,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_and_attributes_to_cdt()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -336,8 +336,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_simple_element_and_attributes_to_acc_with_mapping_function_split()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -368,8 +368,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_complex_element_to_single_acc()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_single_acc\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_single_acc\invoice\maindoc\UBL-Invoice-2.0.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_single_acc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_single_acc\invoice\maindoc\UBL-Invoice-2.0.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -399,8 +399,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_complex_element_to_acc_and_bcc_of_other_acc()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_acc_and_bcc_of_other_acc\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_acc_and_bcc_of_other_acc\invoice\maindoc\UBL-Invoice-2.0.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_acc_and_bcc_of_other_acc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_complex_type_with_complex_element_to_acc_and_bcc_of_other_acc\invoice\maindoc\UBL-Invoice-2.0.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -437,8 +437,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_recursive_complex_type()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_recursive_complex_type\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_recursive_complex_type\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_recursive_complex_type\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_recursive_complex_type\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -471,8 +471,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_one_complex_type_to_two_cdts()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_one_complex_type_to_two_cdts\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_one_complex_type_to_two_cdts\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_one_complex_type_to_two_cdts\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_one_complex_type_to_two_cdts\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 
@@ -516,14 +516,14 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
             #region Prepare Diff
 
             var repo = new Repository();
-            repo.OpenFile(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\Repository-with-CDTs-and-CCs.eap"));
+            repo.OpenFile(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\Repository-with-CDTs-and-CCs.eap"));
 
             var mappingFileNames = new List<string> { "ubl2cll_1_1.mfd", "ubl2cll_2_1.mfd", "ubl2cll_3_1.mfd", "ubl2cll_4_1.mfd", "ubl2cll_5_1.mfd", "ubl2cll_6_1.mfd", "ubl2cll_7_1.mfd", "ubl2cll_8_1.mfd", "ubl2cll_9_1.mfd", "ubl2cll_10_1.mfd", "ubl2cll_11_1.mfd", "ubl2cll_12_1.mfd", "ubl2cll_13_1.mfd" };
             var mappingFiles = new List<string>();
 
             foreach (var mappingFile in mappingFileNames)
             {
-                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\" + mappingFile));
+                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\" + mappingFile));
             }
 
             Console.Out.WriteLine("Starting mapping");
@@ -534,7 +534,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mappingFiles.ToArray());
 
             XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\invoice\maindoc\UBL-Invoice-2.0.xsd")), null));
+            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\invoice\maindoc\UBL-Invoice-2.0.xsd")), null));
 
             #endregion
 
@@ -542,7 +542,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
 
             HashSet<string> edgeDescriptions = schemaMapping.EdgeDescriptions;
             
-            TextWriter writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "edgeDescriptions.txt");
+            TextWriter writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\") + "edgeDescriptions.txt");
             writer.WriteLine("#edges: " + edgeDescriptions.Count);
             foreach (string edgeDescription in edgeDescriptions)
             {
@@ -553,7 +553,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
 
             HashSet<string> mappingDescriptions = schemaMapping.MappingDescriptions;
 
-            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "mappingDescriptions.txt");
+            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\") + "mappingDescriptions.txt");
             writer.WriteLine("#mappings: " + mappingDescriptions.Count);
             foreach (string mappingDescription in mappingDescriptions)
             {
@@ -562,7 +562,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
             writer.Close();
 
 
-            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "missing_mappingDescriptions.txt");
+            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\") + "missing_mappingDescriptions.txt");
             HashSet<string> missingMappingDescriptions = new HashSet<string>(edgeDescriptions);
             missingMappingDescriptions.ExceptWith(mappingDescriptions);
 
@@ -572,7 +572,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
             }
             writer.Close();
 
-            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "missing_edgeDescriptions.txt");
+            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\") + "missing_edgeDescriptions.txt");
             HashSet<string> missingEdgeDescriptions = new HashSet<string>(mappingDescriptions);
             missingEdgeDescriptions.ExceptWith(edgeDescriptions);
 
@@ -586,8 +586,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_two_complex_types_with_complex_elements_to_duplicated_bcc()
         {
-            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_two_complex_types_with_complex_elements_to_duplicated_bcc\mapping.mfd");
-            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\SchemaMappingTests\mapping_two_complex_types_with_complex_elements_to_duplicated_bcc\source.xsd");
+            var mappingFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_two_complex_types_with_complex_elements_to_duplicated_bcc\mapping.mfd");
+            var xsdFileName = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\SchemaMappingTests\mapping_two_complex_types_with_complex_elements_to_duplicated_bcc\source.xsd");
 
             SchemaMapping mappings = CreateSchemaMapping(mappingFileName, xsdFileName);
 

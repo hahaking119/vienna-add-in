@@ -34,7 +34,7 @@ namespace VIENNAAddInUnitTests.upcc3.export.cctsndr
 
         private static void AssertSchema(string expectedOutputFile, XmlSchema schema)
         {
-            string expectedPath = PathToTestResource("XSDGeneratorTest\\" + expectedOutputFile);
+            string expectedPath = PathToTestResource("XSDGeneratorTest\\cctsndr\\" + expectedOutputFile);
             var xmlWriterSettings = new XmlWriterSettings
                                     {
                                         Indent = true,
