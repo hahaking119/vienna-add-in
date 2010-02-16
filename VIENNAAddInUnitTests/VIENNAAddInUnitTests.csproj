@@ -107,6 +107,7 @@
     <Compile Include="upcc3\ea\CdtLibraryTests.cs" />
     <Compile Include="upcc3\ea\EaUmlRepositoryTest.cs" />
     <Compile Include="upcc3\ea\EaCollectionTests.cs" />
+    <Compile Include="upcc3\export\mapping\SubsetExporterTest.cs" />
     <Compile Include="upcc3\import\cctsndr\BDTXsdImporterTests.cs" />
     <Compile Include="upcc3\import\cctsndr\XSDImporterTest.cs" />
     <Compile Include="upcc3\import\mapForceMapping\MapForceMappingImporterTest.cs" />
