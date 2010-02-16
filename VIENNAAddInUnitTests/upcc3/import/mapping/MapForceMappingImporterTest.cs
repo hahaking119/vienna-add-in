@@ -14,7 +14,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void TestImportSchemaComponents()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MapForceMappingImporterTests\MapForceMappingImporter_ImportSchemaComponents_Test.mfd");
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MapForceMappingImporterTests\MapForceMappingImporter_ImportSchemaComponents_Test.mfd");
 
             MapForceMapping expectedMapping = new MapForceMapping(new List<SchemaComponent>
                                                                       {

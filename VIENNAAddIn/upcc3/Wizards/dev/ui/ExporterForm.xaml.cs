@@ -241,11 +241,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             generationContext.SchemaAdded += HandleSchemaAdded;
             export.cctsndr.XSDGenerator.GenerateSchemas(generationContext);
 
-            //VIENNAAddIn.upcc3.XSDGenerator.Generator.XSDGenerator.GenerateSchemas(ccRepository, docLibrary,
-            //                                                                                  "urn:test:namespace", "test", true,
-            //                                                                                  PathToTestResource(
-            //                                                                                      "\\XSDGeneratorTest\\all"));
-
             textBoxStatus.Text += "\nGenerating XML schemas completed!";
             Cursor = Cursors.Arrow;
         }
