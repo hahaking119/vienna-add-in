@@ -542,7 +542,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 
             HashSet<string> edgeDescriptions = schemaMapping.EdgeDescriptions;
             
-            TextWriter writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\edgeDescriptions.txt");
+            TextWriter writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "edgeDescriptions.txt");
             writer.WriteLine("#edges: " + edgeDescriptions.Count);
             foreach (string edgeDescription in edgeDescriptions)
             {
@@ -553,7 +553,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 
             HashSet<string> mappingDescriptions = schemaMapping.MappingDescriptions;
 
-            writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\mappingDescriptions.txt");
+            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "mappingDescriptions.txt");
             writer.WriteLine("#mappings: " + mappingDescriptions.Count);
             foreach (string mappingDescription in mappingDescriptions)
             {
@@ -562,7 +562,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             writer.Close();
 
 
-            writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\missing_mappingDescriptions.txt");
+            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "missing_mappingDescriptions.txt");
             HashSet<string> missingMappingDescriptions = new HashSet<string>(edgeDescriptions);
             missingMappingDescriptions.ExceptWith(mappingDescriptions);
 
@@ -572,7 +572,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
             }
             writer.Close();
 
-            writer = new StreamWriter(@"C:\Dokumente und Einstellungen\cpichler\Desktop\missing_edgeDescriptions.txt");
+            writer = new StreamWriter(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\") + "missing_edgeDescriptions.txt");
             HashSet<string> missingEdgeDescriptions = new HashSet<string>(mappingDescriptions);
             missingEdgeDescriptions.ExceptWith(edgeDescriptions);
 
