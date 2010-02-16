@@ -58,7 +58,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void TestImportSchemaComponentsWithMappingFunctionSplit()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MapForceMappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MapForceMappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
 
             const string ebInterfaceStreetKey = "72359800";
             const string ebInterfaceTownKey = "72359696";

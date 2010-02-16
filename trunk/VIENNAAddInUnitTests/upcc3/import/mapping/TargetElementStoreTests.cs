@@ -22,7 +22,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
             accParty = ccLibrary.GetAccByName("Party");
             bccPartyName = accParty.Bccs.First(bcc => bcc.Name == "Name");
             asccPartyResidence = accParty.Asccs.First(ascc => ascc.Name == "Residence");
-            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\TargetElementStoreTests\mapping.mfd"));
+            mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\TargetElementStoreTests\mapping.mfd"));
         }
 
         #endregion

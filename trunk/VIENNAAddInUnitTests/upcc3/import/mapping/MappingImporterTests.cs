@@ -186,8 +186,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Ignore("for manual testing")]
         public void Test_mapping_ebInterface_to_ccl()
         {
-            string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ebInterface_to_ccl\Invoice.eap");
-            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ebInterface_to_ccl\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
+            string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ebInterface_to_ccl\Invoice.eap");
+            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ebInterface_to_ccl\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
             var repo = new Repository();
             repo.OpenFile(repoPath);
 
@@ -196,10 +196,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
 
             foreach (var mappingFile in mappingFileNames)
             {
-                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ebInterface_to_ccl\" + mappingFile));
+                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ebInterface_to_ccl\" + mappingFile));
             }
 
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ebInterface_to_ccl\Invoice.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ebInterface_to_ccl\Invoice.xsd") };
 
             Console.Out.WriteLine("Starting mapping");
             var repository = CctsRepositoryFactory.CreateCctsRepository(repo);
@@ -212,8 +212,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Ignore("for manual testing")]
         public void Test_mapping_ubl_to_ccl()
         {
-            string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\Invoice.eap");
-            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
+            string repoPath = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\Invoice.eap");
+            File.Copy(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\Repository-with-CDTs-and-CCs.eap"), repoPath, true);
             var repo = new Repository();
             repo.OpenFile(repoPath);
 
@@ -222,10 +222,10 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
 
             foreach (var mappingFile in mappingFileNames)
             {
-                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\" + mappingFile));
+                mappingFiles.Add(TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\" + mappingFile));
             }
 
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_ubl_to_ccl\invoice\maindoc\UBL-Invoice-2.0.xsd") };
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_ubl_to_ccl\invoice\maindoc\UBL-Invoice-2.0.xsd") };
 
             Console.Out.WriteLine("Starting mapping");
             var repository = CctsRepositoryFactory.CreateCctsRepository(repo);
@@ -239,8 +239,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_nested_complex_type_to_multiple_accs()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_multiple_accs\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_multiple_accs\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_multiple_accs\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_multiple_accs\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -275,8 +275,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_nested_complex_type_to_single_acc()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_single_acc\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_single_acc\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_single_acc\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_nested_complex_type_to_single_acc\source.xsd") };
 
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
@@ -312,8 +312,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_to_multiple_accs()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_to_multiple_accs\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_to_multiple_accs\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_to_multiple_accs\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_to_multiple_accs\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -347,8 +347,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_one_simple_element_to_single_acc()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_one_simple_element_to_single_acc\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_one_simple_element_to_single_acc\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_one_simple_element_to_single_acc\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_one_simple_element_to_single_acc\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -372,8 +372,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_choice_to_single_acc()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_simple_elements_choice_to_single_acc\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -394,8 +394,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_all_to_single_acc()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_simple_elements_all_to_single_acc\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_simple_elements_all_to_single_acc\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_simple_elements_all_to_single_acc\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_simple_elements_all_to_single_acc\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -416,8 +416,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_two_nested_complex_types_to_multiple_accs()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_two_nested_complex_types_to_multiple_accs\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_two_nested_complex_types_to_multiple_accs\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_two_nested_complex_types_to_multiple_accs\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_two_nested_complex_types_to_multiple_accs\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -448,8 +448,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_single_simple_typed_element_to_bcc()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_single_simple_typed_element_to_bcc\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_single_simple_typed_element_to_bcc\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_single_simple_typed_element_to_bcc\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_single_simple_typed_element_to_bcc\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
                       
@@ -473,8 +473,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_one_attribute_to_single_acc()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_one_attribute_to_single_acc\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_one_attribute_to_single_acc\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_one_attribute_to_single_acc\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_one_attribute_to_single_acc\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -498,8 +498,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_complex_type_with_simple_elements_and_attributes_to_cdt()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_complex_type_with_simple_elements_and_attributes_to_cdt\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -520,8 +520,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_with_semisemantic_loss()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_with_semisemantic_loss\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_with_semisemantic_loss\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_with_semisemantic_loss\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_with_semisemantic_loss\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
@@ -546,8 +546,8 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
         [Test]
         public void Test_mapping_simple_element_and_attributes_to_acc_with_mapping_function_split()
         {
-            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
-            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\MapForceMapping\MappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd") };
+            string mappingFile = TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\mapping.mfd");
+            string[] schemaFiles = new[] { TestUtils.PathToTestResource(@"XSDImporterTest\mapping\MappingImporterTests\mapping_simple_element_and_attributes_to_acc_with_mapping_function_split\source.xsd") };
 
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
