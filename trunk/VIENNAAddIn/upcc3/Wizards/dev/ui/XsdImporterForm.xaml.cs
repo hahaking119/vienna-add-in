@@ -8,7 +8,7 @@ using CctsRepository;
 using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 using VIENNAAddIn.menu;
-using VIENNAAddIn.upcc3.import.ebInterface;
+using VIENNAAddIn.upcc3.import.mapping;
 using Cursors=System.Windows.Input.Cursors;
 using MessageBox=System.Windows.MessageBox;
 using OpenFileDialog=Microsoft.Win32.OpenFileDialog;

@@ -9,7 +9,7 @@ using CctsRepository.CdtLibrary;
 using VIENNAAddInUtils;
 using VIENNAAddIn.Utils;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class SchemaMapping
     {

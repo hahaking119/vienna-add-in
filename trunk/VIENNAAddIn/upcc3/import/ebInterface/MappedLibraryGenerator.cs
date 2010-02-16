@@ -8,7 +8,7 @@ using CctsRepository.CcLibrary;
 using CctsRepository.DocLibrary;
 using VIENNAAddIn.Utils;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     /// <summary>
     /// This Class manages as a last step of the generic XML Schema importer the generation of proper 

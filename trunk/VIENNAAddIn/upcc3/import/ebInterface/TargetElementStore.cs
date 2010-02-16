@@ -4,7 +4,7 @@ using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
 using VIENNAAddIn.upcc3.Wizards.dev.cache;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class TargetElementStore
     {

@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.Schema;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using VIENNAAddIn.upcc3.import.ebInterface;
+using VIENNAAddIn.upcc3.import.mapping;
 
 namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
 {

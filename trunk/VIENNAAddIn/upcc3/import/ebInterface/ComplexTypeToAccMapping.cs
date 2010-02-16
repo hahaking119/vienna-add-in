@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class ComplexTypeToAccMapping : ComplexTypeMapping, IEquatable<ComplexTypeToAccMapping>
     {
