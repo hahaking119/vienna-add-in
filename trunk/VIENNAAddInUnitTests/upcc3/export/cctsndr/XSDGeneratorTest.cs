@@ -34,7 +34,7 @@ namespace VIENNAAddInUnitTests.upcc3.export.cctsndr
 
         private static void AssertSchema(string expectedOutputFile, XmlSchema schema)
         {
-            string expectedPath = PathToTestResource("XSDGeneratorTest\\cctsndr\\" + expectedOutputFile);
+            string expectedPath = PathToTestResource("XSDExporterTest\\cctsndr\\" + expectedOutputFile);
             var xmlWriterSettings = new XmlWriterSettings
                                     {
                                         Indent = true,
@@ -170,7 +170,7 @@ Actual output file: {2}",
             var ccRepository = CctsRepositoryFactory.CreateCctsRepository(new EARepository2());
             var docLibrary = ccRepository.GetDocLibraryByPath((Path) "test model"/"bLibrary"/"DOCLibrary");
             string outputDirectory = PathToTestResource(
-                "\\XSDGeneratorTest\\cctsndr\\all");
+                "\\XSDExporterTest\\cctsndr\\all");
             AddInSettings.LoadRegistryEntries();
             VIENNAAddIn.upcc3.export.cctsndr.XSDGenerator.GenerateSchemas(new GeneratorContext(ccRepository, "urn:test:namespace", "test", true, true, outputDirectory, docLibrary));
         }
