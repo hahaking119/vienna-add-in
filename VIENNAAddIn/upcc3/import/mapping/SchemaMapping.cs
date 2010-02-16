@@ -282,19 +282,20 @@ namespace VIENNAAddIn.upcc3.import.mapping
             {
                 MapComplexTypeToCdt(sourceElement, parentComplexTypeNames, qualifiedComplexTypeName,
                                     complexTypeName, path);
+
             }
-
-            List<ElementMapping> childMappings = GetChildMappings(sourceElement, parentComplexTypeNames,
-                                                                  qualifiedComplexTypeName, path);
-
-            ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(childMappings, sourceElement.XsdTypeName);
-            if (complexTypeMapping == null)
+            else
             {
-                return;
-            }
+                List<ElementMapping> childMappings = GetChildMappings(sourceElement, parentComplexTypeNames,
+                                                                      qualifiedComplexTypeName, path);
 
-            complexTypeMappings.GetAndCreate(complexTypeName).Add(complexTypeMapping);
-            return;
+                ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(childMappings, sourceElement.XsdTypeName);
+
+                if (complexTypeMapping != null)
+                {
+                    complexTypeMappings.GetAndCreate(complexTypeName).Add(complexTypeMapping);
+                }
+            }
         }
 
         private static ComplexTypeMapping CreateComplexTypeMappingForChildMappings(IEnumerable<ElementMapping> childMappings, string complexTypeName)
