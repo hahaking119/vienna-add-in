@@ -2,7 +2,7 @@ using System.IO;
 using VIENNAAddIn.upcc3.export.cctsndr;
 using VIENNAAddInUtils;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class MappingPrettyPrinter:IMappingVisitor
     {

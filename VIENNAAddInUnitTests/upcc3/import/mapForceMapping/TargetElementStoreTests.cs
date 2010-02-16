@@ -4,7 +4,7 @@ using CctsRepository.CcLibrary;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.import.ebInterface;
+using VIENNAAddIn.upcc3.import.mapping;
 using VIENNAAddInUtils;
 
 namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping

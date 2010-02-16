@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using VIENNAAddInUtils;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class Vertex : IEquatable<Vertex>
     {

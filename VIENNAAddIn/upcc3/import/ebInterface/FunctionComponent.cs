@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class FunctionComponent : IEquatable<FunctionComponent>
     {

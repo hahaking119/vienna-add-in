@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class SourceItem : IEquatable<SourceItem>
     {

@@ -11,7 +11,7 @@ using EA;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 using VIENNAAddIn.upcc3;
-using VIENNAAddIn.upcc3.import.ebInterface;
+using VIENNAAddIn.upcc3.import.mapping;
 using File=System.IO.File;
 using Path=VIENNAAddInUtils.Path;
 

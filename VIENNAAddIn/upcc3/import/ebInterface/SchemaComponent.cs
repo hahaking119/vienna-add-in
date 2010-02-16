@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using VIENNAAddInUtils;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class SchemaComponent : IEquatable<SchemaComponent>
     {

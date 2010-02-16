@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using CctsRepository.CcLibrary;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class ComplexElementToAsccMapping : ElementMapping, IEquatable<ComplexElementToAsccMapping>
     {

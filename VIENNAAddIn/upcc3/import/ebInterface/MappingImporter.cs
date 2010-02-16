@@ -5,7 +5,7 @@ using CctsRepository;
 using CctsRepository.BLibrary;
 using CctsRepository.CcLibrary;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class MappingImporter
     {

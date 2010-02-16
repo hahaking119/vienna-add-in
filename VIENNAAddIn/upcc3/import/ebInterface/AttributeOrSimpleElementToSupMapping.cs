@@ -1,7 +1,7 @@
 using System;
 using CctsRepository.CdtLibrary;
 
-namespace VIENNAAddIn.upcc3.import.ebInterface
+namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class AttributeOrSimpleElementToSupMapping : ElementMapping, IEquatable<AttributeOrSimpleElementToSupMapping>
     {
