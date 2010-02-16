@@ -183,7 +183,7 @@ Actual output file: {2}",
             {
                 var ccRepository = CctsRepositoryFactory.CreateCctsRepository(tempFileBasedRepository);
                 var docLibrary = ccRepository.GetDocLibraryByPath((Path) "Model"/"ebInterface Data Model"/"DOCLibrary");
-                var context = new GeneratorContext(ccRepository, "urn:test:namespace", "cc", false, false, "C:\\Dokumente und Einstellungen\\fkromer\\workspace\\ccts\\", docLibrary);
+                var context = new GeneratorContext(ccRepository, "urn:test:namespace", "cc", true, false, "C:\\Dokumente und Einstellungen\\fkromer\\workspace\\ccts\\", docLibrary);
                 RootSchemaGenerator.GenerateXSD(context);
                 Assert.AreEqual(1, context.Schemas.Count);
                 XmlSchema schema = context.Schemas[0].Schema;
