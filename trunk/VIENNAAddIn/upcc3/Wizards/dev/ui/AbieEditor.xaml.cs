@@ -102,11 +102,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: Checkbox BCCs
         private void checkboxBccs_Checked(object sender, RoutedEventArgs e)
         {
-            string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;                        
+            //string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;                        
 
             Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
-                        
-            listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, selectedItemText);
+
+            foreach (CheckableItem item in listboxBccs.Items)
+            {
+                listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, item.Text);
+            }        
 
             UpdateFormState();
         }

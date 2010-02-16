@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
-using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using VIENNAAddInUtils;
@@ -21,9 +20,9 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
     ///</summary>
     public class RootSchemaGenerator
     {
+        private static List<string> globalAsmas;
         private static string NSPREFIX_BDT = "bdt";
         private static string NSPREFIX_BIE = "bie";
-        private static List<string> globalAsmas;
 
         ///<summary>
         ///</summary>
@@ -31,11 +30,11 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         public static void GenerateXSD(GeneratorContext context)
         {
             globalAsmas = new List<string>();
-            var documentRoot = context.DocLibrary.DocumentRoot;
+            IMa documentRoot = context.DocLibrary.DocumentRoot;
             var schema = new XmlSchema
-                         {
-                             TargetNamespace = context.TargetNamespace
-                         };
+                             {
+                                 TargetNamespace = context.TargetNamespace
+                             };
             schema.Namespaces.Add(context.NamespacePrefix, context.TargetNamespace);
             schema.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
             schema.Namespaces.Add("ccts",
@@ -54,7 +53,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             AddRootElementDeclaration(schema, documentRoot, context);
             AddRootTypeDefinition(schema, documentRoot, context, context.DocLibrary);
 
-            var nonRootDocLibraryElements = context.DocLibrary.NonRootMas;
+            IEnumerable<IMa> nonRootDocLibraryElements = context.DocLibrary.NonRootMas;
             AddGlobalElementDeclarations(schema, nonRootDocLibraryElements, context);
             AddGlobalTypeDefinitions(schema, nonRootDocLibraryElements, context);
             context.AddSchema(schema, documentRoot.Name + "_" + schema.Version + ".xsd");
@@ -63,40 +62,98 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         private static void AddGlobalElementDeclarations(XmlSchema schema, IEnumerable<IMa> mas,
                                                          GeneratorContext context)
         {
-            foreach (var ma in mas)
+            foreach (IMa ma in mas)
             {
-                XmlSchemaElement element = new XmlSchemaElement
-                                           {
-                                               Name = ma.Name,
-                                               SchemaTypeName =
-                                                   new XmlQualifiedName(context.NamespacePrefix + ":" + ma.Name +
-                                                                        "Type")
-                                           };
-                if (context.Annotate)
-                    element.Annotation = BIESchemaGenerator.GetMaAnnotation(ma);
+                var element = new XmlSchemaElement
+                                  {
+                                      Name = ma.Name,
+                                      SchemaTypeName =
+                                          new XmlQualifiedName(context.NamespacePrefix + ":" + ma.Name +
+                                                               "Type")
+                                  };
+                //if (context.Annotate)
+                //    element.Annotation = GetMaAnnotation(ma);
                 schema.Items.Add(element);
             }
         }
 
         private static void AddGlobalTypeDefinitions(XmlSchema schema, IEnumerable<IMa> mas, GeneratorContext context)
         {
-            foreach (var ma in mas)
+            foreach (IMa ma in mas)
             {
-                schema.Items.Add(BIESchemaGenerator.GenerateComplexTypeForMa(context, schema, ma, context.NamespacePrefix));
+                schema.Items.Add(GenerateComplexTypeForMa(context, schema, ma,
+                                                                             context.NamespacePrefix));
             }
+        }
 
+        private static XmlSchemaComplexType GenerateComplexTypeForMa(GeneratorContext context, XmlSchema schema, IMa ma, string abiePrefix)
+        {
+            var maType = new XmlSchemaComplexType();
+            maType.Name = ma.Name + "Type";
+
+            var sequence = new XmlSchemaSequence();
+            foreach (IAsma asma in ma.Asmas.OrderBy(a => a.Name))
+            {
+                XmlSchemaElement elementAsma = null;
+
+                // Take care of ASMAS aggregating ABIEs
+                if (asma.AssociatedBieAggregator.IsAbie)
+                {
+                    elementAsma = new XmlSchemaElement
+                    {
+                        Name = NDR.GetXsdElementNameFromAsma(asma),
+                        SchemaTypeName =
+                            new XmlQualifiedName(NSPREFIX_BIE + ":" +
+                                                 asma.AssociatedBieAggregator.Name +
+                                                 "Type")
+                    };
+                }
+                else if (asma.AssociatedBieAggregator.IsMa)
+                {
+                    elementAsma = new XmlSchemaElement
+                    {
+                        Name = NDR.GetXsdElementNameFromAsma(asma),
+                        SchemaTypeName =
+                            new XmlQualifiedName(context.NamespacePrefix + ":" +
+                                                 asma.AssociatedBieAggregator.Name +
+                                                 "Type")
+                    };
+                }
+
+                var refAsma = new XmlSchemaElement
+                {
+                    RefName =
+                        new XmlQualifiedName(context.NamespacePrefix + ":" +
+                                             NDR.GetXsdElementNameFromAsma(asma))
+                };
+
+                // every shared ASCC may only appear once in the XSD file
+                if (!globalAsmas.Contains(elementAsma.Name))
+                {
+                    // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.   
+                    schema.Items.Add(elementAsma);
+                    globalAsmas.Add(elementAsma.Name);
+                }
+
+                sequence.Items.Add(refAsma);
+            }
+            maType.Particle = sequence;
+            if (context.Annotate)
+                maType.Annotation = GetMaAnnotation(ma);
+
+            return maType;
         }
 
         private static void AddRootElementDeclaration(XmlSchema schema, IMa ma, GeneratorContext context)
         {
-            XmlSchemaElement root = new XmlSchemaElement
-                                    {
-                                        Name = ma.Name,
-                                        SchemaTypeName =
-                                            new XmlQualifiedName(context.NamespacePrefix + ":" + ma.Name + "Type")
-                                    };
-            if (context.Annotate)
-                root.Annotation = GetRootAnnotation(ma);
+            var root = new XmlSchemaElement
+                           {
+                               Name = ma.Name,
+                               SchemaTypeName =
+                                   new XmlQualifiedName(context.NamespacePrefix + ":" + ma.Name + "Type")
+                           };
+            //if (context.Annotate)
+            //    root.Annotation = GetMaAnnotation(ma);
             schema.Items.Add(root);
         }
 
@@ -107,94 +164,69 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
         /// <param name="ma"></param>
         /// <param name="context"></param>
         /// <param name="docLibrary"></param>
-        private static void AddRootTypeDefinition(XmlSchema schema, IMa ma, GeneratorContext context, IDocLibrary docLibrary)
+        private static void AddRootTypeDefinition(XmlSchema schema, IMa ma, GeneratorContext context,
+                                                  IDocLibrary docLibrary)
         {
-
             //XmlSchemaComplexType type = BIESchemaGenerator.GenerateComplexTypeABIE(context, schema, ma, NSPREFIX_BIE);
-            
-            XmlSchemaComplexType rootType = new XmlSchemaComplexType();
+
+            var rootType = new XmlSchemaComplexType();
             rootType.Name = ma.Name + "Type";
 
-            XmlSchemaSequence sequence = new XmlSchemaSequence(); ;
+            var sequence = new XmlSchemaSequence();
+            
 
             foreach (IAsma asma in ma.Asmas.OrderBy(a => a.Name))
             {
+                XmlSchemaElement elementAsma = null;
 
                 // Take care of ASMAS aggregating ABIEs
-                if (asma.AssociatedBieAggregator != null)
+                if (asma.AssociatedBieAggregator.IsAbie)
                 {
-                    XmlSchemaElement elementAsma = new XmlSchemaElement();
-                    elementAsma.Name = NDR.GetXsdElementNameFromAsma(asma);
-                    elementAsma.SchemaTypeName =
-                        new XmlQualifiedName(NSPREFIX_BIE + ":" + asma.AssociatedBieAggregator.Name + "Type");
-
-                    XmlSchemaElement refAsma = new XmlSchemaElement();
-                    refAsma.RefName = new XmlQualifiedName(context.NamespacePrefix + ":" + NDR.GetXsdElementNameFromAsma(asma));
-
-                    // every shared ASCC may only appear once in the XSD file
-                    if (!globalAsmas.Contains(elementAsma.Name))
-                    {
-                        // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.   
-                        schema.Items.Add(elementAsma);
-                        globalAsmas.Add(elementAsma.Name);
-                    }
-
-                    sequence.Items.Add(refAsma);
+                    elementAsma = new XmlSchemaElement
+                                      {
+                                          Name = NDR.GetXsdElementNameFromAsma(asma),
+                                          SchemaTypeName =
+                                              new XmlQualifiedName(NSPREFIX_BIE + ":" +
+                                                                   asma.AssociatedBieAggregator.Name +
+                                                                   "Type")
+                                      };
                 }
-                else
+                else if(asma.AssociatedBieAggregator.IsMa)
                 {
-                    throw new NotImplementedException("TODO");
-
+                    elementAsma = new XmlSchemaElement
+                                      {
+                                          Name = NDR.GetXsdElementNameFromAsma(asma),
+                                          SchemaTypeName =
+                                              new XmlQualifiedName(context.NamespacePrefix + ":" +
+                                                                   asma.AssociatedBieAggregator.Name +
+                                                                   "Type")
+                                      };
                 }
 
+                var refAsma = new XmlSchemaElement
+                                  {
+                                      RefName =
+                                          new XmlQualifiedName(context.NamespacePrefix + ":" +
+                                                               NDR.GetXsdElementNameFromAsma(asma))
+                                  };
 
+                // every shared ASCC may only appear once in the XSD file
+                if (!globalAsmas.Contains(elementAsma.Name))
+                {
+                    // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.   
+                    schema.Items.Add(elementAsma);
+                    globalAsmas.Add(elementAsma.Name);
+                }
+
+                sequence.Items.Add(refAsma);
             }
 
             rootType.Particle = sequence;
+            if (context.Annotate)
+                rootType.Annotation = GetMaAnnotation(ma);
 
             schema.Items.Add(rootType);
-
-            //IList<IMa> temp = new List<IMa>(docLibrary.Mas);
-
-
-            
-            //if (sequence != null)
-            //    foreach (XmlSchemaObject item in sequence.Items)
-            //    {
-            //        if (item is XmlSchemaElement)
-            //        {
-            //            element = item as XmlSchemaElement;
-
-            //            foreach (IAsbie asbie in ma.ASBIEs)
-            //            {
-            //                // this condition makes sure only docLibraryLevel ABIEs get selected
-            //                if (temp.Contains(asbie.AssociatedElement))
-            //                {
-            //                    if (element.RefName != null && element.RefName.ToString().Contains(NSPREFIX_BIE + ":" + asbie.Name + asbie.AssociatedElement.Name))
-            //                    {
-            //                        String s = element.RefName.ToString();
-            //                        s = s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
-            //                        element.RefName = new XmlQualifiedName(s);
-            //                        UpdateElementTypePrefix(schema, context, element.RefName.ToString());
-            //                        break;
-            //                    }
-            //                    // ReSharper disable RedundantIfElseBlock
-            //                    else if (element.Name != null && element.Name.ToString().Contains(asbie.Name + asbie.AssociatedElement.Name))
-            //                    // ReSharper restore RedundantIfElseBlock
-            //                    {
-            //                        String s = element.SchemaTypeName.ToString();
-            //                        s = s.Replace(NSPREFIX_BIE, context.NamespacePrefix);
-            //                        element.SchemaTypeName = new XmlQualifiedName(s);
-            //                        UpdateElementTypePrefix(schema, context, element.SchemaTypeName.ToString());
-            //                        break;
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-//
-//            //TODO this is now only partially correct implemented, an algorithmn has to take links and instances of ASBIEs into account
-//
+     
         }
 
 
@@ -204,9 +236,10 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             XmlSchemaElement element;
             foreach (XmlSchemaObject item in schema.Items)
             {
-                if (item is XmlSchemaElement){
+                if (item is XmlSchemaElement)
+                {
                     element = item as XmlSchemaElement;
-                    if(name.Contains(element.Name))
+                    if (name.Contains(element.Name))
                     {
                         temp = element.SchemaTypeName.ToString();
                         temp = temp.Replace(NSPREFIX_BIE, context.NamespacePrefix);
@@ -217,68 +250,18 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             }
         }
 
-        private static void AddASBIE(XmlSchema schema, XmlSchemaSequence sequence, IAbie abie, GeneratorContext context, IDocLibrary docLibrary)
-        {
-            throw new NotImplementedException();
-//            IList<IAbie> temp = new List<IAbie>(docLibrary.Abies);
-//
-//            foreach (IAsbie asbie in abie.ASBIEs)
-//            {
-//                XmlSchemaElement elementASBIE = new XmlSchemaElement();
-//
-//                elementASBIE.Name = asbie.Name;
-//                elementASBIE.SchemaTypeName = new XmlQualifiedName(context.NamespacePrefix + ":" + asbie.AssociatedElement.Name + "Type");
-//
-//                ////TODO: check if upper bound is * .. also implement other "exceptions"
-//                //Console.WriteLine("lower: " + asbie.LowerBound);
-//                //Console.WriteLine("upper: " + asbie.UpperBound);
-//
-//
-//                //elementASBIE.MinOccurs = Convert.ToDecimal(asbie.LowerBound);
-//                //elementASBIE.MaxOccurs = Convert.ToDecimal(asbie.UpperBound);
-//
-//
-//                if (context.Annotate)
-//                {
-//                    //TODO Annotations for ASBIEs
-//                    //elementASBIE.Annotation = GetASBIEAnnotiation(asbie);
-//                }
-//
-//                if (asbie.AggregationKind == AsbieAggregationKind.Shared)
-//                {
-//                    // R 9241: for ASBIEs with AggregationKind = shared a global element must be declared.
-//                    XmlSchemaElement refASBIE = new XmlSchemaElement();
-//                    refASBIE.RefName = temp.Contains(asbie.AssociatedElement) ? new XmlQualifiedName(context.NamespacePrefix + ":" + asbie.Name + asbie.AssociatedElement.Name) : new XmlQualifiedName(NSPREFIX_BIE + ":" + asbie.Name + asbie.AssociatedElement.Name);
-//                    refASBIE.MinOccursString = asbie.LowerBound;
-//                    refASBIE.MaxOccursString = asbie.UpperBound;
-//                    sequence.Items.Add(refASBIE);
-//                    schema.Items.Add(elementASBIE);
-//                }
-//                else if (asbie.AggregationKind == AsbieAggregationKind.Composite)
-//                {
-//                    //R 9025: ASBIEs with Aggregation Kind = composite a local element for the
-//                    //        associated ABIE must be declared in the associating ABIE complex type.
-//                    //TODO mapping of EA cardinalities to XML Schema
-//                    elementASBIE.MinOccursString = asbie.LowerBound;
-//                    elementASBIE.MaxOccursString = asbie.UpperBound;
-//                    sequence.Items.Add(elementASBIE);
-//                }
-//            }
-//
-        }
-
-        private static void AddImports(XmlSchema schema, GeneratorContext context, IDocLibrary docLibrary)
+       private static void AddImports(XmlSchema schema, GeneratorContext context, IDocLibrary docLibrary)
         {
             if (context.Annotate)
             {
-                XmlSchemaImport import = new XmlSchemaImport
-                                         {
-                                             Namespace = "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3",
-                                             SchemaLocation = "documentation/standard/XMLNDR_Documentation_3p0.xsd"
-                                         };
+                var import = new XmlSchemaImport
+                                 {
+                                     Namespace = "urn:un:unece:uncefact:documentation:standard:XMLNDRDocumentation:3",
+                                     SchemaLocation = "documentation/standard/XMLNDR_Documentation_3p0.xsd"
+                                 };
 
-                schema.Includes.Add(import);   
-            }            
+                schema.Includes.Add(import);
+            }
         }
 
         private static void AddIncludes(XmlSchema schema, GeneratorContext context, IDocLibrary docLibrary)
@@ -287,33 +270,26 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             {
                 //XmlTextReader textReader = new XmlTextReader(context.OutputDirectory + si.FileName);
                 //XmlSchema includeSchema = XmlSchema.Read(textReader, null);
-                XmlSchemaInclude include = new XmlSchemaInclude();
+                var include = new XmlSchemaInclude();
                 //include.Schema = includeSchema;
                 include.SchemaLocation = si.FileName;
                 schema.Includes.Add(include);
             }
         }
 
-        private static XmlSchemaAnnotation GetRootAnnotation(IMa ma)
+        private static XmlSchemaAnnotation GetMaAnnotation(IMa ma)
         {
-            throw new NotImplementedException();
-//            // Contains all the documentation items such as DictionaryEntryName
-//            IList<XmlNode> documentation = new List<XmlNode>();
-//
-//            BIESchemaGenerator.AddDocumentation(documentation, "UniqueID", abie.UniqueIdentifier);
-//            BIESchemaGenerator.AddDocumentation(documentation, "VersionID", abie.VersionIdentifier);
-//            BIESchemaGenerator.AddDocumentation(documentation, "ObjectClassQualifierName", BIESchemaGenerator.getObjectClassQualifier(abie.Name));
-//            BIESchemaGenerator.AddDocumentation(documentation, "ObjectClassTermName", BIESchemaGenerator.getObjectClassTerm(abie.Name));
-//            BIESchemaGenerator.AddDocumentation(documentation, "DictionaryEntryName", abie.DictionaryEntryName);
-//            BIESchemaGenerator.AddDocumentation(documentation, "Definition", abie.Definition);
-//            BIESchemaGenerator.AddDocumentation(documentation, "BusinessTermName", abie.BusinessTerms);
-//
-//            XmlSchemaAnnotation annotation = new XmlSchemaAnnotation();
-//            annotation.Items.Add(new XmlSchemaDocumentation { Language = "en", Markup = documentation.ToArray() });
-//
-//            return annotation;
-        }
 
-        
+            // Contains all the documentation items such as DictionaryEntryName
+            IList<XmlNode> documentation = new List<XmlNode>();
+
+            BIESchemaGenerator.AddDocumentation(documentation, "ObjectClassTermName", ma.Name);
+            BIESchemaGenerator.AddDocumentation(documentation, "AcronymCode", "MA");
+ 
+            var annotation = new XmlSchemaAnnotation();
+            annotation.Items.Add(new XmlSchemaDocumentation { Language = "en", Markup = documentation.ToArray() });
+
+            return annotation;
+        }
     }
 }
