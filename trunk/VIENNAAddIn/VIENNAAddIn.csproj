@@ -128,6 +128,8 @@
       <DependentUpon>SynchTaggedValuesGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="upcc3\CctsRepositoryFactory.cs" />
+    <Compile Include="upcc3\export\mapping\SubsetExporter.cs" />
+    <Compile Include="upcc3\export\mapping\UpccModelDiff.cs" />
     <Compile Include="upcc3\otf\AbstractEAItem.cs" />
     <Compile Include="upcc3\otf\AbstractEAPackage.cs" />
     <Compile Include="upcc3\otf\BDTLibrary.cs" />

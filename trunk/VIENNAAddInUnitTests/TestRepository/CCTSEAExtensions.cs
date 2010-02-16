@@ -117,6 +117,23 @@ namespace VIENNAAddInUnitTests.TestRepository
                                                                                });
         }
 
+        public static void AddASMA(this Element client, Element supplier, string name)
+        {
+            AddASMA(client, supplier, name, "1", "1");
+        }
+
+        public static void AddASMA(this Element client, Element supplier, string name, string lowerBound, string upperBound)
+        {
+            client.AddConnector(name, EaConnectorTypes.Aggregation.ToString(), c =>
+            {
+                c.Stereotype = Stereotype.ASMA;
+                c.ClientEnd.Aggregation = (int)EaAggregationKind.Shared;
+                c.SupplierID = supplier.ElementID;
+                c.SupplierEnd.Role = name;
+                c.SupplierEnd.Cardinality = lowerBound + ".." + upperBound;
+            });
+        }
+
         public static void AddBasedOnDependency(this Element client, Element supplier)
         {
             client.AddConnector("basedOn", EaConnectorTypes.Dependency.ToString(), c =>
