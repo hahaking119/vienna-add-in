@@ -15,7 +15,7 @@ using VIENNAAddIn.upcc3.import.mapping;
 using VIENNAAddInUtils;
 using File=System.IO.File;
 
-namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
+namespace VIENNAAddInUnitTests.upcc3.import.mapping
 {
     [TestFixture]
     public class MappingImporterTests

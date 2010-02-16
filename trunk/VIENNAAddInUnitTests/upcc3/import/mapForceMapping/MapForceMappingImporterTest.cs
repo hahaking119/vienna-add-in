@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3.import.mapping;
 
-namespace VIENNAAddInUnitTests.upcc3.import.mapForceMapping
+namespace VIENNAAddInUnitTests.upcc3.import.mapping
 {
     [TestFixture]
     public class MapForceMappingImporterTest

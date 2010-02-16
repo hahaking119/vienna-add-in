@@ -12,7 +12,7 @@ using VIENNAAddIn;
 using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.export.mapping;
 using VIENNAAddInUnitTests.TestRepository;
-using VIENNAAddInUnitTests.upcc3.import.mapForceMapping;
+using VIENNAAddInUnitTests.upcc3.import.mapping;
 using VIENNAAddInUtils;
 using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
