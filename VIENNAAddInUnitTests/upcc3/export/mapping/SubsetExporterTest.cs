@@ -1,9 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using CctsRepository;
-using CctsRepository.BLibrary;
-using CctsRepository.CcLibrary;
 using CctsRepository.DocLibrary;
 using EA;
 using NUnit.Framework;
@@ -12,7 +8,6 @@ using VIENNAAddIn;
 using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.export.mapping;
 using VIENNAAddInUnitTests.TestRepository;
-using VIENNAAddInUnitTests.upcc3.import.mapping;
 using VIENNAAddInUtils;
 using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
@@ -24,8 +19,8 @@ namespace VIENNAAddInUnitTests.upcc3.export.mapping
         [Test]
         public void Test_exporting_subset_of_complex_type_mapped_to_multiple_accs()
         {
-            string schemaFileComplete = TestUtils.PathToTestResource(@"XSDGeneratorTest\mapping\SubsetExporter\exporting_subset_of_complex_type_mapped_to_multiple_accs\source.xsd");
-            string schemaFileSubset = TestUtils.PathToTestResource(@"XSDGeneratorTest\mapping\SubsetExporter\exporting_subset_of_complex_type_mapped_to_multiple_accs\source_subset.xsd");            
+            string schemaFileComplete = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_complex_type_mapped_to_multiple_accs\source.xsd");
+            string schemaFileSubset = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_complex_type_mapped_to_multiple_accs\source_subset.xsd");            
 
             EARepository eaRepository = new EARepository();
             Element cdtText = null;
