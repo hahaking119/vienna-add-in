@@ -89,6 +89,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ComboBox ACCs
         private void comboboxAccs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.Wait;
+
             Model.SetSelectedCandidateAcc(comboboxAccs.SelectedItem.ToString());
             Model.AbieName = comboboxAccs.SelectedItem.ToString();
 
@@ -96,20 +98,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             SetSelectedItemForBccListBox();
             SetSelectedItemForAbieListBox();
+            Mouse.OverrideCursor = Cursors.Arrow;
+
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: Checkbox BCCs
         private void checkboxBccs_Checked(object sender, RoutedEventArgs e)
         {
-            //string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;                        
+            string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;
+
+            innerCanvas.Visibility = Visibility.Visible;
+            
+            Mouse.OverrideCursor = Cursors.Wait;
 
             Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
 
-            foreach (CheckableItem item in listboxBccs.Items)
-            {
-                listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, item.Text);
-            }        
+            //innerCanvas.Visibility = Visibility.Collapsed;
+
+            Mouse.OverrideCursor = Cursors.Arrow;
+            
+            listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, selectedItemText);
 
             UpdateFormState();
         }

@@ -583,6 +583,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                             foreach (CandidateBcc candidateBcc in candidateAcc.CandidateBccs)
                             {
                                 candidateBcc.Checked = checkedValue;
+                                foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
+                                {
+                                    potentialBbie.Checked = checkedValue;
+                                    foreach (PotentialBdt potentialBdt in potentialBbie.PotentialBdts)
+                                    {
+                                        potentialBdt.Checked = checkedValue;
+                                    }
+                                }
                             }
 
                             CandidateBccItems = new List<CheckableItem>(candidateAcc.CandidateBccs.ConvertAll(new Converter<CandidateBcc, CheckableItem>(CandidateBccToCheckableItem)));
