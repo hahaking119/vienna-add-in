@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using CctsRepository.DocLibrary;
@@ -8,48 +11,95 @@ namespace VIENNAAddIn.upcc3.export.mapping
 {
     public class SubsetExporter
     {
-        private Dictionary<string, List<string>> modelDiff;
         private readonly XmlSchemaSet xmlSchemaSet;
 
-        public SubsetExporter(IDocLibrary docLibraryComplete, IDocLibrary docLibrarySubset, string schemaFileComplete, string schemaFileSubset)
+        public SubsetExporter(string schemaFileComplete)
         {
-            modelDiff = new UpccModelDiff(docLibraryComplete, docLibrarySubset).CalculateDiff();
-            
             xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(schemaFileComplete), null));
-            xmlSchemaSet.Compile();
+            xmlSchemaSet.Compile();            
+        }
+
+        public static void ExportSubset(IDocLibrary docLibrary, string schemaFileComplete, string schemaFileSubset)
+        {
+            SubsetExporter exporter = new SubsetExporter(schemaFileComplete);
+
+            exporter.ExecuteXmlSchemaSubsetting(docLibrary);
+
+            exporter.WriteXmlSchemaSubset(schemaFileSubset);
+        }
+
+        public void ExecuteXmlSchemaSubsetting(IDocLibrary docLibrary)
+        {
+            UpccModelXsdTypes remainingXsdTypes = new UpccModelXsdTypes(docLibrary);
 
             foreach (XmlSchema xmlSchema in xmlSchemaSet.Schemas())
             {
-                xmlSchema.Write(Console.Out);
-                Console.Out.WriteLine("-----------------------------------------");
-
                 XmlSchemaObjectTable xmlSchemaObjectTable = xmlSchema.SchemaTypes;
 
-                foreach (XmlSchemaObject type in xmlSchemaObjectTable.Values)
+                foreach (XmlSchemaObject type in CopyValues(xmlSchemaObjectTable))
                 {
                     if (type is XmlSchemaComplexType)
                     {
                         string complexTypeName = ((XmlSchemaComplexType)type).QualifiedName.Name;
 
-                        if (modelDiff.ContainsKey(complexTypeName))
+                        if (remainingXsdTypes.ContainsXsdType(complexTypeName))
                         {
-                            RemoveElementsAndAttributesFromComplexType((XmlSchemaComplexType) type, modelDiff[complexTypeName]);
-                        }                        
+                            RemoveElementsAndAttributesFromComplexType((XmlSchemaComplexType)type, remainingXsdTypes);
+                        }
+                        else
+                        {
+                            xmlSchema.Items.Remove(type);
+                        }
                     }
+                    // TODO: type is XmlSchemaSimpleType
                 }
-
-                // TODO: remove unused element declarations
-
-                xmlSchema.Write(Console.Out);                
             }
         }
 
-        private static void RemoveElementsAndAttributesFromComplexType(XmlSchemaComplexType complexType, List<string> itemsToRemove)
+        private static void WriteXmlSchema(XmlSchema xmlSchema, string xmlSchemaFile)
+        {
+            var xmlWriterSettings = new XmlWriterSettings
+                                        {
+                                            Indent = true,
+                                            Encoding = Encoding.UTF8,
+                                        };
+
+            using (var xmlWriter = XmlWriter.Create(xmlSchemaFile, xmlWriterSettings))
+            {
+                if (xmlWriter != null)
+                {
+                    xmlSchema.Write(xmlWriter);
+                    xmlWriter.Close();
+                }
+            }
+        }
+
+
+        private IEnumerable<XmlSchemaObject> CopyValues(XmlSchemaObjectTable objectTable)
+        {
+            XmlSchemaObject[] objectTableCopy = new XmlSchemaObject[objectTable.Count];
+
+            objectTable.Values.CopyTo(objectTableCopy, 0);
+
+            return objectTableCopy;
+        }
+
+        private IEnumerable<XmlSchemaObject> CopyValues(XmlSchemaObjectCollection objectCollection)
+        {
+            XmlSchemaObject[] objectCollectionCopy = new XmlSchemaObject[objectCollection.Count];
+
+            objectCollection.CopyTo(objectCollectionCopy, 0);
+
+            return objectCollectionCopy;
+        }
+
+
+        private void RemoveElementsAndAttributesFromComplexType(XmlSchemaComplexType complexType, UpccModelXsdTypes remainingXsdTypes)
         {
             if (complexType.Particle is XmlSchemaGroupBase)
             {
-                RemoveElementsAndAttributesFromXsdGroup((XmlSchemaGroupBase) complexType.Particle, itemsToRemove);
+                RemoveElementsAndAttributesFromXsdGroup((XmlSchemaGroupBase)complexType.Particle, complexType.QualifiedName.Name, remainingXsdTypes);
             }
 
             //if (complexType.ContentModel is XmlSchemaSimpleContent)
@@ -80,30 +130,32 @@ namespace VIENNAAddIn.upcc3.export.mapping
             //}
         }
 
-        private static void RemoveElementsAndAttributesFromXsdGroup(XmlSchemaGroupBase xsdGroup, List<string> itemsToRemove)
+        private void RemoveElementsAndAttributesFromXsdGroup(XmlSchemaGroupBase xsdGroup, string xsdTypeName, UpccModelXsdTypes remainingXsdTypes)
         {
-            XmlSchemaObject[] originalItems = new XmlSchemaObject[xsdGroup.Items.Count];
-            xsdGroup.Items.CopyTo(originalItems, 0);
-
-            foreach (XmlSchemaObject item in originalItems)
+            foreach (XmlSchemaObject item in CopyValues(xsdGroup.Items))
             {
                 if (item is XmlSchemaElement)
                 {
-                    if (itemsToRemove.Contains(((XmlSchemaElement) item).QualifiedName.Name))
+                    string childName = ((XmlSchemaElement) item).QualifiedName.Name;
+                    
+                    if (!(remainingXsdTypes.XsdTypeContainsChild(xsdTypeName, childName)))
                     {
                         xsdGroup.Items.Remove(item);
-                    }                    
+                    }
                 }
                 else if (item is XmlSchemaGroupBase)
                 {
-                    RemoveElementsAndAttributesFromXsdGroup((XmlSchemaGroupBase) item, itemsToRemove);
+                    RemoveElementsAndAttributesFromXsdGroup((XmlSchemaGroupBase) item, xsdTypeName, remainingXsdTypes);
                 }
             }
         }
 
-        public void ExportSubset()
+        public void WriteXmlSchemaSubset(string schemaFileSubset)
         {
-            //throw new NotImplementedException();
+            foreach (XmlSchema xmlSchema in xmlSchemaSet.Schemas())
+            {
+                WriteXmlSchema(xmlSchema, schemaFileSubset);
+            }  
         }
     }
 }
