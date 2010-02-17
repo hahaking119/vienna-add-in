@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
@@ -14,16 +16,16 @@ namespace VIENNAAddIn.upcc3.export.mapping
         {
             xmlSchemaSet = new XmlSchemaSet();
             xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(schemaFileComplete), null));
-            xmlSchemaSet.Compile();            
+            xmlSchemaSet.Compile();
         }
 
-        public static void ExportSubset(IDocLibrary docLibrary, string schemaFileComplete, string schemaFileSubset)
+        public static void ExportSubset(IDocLibrary docLibrary, string schemaFileComplete, string schemaDirectorySubset)
         {
             SubsetExporter exporter = new SubsetExporter(schemaFileComplete);
 
             exporter.ExecuteXmlSchemaSubsetting(docLibrary);
 
-            exporter.WriteXmlSchemaSubset(schemaFileSubset);
+            exporter.WriteXmlSchemaSubset(schemaDirectorySubset);
         }
 
         public void ExecuteXmlSchemaSubsetting(IDocLibrary docLibrary)
@@ -46,7 +48,7 @@ namespace VIENNAAddIn.upcc3.export.mapping
                         }
                         else
                         {
-                            xmlSchema.Items.Remove(type);
+                            xmlSchema.Items.Remove(type);                            
                         }
                     }
                     if (type is XmlSchemaSimpleType)
@@ -54,9 +56,51 @@ namespace VIENNAAddIn.upcc3.export.mapping
                         string simpleTypeName = ((XmlSchemaSimpleType)type).QualifiedName.Name;
 
                         if (!remainingXsdTypes.ContainsXsdType(simpleTypeName))
-                        {
+                        {                            
                             xmlSchema.Items.Remove(type);
                         }
+                    }
+                }
+                
+                RemoveGlobalElementsHavingAnInvalidXsdType(xmlSchema, remainingXsdTypes);
+                RemoveGlobalAttributesHavingAnInvalidXsdType(xmlSchema, remainingXsdTypes);
+
+                // NOTE: after we removed all global elements and all global attributes 
+                // we still have the problem that there are complex types referring to those 
+                // elements and/or attributes. Therefore, it is necessary to adapt the complex
+                // types accordingly. 
+            }
+        }
+
+        private void RemoveGlobalAttributesHavingAnInvalidXsdType(XmlSchema xmlSchema, UpccModelXsdTypes remainingXsdTypes)
+        {           
+            foreach (XmlSchemaObject element in CopyValues(xmlSchema.Attributes))
+            {
+                if (element is XmlSchemaAttribute)
+                {
+                    // NOTE: the problem was that we must use "AttributeSchemaType" instead of "SchemaType"
+                    string schemaTypeNameInUse = ((XmlSchemaAttribute)element).AttributeSchemaType.QualifiedName.Name;
+
+                    if (!remainingXsdTypes.ContainsXsdType(schemaTypeNameInUse))
+                    {
+                        xmlSchema.Items.Remove(element);                            
+                    }
+                }
+            }
+        }
+
+        private void RemoveGlobalElementsHavingAnInvalidXsdType(XmlSchema xmlSchema, UpccModelXsdTypes remainingXsdTypes)
+        {
+            foreach (XmlSchemaObject element in CopyValues(xmlSchema.Elements))
+            {
+                if (element is XmlSchemaElement)
+                {
+                    // NOTE: the problem was that we must use "ElementSchemaType" instead of "SchemaType"
+                    string schemaTypeNameInUse = ((XmlSchemaElement)element).ElementSchemaType.QualifiedName.Name;
+
+                    if (!remainingXsdTypes.ContainsXsdType(schemaTypeNameInUse))
+                    {
+                        xmlSchema.Items.Remove(element);
                     }
                 }
             }
@@ -157,11 +201,18 @@ namespace VIENNAAddIn.upcc3.export.mapping
             }
         }
 
-        public void WriteXmlSchemaSubset(string schemaFileSubset)
+        public void WriteXmlSchemaSubset(string schemaDirectorySubset)
         {
+            if (!(Directory.Exists(schemaDirectorySubset)))
+            {
+                Directory.CreateDirectory(schemaDirectorySubset);
+            }
+            
             foreach (XmlSchema xmlSchema in xmlSchemaSet.Schemas())
             {
-                WriteXmlSchema(xmlSchema, schemaFileSubset);
+                int lastIndexOfSlash = xmlSchema.SourceUri.LastIndexOf("/");
+                string fileName = xmlSchema.SourceUri.Substring(lastIndexOfSlash + 1);
+                WriteXmlSchema(xmlSchema, schemaDirectorySubset + fileName);
             }  
         }
     }

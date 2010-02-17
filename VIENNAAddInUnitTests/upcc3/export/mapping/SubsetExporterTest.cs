@@ -358,7 +358,7 @@ namespace VIENNAAddInUnitTests.upcc3.export.mapping
         public void Test_exporting_subset_of_complex_type_mapped_to_multiple_accs()
         {
             string schemaFileComplete = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_complex_type_mapped_to_multiple_accs\source.xsd");
-            string schemaFileSubset = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_complex_type_mapped_to_multiple_accs\source_subset.xsd");            
+            string schemaFileSubset = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_complex_type_mapped_to_multiple_accs\subset\");            
 
             EARepository eaRepository = new EARepository();
             Element bdtStringText = null;
@@ -444,6 +444,24 @@ namespace VIENNAAddInUnitTests.upcc3.export.mapping
             IDocLibrary docLibrary = cctsRepository.GetDocLibraryByPath((Path)"Test Model Subset"/"bLibrary"/"DOCLibrary");
 
             SubsetExporter.ExportSubset(docLibrary, schemaFileComplete, schemaFileSubset);            
+        }
+
+        [Test]
+        [Ignore("manual test case")]
+        public void Test_exporting_subset_of_ebinterface()
+        {
+            string schemaFileComplete = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_ebinterface\Invoice.xsd");
+            string schemaDirectorySubset = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_ebinterface\subset\");
+            string repositoryFile = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_ebinterface\Invoice_complete.eap");
+
+            Repository eaRepository = new Repository();
+            eaRepository.OpenFile(repositoryFile);
+            
+            ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
+
+            IDocLibrary docLibrary = cctsRepository.GetDocLibraryByPath((Path)"Model" / "bLibrary" / "DOCLibrary");
+
+            SubsetExporter.ExportSubset(docLibrary, schemaFileComplete, schemaDirectorySubset);
         }
     }
 }
