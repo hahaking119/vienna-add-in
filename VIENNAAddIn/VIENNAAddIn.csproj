@@ -130,6 +130,7 @@
     <Compile Include="upcc3\CctsRepositoryFactory.cs" />
     <Compile Include="upcc3\export\mapping\SubsetExporter.cs" />
     <Compile Include="upcc3\export\mapping\UpccModelDiff.cs" />
+    <Compile Include="upcc3\export\mapping\UpccModelXsdTypes.cs" />
     <Compile Include="upcc3\import\mapping\AbstractMapping.cs" />
     <Compile Include="upcc3\import\mapping\AsmaMapping.cs" />
     <Compile Include="upcc3\import\mapping\AttributeOrSimpleElementOrComplexElementToBccMapping.cs" />
