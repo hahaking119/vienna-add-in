@@ -445,6 +445,5 @@ namespace VIENNAAddInUnitTests.upcc3.export.mapping
 
             SubsetExporter.ExportSubset(docLibrary, schemaFileComplete, schemaFileSubset);            
         }
-
     }
 }
