@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
@@ -52,7 +49,15 @@ namespace VIENNAAddIn.upcc3.export.mapping
                             xmlSchema.Items.Remove(type);
                         }
                     }
-                    // TODO: type is XmlSchemaSimpleType
+                    if (type is XmlSchemaSimpleType)
+                    {
+                        string simpleTypeName = ((XmlSchemaSimpleType)type).QualifiedName.Name;
+
+                        if (!remainingXsdTypes.ContainsXsdType(simpleTypeName))
+                        {
+                            xmlSchema.Items.Remove(type);
+                        }
+                    }
                 }
             }
         }
@@ -99,38 +104,27 @@ namespace VIENNAAddIn.upcc3.export.mapping
         {
             if (complexType.Particle is XmlSchemaGroupBase)
             {
-                RemoveElementsAndAttributesFromXsdGroup((XmlSchemaGroupBase)complexType.Particle, complexType.QualifiedName.Name, remainingXsdTypes);
+                RemoveElementsFromXsdGroup((XmlSchemaGroupBase)complexType.Particle, complexType.QualifiedName.Name, remainingXsdTypes);
             }
 
-            //if (complexType.ContentModel is XmlSchemaSimpleContent)
-            //{
-            //    XmlSchemaSimpleContent contentModel = (XmlSchemaSimpleContent) complexType.ContentModel;
+            if (complexType.ContentModel is XmlSchemaSimpleContent)
+            {
+                XmlSchemaSimpleContent contentModel = (XmlSchemaSimpleContent)complexType.ContentModel;
 
-            //    if (contentModel.Content is XmlSchemaSimpleContentExtension)
-            //    {
-            //        foreach (XmlSchemaObject attribute in ((XmlSchemaSimpleContentExtension) contentModel.Content).Attributes)
-            //        {
-            //            myChildren.Add(attribute);
-            //        }
-            //    }
-            //    else if (contentModel.Content is XmlSchemaSimpleContentRestriction)
-            //    {
-            //        foreach (
-            //            XmlSchemaObject attribute in
-            //                ((XmlSchemaSimpleContentRestriction) contentModel.Content).Attributes)
-            //        {
-            //            myChildren.Add(attribute);
-            //        }
-            //    }
-            //}
+                if (contentModel.Content is XmlSchemaSimpleContentExtension)
+                {
+                    RemoveAttributesFromComplexType(((XmlSchemaSimpleContentExtension)contentModel.Content).Attributes, complexType.QualifiedName.Name, remainingXsdTypes);                    
+                }
+                else if (contentModel.Content is XmlSchemaSimpleContentRestriction)
+                {
+                    RemoveAttributesFromComplexType(((XmlSchemaSimpleContentRestriction)contentModel.Content).Attributes, complexType.QualifiedName.Name, remainingXsdTypes);                    
+                }
+            }
 
-            //foreach (XmlSchemaAttribute attribute in complexType.Attributes)
-            //{
-            //    myChildren.Add(attribute);
-            //}
+            RemoveAttributesFromComplexType(complexType.Attributes, complexType.QualifiedName.Name, remainingXsdTypes);
         }
 
-        private void RemoveElementsAndAttributesFromXsdGroup(XmlSchemaGroupBase xsdGroup, string xsdTypeName, UpccModelXsdTypes remainingXsdTypes)
+        private void RemoveElementsFromXsdGroup(XmlSchemaGroupBase xsdGroup, string xsdTypeName, UpccModelXsdTypes remainingXsdTypes)
         {
             foreach (XmlSchemaObject item in CopyValues(xsdGroup.Items))
             {
@@ -145,8 +139,21 @@ namespace VIENNAAddIn.upcc3.export.mapping
                 }
                 else if (item is XmlSchemaGroupBase)
                 {
-                    RemoveElementsAndAttributesFromXsdGroup((XmlSchemaGroupBase) item, xsdTypeName, remainingXsdTypes);
+                    RemoveElementsFromXsdGroup((XmlSchemaGroupBase) item, xsdTypeName, remainingXsdTypes);
                 }
+            }
+        }
+
+        private void RemoveAttributesFromComplexType(XmlSchemaObjectCollection attributes, string xsdTypeName, UpccModelXsdTypes remainingXsdTypes)
+        {
+            foreach (XmlSchemaAttribute attribute in CopyValues(attributes))
+            {
+                string attributeName = attribute.QualifiedName.Name;
+
+                if (!(remainingXsdTypes.XsdTypeContainsChild(xsdTypeName, attributeName)))
+                {
+                    attributes.Remove(attribute);                    
+                }                
             }
         }
 
