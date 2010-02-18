@@ -241,6 +241,123 @@ namespace VIENNAAddInUnitTests.upcc3.export.mapping
         }
 
         [Test]
+        public void Test_calculate_remaining_xsd_types_from_document_model_with_cycle()
+        {
+            EARepository eaRepository = new EARepository();
+            Element bdtStringText = null;
+            Element primString = null;
+            Element abiePersonTypePerson = null;
+            Element abiePersonTypeNote = null;
+
+            #region EA Repository Subset
+
+            eaRepository.AddModel(
+                "Test Model Subset", m => m.AddPackage("bLibrary", bLibrary =>
+                {
+                    bLibrary.Element.Stereotype = Stereotype.bLibrary;
+
+                    bLibrary.AddPackage("PRIMLibrary", package =>
+                    {
+                        package.Element.Stereotype = Stereotype.PRIMLibrary;
+
+                        primString = package.AddPRIM("String");
+                    });
+
+                    bLibrary.AddPackage("BDTLibrary", package =>
+                    {
+                        package.Element.Stereotype = Stereotype.BDTLibrary;
+                        bdtStringText = package.AddBDT("String_Text").With(e =>
+                        {
+                            e.Stereotype = Stereotype.BDT;
+                            e.AddCON(primString);
+                        });
+                    });
+
+
+                    bLibrary.AddPackage("BIELibrary", package =>
+                    {
+                        package.Element.Stereotype = Stereotype.BIELibrary;
+                        Element abieAddressTypeAddress = package.AddClass("AddressType_Address").With(e =>
+                                                                                                          {
+                                                                                                              e.Stereotype = Stereotype.ABIE;
+                                                                                                              e.AddBBIE(bdtStringText, "City_CityName");
+                                                                                                          });
+                        abiePersonTypePerson = package.AddClass("PersonType_Person").With(e =>
+                        {
+                            e.Stereotype = Stereotype.ABIE;
+                            e.AddBBIE(bdtStringText, "Name_Name");
+                            e.AddASBIE(abieAddressTypeAddress, "Address_Residence", EaAggregationKind.Composite);
+                        });
+                        abiePersonTypePerson.AddASBIE(abiePersonTypePerson, "Child_Child", EaAggregationKind.Shared);
+
+                        abiePersonTypeNote = package.AddClass("PersonType_Note").With(e =>
+                        {
+                            e.Stereotype = Stereotype.ABIE;
+                        });
+
+                    });
+
+                    bLibrary.AddPackage("DOCLibrary", package =>
+                    {
+                        package.Element.Stereotype = Stereotype.DOCLibrary;
+
+                        Element maPersonType = package.AddClass("PersonType").With(e =>
+                        {
+                            e.Stereotype = Stereotype.MA;
+                            e.AddASMA(abiePersonTypePerson, "Person");
+                            e.AddASMA(abiePersonTypeNote, "Note");
+                        });
+
+                        Element maPassportType = package.AddClass("PassportType").With(e =>
+                        {
+                            e.Stereotype = Stereotype.MA;
+                            e.AddASMA(maPersonType, "Person");
+                        });
+
+                        package.AddClass("Austrian_Passport").With(e =>
+                        {
+                            e.Stereotype = Stereotype.MA;
+                            e.AddASMA(maPassportType, "Passport");
+                        });
+                    });
+                }));
+
+            #endregion
+
+            ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
+
+            IDocLibrary docLibrarySubset = cctsRepository.GetDocLibraryByPath((Path)"Test Model Subset" / "bLibrary" / "DOCLibrary");
+
+            UpccModelXsdTypes existingXsdTypes = new UpccModelXsdTypes(docLibrarySubset);
+
+            // Positive Assertions
+            Assert.That(existingXsdTypes.Count, Is.EqualTo(4));
+
+            Assert.That(existingXsdTypes.ContainsXsdType("String"), Is.True);
+            Assert.That(existingXsdTypes.ContainsXsdType("AddressType"), Is.True);
+            Assert.That(existingXsdTypes.ContainsXsdType("PersonType"), Is.True);
+            Assert.That(existingXsdTypes.ContainsXsdType("PassportType"), Is.True);
+
+            Assert.That(existingXsdTypes.NumberOfChildren("String"), Is.EqualTo(0));
+            Assert.That(existingXsdTypes.NumberOfChildren("AddressType"), Is.EqualTo(1));
+            Assert.That(existingXsdTypes.NumberOfChildren("PersonType"), Is.EqualTo(3));
+            Assert.That(existingXsdTypes.NumberOfChildren("PassportType"), Is.EqualTo(1));
+
+            Assert.That(existingXsdTypes.XsdTypeContainsChild("AddressType", "City"), Is.True);
+            Assert.That(existingXsdTypes.XsdTypeContainsChild("PersonType", "Name"), Is.True);
+            Assert.That(existingXsdTypes.XsdTypeContainsChild("PersonType", "Address"), Is.True);
+            Assert.That(existingXsdTypes.XsdTypeContainsChild("PersonType", "Child"), Is.True);
+            Assert.That(existingXsdTypes.XsdTypeContainsChild("PassportType", "Person"), Is.True);
+
+            //Negative Assertions
+            Assert.That(existingXsdTypes.ContainsXsdType("SuperDooperNonExistingType"), Is.False);
+
+            Assert.That(existingXsdTypes.NumberOfChildren("SuperDooperNonExistingType"), Is.EqualTo(0));
+
+            Assert.That(existingXsdTypes.XsdTypeContainsChild("AddressType", "NonExistingChild"), Is.False);
+        }
+
+        [Test]
         public void Test_calculate_remaining_xsd_types_from_document_model()
         {
             EARepository eaRepository = new EARepository();
@@ -460,6 +577,24 @@ namespace VIENNAAddInUnitTests.upcc3.export.mapping
             ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
 
             IDocLibrary docLibrary = cctsRepository.GetDocLibraryByPath((Path)"Model" / "bLibrary" / "DOCLibrary");
+
+            SubsetExporter.ExportSubset(docLibrary, schemaFileComplete, schemaDirectorySubset);
+        }
+
+        [Test]
+        [Ignore("manual test case")]
+        public void Test_exporting_subset_of_ubl()
+        {
+            string schemaFileComplete = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_ubl\invoice\UBL-Invoice-2.0.xsd");
+            string schemaDirectorySubset = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_ubl\subset\");
+            string repositoryFile = TestUtils.PathToTestResource(@"XSDExporterTest\mapping\SubsetExporter\exporting_subset_of_ubl\Invoice_complete.eap");
+
+            Repository eaRepository = new Repository();
+            eaRepository.OpenFile(repositoryFile);
+            
+            ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
+
+            IDocLibrary docLibrary = cctsRepository.GetDocLibraryByPath((Path)"Model" / "bLibrary" / "Test DOC Library");
 
             SubsetExporter.ExportSubset(docLibrary, schemaFileComplete, schemaDirectorySubset);
         }
