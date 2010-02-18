@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CctsRepository;
@@ -11,10 +12,12 @@ namespace VIENNAAddIn.upcc3.export.mapping
     public class UpccModelXsdTypes
     {
         private readonly Dictionary<string, XsdType> xsdTypes;
+        private readonly HashSet<int> alreadyCompiledTypes;
 
         public UpccModelXsdTypes(IDocLibrary docLibrary)
         {
             xsdTypes = new Dictionary<string, XsdType>();
+            alreadyCompiledTypes = new HashSet<int>();
 
             Compile(docLibrary);
         }
@@ -22,6 +25,11 @@ namespace VIENNAAddIn.upcc3.export.mapping
         public int Count
         {
             get { return xsdTypes.Count; }
+        }
+
+        public IEnumerable<XsdType> XsdTypes
+        {
+            get { return xsdTypes.Values; }
         }
 
         public bool ContainsXsdType(string xsdTypeName)
@@ -85,59 +93,75 @@ namespace VIENNAAddIn.upcc3.export.mapping
 
         private void CompileXsdTypesFromMa(IMa ma)
         {
-            XsdType xsdType = AddXsdType(ma.Name);
-
-            foreach (IAsma asma in ma.Asmas)
+            if (!alreadyCompiledTypes.Contains(ma.Id))
             {
-                BieAggregator bieAggregator = asma.AssociatedBieAggregator;
+                alreadyCompiledTypes.Add(ma.Id);
 
-                if (bieAggregator.IsMa)
+                XsdType xsdType = AddXsdType(ma.Name);
+
+                foreach (IAsma asma in ma.Asmas)
                 {
-                    xsdType.AddChild(asma.Name);
+                    BieAggregator bieAggregator = asma.AssociatedBieAggregator;
 
-                    CompileXsdTypesFromMa(bieAggregator.Ma);
+                    if (bieAggregator.IsMa)
+                    {
+                        xsdType.AddChild(asma.Name);
+
+                        CompileXsdTypesFromMa(bieAggregator.Ma);
+                    }
+                    else if (bieAggregator.IsAbie)
+                    {
+                        // In case that trough the ASMA aggregated element is an ABIE, 
+                        // then the ASMA is not an actual complex element of the MA's 
+                        // complex type.
+
+                        CompileXsdTypesFromAbie(bieAggregator.Abie);
+                    }
+                    else
+                    {
+                        throw new Exception("The ASMA " + asma.Name + " of the MA " + ma.Name +
+                                            " neither aggregates a MA nor an ABIE.");
+                    }
                 }
-                else if (bieAggregator.IsAbie)
-                {
-                    // In case that trough the ASMA aggregated element is an ABIE, 
-                    // then the ASMA is not an actual complex element of the MA's 
-                    // complex type.
-
-                    CompileXsdTypesFromAbie(bieAggregator.Abie);
-                }
-                else
-                {
-                    throw new Exception("The ASMA " + asma.Name + " of the MA " + ma.Name + " neither aggregates a MA nor an ABIE.");
-                }            
             }
         }
 
         private void CompileXsdTypesFromAbie(IAbie abie)
         {
-            XsdType xsdType = AddXsdType(abie.Name);
-
-            foreach (IBbie bbie in abie.Bbies)
+            if (!alreadyCompiledTypes.Contains(abie.Id))
             {
-                xsdType.AddChild(bbie.Name);
+                alreadyCompiledTypes.Add(abie.Id);
 
-                CompileXsdTypesFromBdt(bbie.Bdt);
-            }
+                XsdType xsdType = AddXsdType(abie.Name);
 
-            foreach (IAsbie asbie in abie.Asbies)
-            {
-                xsdType.AddChild(asbie.Name);
+                foreach (IBbie bbie in abie.Bbies)
+                {
+                    xsdType.AddChild(bbie.Name);
 
-                CompileXsdTypesFromAbie(asbie.AssociatedAbie);                
+                    CompileXsdTypesFromBdt(bbie.Bdt);
+                }
+
+                foreach (IAsbie asbie in abie.Asbies)
+                {
+                    xsdType.AddChild(asbie.Name);
+
+                    CompileXsdTypesFromAbie(asbie.AssociatedAbie);
+                }
             }
         }
 
         private void CompileXsdTypesFromBdt(IBdt bdt)
         {
-            XsdType xsdType = AddXsdType(bdt.Name);
-
-            foreach (IBdtSup sup in bdt.Sups)
+            if (!alreadyCompiledTypes.Contains(bdt.Id))
             {
-                xsdType.AddChild(sup.Name);
+                alreadyCompiledTypes.Add(bdt.Id);
+
+                XsdType xsdType = AddXsdType(bdt.Name);
+
+                foreach (IBdtSup sup in bdt.Sups)
+                {
+                    xsdType.AddChild(sup.Name);
+                }
             }
         }
 
@@ -157,7 +181,7 @@ namespace VIENNAAddIn.upcc3.export.mapping
         }
     }
 
-    internal class XsdType
+    public class XsdType
     {
         private readonly HashSet<string> children;
 
