@@ -1,4 +1,5 @@
 using CctsRepository;
+using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using EA;
 using NUnit.Framework;
@@ -25,10 +26,13 @@ namespace VIENNAAddInUnitTests.upcc3.export.transformer
             
             ICctsRepository cctsRepository = CctsRepositoryFactory.CreateCctsRepository(eaRepository);
 
-            IDocLibrary ublDocLibrary = cctsRepository.GetDocLibraryByPath((Path)"Model" / "bLibrary" / "UBL DOC Library");
-            IDocLibrary ebiDocLibrary = cctsRepository.GetDocLibraryByPath((Path)"Model" / "bLibrary" / "ebInterface DOCLibrary");
+            IBieLibrary ebiBieLibrary = cctsRepository.GetBieLibraryByPath((Path)"Model" / "bLibrary" / "ebInterface BIELibrary");
+            IBieLibrary ublBieLibrary = cctsRepository.GetBieLibraryByPath((Path)"Model" / "bLibrary" / "UBL BIE Library");
 
-            Transformer.Transform(ebiDocLibrary, ublDocLibrary);
+            IDocLibrary ebiDocLibrary = cctsRepository.GetDocLibraryByPath((Path)"Model" / "bLibrary" / "ebInterface DOCLibrary");
+            IDocLibrary ublDocLibrary = cctsRepository.GetDocLibraryByPath((Path)"Model" / "bLibrary" / "UBL DOC Library");
+
+            Transformer.Transform(ebiBieLibrary, ublBieLibrary, ebiDocLibrary, ublDocLibrary);
 
             SubsetExporter.ExportSubset(ublDocLibrary, ublInvoiceSchema, ebInterfaceAsUblSchemaDirectory);
         }
