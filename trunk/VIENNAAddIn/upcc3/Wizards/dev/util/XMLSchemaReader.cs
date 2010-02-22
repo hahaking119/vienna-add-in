@@ -8,6 +8,7 @@
 // *******************************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 
@@ -59,120 +60,194 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         private int xsdRestriction;
         private int xsdExtension;
 
+        private List<XmlSchemaObject> foundTypes;
+        private HashSet<string> foundRefs;
+        private HashSet<string> consideredRefs;
+
+        private XmlSchemaSet xmlSchemaSet;
+        private List<XmlSchema> xmlSchemas;
+
+
+
+        private void FlattenXmlSchemaStructure(XmlSchema xmlSchema, List<string> xmlSchemaNames)
+        {
+            if (xmlSchema != null)
+            {
+                if (!xmlSchemaNames.Contains(xmlSchema.SourceUri))
+                {
+                    xmlSchemaNames.Add(xmlSchema.SourceUri);
+                    xmlSchemas.Add(xmlSchema);
+                }
+                foreach (XmlSchemaObject include in xmlSchema.Includes)
+                {
+                    XmlSchema includedSchema = null;
+
+                    if (include is XmlSchemaInclude)
+                    {
+                        includedSchema = ((XmlSchemaInclude)include).Schema;
+                    }
+                    else if (include is XmlSchemaImport)
+                    {
+                        includedSchema = ((XmlSchemaImport)include).Schema;
+                    }
+
+                    FlattenXmlSchemaStructure(includedSchema, xmlSchemaNames);
+                }
+            }
+        }
+
+        private void ResolveFoundTypes()
+        {
+            var list = new List<XmlSchemaObject>();
+            list.AddRange(foundTypes);
+            foundTypes.Clear();
+            foreach (XmlSchemaObject item in list)
+            {
+                var collection = new XmlSchemaObjectCollection();
+                collection.Add(item);
+                countXsdElements(collection);
+                list.Remove(item);
+            }
+            if(foundTypes.Count > 0)
+            {
+                ResolveFoundTypes();
+            }
+        }
 
         public SchemaAnalyzerResults Read(string filename)
         {
             var results = new SchemaAnalyzerResults();
+
+            foundTypes = new List<XmlSchemaObject>();
+            foundRefs = new HashSet<string>();
+            consideredRefs = new HashSet<string>();
             
-            var xmlSchemaSet = new XmlSchemaSet();
-            xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(filename),null));
-           
-            foreach (XmlSchema schema in xmlSchemaSet.Schemas())
+            XmlSchema rootSchema = XmlSchema.Read(XmlReader.Create(filename), null);
+
+            xmlSchemaSet = new XmlSchemaSet();
+            xmlSchemaSet.Add(rootSchema);
+
+            xmlSchemas = new List<XmlSchema>();
+            var xmlSchemaNames = new List<string>();
+            FlattenXmlSchemaStructure(rootSchema, xmlSchemaNames);
+            
+            foreach (XmlSchema schema in xmlSchemas)
             {
-                //Console.WriteLine(schema.SourceUri);
+                Console.WriteLine(schema.SourceUri);
                 countXsdElements(schema.Items);
             }
+            //ResolveFoundTypes();
 
             results.Clear();
 
             //Console.WriteLine("Schema features " + xsdAll + " All.");
             results.Add(new SchemaAnalyzerResult("All", xsdAll, xsdAllWeight));
-
             //Console.WriteLine("Schema features " + xsdAny + " xsAny.");
             results.Add(new SchemaAnalyzerResult("Any", xsdAny, xsdAnyWeight));
-
             //Console.WriteLine("Schema features " + xsdAnyAttribute + " AnyAttributes.");
             results.Add(new SchemaAnalyzerResult("AnyAttribute", xsdAnyAttribute, xsdAnyAttributeWeight));
-
             //Console.WriteLine("Schema features " + xsdAttribute + " Attributes.");
             results.Add(new SchemaAnalyzerResult("Attribute", xsdAttribute, xsdAttributeWeight));
-
             //Console.WriteLine("Schema features " + xsdAttributeGroup + " AttributeGroups.");
             results.Add(new SchemaAnalyzerResult("AttributeGroup", xsdAttributeGroup, xsdAttributeGroupWeight));
-
             //Console.WriteLine("Schema features " + xsdChoice + " Choices.");
             results.Add(new SchemaAnalyzerResult("Choice", xsdChoice, xsdChoiceWeight));
-
             //Console.WriteLine("Schema features " + xsdComplexType + " ComplexTypes.");
             results.Add(new SchemaAnalyzerResult("ComplexType", xsdComplexType, xsdComplexTypeWeight));
-
             //Console.WriteLine("Schema features " + xsdElement + " Elements.");
             results.Add(new SchemaAnalyzerResult("Element", xsdElement, xsdElementWeight));
-
             //Console.WriteLine("Schema features " + xsdExtension + " Extensions.");
             results.Add(new SchemaAnalyzerResult("Extension", xsdExtension, xsdExtensionWeight));
-
             //Console.WriteLine("Schema features " + xsdGroup + " Groups.");
             results.Add(new SchemaAnalyzerResult("Group", xsdGroup, xsdGroupWeight));
-
             //Console.WriteLine("Schema features " + xsdKey + " xsKey.");
             results.Add(new SchemaAnalyzerResult("Key", xsdKey, xsdKeyWeight));
-
             //Console.WriteLine("Schema features " + xsdKeyRef + " KeyRefs.");
             results.Add(new SchemaAnalyzerResult("KeyRef", xsdKeyRef, xsdKeyRefWeight));
-
             //Console.WriteLine("Schema features " + xsdList + " Lists.");
             results.Add(new SchemaAnalyzerResult("List", xsdList, xsdListWeight));
-
             //Console.WriteLine("Schema features " + xsdRedefine + " Redefines.");
             results.Add(new SchemaAnalyzerResult("Redefine", xsdRedefine, xsdRedefineWeight));
-
             //Console.WriteLine("Schema features " + xsdRestriction + " Restrictions.");
             results.Add(new SchemaAnalyzerResult("Restriction",xsdRestriction,xsdRestrictionWeight));
-
             //Console.WriteLine("Schema features " + xsdSequence + " Sequences.");
             results.Add(new SchemaAnalyzerResult("Sequence", xsdSequence, xsdSequenceWeight));
-
             //Console.WriteLine("Schema features " + xsdSimpleType + " SimpleTypes.");
             results.Add(new SchemaAnalyzerResult("SimpleType", xsdSimpleType, xsdSimpleTypeWeight));
-
             //Console.WriteLine("Schema features " + xsdSubstitutionGroup + " SubstitutionGroups.");
             results.Add(new SchemaAnalyzerResult("SubstitutionGroup", xsdSubstitutionGroup, xsdSubstitutionGroupWeight));
-
             //Console.WriteLine("Schema features " + xsdUnion + " Unions.");
             results.Add(new SchemaAnalyzerResult("Union", xsdUnion, xsdUnionWeight));
-
             //Console.WriteLine("Schema features " + xsdUnique + " Uniques.");
             results.Add(new SchemaAnalyzerResult("Unique", xsdUnique, xsdUniqueWeight));
-
             //Console.WriteLine("Schema features " + xsiType + " xsi:Types.");
             results.Add(new SchemaAnalyzerResult("xsi:Type", xsiType, xsiTypeWeight));
 
+            foreach(string it in foundRefs)
+            {
+                Console.WriteLine(it);
+            }
+
+            foreach (XmlSchemaObject ii in foundTypes)
+            {
+                Console.WriteLine(ii.ToString());
+            }
 
             results.Sort(new SchemaAnalyzerResultComparer());
 
             return results;
         }
+
         private void countXsdElements(XmlSchemaObjectCollection items)
         {
             foreach (var item in items)
             {
                 if (item is XmlSchemaComplexType)
                 {
-                    xsdComplexType++;
                     var complexType = (XmlSchemaComplexType)item;
 
-                    if (complexType.Particle is XmlSchemaAll)
+                    if (foundRefs.Contains(complexType.Name))
                     {
-                        xsdAll++;
-                    }
-                    if (complexType.Particle is XmlSchemaChoice)
-                    {
-                        xsdChoice++;
-                    }
-                    if (complexType.Particle is XmlSchemaSequence)
-                    {
-                        xsdSequence++;
-                    }
-                    countXsdElements(new XmlSchemaObjectCollection(complexType.Particle));
-                    countXsdElements(complexType.Attributes);
+                        xsdComplexType++;
 
-                    var obj = (XmlSchemaObject) complexType.ContentModel;
-                    if (obj != null)
+                        if (complexType.Particle is XmlSchemaAll)
+                        {
+                            xsdAll++;
+                            var complexTypeParticle = (XmlSchemaAll) complexType.Particle;
+                            countXsdElements(complexTypeParticle.Items);
+                        }
+                        if (complexType.Particle is XmlSchemaChoice)
+                        {
+                            xsdChoice++;
+                            var complexTypeParticle = (XmlSchemaChoice) complexType.Particle;
+                            countXsdElements(complexTypeParticle.Items);
+                        }
+                        if (complexType.Particle is XmlSchemaSequence)
+                        {
+                            xsdSequence++;
+                            var complexTypeParticle = (XmlSchemaSequence) complexType.Particle;
+                            countXsdElements(complexTypeParticle.Items);
+                        }
+                        countXsdElements(complexType.Attributes);
+
+                        var obj = (XmlSchemaObject) complexType.ContentModel;
+                        if (obj != null)
+                        {
+                            var list = new XmlSchemaObjectCollection();
+                            list.Add(obj);
+                            countXsdElements(list);
+                        }
+
+                        foundRefs.Remove(complexType.Name);
+                        consideredRefs.Add(complexType.Name);
+                    }
+                    else if(consideredRefs.Contains(complexType.Name))
                     {
-                        var list = new XmlSchemaObjectCollection();
-                        list.Add(obj);
-                        countXsdElements(list);
+                        return;
+                    }
+                    else
+                    {
+                        foundTypes.Add(item);
                     }
                 }
                 if(item is XmlSchemaSimpleContentExtension)
@@ -229,14 +304,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                 if (item is XmlSchemaSimpleType)
                 {
                     var xmlSchemaSimpleType = (XmlSchemaSimpleType) item;
-                    xsdSimpleType++;
 
-                    var obj = (XmlSchemaObject)xmlSchemaSimpleType.Content;
-                    if (obj != null)
+                    if(foundRefs.Contains(xmlSchemaSimpleType.Name)) {
+                        xsdSimpleType++;
+
+                        var obj = (XmlSchemaObject)xmlSchemaSimpleType.Content;
+                        if (obj != null)
+                        {
+                            var list = new XmlSchemaObjectCollection();
+                            list.Add(obj);
+                            countXsdElements(list);
+                        }
+                    }
+                    else if (consideredRefs.Contains(xmlSchemaSimpleType.Name))
                     {
-                        var list = new XmlSchemaObjectCollection();
-                        list.Add(obj);
-                        countXsdElements(list);
+                        return;
+                    }
+                    else
+                    {
+                        foundTypes.Add(item);
                     }
                 }
                 if(item is XmlSchemaAny)
@@ -282,7 +368,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     {
                         xsdSubstitutionGroup++;
                     }
-                    if(element.ElementSchemaType is XmlSchemaComplexType) {
+                    if (element.SchemaTypeName.Name.Length > 0)
+                    {
+                        if (!consideredRefs.Contains(element.SchemaTypeName.Name))
+                        {
+                            foundRefs.Add(element.SchemaTypeName.Name);
+                        }
+                    }
+                    /*if (element.ElementSchemaType is XmlSchemaComplexType)
+                    {
                         var xmlSchemaComplexType = element.ElementSchemaType as XmlSchemaComplexType;
 
                         var obj = (XmlSchemaObject)xmlSchemaComplexType;
@@ -304,7 +398,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                             list.Add(obj);
                             countXsdElements(list);
                         }
-                    }
+                    }*/
                 }
                 if (item is XmlSchemaAttribute)
                 {
