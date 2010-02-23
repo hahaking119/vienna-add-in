@@ -113,8 +113,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             // todo: extend PathIsValid 
             GatherUserInput();
-
-            cache.BIVs[selectedBIVName].LoadDOC(cctsR);
+            try
+            {
+                cache.BIVs[selectedBIVName].LoadDOC(cctsR);
+            }
+            catch (CacheException ce)
+            {
+                System.Windows.Forms.MessageBox.Show(ce.Message, "VIENNA Add-In Error", MessageBoxButtons.OK,
+                                                     MessageBoxIcon.Error);
+                Close();
+            }
 
             // model
             // todo: set default value for document model and select afterwards
@@ -305,6 +313,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             cache.BIVs[selectedBIVName].DOC.OutputDirectory = outputDirectory;
 
             VerifyUserInput();
+        }
+
+        private void textboxXMLSchemaInputDirectory_changed(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 
