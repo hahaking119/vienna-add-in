@@ -563,7 +563,14 @@ namespace VIENNAAddIn.upcc3.Wizards
             {
                 IDocLibrary docl = repository.GetDocLibraryById(Id);
                 IMa document = docl.DocumentRoot;
-                DOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
+                if (document != null)
+                {
+                    DOC = new cDOC(document.Name, document.Id, CheckState.Unchecked, docl.BaseURN, docl.NamespacePrefix);
+                }
+                else
+                {
+                    throw new CacheException("No Document root found!");
+                }
             }
         }
     }
