@@ -262,6 +262,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void comboboxDocumentModel_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             StackPanel tempPanel;
+            if(comboboxDocumentModel.SelectedItem.Equals("ebInterface"))
+            {
+                generationSettings.Header = "Subsetting Generation Settings";
+            }
+            else
+            {
+                generationSettings.Header = "Generation Settings";
+            }
             if(documentModels.TryGetValue((string)comboboxDocumentModel.SelectedItem, out tempPanel))
             {
                 foreach(StackPanel panel in documentModels.Values)

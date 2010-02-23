@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:VIENNAAddInWpfUserControls="clr-namespace:VIENNAAddInWpfUserControls;assembly=VIENNAAddInWpfUserControls"
+    xmlns:util="clr-namespace:VIENNAAddIn.upcc3.Wizards.util"
     Height="490" Width="478" WindowStyle="SingleBorderWindow" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" ShowInTaskbar="True" ResizeMode="NoResize" Title="XML Schema Exporter Wizard" FontSize="11">
     <DockPanel Margin="5,5,5,5">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,10,5,5">
@@ -32,7 +33,7 @@
             <Label Height="23" Width="160">XML Schema output directory:</Label>
             <VIENNAAddInWpfUserControls:DirectorySelector KeyboardNavigation.TabIndex="3" Name="textboxOutputDirectory" Width="300" DirectoryNameChanged="textboxOutputDirectory_DirectoryNameChanged" />
         </StackPanel>
-        <GroupBox Header="Generation Settings" Margin="0,5,0,0">
+        <GroupBox Name="generationSettings" Header="Generation Settings" Margin="0,5,0,0">
             <Canvas>
                 <StackPanel Name="panelSettingsCCTS" Orientation="Vertical" Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
@@ -54,8 +55,8 @@
                 </StackPanel>
                 <StackPanel Name="panelSettingsEbInterface" Orientation="Vertical" Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Height="23" Width="155">Dummy Textbox:</Label>
-                        <TextBox KeyboardNavigation.TabIndex="8" Name="textboxDummy" Width="295" />
+                        <Label Height="23" Width="155">XML Schema input Directory:</Label>
+                        <VIENNAAddInWpfUserControls:DirectorySelector KeyboardNavigation.TabIndex="8" Name="textboxXMLSchemaInputDirectory" Width="300" DirectoryNameChanged="textboxXMLSchemaInputDirectory_changed" /> 
                     </StackPanel>
                 </StackPanel>
             </Canvas>
