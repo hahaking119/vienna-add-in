@@ -11,13 +11,13 @@
         <TextBox DockPanel.Dock="Bottom" Height="66" Margin="22,5,5,0" Name="textboxStatus" IsReadOnly="True" IsUndoEnabled="False" TextWrapping="Wrap"/>
         <Label DockPanel.Dock="Bottom" Name="label2" Margin="22,5,5,0" Height="23"  HorizontalAlignment="Left">Status:</Label>
         <TabControl Name="tabControl1" TabStripPlacement="Left" Margin="5,5,5,0">
-            <TabItem KeyboardNavigation.TabIndex="1" Name="tabEbInterface" Header="ebInterface">
+            <TabItem KeyboardNavigation.TabIndex="1" Name="tabEbInterface" Header="XSD">
                 <TabItem.LayoutTransform>
                     <RotateTransform Angle="270"></RotateTransform>
                 </TabItem.LayoutTransform>
                 <TabItem.Content>
                     <DockPanel>
-                        <Label DockPanel.Dock="Top" Height="23" Name="label12">Select ebInterface Schema:</Label>
+                        <Label DockPanel.Dock="Top" Height="23" Name="label12">Select XML Schema:</Label>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                             <viennaaddin:FileSelector KeyboardNavigation.TabIndex="2" Name="mappedSchemaFileSelector" DockPanel.Dock="Top" Width="420" Margin="5,0,5,0" DefaultExt=".xsd" Filter="XML Schema files (.xsd)|*.xsd" />
                             <Button KeyboardNavigation.TabIndex="3" Margin="1,0,0,0" ToolTip="Show in Schema Analyzer" Name="ButtonSchemaAnalyzer" Click="ButtonSchemaAnalyzer_Click"><Image Name="ButtonSchemaAnalyzerImage" Width="16" Height="16" Source="./../../../../Resources/IconAnalyze.png" /></Button>
@@ -30,23 +30,23 @@
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Label Height="23" Width="150">Qualifier:</Label>
-                            <TextBox KeyboardNavigation.TabIndex="13" Name="qualifierTextBox" Width="305">ebInterface</TextBox>
+                            <TextBox KeyboardNavigation.TabIndex="13" Name="qualifierTextBox" Width="305">Qualifier</TextBox>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Label Height="23" Width="150">Message Assembly Name:</Label>
-                            <TextBox KeyboardNavigation.TabIndex="12" Name="rootElementNameTextBox" Width="305">Invoice</TextBox>
+                            <TextBox KeyboardNavigation.TabIndex="12" Name="rootElementNameTextBox" Width="305">Document name</TextBox>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Label Height="23" Width="150">BDT Library Name:</Label>
-                            <TextBox KeyboardNavigation.TabIndex="11" Name="bdtLibraryNameTextBox" Width="305">ebInterface BDTLibrary</TextBox>
+                            <TextBox KeyboardNavigation.TabIndex="11" Name="bdtLibraryNameTextBox" Width="305">BDTLibrary</TextBox>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Label Height="23" Width="150">BIE Library Name:</Label>
-                            <TextBox KeyboardNavigation.TabIndex="10" Name="bieLibraryNameTextBox" Width="305">ebInterface BIELibrary</TextBox>
+                            <TextBox KeyboardNavigation.TabIndex="10" Name="bieLibraryNameTextBox" Width="305">BIELibrary</TextBox>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Label Height="23" Width="150">DOC Library Name:</Label>
-                            <TextBox KeyboardNavigation.TabIndex="9" Name="docLibraryNameTextBox" Width="305">ebInterface Invoice</TextBox>
+                            <TextBox KeyboardNavigation.TabIndex="9" Name="docLibraryNameTextBox" Width="305">DOCLibrary</TextBox>
                         </StackPanel>
                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
                             <Label Height="23" Width="150">bLibrary:</Label>
