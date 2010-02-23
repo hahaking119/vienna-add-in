@@ -8,9 +8,11 @@
 // *******************************************************************************
 
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CctsRepository;
 using CctsRepository.BieLibrary;
 using EA;
@@ -89,6 +91,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ComboBox ACCs
         private void comboboxAccs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            innerCanvas.Visibility = Visibility.Visible;
+            //this forces refresh!
+            innerCanvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(delegate { }));
+            
             Mouse.OverrideCursor = Cursors.Wait;
 
             Model.SetSelectedCandidateAcc(comboboxAccs.SelectedItem.ToString());
@@ -100,21 +106,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             SetSelectedItemForAbieListBox();
             Mouse.OverrideCursor = Cursors.Arrow;
 
+            innerCanvas.Visibility = Visibility.Collapsed;
+
         }
 
         // ------------------------------------------------------------------------------------
         // Event handler: Checkbox BCCs
         private void checkboxBccs_Checked(object sender, RoutedEventArgs e)
         {
-            string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;
-
             innerCanvas.Visibility = Visibility.Visible;
+            //this forces refresh!
+            innerCanvas.Dispatcher.Invoke(DispatcherPriority.Render, new Action(delegate { }));
+
+            string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;
             
             Mouse.OverrideCursor = Cursors.Wait;
 
             Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
 
-            //innerCanvas.Visibility = Visibility.Collapsed;
+            innerCanvas.Visibility = Visibility.Collapsed;
 
             Mouse.OverrideCursor = Cursors.Arrow;
             
