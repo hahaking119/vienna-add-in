@@ -148,7 +148,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                     }
                 }
             }
-            textBoxStatus.Text = "Libraries loaded.";
             Transformer.Transform(sourceBieLibrary,targetBieLibrary,sourceDocLibrary,targetDocLibrary);
             SubsetExporter.ExportSubset(targetDocLibrary, targetXSDFilename, outputDirectory);
 
