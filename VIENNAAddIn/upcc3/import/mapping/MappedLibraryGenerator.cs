@@ -182,7 +182,9 @@ namespace VIENNAAddIn.upcc3.import.mapping
 
                 foreach (AttributeOrSimpleElementToSupMapping supMapping in cdtMapping.GetSupMappings())
                 {
-                    supSpecs.Add(BdtSpec.CloneCdtSup(supMapping.Sup));
+                    BdtSupSpec bdtSupSpec = BdtSpec.CloneCdtSup(supMapping.Sup);
+                    bdtSupSpec.Name = supMapping.BIEName;
+                    supSpecs.Add(bdtSupSpec);
                 }
 
                 BdtSpec bdtSpec = BdtSpec.CloneCdt(complexTypeMapping.TargetCdt, complexTypeMapping.BIEName);

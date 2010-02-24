@@ -17,10 +17,9 @@ namespace VIENNAAddIn.upcc3.import.mapping
             get { return SourceItem.Name; }
         }
 
-        // TODO
         public override string BIEName
         {
-            get { return Sup.Name; }
+            get { return ElementName + "_" + Sup.Name; }
         }
 
         public ICdtSup Sup { get; private set; }
