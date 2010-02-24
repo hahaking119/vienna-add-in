@@ -504,7 +504,7 @@ namespace VIENNAAddInUnitTests.upcc3.import.mapping
             new MappingImporter(new[] { mappingFile }, schemaFiles, ccLibrary, bLibrary, DocLibraryName, BieLibraryName, BdtLibraryName, Qualifier, RootElementName, cctsRepository).ImportMapping();
 
             var bdtLibrary = ShouldContainBdtLibrary(BdtLibraryName);
-            IBdt bdtText = ShouldContainBdt(bdtLibrary, "TextType_Text", "Text", new [] { "Language", "LanguageLocale"});
+            IBdt bdtText = ShouldContainBdt(bdtLibrary, "TextType_Text", "Text", new[] { "Language_Language", "LanguageLocale_LanguageLocale" });
             Assert.That(bdtLibrary.Bdts.Count(), Is.EqualTo(1));
 
             var bieLibrary = ShouldContainBieLibrary(BieLibraryName);
