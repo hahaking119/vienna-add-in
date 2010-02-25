@@ -90,7 +90,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     {
                         includedSchema = ((XmlSchemaImport)include).Schema;
                     }
-
                     FlattenXmlSchemaStructure(includedSchema, xmlSchemaNames);
                 }
             }
@@ -103,14 +102,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             foundTypes.Clear();
             foreach (XmlSchemaObject item in list)
             {
-                var collection = new XmlSchemaObjectCollection();
-                collection.Add(item);
+                var collection = new XmlSchemaObjectCollection {item};
                 countXsdElements(collection);
-                list.Remove(item);
-            }
-            if(foundTypes.Count > 0)
-            {
-                ResolveFoundTypes();
             }
         }
 
@@ -133,10 +126,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             
             foreach (XmlSchema schema in xmlSchemas)
             {
-                Console.WriteLine(schema.SourceUri);
+                //Console.WriteLine(schema.SourceUri);
                 countXsdElements(schema.Items);
             }
-            //ResolveFoundTypes();
+            ResolveFoundTypes();
 
             results.Clear();
 
@@ -182,16 +175,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             results.Add(new SchemaAnalyzerResult("Unique", xsdUnique, xsdUniqueWeight));
             //Console.WriteLine("Schema features " + xsiType + " xsi:Types.");
             results.Add(new SchemaAnalyzerResult("xsi:Type", xsiType, xsiTypeWeight));
-
-            foreach(string it in foundRefs)
-            {
-                Console.WriteLine(it);
-            }
-
-            foreach (XmlSchemaObject ii in foundTypes)
-            {
-                Console.WriteLine(ii.ToString());
-            }
 
             results.Sort(new SchemaAnalyzerResultComparer());
 
