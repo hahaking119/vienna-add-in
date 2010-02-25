@@ -6,43 +6,43 @@
     <Canvas Name="canvas">
     <DockPanel Margin="5,5,5,5">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,10,5,5">
-            <Button KeyboardNavigation.TabIndex="7" HorizontalAlignment="Left" Height="23" Name="buttonTransform" Width="75" Click="buttonTransform_Click">_Transform</Button>
-            <Button KeyboardNavigation.TabIndex="8" HorizontalAlignment="Left" Height="23" Name="buttonClose" Width="75" Margin="30,0,0,0" Click="buttonClose_Click">_Close</Button>
+            <Button KeyboardNavigation.TabIndex="6" HorizontalAlignment="Left" Height="23" Name="buttonTransform" Width="100" Click="buttonTransform_Click">_Transform</Button>
+            <Button KeyboardNavigation.TabIndex="7" HorizontalAlignment="Left" Height="23" Name="buttonClose" Width="100" Margin="30,0,0,0" Click="buttonClose_Click">_Close</Button>
         </StackPanel>
        <StackPanel>
         <GroupBox Name="Source" Header="Source Libraries">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">DOCLibrary:</Label>
-                    <ComboBox Height="23" Width="200" Name="comboBoxSourceDocLibrary" SelectionChanged="comboboxSourceDocLibrary_SelectionChanged" TabIndex="1" />
+                    <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100">DOCLibrary:</Label>
+                    <ComboBox KeyboardNavigation.TabIndex="0" Height="23" Width="300" Name="comboBoxSourceDocLibrary" SelectionChanged="comboboxSourceDocLibrary_SelectionChanged" TabIndex="1" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">BIELibrary:</Label>
-                    <ComboBox Height="23" Width="200" Name="comboBoxSourceBIELibrary" SelectionChanged="comboBoxSourceBIELibrary_SelectionChanged" TabIndex="2" />
+                    <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100">BIELibrary:</Label>
+                    <ComboBox KeyboardNavigation.TabIndex="1" Height="23" Width="300" Name="comboBoxSourceBIELibrary" SelectionChanged="comboBoxSourceBIELibrary_SelectionChanged" TabIndex="2" />
                 </StackPanel>
               </StackPanel>
             </GroupBox>
-        <GroupBox Header="Target Libraries" Name="Target">
+        <GroupBox Header="Target Libraries" Name="Target" Margin="0,5,0,0">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">DOCLibrary:</Label>
-                    <ComboBox Height="23" Width="200" Name="comboBoxTargetDocLibrary" SelectionChanged="comboBoxTargetDocLibrary_SelectionChanged" TabIndex="3" />
+                    <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100">DOCLibrary:</Label>
+                    <ComboBox KeyboardNavigation.TabIndex="2" Height="23" Width="300" Name="comboBoxTargetDocLibrary" SelectionChanged="comboBoxTargetDocLibrary_SelectionChanged" TabIndex="3" />
                 </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">BIELibrary:</Label>
-                        <ComboBox Height="23" Width="200" Name="comboBoxTargetBIELibrary" SelectionChanged="comboBoxTargetBIELibrary_SelectionChanged" TabIndex="4" />
+                        <Label Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100">BIELibrary:</Label>
+                        <ComboBox KeyboardNavigation.TabIndex="3" Height="23" Width="300" Name="comboBoxTargetBIELibrary" SelectionChanged="comboBoxTargetBIELibrary_SelectionChanged" TabIndex="4" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Output Settings" Name="OutputSettings">
+            <GroupBox Header="Output Settings" Name="OutputSettings" Margin="0,5,0,0">
                 <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                     <Label Height="23" HorizontalAlignment="Left" Width="100">Target XSD:</Label>
-                    <VIENNAAddInWpfUserControls:FileSelector KeyboardNavigation.TabIndex="5" Height="23" Name="targetXSD"  FileNameChanged="targetXSD_FileNameChanged" Width="300" DefaultExt=".xsd" Filter="XML Schema files (.xsd)|*.xsd" />
+                    <VIENNAAddInWpfUserControls:FileSelector KeyboardNavigation.TabIndex="4" Height="23" Name="targetXSD"  FileNameChanged="targetXSD_FileNameChanged" Width="300" DefaultExt=".xsd" Filter="XML Schema files (.xsd)|*.xsd" />
                 </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <Label Height="23" HorizontalAlignment="Left" Width="100">Output Directory:</Label>
-                        <VIENNAAddInWpfUserControls:DirectorySelector KeyboardNavigation.TabIndex="6" Height="23" Name="OutputDirectory"  DirectoryNameChanged="OutputDirectory_DirectoryNameChanged" Width="300" />
+                        <VIENNAAddInWpfUserControls:DirectorySelector KeyboardNavigation.TabIndex="5" Height="23" Name="OutputDirectory"  DirectoryNameChanged="OutputDirectory_DirectoryNameChanged" Width="300" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
