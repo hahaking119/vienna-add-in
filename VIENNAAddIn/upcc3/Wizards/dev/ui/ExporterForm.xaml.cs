@@ -261,24 +261,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void comboboxDocumentModel_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            StackPanel tempPanel;
-            if(comboboxDocumentModel.SelectedItem.Equals("ebInterface"))
+            if (comboboxDocumentModel.SelectedItem != null)
             {
-                generationSettings.Header = "Subsetting Generation Settings";
-            }
-            else
-            {
-                generationSettings.Header = "Generation Settings";
-            }
-            if(documentModels.TryGetValue((string)comboboxDocumentModel.SelectedItem, out tempPanel))
-            {
-                foreach(StackPanel panel in documentModels.Values)
+                StackPanel tempPanel;
+                if (comboboxDocumentModel.SelectedItem.Equals("ebInterface"))
                 {
-                    panel.Visibility = Visibility.Collapsed;
+                    generationSettings.Header = "Subsetting Generation Settings";
                 }
-                tempPanel.Visibility = Visibility.Visible;
+                else
+                {
+                    generationSettings.Header = "Generation Settings";
+                }
+                if (documentModels.TryGetValue((string) comboboxDocumentModel.SelectedItem, out tempPanel))
+                {
+                    foreach (StackPanel panel in documentModels.Values)
+                    {
+                        panel.Visibility = Visibility.Collapsed;
+                    }
+                    tempPanel.Visibility = Visibility.Visible;
+                }
+                VerifyUserInput();
             }
-            VerifyUserInput();
         }
 
         private void comboboxBusinessInformationView_SelectionChanged(object sender, SelectionChangedEventArgs e)
