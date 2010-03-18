@@ -82,6 +82,7 @@ namespace VIENNAAddIn
                                       + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
                                       //+ "Import XML Schemas (old)".OnClick(ImporterWizardFormOld.ShowImporterWizard)
                                       + _____
+                                      + "&Transformer Wizard".OnClick(TransformerWizard.ShowForm)
                                       + "&Schema Anal&yzer".OnClick(SchemaAnalyzer.ShowForm)
                                      )
                                    + "&Options".OnClick(OptionsForm.ShowForm)

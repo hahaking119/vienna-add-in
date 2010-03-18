@@ -579,11 +579,15 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\Wizards\dev\ui\TransformerUI.xaml.cs">
-      <DependentUpon>TransformerUI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\ExporterForm.xaml.cs">
       <DependentUpon>ExporterForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\TransformerUI.xaml.cs">
+      <DependentUpon>TransformerUI.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\TransformerWizard.xaml.cs">
+      <DependentUpon>TransformerWizard.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\util\LocalVersionsFile.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzer.xaml.cs">
@@ -1104,10 +1108,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="upcc3\Wizards\dev\ui\TransformerUI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="upcc3\Wizards\dev\ui\ExporterForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1120,11 +1120,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="upcc3\Wizards\dev\ui\TransformerUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="upcc3\Wizards\dev\ui\UpccModelCreator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\XsdImporterForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\TransformerWizard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1152,6 +1160,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\analyze.png" />
+    <Resource Include="Resources\cancel.png" />
+    <Resource Include="Resources\warning.png" />
+    <Resource Include="Resources\close.png" />
+    <Resource Include="Resources\ok.png" />
+    <Resource Include="Resources\generate.png" />
+    <Resource Include="Resources\generate_sw.png" />
+    <Resource Include="Resources\arrow_right.png" />
+    <Resource Include="Resources\arrow_right_sw.png" />
+    <Resource Include="Resources\model.png" />
+    <Resource Include="Resources\directory.png" />
+    <Resource Include="Resources\directory_sw.png" />
+    <Resource Include="Resources\file.png" />
+    <Resource Include="Resources\file_sw.png" />
+    <Resource Include="Resources\model_sw.png" />
     <Resource Include="Resources\IconAnalyze.png" />
   </ItemGroup>
   <ItemGroup>
