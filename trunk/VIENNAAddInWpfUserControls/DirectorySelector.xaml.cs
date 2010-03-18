@@ -29,7 +29,7 @@ namespace VIENNAAddInWpfUserControls
 
         public string Description { get; set; }
 
-        public static readonly DependencyProperty DirectoryNameProperty = DependencyProperty.Register("DirectoryName", typeof(string), typeof(FileSelector));
+        public static readonly DependencyProperty DirectoryNameProperty = DependencyProperty.Register("DirectoryName", typeof(string), typeof(DirectorySelector));
 
         public string DirectoryName
         {
