@@ -50,10 +50,12 @@ namespace VIENNAAddInWpfUserControls
                           Description = Description,
                           ShowNewFolderButton = ShowNewFolderButton
                       };
+            RaiseEvent(new RoutedEventArgs(BeforeDialogOpenedEvent));
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 fileNameTextBox.Text = dlg.SelectedPath;
             }
+            RaiseEvent(new RoutedEventArgs(AfterDialogClosedEvent));
         }
 
         public new double Width
@@ -80,7 +82,23 @@ namespace VIENNAAddInWpfUserControls
             }
         }
 
-        private static readonly RoutedEvent DirectoryNameChangedEvent = EventManager.RegisterRoutedEvent("DirectoryNameChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileSelector));
+        private static readonly RoutedEvent BeforeDialogOpenedEvent = EventManager.RegisterRoutedEvent("BeforeDialogOpened", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DirectorySelector));
+
+        public event RoutedEventHandler BeforeDialogOpened
+        {
+            add { AddHandler(BeforeDialogOpenedEvent, value); }
+            remove { RemoveHandler(BeforeDialogOpenedEvent, value); }
+        }
+
+        private static readonly RoutedEvent AfterDialogClosedEvent = EventManager.RegisterRoutedEvent("AfterDialogClosed", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DirectorySelector));
+
+        public event RoutedEventHandler AfterDialogClosed
+        {
+            add { AddHandler(AfterDialogClosedEvent, value); }
+            remove { RemoveHandler(AfterDialogClosedEvent, value); }
+        }
+
+        private static readonly RoutedEvent DirectoryNameChangedEvent = EventManager.RegisterRoutedEvent("DirectoryNameChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DirectorySelector));
 
         public event RoutedEventHandler DirectoryNameChanged
         {

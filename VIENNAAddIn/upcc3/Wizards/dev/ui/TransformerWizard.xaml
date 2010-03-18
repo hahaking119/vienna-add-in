@@ -193,7 +193,7 @@
             <Border CornerRadius="5,5,5,5" Background="LightGray">
                 <StackPanel Orientation="Vertical">
                     <Label Margin="5,0,0,0">Specify target model XSD schema:</Label>
-                    <VIENNAAddInWpfUserControls:FileSelector Name="fileselectorXsdDocument" Filter="XML Schema Definition Files (*.xsd)|*.xsd" DefaultExt="*.xsd" FileNameChanged="fileselectorXsdDocument_FileNameChanged" Width="300" />
+                    <VIENNAAddInWpfUserControls:FileSelector BeforeDialogOpened="fileselectorXsdDocument_BeforeDialogOpened" AfterDialogClosed="fileselectorXsdDocument_AfterDialogClosed" Name="fileselectorXsdDocument" Filter="XML Schema Definition Files (*.xsd)|*.xsd" DefaultExt="*.xsd" FileNameChanged="fileselectorXsdDocument_FileNameChanged" Width="300" />
                 </StackPanel>
             </Border>
         </Popup>
@@ -203,7 +203,7 @@
             <Border CornerRadius="5,5,5,5" Background="LightGray">
                 <StackPanel Orientation="Vertical">
                     <Label Margin="5,0,0,0">Specify output directory:</Label>
-                    <VIENNAAddInWpfUserControls:DirectorySelector Name="directoryselectorTargetFolder" ShowNewFolderButton="True" DirectoryNameChanged="directoryselectorTargetFolder_DirectoryNameChanged" Width="300" />
+                    <VIENNAAddInWpfUserControls:DirectorySelector BeforeDialogOpened="directoryselectorTargetFolder_BeforeDialogOpened" AfterDialogClosed="directoryselectorTargetFolder_AfterDialogClosed" Name="directoryselectorTargetFolder" ShowNewFolderButton="True" DirectoryNameChanged="directoryselectorTargetFolder_DirectoryNameChanged" Width="300" />
                 </StackPanel>
             </Border>
         </Popup>

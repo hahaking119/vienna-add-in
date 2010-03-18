@@ -31,6 +31,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private IDocLibrary selectedTargetDocLibrary = null;
         private IBieLibrary selectedTargetBieLibrary = null;
         private BackgroundWorker bw;
+        private bool fileselectorXsdDocumentOpen = false;
+        private bool directoryselectorTargetFolderOpen = false;
 
 
         public TransformerWizard(ICctsRepository cctsRepository)
@@ -162,9 +164,29 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             });
         }
 
+        private void HideShield()
+        {
+            Thread.Sleep(251);
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate()
+            {
+                if (!popupXsdDocument.IsOpen && !popupTargetFolder.IsOpen && !popupSourceModel.IsOpen && !popupTargetModel.IsOpen)
+                {
+                    shield.Visibility = Visibility.Collapsed;
+                }
+            });
+        }
+
         private void ShowShield(bool shown)
         {
-            shield.Visibility = (shown ? Visibility.Visible : Visibility.Collapsed);
+            if (shown)
+            {
+                shield.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                var thread = new Thread(HideShield);
+                thread.Start();
+            }
         }
 
         private void buttonSourceModel_Click(object sender, RoutedEventArgs e)
@@ -200,7 +222,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void popupXsdDocument_Closed(object sender, EventArgs e)
         {
-            ShowShield(false);
+            if (!fileselectorXsdDocumentOpen)
+            {
+                ShowShield(false);
+            }
         }
 
         private void directoryselectorTargetFolder_DirectoryNameChanged(object sender, RoutedEventArgs e)
@@ -216,7 +241,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void popupTargetFolder_Closed(object sender, EventArgs e)
         {
-            ShowShield(false);
+            if (!directoryselectorTargetFolderOpen)
+            {
+                ShowShield(false);
+            }
         }
 
         private void buttonXsdDocument_Drop(object sender, DragEventArgs e)
@@ -392,6 +420,34 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             Transformer.Transform(selectedSourceBieLibrary, selectedTargetBieLibrary, selectedSourceDocLibrary, selectedTargetDocLibrary);
             SubsetExporter.ExportSubset(selectedTargetDocLibrary, xsdFilename, (targetFolder.EndsWith("\\") || targetFolder.EndsWith("/") ? targetFolder : targetFolder + "\\"));
+        }
+
+        private void directoryselectorTargetFolder_BeforeDialogOpened(object sender, RoutedEventArgs e)
+        {
+            directoryselectorTargetFolderOpen = true;
+        }
+
+        private void directoryselectorTargetFolder_AfterDialogClosed(object sender, RoutedEventArgs e)
+        {
+            if(directoryselectorTargetFolderOpen)
+            {
+                ShowShield(false);
+                directoryselectorTargetFolderOpen = false;
+            }
+        }
+
+        private void fileselectorXsdDocument_BeforeDialogOpened(object sender, RoutedEventArgs e)
+        {
+            fileselectorXsdDocumentOpen = true;
+        }
+
+        private void fileselectorXsdDocument_AfterDialogClosed(object sender, RoutedEventArgs e)
+        {
+            if (fileselectorXsdDocumentOpen)
+            {
+                ShowShield(false);
+                fileselectorXsdDocumentOpen = false;
+            }
         }
 
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
