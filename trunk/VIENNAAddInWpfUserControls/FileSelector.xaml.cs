@@ -46,10 +46,12 @@ namespace VIENNAAddInWpfUserControls
                           DefaultExt = DefaultExt,
                           Filter = Filter,
                       };
+            RaiseEvent(new RoutedEventArgs(BeforeDialogOpenedEvent));
             if (dlg.ShowDialog() == true)
             {
                 fileNameTextBox.Text = dlg.FileName;
             }
+            RaiseEvent(new RoutedEventArgs(AfterDialogClosedEvent));
         }
 
         public new double Width
@@ -76,6 +78,22 @@ namespace VIENNAAddInWpfUserControls
             }
         }
 
+        private static readonly RoutedEvent BeforeDialogOpenedEvent = EventManager.RegisterRoutedEvent("BeforeDialogOpened", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileSelector));
+
+        public event RoutedEventHandler BeforeDialogOpened
+        {
+            add { AddHandler(BeforeDialogOpenedEvent, value); }
+            remove { RemoveHandler(BeforeDialogOpenedEvent, value); }
+        }
+
+        private static readonly RoutedEvent AfterDialogClosedEvent = EventManager.RegisterRoutedEvent("AfterDialogClosed", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileSelector));
+
+        public event RoutedEventHandler AfterDialogClosed
+        {
+            add { AddHandler(AfterDialogClosedEvent, value); }
+            remove { RemoveHandler(AfterDialogClosedEvent, value); }
+        }
+
         private static readonly RoutedEvent FileNameChangedEvent = EventManager.RegisterRoutedEvent("FileNameChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileSelector));
 
         public event RoutedEventHandler FileNameChanged
@@ -83,6 +101,7 @@ namespace VIENNAAddInWpfUserControls
             add { AddHandler(FileNameChangedEvent, value); }
             remove { RemoveHandler(FileNameChangedEvent, value); }
         }
+
 
         private void fileNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

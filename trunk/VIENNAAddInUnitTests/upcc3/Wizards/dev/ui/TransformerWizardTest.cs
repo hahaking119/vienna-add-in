@@ -8,7 +8,7 @@ using VIENNAAddInUnitTests.TestRepository;
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.ui
 {
     [TestFixture]
-    public class TransformerTest
+    public class TransformerWizardTest
     {
         [Test]
         [Ignore]
