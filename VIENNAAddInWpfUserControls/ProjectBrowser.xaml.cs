@@ -15,6 +15,8 @@ namespace VIENNAAddInWpfUserControls
     /// </summary>
     public partial class ProjectBrowser : UserControl
     {
+        private TreeViewItem root;
+
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(FileSelector));
 
         public object SelectedItem
@@ -36,88 +38,46 @@ namespace VIENNAAddInWpfUserControls
             InitializeComponent();
         }
 
-        public void Initialize(ICctsRepository repo)
+        public void Initialize(ProjectBrowserContent content)
         {
-            var rootItem = new TreeViewItem();
-            rootItem.Header = "Current Project";
-            foreach (var bLib in repo.GetBLibraries())
+            root = new TreeViewItem();
+            root.Header = content.rootItem.Header;
+            root.Tag = content.rootItem.Tag;
+            root.IsExpanded = true;
+            AddChildrenToTreeViewItem(content.rootItem, root);
+            CheckIfItemEnabled(root);
+            tree.Items.Add(root);
+        }
+
+        private void AddChildrenToTreeViewItem(TreeViewItem source, TreeViewItem target)
+        {
+            foreach(TreeViewItem child in source.Items)
             {
-                var bLibItem = new TreeViewItem();
-                bLibItem.Header = bLib.Name + " <bLibrary>";
-                bLibItem.Tag = bLib;
-                foreach(var lib in bLib.GetBdtLibraries())
-                {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <BDTLibrary>";
-                    temp.Tag = lib;
-                    if (AllowOnlyOneType != null)
-                        if (!AllowOnlyOneType.Equals("IBdtLibrary"))
-                            temp.IsEnabled = false;
-                    bLibItem.Items.Add(temp);
-                }
-                foreach (var lib in bLib.GetBieLibraries())
-                {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <BIELibrary>";
-                    temp.Tag = lib;
-                    if (AllowOnlyOneType != null)
-                        if (!AllowOnlyOneType.Equals("IBieLibrary"))
-                            temp.IsEnabled = false;
-                    bLibItem.Items.Add(temp);
-                }
-                foreach (var lib in bLib.GetCcLibraries())
-                {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <CCLibrary>";
-                    temp.Tag = lib;
-                    if (AllowOnlyOneType != null)
-                        if (!AllowOnlyOneType.Equals("ICcLibrary"))
-                            temp.IsEnabled = false;
-                    bLibItem.Items.Add(temp);
-                }
-                foreach (var lib in bLib.GetCdtLibraries())
-                {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <CDTLibrary>";
-                    temp.Tag = lib;
-                    if (AllowOnlyOneType != null)
-                        if (!AllowOnlyOneType.Equals("ICdtLibrary"))
-                            temp.IsEnabled = false;
-                    bLibItem.Items.Add(temp);
-                }
-                foreach (var lib in bLib.GetDocLibraries())
-                {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <DOCLibrary>";
-                    temp.Tag = lib;
-                    if (AllowOnlyOneType != null)
-                        if (!AllowOnlyOneType.Equals("IDocLibrary"))
-                            temp.IsEnabled = false;
-                    bLibItem.Items.Add(temp);
-                }
-                foreach (var lib in bLib.GetEnumLibraries())
-                {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <ENUMLibrary>";
-                    temp.Tag = lib;
-                    if (AllowOnlyOneType != null)
-                        if (!AllowOnlyOneType.Equals("IEnumLibrary"))
-                            temp.IsEnabled = false;
-                    bLibItem.Items.Add(temp);
-                }
-                foreach (var lib in bLib.GetPrimLibraries())
-                {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <PRIMLibrary>";
-                    temp.Tag = lib;
-                    if (AllowOnlyOneType != null)
-                        if (!AllowOnlyOneType.Equals("IPrimLibrary"))
-                            temp.IsEnabled = false;
-                    bLibItem.Items.Add(temp);
-                }
-                rootItem.Items.Add(bLibItem);
+                var newChild = new TreeViewItem();
+                newChild.Header = child.Header;
+                newChild.Tag = child.Tag;
+                newChild.IsExpanded = true;
+                AddChildrenToTreeViewItem(child, newChild);
+                target.Items.Add(newChild);
             }
-            tree.Items.Add(rootItem);
+        }
+
+        private void CheckIfItemEnabled(TreeViewItem item)
+        {
+            if(item.Items.Count > 0)
+            {
+                foreach(TreeViewItem child in item.Items)
+                {
+                    CheckIfItemEnabled(child);
+                }
+            }
+            else
+            {
+                if(item.Tag != null && AllowOnlyOneType != null)
+                {
+                    item.IsEnabled = (item.Tag.GetType().Name.EndsWith(AllowOnlyOneType));
+                }
+            }
         }
 
         private static readonly RoutedEvent SelectionChangedEvent = EventManager.RegisterRoutedEvent("SelectionChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileSelector));
@@ -135,6 +95,73 @@ namespace VIENNAAddInWpfUserControls
             {
                 SelectedItem = tree.SelectedItem;
                 RaiseEvent(new RoutedEventArgs(SelectionChangedEvent));
+            }
+        }
+    }
+
+    public class ProjectBrowserContent
+    {
+        public TreeViewItem rootItem { get; set; }
+
+        public ProjectBrowserContent(ICctsRepository repo)
+        {
+            rootItem = new TreeViewItem();
+            rootItem.Header = "Current Project";
+            foreach (var bLib in repo.GetBLibraries())
+            {
+                var bLibItem = new TreeViewItem();
+                bLibItem.Header = bLib.Name + " <bLibrary>";
+                bLibItem.Tag = bLib;
+                foreach (var lib in bLib.GetBdtLibraries())
+                {
+                    var temp = new TreeViewItem();
+                    temp.Header = lib.Name + " <BDTLibrary>";
+                    temp.Tag = lib;
+                    bLibItem.Items.Add(temp);
+                }
+                foreach (var lib in bLib.GetBieLibraries())
+                {
+                    var temp = new TreeViewItem();
+                    temp.Header = lib.Name + " <BIELibrary>";
+                    temp.Tag = lib;
+                    bLibItem.Items.Add(temp);
+                }
+                foreach (var lib in bLib.GetCcLibraries())
+                {
+                    var temp = new TreeViewItem();
+                    temp.Header = lib.Name + " <CCLibrary>";
+                    temp.Tag = lib;
+                    bLibItem.Items.Add(temp);
+                }
+                foreach (var lib in bLib.GetCdtLibraries())
+                {
+                    var temp = new TreeViewItem();
+                    temp.Header = lib.Name + " <CDTLibrary>";
+                    temp.Tag = lib;
+                    bLibItem.Items.Add(temp);
+                }
+                foreach (var lib in bLib.GetDocLibraries())
+                {
+                    var temp = new TreeViewItem();
+                    temp.Header = lib.Name + " <DOCLibrary>";
+                    temp.Tag = lib;
+                    bLibItem.Items.Add(temp);
+                }
+                foreach (var lib in bLib.GetEnumLibraries())
+                {
+                    var temp = new TreeViewItem();
+                    temp.Header = lib.Name + " <ENUMLibrary>";
+                    temp.Tag = lib;
+                    bLibItem.Items.Add(temp);
+                }
+                foreach (var lib in bLib.GetPrimLibraries())
+                {
+                    var temp = new TreeViewItem();
+                    temp.Header = lib.Name + " <PRIMLibrary>";
+                    temp.Tag = lib;
+                    bLibItem.Items.Add(temp);
+                }
+                rootItem.Items.Add(bLibItem);
             }
         }
     }

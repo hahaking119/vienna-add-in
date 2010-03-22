@@ -14,6 +14,7 @@ using CctsRepository.DocLibrary;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.export.mapping;
 using VIENNAAddIn.upcc3.export.transformer;
+using VIENNAAddInWpfUserControls;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
@@ -40,14 +41,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             cctsR = cctsRepository;
             InitializeComponent();
             UpdateUI();
-            treeSourceBie.AllowOnlyOneType = "IBieLibrary";
-            treeSourceBie.Initialize(cctsRepository);
-            treeSourceDoc.AllowOnlyOneType = "IDocLibrary";
-            treeSourceDoc.Initialize(cctsRepository);
-            treeTargetBie.AllowOnlyOneType = "IBieLibrary";
-            treeTargetBie.Initialize(cctsRepository);
-            treeTargetDoc.AllowOnlyOneType = "IDocLibrary";
-            treeTargetDoc.Initialize(cctsRepository);
+            var treeContent = new ProjectBrowserContent(cctsRepository);
+            treeSourceBie.AllowOnlyOneType = "BieLibrary";
+            treeSourceBie.Initialize(treeContent);
+            treeSourceDoc.AllowOnlyOneType = "DocLibrary";
+            treeSourceDoc.Initialize(treeContent);
+            treeTargetBie.AllowOnlyOneType = "BieLibrary";
+            treeTargetBie.Initialize(treeContent);
+            treeTargetDoc.AllowOnlyOneType = "DocLibrary";
+            treeTargetDoc.Initialize(treeContent);
             bw = new BackgroundWorker();
         }
 
