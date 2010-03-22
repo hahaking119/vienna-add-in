@@ -32,6 +32,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class AbieEditor
     {
         public TemporaryAbieModel Model { get; set; }
+        private string bbieNameBeforeRename;
+        private string bdtNameBeforeRename;
         private AbieEditorModes AbieEditorMode { get; set; }
         private readonly IAbie abieToBeUpdated;
 
@@ -203,7 +205,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBbies_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
+            // The listbox of the BBIEs contains a set of CheckableItems. Each CheckableItem
+            // consists of a CheckBox as well as a TextBox. However, in case the user clicks
+            // on the text in the TextBox the GotMouseCapture event is triggered but the item
+            // in the listbox is not selected causing the rename of a BBIE to fail. Therefore,
+            // we need to use the following workaround which ensures that the item in the 
+            // ListBox having the focus is also selected. 
+            listboxBbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxBbies, (TextBox)sender);
+
             CheckableItem checkableItem = (CheckableItem)listboxBbies.SelectedItem;
+
+            // We need to store the original name of the BBIE before it is changed as part of a
+            // rename process. The reason for doing so is that in case the BBIE is renamed to 
+            // match the name of an existing BBIE it is necessary to display the original name
+            // of the BBIE. 
+            bbieNameBeforeRename = checkableItem.Text;
+            
             Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
             
             SetSelectedItemForBdtListBox();
@@ -212,14 +229,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBbies_ItemTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
+            CheckableItem checkableItem = (CheckableItem)listboxBbies.SelectedItem;
+
             try
             {
-                Model.UpdateBbieName(((CheckableItem)listboxBbies.SelectedItem).Text);
+                if (checkableItem.Text != bbieNameBeforeRename)
+                {
+                    Model.UpdateBbieName(checkableItem.Text);
+                }
             }
             catch (TemporaryAbieModelException tame)
             {
                 ShowWarningMessage(tame.Message);
-                ((TextBox)sender).Undo();
+
+                checkableItem.Text = bbieNameBeforeRename;
+                ((TextBox) sender).Text = bbieNameBeforeRename;
             }
         }  
 
@@ -259,7 +283,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBdts_ItemTextBoxGotMouseCapture(object sender, MouseEventArgs e)
         {
+            // The listbox of the BDT contains a set of CheckableItems. Each CheckableItem
+            // consists of a CheckBox as well as a TextBox. However, in case the user clicks
+            // on the text in the TextBox the GotMouseCapture event is triggered but the item
+            // in the listbox is not selected causing the rename of a BBIE to fail. Therefore,
+            // we need to use the following workaround which ensures that the item in the 
+            // ListBox having the focus is also selected. 
+            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (TextBox)sender);
+
             CheckableItem checkableItem = (CheckableItem)listboxBdts.SelectedItem;
+
+            // We need to store the original name of the BDT before it is changed as part of a
+            // rename process. The reason for doing so is that in case the BDT is renamed to 
+            // match the name of an existing BDT it is necessary to display the original name
+            // of the BDT. 
+            bdtNameBeforeRename = checkableItem.Text;            
+
             Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, null);
            
             listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (TextBox)sender);
@@ -267,14 +306,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBdts_ItemTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
+            CheckableItem checkableItem = ((CheckableItem)listboxBdts.SelectedItem);
+
             try
-            {
-                Model.UpdateBdtName(((CheckableItem)listboxBdts.SelectedItem).Text);
+            {       
+                if (checkableItem.Text != bdtNameBeforeRename)
+                {
+                    Model.UpdateBdtName(checkableItem.Text);    
+                }                
             }
             catch (TemporaryAbieModelException tame)
             {
                 ShowWarningMessage(tame.Message);
-                ((TextBox)sender).Undo();
+
+                checkableItem.Text = bdtNameBeforeRename;
+                ((TextBox)sender).Text = bdtNameBeforeRename;                
             }
         }
 
