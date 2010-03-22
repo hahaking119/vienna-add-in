@@ -31,7 +31,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private IBieLibrary selectedSourceBieLibrary = null;
         private IDocLibrary selectedTargetDocLibrary = null;
         private IBieLibrary selectedTargetBieLibrary = null;
-        private BackgroundWorker bw;
+        private BackgroundWorker backgroundworkerInitialize;
+        private BackgroundWorker backgroundworkerGenerate;
+        private ProjectBrowserContent treeContent;
         private bool fileselectorXsdDocumentOpen = false;
         private bool directoryselectorTargetFolderOpen = false;
 
@@ -40,8 +42,32 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             cctsR = cctsRepository;
             InitializeComponent();
+
+            backgroundworkerInitialize = new BackgroundWorker();
+            backgroundworkerInitialize.WorkerReportsProgress = false;
+            backgroundworkerInitialize.WorkerSupportsCancellation = false;
+            backgroundworkerInitialize.DoWork += new DoWorkEventHandler(backgroundworkerInitialize_DoWork);
+            if (!backgroundworkerInitialize.IsBusy)
+            {
+                backgroundworkerInitialize.RunWorkerAsync();
+            }
+
             UpdateUI();
-            var treeContent = new ProjectBrowserContent(cctsRepository);
+            backgroundworkerGenerate = new BackgroundWorker();
+        }
+
+        public static void ShowForm(AddInContext context)
+        {
+            new TransformerWizard(context.CctsRepository).Show();
+        }
+
+        private void backgroundworkerInitialize_DoWork(object sender, DoWorkEventArgs e)
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)InitializeTrees);
+        }
+
+        private void InitializeTrees() {
+            treeContent = new ProjectBrowserContent(cctsR);
             treeSourceBie.AllowOnlyOneType = "BieLibrary";
             treeSourceBie.Initialize(treeContent);
             treeSourceDoc.AllowOnlyOneType = "DocLibrary";
@@ -50,12 +76,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             treeTargetBie.Initialize(treeContent);
             treeTargetDoc.AllowOnlyOneType = "DocLibrary";
             treeTargetDoc.Initialize(treeContent);
-            bw = new BackgroundWorker();
-        }
-
-        public static void ShowForm(AddInContext context)
-        {
-            new TransformerWizard(context.CctsRepository).Show();
         }
 
         private void UpdateUI()
@@ -418,12 +438,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             thread.Start();
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
-        {
-            Transformer.Transform(selectedSourceBieLibrary, selectedTargetBieLibrary, selectedSourceDocLibrary, selectedTargetDocLibrary);
-            SubsetExporter.ExportSubset(selectedTargetDocLibrary, xsdFilename, (targetFolder.EndsWith("\\") || targetFolder.EndsWith("/") ? targetFolder : targetFolder + "\\"));
-        }
-
         private void directoryselectorTargetFolder_BeforeDialogOpened(object sender, RoutedEventArgs e)
         {
             directoryselectorTargetFolderOpen = true;
@@ -452,7 +466,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void backgroundworkerGenerate_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Transformer.Transform(selectedSourceBieLibrary, selectedTargetBieLibrary, selectedSourceDocLibrary, selectedTargetDocLibrary);
+            SubsetExporter.ExportSubset(selectedTargetDocLibrary, xsdFilename, (targetFolder.EndsWith("\\") || targetFolder.EndsWith("/") ? targetFolder : targetFolder + "\\"));
+        }
+
+        private void backgroundworkerGenerate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if ((e.Cancelled))
             {
@@ -475,13 +495,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             var sbdRotation = (Storyboard)FindResource("sbdRotation");
             sbdRotation.Begin(this);
 
-            bw.WorkerReportsProgress = false;
-            bw.WorkerSupportsCancellation = false;
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-            if (!bw.IsBusy)
+            backgroundworkerGenerate.WorkerReportsProgress = false;
+            backgroundworkerGenerate.WorkerSupportsCancellation = false;
+            backgroundworkerGenerate.DoWork += new DoWorkEventHandler(backgroundworkerGenerate_DoWork);
+            backgroundworkerGenerate.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundworkerGenerate_RunWorkerCompleted);
+            if (!backgroundworkerGenerate.IsBusy)
             {
-                bw.RunWorkerAsync();
+                backgroundworkerGenerate.RunWorkerAsync();
             }
         }
     }
