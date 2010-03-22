@@ -579,6 +579,9 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\TestWizard.xaml.cs">
+      <DependentUpon>TestWizard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\ExporterForm.xaml.cs">
       <DependentUpon>ExporterForm.xaml</DependentUpon>
     </Compile>
@@ -1105,6 +1108,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\BdtEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\TestWizard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
