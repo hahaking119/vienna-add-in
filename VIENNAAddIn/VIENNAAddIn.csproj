@@ -1185,6 +1185,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\analyze.png" />
+    <Resource Include="Resources\open.png" />
     <Resource Include="Resources\cancel.png" />
     <Resource Include="Resources\warning.png" />
     <Resource Include="Resources\close.png" />

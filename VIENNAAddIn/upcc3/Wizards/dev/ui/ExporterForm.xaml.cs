@@ -255,7 +255,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void HandleSchemaAdded(object sender, SchemaAddedEventArgs e)
         {
-            //textBoxStatus.Text += "Schema generated: file:///C:/Temp/output/" + e.FileName + "\n";
+            //textBoxStatus.Text += "Schema generated: file:///" + e.FileName + "\n";
             textBoxStatus.Text += "Generated Schema file:" + e.FileName + "\n";
         }
 
