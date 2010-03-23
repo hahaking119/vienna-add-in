@@ -14,6 +14,7 @@ using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
 using CctsRepository.CcLibrary;
 using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
@@ -25,6 +26,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         private readonly List<CacheItemBieLibrary> mBieLibraries;
         private readonly List<CacheItemCcLibrary> mCcLibraries;
         private readonly List<CacheItemCdtLibrary> mCdtLibraries;
+        private readonly List<CacheItemDocLibrary> mDocLibraries;
+
         private bool librariesLoaded;
 
         /// <summary>
@@ -37,6 +40,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             mCcLibraries = new List<CacheItemCcLibrary>();
             mBdtLibraries = new List<CacheItemBdtLibrary>();
             mBieLibraries = new List<CacheItemBieLibrary>();
+            mDocLibraries = new List<CacheItemDocLibrary>();
             librariesLoaded = false;
             mCctsRepository = cctsRepository;
         }
@@ -98,6 +102,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                     {
                         mCdtLibraries.Add(new CacheItemCdtLibrary((ICdtLibrary) library));
                     }
+                    else if (library is IDocLibrary)
+                    {
+                        mDocLibraries.Add(new CacheItemDocLibrary((IDocLibrary) library));
+                    }
                 }
             }
         }
@@ -134,6 +142,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
             return
                 mBieLibraries.ConvertAll(new Converter<CacheItemBieLibrary, IBieLibrary>(CacheItemBIELibraryToBIELibrary));
         }
+
+        /// <summary>
+        /// Tries to load DOC Libraries from cache, if not present load it from repository.
+        /// </summary>
+        /// <returns>A list of BIE Libraries in the repository.</returns>
+        public List<IDocLibrary> GetDocLibraries()
+        {
+            LoadLibraries();
+            return
+                mDocLibraries.ConvertAll(new Converter<CacheItemDocLibrary, IDocLibrary>(CacheItemDocLibraryToDocLibrary));
+        }
+
 
         /// <summary>
         /// Tries to get CDTs from Library <paramref name="cdtLibraryName"/>. If there are no CDT Libraries in Cache, repository Loading is triggered.
@@ -199,6 +219,45 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
                 }
             }
             throw new Exception("No corresponding CC Library found with name '" + ccLibraryName + "'.");
+        }
+
+        /// <summary>
+        /// Try to retrieve a specific DOC Library by Name. If not found an exception will be thrown.
+        /// </summary>
+        /// <param name="docLibraryName">The Name of the DOC Library to retrieve.</param>
+        /// <returns>A UPPC3 DOC Library Element.</returns>
+        public IDocLibrary GetDocLibraryByName(string docLibraryName)
+        {
+            LoadLibraries();
+            foreach (CacheItemDocLibrary docLibrary in mDocLibraries)
+            {
+                if (docLibrary.DocLibrary.Name.Equals(docLibraryName))
+                {
+                    return docLibrary.DocLibrary;
+                }
+            }
+            throw new Exception("No corresponding DOC Library found with name '" + docLibraryName + "'.");
+        }
+        /// <summary>
+        /// Tries to get MAs from Library <paramref name="docLibraryName"/>. If there are no DOC Libraries in Cache, repository loading is triggered.
+        /// </summary>
+        /// <param name="docLibraryName">The name of the Doc Library MAs should be retrieved from.</param>
+        /// <returns>A list of MAs.</returns>
+        public List<IMa> GetMasFromDocLibrary(string docLibraryName)
+        {
+            LoadLibraries();
+            foreach (CacheItemDocLibrary docLibrary in mDocLibraries)
+            {
+                if (docLibrary.DocLibrary.Name.Equals(docLibraryName))
+                {
+                    if (docLibrary.MasInLibrary == null)
+                    {
+                        docLibrary.MasInLibrary = new List<IMa>(docLibrary.DocLibrary.Mas);
+                    }
+                    return docLibrary.MasInLibrary;
+                }
+            }
+            throw new Exception("No corresponding DOC Library found with name '" + docLibraryName + "'.");
         }
 
         /// <summary>
@@ -327,6 +386,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.cache
         private static ICcLibrary CacheItemCCLibraryToCCLibrary(CacheItemCcLibrary cacheItemCCLibrary)
         {
             return cacheItemCCLibrary.CcLibrary;
+        }
+
+        /// <summary>
+        /// Static function to convert a cacheItemDocLibrary to a DocLibrary.
+        /// </summary>
+        /// <param name="cacheItemDocLibrary">A Cache representation of a CC Library</param>
+        /// <returns>A UPCC3 CC Library Element.</returns>
+        private IDocLibrary CacheItemDocLibraryToDocLibrary(CacheItemDocLibrary cacheItemDocLibrary)
+        {
+            return cacheItemDocLibrary.DocLibrary;
         }
 
         /// <summary>

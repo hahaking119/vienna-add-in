@@ -559,6 +559,7 @@
     <Compile Include="upcc3\uml\UmlEnumerationSpec.cs" />
     <Compile Include="upcc3\uml\UmlPackageSpec.cs" />
     <Compile Include="upcc3\uml\UmlTaggedValueSpec.cs" />
+    <Compile Include="upcc3\Wizards\dev\cache\CacheItemDocLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\exceptions\TemporaryAbieModelException.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateBdtLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\CandidateCdt.cs" />
@@ -567,6 +568,13 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\exceptions\TemporaryBdtModelException.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\PotentialSup.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\bdtmodel\TemporaryBdtModel.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\subsettingmodel\CandidateAbie.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\subsettingmodel\CandidateDocLibrary.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\subsettingmodel\CandidateRootElement.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\subsettingmodel\exceptions\TemporarySubSettingModelException.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\subsettingmodel\PotentialAsbie.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\subsettingmodel\PotentialBbie.cs" />
+    <Compile Include="upcc3\Wizards\dev\temporarymodel\subsettingmodel\TemporarySubSettingModel.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\AbieEditor.xaml.cs">
       <DependentUpon>AbieEditor.xaml</DependentUpon>
     </Compile>
@@ -581,6 +589,14 @@
     </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\ExporterForm.xaml.cs">
       <DependentUpon>ExporterForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\SubSettingWizard.xaml.cs">
+      <DependentUpon>SubSettingWizard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\test\Animal.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\test\AnimalCategory.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\test\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\TransformerUI.xaml.cs">
       <DependentUpon>TransformerUI.xaml</DependentUpon>
@@ -603,6 +619,7 @@
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateBieLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\CandidateCcLibrary.cs" />
     <Compile Include="upcc3\Wizards\dev\util\CheckableItem.cs" />
+    <Compile Include="upcc3\Wizards\dev\util\CheckableTreeViewItem.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialAsbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBbie.cs" />
     <Compile Include="upcc3\Wizards\dev\temporarymodel\abiemodel\PotentialBdt.cs" />
@@ -1107,6 +1124,14 @@
     <Page Include="upcc3\Wizards\dev\ui\BdtEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\SubSettingWizard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\test\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\ExporterForm.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -38,5 +38,16 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.binding
             CandidateBdtLibraries,
             CandidateCdtLibraries
         }
+
+        public enum TemporarySubSettingModel
+        {
+            CandidateDocLibraryNames,
+            CandidateDocLibraryItems,
+            CandidateRootElementNames,
+            CandidateRootElementItems,
+            PotentialBbieItems,
+            CandidateAbieItems,
+            RootElement
+        }   
     }    
 }
