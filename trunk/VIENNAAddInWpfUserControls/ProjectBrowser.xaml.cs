@@ -1,11 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using CctsRepository;
+using CctsRepository.BdtLibrary;
+using CctsRepository.BieLibrary;
 using CctsRepository.BLibrary;
+using CctsRepository.CcLibrary;
+using CctsRepository.CdtLibrary;
+using CctsRepository.DocLibrary;
+using CctsRepository.EnumLibrary;
+using CctsRepository.PrimLibrary;
 using Microsoft.Win32;
 
 namespace VIENNAAddInWpfUserControls
@@ -62,9 +70,9 @@ namespace VIENNAAddInWpfUserControls
             tree.Items.Add(root);
         }
 
-        private void AddChildrenToTreeViewItem(TreeViewItem source, TreeViewItem target)
+        private void AddChildrenToTreeViewItem(ProjectBrowserItem source, TreeViewItem target)
         {
-            foreach(TreeViewItem child in source.Items)
+            foreach (ProjectBrowserItem child in source.Items)
             {
                 var newChild = new TreeViewItem();
                 newChild.Header = child.Header;
@@ -112,69 +120,93 @@ namespace VIENNAAddInWpfUserControls
         }
     }
 
+    public class ProjectBrowserItem
+    {
+        public string Header { get; set; }
+        public object Tag { get; set; }
+        public Collection<ProjectBrowserItem> Items { get; set; }
+
+        public ProjectBrowserItem()
+        {
+            Items = new Collection<ProjectBrowserItem>();
+        }
+    }
+
     public class ProjectBrowserContent
     {
-        public TreeViewItem rootItem { get; set; }
+        public ProjectBrowserItem rootItem { get; set; }
 
         public ProjectBrowserContent(ICctsRepository repo)
         {
-            rootItem = new TreeViewItem();
+            var map = new Hashtable();
+            rootItem = new ProjectBrowserItem();
             rootItem.Header = "Current Project";
             foreach (var bLib in repo.GetBLibraries())
             {
-                var bLibItem = new TreeViewItem();
-                bLibItem.Header = bLib.Name + " <bLibrary>";
-                bLibItem.Tag = bLib;
-                foreach (var lib in bLib.GetBdtLibraries())
+                var item = new ProjectBrowserItem();
+                item.Header = bLib.Name + " <bLibrary>";
+                item.Tag = bLib;
+                rootItem.Items.Add(item);
+                map.Add(bLib, item);
+            }
+            foreach (var lib in repo.GetAllLibraries())
+            {
+                if(lib is IBdtLibrary)
                 {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <BDTLibrary>";
-                    temp.Tag = lib;
-                    bLibItem.Items.Add(temp);
+                    var temp = new ProjectBrowserItem();
+                    var libr = (IBdtLibrary)lib;
+                    temp.Header = libr.Name + " <BDTLibrary>";
+                    temp.Tag = libr;
+                    ((ProjectBrowserItem)map[libr.BLibrary]).Items.Add(temp);
                 }
-                foreach (var lib in bLib.GetBieLibraries())
+                if(lib is IBieLibrary)
                 {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <BIELibrary>";
-                    temp.Tag = lib;
-                    bLibItem.Items.Add(temp);
+                    var temp = new ProjectBrowserItem();
+                    var libr = (IBieLibrary) lib;
+                    temp.Header = libr.Name + " <BIELibrary>";
+                    temp.Tag = libr;
+                    ((ProjectBrowserItem)map[libr.BLibrary]).Items.Add(temp);
                 }
-                foreach (var lib in bLib.GetCcLibraries())
+                if(lib is ICcLibrary)
                 {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <CCLibrary>";
-                    temp.Tag = lib;
-                    bLibItem.Items.Add(temp);
+                    var temp = new ProjectBrowserItem();
+                    var libr = (ICcLibrary)lib;
+                    temp.Header = libr.Name + " <CCibrary>";
+                    temp.Tag = libr;
+                    ((ProjectBrowserItem)map[libr.BLibrary]).Items.Add(temp);
                 }
-                foreach (var lib in bLib.GetCdtLibraries())
+                if(lib is ICdtLibrary)
                 {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <CDTLibrary>";
-                    temp.Tag = lib;
-                    bLibItem.Items.Add(temp);
+                    var temp = new ProjectBrowserItem();
+                    var libr = (ICdtLibrary)lib;
+                    temp.Header = libr.Name + " <CDTLibrary>";
+                    temp.Tag = libr;
+                    ((ProjectBrowserItem)map[libr.BLibrary]).Items.Add(temp);
                 }
-                foreach (var lib in bLib.GetDocLibraries())
+                if(lib is IDocLibrary)
                 {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <DOCLibrary>";
-                    temp.Tag = lib;
-                    bLibItem.Items.Add(temp);
+                    var temp = new ProjectBrowserItem();
+                    var libr = (IDocLibrary)lib;
+                    temp.Header = libr.Name + " <DOCLibrary>";
+                    temp.Tag = libr;
+                    ((ProjectBrowserItem)map[libr.BLibrary]).Items.Add(temp);
                 }
-                foreach (var lib in bLib.GetEnumLibraries())
+                if(lib is IEnumLibrary)
                 {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <ENUMLibrary>";
-                    temp.Tag = lib;
-                    bLibItem.Items.Add(temp);
+                    var temp = new ProjectBrowserItem();
+                    var libr = (IEnumLibrary)lib;
+                    temp.Header = libr.Name + " <ENUMLibrary>";
+                    temp.Tag = libr;
+                    ((ProjectBrowserItem)map[libr.BLibrary]).Items.Add(temp);
                 }
-                foreach (var lib in bLib.GetPrimLibraries())
+                if(lib is IPrimLibrary)
                 {
-                    var temp = new TreeViewItem();
-                    temp.Header = lib.Name + " <PRIMLibrary>";
-                    temp.Tag = lib;
-                    bLibItem.Items.Add(temp);
+                    var temp = new ProjectBrowserItem();
+                    var libr = (IPrimLibrary)lib;
+                    temp.Header = libr.Name + " <PRIMLibrary>";
+                    temp.Tag = libr;
+                    ((ProjectBrowserItem)map[libr.BLibrary]).Items.Add(temp);
                 }
-                rootItem.Items.Add(bLibItem);
             }
         }
 

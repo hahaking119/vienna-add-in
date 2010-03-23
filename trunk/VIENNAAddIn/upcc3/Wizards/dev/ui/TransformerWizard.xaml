@@ -248,48 +248,6 @@
             </Border>
         </Popup>
 
-        <!-- Popup field for "generating completed" field -->
-        <Canvas Visibility="Collapsed" Name="popupFinished" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=mainCanvas, Path=ActualWidth}" Height="{Binding ElementName=mainCanvas, Path=ActualHeight}">
-            <Grid Width="{Binding ElementName=mainCanvas, Path=ActualWidth}" Height="{Binding ElementName=mainCanvas, Path=ActualHeight}" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Border CornerRadius="5,5,5,5" Background="LightGray" Height="170" Width="250">
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="48" Height="48" Source="./../../../../Resources/ok.png" Margin="10,10,0,10" />
-                            <Label Margin="5,22,0,0">Transformation process completed</Label>
-                        </StackPanel>
-                        <Button Cursor="Hand" Click="buttonClose_Click" Height="125" Width="125" Margin="0,-30,0,0">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <Ellipse Name="buttonCloseBackground" Width="125" Height="125" Fill="Transparent">
-                                        </Ellipse>
-                                        <Image Width="32" Height="32" Source="./../../../../Resources/close.png" />
-                                        <Canvas>
-                                            <Label Canvas.Top="80" Canvas.Left="43" Foreground="Black">Close</Label>
-                                        </Canvas>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="Button.IsMouseOver" Value="True">
-                                            <Setter TargetName="buttonCloseBackground" Property="Fill">
-                                                <Setter.Value>
-                                                    <RadialGradientBrush>
-                                                        <RadialGradientBrush.GradientStops>
-                                                            <GradientStop Color="#606060" Offset="0" />
-                                                            <GradientStop Color="Transparent" Offset="1" />
-                                                        </RadialGradientBrush.GradientStops>
-                                                    </RadialGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </StackPanel>
-                </Border>
-            </Grid>
-        </Canvas>
-
         <!-- Popup field for "generating" progress field -->
         <Canvas Visibility="Collapsed" Name="popupGenerating" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=mainCanvas, Path=ActualWidth}" Height="{Binding ElementName=mainCanvas, Path=ActualHeight}">
             <Grid Width="{Binding ElementName=mainCanvas, Path=ActualWidth}" Height="{Binding ElementName=mainCanvas, Path=ActualHeight}" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -300,7 +258,79 @@
                                 <RotateTransform Angle="0" CenterX="22.5" CenterY="22.5" />
                             </Image.RenderTransform>
                         </Image>
-                        <Label Margin="10,20,0,0">Generating...</Label>
+                        <Label Margin="10,22,0,0">Generating...</Label>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Canvas>
+
+        <!-- Popup field for "generation completed" field -->
+        <Canvas Visibility="Collapsed" Name="popupFinished" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=mainCanvas, Path=ActualWidth}" Height="{Binding ElementName=mainCanvas, Path=ActualHeight}">
+            <Grid Width="{Binding ElementName=mainCanvas, Path=ActualWidth}" Height="{Binding ElementName=mainCanvas, Path=ActualHeight}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border CornerRadius="5,5,5,5" Background="LightGray" Height="170" Width="250">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="48" Height="48" Source="./../../../../Resources/ok.png" Margin="10,10,0,10" />
+                            <Label Margin="5,22,0,0">Transformation process completed</Label>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Cursor="Hand" Click="buttonOpenFile_Click" Height="125" Width="125" Margin="0,-30,0,0">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Ellipse Name="buttonOpenFileBackground" Width="125" Height="125" Fill="Transparent">
+                                            </Ellipse>
+                                            <Image Width="32" Height="32" Source="./../../../../Resources/open.png" />
+                                            <Canvas>
+                                                <Label Canvas.Top="80" Canvas.Left="30" Foreground="Black">Show result</Label>
+                                            </Canvas>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="Button.IsMouseOver" Value="True">
+                                                <Setter TargetName="buttonOpenFileBackground" Property="Fill">
+                                                    <Setter.Value>
+                                                        <RadialGradientBrush>
+                                                            <RadialGradientBrush.GradientStops>
+                                                                <GradientStop Color="#606060" Offset="0" />
+                                                                <GradientStop Color="Transparent" Offset="1" />
+                                                            </RadialGradientBrush.GradientStops>
+                                                        </RadialGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button Cursor="Hand" Click="buttonClose_Click" Height="125" Width="125" Margin="0,-30,0,0">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Ellipse Name="buttonCloseBackground" Width="125" Height="125" Fill="Transparent">
+                                            </Ellipse>
+                                            <Image Width="32" Height="32" Source="./../../../../Resources/close.png" />
+                                            <Canvas>
+                                                <Label Canvas.Top="80" Canvas.Left="43" Foreground="Black">Close</Label>
+                                            </Canvas>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="Button.IsMouseOver" Value="True">
+                                                <Setter TargetName="buttonCloseBackground" Property="Fill">
+                                                    <Setter.Value>
+                                                        <RadialGradientBrush>
+                                                            <RadialGradientBrush.GradientStops>
+                                                                <GradientStop Color="#606060" Offset="0" />
+                                                                <GradientStop Color="Transparent" Offset="1" />
+                                                            </RadialGradientBrush.GradientStops>
+                                                        </RadialGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </Grid>

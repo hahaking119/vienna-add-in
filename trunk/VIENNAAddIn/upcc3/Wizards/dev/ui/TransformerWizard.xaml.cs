@@ -47,6 +47,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             backgroundworkerInitialize.WorkerReportsProgress = false;
             backgroundworkerInitialize.WorkerSupportsCancellation = false;
             backgroundworkerInitialize.DoWork += new DoWorkEventHandler(backgroundworkerInitialize_DoWork);
+            backgroundworkerInitialize.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundworkerInitialize_RunWorkerCompleted);
             if (!backgroundworkerInitialize.IsBusy)
             {
                 backgroundworkerInitialize.RunWorkerAsync();
@@ -63,19 +64,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void backgroundworkerInitialize_DoWork(object sender, DoWorkEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)InitializeTrees);
+            treeContent = new ProjectBrowserContent(cctsR);
         }
 
-        private void InitializeTrees() {
-            treeContent = new ProjectBrowserContent(cctsR);
-            treeSourceBie.AllowOnlyOneType = "BieLibrary";
-            treeSourceBie.Initialize(treeContent);
-            treeSourceDoc.AllowOnlyOneType = "DocLibrary";
-            treeSourceDoc.Initialize(treeContent);
-            treeTargetBie.AllowOnlyOneType = "BieLibrary";
-            treeTargetBie.Initialize(treeContent);
-            treeTargetDoc.AllowOnlyOneType = "DocLibrary";
-            treeTargetDoc.Initialize(treeContent);
+        private void backgroundworkerInitialize_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate()
+            {
+                treeSourceBie.AllowOnlyOneType = "BieLibrary";
+                treeSourceBie.Initialize(treeContent);
+                treeSourceDoc.AllowOnlyOneType = "DocLibrary";
+                treeSourceDoc.Initialize(treeContent);
+                treeTargetBie.AllowOnlyOneType = "BieLibrary";
+                treeTargetBie.Initialize(treeContent);
+                treeTargetDoc.AllowOnlyOneType = "DocLibrary";
+                treeTargetDoc.Initialize(treeContent);
+            });
         }
 
         private void UpdateUI()
@@ -423,9 +427,26 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            selectedSourceBieLibrary = null;
+            selectedSourceDocLibrary = null;
+            selectedTargetBieLibrary = null;
+            selectedTargetDocLibrary = null;
+            xsdFilename = "";
+            targetFolder = "";
+            buttonXsdDocument.IsEnabled = true;
+            buttonTargetModel.IsEnabled = true;
+            buttonSourceModel.IsEnabled = true;
+            buttonTargetFolder.IsEnabled = true;
+            popupFinished.Visibility = Visibility.Collapsed;
+            ShowShield(false);
+            UpdateUI();
+            //this.Close();
         }
 
+        private void buttonOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(targetFolder);
+        }
         private void popupSourceBieOrDoc_Closed(object sender, EventArgs e)
         {
             Thread thread = new Thread(ShowOrHidePopupSourceModel);
