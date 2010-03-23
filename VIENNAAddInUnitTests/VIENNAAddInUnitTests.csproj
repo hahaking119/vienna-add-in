@@ -165,7 +165,6 @@
     <Compile Include="upcc3\Wizards\dev\ui\ExporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzerTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporterFormTest.cs" />
-    <Compile Include="upcc3\Wizards\dev\ui\TestFensterTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\TransformerUITest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\UpccModelCreatorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\TestRepository\EARepositoryAbieEditor.cs" />
