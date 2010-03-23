@@ -105,7 +105,7 @@
         <Canvas Visibility="Collapsed" Name="innerCanvas" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=canvas, Path=ActualWidth}" Height="{Binding ElementName=canvas, Path=ActualHeight}">
             <Rectangle Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=innerCanvas, Path=ActualWidth}" Height="{Binding ElementName=innerCanvas, Path=ActualHeight}">
                 <Rectangle.Fill>
-                    <SolidColorBrush Color="Gray" Opacity="0.75"/>
+                    <SolidColorBrush Color="Black" Opacity="0.6"/>
                 </Rectangle.Fill>
             </Rectangle>
             <DockPanel Name="dock" Canvas.Left="0" Canvas.Top="0" Width="{Binding ElementName=innerCanvas, Path=ActualWidth}" Height="{Binding ElementName=innerCanvas, Path=ActualHeight}">
