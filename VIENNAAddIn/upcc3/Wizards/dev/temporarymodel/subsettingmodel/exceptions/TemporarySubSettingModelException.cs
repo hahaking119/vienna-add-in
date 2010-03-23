@@ -7,20 +7,15 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System.Collections.Generic;
-using CctsRepository.DocLibrary;
+using System;
 
-namespace VIENNAAddIn.upcc3.Wizards.dev.cache
+namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel.exceptions
 {
-    internal class CacheItemDocLibrary
+    public class TemporarySubSettingModelException : Exception
     {
-        internal IDocLibrary DocLibrary { get; set; }
-
-        internal List<IMa> MasInLibrary { get; set; }
-
-        internal CacheItemDocLibrary(IDocLibrary library)
+        public TemporarySubSettingModelException(string errorMessage) : base(errorMessage)
         {
-            DocLibrary = library;
+            
         }
     }
 }

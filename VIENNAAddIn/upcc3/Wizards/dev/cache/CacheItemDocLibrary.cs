@@ -8,19 +8,19 @@
 // *******************************************************************************
 
 using System.Collections.Generic;
-using CctsRepository.DocLibrary;
+using CctsRepository.CcLibrary;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.cache
 {
-    internal class CacheItemDocLibrary
+    internal class CacheItemCcLibrary
     {
-        internal IDocLibrary DocLibrary { get; set; }
+        internal ICcLibrary CcLibrary { get; set; }
 
-        internal List<IMa> MasInLibrary { get; set; }
+        internal List<IAcc> CcsInLibrary { get; set; }
 
-        internal CacheItemDocLibrary(IDocLibrary library)
+        internal CacheItemCcLibrary(ICcLibrary library)
         {
-            DocLibrary = library;
+            CcLibrary = library;
         }
     }
 }

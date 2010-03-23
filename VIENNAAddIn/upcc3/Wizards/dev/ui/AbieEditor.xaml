@@ -15,7 +15,7 @@
             </DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,15,1,1">
                 <Button HorizontalAlignment="Center" Width="100" Name="buttonCreateOrUpdate" Margin="5,5,5,5" Click="buttonCreateOrUpdate_Click">C_reate ABIE</Button>
-                <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" Click="buttonClose_Click" IsCancel="True">_Close</Button>
+                <Button HorizontalAlignment="Center" Width="100" Name="buttonClose" Margin="5,5,5,5" Click="buttonClose_Click">_Close</Button>
             </StackPanel>
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBieLibraries">BIE Library used to store the ABIE:</Label>

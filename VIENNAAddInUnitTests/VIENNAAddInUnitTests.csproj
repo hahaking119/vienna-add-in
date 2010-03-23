@@ -159,7 +159,8 @@
     <Compile Include="upcc3\Wizards\dev\ui\AbieEditorFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\cache\CcCacheTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditorFormTest.cs" />
-    <Compile Include="upcc3\Wizards\dev\ui\TransformerWizardTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\Window1FormTest.cs" />
+    <Compile Include="upcc3\Wizards\dev\ui\SubSettingWizardTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\ExporterFormTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzerTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\StandardLibraryImporterFormTest.cs" />
