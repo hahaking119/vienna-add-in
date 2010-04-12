@@ -130,10 +130,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             Model = (TemporaryAbieModel) e.Result;
             backgroundworker.DoWork -= doWorkEventHandler;
 
-            //    string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;
-            //    Model.SetCheckedForAllCandidateBccs(Model.temporaryCheckstate);
+            string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;
+            Model.SetCheckedForAllCandidateBccs(Model.temporaryCheckstate);
 
             SetSelectedItemForBccListBox();
+            listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, selectedItemText);
 
             UpdateFormState();
 
@@ -215,11 +216,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBccs_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem) listboxBccs.SelectedItem ??
-                                          GetSelectedCheckableItemforListbox(listboxBccs, selectedBcc);
-            Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
+            if (listboxBccs.SelectedItem != null)
+            {
+                CheckableItem checkableItem = (CheckableItem) listboxBccs.SelectedItem ??
+                                              GetSelectedCheckableItemforListbox(listboxBccs, selectedBcc);
+                Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
 
-            SetSelectedItemForBbieListBox();
+                SetSelectedItemForBbieListBox();
+            }
         }
 
 
