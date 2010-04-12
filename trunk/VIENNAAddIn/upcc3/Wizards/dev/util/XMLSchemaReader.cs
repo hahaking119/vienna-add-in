@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
@@ -88,7 +87,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
                     }
                     else if (include is XmlSchemaImport)
                     {
-                        includedSchema = ((XmlSchemaImport)include).Schema;
+                        var import = ((XmlSchemaImport)include);
+                        includedSchema = XmlSchema.Read(XmlReader.Create(import.SchemaLocation), null);
                     }
                     FlattenXmlSchemaStructure(includedSchema, xmlSchemaNames);
                 }

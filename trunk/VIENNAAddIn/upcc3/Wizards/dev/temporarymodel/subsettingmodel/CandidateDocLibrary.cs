@@ -6,41 +6,30 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 {
     public class CandidateDocLibrary
     {
-        private IDocLibrary mOriginalDocLibrary;
-        private bool mSelected;
         private List<CandidateRootElement> mCandidateRootElements;
 
         public CandidateDocLibrary(IDocLibrary docLibrary)
         {
-            mOriginalDocLibrary = docLibrary;
-            mSelected = false;
+            OriginalDocLibrary = docLibrary;
+            Selected = false;
             mCandidateRootElements = null;
         }
 
-        public IDocLibrary OriginalDocLibrary
-        {
-            set { mOriginalDocLibrary = value; }
-            get { return mOriginalDocLibrary; }
-        }
-
-        public bool Selected
-        {
-            set { mSelected = value; }
-            get { return mSelected; }
-        }
+        public IDocLibrary OriginalDocLibrary { set; get; }
+        public bool Selected { set; get; }
 
         public List<CandidateRootElement> CandidateRootElements
         {
-            set
-            {
-                mCandidateRootElements = value;    
-            }
+            set { mCandidateRootElements = value; }
 
             get
             {
                 if (mCandidateRootElements == null)
                 {
-                    mCandidateRootElements = new List<CandidateRootElement>(CcCache.GetInstance().GetMasFromDocLibrary(OriginalDocLibrary.Name).ConvertAll(ma => new CandidateRootElement(ma)));
+                    mCandidateRootElements =
+                        new List<CandidateRootElement>(
+                            CcCache.GetInstance().GetMasFromDocLibrary(OriginalDocLibrary.Name).ConvertAll(
+                                ma => new CandidateRootElement(ma)));
                 }
 
                 return mCandidateRootElements;

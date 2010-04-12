@@ -13,6 +13,7 @@ using CctsRepository;
 using NUnit.Framework;
 using VIENNAAddIn.upcc3;
 using VIENNAAddIn.upcc3.Wizards.dev.ui;
+using VIENNAAddInUnitTests.TestRepository;
 using VIENNAAddInUnitTests.upcc3.Wizards.dev.TestRepository;
 
 namespace VIENNAAddInUnitTests.upcc3.Wizards.dev.ui

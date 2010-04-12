@@ -14,44 +14,29 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 {
     public class PotentialBbie
     {
-        private string mName;
-        private bool mChecked;
-        private bool mSelected;
+        private readonly Cursor mItemCursor;
+        private readonly bool mItemFocusable;
+        private readonly bool mItemReadOnly;
         private ICdt mCdtUsedInBcc;
-        private bool mItemReadOnly;
-        private Cursor mItemCursor;
-        private bool mItemFocusable;
 
         public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn)
         {
-            mName = bbieName;
+            Name = bbieName;
             mCdtUsedInBcc = cdtOfTheBccWhichTheBbieIsBasedOn;
-            mChecked = false;
-            mSelected = false;
+            Checked = false;
+            Selected = false;
             mItemReadOnly = false;
             mItemCursor = Cursors.IBeam;
             mItemFocusable = true;
         }
 
-        public string Name
-        {
-            get { return mName; }
-            set { mName = value; }
-        }
+        public string Name { get; set; }
 
-        public bool Checked
-        {
-            get { return mChecked; }
-            set { mChecked = value; }
-        }
+        public bool Checked { get; set; }
 
-        public bool Selected
-        {
-            get { return mSelected; }
-            set { mSelected = value; }
-        }
-        
-       public bool ItemReadOnly
+        public bool Selected { get; set; }
+
+        public bool ItemReadOnly
         {
             get { return mItemReadOnly; }
         }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
 namespace VIENNAAddInWpfUserControls
@@ -8,25 +7,31 @@ namespace VIENNAAddInWpfUserControls
     /// <summary>
     /// Interaction logic for FileSelector.xaml
     /// </summary>
-    public partial class ProgressBackgroundWorker : UserControl
+    public partial class ProgressBackgroundWorker
     {
-        private BackgroundWorker bw;
+        private static readonly RoutedEvent RunWorkerCompletedEvent =
+            EventManager.RegisterRoutedEvent("RunWorkerCompleted", RoutingStrategy.Bubble, typeof (RunWorkerCompletedEventHandler),
+                                             typeof (FileSelector));
+
+        private readonly BackgroundWorker bw;
+
+        private readonly RoutedEvent DoWorkEvent = EventManager.RegisterRoutedEvent("DoWork", RoutingStrategy.Bubble,
+                                                                                    typeof (DoWorkEventHandler),
+                                                                                    typeof (ProgressBackgroundWorker));
+
+        public object parameter;
 
         public ProgressBackgroundWorker()
         {
             InitializeComponent();
-            bw = new BackgroundWorker();
-            bw.WorkerReportsProgress = false;
-            bw.WorkerSupportsCancellation = false;
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+            bw = new BackgroundWorker {WorkerReportsProgress = false, WorkerSupportsCancellation = false};
+            bw.DoWork += bw_DoWork;
+            bw.RunWorkerCompleted += bw_RunWorkerCompleted;
         }
 
-        public string Header {
-            get
-            {
-                return (string)label.Content;
-            }
+        public string Header
+        {
+            get { return (string) label.Content; }
             set
             {
                 border.Width = 77 + label.ActualWidth;
@@ -36,39 +41,57 @@ namespace VIENNAAddInWpfUserControls
 
         public void RunWorkerAsync()
         {
-            this.Visibility = Visibility.Visible;
-            var sbdRotation = (Storyboard)FindResource("sbdRotation");
+            Visibility = Visibility.Visible;
+            var sbdRotation = (Storyboard) FindResource("sbdRotation");
             sbdRotation.Begin(this);
             bw.RunWorkerAsync();
         }
 
-        private static readonly RoutedEvent DoWorkEvent = EventManager.RegisterRoutedEvent("DoWork", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ProgressBackgroundWorker));
+        public void RunWorkerAsync(object argument)
+        {
+            Visibility = Visibility.Visible;
+            var sbdRotation = (Storyboard) FindResource("sbdRotation");
+            sbdRotation.Begin(this);
+            parameter = argument;
+            bw.RunWorkerAsync(this);
+        }
 
-        public event RoutedEventHandler DoWork
+        public event DoWorkEventHandler DoWork
         {
             add { AddHandler(DoWorkEvent, value); }
             remove { RemoveHandler(DoWorkEvent, value); }
         }
 
-        private static readonly RoutedEvent RunWorkerCompletedEvent = EventManager.RegisterRoutedEvent("RunWorkerCompleted", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(FileSelector));
-
-        public event RoutedEventHandler RunWorkerCompleted
+        public event RunWorkerCompletedEventHandler RunWorkerCompleted
         {
             add { AddHandler(RunWorkerCompletedEvent, value); }
             remove { RemoveHandler(RunWorkerCompletedEvent, value); }
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        public void RaiseBackgroundWorkerDoWorkEvent()
         {
             RaiseEvent(new RoutedEventArgs(DoWorkEvent));
         }
 
+        public void RaiseBackgroundWorkerWorkCompletedEvent()
+        {
+            RaiseEvent(new RoutedEventArgs(RunWorkerCompletedEvent));
+        }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var progressBackgroundWorker = (ProgressBackgroundWorker) e.Argument;
+            progressBackgroundWorker.RaiseBackgroundWorkerDoWorkEvent();
+            e.Result = e.Argument;
+        }
+
         private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var sbdRotation = (Storyboard)FindResource("sbdRotation");
+            var progressBackgroundWorker = (ProgressBackgroundWorker)e.Result;
+            var sbdRotation = (Storyboard) FindResource("sbdRotation");
             sbdRotation.Stop();
-            this.Visibility = Visibility.Collapsed;
-            RaiseEvent(new RoutedEventArgs(RunWorkerCompletedEvent));
+            Visibility = Visibility.Collapsed;
+            progressBackgroundWorker.RaiseBackgroundWorkerWorkCompletedEvent();
         }
     }
 }

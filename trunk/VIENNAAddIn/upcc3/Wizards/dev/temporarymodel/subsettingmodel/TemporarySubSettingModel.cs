@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
@@ -25,35 +26,40 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
     {
         #region Backing Fields for Binding Properties
 
+        private List<CheckableTreeViewItem> mCandidateAbieItems;
         private List<string> mCandidateDocLibraryNames;
+        private List<CheckableItem> mCandidateRootElementItems;
         private List<string> mCandidateRootElementNames;
         private List<CheckableItem> mPotentialBbieItems;
-        private List<CheckableItem> mCandidateRootElementItems;
-        private ObservableCollection<CheckableTreeViewItem> mCandidateAbieItems;
         private string mRootElementName;
-        #endregion
 
+        #endregion
 
         #region Class Fields
 
         private readonly CcCache ccCache;
-        private List<CandidateDocLibrary> mCandidateDocLibraries;
+        private readonly List<CandidateDocLibrary> mCandidateDocLibraries;
         private CandidateRootElement rootElement;
 
         #endregion
-        
 
         public TemporarySubSettingModel(ICctsRepository cctsRepository)
         {
-            mCandidateAbieItems = new ObservableCollection<CheckableTreeViewItem>();
-            
+            mCandidateAbieItems = new List<CheckableTreeViewItem>();
+
             ccCache = CcCache.GetInstance(cctsRepository);
-            mCandidateDocLibraries = new List<CandidateDocLibrary>(ccCache.GetDocLibraries().ConvertAll(doclib => new CandidateDocLibrary(doclib)));
-            CandidateDocLibraryNames =  new List<string>(mCandidateDocLibraries.ConvertAll(new Converter<CandidateDocLibrary,string>(CandidateDocLibraryToString)));
+
+            mCandidateDocLibraries =
+                new List<CandidateDocLibrary>(
+                    ccCache.GetDocLibraries().ConvertAll(doclib => new CandidateDocLibrary(doclib)));
+            CandidateDocLibraryNames =
+                new List<string>(mCandidateDocLibraries.ConvertAll(doclib => doclib.OriginalDocLibrary.Name));
             // Populate the model with the appropriate DOC library which contains the root MA.
         }
 
         #region Binding Properties
+
+        public string currentDocLibrary;
 
         public string RootElement
         {
@@ -62,11 +68,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 mRootElementName = value;
                 OnPropertyChanged(BindingPropertyNames.TemporarySubSettingModel.RootElement);
             }
-            get
-            {
-                return mRootElementName;
-            }
+            get { return mRootElementName; }
         }
+
         public List<string> CandidateDocLibraryNames
         {
             set
@@ -75,10 +79,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 OnPropertyChanged(BindingPropertyNames.TemporarySubSettingModel.CandidateDocLibraryNames);
             }
 
-            get
-            {
-                return mCandidateDocLibraryNames;
-            }
+            get { return mCandidateDocLibraryNames; }
         }
 
         public List<string> CandidateRootElementNames
@@ -89,10 +90,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 OnPropertyChanged(BindingPropertyNames.TemporarySubSettingModel.CandidateRootElementNames);
             }
 
-            get
-            {
-                return mCandidateRootElementNames;
-            }
+            get { return mCandidateRootElementNames; }
         }
 
         public List<CheckableItem> PotentialBbieItems
@@ -103,11 +101,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 OnPropertyChanged(BindingPropertyNames.TemporarySubSettingModel.PotentialBbieItems);
             }
 
-            get
-            {
-                return mPotentialBbieItems;
-            }
+            get { return mPotentialBbieItems; }
         }
+
         public List<CheckableItem> CandidateRootElementItems
         {
             set
@@ -116,74 +112,65 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 OnPropertyChanged(BindingPropertyNames.TemporarySubSettingModel.CandidateRootElementItems);
             }
 
-            get
-            {
-                return mCandidateRootElementItems;
-            }
+            get { return mCandidateRootElementItems; }
         }
+
         public ObservableCollection<CheckableTreeViewItem> CandidateAbieItems
         {
             set
             {
-                mCandidateAbieItems = value;
+                mCandidateAbieItems = new List<CheckableTreeViewItem>(value);
                 OnPropertyChanged(BindingPropertyNames.TemporarySubSettingModel.CandidateAbieItems);
             }
 
-            get
+            get { return new ObservableCollection<CheckableTreeViewItem>(mCandidateAbieItems); }
+        }
+
+        #endregion
+
+        #region buildCheckabelTreeView
+
+        private List<CheckableTreeViewItem> buildCheckableTreeView(CandidateRootElement ma)
+        {
+            var checkableTreeViewItems = new List<CheckableTreeViewItem>();
+            foreach (var asma in ma.OriginalMa.Asmas)
             {
-                return mCandidateAbieItems;
-            }
-        }
-
-       #endregion
-
-      
-        #region ConvertAll Methods
-
-        private static string CandidateDocLibraryToString(CandidateDocLibrary candidateDocLibrary)
-        {
-            return candidateDocLibrary.OriginalDocLibrary.Name;
-        }
-
-        private static CheckableItem PotentialBbieToCheckableText(PotentialBbie potentialBbie)
-        {
-            return new CheckableItem(potentialBbie.Checked, potentialBbie.Name, potentialBbie.ItemReadOnly, potentialBbie.ItemFocusable, potentialBbie.ItemCursor);
-        }
-
-        private static CheckableTreeViewItem CandidateAbieToCheckableTreeViewItem(CandidateAbie candidateAbie)
-        {
-
-            return new CheckableTreeViewItem(candidateAbie.Checked,candidateAbie.Name,DFS(candidateAbie.OriginalAbie,new ObservableCollection<IAbie>()));
-        }
-
-
-        private static ObservableCollection<CheckableTreeViewItem> buildCheckableTreeView (CandidateRootElement ma)
-        {
-            var checkableTreeViewItems = new ObservableCollection<CheckableTreeViewItem>();
-            foreach (IAsma asma in ma.OriginalMa.Asmas)
-            {
-                if(asma.AssociatedBieAggregator.IsMa)
+                if (asma.AssociatedBieAggregator.IsMa)
                 {
-                    checkableTreeViewItems.Add(new CheckableTreeViewItem(true,asma.AssociatedBieAggregator.Ma.Name,DFS(asma.AssociatedBieAggregator.Ma,new Collection<IMa>())));
+                    checkableTreeViewItems.Add(new CheckableTreeViewItem(asma.AssociatedBieAggregator.Ma.Name,
+                                                                         DFS(asma.AssociatedBieAggregator.Ma,
+                                                                             new Collection<IMa>())));
                 }
-                else if(asma.AssociatedBieAggregator.IsAbie)
+                else if (asma.AssociatedBieAggregator.IsAbie)
                 {
-                    checkableTreeViewItems.Add(new CheckableTreeViewItem(true,asma.AssociatedBieAggregator.Abie.Name,DFS(asma.AssociatedBieAggregator.Abie,new Collection<IAbie>())));
+                    rootElement.CandidateAbies.Add(new CandidateAbie(asma.AssociatedBieAggregator.Abie,
+                                                                     AbieDFS(asma.AssociatedBieAggregator.Abie,
+                                                                             new Collection<IAbie>())));
+                    checkableTreeViewItems.Add(new CheckableTreeViewItem(true, asma.AssociatedBieAggregator.Abie.Name,
+                                                                         DFS(asma.AssociatedBieAggregator.Abie,
+                                                                             new Collection<IAbie>())));
                 }
             }
             return checkableTreeViewItems;
         }
-        private static ObservableCollection<CheckableTreeViewItem> DFS(IMa root, ICollection<IMa> visited)
+
+        private ObservableCollection<CheckableTreeViewItem> DFS(IMa root, ICollection<IMa> visited)
         {
             var tempList = new ObservableCollection<CheckableTreeViewItem>();
             IEnumerator enumerator = root.Asmas.GetEnumerator();
             while (enumerator.MoveNext())
             {
-                var currentAsma = (IAsma)enumerator.Current;
+                var currentAsma = (IAsma) enumerator.Current;
                 if (currentAsma.AssociatedBieAggregator.IsAbie)
                 {
                     var currentAbie = currentAsma.AssociatedBieAggregator.Abie;
-                    tempList.Add(new CheckableTreeViewItem(true, currentAbie.Name, DFS(currentAbie, new Collection<IAbie>())));
+                    if (findAbie(currentAbie.Name, rootElement.CandidateAbies) == null)
+                    {
+                        rootElement.CandidateAbies.Add(new CandidateAbie(currentAbie,
+                                                                         AbieDFS(currentAbie, new Collection<IAbie>{currentAbie})));
+                    }
+                    tempList.Add(new CheckableTreeViewItem(true, currentAbie.Name,
+                                                           DFS(currentAbie, new Collection<IAbie> { currentAbie })));
                 }
                 else if (currentAsma.AssociatedBieAggregator.IsMa)
                 {
@@ -191,13 +178,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                     if (!visited.Contains(currentMa))
                     {
                         visited.Add(currentMa);
-                        tempList.Add(new CheckableTreeViewItem(true, currentMa.Name,
+                        tempList.Add(new CheckableTreeViewItem(currentMa.Name,
                                                                DFS(currentMa, visited)));
                     }
                 }
             }
             return tempList;
         }
+
         private static ObservableCollection<CheckableTreeViewItem> DFS(IAbie root, ICollection<IAbie> visited)
         {
             var tempList = new ObservableCollection<CheckableTreeViewItem>();
@@ -206,21 +194,44 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
             {
                 var currentAsbie = (IAsbie) enumerator.Current;
                 var currentAbie = currentAsbie.AssociatedAbie;
-                    if (!visited.Contains(currentAbie))
-                    {
-                        visited.Add(currentAbie);
-                        tempList.Add(new CheckableTreeViewItem(true,currentAbie.Name,DFS(currentAbie,visited)));
-                    }
+                if (!visited.Contains(currentAbie))
+                {
+                    visited.Add(currentAbie);
+                    tempList.Add(new CheckableTreeViewItem(true, currentAbie.Name, DFS(currentAbie, visited)));
+                }
             }
             return tempList;
         }
-        private static string CandidateRootElementToString(CandidateRootElement candidateRootElement)
+
+        private static List<CandidateAbie> AbieDFS(IAbie root, ICollection<IAbie> visited)
         {
-            return candidateRootElement.OriginalMa.Name;
+            var tempList = new List<CandidateAbie>();
+            IEnumerator enumerator = root.Asbies.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                var currentAsbie = (IAsbie) enumerator.Current;
+                IAbie currentAbie = currentAsbie.AssociatedAbie;
+                if (!visited.Contains(currentAbie))
+                {
+                    visited.Add(currentAbie);
+                    tempList.Add(new CandidateAbie(currentAbie, AbieDFS(currentAbie, visited)));
+                }
+            }
+            return tempList;
         }
-
+        private static bool isRelated(CheckableTreeViewItem CandidateParent, CheckableTreeViewItem child)
+        {
+            foreach (var item in CandidateParent.Children)
+            {
+                if(item.Text.Equals(child.Text))
+                {
+                    return true;
+                }
+                return isRelated(item, child);
+            }
+            return false;
+        }
         #endregion
-
 
         #region INotifyPropertyChanged Implementation
 
@@ -236,9 +247,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 
         #endregion
 
-        
-
-
         public void SetSelectedCandidateDocLibrary(string selectedDocLibrary)
         {
             foreach (CandidateDocLibrary candidateDocLibrary in mCandidateDocLibraries)
@@ -246,23 +254,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 if (candidateDocLibrary.OriginalDocLibrary.Name.Equals(selectedDocLibrary))
                 {
                     candidateDocLibrary.Selected = true;
-                    rootElement = new CandidateRootElement(candidateDocLibrary.OriginalDocLibrary.DocumentRoot);
+                    rootElement = new CandidateRootElement(candidateDocLibrary.OriginalDocLibrary.DocumentRoot)
+                                      {CandidateAbies = new List<CandidateAbie>()};
                     RootElement = rootElement.OriginalMa.Name;
-                    CandidateAbieItems.Clear();
-                    CandidateAbieItems = buildCheckableTreeView(rootElement);
+                    mCandidateAbieItems.Clear();
+                    mCandidateAbieItems = buildCheckableTreeView(rootElement);
+                    CandidateAbieItems = new ObservableCollection<CheckableTreeViewItem>(mCandidateAbieItems);
+                    return;
                     //override selection of root Element!
                     //CandidateRootElementNames = new List<string>(candidateDocLibrary.CandidateRootElements.ConvertAll(new Converter<CandidateRootElement, string>(CandidateRootElementToString)));                        
                 }
-                else
-                {
-                    candidateDocLibrary.Selected = false;
-                }
+                candidateDocLibrary.Selected = false;
             }
         }
 
         public void SetSelectedCandidateRootElement(string selectedRootElement)
         {
-
             mCandidateAbieItems.Clear();
             foreach (CandidateDocLibrary candidateDocLibrary in mCandidateDocLibraries)
             {
@@ -282,7 +289,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                         }
                     }
                 }
-            }                
+            }
         }
 
         public void SetDefaultChecked(CandidateAbie candidateAbie)
@@ -292,7 +299,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 
             foreach (CandidateAbie potentialAbie in candidateAbie.PotentialAbies)
             {
-                if (potentialAbie.Checked)                
+                if (potentialAbie.Checked)
                 {
                     indexCheckedAbie = index;
                     break;
@@ -304,50 +311,120 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
             if (indexCheckedAbie == -1)
             {
                 indexCheckedAbie = 0;
-                candidateAbie.PotentialAbies[indexCheckedAbie].Checked = true;                
+                candidateAbie.PotentialAbies[indexCheckedAbie].Checked = true;
             }
         }
 
-       public void SetSelectedAndCheckedPotentialBbie(string selectedBbie, bool checkedValue)
+        public void SetCheckedPotentialBbie(string selectedBbie, bool checkedValue)
         {
-            
-        }
-
-       
-        public void SetSelectedAndCheckedCandidateAbie(string selectedAbie, bool checkedValue)
-        {
-            var result = findAbie(selectedAbie, mCandidateAbieItems);
-            if (result != null)
+            foreach (CheckableItem bbieItem in mPotentialBbieItems)
             {
-               result.Checked = checkedValue;
-               checkAllChildren(result,checkedValue);
-            }
-            foreach (CandidateAbie abie in rootElement.CandidateAbies)
-            {
-                if(abie.Name.Equals(selectedAbie))
+                if (bbieItem.Text.Equals(selectedBbie))
                 {
-                    abie.Checked = checkedValue;
-                    //PotentialBbieItems = new List<CheckableItem>(abie.OriginalAbie.Bbies); TODO: add Bbies!
+                    bbieItem.Checked = checkedValue;
                 }
             }
+            PotentialBbieItems = mPotentialBbieItems;
+        }
+
+        public void SetSelectedCandidateAbie(string selectedAbie, bool checkedValue)
+        {
+            mPotentialBbieItems = new List<CheckableItem>();
+            CandidateAbie abie = findAbie(selectedAbie, rootElement.CandidateAbies);
+            if (abie != null)
+            {
+                var bbies = new List<IBbie>(abie.OriginalAbie.Bbies);
+                mPotentialBbieItems =
+                    new List<CheckableItem>(
+                        bbies.ConvertAll(potBbie => new CheckableItem(true, potBbie.Name, true, false, Cursors.Arrow)));
+                abie.PotentialBbies = new List<PotentialBbie>(bbies.ConvertAll(potBbie => new PotentialBbie(potBbie.Name,potBbie.Bdt.BasedOn)));
+            }
+            PotentialBbieItems = mPotentialBbieItems;
+        }
+
+        public void SetExpandedCheckableTreeViewItem(string selectedCheckableTreeViewItem, bool isExpanded)
+        {
+            CheckableTreeViewItem checkableTreeViewItem = findCheckableTreeViewItem(selectedCheckableTreeViewItem,
+                                                                                    CandidateAbieItems);
+            if (checkableTreeViewItem != null)
+            {
+                checkableTreeViewItem.IsExpanded = isExpanded;
+            }
+        }
+
+        private static CandidateAbie findAbie(string selectedAbie, IEnumerable<CandidateAbie> abies)
+        {
+            CandidateAbie returnAbie = null;
+            if (abies != null)
+            {
+                foreach (CandidateAbie abie in abies)
+                {
+                    if (abie.Name.Equals(selectedAbie))
+                    {
+                        return abie;
+                    }
+                    returnAbie = findAbie(selectedAbie, abie.PotentialAbies);
+                }
+            }
+            return returnAbie;
+        }
+
+        public void SetCheckedCandidateAbie(string selectedAbie, bool checkedValue)
+        {
+            var result = findCheckableTreeViewItem(selectedAbie, CandidateAbieItems);
+            if (result != null)
+            {
+                result.Checked = checkedValue;
+
+                //check all related Nodes from tree
+                checkAllParents(mCandidateAbieItems,result);
+                //checkAllChildren(result, checkedValue); change from 08.04.2010 => don't check children
+            }
+            if (rootElement.CandidateAbies != null)
+            {
+                foreach (CandidateAbie abie in rootElement.CandidateAbies)
+                {
+                    if (abie.Name.Equals(selectedAbie))
+                    {
+                        abie.Checked = checkedValue;
+                        //PotentialBbieItems = new List<CheckableItem>(abie.OriginalAbie.Bbies); TODO: add Bbies!
+                    }
+                }
+            }
+            CandidateAbieItems = new ObservableCollection<CheckableTreeViewItem>(mCandidateAbieItems);
             //PotentialBbieItems = new List<CheckableItem>(result.);
         }
 
+        private static void checkAllParents(List<CheckableTreeViewItem> treeViewItems, CheckableTreeViewItem itemToCheck)
+        {
+            foreach (var item in treeViewItems)
+            {
+                if (isRelated(item, itemToCheck))
+                {
+                    item.Checked = itemToCheck.Checked;
+                }
+                else
+                {
+                    checkAllParents(new List<CheckableTreeViewItem>(item.Children),itemToCheck);
+                }
+            }
+        }
         private static void checkAllChildren(CheckableTreeViewItem itemToCheck, bool checkedValue)
         {
-            foreach (var child in itemToCheck.Children)
+            foreach (CheckableTreeViewItem child in itemToCheck.Children)
             {
                 child.Checked = checkedValue;
-                if(child.Children!=null)
+                if (child.Children != null)
                 {
-                    checkAllChildren(child,checkedValue);
+                    checkAllChildren(child, checkedValue);
                 }
             }
         }
 
-        private static CheckableTreeViewItem findAbie(string selectedAbie, Collection<CheckableTreeViewItem> listToSearch)
+        private static CheckableTreeViewItem findCheckableTreeViewItem(string selectedAbie,
+                                                                       IEnumerable<CheckableTreeViewItem> listToSearch)
         {
-           foreach (var candidateAbieItem in listToSearch)
+            foreach (CheckableTreeViewItem candidateAbieItem in listToSearch)
             {
                 if (candidateAbieItem.Text.Equals(selectedAbie))
                 {
@@ -355,8 +432,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 }
                 if (candidateAbieItem.Children != null)
                 {
-                    CheckableTreeViewItem tempItem = findAbie(selectedAbie, candidateAbieItem.Children);
-                    if(tempItem!=null)
+                    CheckableTreeViewItem tempItem = findCheckableTreeViewItem(selectedAbie, candidateAbieItem.Children);
+                    if (tempItem != null)
                     {
                         return tempItem;
                     }
@@ -370,6 +447,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
         {
             CandidateAbieItems = new ObservableCollection<CheckableTreeViewItem>();
             PotentialBbieItems = new List<CheckableItem>();
+        }
+
+        public void createSubSet()
+        {
+            //var modelCreator = new ModelCreator(repository.);
         }
 
         public void SetSelectedAndCheckedPotentialAsbie(string selectedAsbie, bool checkedValue)
@@ -403,7 +485,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
             //    }
             //}
         }
-
 
 
         //public bool ContainsValidConfiguration()
