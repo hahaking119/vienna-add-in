@@ -14,7 +14,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
     public class CheckableTreeViewItem
     {
         public bool Checked { get; set; }
+        public bool IsExpanded { get; set; }
         public string Text { get; set; }
+        public string visibility { get; set; }
         public ObservableCollection<CheckableTreeViewItem> Children { get; set; }
 
         public CheckableTreeViewItem(bool initChecked, string initText, ObservableCollection<CheckableTreeViewItem> children)
@@ -22,6 +24,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             Checked = initChecked;
             Text = initText;
             Children = children;
+            visibility = "Visible";
+        }
+        public CheckableTreeViewItem(string initText, ObservableCollection<CheckableTreeViewItem> children)
+        {
+            Text = initText;
+            Children = children;
+            visibility = "Collapsed";
         }
     }
 }

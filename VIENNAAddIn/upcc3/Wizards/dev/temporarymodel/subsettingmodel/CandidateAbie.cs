@@ -15,56 +15,42 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 {
     public class CandidateAbie
     {
-        private string mName;
-        private bool mChecked;
-        private IAbie mOriginalAbie;
-        private bool mSelected; 
-        private List<CandidateAbie> mPotentialAbies;
-        private bool mItemReadOnly;
-        private Cursor mItemCursor;
-        private bool mItemFocusable;
+        private readonly bool mItemReadOnly;
+        private readonly Cursor mItemCursor;
+        private readonly bool mItemFocusable;
+
+        public string Name { get; set; }
+        public bool Checked { get; set; }
+        public bool Selected { get; set; }
+        public IAbie OriginalAbie { get; set; }
+        public List<CandidateAbie> PotentialAbies { get; set; }
+        public List<PotentialBbie> PotentialBbies { get; set; }
 
         public CandidateAbie(IAbie originalAbie)
         {
-            mName = originalAbie.Name;
-            mChecked = false;
-            mOriginalAbie = originalAbie;
-            mSelected = false;
-            mPotentialAbies = null;
+            Name = originalAbie.Name;
+            Checked = false;
+            OriginalAbie = originalAbie;
+            Selected = false;
+            PotentialAbies = null;
+            PotentialBbies = null;
 
             mItemReadOnly = true;
             mItemCursor = Cursors.Arrow;
             mItemFocusable = false;
         }
 
-        public string Name
+        public CandidateAbie(IAbie originalAbie, List<CandidateAbie> potenAbies)
         {
-            get { return mName; }
-            set { mName = value; }
-        }
-
-        public bool Checked
-        {
-            get { return mChecked; }
-            set { mChecked = value; }
-        }
-
-        public bool Selected
-        {
-            get { return mSelected; }
-            set { mSelected = value; }
-        }
-
-        public IAbie OriginalAbie
-        {
-            get { return mOriginalAbie; }
-            set { mOriginalAbie = value; }
-        }
-
-        public List<CandidateAbie> PotentialAbies
-        {
-            get { return mPotentialAbies; }
-            set { mPotentialAbies = value; }
+            Name = originalAbie.Name;
+            Checked = false;
+            OriginalAbie = originalAbie;
+            Selected = false;
+            PotentialAbies = potenAbies;
+            PotentialBbies = null;
+            mItemReadOnly = true;
+            mItemCursor = Cursors.Arrow;
+            mItemFocusable = false;
         }
 
         public bool ItemReadOnly

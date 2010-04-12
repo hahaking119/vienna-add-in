@@ -13,49 +13,29 @@ using CctsRepository.CcLibrary;
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 {
     public class PotentialAsbie
-    {        
-        private string mName;
-        private bool mChecked;
-        private bool mSelected;
-        private IAscc mBasedOn;
-        private bool mItemReadOnly;
-        private Cursor mItemCursor;
-        private bool mItemFocusable;
+    {
+        private readonly Cursor mItemCursor;
+        private readonly bool mItemFocusable;
+        private readonly bool mItemReadOnly;
 
         public PotentialAsbie(IAscc originalAscc)
         {
-            mName = originalAscc.Name;
-            mChecked = false;
-            mBasedOn = originalAscc;
+            Name = originalAscc.Name;
+            Checked = false;
+            BasedOn = originalAscc;
 
             mItemReadOnly = true;
             mItemCursor = Cursors.Arrow;
             mItemFocusable = false;
         }
 
-        public string Name
-        {
-            get { return mName; }
-            set { mName = value; }
-        }
+        public string Name { get; set; }
 
-        public bool Checked
-        {
-            get { return mChecked; }
-            set { mChecked = value; }
-        }
+        public bool Checked { get; set; }
 
-        public bool Selected
-        {
-            get { return mSelected; }
-            set { mSelected = value; }
-        }
+        public bool Selected { get; set; }
 
-        public IAscc BasedOn
-        {
-            get { return mBasedOn; }
-            set { mBasedOn = value; }
-        }
+        public IAscc BasedOn { get; set; }
 
         public bool ItemReadOnly
         {

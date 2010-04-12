@@ -208,6 +208,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         #region Binding Properties
 
+        public bool temporaryCheckstate;
+
         public string AbieName
         {
             get { return mAbieName; }
@@ -586,10 +588,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                 foreach (PotentialBbie potentialBbie in candidateBcc.PotentialBbies)
                                 {
                                     potentialBbie.Checked = checkedValue;
-                                    foreach (PotentialBdt potentialBdt in potentialBbie.PotentialBdts)
-                                    {
-                                        potentialBdt.Checked = checkedValue;
-                                    }
+                                    
+                                    //only check first Bdt!
+                                    potentialBbie.PotentialBdts[0].Checked = checkedValue;
+                                    //foreach (PotentialBdt potentialBdt in potentialBbie.PotentialBdts)
+                                    //{
+                                    //    potentialBdt.Checked = checkedValue;
+                                    //}
                                 }
                             }
 

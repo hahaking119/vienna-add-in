@@ -5,34 +5,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 {
     public class CandidateRootElement
     {
-        private IMa mOriginalMa;
-        private bool mSelected;
-        private List<CandidateAbie> mCandidateAbies;
-
         public CandidateRootElement(IMa ma)
         {
-            mOriginalMa = ma;
-            mSelected = false;
-            mCandidateAbies = null;
+            OriginalMa = ma;
+            Selected = false;
+            CandidateAbies = null;
         }
 
-        public IMa OriginalMa
-        {
-            set { mOriginalMa = value; }
-            get { return mOriginalMa; }
-        }
+        public IMa OriginalMa { set; get; }
 
-        public bool Selected
-        {
-            set { mSelected = value; }
-            get { return mSelected; }
-        }
+        public bool Selected { set; get; }
 
-        public List<CandidateAbie> CandidateAbies
-        {
-            set { mCandidateAbies = value; }
-
-            get { return mCandidateAbies; }
-        }
+        public List<CandidateAbie> CandidateAbies { set; get; }
     }
 }

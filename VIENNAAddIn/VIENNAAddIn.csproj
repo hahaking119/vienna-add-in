@@ -1184,7 +1184,6 @@
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\analyze.png" />
     <Resource Include="Resources\open.png" />
     <Resource Include="Resources\cancel.png" />
     <Resource Include="Resources\warning.png" />
@@ -1204,5 +1203,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />
+    <Folder Include="images\" />
   </ItemGroup>
 </Project>
