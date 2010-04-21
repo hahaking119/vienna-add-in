@@ -59,6 +59,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             e.Result = tempModel;
         }
 
+        private void backgroundworkerCreateSubset_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Model = (TemporarySubSettingModel)e.Result;
+            backgroundworker.DoWork -= doWorkEventHandler;
+
+
+            ShowShield(false);
+        }
+
+        private static void backgroundworkerCreateSubset_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var tempModel = (TemporarySubSettingModel)e.Argument;
+            tempModel.createSubSet();
+            e.Result = tempModel;
+        }
+
         private void ShowShield(bool shown)
         {
             if (shown)
@@ -119,9 +135,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void treeviewAbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            CheckableTreeViewItem checkableTreeViewItem = GetSelectedCheckableTreeViewItemforTreeView(treeviewAbies,
+            var checkableTreeViewItem = GetSelectedCheckableTreeViewItemforTreeView(treeviewAbies,
                                                                                                       (CheckBox) sender);
-            Model.SetCheckedCandidateAbie(checkableTreeViewItem.Text, checkableTreeViewItem.Checked);
+            Model.SetCheckedCandidateAbie(checkableTreeViewItem);
         }
 
         private void treeviewAbies_ItemSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -129,7 +145,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             if (treeviewAbies.SelectedItem != null)
             {
                 var checkableTreeViewItem = (CheckableTreeViewItem) treeviewAbies.SelectedItem;
-                Model.SetSelectedCandidateAbie(checkableTreeViewItem.Text, checkableTreeViewItem.Checked);
+                Model.SetSelectedCandidateAbie(checkableTreeViewItem);
             }
         }
 
@@ -149,8 +165,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             var checkbox = (CheckBox) e.OriginalSource;
 
-            var checkableTreeViewItem = GetSelectedCheckableItemforListbox(listboxBbies,checkbox);
-            Model.SetCheckedPotentialBbie(checkableTreeViewItem.Text,checkableTreeViewItem.Checked);
+            var checkableItem = GetSelectedCheckableItemforListbox(listboxBbies,checkbox);
+            Model.SetCheckedPotentialBbie(checkableItem);
         }
 
         private void listboxBbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -173,7 +189,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private static CheckableItem GetSelectedCheckableItemforListbox(ListBox listBox, CheckBox checkBox)
         {
             var parent = (StackPanel)checkBox.Parent;
-            string selectedItemText = "";
+            var selectedItemText = "";
 
             foreach (UIElement child in parent.Children)
             {
@@ -203,31 +219,36 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                                                                          CheckBox checkBox)
         {
             var parent = (StackPanel) checkBox.Parent;
-            var selectedItemText = "";
-
-            foreach (UIElement child in parent.Children)
+            var selectedId = 0;
+            if (parent.Children != null)
             {
-                if (child.GetType() == typeof (TextBlock))
-                {
-                    selectedItemText = ((TextBlock) child).Text;
-                }
+                var textBlock2 = (TextBlock) parent.Children[2];
+                selectedId = int.Parse(textBlock2.Text);
             }
-            return GetSelectedCheckableTreeViewItemForTreeView(treeView, selectedItemText);
+
+            //foreach (UIElement child in parent.Children)
+            //{
+            //    if (child.GetType() == typeof (TextBlock))
+            //    {
+            //        selectedItemText = ((TextBlock) child).Text;
+            //    }
+            //}
+            return GetSelectedCheckableTreeViewItemForTreeView(treeView, selectedId);
         }
 
         private static CheckableTreeViewItem GetSelectedCheckableTreeViewItemForTreeView(TreeView treeView,
-                                                                                         string selectedItemText)
+                                                                                         int selectedId)
         {
             foreach (CheckableTreeViewItem checkableTreeViewItem in treeView.Items)
             {
-                if (checkableTreeViewItem.Text.Equals(selectedItemText))
+                if (checkableTreeViewItem.Id.Equals(selectedId))
                 {
                     return checkableTreeViewItem;
                 }
                 if (checkableTreeViewItem.Children == null) continue;
                 var tempItem =
                     GetSelectedCheckableTreeViewItemForTreeViewItems(checkableTreeViewItem.Children,
-                                                                     selectedItemText);
+                                                                     selectedId);
                 if (tempItem != null)
                 {
                     return tempItem;
@@ -237,18 +258,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         private static CheckableTreeViewItem GetSelectedCheckableTreeViewItemForTreeViewItems(
-            IEnumerable<CheckableTreeViewItem> listToSearch, string selectedItemText)
+            IEnumerable<CheckableTreeViewItem> listToSearch, int selectedId)
         {
-            foreach (CheckableTreeViewItem checkableTreeViewItem in listToSearch)
+            foreach (var checkableTreeViewItem in listToSearch)
             {
-                if (checkableTreeViewItem.Text.Equals(selectedItemText))
+                if (checkableTreeViewItem.Id.Equals(selectedId))
                 {
                     return checkableTreeViewItem;
                 }
                 if (checkableTreeViewItem.Children == null) continue;
-                CheckableTreeViewItem tempItem =
+                var tempItem =
                     GetSelectedCheckableTreeViewItemForTreeViewItems(checkableTreeViewItem.Children,
-                                                                     selectedItemText);
+                                                                     selectedId);
                 if (tempItem != null)
                 {
                     return tempItem;
@@ -261,7 +282,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: Button Create / Button Update
         private void buttonCreateSubSet_Click(object sender, RoutedEventArgs e)
         {
-            Model.createSubSet();
+            doWorkEventHandler = backgroundworkerCreateSubset_DoWork;
+            backgroundworker.DoWork += doWorkEventHandler;
+            backgroundworker.RunWorkerCompleted += backgroundworkerCreateSubset_RunWorkerCompleted;
+            ShowShield(true);
+
+            backgroundworker.RunWorkerAsync(Model);
         }
 
         // ------------------------------------------------------------------------------------

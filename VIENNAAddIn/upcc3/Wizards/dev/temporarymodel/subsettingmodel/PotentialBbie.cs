@@ -8,8 +8,6 @@
 // *******************************************************************************
 
 using System.Windows.Input;
-using CctsRepository.CdtLibrary;
-
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 {
     public class PotentialBbie
@@ -17,13 +15,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
         private readonly Cursor mItemCursor;
         private readonly bool mItemFocusable;
         private readonly bool mItemReadOnly;
-        private ICdt mCdtUsedInBcc;
 
-        public PotentialBbie(string bbieName, ICdt cdtOfTheBccWhichTheBbieIsBasedOn)
+        public PotentialBbie(string bbieName)
         {
             Name = bbieName;
-            mCdtUsedInBcc = cdtOfTheBccWhichTheBbieIsBasedOn;
-            Checked = false;
+            Checked = true;
             Selected = false;
             mItemReadOnly = false;
             mItemCursor = Cursors.IBeam;
