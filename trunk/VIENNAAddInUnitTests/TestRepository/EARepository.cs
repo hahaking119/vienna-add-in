@@ -487,6 +487,21 @@ namespace VIENNAAddInUnitTests.TestRepository
             throw new NotImplementedException();
         }
 
+        public Collection GetTreeSelectedElements()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void VersionControlResynchPkgStatuses(bool ClearSettings)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public object AddWindow(string TabName, string ControlID)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Collection Models
         {
             get { return models; }

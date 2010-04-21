@@ -44,6 +44,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox IsChecked="{Binding Path=Checked}" Visibility="{Binding Path=visibility}" Checked="treeviewAbies_ItemCheckBoxChecked" Unchecked="treeviewAbies_ItemCheckBoxChecked"/>
                                             <TextBlock Text="{Binding Path=Text}"/>
+                                            <TextBlock Text="{Binding Path=BindId}" Visibility="Collapsed"/>
                                         </StackPanel>
                                     </HierarchicalDataTemplate>
                                 </TreeView.ItemTemplate>

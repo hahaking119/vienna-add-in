@@ -28,6 +28,11 @@ namespace VIENNAAddInUnitTests.TestRepository
 
         #region IEACollectionElement Members
 
+        public void VersionControlPutLatest(string Comment)
+        {
+            throw new System.NotImplementedException();
+        }
+
         string IEACollectionElement.Name
         {
             get { return Name; }
@@ -306,6 +311,16 @@ namespace VIENNAAddInUnitTests.TestRepository
         public bool ApplyGroupLock(string aGroupName)
         {
             throw new NotImplementedException();
+        }
+
+        public void VersionControlGetLatest(bool ForceImport)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void VersionControlResynchPkgStatus(bool ClearSettings)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

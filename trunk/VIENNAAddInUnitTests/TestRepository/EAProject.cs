@@ -335,6 +335,31 @@ namespace VIENNAAddInUnitTests.TestRepository
             throw new NotImplementedException();
         }
 
+        public void MigrateToBPMN11(string GUID, string Type)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string ExportPackageXMIEx(string PackageGUID, EnumXMIType XMIType, int DiagramXML, int DiagramImage, int FormatXML, int UseDTD, string FileName, int Flags)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool CreateBaselineEx(string PackageGUID, string Version, string Notes, int Flags)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool GenerateDiagramFromScenario(string ElementGUID, EnumScenarioDiagramType DiagramType, int Options)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool GenerateTestFromScenario(string ElementGUID, EnumScenarioTestType TestType)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public ObjectType ObjectType
         {
             get { throw new NotImplementedException(); }
