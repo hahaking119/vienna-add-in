@@ -131,13 +131,16 @@
   </xs:complexType>
   <xs:complexType name="BillerType">
     <xs:sequence>
+      <xs:element minOccurs="0" ref="OrderReference" />
       <xs:element ref="Address" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="DeliveryType">
     <xs:sequence>
       <xs:element minOccurs="0" ref="DeliveryID" />
-      <xs:choice />
+      <xs:choice>
+        <xs:element ref="Period" />
+      </xs:choice>
       <xs:element minOccurs="0" ref="Address" />
       <xs:element minOccurs="0" ref="Description" />
     </xs:sequence>
@@ -156,10 +159,12 @@
       <xs:element ref="Details" />
       <xs:element minOccurs="0" ref="ReductionDetails" />
       <xs:element ref="Tax" />
+      <xs:element minOccurs="0" ref="PaymentConditions" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="InvoiceRecipientType">
     <xs:sequence>
+      <xs:element minOccurs="0" ref="OrderReference" />
       <xs:element ref="Address" />
     </xs:sequence>
   </xs:complexType>
@@ -180,11 +185,14 @@
       <xs:element minOccurs="0" ref="PositionNumber" />
       <xs:element ref="TaxRate" />
       <xs:element minOccurs="0" ref="Delivery" />
+      <xs:element minOccurs="0" ref="BillersOrderReference" />
+      <xs:element minOccurs="0" ref="InvoiceRecipientsOrderReference" />
       <xs:element minOccurs="0" ref="AdditionalInformation" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="OrderingPartyType">
     <xs:sequence>
+      <xs:element minOccurs="0" ref="OrderReference" />
       <xs:element ref="Address" />
     </xs:sequence>
   </xs:complexType>
@@ -239,12 +247,15 @@
   <xs:complexType name="TaxType">
     <xs:sequence>
       <xs:element ref="VAT" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="OtherTax" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="VATType">
     <xs:choice>
       <xs:element ref="TaxExemption" />
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Item" />
+      </xs:sequence>
     </xs:choice>
   </xs:complexType>
 </xs:schema>

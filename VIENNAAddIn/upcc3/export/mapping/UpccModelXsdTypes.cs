@@ -111,10 +111,17 @@ namespace VIENNAAddIn.upcc3.export.mapping
                     }
                     else if (bieAggregator.IsAbie)
                     {
+                        //if (bieAggregator.Name == "PaymentConditionsType_PaymentTerms")                            
+                        //{
+                        //    int y = 1;
+                        //}
+                        
+                        // BUG FIX:
+                        xsdType.AddChild(asma.Name);
+
                         // In case that trough the ASMA aggregated element is an ABIE, 
                         // then the ASMA is not an actual complex element of the MA's 
                         // complex type.
-
                         CompileXsdTypesFromAbie(bieAggregator.Abie);
                     }
                     else
