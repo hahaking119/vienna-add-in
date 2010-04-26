@@ -12,7 +12,6 @@
   <xs:element name="AdditionalInformation" type="AdditionalInformationType" />
   <xs:element name="Address" type="AddressType" />
   <xs:element name="AddressExtension" type="xs:string" />
-  <xs:element name="AlternativeQuantity" type="UnitType" />
   <xs:element name="Amount" type="Decimal2Type" />
   <xs:element name="BankAccountNr" type="xs:string" />
   <xs:element name="BaseAmount" type="Decimal2Type" />
@@ -23,7 +22,6 @@
   <xs:element name="BillersOrderingPartyID" type="AlphaNumIDType" />
   <xs:element name="Boxes" type="xs:positiveInteger" />
   <xs:element name="ChargeNumber" type="AlphaNumType" />
-  <xs:element name="Classification" type="ClassificationType" />
   <xs:element name="Color" type="xs:string" />
   <xs:element name="Comment" type="xs:string" />
   <xs:element name="ConsolidatorsBillerID" type="AlphaNumIDType" />
@@ -34,12 +32,10 @@
   <xs:element name="DeliveryID" type="AlphaNumIDType" />
   <xs:element name="Description" type="xs:string" />
   <xs:element name="Details" type="DetailsType" />
-  <xs:element name="Discount" type="DiscountType" />
   <xs:element name="DueDate" type="xs:date" />
   <xs:element name="Email" type="xs:string" />
   <xs:element name="FooterDescription" type="xs:string" />
   <xs:element name="FromDate" type="xs:date" />
-  <xs:element name="FurtherIdentification" type="FurtherIdentificationType" />
   <xs:element name="HeaderDescription" type="xs:string" />
   <xs:element name="OrderID" type="AlphaNumIDType" />
   <xs:element name="InvoiceDate" type="xs:date" />
@@ -66,7 +62,6 @@
   <xs:element name="Phone" type="xs:string" />
   <xs:element name="POBox" type="xs:string" />
   <xs:element name="PositionNumber" type="xs:positiveInteger" />
-  <xs:element name="Quantity" type="UnitType" />
   <xs:element name="Reduction" type="ReductionType" />
   <xs:element name="ReductionDetails" type="ReductionDetailsType" />
   <xs:element name="ReductionRate" type="PercentageType" />
@@ -82,10 +77,8 @@
   <xs:element name="ToDate" type="xs:date" />
   <xs:element name="TotalGrossAmount" type="Decimal2Type" />
   <xs:element name="Town" type="xs:string" />
-  <xs:element name="UnitPrice" type="Decimal4Type" />
   <xs:element name="VAT" type="VATType" />
   <xs:element name="VATIdentificationNumber" type="xs:string" />
-  <xs:element name="Weight" type="UnitType" />
   <xs:element name="ZIP" type="xs:string" />
   <xs:attribute name="CancelledOriginalDocument" type="AlphaNumIDType" />
   <xs:attribute name="ClassificationSchema" type="xs:string" />
@@ -114,11 +107,6 @@
       <xs:pattern value="[\-]?[0-9]{1,13}\.[0-9]{0,2}" />
     </xs:restriction>
   </xs:simpleType>
-  <xs:simpleType name="Decimal4Type">
-    <xs:restriction base="xs:decimal">
-      <xs:pattern value="[\-]?[0-9]{1,13}\.[0-9]{0,4}" />
-    </xs:restriction>
-  </xs:simpleType>
   <xs:simpleType name="PercentageType">
     <xs:restriction base="xs:decimal">
       <xs:pattern value="[0-9]{1,2}\.[0-9]{0,2}" />
@@ -126,12 +114,6 @@
   </xs:simpleType>
   <xs:complexType name="AdditionalInformationType">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="SerialNumber" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="ChargeNumber" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="Classification" />
-      <xs:element minOccurs="0" ref="AlternativeQuantity" />
-      <xs:element minOccurs="0" ref="Weight" />
-      <xs:element minOccurs="0" ref="Boxes" />
       <xs:element minOccurs="0" ref="Color" />
     </xs:sequence>
   </xs:complexType>
@@ -143,32 +125,21 @@
       <xs:element minOccurs="0" ref="POBox" />
       <xs:element ref="Town" />
       <xs:element ref="ZIP" />
-      <xs:element ref="Country" />
       <xs:element minOccurs="0" ref="Phone" />
       <xs:element minOccurs="0" ref="Email" />
-      <xs:element minOccurs="0" ref="Contact" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="AddressExtension" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="BillerType">
     <xs:sequence>
-      <xs:element ref="VATIdentificationNumber" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="FurtherIdentification" />
-      <xs:element minOccurs="0" ref="ConsolidatorsBillerID" />
-      <xs:element minOccurs="0" ref="InvoiceRecipientsBillerID" />
+      <xs:element minOccurs="0" ref="OrderReference" />
       <xs:element ref="Address" />
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="ClassificationType">
-    <xs:simpleContent>
-      <xs:extension base="xs:string" />
-    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="DeliveryType">
     <xs:sequence>
       <xs:element minOccurs="0" ref="DeliveryID" />
       <xs:choice>
-        <xs:element ref="Date" />
+        <xs:element ref="Period" />
       </xs:choice>
       <xs:element minOccurs="0" ref="Address" />
       <xs:element minOccurs="0" ref="Description" />
@@ -176,23 +147,8 @@
   </xs:complexType>
   <xs:complexType name="DetailsType">
     <xs:sequence>
-      <xs:element minOccurs="0" ref="HeaderDescription" />
       <xs:element maxOccurs="unbounded" ref="ItemList" />
-      <xs:element minOccurs="0" ref="FooterDescription" />
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="DiscountType">
-    <xs:sequence>
-      <xs:element ref="PaymentDate" />
-      <xs:element minOccurs="0" ref="BaseAmount" />
-      <xs:element ref="Percentage" />
-      <xs:element minOccurs="0" ref="Amount" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="FurtherIdentificationType">
-    <xs:simpleContent>
-      <xs:extension base="AlphaNumIDType" />
-    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="InvoiceType">
     <xs:sequence>
@@ -203,20 +159,18 @@
       <xs:element ref="Details" />
       <xs:element minOccurs="0" ref="ReductionDetails" />
       <xs:element ref="Tax" />
+      <xs:element minOccurs="0" ref="PaymentConditions" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="InvoiceRecipientType">
     <xs:sequence>
-      <xs:element ref="VATIdentificationNumber" />
-      <xs:element ref="BillersInvoiceRecipientID" />
+      <xs:element minOccurs="0" ref="OrderReference" />
       <xs:element ref="Address" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ItemListType">
     <xs:sequence>
-      <xs:element minOccurs="0" ref="HeaderDescription" />
       <xs:element maxOccurs="unbounded" ref="ListLineItem" />
-      <xs:element minOccurs="0" ref="FooterDescription" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="ItemType">
@@ -229,21 +183,16 @@
   <xs:complexType name="ListLineItemType">
     <xs:sequence>
       <xs:element minOccurs="0" ref="PositionNumber" />
-      <xs:element maxOccurs="unbounded" ref="Description" />
-      <xs:element minOccurs="0" ref="BillersArticleNumber" />
-      <xs:element minOccurs="0" ref="InvoiceRecipientsArticleNumber" />
-      <xs:element ref="Quantity" />
-      <xs:element ref="UnitPrice" />
       <xs:element ref="TaxRate" />
       <xs:element minOccurs="0" ref="Delivery" />
+      <xs:element minOccurs="0" ref="BillersOrderReference" />
+      <xs:element minOccurs="0" ref="InvoiceRecipientsOrderReference" />
       <xs:element minOccurs="0" ref="AdditionalInformation" />
-      <xs:element ref="LineItemAmount" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="OrderingPartyType">
     <xs:sequence>
-      <xs:element ref="VATIdentificationNumber" />
-      <xs:element ref="BillersOrderingPartyID" />
+      <xs:element minOccurs="0" ref="OrderReference" />
       <xs:element ref="Address" />
     </xs:sequence>
   </xs:complexType>
@@ -268,8 +217,6 @@
   </xs:complexType>
   <xs:complexType name="PaymentConditionsType">
     <xs:sequence>
-      <xs:element ref="DueDate" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="Discount" />
       <xs:element minOccurs="0" ref="Comment" />
     </xs:sequence>
   </xs:complexType>
@@ -300,17 +247,15 @@
   <xs:complexType name="TaxType">
     <xs:sequence>
       <xs:element ref="VAT" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="OtherTax" />
     </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="UnitType">
-    <xs:simpleContent>
-      <xs:extension base="Decimal4Type" />
-    </xs:simpleContent>
   </xs:complexType>
   <xs:complexType name="VATType">
     <xs:choice>
       <xs:element ref="TaxExemption" />
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Item" />
+      </xs:sequence>
     </xs:choice>
   </xs:complexType>
 </xs:schema>
