@@ -298,5 +298,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         #endregion
+
+        public static void ShowForm(AddInContext context)
+        {
+            new SubSettingWizard(context.CctsRepository).Show();
+        }
     }
 }
