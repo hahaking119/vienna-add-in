@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using CctsRepository.BdtLibrary;
 using CctsRepository.BieLibrary;
@@ -31,7 +32,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             BIESchemaGenerator.GenerateXSD(context, CollectABIEs(context));
             RootSchemaGenerator.GenerateXSD(context);
 
-            if(context.Allschemas)
+            if (context.Allschemas)
             {
                 CDTSchemaGenerator.GenerateXSD(context, CollectCDTs(context));
                 CCSchemaGenerator.GenerateXSD(context, CollectACCs(context));
@@ -44,13 +45,13 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             foreach (SchemaInfo schemaInfo in context.Schemas)
             {
                 var xmlWriterSettings = new XmlWriterSettings
-                                        {
-                                            Indent = true,
-                                            Encoding = Encoding.UTF8,
-                                        };
+                                            {
+                                                Indent = true,
+                                                Encoding = Encoding.UTF8,
+                                            };
                 using (
-                    var xmlWriter = XmlWriter.Create(context.OutputDirectory + "\\" + schemaInfo.FileName,
-                                                     xmlWriterSettings))
+                    XmlWriter xmlWriter = XmlWriter.Create(context.OutputDirectory + "\\" + schemaInfo.FileName,
+                                                           xmlWriterSettings))
                 {
 // ReSharper disable AssignNullToNotNullAttribute
                     schemaInfo.Schema.Write(xmlWriter);
@@ -69,12 +70,13 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 }
                 catch (DirectoryNotFoundException dnfe)
                 {
-                    System.Windows.Forms.MessageBox.Show("Directory '"+AddInSettings.CommonXSDPath+"' not found!", "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    MessageBox.Show("Directory '" + AddInSettings.CommonXSDPath + "' not found!", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (IOException ioe)
                 {
-                    Console.Out.WriteLine("Exception occured:"+ioe.Message);
-                }                
+                    Console.Out.WriteLine("Exception occured:" + ioe.Message);
+                }
             }
 
             return context;
@@ -87,16 +89,19 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
             string[] files = Directory.GetFiles(sourceFolder);
             foreach (string file in files)
             {
-                string name = System.IO.Path.GetFileName(file);
-                string dest = System.IO.Path.Combine(destFolder, name);
+                string name = Path.GetFileName(file);
+                string dest = Path.Combine(destFolder, name);
                 File.Copy(file, dest);
             }
             string[] folders = Directory.GetDirectories(sourceFolder);
             foreach (string folder in folders)
             {
-                string name = System.IO.Path.GetFileName(folder);
-                string dest = System.IO.Path.Combine(destFolder, name);
-                CopyFolder(folder, dest);
+                if (!folder.Contains(".svn"))
+                {
+                    string name = Path.GetFileName(folder);
+                    string dest = Path.Combine(destFolder, name);
+                    CopyFolder(folder, dest);
+                }
             }
         }
 
