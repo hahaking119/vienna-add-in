@@ -1,10 +1,10 @@
 #summary Subsetting Wizard Documentation
 
-http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_startscreen.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_EA_menuentry.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_startscreen.png
 http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_chooseDocLib.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_loading.png
 http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_collapsed_treeview.png
 http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_expanded_treeview.png
 http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_expanded_treeview_selectedAbie.png
 http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_expanded_treeview_uncheckAbie.png
-http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_loading.png
-http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/subsettingwizward_startscreen.png

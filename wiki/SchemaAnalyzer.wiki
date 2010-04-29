@@ -1,0 +1,9 @@
+#summary Subsetting Wizard Documentation
+
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_EA_menuentry.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_startscreen.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_filechooser.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_startscreen_with_filenames.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_xsd1.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_xsd2.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_subsettingwizard/schemaanalyzer_xsdcomparison.png

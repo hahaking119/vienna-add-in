@@ -1,0 +1,12 @@
+#summary Subsetting Wizard Documentation
+
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_EAmenuentry.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_startscreen.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_doclibselected.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_rootMaChecked.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_outputdirectoryset.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_namespaceset.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_checkboxeschecked.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_exportschemaclick.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_generationprogress.png
+http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_generationcompleted.png
