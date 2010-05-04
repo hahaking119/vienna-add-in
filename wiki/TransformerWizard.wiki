@@ -11,19 +11,19 @@ The Transformer Wizard can be used to transform an existing model to a target XM
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild03.gif
   # After clicking on the icon, a selection screen pops up and you can select the source libraries.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild04.gif
-  In this example we select the BIE library of ebInterface.
+  # In this example we select the BIE library of ebInterface.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild05.gif
-  Next we have to define the source DOC library, again we choose the one containing ebInterface.
+  # Next we have to define the source DOC library, again we choose the one containing ebInterface.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild06.gif
-  After completing this step, the source model step icon will be coloured, indicating that this step is completed. When you hover the icon you can see the current selection.
+  # After completing this step, the source model step icon will be coloured, indicating that this step is completed. When you hover the icon you can see the current selection.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild07.gif
   # Now it is time to define a target XML Schema which can be either selected by clicking on the icon or by drag & drop the target file.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild08.gif
-  This is the selection screen following after a click on the icon.
+  # This is the selection screen following after a click on the icon.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild09.gif
   # You can choose the target file using a standard Windows file dialog.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild10.gif
-  The alternative method using drag & drop is visualized below:
+  # The alternative method using drag & drop is visualized below:
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild11.gif
   # Now the target XSD step should be also coloured, indicating that this step is completed and showing the selection after hovering the icon.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild12.gif
@@ -31,21 +31,21 @@ The Transformer Wizard can be used to transform an existing model to a target XM
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild13.gif
   # Like in the Source Model step before, a screen pops up this time asking for the target libraries.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild14.gif
-  This time we choose the UBL BIE library for our example transformation.
+  # This time we choose the UBL BIE library for our example transformation.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild15.gif
-  The DOC library has to be defined to complete this step.
+  # The DOC library has to be defined to complete this step.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild16.gif
-  We now choose the UBL Doc library to complete our example transformation.
+  # We now choose the UBL Doc library to complete our example transformation.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild17.gif
   # If the Target Model icon is coloured, this step is also completed and showing the current selection as tooltip.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild18.gif
   # The last step is to define a output directory. This can again be done by clicking on the icon or using drag & drop.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild19.gif
-  When you click on the icon, the directory selection screen pops up.
+  # When you click on the icon, the directory selection screen pops up.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild20.gif
-  You can select the target folder using a standard windows dialog.
+  # You can select the target folder using a standard windows dialog.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild21.gif
-  As an alternative you can drag & drop any folder onto the icon.
+  # As an alternative you can drag & drop any folder onto the icon.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild22.gif
   # A coloured icon again symbolises the completation of this step.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild23.gif
