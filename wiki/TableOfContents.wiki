@@ -7,6 +7,7 @@
       * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
       * [CreateyourownBdts Create your own BDTs]
       * [CreateyourownAbies Create your own ABIEs]
+	  * [TransformerWizard Transform a Model]
       * [GettingStartedVideos Getting Started Videos] 
     * Sample Scenarios
       * [PassportModelStep0 Passport Modeling Example]
