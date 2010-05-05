@@ -1,0 +1,19 @@
+#summary XML Schema Importer Documentation
+The XML Schema Importer can be used to import an XML Schema into an existing model. 
+    
+=Import an XML Schema=
+  # Prepare a UPCC3 model in Enterprise Architect
+  # Select _Add-Ins / VIENNAAddIn / Wizards / Generate XML Schema_ from the main menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_EAmenuEntry.png
+  # After launching the XML Schema Importer, the XSD tab will be displayed by default. Many of the fields needed for importing an XML schema are already filled out on startup. Of course any of these can be customized to your individual needs.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_startscreen.png
+  # First you have to select an XML schema which should be imported using the Windows file selection dialog.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_importxsdselected.png
+  # For a successfull import Mapforce Mapping files have to be supplied in the following step. These can be added or removed at any time.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_mappingfilesselected.png
+  # Switching to the CCTS tab, there is only the root XML schema which has to be selected.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_selectCctsRoot.png
+  # You can select a file again using the Windows file selection dialog.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_CctsRootSelected.png
+  # After clicking the "Import XML Schemas" button, the message "Import completed!" will be displayed in the status bar, once the process is completed.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_importcompleted.png

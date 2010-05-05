@@ -3,7 +3,7 @@ The Transformer Wizard can be used to transform an existing model to a target XM
 
 =Transform an existing Model=
   # Prepare a UPCC3 model in Enterprise Architect
-  # Select _Add-In / VIENNAAddIn / Wizards / Transformer Wizard_ from the main menu:
+  # Select _Add-Ins / VIENNAAddIn / Wizards / Transformer Wizard_ from the main menu:
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild01.gif
   # The Transformer Wizard guides you through the whole transformation process step by step. You can mover your mouse over every icon representing a step in the transformation process to view additional information.
     http://vienna-add-in.googlecode.com/svn/wiki/images_transformerwizard/Bild02.gif
