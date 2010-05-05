@@ -7,7 +7,11 @@
       * [ImportStandardCCLibraries Import standard CC Libraries into an existing UPCC3 model]
       * [CreateyourownBdts Create your own BDTs]
       * [CreateyourownAbies Create your own ABIEs]
-      * [TransformerWizard Transform a Model]
+      * [SchemaAnalyzer Analyze an XML Schema]
+      * [XmlSchemaImporter Import an XML Schema]
+	  * [TransformerWizard Transform a Model]
+      * [SubsettingWizard Create a subset of an existing model]
+      * [XmlSchemaGenerator Export a model to an XML Schema]
       * [GettingStartedVideos Getting Started Videos] 
     * Sample Scenarios
       * [PassportModelStep0 Passport Modeling Example]
