@@ -15,5 +15,5 @@ The XML Schema Importer can be used to import an XML Schema into an existing mod
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_selectCctsRoot.png
   # You can select a file again using the Windows file selection dialog.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_CctsRootSelected.png
-  # After clicking the "Import XML Schemas" button, the message "Import completed!" will be displayed in the status bar, once the process is completed.
+  # After clicking the "Import XML Schemas" button, the message "Import completed!" will be displayed in the status bar, once the process is completed
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_importcompleted.png
