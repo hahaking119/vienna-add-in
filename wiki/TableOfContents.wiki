@@ -9,7 +9,7 @@
       * [CreateyourownAbies Create your own ABIEs]
       * [SchemaAnalyzer Analyze an XML Schema]
       * [XmlSchemaImporter Import an XML Schema]
-	  * [TransformerWizard Transform a Model]
+      * [TransformerWizard Transform a Model]
       * [SubsettingWizard Create a subset of an existing model]
       * [XmlSchemaGenerator Export a model to an XML Schema]
       * [GettingStartedVideos Getting Started Videos] 
