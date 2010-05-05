@@ -6,7 +6,7 @@ The XML Schema Generator can be used to export an existing model to an XML Schem
   # Select _Add-Ins / VIENNAAddIn / Wizards / Generate XML Schema_ from the main menu:
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_EAmenuentry.png
   # First the wizard will show only empty fields, you have to select a Business Information View to start.
-	http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_startscreen.png
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_startscreen.png
   # After Selecting a Business Information View you can choose the Documents which should be exported to an XML schema.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_doclibselected.png
   # Every selected Document will be included in the exported XML schema set.
@@ -17,9 +17,9 @@ The XML Schema Generator can be used to export an existing model to an XML Schem
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_namespaceset.png
   # You can decide on your own wether documentation annotations should be included in the generated XML schema files. The same applies to the generation of Core Component Schemas.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_checkboxeschecked.png
-  # After clicking on the "Export XML Schem" button, the generator starts to generate the XML schema files. The progress is shown in the Status textbox at the bottom.
+  # After clicking on the "Export XML Schema" button, the generator starts to generate the XML schema files. The progress is shown in the Status textbox at the bottom.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_exportschemaclick.png
   # The status field is updated on every progress made by the generator.
-	http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_generationprogress.png
+    http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_generationprogress.png
   # When the generation progress has finished, the status field will show "Generating XML schemas completed!" in the last line of the textbox.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_generationcompleted.png
