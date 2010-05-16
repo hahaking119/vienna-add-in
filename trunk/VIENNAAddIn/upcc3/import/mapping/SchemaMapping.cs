@@ -75,6 +75,16 @@ namespace VIENNAAddIn.upcc3.import.mapping
                     complexTypeMapping.RemoveInvalidAsmaMappings();
                 }
             }
+
+            
+            // The following lines of code were used for the CEC 2010 paper evaluation.
+
+            //Console.Out.WriteLine("Kennzahl 3 (implizite Mappings): haendisch");
+            //Console.Out.WriteLine("Kennzahl 4 (Anzahl der gemappten Elemente)): " + (elementMappings.Count + simpleTypeMappings.Count + complexTypeMappings.Count));
+
+            //Console.Out.WriteLine("Importer Kennzahl 3a (anhand elementMapping variable): " + elementMappings.Count);
+            //Console.Out.WriteLine("Importer Kennzahl 3b (anhand simpleTypeMappings): " + simpleTypeMappings.Count);
+            //Console.Out.WriteLine("Importer Kennzahl 3c (anhand complexTypeMappings): " + complexTypeMappings.Count);            
         }
 
         private IEnumerable<ElementMapping> ResolveTypeMappings(IEnumerable<ElementMapping> unresolvedElementMappings)

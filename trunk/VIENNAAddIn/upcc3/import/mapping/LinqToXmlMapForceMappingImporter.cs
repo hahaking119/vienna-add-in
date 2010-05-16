@@ -27,6 +27,9 @@ namespace VIENNAAddIn.upcc3.import.mapping
             MapForceMapping mapForceMapping = new MapForceMapping(ImportSchemaComponents(mappingFiles), ImportConstantComponents(mappingFiles), ImportFunctionComponents(mappingFiles), ImportGraph(mappingFiles));
 
             Console.Out.WriteLine("Number of Edges specified in MapForce Mapping: " + numberOfEdges);
+            
+            // The following line of code was used for the CEC 2010 paper evaluation
+            //Console.Out.WriteLine("Kennzahl 2 (explizite Mappings): " + numberOfEdges);
 
             return mapForceMapping;
         }
