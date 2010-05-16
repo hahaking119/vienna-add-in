@@ -29,6 +29,8 @@ namespace VIENNAAddIn.upcc3.export.mapping
             FlattenXmlSchemaStructure(rootSchema, xmlSchemaNames);
         }
 
+        // The following method the resolves nested file structure such as it might occur in UBL. The
+        // output of the method is a list of the XML Schema file names to be processed.
         private void FlattenXmlSchemaStructure(XmlSchema xmlSchema, List<string> xmlSchemaNames)
         {
             if (xmlSchema != null)
@@ -67,11 +69,20 @@ namespace VIENNAAddIn.upcc3.export.mapping
 
         public void ExecuteXmlSchemaSubsetting(IDocLibrary docLibrary)
         {
+            // The UpccModelXsdTypes contains a list of extracted Xsd Type Names, such as the 
+            // name of an ABIE with the qualifier removed. Furthermore, each type, such as an ABIE
+            // contains his respective children - in the case of an ABIE this would be the BBIEs
+            // of the ABIE.
             UpccModelXsdTypes remainingXsdTypes = new UpccModelXsdTypes(docLibrary);
 
             HashSet<string> baseTypeNames = new HashSet<string>();
 
-            //foreach (XmlSchema xmlSchema in xmlSchemaSet.Schemas())
+            // Iterate through the XML schema files and for each type we need to check
+            // whether the type still exists in our list of remaining types created through
+            // the UpccModelXsdTypes constructor (see above). In case the type is contained
+            // in the list of types according to the Upcc model, we add the type to a list named 
+            // baseTypeNames. The advantage is that we then only have those types from the XML
+            // schema in the list which are also contained in the Upcc model.
             foreach (XmlSchema xmlSchema in xmlSchemas)
             {
                 foreach (XmlSchemaType type in xmlSchema.SchemaTypes.Values)
@@ -83,7 +94,9 @@ namespace VIENNAAddIn.upcc3.export.mapping
                 }
             }
 
-            //foreach (XmlSchema xmlSchema in xmlSchemaSet.Schemas())
+            // Based on our knowledge, which types should stay in the XML schema file
+            // we are now able to iterate through the XML schema and if necessary delete
+            // the complex or simple type from the XML schema.
             foreach (XmlSchema xmlSchema in xmlSchemas)
             {
                 foreach (XmlSchemaObject item in CopyValues(xmlSchema.Items))
@@ -91,7 +104,7 @@ namespace VIENNAAddIn.upcc3.export.mapping
                     if (item is XmlSchemaComplexType)
                     {
                         string complexTypeName = ((XmlSchemaComplexType)item).QualifiedName.Name;
-
+                        
                         if (remainingXsdTypes.ContainsXsdType(complexTypeName))
                         {
                             RemoveElementsAndAttributesFromComplexType((XmlSchemaComplexType)item, remainingXsdTypes);
@@ -190,7 +203,6 @@ namespace VIENNAAddIn.upcc3.export.mapping
             }
         }
 
-
         private static IEnumerable<XmlSchemaObject> CopyValues(XmlSchemaObjectTable objectTable)
         {
             XmlSchemaObject[] objectTableCopy = new XmlSchemaObject[objectTable.Count];
@@ -208,7 +220,6 @@ namespace VIENNAAddIn.upcc3.export.mapping
 
             return objectCollectionCopy;
         }
-
 
         private static void RemoveElementsAndAttributesFromComplexType(XmlSchemaComplexType complexType, UpccModelXsdTypes remainingXsdTypes)
         {
@@ -282,7 +293,6 @@ namespace VIENNAAddIn.upcc3.export.mapping
                 Directory.CreateDirectory(schemaDirectorySubset);
             }
             
-            //foreach (XmlSchema xmlSchema in xmlSchemaSet.Schemas())
             foreach (XmlSchema xmlSchema in xmlSchemas)
             {
                 string relativPath = xmlSchema.SourceUri.Substring(rootDirectory.Length - 1);
