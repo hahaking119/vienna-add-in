@@ -20,7 +20,7 @@
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelAccs">Choose ACC used to generate the ABIE:</Label>
-                <ComboBox ItemsSource="{Binding Path=Model.CandidateAccNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxAccs" SelectionChanged="comboboxAccs_SelectionChanged"></ComboBox>
+                <ComboBox ItemsSource="{Binding Path=Model.CandidateAccNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxAccs" SelectionChanged="comboboxAccs_SelectionChanged" Loaded="comboboxAccs_Loaded"></ComboBox>
             </DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Margin="1,15,1,1">
                 <Button HorizontalAlignment="Center" Width="100" Name="buttonCreateOrUpdate" Margin="5,5,5,5" Click="buttonCreateOrUpdate_Click">C_reate ABIE</Button>

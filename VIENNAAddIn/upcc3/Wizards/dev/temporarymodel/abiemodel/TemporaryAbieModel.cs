@@ -22,7 +22,7 @@ using VIENNAAddIn.upcc3.Wizards.dev.util;
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 {
     public class TemporaryAbieModel : TemporaryModel, INotifyPropertyChanged
-    {
+    {        
         #region Backing Fields for Binding Properties
 
         private string mAbieName;
@@ -37,8 +37,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private List<CheckableItem> mCandidateAbieItems;
         private List<CheckableItem> mPotentialAsbieItems;
         #endregion
-
-
+        
         #region Class Fields
 
         private readonly CcCache ccCache;
@@ -114,8 +113,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                 if (bbie.Name.EndsWith(candidateBcc.OriginalBcc.Name))
                                 {
                                     candidateBcc.Checked = true;
-
-                                    PotentialBbie potentialBbie = new PotentialBbie(bbie.Name, bbie.BasedOn.Cdt);
+                                    
+                                    PotentialBbie potentialBbie = new PotentialBbie(bbie.Name, candidateBcc.OriginalBcc.Cdt);
                                     potentialBbie.Checked = true;
 
                                     // Furthermore, it is necessary to add the appropriate list of 
@@ -155,60 +154,96 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                         }
                         #endregion
 
+                        #region Populate ASBIEs
+
                         List<CandidateAbie> candidateAbies = new List<CandidateAbie>();
+                        HashSet<string> abiesAlreadyInCandidateAbies = new HashSet<string>();
+
                         foreach (IAscc ascc in acc.Asccs)
                         {
+                            IAcc associatedAcc = ascc.AssociatedAcc;
+
                             foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
                             {
                                 foreach (IAbie abie in bieLibrary.Abies)
                                 {
-                                    bool abieNotYetInCandidateAbies = true;
-                                    CandidateAbie targetAbie = null;
-
-                                    foreach (CandidateAbie candidateAbie in candidateAbies)
+                                    if (abie.BasedOn.Id == associatedAcc.Id)
                                     {
-                                        if (candidateAbie.Name == abie.Name)
+                                        if (!abiesAlreadyInCandidateAbies.Contains(abie.Name))
                                         {
-                                            targetAbie = candidateAbie;
-                                            abieNotYetInCandidateAbies = false;
+                                            CandidateAbie candidateAbie = new CandidateAbie(abie);
+                                            candidateAbie.PotentialAsbies = new List<PotentialAsbie>();
+                                            candidateAbies.Add(candidateAbie);
+
+                                            abiesAlreadyInCandidateAbies.Add(abie.Name);
                                         }
-                                    }
 
-                                    if (abieNotYetInCandidateAbies)
-                                    {
-                                        CandidateAbie candidateAbie = new CandidateAbie(abie);
-                                        candidateAbies.Add(candidateAbie);
-
-                                        targetAbie = candidateAbie;
-                                    }    
-                               
-                                    if (targetAbie.PotentialAsbies == null)
-                                    {
-                                        targetAbie.PotentialAsbies = new List<PotentialAsbie>();
+                                        foreach (CandidateAbie candidateAbie in candidateAbies)
+                                        {
+                                            if (candidateAbie.Name == abie.Name)
+                                            {
+                                                candidateAbie.PotentialAsbies.Add(new PotentialAsbie(ascc));
+                                                
+                                                break;
+                                            }
+                                        }
+                                        
                                     }
-                                    targetAbie.PotentialAsbies.Add(new PotentialAsbie(ascc));
                                 }
                             }
-
-//                            if (candidateAbieInList.PotentialAsbies == null)
-  //                          {
-    //                            candidateAbieInList.PotentialAsbies = new List<PotentialAsbie>();
-      //                      }
-        //                    candidateAbieInList.PotentialAsbies.Add(new PotentialAsbie(ascc));
                         }
 
+                        //foreach (IAscc ascc in acc.Asccs)
+                        //{
+                        //    foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
+                        //    {
+                        //        foreach (IAbie abie in bieLibrary.Abies)
+                        //        {
+                        //            bool abieNotYetInCandidateAbies = true;
+                        //            CandidateAbie targetAbie = null;
+
+                        //            foreach (CandidateAbie candidateAbie in candidateAbies)
+                        //            {
+                        //                if (candidateAbie.Name == abie.Name)
+                        //                {
+                        //                    targetAbie = candidateAbie;
+                        //                    abieNotYetInCandidateAbies = false;
+                        //                }
+                        //            }
+
+                        //            if (abieNotYetInCandidateAbies)
+                        //            {
+                        //                CandidateAbie candidateAbie = new CandidateAbie(abie);
+                        //                candidateAbies.Add(candidateAbie);
+
+                        //                targetAbie = candidateAbie;
+                        //            }    
+                               
+                        //            if (targetAbie.PotentialAsbies == null)
+                        //            {
+                        //                targetAbie.PotentialAsbies = new List<PotentialAsbie>();
+                        //            }
+                        //            targetAbie.PotentialAsbies.Add(new PotentialAsbie(ascc));
+                        //        }
+                        //    }
+
+                        //}
+
                         mCandidateCcLibraries[0].CandidateAccs[0].CandidateAbies = candidateAbies;
+
+                        #endregion
                     }
                 }
             }
 
+            mCandidateBdtLibraries = new List<CandidateBdtLibrary>(ccCache.GetBdtLibraries().ConvertAll(bdtl => new CandidateBdtLibrary(bdtl)));
+
             CandidateCcLibraryNames = new List<string>(mCandidateCcLibraries.ConvertAll(new Converter<CandidateCcLibrary, string>(CandidateCcLibraryToString)));            
+            CandidateBdtLibraryNames = new List<string>(mCandidateBdtLibraries.ConvertAll(new Converter<CandidateBdtLibrary, string>(CandidateBdtLibraryToString)));
             CandidateBieLibraryNames = new List<string>(mCandidateBieLibraries.ConvertAll(new Converter<CandidateBieLibrary, string>(CandidateBieLibraryToString)));
         }
 
         #region Binding Properties
-
-        public bool temporaryCheckstate;
 
         public string AbieName
         {
@@ -462,7 +497,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                         }
                     }
                 }
-            }                
+            }             
         }
 
         public void SetDefaultChecked(CandidateBcc candidateBcc)
