@@ -67,13 +67,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         public TemporaryAbieModel(ICctsRepository cctsRepository, IAbie abieToBeUpdated)
         {
             ccCache = CcCache.GetInstance(cctsRepository);
+            mProspectiveBdts = ProspectiveBdts.GetInstance();
 
             // Populate the model with the appropriate BIE library which contains the ABIE to be updated.
             foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
             {
                 if ((bieLibrary.GetAbieByName(abieToBeUpdated.Name)) != null)
                 {
-                    List<IBieLibrary> bieLibraries = new List<IBieLibrary>() {bieLibrary};
+                    List<IBieLibrary> bieLibraries = new List<IBieLibrary> {bieLibrary};
                     mCandidateBieLibraries = new List<CandidateBieLibrary>(bieLibraries.ConvertAll(biel => new CandidateBieLibrary(biel)));
                     mCandidateBieLibraries[0].Selected = true;
                 }
@@ -140,7 +141,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                             }
                                         }
                                     }
-
+                                    
                                     potentialBbie.PotentialBdts = potentialBdts;
 
                                     potentialBbies.Add(potentialBbie);
@@ -169,65 +170,44 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                                 {
                                     if (abie.BasedOn.Id == associatedAcc.Id)
                                     {
+                                        CandidateAbie candidateAbie = new CandidateAbie(abie) {PotentialAsbies = new List<PotentialAsbie>()};
+
                                         if (!abiesAlreadyInCandidateAbies.Contains(abie.Name))
                                         {
-                                            CandidateAbie candidateAbie = new CandidateAbie(abie);
-                                            candidateAbie.PotentialAsbies = new List<PotentialAsbie>();
                                             candidateAbies.Add(candidateAbie);
-
                                             abiesAlreadyInCandidateAbies.Add(abie.Name);
                                         }
-
-                                        foreach (CandidateAbie candidateAbie in candidateAbies)
+                                        else
                                         {
-                                            if (candidateAbie.Name == abie.Name)
+                                            foreach (CandidateAbie existingCandidateAbie in candidateAbies)
                                             {
-                                                candidateAbie.PotentialAsbies.Add(new PotentialAsbie(ascc));
-                                                
-                                                break;
+                                                if (existingCandidateAbie.Name == abie.Name)
+                                                {
+                                                    candidateAbie = existingCandidateAbie;
+                                                    break;
+                                                }
                                             }
                                         }
+
+
                                         
+                                        PotentialAsbie potentialAsbie = new PotentialAsbie(ascc);
+
+                                        foreach (IAsbie asbie in abieToBeUpdated.Asbies)
+                                        {
+                                            if (asbie.Name == ascc.Name)
+                                            {
+                                                potentialAsbie.Checked = true;
+                                                candidateAbie.Checked = true;
+                                            }
+                                        }
+                                        candidateAbie.PotentialAsbies.Add(potentialAsbie);
+                                        
+                                        break;
                                     }
                                 }
                             }
                         }
-
-                        //foreach (IAscc ascc in acc.Asccs)
-                        //{
-                        //    foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
-                        //    {
-                        //        foreach (IAbie abie in bieLibrary.Abies)
-                        //        {
-                        //            bool abieNotYetInCandidateAbies = true;
-                        //            CandidateAbie targetAbie = null;
-
-                        //            foreach (CandidateAbie candidateAbie in candidateAbies)
-                        //            {
-                        //                if (candidateAbie.Name == abie.Name)
-                        //                {
-                        //                    targetAbie = candidateAbie;
-                        //                    abieNotYetInCandidateAbies = false;
-                        //                }
-                        //            }
-
-                        //            if (abieNotYetInCandidateAbies)
-                        //            {
-                        //                CandidateAbie candidateAbie = new CandidateAbie(abie);
-                        //                candidateAbies.Add(candidateAbie);
-
-                        //                targetAbie = candidateAbie;
-                        //            }    
-                               
-                        //            if (targetAbie.PotentialAsbies == null)
-                        //            {
-                        //                targetAbie.PotentialAsbies = new List<PotentialAsbie>();
-                        //            }
-                        //            targetAbie.PotentialAsbies.Add(new PotentialAsbie(ascc));
-                        //        }
-                        //    }
-
-                        //}
 
                         mCandidateCcLibraries[0].CandidateAccs[0].CandidateAbies = candidateAbies;
 
@@ -774,7 +754,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             }
         }
 
-
         public void SetNoSelectedCandidateAbie()
         {
             CandidateAbieItems = new List<CheckableItem>();
@@ -1108,9 +1087,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                     {
                         if (candidateAcc.Selected)
                         {
+                            CreateBdts(candidateAcc);
                             UpdateAbie(abieToBeUpdated, candidateAcc);
 
                             ccCache.Refresh();
+                            mProspectiveBdts.Clear();
                         }
                         else
                         {
@@ -1124,7 +1105,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         private void UpdateAbie(IAbie abieToBeUpdated, CandidateAcc candidateAcc)
         {
             List<BbieSpec> bbieSpecs = CumulateBbieSpecs(candidateAcc);
-            List<AsbieSpec> asbieSpecs = CumulateAsbieSpecs(candidateAcc);
+            List<AsbieSpec> asbieSpecs = CumulateAsbieSpecs(candidateAcc);            
             AbieSpec abieSpec = CumulateAbieSpec(candidateAcc);
 
             abieSpec.Name = AbiePrefix + AbieName;
@@ -1255,11 +1236,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
             foreach (CandidateAbie candidateAbie in candidateAcc.CandidateAbies)
             {
-                foreach (PotentialAsbie potentialAsbie in candidateAbie.PotentialAsbies)
-                {                    
-                    if (potentialAsbie.Checked)
+                if (candidateAbie.Checked)
+                {
+                    foreach (PotentialAsbie potentialAsbie in candidateAbie.PotentialAsbies)
                     {
-                        asbieSpecs.Add(AsbieSpec.CloneAscc(potentialAsbie.BasedOn, potentialAsbie.Name, candidateAbie.OriginalAbie));    
+                        if (potentialAsbie.Checked)
+                        {
+                            asbieSpecs.Add(AsbieSpec.CloneAscc(potentialAsbie.BasedOn, potentialAsbie.Name, candidateAbie.OriginalAbie));
+                        }
                     }                    
                 }
             }
