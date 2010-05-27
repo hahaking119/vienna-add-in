@@ -128,10 +128,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             //MessageBox.Show("selection changed von accs");
 
 
-            // ALTER CODE OHNE ZAHNRAD
-            Model.SetSelectedCandidateAcc(comboboxAccs.SelectedItem.ToString());
-            Model.AbieName = comboboxAccs.SelectedItem.ToString();
 
+
+
+            // ---------------------------------------------------------------
+            // ALTER CODE OHNE ZAHNRAD
+            // ---------------------------------------------------------------
+            Model.SetSelectedCandidateAcc(comboboxAccs.SelectedItem.ToString());
+
+            if (AbieEditorMode == EditorModes.AbieEditorModes.Create)
+            {
+                // The value of Model.AbiePrefix was already set in the constructor of the 
+                // TemporaryAbieModel. For more information refer to the constructor
+                // of the TemporaryAbieModel.
+                Model.AbieName = Model.AbiePrefix + "_" + comboboxAccs.SelectedItem;                    
+            }
+            
             UpdateFormState();
 
             SetSelectedItemForBccListBox();
@@ -462,6 +474,25 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void textboxAbiePrefix_TextChanged(object sender, TextChangedEventArgs e)
         {
             Model.AbiePrefix = textboxPrefix.Text;
+            
+            if (string.IsNullOrEmpty(Model.AbiePrefix))
+            {
+                textboxAbieName.Text = Model.AbieName;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(Model.AbieName))
+                {                    
+                    int indexOfQualifierSeparator = Model.AbieName.IndexOf('_');
+
+                    if (indexOfQualifierSeparator != -1)
+                    {
+                        string newAbieName = Model.AbiePrefix + "_" + Model.AbieName.Substring(indexOfQualifierSeparator + 1);
+                        Model.AbieName = newAbieName;
+                    }
+                }
+
+            }                        
         }
 
         // ------------------------------------------------------------------------------------
@@ -691,10 +722,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void SetSelectedItemForBccListBox()
         {
-            // interessant.. wenn eine message box angezeigt wird.. dann werden auch die items richtig selektiert.. ansonsten nicht..
-
-            //MessageBox.Show("in set selected for bcc listbox");
-
             int index = 0;
 
             foreach (CheckableItem item in listboxBccs.Items)
