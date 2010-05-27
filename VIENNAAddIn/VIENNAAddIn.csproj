@@ -605,6 +605,10 @@
     <Compile Include="upcc3\Wizards\dev\ui\TransformerWizard.xaml.cs">
       <DependentUpon>TransformerWizard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\UmmInitialPackageStructureCreator.xaml.cs">
+      <DependentUpon>UmmInitialPackageStructureCreator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\util\IOConnectionItem.cs" />
     <Compile Include="upcc3\Wizards\util\LocalVersionsFile.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\SchemaAnalyzer.xaml.cs">
       <DependentUpon>SchemaAnalyzer.xaml</DependentUpon>
@@ -1149,6 +1153,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="upcc3\Wizards\dev\ui\UmmInitialPackageStructureCreator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="upcc3\Wizards\dev\ui\UpccModelCreator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1200,6 +1208,10 @@
     <Resource Include="Resources\file_sw.png" />
     <Resource Include="Resources\model_sw.png" />
     <Resource Include="Resources\IconAnalyze.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\arrow_incoming.png" />
+    <Resource Include="Resources\arrow_outgoing.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="doc\" />

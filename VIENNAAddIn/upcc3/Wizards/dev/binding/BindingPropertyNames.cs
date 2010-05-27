@@ -46,6 +46,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.binding
             CandidateRootElementNames,
             CandidateRootElementItems,
             PotentialBbieItems,
+            PotentialAsbieItems,
             CandidateAbieItems,
             RootElement
         }   

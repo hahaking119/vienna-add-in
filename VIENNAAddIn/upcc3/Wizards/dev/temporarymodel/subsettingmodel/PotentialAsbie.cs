@@ -7,49 +7,19 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System.Windows.Input;
-using CctsRepository.CcLibrary;
-
 namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 {
     public class PotentialAsbie
     {
-        private readonly Cursor mItemCursor;
-        private readonly bool mItemFocusable;
-        private readonly bool mItemReadOnly;
-
-        public PotentialAsbie(IAscc originalAscc)
+        public PotentialAsbie(string name, bool incoming)
         {
-            Name = originalAscc.Name;
-            Checked = false;
-            BasedOn = originalAscc;
-
-            mItemReadOnly = true;
-            mItemCursor = Cursors.Arrow;
-            mItemFocusable = false;
+            Name = name;
+            Checked = true;
+            Incoming = incoming;
         }
 
         public string Name { get; set; }
-
         public bool Checked { get; set; }
-
-        public bool Selected { get; set; }
-
-        public IAscc BasedOn { get; set; }
-
-        public bool ItemReadOnly
-        {
-            get { return mItemReadOnly; }
-        }
-
-        public Cursor ItemCursor
-        {
-            get { return mItemCursor; }
-        }
-
-        public bool ItemFocusable
-        {
-            get { return mItemFocusable; }
-        }
+        public bool Incoming { get; set; }
     }
 }
