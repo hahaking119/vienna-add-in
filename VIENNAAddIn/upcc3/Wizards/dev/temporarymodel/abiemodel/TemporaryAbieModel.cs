@@ -57,6 +57,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             mCandidateCcLibraries = new List<CandidateCcLibrary>(ccCache.GetCcLibraries().ConvertAll(ccl => new CandidateCcLibrary(ccl)));
             CandidateCcLibraryNames = new List<string>(mCandidateCcLibraries.ConvertAll(new Converter<CandidateCcLibrary, string>(CandidateCcLibraryToString)));
 
+            mAbiePrefix = "Qualified";
+
             mCandidateBdtLibraries = new List<CandidateBdtLibrary>(ccCache.GetBdtLibraries().ConvertAll(bdtl => new CandidateBdtLibrary(bdtl)));
             CandidateBdtLibraryNames = new List<string>(mCandidateBdtLibraries.ConvertAll(new Converter<CandidateBdtLibrary, string>(CandidateBdtLibraryToString)));
 
@@ -108,10 +110,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
                             foreach (IBbie bbie in abieToBeUpdated.Bbies)
                             {
-                                // If an BBIE exists which ends with the name of the current BCC
-                                // it is a BBIE which is based on the current BCC. Therefore, we
-                                // need to add the BBIE to the potential BBIEs of the current BCC.
-                                if (bbie.Name.EndsWith(candidateBcc.OriginalBcc.Name))
+                                // We need to match the BBIEs which belong to the particular BCC which 
+                                // is currently being processed. To do so, we need to extract the name
+                                // of the BCC, that the BBIE is based on, from the name of the BBIE. The
+                                // "_" used to separate qualifiers from names allows us to extract the 
+                                // original name of the BCC. If none is found then we can assume that the
+                                // name of the BBIE is the same as the BCC that it is based on. Having
+                                // the name of the BCC at hand we can then compare it to the currently 
+                                // processed BCC. The name is then used to perform the matching. 
+                                string nameOfTheBccThatTheBbieIsBasedOn = "";
+                                int indexOfQualifierSeparator = bbie.Name.LastIndexOf('_');
+
+                                if (indexOfQualifierSeparator == -1)
+                                {
+                                    nameOfTheBccThatTheBbieIsBasedOn = bbie.Name;
+                                }
+                                else
+                                {
+                                    nameOfTheBccThatTheBbieIsBasedOn = bbie.Name.Substring(indexOfQualifierSeparator + 1);
+                                }
+                                
+                                if (nameOfTheBccThatTheBbieIsBasedOn.Equals(candidateBcc.OriginalBcc.Name))
                                 {
                                     candidateBcc.Checked = true;
                                     
@@ -221,7 +240,24 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             CandidateCcLibraryNames = new List<string>(mCandidateCcLibraries.ConvertAll(new Converter<CandidateCcLibrary, string>(CandidateCcLibraryToString)));            
             CandidateBdtLibraryNames = new List<string>(mCandidateBdtLibraries.ConvertAll(new Converter<CandidateBdtLibrary, string>(CandidateBdtLibraryToString)));
             CandidateBieLibraryNames = new List<string>(mCandidateBieLibraries.ConvertAll(new Converter<CandidateBieLibrary, string>(CandidateBieLibraryToString)));
+
+            // Populate the textfields containing the name of the ABIE as well as the prefix of the ABIE
+            int indexOfAbieQualifierSeparator = abieToBeUpdated.Name.LastIndexOf('_');
+
+            if (indexOfAbieQualifierSeparator == -1)
+            {
+                mAbiePrefix = "";
+                mAbieName = abieToBeUpdated.Name;
+            }
+            else
+            {
+                mAbiePrefix = abieToBeUpdated.Name.Substring(0, indexOfAbieQualifierSeparator);
+                mAbieName = abieToBeUpdated.Name;
+            }
+
+
         }
+
 
         #region Binding Properties
 
@@ -1108,7 +1144,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             List<AsbieSpec> asbieSpecs = CumulateAsbieSpecs(candidateAcc);            
             AbieSpec abieSpec = CumulateAbieSpec(candidateAcc);
 
-            abieSpec.Name = AbiePrefix + AbieName;
+            // The qualifier of the ABIE, if there is one, is already contained in the AbieName. 
+            abieSpec.Name = AbieName;
             abieSpec.Bbies = bbieSpecs;
             abieSpec.Asbies = asbieSpecs;
 
@@ -1201,7 +1238,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
             List<AsbieSpec> asbieSpecs = CumulateAsbieSpecs(candidateAcc);
             AbieSpec abieSpec = CumulateAbieSpec(candidateAcc);
 
-            abieSpec.Name = AbiePrefix + AbieName;
+            // The qualifier of the ABIE, if there is one, is already contained in the AbieName. 
+            abieSpec.Name = AbieName;
+            
             abieSpec.Bbies = bbieSpecs;
             abieSpec.Asbies = asbieSpecs;
 

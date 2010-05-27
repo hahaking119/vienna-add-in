@@ -61,8 +61,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
         {
             get
             {
+                // In case the list of potential BDTs fur the currently selected BBIE is empty it needs
+                // to be populated with the appropriate list of BDTs. The source of the potential BDTs 
+                // is twofold. First (Source 1), BDTs are retrieved from the BDT libraries of the CC 
+                // Repository. Second (Source 2), BDTs are retrieved from the list of prospective BDTs, 
+                // which are those BDTs which have been added by the user through the user interface.
                 if (mPotentialBdts == null)
                 {
+                    // Retrieve BDTs from Source 1 (BDTs from the BDT Libraries)
                     CcCache ccCache = CcCache.GetInstance();
 
                     mPotentialBdts = new List<PotentialBdt>();
@@ -78,11 +84,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
                         }
                     }
 
+                    // Retrieve BDTs from Source 2 (prospective BDTs added by the user through the user interface)
                     foreach (string prospectiveBdtName in ProspectiveBdts.GetInstance().Bdts(mCdtUsedInBcc.Id))
                     {
                         AddPotentialBdt(prospectiveBdtName);
                     }                    
 
+                    // However, in case no BDTs are available, neither from the BDT libraries nor from
+                    // the list of prospective BDTs, then a prospective BDT is generated per default. 
                     if (mPotentialBdts.Count == 0)
                     {
                         string newBdtName = AddPotentialBdt();                        
@@ -98,30 +107,59 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         public string AddPotentialBdt()
         {
-            string newBdtName = "";
+            // The names for the BDTs generated should follow the following pattern. If no BDT is
+            // available, then the default name for the BDT generated is the same as the name of
+            // the CDT that the BDT is based on (Option 1). If such a BDT already exists, then the 
+            // name of the new BDT should be the name of the CDT it is based on prefixed with the 
+            // text "Qualifier", a successing number, as well as an underscore to separate the 
+            // prefix from the name stemming from the CDT (Option 2). 
+            //
+            // Example for a list of BDTs based on the CDT "Text" 
+            //    BDT 1: "Text"                   (i.e. Option 1)
+            //    BDT 2: "Qualifier1_Text"        (i.e. Option 2)
+            //    BDT 3: "Qualifier2_Text"        (i.e. Option 2)
+            //    ...
 
-            for (int i = 1; i != -1; i++)
+            string newBdtName = mCdtUsedInBcc.Name;
+
+            // Generating a new BDT Name according to Option 1
+            if (!BdtWithTheSameNameExists(newBdtName))
             {
-                bool foundBdtWithTheSameName = false;
-                newBdtName = "New" + i + mCdtUsedInBcc.Name;
-
-                foreach (PotentialBdt potentialBdt in PotentialBdts)
+                AddPotentialBdt(newBdtName);
+            }
+            else
+            {
+                // Generating a new BDT Name according to Option 2
+                for (int i = 1; i != -1; i++)
                 {
-                    if (potentialBdt.Name.Equals(newBdtName))
+                    newBdtName = "Qualifier" + i + "_" + mCdtUsedInBcc.Name;
+
+                    if (!BdtWithTheSameNameExists(newBdtName))
                     {
-                        foundBdtWithTheSameName = true;
+                        AddPotentialBdt(newBdtName);
+
+                        break;
                     }
                 }
 
-                if (!foundBdtWithTheSameName)
-                {
-                    AddPotentialBdt(newBdtName);
+            }
+            
+            return newBdtName;
+        }
 
-                    break;
+        private bool BdtWithTheSameNameExists(string newBdtName)
+        {
+            bool foundBdtWithTheSameName = false;
+            
+            foreach (PotentialBdt potentialBdt in PotentialBdts)
+            {
+                if (potentialBdt.Name.Equals(newBdtName))
+                {
+                    foundBdtWithTheSameName = true;
                 }
             }
 
-            return newBdtName;
+            return foundBdtWithTheSameName;
         }
 
 
