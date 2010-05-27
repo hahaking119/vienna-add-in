@@ -1,5 +1,15 @@
-﻿using System;
+﻿// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,21 +28,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     /// <summary>
     /// Interaction logic for Transform.xaml
     /// </summary>
-    public partial class TransformerWizard : Window
+    public partial class TransformerWizard
     {
+        private readonly BackgroundWorker backgroundworkerGenerate;
+        private readonly BackgroundWorker backgroundworkerInitialize;
         private readonly ICctsRepository cctsR;
+        private bool directoryselectorTargetFolderOpen;
+        private bool fileselectorXsdDocumentOpen;
 
+        private IBieLibrary selectedSourceBieLibrary;
+        private IDocLibrary selectedSourceDocLibrary;
+        private IBieLibrary selectedTargetBieLibrary;
+        private IDocLibrary selectedTargetDocLibrary;
         private string targetFolder = "";
-        private string xsdFilename = "";
-        private IDocLibrary selectedSourceDocLibrary = null;
-        private IBieLibrary selectedSourceBieLibrary = null;
-        private IDocLibrary selectedTargetDocLibrary = null;
-        private IBieLibrary selectedTargetBieLibrary = null;
-        private BackgroundWorker backgroundworkerInitialize;
-        private BackgroundWorker backgroundworkerGenerate;
         private ProjectBrowserContent treeContent;
-        private bool fileselectorXsdDocumentOpen = false;
-        private bool directoryselectorTargetFolderOpen = false;
+        private string xsdFilename = "";
 
 
         public TransformerWizard(ICctsRepository cctsRepository)
@@ -40,11 +50,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             cctsR = cctsRepository;
             InitializeComponent();
 
-            backgroundworkerInitialize = new BackgroundWorker();
-            backgroundworkerInitialize.WorkerReportsProgress = false;
-            backgroundworkerInitialize.WorkerSupportsCancellation = false;
-            backgroundworkerInitialize.DoWork += new DoWorkEventHandler(backgroundworkerInitialize_DoWork);
-            backgroundworkerInitialize.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundworkerInitialize_RunWorkerCompleted);
+            backgroundworkerInitialize = new BackgroundWorker
+                                             {
+                                                 WorkerReportsProgress = false,
+                                                 WorkerSupportsCancellation = false
+                                             };
+            backgroundworkerInitialize.DoWork += backgroundworkerInitialize_DoWork;
+            backgroundworkerInitialize.RunWorkerCompleted += backgroundworkerInitialize_RunWorkerCompleted;
             if (!backgroundworkerInitialize.IsBusy)
             {
                 backgroundworkerInitialize.RunWorkerAsync();
@@ -66,25 +78,30 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void backgroundworkerInitialize_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate()
-            {
-                treeSourceBie.AllowOnlyOneType = "BieLibrary";
-                treeSourceBie.Initialize(treeContent);
-                treeSourceDoc.AllowOnlyOneType = "DocLibrary";
-                treeSourceDoc.Initialize(treeContent);
-                treeTargetBie.AllowOnlyOneType = "BieLibrary";
-                treeTargetBie.Initialize(treeContent);
-                treeTargetDoc.AllowOnlyOneType = "DocLibrary";
-                treeTargetDoc.Initialize(treeContent);
-            });
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) delegate
+                                                                                {
+                                                                                    treeSourceBie.AllowOnlyOneType =
+                                                                                        "BieLibrary";
+                                                                                    treeSourceBie.Initialize(treeContent);
+                                                                                    treeSourceDoc.AllowOnlyOneType =
+                                                                                        "DocLibrary";
+                                                                                    treeSourceDoc.Initialize(treeContent);
+                                                                                    treeTargetBie.AllowOnlyOneType =
+                                                                                        "BieLibrary";
+                                                                                    treeTargetBie.Initialize(treeContent);
+                                                                                    treeTargetDoc.AllowOnlyOneType =
+                                                                                        "DocLibrary";
+                                                                                    treeTargetDoc.Initialize(treeContent);
+                                                                                });
         }
 
         private void UpdateUI()
         {
-            if(targetFolder.Length > 0)
+            if (targetFolder.Length > 0)
             {
                 buttonTargetFolder.Tag = "True";
-                buttonTargetFolder.ToolTip = "Specified output directory:\n" + targetFolder + "\n(Click here or drag & drop directory to change)";
+                buttonTargetFolder.ToolTip = "Specified output directory:\n" + targetFolder +
+                                             "\n(Click here or drag & drop directory to change)";
             }
             else
             {
@@ -92,10 +109,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 buttonTargetFolder.ToolTip = "Click here or drag & drop directory to specify output directory";
             }
 
-            if(xsdFilename.Length > 0)
+            if (xsdFilename.Length > 0)
             {
                 buttonXsdDocument.Tag = "True";
-                buttonXsdDocument.ToolTip = "Specified target model schema:\n" + xsdFilename + "\n(Click here or drag & drop XSD file to change)";
+                buttonXsdDocument.ToolTip = "Specified target model schema:\n" + xsdFilename +
+                                            "\n(Click here or drag & drop XSD file to change)";
             }
             else
             {
@@ -103,10 +121,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 buttonXsdDocument.ToolTip = "Click here or drag & drop XSD file to specify target model schema";
             }
 
-            if(selectedSourceBieLibrary != null && selectedSourceDocLibrary != null)
+            if (selectedSourceBieLibrary != null && selectedSourceDocLibrary != null)
             {
                 buttonSourceModel.Tag = "True";
-                buttonSourceModel.ToolTip = "Specified source BIE Library:\n" + selectedSourceBieLibrary.Name + "\n" + "Specified source DOC Library:\n" + selectedSourceDocLibrary.Name + "\n" + "(Click here to change)";
+                buttonSourceModel.ToolTip = "Specified source BIE Library:\n" + selectedSourceBieLibrary.Name + "\n" +
+                                            "Specified source DOC Library:\n" + selectedSourceDocLibrary.Name + "\n" +
+                                            "(Click here to change)";
             }
             else
             {
@@ -114,27 +134,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 buttonSourceModel.ToolTip = "Click here to change source BIE and DOC Library";
             }
 
-            if (selectedSourceBieLibrary == null)
-            {
-                buttonSourceBie.ToolTip = "Click to specify source BIE Library";
-            }
-            else
-            {
-                buttonSourceBie.ToolTip = "Click to change the specified source BIE Library";
-            }
-            if (selectedSourceDocLibrary == null)
-            {
-                buttonSourceDoc.ToolTip = "Click to specify source DOC Library";
-            }
-            else
-            {
-                buttonSourceDoc.ToolTip = "Click to change the specified source DOC Library";
-            }
+            buttonSourceBie.ToolTip = selectedSourceBieLibrary == null ? "Click to specify source BIE Library" : "Click to change the specified source BIE Library";
+            buttonSourceDoc.ToolTip = selectedSourceDocLibrary == null ? "Click to specify source DOC Library" : "Click to change the specified source DOC Library";
 
             if (selectedTargetBieLibrary != null && selectedTargetDocLibrary != null)
             {
                 buttonTargetModel.Tag = "True";
-                buttonTargetModel.ToolTip = "Specified target BIE Library:\n" + selectedTargetBieLibrary.Name + "\n" + "Specified target DOC Library:\n" + selectedTargetDocLibrary.Name + "\n" + "(Click here to change)";
+                buttonTargetModel.ToolTip = "Specified target BIE Library:\n" + selectedTargetBieLibrary.Name + "\n" +
+                                            "Specified target DOC Library:\n" + selectedTargetDocLibrary.Name + "\n" +
+                                            "(Click here to change)";
             }
             else
             {
@@ -142,24 +150,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 buttonTargetModel.ToolTip = "Click here to change target BIE and DOC Library";
             }
 
-            if(selectedTargetBieLibrary == null)
-            {
-                buttonTargetBie.ToolTip = "Click to specify target BIE Library";
-            }
-            else
-            {
-                buttonTargetBie.ToolTip = "Click to change the specified target BIE Library";
-            }
-            if (selectedTargetDocLibrary == null)
-            {
-                buttonTargetDoc.ToolTip = "Click to specify target DOC Library";
-            }
-            else
-            {
-                buttonTargetDoc.ToolTip = "Click to change the specified target DOC Library";
-            }
+            buttonTargetBie.ToolTip = selectedTargetBieLibrary == null ? "Click to specify target BIE Library" : "Click to change the specified target BIE Library";
+            buttonTargetDoc.ToolTip = selectedTargetDocLibrary == null ? "Click to specify target DOC Library" : "Click to change the specified target DOC Library";
 
-            if(targetFolder.Length > 0 && xsdFilename.Length > 0 && selectedSourceBieLibrary != null && selectedSourceDocLibrary != null && selectedTargetBieLibrary != null && selectedTargetDocLibrary != null)
+            if (targetFolder.Length > 0 && xsdFilename.Length > 0 && selectedSourceBieLibrary != null &&
+                selectedSourceDocLibrary != null && selectedTargetBieLibrary != null && selectedTargetDocLibrary != null)
             {
                 buttonGenerate.IsEnabled = true;
             }
@@ -172,31 +167,41 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void ShowOrHidePopupSourceModel()
         {
             Thread.Sleep(250);
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) delegate()
-            {
-                popupSourceModel.IsOpen = !(selectedSourceBieLibrary != null && selectedSourceDocLibrary != null);
-            });
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                                   (ThreadStart)
+                                   delegate
+                                       {
+                                           popupSourceModel.IsOpen =
+                                               !(selectedSourceBieLibrary != null && selectedSourceDocLibrary != null);
+                                       });
         }
 
         private void ShowOrHidePopupTargetModel()
         {
             Thread.Sleep(250);
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate()
-            {
-                popupTargetModel.IsOpen = !(selectedTargetBieLibrary != null && selectedTargetDocLibrary != null);
-            });
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                                   (ThreadStart)
+                                   delegate
+                                       {
+                                           popupTargetModel.IsOpen =
+                                               !(selectedTargetBieLibrary != null && selectedTargetDocLibrary != null);
+                                       });
         }
 
         private void HideShield()
         {
             Thread.Sleep(251);
-            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart)delegate()
-            {
-                if (!popupXsdDocument.IsOpen && !popupTargetFolder.IsOpen && !popupSourceModel.IsOpen && !popupTargetModel.IsOpen)
-                {
-                    shield.Visibility = Visibility.Collapsed;
-                }
-            });
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (ThreadStart) delegate
+                                                                                {
+                                                                                    if (!popupXsdDocument.IsOpen &&
+                                                                                        !popupTargetFolder.IsOpen &&
+                                                                                        !popupSourceModel.IsOpen &&
+                                                                                        !popupTargetModel.IsOpen)
+                                                                                    {
+                                                                                        shield.Visibility =
+                                                                                            Visibility.Collapsed;
+                                                                                    }
+                                                                                });
         }
 
         private void ShowShield(bool shown)
@@ -274,7 +279,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+                var droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
                 if (droppedFilePaths != null)
                 {
                     if (droppedFilePaths.Length == 1)
@@ -288,15 +293,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         private void buttonTargetFolder_Drop(object sender, DragEventArgs e)
-    {
+        {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
+                var droppedFilePaths = e.Data.GetData(DataFormats.FileDrop, true) as string[];
                 if (droppedFilePaths != null)
                 {
                     if (droppedFilePaths.Length == 1)
                     {
-                        if (System.IO.Directory.Exists(droppedFilePaths[0]))
+                        if (Directory.Exists(droppedFilePaths[0]))
                         {
                             targetFolder = droppedFilePaths[0];
                             directoryselectorTargetFolder.DirectoryName = targetFolder;
@@ -329,10 +334,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void treeTargetBie_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if(treeTargetBie.SelectedItem != null)
+            if (treeTargetBie.SelectedItem != null)
             {
-                var item = (TreeViewItem)treeTargetBie.SelectedItem;
-                if(item.Tag is IBieLibrary)
+                var item = (TreeViewItem) treeTargetBie.SelectedItem;
+                if (item.Tag is IBieLibrary)
                 {
                     var lib = (IBieLibrary) item.Tag;
                     selectedTargetBieLibrary = lib;
@@ -347,10 +352,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (treeTargetDoc.SelectedItem != null)
             {
-                var item = (TreeViewItem)treeTargetDoc.SelectedItem;
+                var item = (TreeViewItem) treeTargetDoc.SelectedItem;
                 if (item.Tag is IDocLibrary)
                 {
-                    var lib = (IDocLibrary)item.Tag;
+                    var lib = (IDocLibrary) item.Tag;
                     selectedTargetDocLibrary = lib;
                     buttonTargetDoc.Content = lib.Name;
                     UpdateUI();
@@ -358,6 +363,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 }
             }
         }
+
         private void buttonSourceBie_Click(object sender, RoutedEventArgs e)
         {
             popupSourceBie.IsOpen = !popupSourceBie.IsOpen;
@@ -382,10 +388,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (treeSourceBie.SelectedItem != null)
             {
-                var item = (TreeViewItem)treeSourceBie.SelectedItem;
+                var item = (TreeViewItem) treeSourceBie.SelectedItem;
                 if (item.Tag is IBieLibrary)
                 {
-                    var lib = (IBieLibrary)item.Tag;
+                    var lib = (IBieLibrary) item.Tag;
                     selectedSourceBieLibrary = lib;
                     buttonSourceBie.Content = lib.Name;
                     UpdateUI();
@@ -399,10 +405,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (treeSourceDoc.SelectedItem != null)
             {
-                var item = (TreeViewItem)treeSourceDoc.SelectedItem;
+                var item = (TreeViewItem) treeSourceDoc.SelectedItem;
                 if (item.Tag is IDocLibrary)
                 {
-                    var lib = (IDocLibrary)item.Tag;
+                    var lib = (IDocLibrary) item.Tag;
                     selectedSourceDocLibrary = lib;
                     buttonSourceDoc.Content = lib.Name;
                     UpdateUI();
@@ -442,17 +448,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void buttonOpenFile_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(targetFolder);
+            Process.Start(targetFolder);
         }
+
         private void popupSourceBieOrDoc_Closed(object sender, EventArgs e)
         {
-            Thread thread = new Thread(ShowOrHidePopupSourceModel);
+            var thread = new Thread(ShowOrHidePopupSourceModel);
             thread.Start();
         }
 
         private void popupTargetBieOrDoc_Closed(object sender, EventArgs e)
         {
-            Thread thread = new Thread(ShowOrHidePopupTargetModel);
+            var thread = new Thread(ShowOrHidePopupTargetModel);
             thread.Start();
         }
 
@@ -463,7 +470,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void directoryselectorTargetFolder_AfterDialogClosed(object sender, RoutedEventArgs e)
         {
-            if(directoryselectorTargetFolderOpen)
+            if (directoryselectorTargetFolderOpen)
             {
                 ShowShield(false);
                 directoryselectorTargetFolderOpen = false;
@@ -486,15 +493,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void backgroundworkerGenerate_DoWork(object sender, DoWorkEventArgs e)
         {
-            Transformer.Transform(selectedSourceBieLibrary, selectedTargetBieLibrary, selectedSourceDocLibrary, selectedTargetDocLibrary);
-            SubsetExporter.ExportSubset(selectedTargetDocLibrary, xsdFilename, (targetFolder.EndsWith("\\") || targetFolder.EndsWith("/") ? targetFolder : targetFolder + "\\"));
+            Transformer.Transform(selectedSourceBieLibrary, selectedTargetBieLibrary, selectedSourceDocLibrary,
+                                  selectedTargetDocLibrary);
+            SubsetExporter.ExportSubset(selectedTargetDocLibrary, xsdFilename,
+                                        (targetFolder.EndsWith("\\") || targetFolder.EndsWith("/")
+                                             ? targetFolder
+                                             : targetFolder + "\\"));
         }
 
         private void backgroundworkerGenerate_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if ((e.Cancelled))
             {
-                var sbdRotation = (Storyboard)FindResource("sbdRotation");
+                var sbdRotation = (Storyboard) FindResource("sbdRotation");
                 sbdRotation.Stop();
                 popupGenerating.Visibility = Visibility.Collapsed;
                 ShowShield(false);
@@ -510,13 +521,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             ShowShield(true);
             popupGenerating.Visibility = Visibility.Visible;
-            var sbdRotation = (Storyboard)FindResource("sbdRotation");
+            var sbdRotation = (Storyboard) FindResource("sbdRotation");
             sbdRotation.Begin(this);
 
             backgroundworkerGenerate.WorkerReportsProgress = false;
             backgroundworkerGenerate.WorkerSupportsCancellation = false;
-            backgroundworkerGenerate.DoWork += new DoWorkEventHandler(backgroundworkerGenerate_DoWork);
-            backgroundworkerGenerate.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundworkerGenerate_RunWorkerCompleted);
+            backgroundworkerGenerate.DoWork += backgroundworkerGenerate_DoWork;
+            backgroundworkerGenerate.RunWorkerCompleted += backgroundworkerGenerate_RunWorkerCompleted;
             if (!backgroundworkerGenerate.IsBusy)
             {
                 backgroundworkerGenerate.RunWorkerAsync();

@@ -156,7 +156,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             var checkabletreeviewItem = (CheckableTreeViewItem) treeviewItem.Header;
             if (checkabletreeviewItem != null)
             {
-                Model.SetExpandedCheckableTreeViewItem(checkabletreeviewItem.Text, treeviewItem.IsExpanded);
+                checkabletreeviewItem.IsExpanded = treeviewItem.IsExpanded;
             }
         }
 
@@ -177,12 +177,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox BDTs
         private void listboxAsbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var checkbox = (CheckBox)e.OriginalSource;
+
+            var ioConnectionItem = GetSelectedIOConnectionItemforListbox(listboxAsbies, checkbox);
+            Model.SetCheckedPotentialAsbie(ioConnectionItem);
         }
 
         private void listboxAsbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            //nothing to do!
         }
 
 
@@ -213,6 +216,35 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
 
             return null;
+        }
+
+        private static IOConnectionItem GetSelectedIOConnectionItemforListbox(ListBox listBox, string selectedItemText)
+        {
+            foreach (IOConnectionItem ioConnectionItem in listBox.Items)
+            {
+                if (ioConnectionItem.Text.Equals(selectedItemText))
+                {
+                    return ioConnectionItem;
+                }
+            }
+
+            return null;
+        }
+
+        private static IOConnectionItem GetSelectedIOConnectionItemforListbox(ListBox listBox, CheckBox checkBox)
+        {
+            var parent = (StackPanel)checkBox.Parent;
+            var selectedItemText = "";
+
+            foreach (UIElement child in parent.Children)
+            {
+                if (child.GetType() == typeof(TextBox))
+                {
+                    selectedItemText = ((TextBox)child).Text;
+                }
+            }
+
+            return GetSelectedIOConnectionItemforListbox(listBox, selectedItemText);
         }
 
         private static CheckableTreeViewItem GetSelectedCheckableTreeViewItemforTreeView(TreeView treeView,

@@ -65,7 +65,7 @@ namespace VIENNAAddIn
                                          .Checked(IfRepositoryIsUmm2Model)
                                          .Enabled(Always)
                                    + createUPCCStructure
-                                   + "&Create initial UMM 2 model structure".OnClick(InitialPackageStructureCreator.ShowForm)
+                                   + "&Create initial UMM 2 model structure".OnClick(UmmInitialPackageStructureCreator.ShowForm)
                                    + _____
                                    + "&Validate All - UPCC3".OnClick(ValidatorForm.ShowUpccValidator)
                                    + "&Validate All - UMM2".OnClick(ValidatorForm.ShowUmmValidator)

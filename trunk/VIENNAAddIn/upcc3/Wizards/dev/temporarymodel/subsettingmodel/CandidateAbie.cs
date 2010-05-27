@@ -25,6 +25,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
         public IAbie OriginalAbie { get; set; }
         public List<CandidateAbie> PotentialAbies { get; set; }
         public List<PotentialBbie> PotentialBbies { get; set; }
+        public List<PotentialAsbie> PotentialAsbies { get; set; }
 
         public CandidateAbie(IAbie originalAbie)
         {
@@ -34,6 +35,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
             Selected = false;
             PotentialAbies = null;
             PotentialBbies = null;
+            PotentialAsbies = null;
 
             mItemReadOnly = true;
             mItemCursor = Cursors.Arrow;
@@ -48,6 +50,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
             Selected = false;
             PotentialAbies = potenAbies;
             PotentialBbies = null;
+            PotentialAsbies = null;
             mItemReadOnly = true;
             mItemCursor = Cursors.Arrow;
             mItemFocusable = false;

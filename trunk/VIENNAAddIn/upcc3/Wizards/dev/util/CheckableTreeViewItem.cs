@@ -49,11 +49,26 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             Children = children;
             visibility = "Visible";
         }
+        public CheckableTreeViewItem(bool initChecked, string initText, CheckableTreeViewItem parent, int id)
+        {
+            Id = id;
+            Checked = initChecked;
+            Text = initText;
+            Parent = parent;
+            visibility = "Visible";
+        }
         public CheckableTreeViewItem(string initText, CheckableTreeViewItem parent, ObservableCollection<CheckableTreeViewItem> children, int id)
         {
             Id = id;
             Text = initText;
             Children = children;
+            Parent = parent;
+            visibility = "Collapsed";
+        }
+        public CheckableTreeViewItem(string initText, CheckableTreeViewItem parent, int id)
+        {
+            Id = id;
+            Text = initText;
             Parent = parent;
             visibility = "Collapsed";
         }

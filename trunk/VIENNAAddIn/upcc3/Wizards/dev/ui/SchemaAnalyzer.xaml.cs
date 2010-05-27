@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Xml;
@@ -105,44 +106,58 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
             catch (FileNotFoundException fnfe)
             {
-                MessageBox.Show("The given file could not be opened!\n" + fnfe.Message, Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The given file could not be opened!\n" + fnfe.Message, Title, MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 return false;
             }
             catch (DirectoryNotFoundException dnfe)
             {
-                MessageBox.Show("The given path could not be opened!\n" + dnfe.Message, Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The given path could not be opened!\n" + dnfe.Message, Title, MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 return false;
             }
             catch (XmlException xe)
             {
-                MessageBox.Show("The given file could not be read!\n"+xe.Message, Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The given file could not be read!\n" + xe.Message, Title, MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 return false;
             }
             catch (XmlSchemaException xse)
             {
-                MessageBox.Show("The given file could not be read!\n"+xse.Message, Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The given file could not be read!\n" + xse.Message, Title, MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 return false;
             }
             started = true;
             (chart == 1 ? chart1 : chart2).Series[0].DataPoints.Clear();
-            chart3.Series[chart - 1].DataPoints.Clear();
-            var curPos = 0.0;
-            var deltaPos = 1/((double) results.Count - 1);
-            foreach (var dataset in results)
+            double curPos = 0.0;
+            double deltaPos = 1/((double) results.Count - 1);
+            foreach (SchemaAnalyzerResult dataset in results)
             {
-                var curColor = GetComplexityColor(curPos > 1 ? 1 : curPos);
+                Color curColor = GetComplexityColor(curPos > 1 ? 1 : curPos);
                 var item = new DataPoint
                                {
                                    YValue = dataset.Count,
                                    AxisXLabel = dataset.Caption,
                                    Color = new SolidColorBrush(Color.FromRgb(curColor.R, curColor.G, curColor.B))
                                };
-                var item2 = new DataPoint {YValue = dataset.Count, AxisXLabel = dataset.Caption};
                 (chart == 1 ? chart1 : chart2).Series[0].DataPoints.Add(item);
-                chart3.Series[chart - 1].DataPoints.Add(item2);
+
                 curPos += deltaPos;
             }
+            //sort results for comparison view
+            results.Sort(new SchemaAnalyzerResultComparerByName());
+
+            chart3.Series[chart - 1].DataPoints.Clear();
+            foreach (SchemaAnalyzerResult dataset in results)
+            {
+                var item2 = new DataPoint {YValue = dataset.Count, AxisXLabel = dataset.Caption};
+                chart3.Series[chart - 1].DataPoints.Add(item2);
+            }
             chart3.Series[chart - 1].LegendText = file.Substring(file.LastIndexOf("\\") + 1);
+            //afterwards restore original sort
+            results.Sort(new SchemaAnalyzerResultComparerByValue());
+
             (chart == 1 ? tab1 : tab2).Header = file.Substring(file.LastIndexOf("\\") + 1);
             (chart == 1 ? complexity1 : complexity2).Fill = new SolidColorBrush(GetComplexityColor(results.Complexity));
             (chart == 1 ? complexity1 : complexity2).Visibility = Visibility.Visible;
@@ -177,7 +192,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var actualCanvas = (tabControl.SelectedIndex == 0 ? canvas1 : canvas2);
+            Canvas actualCanvas = (tabControl.SelectedIndex == 0 ? canvas1 : canvas2);
             if (results1 != null)
             {
                 complexityMover1.Width = (int) (results1.Complexity*actualCanvas.ActualWidth);

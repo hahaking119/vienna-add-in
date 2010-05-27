@@ -62,7 +62,7 @@
             this.modelName.Location = new System.Drawing.Point(19, 20);
             this.modelName.Name = "modelName";
             this.modelName.Size = new System.Drawing.Size(360, 20);
-            this.modelName.TabIndex = 1;
+            this.modelName.TabIndex = 0;
             // 
             // label1
             // 
@@ -70,7 +70,7 @@
             this.label1.Location = new System.Drawing.Point(18, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(355, 65);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 0;
             this.label1.Text = resources.GetString("label1.Text");
             // 
             // useForAllButton
@@ -95,7 +95,7 @@
             this.groupBox2.Location = new System.Drawing.Point(12, 189);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(396, 184);
-            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Views of the model";
             // 
@@ -120,7 +120,7 @@
             this.nameBCV.Location = new System.Drawing.Point(19, 95);
             this.nameBCV.Name = "nameBCV";
             this.nameBCV.Size = new System.Drawing.Size(360, 20);
-            this.nameBCV.TabIndex = 5;
+            this.nameBCV.TabIndex = 4;
             this.nameBCV.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label3
@@ -137,7 +137,7 @@
             this.nameBRV.Location = new System.Drawing.Point(19, 46);
             this.nameBRV.Name = "nameBRV";
             this.nameBRV.Size = new System.Drawing.Size(360, 20);
-            this.nameBRV.TabIndex = 4;
+            this.nameBRV.TabIndex = 2;
             // 
             // checkBRV
             // 
@@ -145,7 +145,7 @@
             this.checkBRV.Location = new System.Drawing.Point(222, 20);
             this.checkBRV.Name = "checkBRV";
             this.checkBRV.Size = new System.Drawing.Size(15, 14);
-            this.checkBRV.TabIndex = 3;
+            this.checkBRV.TabIndex = 1;
             this.checkBRV.UseVisualStyleBackColor = true;
             // 
             // label2
@@ -162,7 +162,7 @@
             this.createButton.Location = new System.Drawing.Point(16, 380);
             this.createButton.Name = "createButton";
             this.createButton.Size = new System.Drawing.Size(75, 23);
-            this.createButton.TabIndex = 7;
+            this.createButton.TabIndex = 4;
             this.createButton.Text = "Create";
             this.createButton.UseVisualStyleBackColor = true;
             this.createButton.Click += new System.EventHandler(this.createButton_Click);
@@ -172,7 +172,7 @@
             this.closeButton.Location = new System.Drawing.Point(98, 380);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
-            this.closeButton.TabIndex = 8;
+            this.closeButton.TabIndex = 5;
             this.closeButton.Text = "Close";
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);

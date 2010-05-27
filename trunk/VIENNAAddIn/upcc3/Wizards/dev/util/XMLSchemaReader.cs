@@ -186,7 +186,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
             //Console.WriteLine("Schema features " + xsdSubstitutionGroup + " SubstitutionGroups.");
             #endregion
 
-            results.Sort(new SchemaAnalyzerResultComparer());
+            results.Sort(new SchemaAnalyzerResultComparerByValue());
 
             return results;
         }
