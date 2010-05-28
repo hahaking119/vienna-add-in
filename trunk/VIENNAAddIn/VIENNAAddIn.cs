@@ -103,10 +103,10 @@ namespace VIENNAAddIn
                                    + createABIE
                                    + validate))
                 .ShowIf(context => context.SelectedItemIsLibraryOfType(Stereotype.BIELibrary));
-            //menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
-            //                    + (AddInSettings.AddInName
-            //                       + modifyABIE))
-            //    .ShowIf(context => context.SelectedItemIsABIE());
+            menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
+                                + (AddInSettings.AddInName
+                                   + modifyAbie))
+                .ShowIf(context => context.SelectedItemIsABIE());
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)
                                 + (AddInSettings.AddInName
                                    + createBDT
