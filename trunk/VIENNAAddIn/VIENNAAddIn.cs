@@ -54,7 +54,7 @@ namespace VIENNAAddIn
                 "&Create initial UPCC3 model structure".OnClick(UpccModelCreator.ShowForm);
             MenuAction createABIE = "Create new &ABIE".OnClick(AbieEditor.ShowCreateDialog);
             MenuAction createBDT = "Create new BD&T".OnClick(BdtEditor.ShowCreateDialog);            
-            //MenuItem modifyAbie = "&Modify ABIE".OnClick(AbieEditor.ShowUpdateDialog).Enabled(IfABIEIsSelected);
+            MenuItem modifyAbie = "&Modify ABIE".OnClick(AbieEditor.ShowUpdateDialog).Enabled(IfABIEIsSelected);
             MenuAction validate = "&Validate".OnClick(ValidatorForm.ShowValidator);
             MenuItem _____ = MenuItem.Separator;
 
@@ -75,7 +75,7 @@ namespace VIENNAAddIn
                                      )
                                    + ("Wizards"
                                       + createABIE
-                                      //+ modifyAbie
+                                      + modifyAbie
                                       + createBDT
                                       //+ "Generate &XML Schema (old)".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                                       + "Generate XML Schema".OnClick(ExporterForm.ShowForm)
