@@ -8,9 +8,7 @@
 // *******************************************************************************
 
 using System;
-using System.Diagnostics;
 using EA;
-using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
@@ -18,6 +16,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
     {
         private readonly Repository repository;
         private readonly ResourceDescriptor resourceDescriptor;
+        public Package bLibrary { get; set;}
 
         ///<summary>
         /// The constructor of the ModelCreator which allows to specify details about the resources
@@ -29,25 +28,20 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             resourceDescriptor = new ResourceDescriptor();
         }
 
-        ///<summary>
+        /// <summary>
         /// The constructor of the ModelCreator which allows to specify details about the resources
         /// to be cashed. The details are specified through the parameters of the constructor.  
-        ///</summary>
-        ///<param name="resources">
-        /// An array of strings specifying the names of the resources to be retrieved (e.g. 
-        /// "enumlibrary.xmi").
+        /// </summary>
+        /// Specifies the particular Repository where the libraries should be imported to.
+        /// <param name="eaRepository">
         /// </param>
-        ///<param name="downloadUri">
-        /// A string representing the URI where the resources are to be retrieved from. 
-        ///</param>
-        ///<param name="storageDirectory">
-        /// A string representing a directory location where the resources retrieved from the
-        /// URI are to be retrieved from. 
-        ///</param>
+        /// <param name="resourceDescriptor">
+        /// The resource describtor, which is holding information about storage location, download URI, and resources.
+        /// </param>
         public LibraryImporter(Repository eaRepository, ResourceDescriptor resourceDescriptor)
         {
             repository = eaRepository;
-            this.resourceDescriptor = new ResourceDescriptor(resourceDescriptor);           
+            this.resourceDescriptor = new ResourceDescriptor(resourceDescriptor);
         }
 
         public event Action<string> StatusChanged;
@@ -69,14 +63,29 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         /// "CDTLibrary" and a CC library named "CCLibrary") from the business library passed as a 
         /// parameter. 
         ///</summary>
-        ///<param name="bLibrary">
+        ///<param name="_bLibrary">
         /// Specifies the particular business library within the Repository where the standard 
         /// CC libraries should be imported into.
         ///</param>
-        public void ImportStandardCcLibraries(Package bLibrary)
+        public void ImportStandardCcLibraries(Package _bLibrary)
+        {
+            bLibrary = _bLibrary;
+            ImportStandardCcLibraries();
+        }
+
+        ///<summary>
+        /// The method's purpose is to first retrieve the latest CC libraries from the web and 
+        /// second import the downloaded libraries into an existing business library. The method
+        /// therefore has one input parameter specifying the business library that the CC libraries
+        /// are imported into. Realize that the method deletes all existing CC libraries (i.e. a PRIM
+        /// library named "PRIMLibrary", an ENUM library named "ENUMLibrary", a CDT library named
+        /// "CDTLibrary" and a CC library named "CCLibrary") from the business library passed as a 
+        /// parameter. 
+        ///</summary>
+        public void ImportStandardCcLibraries()
         {
             SendStatusChanged("Caching resources: " + resourceDescriptor.StorageDirectory);
-            
+
             new ResourceHandler(resourceDescriptor).CacheResourcesLocally();
 
             Project project = repository.GetProjectInterface();
@@ -104,7 +113,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         ///<param name="bLibrary">
         /// The bLibrary that the method operates on. 
         ///</param>                
-        private void CleanUpUpccModel(Repository repository, Package bLibrary)
+        private static void CleanUpUpccModel(Repository repository, Package bLibrary)
         {
             short index = 0;
 

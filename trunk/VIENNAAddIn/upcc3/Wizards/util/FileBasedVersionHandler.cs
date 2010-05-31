@@ -7,15 +7,10 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System;
 using System.Collections.Generic;
-using VIENNAAddIn.Settings;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
-    ///<summary>
-    /// TODO
-    ///</summary>
     public class FileBasedVersionHandler : IVersionHandler
     {
         private readonly IVersionsFile versionsFile;
@@ -25,26 +20,13 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             this.versionsFile = versionsFile;
         }
 
-        public List<VersionDescriptor> AvailableVersions { get; private set;}
+        public List<VersionDescriptor> AvailableVersions { get; private set; }
 
-        public void RetrieveAvailableVersions()
-        {
-            AvailableVersions = new List<VersionDescriptor>();
-
-            string versionsString = versionsFile.GetContent();
-            
-            foreach (string version in versionsString.Split('\n'))
-            {
-                if (version.Trim() != "")
-                {
-                    AvailableVersions.Add(VersionDescriptor.ParseVersionString(version));    
-                }                
-            }
-        }
+        #region IVersionHandler Members
 
         public List<string> GetMajorVersions()
         {
-            List<string> majorVersions = new List<string>();
+            var majorVersions = new List<string>();
 
             foreach (VersionDescriptor descriptor in AvailableVersions)
             {
@@ -59,7 +41,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
 
         public List<string> GetMinorVersions(string majorVersion)
         {
-            List<string> minorVersions = new List<string>();
+            var minorVersions = new List<string>();
 
             foreach (VersionDescriptor descriptor in AvailableVersions)
             {
@@ -69,7 +51,7 @@ namespace VIENNAAddIn.upcc3.Wizards.util
                 }
             }
 
-            return minorVersions;            
+            return minorVersions;
         }
 
         public string GetComment(string majorVersion, string minorVersion)
@@ -78,11 +60,28 @@ namespace VIENNAAddIn.upcc3.Wizards.util
             {
                 if ((descriptor.Major == majorVersion) && (descriptor.Minor == minorVersion))
                 {
-                    return descriptor.Comment;                    
+                    return descriptor.Comment;
                 }
             }
 
             return "";
+        }
+
+        #endregion
+
+        public void RetrieveAvailableVersions()
+        {
+            AvailableVersions = new List<VersionDescriptor>();
+
+            string versionsString = versionsFile.GetContent();
+
+            foreach (string version in versionsString.Split('\n'))
+            {
+                if (version.Trim() != "")
+                {
+                    AvailableVersions.Add(VersionDescriptor.ParseVersionString(version));
+                }
+            }
         }
     }
 }
