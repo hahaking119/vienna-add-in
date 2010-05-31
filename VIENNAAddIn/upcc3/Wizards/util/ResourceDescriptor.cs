@@ -1,4 +1,13 @@
-using VIENNAAddIn.Settings;
+// *******************************************************************************
+// This file is part of the VIENNAAddIn project
+// 
+// Licensed under GNU General Public License V3 http://gplv3.fsf.org/
+// 
+// For further information on the VIENNAAddIn project please visit 
+// http://vienna-add-in.googlecode.com
+// *******************************************************************************
+
+using System;
 
 namespace VIENNAAddIn.upcc3.Wizards.util
 {
@@ -20,7 +29,8 @@ namespace VIENNAAddIn.upcc3.Wizards.util
         {
             Resources = new[] {"enumlibrary.xmi", "primlibrary.xmi", "cdtlibrary.xmi", "cclibrary.xmi"};
             DownloadUri = "http://www.umm-dev.org/xmi/";
-            StorageDirectory = AddInSettings.HomeDirectory + "upcc3\\resources\\ccl\\";
+            //changed to users folder in order to resolve issue 70
+            StorageDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\ViennaAddIn\\upcc3\\resources\\ccl\\";
         }
 
         public ResourceDescriptor(ResourceDescriptor descriptor)
