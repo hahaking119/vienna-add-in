@@ -23,11 +23,17 @@ namespace VIENNAAddIn.Settings
     public partial class SynchTaggedValues
     {
         private readonly Repository repository;
+        private bool removeUndefinedTaggedValues;
 
         public event Action<Path> TaggedValueFixed = path => { };
 
         public SynchTaggedValues(Repository repository)
         {
+            this.repository = repository;
+        }
+        public SynchTaggedValues(Repository repository, bool removeUndefinedTaggedValues)
+        {
+            this.removeUndefinedTaggedValues = removeUndefinedTaggedValues;
             this.repository = repository;
         }
 
@@ -49,6 +55,14 @@ namespace VIENNAAddIn.Settings
                 taggedValue.Update();
                 TaggedValueFixed(path/missingTaggedValue);
             }
+            if(removeUndefinedTaggedValues)
+            {
+                foreach (string unneededTaggedValue in existingTaggedValues.Except(requiredTaggedValues))
+                {
+
+                    element.TaggedValues.Delete(indexOf(element.TaggedValues, unneededTaggedValue));
+                }
+            }
             element.TaggedValues.Refresh();
         }
 
@@ -61,6 +75,14 @@ namespace VIENNAAddIn.Settings
                 taggedValue.Value = string.Empty;
                 taggedValue.Update();
                 TaggedValueFixed(path/missingTaggedValue);
+            }
+            if (removeUndefinedTaggedValues)
+            {
+                foreach (string unneededTaggedValue in existingTaggedValues.Except(requiredTaggedValues))
+                {
+
+                    attribute.TaggedValues.Delete(indexOf(attribute.TaggedValues, unneededTaggedValue));
+                }
             }
             attribute.TaggedValues.Refresh();
         }
@@ -75,6 +97,14 @@ namespace VIENNAAddIn.Settings
                 taggedValue.Update();
                 TaggedValueFixed(path/missingTaggedValue);
             }
+            if (removeUndefinedTaggedValues)
+            {
+                foreach (string unneededTaggedValue in existingTaggedValues.Except(requiredTaggedValues))
+                {
+
+                    connector.TaggedValues.Delete(indexOf(connector.TaggedValues, unneededTaggedValue));
+                }
+            }
             connector.TaggedValues.Refresh();
         }
 
@@ -84,6 +114,20 @@ namespace VIENNAAddIn.Settings
             {
                 yield return item;
             }
+        }
+
+        private static short indexOf(Collection listToSearch, string unneededTaggedValue)
+        {
+            short position = 0;
+            foreach (TaggedValue taggedValue in listToSearch)
+            {
+                if (taggedValue.Name.Equals(unneededTaggedValue))
+                {
+                    return position;
+                }
+                position++;
+            }
+            return -1;
         }
 
         public void FixTaggedValues()

@@ -71,7 +71,7 @@ namespace VIENNAAddIn
                                    + "&Validate All - UMM2".OnClick(ValidatorForm.ShowUmmValidator)
                                    + _____
                                    + ("Maintenance"
-                                      + "Synchronize &Tagged Values...".OnClick(SynchStereotypesForm.ShowForm)
+                                      + "Synchronize &Tagged Values...".OnClick(SynchStereoTypes.ShowForm)
                                      )
                                    + ("Wizards"
                                       + createABIE
