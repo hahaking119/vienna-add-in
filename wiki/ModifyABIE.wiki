@@ -36,4 +36,6 @@ Every Aggregate Business Information Entity (ABIE) is based on an Aggregated Cor
 
 [CreateyourownBdts Create your own BDTs]: This page explains how to create BDTs using the _BDT Editor_
 
+[CreateyourownAbies Create your own ABIEs]: This page explains how to create ABIEs using the _ABIE Editor_
+
 [GettingStartedVideos Getting Started Videos]: This page contains a few videos explaining common tasks using the VIENNA Add-In
