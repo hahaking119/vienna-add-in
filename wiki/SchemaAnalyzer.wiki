@@ -16,3 +16,6 @@ The Schema Analyzer can be used to retrieve key data out of XML schemas.
     http://vienna-add-in.googlecode.com/svn/wiki/images_schemaanalyzer/schemaanalyzer_xsd2.png
   # The last tab shows a comparison of the provided XML schemas.
     http://vienna-add-in.googlecode.com/svn/wiki/images_schemaanalyzer/schemaanalyzer_xsdcomparison.png
+
+=References=
+(1) W3C XML Schema http://www.w3.org/XML/Schema.html
