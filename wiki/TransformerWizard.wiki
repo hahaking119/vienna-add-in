@@ -68,6 +68,8 @@ The Transformer Wizard can be used to transform an existing model to a target XM
 
 [ImportStandardCCLibraries Import standard CC Libraries]: This page explains how to download and import standard Core Component Libraries into an existing UPCC3 model
 
+[XmlSchemaImporter Import XML Schema]: This page explains how to import an XML Schema into an existing UPCC3 model
+
 [CreateyourownBdts Create your own BDTs]: This page explains how to create BDTs using the _BDT Editor_
 
 [CreateyourownAbies Create your own ABIEs]: This page explains how to create ABIEs using the _ABIE Editor_
