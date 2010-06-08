@@ -3,7 +3,7 @@ The XML Schema Importer can be used to import an XML Schema into an existing mod
     
 =Import an XML Schema=
   # Prepare a UPCC3 model in Enterprise Architect
-  # Select _Add-Ins / VIENNAAddIn / Wizards / Generate XML Schema_ from the main menu:
+  # Select _Add-Ins / VIENNAAddIn / Wizards / Import XML Schemas_ from the main menu:
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_EAmenuEntry.png
   # After launching the XML Schema Importer, the XSD tab will be displayed by default. Many of the fields needed for importing an XML schema are already filled out on startup. Of course any of these can be customized to your individual needs.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_startscreen.png
