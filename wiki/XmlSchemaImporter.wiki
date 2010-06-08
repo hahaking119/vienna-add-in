@@ -23,7 +23,7 @@ The XML Schema Importer can be used to import an XML Schema into an existing mod
 
 (2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
 
-(3) W3C XML Schemma http://www.w3.org/XML/Schema.html
+(3) W3C XML Schema http://www.w3.org/XML/Schema.html
 
 =Related Tasks=
 [CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
