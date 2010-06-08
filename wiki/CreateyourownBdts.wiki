@@ -18,10 +18,10 @@ Every Business Data Type (BDT) is based on a Core Data Type (CDT). The VIENNA Ad
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_03.gif
   # From the _SUP_ list, you can select all Supplementary Components the BDT should contain:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_04.gif
-  # Enter a name and a prefix fot the BDT to be created:
+  # Enter a name and a prefix for the BDT to be created:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_05.gif
   # Select the BDT Library the new BDT should be located in from the drop down list at the bottom of the dialog
-  # Finally, clickt the _Create BDT_ button:
+  # Finally, click the _Create BDT_ button:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_06.gif
   # After the BDT was created successfully, a confirmation message is shown:
     http://vienna-add-in.googlecode.com/svn/wiki/images/CreateyourownBdts_08.gif
