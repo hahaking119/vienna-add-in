@@ -17,3 +17,15 @@ The XML Schema Importer can be used to import an XML Schema into an existing mod
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_CctsRootSelected.png
   # After clicking the "Import XML Schemas" button, the message "Import completed!" will be displayed in the status bar, once the process is completed
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_importcompleted.png
+
+=References=
+(1) UMM Development Site http://umm-dev.org/
+
+(2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
+
+=Related Tasks=
+[CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
+
+[CreateaUpccModel Create your first UPCC model]: This page explains how to create a UPCC model
+
+[GettingStartedVideos Getting Started Videos]: This page contains a few videos explaining common tasks using the VIENNA Add-In
