@@ -13,9 +13,9 @@ The XML Schema Generator can be used to export an existing model to an XML Schem
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_rootMaChecked.png
   # Next a output directory for the XML schema file has to be selected. This can be done by clicking on the "..." button and selecting a file using a default Windows file selection dialog.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_outputdirectoryset.png
-  # Now it is time to define a target namespace and a custom prefix. The next image shows some example entries.
+  # Define a target namespace and a custom prefix - the next image shows some example entries.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_namespaceset.png
-  # You can decide on your own wether documentation annotations should be included in the generated XML schema files. The same applies to the generation of Core Component Schemas.
+  # Select whether documentation annotations should be included in the generated XML schema files or not. The same applies to the generation of Core Component Schemas.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_checkboxeschecked.png
   # After clicking on the "Export XML Schema" button, the generator starts to generate the XML schema files. The progress is shown in the Status textbox at the bottom.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemagenerator/schemagenerator_exportschemaclick.png
