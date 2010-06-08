@@ -44,4 +44,6 @@ The XML Schema Generator can be used to export an existing model to an XML Schem
 
 [TransformerWizard Transform a Model]: This page explains how to transform an existing UPCC3 model
 
+[SubsettingWizard Sub-set a Model]: This page explains how to create a sub-set of an existing UPCC3 model
+
 [GettingStartedVideos Getting Started Videos]: This page contains a few videos explaining common tasks using the VIENNA Add-In
