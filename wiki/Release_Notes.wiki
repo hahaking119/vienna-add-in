@@ -1,5 +1,31 @@
 #summary Release Notes.
 
+= VIENNAAddIn_0.0.9 =
+
+ * Transformer Wizard
+ * XSD Importer improvements
+ * Bug fixes
+
+
+
+
+= VIENNAAddIn_0.0.8 =
+
+ * XSD Schema Analyzer
+ * XSD Importer
+ * Bug fixes
+
+
+
+= VIENNAAddIn_0.0.7 =
+
+ * Major improvements of the underlying EA Layer implementations
+ * New simplified Core Component Library included for demonstration purposes
+ * Improved ABIE Wizard performance
+ * Bug fixes
+
+
+
 
 = VIENNAAddIn_0.0.6 =
 
