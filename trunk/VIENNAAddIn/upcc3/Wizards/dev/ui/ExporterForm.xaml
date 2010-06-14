@@ -52,10 +52,10 @@
                         <CheckBox KeyboardNavigation.TabIndex="7" Name="checkboxGenerateCcSchemas" Margin="0,5,0,0" />
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Name="panelSettingsEbInterface" Orientation="Vertical" Visibility="Collapsed">
+                <StackPanel Name="panelSettingsXMLSchema" Orientation="Vertical" Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Height="23" Width="155">XML Schema input Directory:</Label>
-                        <VIENNAAddInWpfUserControls:DirectorySelector KeyboardNavigation.TabIndex="8" Name="textboxXMLSchemaInputDirectory" Width="300" DirectoryNameChanged="textboxXMLSchemaInputDirectory_changed" /> 
+                        <Label Height="23" Width="155">Original XML Schema:</Label>
+                        <VIENNAAddInWpfUserControls:FileSelector KeyboardNavigation.TabIndex="9" Name="textboxXMLSchemaOriginalFile" Width="300" FileNameChanged="textboxXMLSchemaOriginalFile_FileNameChanged" />
                     </StackPanel>
                 </StackPanel>
             </Canvas>

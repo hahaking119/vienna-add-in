@@ -4,29 +4,32 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using CctsRepository;
-using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.export.cctsndr;
+using VIENNAAddIn.upcc3.export.mapping;
 using CheckBox=System.Windows.Controls.CheckBox;
 using ComboBox=System.Windows.Controls.ComboBox;
 using Cursors=System.Windows.Input.Cursors;
+using ListBox=System.Windows.Controls.ListBox;
+using MessageBox=System.Windows.Forms.MessageBox;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
     /// <summary>
     /// Interaction logic for ExporterForm.xaml
     /// </summary>
-    public partial class ExporterForm : Window
+    public partial class ExporterForm
     {
+        private const int MARGIN = 15;
+        private readonly Cache cache;
+        private readonly ICctsRepository cctsR;
         private readonly Dictionary<string, StackPanel> documentModels = new Dictionary<string, StackPanel>();
-        private ICctsRepository cctsR;
-        private Cache cache;
+        private int mouseDownPosX;
+        private string originalXMLSchema = "";
+        private string outputDirectory = "";
         private string selectedBIVName;
         private string selectedModelName;
-        private const int MARGIN = 15;
-        private int mouseDownPosX;
-        private string outputDirectory = "";        
 
         public ExporterForm(ICctsRepository cctsRepository)
         {
@@ -35,15 +38,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             {
                 cache = new Cache();
                 cache.LoadBIVs(cctsR);
-            } catch(CacheException ce)
+            }
+            catch (CacheException ce)
             {
-                System.Windows.Forms.MessageBox.Show(ce.Message, "VIENNA Add-In Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(ce.Message, "VIENNA Add-In Information", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
             }
 
             InitializeComponent();
 
-            documentModels.Add("CCTS", this.panelSettingsCCTS);
-            documentModels.Add("ebInterface", this.panelSettingsEbInterface);
+            documentModels.Add("CCTS", panelSettingsCCTS);
+            documentModels.Add("XML Schema", panelSettingsXMLSchema);
 
             MirrorBIVsToUI();
             ResetForm(0);
@@ -58,29 +63,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (box.Items.Count > 0)
             {
-                if (indexToBeSet < box.Items.Count)
-                {
-                    box.SelectedIndex = indexToBeSet;
-                }
-                else
-                {
-                    box.SelectedIndex = 0;
-                }
+                box.SelectedIndex = indexToBeSet < box.Items.Count ? indexToBeSet : 0;
             }
         }
 
-        private static void SetSafeIndex(System.Windows.Controls.ListBox box, int indexToBeSet)
+        private static void SetSafeIndex(ListBox box, int indexToBeSet)
         {
             if (box.Items.Count > 0)
             {
-                if (indexToBeSet < box.Items.Count)
-                {
-                    box.SelectedIndex = indexToBeSet;
-                }
-                else
-                {
-                    box.SelectedIndex = 0;
-                }
+                box.SelectedIndex = indexToBeSet < box.Items.Count ? indexToBeSet : 0;
             }
         }
 
@@ -97,7 +88,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 /*            if (comboboxBusinessInformationView.Items.Count > 0)
             {
                 comboboxBusinessInformationView.SelectedIndex = 0;    
-            }  */          
+            }  */
         }
 
         private void MirrorModelsToUI()
@@ -119,8 +110,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
             catch (CacheException ce)
             {
-                System.Windows.Forms.MessageBox.Show(ce.Message, "VIENNA Add-In Error", MessageBoxButtons.OK,
-                                                     MessageBoxIcon.Error);
+                MessageBox.Show(ce.Message, "VIENNA Add-In Error", MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 Close();
             }
 
@@ -134,9 +125,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             cDOC doc = cache.BIVs[selectedBIVName].DOC;
             if (doc != null)
             {
-                CheckBox newItem = new CheckBox();
-                newItem.Content = doc.Name;
-                newItem.IsChecked = (doc.State == CheckState.Checked ? true : false);
+                var newItem = new CheckBox
+                                  {
+                                      Content = doc.Name,
+                                      IsChecked = (doc.State == CheckState.Checked ? true : false)
+                                  };
                 comboboxDocuments.Items.Add(newItem);
             }
         }
@@ -145,7 +138,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             GatherUserInput();
 
-            var biv = cache.BIVs[selectedBIVName];
+            cBIV biv = cache.BIVs[selectedBIVName];
             if (biv.DOC != null)
             {
                 textboxTagetNamespace.Text = biv.DOC.TargetNamespace;
@@ -155,9 +148,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void GatherUserInput()
         {
-            selectedBIVName = comboboxBusinessInformationView.SelectedIndex >= 0 ? comboboxBusinessInformationView.SelectedItem.ToString() : "";
-            selectedModelName = comboboxDocumentModel.SelectedIndex >= 0 ? comboboxDocumentModel.SelectedItem.ToString() : "";
+            selectedBIVName = comboboxBusinessInformationView.SelectedIndex >= 0
+                                  ? comboboxBusinessInformationView.SelectedItem.ToString()
+                                  : "";
+            selectedModelName = comboboxDocumentModel.SelectedIndex >= 0
+                                    ? comboboxDocumentModel.SelectedItem.ToString()
+                                    : "";
             outputDirectory = textboxOutputDirectory.DirectoryName;
+            originalXMLSchema = textboxXMLSchemaOriginalFile.FileName;
         }
 
         private void ResetForm(int levelOfReset)
@@ -197,21 +195,37 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             GatherUserInput();
 
-            if (!(String.IsNullOrEmpty(selectedBIVName)) &&
-                 //(comboboxDocuments.CheckedItems.Count > 0) &&
-                !(String.IsNullOrEmpty(textboxTagetNamespace.Text)) &&
-                !(String.IsNullOrEmpty(textboxPrefix.Text)) &&
-                !(String.IsNullOrEmpty(selectedModelName)) &&
-                !(String.IsNullOrEmpty(textboxOutputDirectory.DirectoryName)))
+            if (comboboxDocumentModel.SelectedItem.Equals("CCTS"))
             {
-                ResetForm(2);
+                if (!(String.IsNullOrEmpty(selectedBIVName)) &&
+                    //(comboboxDocuments.CheckedItems.Count > 0) &&
+                    !(String.IsNullOrEmpty(textboxTagetNamespace.Text)) &&
+                    !(String.IsNullOrEmpty(textboxPrefix.Text)) &&
+                    !(String.IsNullOrEmpty(selectedModelName)) &&
+                    !(String.IsNullOrEmpty(textboxOutputDirectory.DirectoryName)))
+                {
+                    ResetForm(2);
+                }
+                else
+                {
+                    ResetForm(1);
+                }
             }
             else
             {
-                ResetForm(1);
+                if (!(String.IsNullOrEmpty(selectedBIVName)) &&
+                    !(String.IsNullOrEmpty(selectedModelName)) &&
+                    !(String.IsNullOrEmpty(textboxXMLSchemaOriginalFile.FileName)))
+                {
+                    ResetForm(2);
+                }
+                else
+                {
+                    ResetForm(1);
+                }
             }
         }
-        
+
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -224,13 +238,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             GatherUserInput();
             cBIV currentBIV = cache.BIVs[selectedBIVName];
 
-            // TODO: check if path is valid
-            IAbie rootAbie = null;
-            cDOC document = currentBIV.DOC;
-            if (document != null && document.State == CheckState.Checked)
-            {
-                rootAbie = cctsR.GetAbieById(document.Id);
-            }
 
             IDocLibrary docl = cctsR.GetDocLibraryById(currentBIV.Id);
 
@@ -239,16 +246,28 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             //TODO: currently the wizard just takes the input from the text fields whereas the prefix and the
             // target namespace should be (a) stored in the cache and (b) read from there while generation.. 
-            string targetNamespace = textboxTagetNamespace.Text;
-            string namespacePrefix = textboxPrefix.Text;
-            bool annotate = checkboxDocumentationAnnotations.IsChecked == true ? true : false;
-            bool allschemas = checkboxGenerateCcSchemas.IsChecked == true ? true : false;
-            var generationContext = new GeneratorContext(cctsR, targetNamespace,
-                                                namespacePrefix, annotate, allschemas,
-                                                outputDirectory, docl);
-            generationContext.SchemaAdded += HandleSchemaAdded;
-            export.cctsndr.XSDGenerator.GenerateSchemas(generationContext);
 
+            if (comboboxDocumentModel.SelectedItem.Equals("CCTS"))
+            {
+                // TODO: check if path is valid
+                cDOC document = currentBIV.DOC;
+                if (document != null && document.State == CheckState.Checked)
+                {
+                }
+                string targetNamespace = textboxTagetNamespace.Text;
+                string namespacePrefix = textboxPrefix.Text;
+                bool annotate = checkboxDocumentationAnnotations.IsChecked == true ? true : false;
+                bool allschemas = checkboxGenerateCcSchemas.IsChecked == true ? true : false;
+                var generationContext = new GeneratorContext(cctsR, targetNamespace,
+                                                             namespacePrefix, annotate, allschemas,
+                                                             outputDirectory, docl);
+                generationContext.SchemaAdded += HandleSchemaAdded;
+                XSDGenerator.GenerateSchemas(generationContext);
+            }
+            else
+            {
+                SubsetExporter.ExportSubset(docl, originalXMLSchema, outputDirectory);
+            }
             textBoxStatus.Text += "\nGenerating XML schemas completed!";
             Cursor = Cursors.Arrow;
         }
@@ -259,7 +278,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             textBoxStatus.Text += "Generated Schema file:" + e.FileName + "\n";
         }
 
-        private void comboboxDocumentModel_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void comboboxDocumentModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboboxDocumentModel.SelectedItem != null)
             {
@@ -298,8 +317,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void textboxPrefix_TextChanged(object sender, TextChangedEventArgs e)
         {
-            GatherUserInput();
-
             // todo: make path check
             cache.BIVs[selectedBIVName].DOC.TargetNamespacePrefix = textboxTagetNamespace.Text;
 
@@ -308,8 +325,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void textboxTagetNamespace_TextChanged(object sender, TextChangedEventArgs e)
         {
-            GatherUserInput();
-
             // todo: make path check
             cache.BIVs[selectedBIVName].DOC.TargetNamespace = textboxTagetNamespace.Text;
 
@@ -318,17 +333,15 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void textboxOutputDirectory_DirectoryNameChanged(object sender, RoutedEventArgs e)
         {
-            GatherUserInput();
-
             // todo: make path check
             cache.BIVs[selectedBIVName].DOC.OutputDirectory = outputDirectory;
 
             VerifyUserInput();
         }
 
-        private void textboxXMLSchemaInputDirectory_changed(object sender, RoutedEventArgs e)
+        private void textboxXMLSchemaOriginalFile_FileNameChanged(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            VerifyUserInput();
         }
     }
 
