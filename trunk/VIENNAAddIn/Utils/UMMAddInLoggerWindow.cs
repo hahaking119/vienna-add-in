@@ -7,9 +7,6 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace VIENNAAddIn.Utils
@@ -17,14 +14,14 @@ namespace VIENNAAddIn.Utils
     /// <sUMM2ary>
     /// SUMM2ary description for VIENNAAddInLoggerWindow.
     /// </sUMM2ary>
-    internal class UMMAddInLoggerWindow : System.Windows.Forms.Form
+    internal class UMMAddInLoggerWindow : Form
     {
-        private System.Windows.Forms.RichTextBox logWindow;
+        private RichTextBox logWindow;
+
         /// <sUMM2ary>
         /// Required designer variable.
         /// </sUMM2ary>
-        private System.ComponentModel.Container components = null;
-
+        //private System.ComponentModel.Container components = null;
         internal UMMAddInLoggerWindow()
         {
             //
@@ -41,28 +38,26 @@ namespace VIENNAAddIn.Utils
         /// <sUMM2ary>
         /// Append String s to the log Window
         /// </sUMM2ary>
-        /// <param name="s"></param>
+        /// <param name="l"></param>
         internal void appendLogMessage(LogMessage l)
         {
-            if (this.IsDisposed)
-                this.Activate();
+            if (IsDisposed)
+                Activate();
 
             String s = "";
-            s += l.level.ToString() + " " + l.dateTime + "\n" + l.message + "\n";
-            this.logWindow.AppendText(s);
+            s += l.level + " " + l.dateTime + "\n" + l.message + "\n";
+            logWindow.AppendText(s);
         }
-          
+
         public void appendLogMessageCCTS(LogMessageCCTS l)
         {
-            if (this.IsDisposed)
-                this.Activate();
+            if (IsDisposed)
+                Activate();
 
             String s = "";
-            s += l.level.ToString() + " " + l.dateTime + "\n" + l.message + "\n";
-            this.logWindow.AppendText(s);
+            s += l.level + " " + l.dateTime + "\n" + l.message + "\n";
+            logWindow.AppendText(s);
         }
-
-
 
 
         /// <sUMM2ary>
@@ -72,14 +67,16 @@ namespace VIENNAAddIn.Utils
         /// </sUMM2ary>
         protected override void Dispose(bool disposing)
         {
+            Visible = false;
+            Update();
+        }
 
-            this.Visible = false;
-            this.Update();
-
-
+        private void logWindow_TextChanged(object sender, EventArgs e)
+        {
         }
 
         #region Windows Form Designer generated code
+
         /// <sUMM2ary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -107,23 +104,13 @@ namespace VIENNAAddIn.Utils
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 14);
             this.ClientSize = new System.Drawing.Size(576, 125);
             this.Controls.Add(this.logWindow);
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular,
+                                                System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.Name = "UMMAddInLoggerWindow";
             this.Text = "Log messages";
             this.ResumeLayout(false);
-
         }
+
         #endregion
-
-        private void logWindow_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
-         
-
-
-
     }
 }

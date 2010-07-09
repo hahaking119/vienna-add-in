@@ -85,7 +85,8 @@ namespace VIENNAAddIn
                                       + "&Transformer Wizard".OnClick(TransformerWizard.ShowForm)
                                       + "&Sub&setting Wizard".OnClick(SubSettingWizard.ShowForm)
                                       + "&Schema Anal&yzer".OnClick(SchemaAnalyzer.ShowForm)
-                                     )
+                                      + "&WSDL Generator".OnClick(WSDLGenerator.ShowForm)
+                                      )
                                    + "&Options".OnClick(OptionsForm.ShowForm)
                                    + ("&About " + AddInSettings.AddInName).OnClick(AboutWindow.ShowForm)));
             menuManager.AddMenu((MenuLocation.TreeView | MenuLocation.Diagram)

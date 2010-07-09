@@ -7,25 +7,21 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
-using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using System.Text;
+using System.Collections.Generic;
 using EA;
 using VIENNAAddIn.constants;
-using VIENNAAddIn.Settings;
 using VIENNAAddIn.validator;
+using Attribute=EA.Attribute;
 
 namespace VIENNAAddIn.common
 
 {
-    internal class Utility 
+    internal class Utility
     {
+        //internal static bool DEBUG;
 
-        internal static bool DEBUG;
 
-
-        
         /// <summary>
         /// Returns true if the list of validationmessage does not contain any ERRORS
         /// </summary>
@@ -42,13 +38,7 @@ namespace VIENNAAddIn.common
                 }
             }
             return true;
-
         }
-
-
-
-
-
 
 
         /// <summary>
@@ -58,18 +48,16 @@ namespace VIENNAAddIn.common
         /// <returns></returns>
         internal static bool isValidUMMStereotype(String s)
         {
-
-            foreach (UMM u in Enum.GetValues(typeof(UMM)))
+            foreach (UMM u in Enum.GetValues(typeof (UMM)))
             {
                 if (u.ToString() == s)
                 {
                     return true;
                 }
             }
-            
+
             return false;
         }
-
 
 
         /// <summary>
@@ -79,8 +67,7 @@ namespace VIENNAAddIn.common
         /// <returns></returns>
         internal static bool isValidUPCCStereotype(String s)
         {
-
-            foreach (UPCC u in Enum.GetValues(typeof(UPCC)))
+            foreach (UPCC u in Enum.GetValues(typeof (UPCC)))
             {
                 if (u.ToString() == s)
                 {
@@ -92,9 +79,6 @@ namespace VIENNAAddIn.common
         }
 
 
-
-        
-
         /// <summary>
         /// Returns the stereotype associated with a package
         /// if there is no stereotype associated with the given 
@@ -102,21 +86,22 @@ namespace VIENNAAddIn.common
         /// </summary>
         /// <param name="?"></param>
         /// <returns></returns>
-        internal static String getStereoTypeFromPackage(EA.Package package)
+        internal static String getStereoTypeFromPackage(Package package)
         {
             if (package.Element != null)
                 return package.Element.Stereotype;
-            else
-                return "";
+            return "";
         }
 
 
         /// <summary>
         /// retrieves recursivly all packages of a given stereotype from the startingpoint package
         /// 
-        internal static IList<EA.Package> getAllSubPackagesWithGivenStereotypeRecursively(EA.Package package, IList<EA.Package> resultList, String stereotype)
+        internal static IList<Package> getAllSubPackagesWithGivenStereotypeRecursively(Package package,
+                                                                                       IList<Package> resultList,
+                                                                                       String stereotype)
         {
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
                 if (getStereoTypeFromPackage(p) == stereotype)
                 {
@@ -131,9 +116,9 @@ namespace VIENNAAddIn.common
         /// <summary>
         /// retrieves recursivly all packages of a given stereotype from the startingpoint package
         /// 
-        internal static IList<EA.Package> getAllSubPackagesRecursively(EA.Package package, IList<EA.Package> resultList)
+        internal static IList<Package> getAllSubPackagesRecursively(Package package, IList<Package> resultList)
         {
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
                 resultList.Add(p);
                 getAllSubPackagesRecursively(p, resultList);
@@ -146,14 +131,14 @@ namespace VIENNAAddIn.common
         /// Retrieves the element with the given stereotype from the package
         /// </summary>
         /// <param name="?"></param>
+        /// <param name="p"></param>
         /// <param name="stereotype"></param>
         /// <returns></returns>
-        internal static EA.Element getElementFromPackage(EA.Package p, String stereotype) {
-
-            foreach (EA.Element e in p.Elements)
+        internal static Element getElementFromPackage(Package p, String stereotype)
+        {
+            foreach (Element e in p.Elements)
             {
-                String d = e.Stereotype;
-                if (e.Stereotype.ToString().Equals(stereotype))
+                if (e.Stereotype.Equals(stereotype))
                 {
                     return e;
                 }
@@ -162,25 +147,20 @@ namespace VIENNAAddIn.common
         }
 
 
-       
-
-
-
-
-
         /// <summary>
         /// retrieves recursivly elements with a given stereotype
         /// </summary>
-        internal static Dictionary<Int32, EA.Element> getAllElements(EA.Package package, Dictionary<Int32, EA.Element> resultList, String stereotype)
+        internal static Dictionary<Int32, Element> getAllElements(Package package, Dictionary<Int32, Element> resultList,
+                                                                  String stereotype)
         {
-            foreach (EA.Element e in package.Elements)
+            foreach (Element e in package.Elements)
             {
                 if (e.Stereotype.Equals(stereotype))
                 {
                     resultList.Add(e.ElementID, e);
                 }
             }
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
                 getAllElements(p, resultList, stereotype);
             }
@@ -204,33 +184,28 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <summary>
         /// Returns all classes of all subpackages of the given package
         /// </summary>
         /// <param name="package"></param>
+        /// <param name="resultList"></param>
         /// <param name="?"></param>
         /// <returns></returns>
-        internal static IList<EA.Element> getAllClasses(EA.Package package, IList<EA.Element> resultList) {
-
-            foreach (EA.Element e in package.Elements)
+        internal static IList<Element> getAllClasses(Package package, IList<Element> resultList)
+        {
+            foreach (Element e in package.Elements)
             {
                 if (e.Type == "Class")
                 {
                     resultList.Add(e);
                 }
             }
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
                 getAllClasses(p, resultList);
             }
             return resultList;
-
-
-
-
         }
-
 
 
         /// <sUMM2ary>
@@ -238,23 +213,23 @@ namespace VIENNAAddIn.common
         /// Excluded are elements/packages/diagrams with parentid = fatherid
         /// </sUMM2ary>
         /// <returns></returns>
-        internal static int countAllWithinAPackage(EA.Package p, int fatherid)
+        internal static int countAllWithinAPackage(Package p, int fatherid)
         {
             int i = 0;
 
-            foreach (EA.Element e in p.Elements)
+            foreach (Element e in p.Elements)
             {
                 if (e.ParentID != fatherid)
                     i++;
             }
 
-            foreach (EA.Package pa in p.Packages)
+            foreach (Package pa in p.Packages)
             {
                 if (pa.ParentID != fatherid)
                     i++;
             }
 
-            foreach (EA.Diagram d in p.Diagrams)
+            foreach (Diagram d in p.Diagrams)
             {
                 if (d.ParentID != fatherid)
                     i++;
@@ -271,11 +246,11 @@ namespace VIENNAAddIn.common
         /// <param name="container"></param>
         /// <param name="stereotype"></param>
         /// <returns></returns>
-        internal static int countPackagesWithinAPackage(EA.Package container, String stereotype)
+        internal static int countPackagesWithinAPackage(Package container, String stereotype)
         {
             int i = 0;
 
-            foreach (EA.Package p in container.Packages)
+            foreach (Package p in container.Packages)
             {
                 if (p.Element.Stereotype != null && p.Element.Stereotype == stereotype)
                     i++;
@@ -283,8 +258,6 @@ namespace VIENNAAddIn.common
 
             return i;
         }
-
-
 
 
         /// <sUMM2ary>
@@ -296,7 +269,7 @@ namespace VIENNAAddIn.common
         /// <param name="stereotype">the stereotype a diagram must have to be in the 
         /// resultlist</param>
         /// <returns>List with all diagrams from a given package with a given stereotype</returns>
-        internal static IList getDiagramsFromPackage(EA.Repository repo, String scope, String stereotype)
+        internal static IList getDiagramsFromPackage(Repository repo, String scope, String stereotype)
         {
             IList diagrams = new ArrayList();
 
@@ -305,24 +278,24 @@ namespace VIENNAAddIn.common
             try
             {
                 int packageID = Int32.Parse(scope);
-                EA.Package p = repo.GetPackageByID(packageID);
-                foreach (EA.Diagram diag in p.Diagrams)
+                Package p = repo.GetPackageByID(packageID);
+                foreach (Diagram diag in p.Diagrams)
                 {
-                    if (diag.Stereotype.ToString() == stereotype)
+                    if (diag.Stereotype == stereotype)
                     {
                         diagrams.Add(diag);
                     }
-
                 }
             }
-            catch (Exception e) { }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
 
             return diagrams;
         }
 
 
-
-         
         /// <sUMM2ary>
         /// retrieves all packages of the first level of a model which correspond to a 
         /// given stereotype.
@@ -331,12 +304,12 @@ namespace VIENNAAddIn.common
         /// result list</param>
         /// <param name="repository">the model</param>
         /// <returns>all packages on the top level</returns>
-        internal static ArrayList getRootViewPackages(EA.Repository repository, UMM packageStereotype)
+        internal static ArrayList getRootViewPackages(Repository repository, UMM packageStereotype)
         {
-            ArrayList packageList = new ArrayList();
-            EA.Package model = (EA.Package)repository.Models.GetAt(0);
-            EA.Collection rootPackages = model.Packages;
-            foreach (EA.Package p in rootPackages)
+            var packageList = new ArrayList();
+            var model = (Package) repository.Models.GetAt(0);
+            Collection rootPackages = model.Packages;
+            foreach (Package p in rootPackages)
             {
                 String s = p.Element.Stereotype;
                 if (s.Equals(packageStereotype.ToString()))
@@ -355,12 +328,12 @@ namespace VIENNAAddIn.common
         /// result list</param>
         /// <param name="repository">the model</param>
         /// <returns>all packages on the top level</returns>
-        internal static ArrayList getRootViewPackages(EA.Repository repository, String packageStereotype)
+        internal static ArrayList getRootViewPackages(Repository repository, String packageStereotype)
         {
-            ArrayList packageList = new ArrayList();
-            EA.Package model = (EA.Package)repository.Models.GetAt(0);
-            EA.Collection rootPackages = model.Packages;
-            foreach (EA.Package p in rootPackages)
+            var packageList = new ArrayList();
+            var model = (Package) repository.Models.GetAt(0);
+            Collection rootPackages = model.Packages;
+            foreach (Package p in rootPackages)
             {
                 String s = p.Element.Stereotype;
                 if (s.Equals(packageStereotype))
@@ -385,11 +358,11 @@ namespace VIENNAAddIn.common
         /// <param name="stereotype">either a given stereotype if only specific diagrams
         /// should be retrieved, or null if all packages should be retrieved</param>
         /// its subpackages</returns>
-        private static IList getAllDiagrams(EA.Package package, IList resultList, String stereotype)
+        private static IList getAllDiagrams(IDualPackage package, IList resultList, String stereotype)
         {
             if (package.Diagrams.Count > 0)
             {
-                foreach (EA.Diagram d in package.Diagrams)
+                foreach (Diagram d in package.Diagrams)
                 {
                     if (stereotype == null)
                     {
@@ -401,13 +374,13 @@ namespace VIENNAAddIn.common
                     }
                 }
             }
-            foreach (EA.Package subPackage in package.Packages)
+            foreach (Package subPackage in package.Packages)
             {
                 getAllDiagrams(subPackage, resultList, stereotype);
             }
             return resultList;
-
         }
+
         /// <sUMM2ary>
         /// retrieves recursivly all packages
         /// </sUMM2ary>
@@ -417,9 +390,9 @@ namespace VIENNAAddIn.common
         /// should be retrieved, or null if all packages should be retrieved</param>
         /// <returns>a List containing all package id that correspond to the given
         /// criteria (stereotype)</returns>
-        internal static IList getAllSubPackagesRecursively2(EA.Package package, IList resultList, String stereotype)
+        internal static IList getAllSubPackagesRecursively2(Package package, IList resultList, String stereotype)
         {
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
                 if (p.Element.Stereotype.Equals(stereotype) || stereotype == null)
                 {
@@ -439,9 +412,9 @@ namespace VIENNAAddIn.common
         /// should be retrieved, or null if all packages should be retrieved</param>
         /// <returns>a List containing all packages that correspond to the given
         /// criteria (stereotype)</returns>
-        internal static IList getAllSubPackagesRecursively(EA.Package package, IList resultList, String stereotype)
+        internal static IList getAllSubPackagesRecursively(Package package, IList resultList, String stereotype)
         {
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
                 if (p.Element.Stereotype.Equals(stereotype) || stereotype == null)
                 {
@@ -461,12 +434,11 @@ namespace VIENNAAddIn.common
         /// <param name="name">then name of the subpackage to be returned</param>
         /// <returns>a List containing all packages that correspond to the given
         /// criteria (name)</returns>
-        internal static IList getAllSubPackagesWithSpecificNameRecursively(EA.Package package, IList resultList, String name, String stereotype)
+        internal static IList getAllSubPackagesWithSpecificNameRecursively(Package package, IList resultList,
+                                                                           String name, String stereotype)
         {
-            String k = package.Name;
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
-                String s = p.Name;
                 if (p.Name.Equals(name) && p.Element.Stereotype != null && p.Element.Stereotype == stereotype)
                 {
                     resultList.Add(p);
@@ -477,16 +449,14 @@ namespace VIENNAAddIn.common
         }
 
 
-
-
         /// <sUMM2ary>
         /// for getting the package which is stereotyped as BusinessTransactionView
         /// </sUMM2ary>
         /// <returns>the BTV package</returns>
-        internal static EA.Package getBusinessTransactionView(EA.Repository repository)
+        internal static Package getBusinessTransactionView(Repository repository)
         {
-            EA.Package root = (EA.Package)repository.Models.GetAt(0);
-            foreach (EA.Package p in root.Packages)
+            var root = (Package) repository.Models.GetAt(0);
+            foreach (Package p in root.Packages)
             {
                 if (p.Element.Stereotype.Equals(UMM.bTransactionV.ToString()))
                 {
@@ -507,16 +477,16 @@ namespace VIENNAAddIn.common
         /// should be retrieved, or null if all elements should be retrieved</param>
         /// <returns>a List containing all elements that correspond to the given
         /// criteria (stereotype)</returns>
-        internal static IList<EA.Element> getAllElements(EA.Package package, IList<EA.Element> resultList, String stereotype)
+        internal static IList<Element> getAllElements(Package package, IList<Element> resultList, String stereotype)
         {
-            foreach (EA.Element e in package.Elements)
+            foreach (Element e in package.Elements)
             {
                 if (e.Stereotype.Equals(stereotype) || stereotype == null)
                 {
                     resultList.Add(e);
                 }
             }
-            foreach (EA.Package p in package.Packages)
+            foreach (Package p in package.Packages)
             {
                 getAllElements(p, resultList, stereotype);
             }
@@ -529,13 +499,13 @@ namespace VIENNAAddIn.common
         /// </sUMM2ary>
         /// <param name="repository">the model</param>
         /// <returns>List containing all BusinessCollaborationProtocols</returns>
-        internal static IList getBusinessCollaborationProtocols(EA.Repository repository)
+        internal static IList getBusinessCollaborationProtocols(Repository repository)
         {
-            ArrayList btvList = Utility.getRootViewPackages(repository, UMM.bTransactionV.ToString());
-            ArrayList allBTVs = new ArrayList();
-            foreach (EA.Package btv in btvList)
+            ArrayList btvList = getRootViewPackages(repository, UMM.bTransactionV.ToString());
+            var allBTVs = new ArrayList();
+            foreach (Package btv in btvList)
             {
-                allBTVs.AddRange(Utility.getAllDiagrams(btv, new ArrayList(), UMM.bCollaborationProtocol.ToString()));
+                allBTVs.AddRange(getAllDiagrams(btv, new ArrayList(), UMM.bCollaborationProtocol.ToString()));
             }
             return allBTVs;
         }
@@ -546,28 +516,29 @@ namespace VIENNAAddIn.common
         /// </sUMM2ary>
         /// <param name="repository">the model</param>
         /// <returns>List containing all BusinessEntityViews</returns>
-        internal static IList getBusinessEntityViews(EA.Repository repository)
+        internal static IList getBusinessEntityViews(Repository repository)
         {
-            ArrayList brvList = Utility.getRootViewPackages(repository, UMM.bRequirementsV);
-            ArrayList bevList = new ArrayList();
-            foreach (EA.Package brv in brvList)
+            ArrayList brvList = getRootViewPackages(repository, UMM.bRequirementsV);
+            var bevList = new ArrayList();
+            foreach (Package brv in brvList)
             {
-                bevList.AddRange(Utility.getAllSubPackagesRecursively(brv, new ArrayList(), UMM.bEntityV.ToString()));
+                bevList.AddRange(getAllSubPackagesRecursively(brv, new ArrayList(), UMM.bEntityV.ToString()));
             }
             return bevList;
         }
+
         /// <sUMM2ary>
         /// Retrieves all BusinessEntities from a given model
         /// </sUMM2ary>
         /// <param name="repository">the model</param>
         /// <returns>List containing all BusinessEntities</returns>
-        internal static IList getBusinessEntities(EA.Repository repository)
+        internal static IList getBusinessEntities(Repository repository)
         {
             IList businessEntityViews = getBusinessEntityViews(repository);
-            ArrayList beList = new ArrayList();
-            foreach (EA.Package bev in businessEntityViews)
+            var beList = new ArrayList();
+            foreach (Package bev in businessEntityViews)
             {
-                foreach (EA.Element possibleBE in bev.Elements)
+                foreach (Element possibleBE in bev.Elements)
                 {
                     if (possibleBE.Stereotype.Equals(UMM.bEntity.ToString()))
                     {
@@ -581,22 +552,26 @@ namespace VIENNAAddIn.common
         /// <sUMM2ary>
         /// Get all diagrams from a package which ID = scope
         /// </sUMM2ary>
+        /// <param name="repo"></param>
         /// <param name="scope">The PackageID of the scope we want to validate</param>
         /// <returns>a List with all diagrams contained in this package</returns>
-        internal static IList getAllDiagramsFromPackage(EA.Repository repo, String scope)
+        internal static IList getAllDiagramsFromPackage(Repository repo, String scope)
         {
             IList diagrams = new ArrayList();
             //Get the package
             try
             {
                 int packageID = Int32.Parse(scope);
-                EA.Package p = repo.GetPackageByID(packageID);
-                foreach (EA.Diagram diag in p.Diagrams)
+                Package p = repo.GetPackageByID(packageID);
+                foreach (Diagram diag in p.Diagrams)
                 {
                     diagrams.Add(diag);
                 }
             }
-            catch (Exception e) { }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
 
             return diagrams;
         }
@@ -609,11 +584,11 @@ namespace VIENNAAddIn.common
         /// <param name="elem"></param>
         /// <param name="partitions"></param>
         /// <returns></returns>
-        internal static bool isChildOfPartition(EA.Element elem, IList partitions)
+        internal static bool isChildOfPartition(Element elem, IList partitions)
         {
             bool rv = false;
 
-            foreach (EA.Element e in partitions)
+            foreach (Element e in partitions)
             {
                 if (elem.ParentID == e.ElementID)
                 {
@@ -626,19 +601,18 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <sUMM2ary>
         /// retrieves all elements from a given package
         /// </sUMM2ary>
         /// <param name="repo">the repository</param>
         /// <param name="scope">the package referenced by its ID</param>
         /// <returns>a list with all elements from the package with the given ID</returns>
-        internal static IList getAllElementsFromPackage(EA.Repository repo, String scope)
+        internal static IList getAllElementsFromPackage(Repository repo, String scope)
         {
             IList elements = new ArrayList();
             int packageID = Int32.Parse(scope);
-            EA.Package package = repo.GetPackageByID(packageID);
-            foreach (EA.Element element in package.Elements)
+            Package package = repo.GetPackageByID(packageID);
+            foreach (Element element in package.Elements)
             {
                 elements.Add(element);
             }
@@ -649,19 +623,17 @@ namespace VIENNAAddIn.common
         /// retrieves all elements from a given package
         /// </sUMM2ary>
         /// <param name="repo">the repository</param>
-        /// <param name="scope">the package</param>
+        /// <param name="package">the package</param>
         /// <returns>a list with all elements from the package with the given ID</returns>
-        internal static IList getAllElementsFromPackage(EA.Repository repo, EA.Package package)
+        internal static IList getAllElementsFromPackage(Repository repo, Package package)
         {
             IList elements = new ArrayList();
-            foreach (EA.Element element in package.Elements)
+            foreach (Element element in package.Elements)
             {
                 elements.Add(element);
             }
             return elements;
         }
-
-
 
 
         /// <sUMM2ary>
@@ -670,12 +642,12 @@ namespace VIENNAAddIn.common
         /// <param name="repo"></param>
         /// <param name="scope"></param>
         /// <returns></returns>
-        internal static IList getAllPackagesFromPackage(EA.Repository repo, String scope)
+        internal static IList getAllPackagesFromPackage(Repository repo, String scope)
         {
             IList packages = new ArrayList();
             int packageID = Int32.Parse(scope);
-            EA.Package package = repo.GetPackageByID(packageID);
-            foreach (EA.Package subPackage in package.Packages)
+            Package package = repo.GetPackageByID(packageID);
+            foreach (Package subPackage in package.Packages)
             {
                 packages.Add(subPackage);
             }
@@ -690,12 +662,12 @@ namespace VIENNAAddIn.common
         /// <param name="scope">the package referenced by its ID</param>
         /// <returns>a list with elements with a specific stereotype
         /// from the package with the given ID</returns>
-        internal static IList getElementsFromPackage(EA.Repository repo, String scope, String stereotype)
+        internal static IList getElementsFromPackage(Repository repo, String scope, String stereotype)
         {
             IList elements = new ArrayList();
             int packageID = Int32.Parse(scope);
-            EA.Package package = repo.GetPackageByID(packageID);
-            foreach (EA.Element element in package.Elements)
+            Package package = repo.GetPackageByID(packageID);
+            foreach (Element element in package.Elements)
             {
                 if (element.Stereotype.Equals(stereotype))
                 {
@@ -712,12 +684,12 @@ namespace VIENNAAddIn.common
         /// <param name="scope"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        internal static IList getElementsOfGivenTypeFromPackage(EA.Repository repo, String scope, String type)
+        internal static IList getElementsOfGivenTypeFromPackage(Repository repo, String scope, String type)
         {
             IList elements = new ArrayList();
             int packageID = Int32.Parse(scope);
-            EA.Package p = repo.GetPackageByID(packageID);
-            foreach (EA.Element e in p.Elements)
+            Package p = repo.GetPackageByID(packageID);
+            foreach (Element e in p.Elements)
             {
                 if (e.Type == type)
                     elements.Add(e);
@@ -726,16 +698,15 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <sUMM2ary>
         /// Returns all Partitions from a given package
         /// </sUMM2ary>
         /// <param name="p"></param>
         /// <returns></returns>
-        internal static IList getPartitionsFromPackage(EA.Package p)
+        internal static IList getPartitionsFromPackage(Package p)
         {
-            ArrayList l = new ArrayList();
-            foreach (EA.Element e in p.Elements)
+            var l = new ArrayList();
+            foreach (Element e in p.Elements)
             {
                 if (e.Type.Equals(EA_Element.ActivityPartition.ToString()))
                     l.Add(e);
@@ -751,10 +722,10 @@ namespace VIENNAAddIn.common
         /// <param name="e"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        internal static bool isChildOfBusinessEntity(EA.Element e, EA.Collection col)
+        internal static bool isChildOfBusinessEntity(Element e, Collection col)
         {
             bool rv = false;
-            foreach (EA.Element elem in col)
+            foreach (Element elem in col)
             {
                 if (elem.Stereotype == UMM.bEntity.ToString() && e.ParentID == elem.ElementID)
                 {
@@ -772,7 +743,7 @@ namespace VIENNAAddIn.common
         /// </sUMM2ary>
         /// <param name="e"></param>
         /// <returns></returns>
-        internal static bool isPseudoStateOrFinalState(EA.Element e)
+        internal static bool isPseudoStateOrFinalState(Element e)
         {
             bool rv = false;
             String type = e.Type;
@@ -782,7 +753,7 @@ namespace VIENNAAddIn.common
             {
                 rv = true;
             }
-            //InitialState and FinalState
+                //InitialState and FinalState
             else if (type == "StateNode")
             {
                 //When using StateNodes from the StateDiagram in an Activity
@@ -799,14 +770,13 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <sUMM2ary>
         /// Returns true if the given Element is a PseudoState
         /// (InitialState, Choice, Fork, Join) or a FinalState
         /// </sUMM2ary>
         /// <param name="e"></param>
         /// <returns></returns>
-        internal static bool isPseudoStateOrFinalStateInStateChart(EA.Element e)
+        internal static bool isPseudoStateOrFinalStateInStateChart(Element e)
         {
             bool rv = false;
 
@@ -817,8 +787,8 @@ namespace VIENNAAddIn.common
             }
 
                 //Although not specified in the EA API,
-            //it seems, that an InitalState of a StateDiagram has subtype 3
-            //and a FinalState 4, a Choice 11
+                //it seems, that an InitalState of a StateDiagram has subtype 3
+                //and a FinalState 4, a Choice 11
             else if (e.Type == "StateNode")
             {
                 if (e.Subtype == 4 || e.Subtype == 3 || e.Subtype == 11)
@@ -836,11 +806,11 @@ namespace VIENNAAddIn.common
         /// <param name="e"></param>
         /// <param name="elementList"></param>
         /// <returns></returns>
-        internal static bool containsActorWithTheSameName(EA.Element e, IList elementList)
+        internal static bool containsActorWithTheSameName(Element e, IList elementList)
         {
             bool rv = false;
 
-            foreach (EA.Element element in elementList)
+            foreach (Element element in elementList)
             {
                 if (element.Name == e.Name)
                 {
@@ -858,20 +828,21 @@ namespace VIENNAAddIn.common
         /// </sUMM2ary>
         /// <param name="e"></param>
         /// <param name="roles"></param>
+        /// <param name="repo"></param>
         /// <returns></returns>
-        internal static bool doesRoleOfUseCaseMapsToRoleOfSourceUseCase(EA.Element e, IList roles, EA.Repository repo)
+        internal static bool doesRoleOfUseCaseMapsToRoleOfSourceUseCase(Element e, IList roles, Repository repo)
         {
             bool rv = true;
 
             //Get the roles of the target use case
             IList rolesOfTargetUC = new ArrayList();
-            foreach (EA.Connector con in e.Connectors)
+            foreach (Connector con in e.Connectors)
             {
-                EA.Element client = repo.GetElementByID(con.ClientID);
-                EA.Element supplier = repo.GetElementByID(con.SupplierID);
+                Element client = repo.GetElementByID(con.ClientID);
+                Element supplier = repo.GetElementByID(con.SupplierID);
                 if (con.Type == AssociationTypes.Association.ToString() &&
                     con.Stereotype == UMM.participates.ToString())
-                { 
+                {
                     if (client.ElementID == e.ElementID)
                         rolesOfTargetUC.Add(supplier);
                     else if (supplier.ElementID == e.ElementID)
@@ -882,20 +853,20 @@ namespace VIENNAAddIn.common
 
             //Iterate through the roles of the target use case and check if each role has
             //at least one mapsTo dependency to the role of the BCUC
-            int dependencyCount = 0;
+            
             //iterate through the elements of the target UC
-            foreach (EA.Element element in rolesOfTargetUC)
+            foreach (Element element in rolesOfTargetUC)
             {
                 //iterate through the roles of the BCUC
-                dependencyCount = 0;
-                foreach (EA.Element bcrole in roles)
+                var dependencyCount = 0;
+                foreach (Element bcrole in roles)
                 {
-                    foreach (EA.Connector con in bcrole.Connectors)
+                    foreach (Connector con in bcrole.Connectors)
                     {
                         if (con.Stereotype == UMM.mapsTo.ToString())
                         {
-                            EA.Element client = repo.GetElementByID(con.ClientID);
-                            EA.Element supplier = repo.GetElementByID(con.SupplierID);
+                            Element client = repo.GetElementByID(con.ClientID);
+                            Element supplier = repo.GetElementByID(con.SupplierID);
                             if (client.ElementID == bcrole.ElementID &&
                                 supplier.ElementID == element.ElementID)
                             {
@@ -914,6 +885,7 @@ namespace VIENNAAddIn.common
 
             return rv;
         }
+
         /// <sUMM2ary>
         /// returns the ID of the other object that is connected with a given source object
         /// via an arbitrary relationship 
@@ -921,20 +893,12 @@ namespace VIENNAAddIn.common
         /// <param name="con">the connector</param>
         /// <param name="firstObjectId">the source object</param>
         /// <returns>the EA element ID of the object that is connected with the source object</returns>
-        internal static int getOtherEndId(EA.Connector con, int firstObjectId)
+        internal static int getOtherEndId(Connector con, int firstObjectId)
         {
-            int associatedObjectId;
             /* if the ClientID of the connector is the id of the element itself,
              * the associatedObject must be the supplier, otherwise it must be 
              * the client */
-            if (con.ClientID == firstObjectId)
-            {
-                associatedObjectId = con.SupplierID;
-            }
-            else
-            {
-                associatedObjectId = con.ClientID;
-            }
+            int associatedObjectId = con.ClientID == firstObjectId ? con.SupplierID : con.ClientID;
             return associatedObjectId;
         }
 
@@ -943,13 +907,13 @@ namespace VIENNAAddIn.common
         /// Returns a List of all packages with the passed name which are in the 
         /// package package
         /// </sUMM2ary>
-        /// <param name="repo"></param>
+        /// <param name="package"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal static ArrayList getPackagesWithSpecificName(EA.Package package, String name)
+        internal static ArrayList getPackagesWithSpecificName(Package package, String name)
         {
-            ArrayList l = new ArrayList();
-            foreach (EA.Package p in package.Packages)
+            var l = new ArrayList();
+            foreach (Package p in package.Packages)
             {
                 if (p.Name == name)
                 {
@@ -971,12 +935,12 @@ namespace VIENNAAddIn.common
         /// <param name="parentPackageID"></param>
         /// <param name="stereotype"></param>
         /// <returns></returns>
-        internal static EA.Package getSubPackageFromPackage(EA.Repository repo, int parentPackageID, String stereotype)
+        internal static Package getSubPackageFromPackage(Repository repo, int parentPackageID, String stereotype)
         {
-            EA.Package p = null;
+            Package p = null;
 
-            EA.Package parentPackage = repo.GetPackageByID(parentPackageID);
-            foreach (EA.Package subpackage in parentPackage.Packages)
+            Package parentPackage = repo.GetPackageByID(parentPackageID);
+            foreach (Package subpackage in parentPackage.Packages)
             {
                 if (subpackage.Element.Stereotype == stereotype)
                 {
@@ -994,14 +958,14 @@ namespace VIENNAAddIn.common
         /// stereotype "stereotype" and returns a Collection of the packages found
         /// </sUMM2ary>
         /// <param name="repo"></param>
-        /// <param name="parentPackageID"></param>
+        /// <param name="package"></param>
         /// <param name="stereotype"></param>
         /// <returns></returns>
-        internal static ArrayList getSubPackageFromPackage(EA.Repository repo, EA.Package package, String stereotype)
+        internal static ArrayList getSubPackageFromPackage(Repository repo, Package package, String stereotype)
         {
-            ArrayList list = new ArrayList();
+            var list = new ArrayList();
 
-            foreach (EA.Package subpackage in package.Packages)
+            foreach (Package subpackage in package.Packages)
             {
                 if (subpackage.Element.Stereotype == stereotype)
                 {
@@ -1019,12 +983,13 @@ namespace VIENNAAddIn.common
         /// <param name="root"></param>
         /// <param name="stereotypeOfAllowedConnector"></param>
         /// <returns></returns>
-        internal static ArrayList getConnectedElements(EA.Repository repo, EA.Element root, String stereotypeOfAllowedConnector)
+        internal static ArrayList getConnectedElements(Repository repo, Element root,
+                                                       String stereotypeOfAllowedConnector)
         {
-            ArrayList list = new ArrayList();
+            var list = new ArrayList();
 
             //search all connectors with a stereotype participates
-            foreach (EA.Connector c in root.Connectors)
+            foreach (Connector c in root.Connectors)
             {
                 if (c.Stereotype.Equals(stereotypeOfAllowedConnector))
                 {
@@ -1044,17 +1009,17 @@ namespace VIENNAAddIn.common
         /// <param name="root"></param>
         /// <param name="stereotypeOfAllowedConnector"></param>
         /// <returns></returns>
-        internal static ArrayList getConnectedSupplier(EA.Repository repo, EA.Element root, String stereotypeOfAllowedConnector)
+        internal static ArrayList getConnectedSupplier(Repository repo, Element root,
+                                                       String stereotypeOfAllowedConnector)
         {
-            ArrayList list = new ArrayList();
+            var list = new ArrayList();
 
             //search all connectors with a stereotype participates
-            foreach (EA.Connector c in root.Connectors)
+            foreach (Connector c in root.Connectors)
             {
                 if (c.Stereotype.Equals(stereotypeOfAllowedConnector))
                 {
                     if (c.ClientID == root.ElementID) list.Add(repo.GetElementByID(c.SupplierID));
-
                 }
             }
 
@@ -1062,16 +1027,16 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <sUMM2ary>
         /// Returns the ABIE package from the CCLibrary
         /// If the package does not exist a new one is created
         /// </sUMM2ary>
-        /// <param name="ccLibrary"></param>
+        /// <param name="repo"></param>
+        /// <param name="ccLibraryPackage"></param>
         /// <returns></returns>
-        internal static EA.Package getABIELibrary(EA.Repository repo, EA.Package ccLibraryPackage)
+        internal static Package getABIELibrary(Repository repo, Package ccLibraryPackage)
         {
-            EA.Package p = null;
+            const Package p = null;
 
 
             ////try to locate the ABIE package
@@ -1098,19 +1063,17 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <sUMM2ary>
         /// retrieves a tagged value from a package
         /// </sUMM2ary>
-        /// <param name="element">the package to which the seeked tagged value belongs</param>
+        /// <param name="package">the package to which the seeked tagged value belongs</param>
         /// <param name="nameOfTV">the name of the tagged value that is seeked</param>
         /// <returns>the tagged value object if a tagged value with the given name is found, null
         /// if the tagged value cannot be found</returns>
-        internal static EA.TaggedValue getTaggedValue(EA.Package package, String nameOfTV)
+        internal static TaggedValue getTaggedValue(Package package, String nameOfTV)
         {
-            foreach (EA.TaggedValue tv in package.Element.TaggedValuesEx)
+            foreach (TaggedValue tv in package.Element.TaggedValuesEx)
             {
-                String s = tv.Name;
                 if (tv.Name.Equals(nameOfTV))
                 {
                     return tv;
@@ -1120,23 +1083,19 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <sUMM2ary>
         /// retrieves a tagged value from a connector
         /// </sUMM2ary>
-        /// <param name="element">the connector to which the seeked tagged value belongs</param>
+        /// <param name="connector">the connector to which the seeked tagged value belongs</param>
         /// <param name="nameOfTV">the name of the tagged value that is seeked</param>
         /// <returns>the tagged value object if a tagged value with the given name is found, null
         /// if the tagged value cannot be found</returns>
-        internal static EA.IConnectorTag getTaggedValue(EA.Connector connector, String nameOfTV)
+        internal static IConnectorTag getTaggedValue(Connector connector, String nameOfTV)
         {
-
-            foreach (EA.IConnectorTag tv in connector.TaggedValues)
+            foreach (IConnectorTag tv in connector.TaggedValues)
             {
-                String s = tv.Name.ToString();
                 if (tv.Name.Equals(nameOfTV))
                 {
-                    
                     return tv;
                 }
             }
@@ -1150,11 +1109,10 @@ namespace VIENNAAddIn.common
         /// <param name="nameOfTV">the name of the tagged value that is seeked</param>
         /// <returns>the tagged value object if a tagged value with the given name is found, null
         /// if the tagged value cannot be found</returns>
-        internal static EA.TaggedValue getTaggedValue(EA.Element element, String nameOfTV)
+        internal static TaggedValue getTaggedValue(Element element, String nameOfTV)
         {
-            foreach (EA.TaggedValue tv in element.TaggedValuesEx)
+            foreach (TaggedValue tv in element.TaggedValuesEx)
             {
-                String s = tv.Name;
                 if (tv.Name.Equals(nameOfTV))
                 {
                     return tv;
@@ -1164,19 +1122,17 @@ namespace VIENNAAddIn.common
         }
 
 
-
         /// <sUMM2ary>
         /// retrieves a tagged value from an attribute
         /// </sUMM2ary>
-        /// <param name="element">the attribute to which the seeked tagged value belongs</param>
+        /// <param name="attribute">the attribute to which the seeked tagged value belongs</param>
         /// <param name="nameOfTV">the name of the tagged value that is seeked</param>
         /// <returns>the tagged value object if a tagged value with the given name is found, null
         /// if the tagged value cannot be found</returns>
-        internal static EA.AttributeTag getTaggedValue(EA.Attribute attribute, String nameOfTV)
+        internal static AttributeTag getTaggedValue(Attribute attribute, String nameOfTV)
         {
-            foreach (EA.AttributeTag tv in attribute.TaggedValues)
+            foreach (AttributeTag tv in attribute.TaggedValues)
             {
-                String s = tv.Name;
                 if (tv.Name.Equals(nameOfTV))
                 {
                     return tv;
@@ -1192,17 +1148,14 @@ namespace VIENNAAddIn.common
         /// <param name="e"></param>
         /// <param name="stereotype"></param>
         /// <returns></returns>
-        internal static EA.Attribute fetchFirstAttributeFromElement(EA.Element e, String stereotype)
+        internal static Attribute fetchFirstAttributeFromElement(Element e, String stereotype)
         {
-
-            foreach (EA.Attribute a in e.Attributes)
+            foreach (Attribute a in e.Attributes)
             {
                 if (a.Stereotype == stereotype)
                     return a;
-
             }
             return null;
-
         }
 
 
@@ -1212,18 +1165,17 @@ namespace VIENNAAddIn.common
         /// <param name="e"></param>
         /// <param name="stereotype"></param>
         /// <returns></returns>
-        internal static Dictionary<string, EA.Attribute> fetchAllAttributesFromElement(EA.Element e, String stereotype)
+        internal static Dictionary<string, Attribute> fetchAllAttributesFromElement(Element e, String stereotype)
         {
-            Dictionary<string, EA.Attribute> attributes = new Dictionary<string, EA.Attribute>();
+            var attributes = new Dictionary<string, Attribute>();
 
-            foreach (EA.Attribute a in e.Attributes)
+            foreach (Attribute a in e.Attributes)
             {
                 if (a.Stereotype == stereotype)
                     attributes.Add(a.AttributeGUID, a);
             }
 
             return attributes;
-
         }
 
 
@@ -1232,10 +1184,9 @@ namespace VIENNAAddIn.common
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        internal static bool isEquivalentToAnotherElement(EA.Element e)
+        internal static bool isEquivalentToAnotherElement(Element e)
         {
-
-            foreach (EA.Connector con in e.Connectors)
+            foreach (Connector con in e.Connectors)
             {
                 if (con.ClientID == e.ElementID && con.Stereotype == UPCC.isEquivalentTo.ToString())
                 {
@@ -1249,12 +1200,12 @@ namespace VIENNAAddIn.common
         /// <summary>
         /// Returns the target of an isEquivalentToDependency
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="sourceElement"></param>
+        /// <param name="repo"></param>
         /// <returns></returns>
-        internal static EA.Element getTargetOfisEquivalentToDependency(EA.Element sourceElement, EA.Repository repo)
+        internal static Element getTargetOfisEquivalentToDependency(Element sourceElement, Repository repo)
         {
-
-            foreach (EA.Connector con in sourceElement.Connectors)
+            foreach (Connector con in sourceElement.Connectors)
             {
                 if (con.ClientID == sourceElement.ElementID && con.Stereotype == UPCC.isEquivalentTo.ToString())
                 {
@@ -1269,15 +1220,15 @@ namespace VIENNAAddIn.common
         /// Count the attributes of a given element which have the stereotype s
         /// </summary>
         /// <param name="e"></param>
-        /// <param name="stereotype"></param>
+        /// <param name="s"></param>
         /// <returns></returns>
-        internal static int countAttributesOfElement(EA.Element e, String s)
+        internal static int countAttributesOfElement(Element e, String s)
         {
             int i = 0;
 
             if (e != null)
             {
-                foreach (EA.Attribute a in e.Attributes)
+                foreach (Attribute a in e.Attributes)
                 {
                     if (a.Stereotype == s)
                         i++;
@@ -1294,24 +1245,20 @@ namespace VIENNAAddIn.common
         /// <param name="e"></param>
         /// <param name="s"></param>
         /// <returns></returns>
-        internal static int countConnectorsOfElement(EA.Element e, String s)
+        internal static int countConnectorsOfElement(Element e, String s)
         {
             int i = 0;
 
             if (e != null)
             {
-                foreach (EA.Connector con in e.Connectors)
+                foreach (Connector con in e.Connectors)
                 {
                     if (con.Stereotype == s) i++;
-                        
                 }
             }
 
             return i;
         }
-
-        
-
 
 
         /// <summary>
@@ -1319,53 +1266,44 @@ namespace VIENNAAddIn.common
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        internal static IList<String> getSupplementaryComponentsOfElement(EA.Element e)
+        internal static IList<String> getSupplementaryComponentsOfElement(Element e)
         {
             IList<String> list = new List<String>();
 
             if (e != null)
             {
-                foreach (EA.Attribute a in e.Attributes)
+                foreach (Attribute a in e.Attributes)
                 {
                     if (a.Stereotype == UPCC.SUP.ToString())
                         list.Add(a.Name);
                 }
-
             }
 
             return list;
-
-
         }
 
 
-
-        
         /// <summary>
         /// Returns a list of Attributes from the passed element which have the stereotype s
         /// </summary>
         /// <param name="e"></param>
         /// <param name="s"></param>
         /// <returns></returns>
-        internal static IList<String> getAttributesOfElement(EA.Element e, String s)
+        internal static IList<String> getAttributesOfElement(Element e, String s)
         {
             IList<String> list = new List<String>();
 
             if (e != null)
             {
-                foreach (EA.Attribute a in e.Attributes)
+                foreach (Attribute a in e.Attributes)
                 {
                     if (a.Stereotype == s)
                         list.Add(a.Name);
                 }
-
             }
 
             return list;
-
-
         }
-
 
 
         /// <summary>
@@ -1379,38 +1317,27 @@ namespace VIENNAAddIn.common
         /// <returns></returns>
         internal static bool isHigherBound(String boundA, String boundB)
         {
-
             //Bound A is infinity - bound B can be anything
             if (boundA.Trim() == "*")
                 return false;
-            else
+            try
             {
-                try
-                {
-                    if (boundB == "*")
-                        return true;
-                    else
-                    {
-                        //Nor a or b are *
-                        int a = Int32.Parse(boundA);
-                        int b = Int32.Parse(boundB);
+                if (boundB == "*")
+                    return true;
+                //Nor a or b are *
+                var a = Int32.Parse(boundA);
+                var b = Int32.Parse(boundB);
 
-                        if (a > b)
-                            return true;
-
-                    }
-
-                }
-                catch (Exception e)
-                {
-
-                }
+                if (a > b)
+                    return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
             }
 
             return false;
         }
-
-
 
 
         /// <summary>
@@ -1424,38 +1351,27 @@ namespace VIENNAAddIn.common
         /// <returns></returns>
         internal static bool isLowerBound(String boundA, String boundB)
         {
-
             //Bound A is infinity - bound B can be anything
             if (boundA.Trim() == "*")
                 return false;
-            else
+            try
             {
-                try
-                {
-                    if (boundB == "*")
-                        return true;
-                    else
-                    {
-                        //Nor a or b are *
-                        int a = Int32.Parse(boundA);
-                        int b = Int32.Parse(boundB);
+                if (boundB == "*")
+                    return true;
+                //Nor a or b are *
+                var a = Int32.Parse(boundA);
+                var b = Int32.Parse(boundB);
 
-                        if (a < b)
-                            return true;
-
-                    }
-
-                }
-                catch (Exception e)
-                {
-
-                }
+                if (a < b)
+                    return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
             }
 
             return false;
         }
-
-
 
 
         /// <summary>
@@ -1464,14 +1380,14 @@ namespace VIENNAAddIn.common
         /// <param name="e"></param>
         /// <param name="s"></param>
         /// <returns></returns>
-        internal static Dictionary<String, String> getAttributesOfElementAsDictionary(EA.Element e, String s) {
-
-            Dictionary<String, String> attributes = new Dictionary<string, string>();
+        internal static Dictionary<String, String> getAttributesOfElementAsDictionary(Element e, String s)
+        {
+            var attributes = new Dictionary<string, string>();
 
             if (e != null)
             {
-                foreach (EA.Attribute a in e.Attributes) {
-
+                foreach (Attribute a in e.Attributes)
+                {
                     if (a.Stereotype == s)
                         attributes.Add(a.AttributeGUID, a.Name);
                 }
@@ -1481,7 +1397,6 @@ namespace VIENNAAddIn.common
             return attributes;
         }
 
-        
 
         /// <summary>
         /// Returns the target of a basedOn dependency
@@ -1489,10 +1404,9 @@ namespace VIENNAAddIn.common
         /// <param name="sourceElement"></param>
         /// <param name="repo"></param>
         /// <returns></returns>
-        internal static EA.Element getTargetOfisbasedOnDependency(EA.Element sourceElement, EA.Repository repo)
+        internal static Element getTargetOfisbasedOnDependency(Element sourceElement, Repository repo)
         {
-
-            foreach (EA.Connector con in sourceElement.Connectors)
+            foreach (Connector con in sourceElement.Connectors)
             {
                 if (con.ClientID == sourceElement.ElementID && con.Stereotype == UPCC.basedOn.ToString())
                 {
@@ -1501,7 +1415,6 @@ namespace VIENNAAddIn.common
             }
             return null;
         }
-
 
 
         /// <summary>
@@ -1517,11 +1430,7 @@ namespace VIENNAAddIn.common
             //Are there any _ in the name (= is the name qualified)?
             int pos = s.LastIndexOf("_");
             return s.Substring(pos + 1);
-
         }
-
-
-
 
 
         /// <summary>
@@ -1529,10 +1438,9 @@ namespace VIENNAAddIn.common
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        internal static bool isBasedOnAnotherElement(EA.Element e)
+        internal static bool isBasedOnAnotherElement(Element e)
         {
-
-            foreach (EA.Connector con in e.Connectors)
+            foreach (Connector con in e.Connectors)
             {
                 if (con.ClientID == e.ElementID && con.Stereotype == UPCC.basedOn.ToString())
                 {
@@ -1542,9 +1450,6 @@ namespace VIENNAAddIn.common
             return false;
         }
 
-
-        
-        
 
         /// <summary>
         /// Find the key in a given dictionary using the value
@@ -1559,10 +1464,9 @@ namespace VIENNAAddIn.common
                 if (pair.Value == value)
                 {
                     return pair.Key;
-                }                
+                }
             }
             return 0;
-
         }
 
 
@@ -1581,16 +1485,16 @@ namespace VIENNAAddIn.common
             {
                 return true;
             }
-            else if (lowerBound.Trim() == "1" && upperBound.Trim() == "1")
+            if (lowerBound.Trim() == "1" && upperBound.Trim() == "1")
             {
                 return true;
             }
-            else if (lowerBound.Trim() == "" && upperBound.Trim() == "")
+            if (lowerBound.Trim() == "" && upperBound.Trim() == "")
             {
                 return true;
             }
 
-            return false;            
+            return false;
         }
 
 
@@ -1602,28 +1506,21 @@ namespace VIENNAAddIn.common
         /// <returns></returns>
         internal static bool isValidCardinality(String bound)
         {
-
             if (bound.Trim() == "*")
                 return true;
-            else
+            //Cardinality must be a number
+            try
             {
-                //Cardinality must be a number
-                try
-                {
-                    int i = Int32.Parse(bound.Trim());
-                }
-                catch (Exception e)
-                {
-                    return false;
-                }
-
-
+                Int32.Parse(bound.Trim());
+            }
+            catch (Exception)
+            {
+                return false;
             }
 
 
             return true;
         }
-                
 
 
         /// <summary>
@@ -1642,25 +1539,24 @@ namespace VIENNAAddIn.common
                 }
             }
             return null;
-
         }
 
 
-
-
-        internal static IList getAllPackagesFromModel(EA.Repository repo)
+        internal static IList getAllPackagesFromModel(Repository repo)
         {
-            EA.Package root = (EA.Package)repo.Models.GetAt(0);
+            var root = (Package) repo.Models.GetAt(0);
             return getAllSubPackagesRecursively(root, new ArrayList(), null);
         }
-        internal static IList<Element> getAllElementsFromModel(EA.Repository repo)
+
+        internal static IList<Element> getAllElementsFromModel(Repository repo)
         {
-            EA.Package root = (EA.Package)repo.Models.GetAt(0);
-            return getAllElements(root, new List<EA.Element>(), null);
+            var root = (Package) repo.Models.GetAt(0);
+            return getAllElements(root, new List<Element>(), null);
         }
-        internal static IList getAllDiagramsFromModel(EA.Repository repo)
+
+        internal static IList getAllDiagramsFromModel(Repository repo)
         {
-            EA.Package root = (EA.Package)repo.Models.GetAt(0);
+            var root = (Package) repo.Models.GetAt(0);
             return getAllDiagrams(root, new ArrayList(), null);
         }
 
@@ -1674,27 +1570,13 @@ namespace VIENNAAddIn.common
         {
             try
             {
-                int i = Int32.Parse(s);
+                Int32.Parse(s);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
