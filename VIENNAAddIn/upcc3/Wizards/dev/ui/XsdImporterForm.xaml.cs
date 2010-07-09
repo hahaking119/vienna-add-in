@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using CctsRepository;
 using CctsRepository.BLibrary;
@@ -10,7 +11,7 @@ using CctsRepository.CcLibrary;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.import.mapping;
 using Cursors=System.Windows.Input.Cursors;
-using MessageBox=System.Windows.MessageBox;
+using MessageBox=System.Windows.Forms.MessageBox;
 using OpenFileDialog=Microsoft.Win32.OpenFileDialog;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
@@ -18,9 +19,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class XsdImporterForm
     {
         private readonly ICctsRepository cctsRepository;
-        private ICcLibrary selectedCcLibrary;
         private IBLibrary selectedBLibrary;
-        public XsdImporterViewModel Model { get; set; }
+        private ICcLibrary selectedCcLibrary;
 
         public XsdImporterForm(ICctsRepository cctsRepository)
         {
@@ -43,6 +43,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             mappedSchemaFileSelector.FileName = "";
         }
 
+        public XsdImporterViewModel Model { get; set; }
+
         private void CheckIfInputIsValid()
         {
             buttonImport.IsEnabled = (ccLibraryComboBox.SelectedIndex > -1 &&
@@ -57,7 +59,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             {
                 ButtonSchemaAnalyzer.IsEnabled = true;
                 ButtonSchemaAnalyzerImage.Opacity = 1;
-            } else
+            }
+            else
             {
                 ButtonSchemaAnalyzer.IsEnabled = false;
                 ButtonSchemaAnalyzerImage.Opacity = 0.3;
@@ -83,7 +86,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             switch (tabControl1.SelectedIndex)
             {
                 case 0: // ebInterface
-                    if(!StartImportEbInterface())
+                    if (!StartImportEbInterface())
                     {
                         Cursor = Cursors.Arrow;
                         buttonImport.IsEnabled = true;
@@ -94,7 +97,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                     throw new NotImplementedException();
                     //XSDImporter.ImportSchemas(new ImporterContext(cctsRepository, cctsSchemaFileSelector.FileName));
             }
-            
+
             textboxStatus.Text += "Import completed!\n";
             Cursor = Cursors.Arrow;
         }
@@ -103,29 +106,35 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             try
             {
-                new MappingImporter(Model.MappingFiles, new[] { mappedSchemaFileSelector.FileName }, selectedCcLibrary, selectedBLibrary, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text, bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text, cctsRepository).ImportMapping();
+                new MappingImporter(Model.MappingFiles, new[] {mappedSchemaFileSelector.FileName}, selectedCcLibrary,
+                                    selectedBLibrary, docLibraryNameTextBox.Text, bieLibraryNameTextBox.Text,
+                                    bdtLibraryNameTextBox.Text, qualifierTextBox.Text, rootElementNameTextBox.Text,
+                                    cctsRepository).ImportMapping();
             }
-            catch(FileNotFoundException fnfe)
+            catch (FileNotFoundException)
             {
-                System.Windows.Forms.MessageBox.Show("The ebInterface Schema file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("The ebInterface Schema file could not be openend!", Title, MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 return false;
             }
-            catch (DirectoryNotFoundException dnfe)
+            catch (DirectoryNotFoundException)
             {
-                System.Windows.Forms.MessageBox.Show("The ebInterface Schema file could not be openend!", Title, System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("The ebInterface Schema file could not be openend!", Title, MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
                 return false;
             }
             catch (MappingError me)
             {
-                DialogResult errorResult = System.Windows.Forms.MessageBox.Show("An error occured while mapping the following element:\n" + me.Message + "\nYou can edit the mapping file and click 'Retry' to re-start the import process!", Title, System.Windows.Forms.MessageBoxButtons.RetryCancel, System.Windows.Forms.MessageBoxIcon.Error);
+                DialogResult errorResult =
+                    MessageBox.Show(
+                        "An error occured while mapping the following element:\n" + me.Message +
+                        "\nYou can edit the mapping file and click 'Retry' to re-start the import process!", Title,
+                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 if (errorResult == System.Windows.Forms.DialogResult.Retry)
                 {
                     return StartImportEbInterface();
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }
@@ -140,13 +149,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                           };
             if (dlg.ShowDialog() == true)
             {
-                List<string> tempList = new List<string>(Model.MappingFiles);
-                foreach(string file in dlg.FileNames)
+                var tempList = new List<string>(Model.MappingFiles);
+                foreach (string file in dlg.FileNames)
                 {
                     bool exists = false;
-                    foreach(string item in Model.MappingFiles)
+                    foreach (string item in Model.MappingFiles)
                     {
-                        if(item.Equals(file))
+                        if (item.Equals(file))
                         {
                             exists = true;
                             break;
@@ -155,8 +164,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                     if (!exists)
                         tempList.Add(file);
                     else
-                        MessageBox.Show("The file '" + file + "' already exists in the list!", Title,
-                                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        System.Windows.MessageBox.Show("The file '" + file + "' already exists in the list!", Title,
+                                                       MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
                 Model.MappingFiles = tempList;
             }
@@ -167,7 +176,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (mappingFilesListBox.SelectedIndex > -1)
             {
-                List<string> tempList = new List<string>(Model.MappingFiles);
+                var tempList = new List<string>(Model.MappingFiles);
                 tempList.RemoveAt(mappingFilesListBox.SelectedIndex);
                 Model.MappingFiles = tempList;
             }
@@ -179,7 +188,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             new SchemaAnalyzer(mappedSchemaFileSelector.FileName, "").ShowDialog();
         }
 
-        private void ccLibraryComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void ccLibraryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ccLibraryComboBox.SelectedIndex > -1)
             {
@@ -188,7 +197,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             CheckIfInputIsValid();
         }
 
-        private void bLibraryComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void bLibraryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (bLibraryComboBox.SelectedIndex > -1)
             {
@@ -200,9 +209,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
     public class XsdImporterViewModel : INotifyPropertyChanged
     {
-        private List<string> mappingFiles;
-        private List<ICcLibrary> ccLibraries;
         private List<IBLibrary> bLibraries;
+        private List<ICcLibrary> ccLibraries;
+        private List<string> mappingFiles;
 
         public XsdImporterViewModel()
         {
@@ -241,7 +250,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
+        #region INotifyPropertyChanged Members
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
 
         private void OnPropertyChanged(string fieldName)
         {

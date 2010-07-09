@@ -89,6 +89,7 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
@@ -586,6 +587,9 @@
     <Compile Include="upcc3\Wizards\dev\cache\CcCache.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\WSDLGenerator.xaml.cs">
+      <DependentUpon>WSDLGenerator.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\SynchStereoTypes.xaml.cs">
       <DependentUpon>SynchStereoTypes.xaml</DependentUpon>
@@ -1129,6 +1133,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\BdtEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\WSDLGenerator.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

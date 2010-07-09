@@ -204,7 +204,7 @@ namespace VIENNAAddIn.validator
 					originMethod = originMethod.Substring(begin + 9, length);
 				}
 			}
-			catch (Exception e) {}
+            catch (Exception e) { Console.WriteLine(e.StackTrace); }
 
 
 			this.description   = description;

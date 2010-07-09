@@ -68,7 +68,7 @@ namespace VIENNAAddIn.upcc3.export.cctsndr
                 {
                     CopyFolder(AddInSettings.CommonXSDPath, context.OutputDirectory);
                 }
-                catch (DirectoryNotFoundException dnfe)
+                catch (DirectoryNotFoundException)
                 {
                     MessageBox.Show("Directory '" + AddInSettings.CommonXSDPath + "' not found!", "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);

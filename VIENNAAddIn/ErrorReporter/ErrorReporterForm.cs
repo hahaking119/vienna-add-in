@@ -7,53 +7,53 @@ For further information on the VIENNAAddIn project please visit
 http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
 
 namespace VIENNAAddIn.ErrorReporter
 {
-	/// <summary>
-	/// summary description for ErrorReporterForm.
-	/// </summary>
-    public class ErrorReporterForm : System.Windows.Forms.Form
-	{
-		private System.Windows.Forms.Label label;
-        private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.RichTextBox errorMessageBox;
+    /// <summary>
+    /// summary description for ErrorReporterForm.
+    /// </summary>
+    public class ErrorReporterForm : Form
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private Container components;
 
-        private String message = "";
-        private LinkLabel linkLabel1;
+        private RichTextBox errorMessageBox;
+
+        private Label label;
+        private Label label1;
         private Label label2;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        private LinkLabel linkLabel1;
+        private String message = "";
 
-		public ErrorReporterForm(String message, int eaVersion)
-		{
-			
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
+        public ErrorReporterForm(String message, int eaVersion)
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
 
             String s = "";
 
             s += "EA-Version: " + eaVersion + "\n";
-            s += "Add-In-Version: " + typeof(VIENNAAddIn).Assembly.GetName().Name + " " + typeof(VIENNAAddIn).Assembly.GetName().Version + "\n";
-            s += ".NET version: " + System.Environment.Version + "\n";
-            s += "OS version: " + System.Environment.OSVersion + "\n";
+            s += "Add-In-Version: " + typeof (VIENNAAddIn).Assembly.GetName().Name + " " +
+                 typeof (VIENNAAddIn).Assembly.GetName().Version + "\n";
+            s += ".NET version: " + Environment.Version + "\n";
+            s += "OS version: " + Environment.OSVersion + "\n";
 
-            String wordversion = "";
+            String wordversion;
             try
             {
-                ApplicationClass myWordApp = new ApplicationClass();
-                wordversion = myWordApp.Version.ToString();
+                var myWordApp = new ApplicationClass();
+                wordversion = myWordApp.Version;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 wordversion = "Not installed.";
             }
@@ -61,44 +61,69 @@ namespace VIENNAAddIn.ErrorReporter
             s += "Word version: " + wordversion;
 
             message += "\n\n" + s;
-            
 
 
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+            if (message != null)
+            {
+                this.message = message;
+                errorMessageBox.AppendText(message);
+            }
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-			if (message != null) {
-				this.message = message;
-				this.errorMessageBox.AppendText(message);				
-			}
+            Show();
+        }
 
-			this.Show();
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Send the error email
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorReporterForm));
+        /// <summary>
+        /// Do not send the error email - close the error dialog
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://code.google.com/p/vienna-add-in/issues/list");
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof (ErrorReporterForm));
             this.label = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.errorMessageBox = new System.Windows.Forms.RichTextBox();
@@ -139,7 +164,8 @@ namespace VIENNAAddIn.ErrorReporter
             this.linkLabel1.TabIndex = 3;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Open issue tracker";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabel1.LinkClicked +=
+                new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label2
             // 
@@ -163,33 +189,8 @@ namespace VIENNAAddIn.ErrorReporter
             this.Text = "Error report";
             this.ResumeLayout(false);
             this.PerformLayout();
-
-		}
-		#endregion
-
-		/// <summary>
-		/// Send the error email
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void button1_Click(object sender, System.EventArgs e) {
-            this.Close();
-			
-		}
-
-		/// <summary>
-		/// Do not send the error email - close the error dialog
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void button2_Click(object sender, System.EventArgs e) {
-			this.Close();
-		}
-
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://code.google.com/p/vienna-add-in/issues/list");
         }
 
-     	}
+        #endregion
+    }
 }

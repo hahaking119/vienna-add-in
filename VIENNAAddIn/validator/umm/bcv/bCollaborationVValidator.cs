@@ -8,6 +8,7 @@ http://vienna-add-in.googlecode.com
 *******************************************************************************/
 using System;
 using System.Collections.Generic;
+using EA;
 using VIENNAAddIn.common;
 using VIENNAAddIn.constants;
 
@@ -20,9 +21,9 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         internal override void validate(IValidationContext parentContext, string scope)
         {
-            ErrorCheckingValidationContext context = new ErrorCheckingValidationContext(parentContext);
+            var context = new ErrorCheckingValidationContext(parentContext);
 
-            EA.Package bcv = context.Repository.GetPackageByID(Int32.Parse(scope));
+            Package bcv = context.Repository.GetPackageByID(Int32.Parse(scope));
 
             checkTV_BusinessCollaborationView(context, bcv);
             checkC58(context, bcv);
@@ -76,11 +77,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC58(IValidationContext context, EA.Package bcv)
+        private void checkC58(IValidationContext context, Package bcv)
         {
             int count_BCUC = 0;
 
-            foreach (EA.Element e in bcv.Elements)
+            foreach (Element e in bcv.Elements)
             {
                 if (e.Stereotype == UMM.bCollaborationUC.ToString())
                 {
@@ -104,11 +105,11 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC59(IValidationContext context, EA.Package bcv)
+        private void checkC59(IValidationContext context, Package bcv)
         {
             int count_AR = 0;
 
-            foreach (EA.Element e in bcv.Elements)
+            foreach (Element e in bcv.Elements)
             {
                 if (e.Stereotype == UMM.AuthorizedRole.ToString())
                 {
@@ -132,9 +133,9 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC60(IValidationContext context, EA.Package bcv)
+        private void checkC60(IValidationContext context, Package bcv)
         {
-            EA.Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
+            Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
 
             if (bcuc == null)
             {
@@ -147,12 +148,12 @@ namespace VIENNAAddIn.validator.umm.bcv
             {
                 int count_ParticipatesAssocations = 0;
                 //Iterate of the different assocations of the BCUC
-                foreach (EA.Connector con in bcuc.Connectors)
+                foreach (Connector con in bcuc.Connectors)
                 {
                     if (con.Type == "Association" && con.Stereotype == UMM.participates.ToString())
                     {
                         //The client must be an AuthorizedRole
-                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
+                        Element client = context.Repository.GetElementByID(con.ClientID);
 
                         if (client.Stereotype != UMM.AuthorizedRole.ToString())
                         {
@@ -196,9 +197,9 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC61(IValidationContext context, EA.Package bcv)
+        private void checkC61(IValidationContext context, Package bcv)
         {
-            EA.Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
+            Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
 
             if (bcuc == null)
             {
@@ -210,22 +211,22 @@ namespace VIENNAAddIn.validator.umm.bcv
             else
             {
                 //Get the Authorized Roles
-                IList<EA.Element> ars = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                               UMM.AuthorizedRole.ToString());
+                IList<Element> ars = Utility.getAllElements(bcv, new List<Element>(),
+                                                            UMM.AuthorizedRole.ToString());
 
                 if (ars != null)
                 {
-                    foreach (EA.Element ar in ars)
+                    foreach (Element ar in ars)
                     {
                         int countAssocations = 0;
 
                         //Iterate of the connectors of the AR and get the participates associations
-                        foreach (EA.Connector con in ar.Connectors)
+                        foreach (Connector con in ar.Connectors)
                         {
                             if (con.Type == "Association" && con.Stereotype == UMM.participates.ToString())
                             {
-                                EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                                EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                                Element client = context.Repository.GetElementByID(con.ClientID);
+                                Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
                                 //The client must be of type Authorized Role
                                 if (client.Stereotype != UMM.AuthorizedRole.ToString())
@@ -289,9 +290,9 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC62(IValidationContext context, EA.Package bcv)
+        private void checkC62(IValidationContext context, Package bcv)
         {
-            EA.Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
+            Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
 
             if (bcuc == null)
             {
@@ -303,11 +304,11 @@ namespace VIENNAAddIn.validator.umm.bcv
             else
             {
                 int countIncludes = 0;
-                foreach (EA.Connector con in bcuc.Connectors)
+                foreach (Connector con in bcuc.Connectors)
                 {
                     if (con.Stereotype == UMM.include.ToString())
                     {
-                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
                         if (supplier.Stereotype == UMM.bTransactionUC.ToString())
                         {
                             countIncludes++;
@@ -337,9 +338,9 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC63(IValidationContext context, EA.Package bcv)
+        private void checkC63(IValidationContext context, Package bcv)
         {
-            EA.Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
+            Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
 
             if (bcuc == null)
             {
@@ -352,7 +353,7 @@ namespace VIENNAAddIn.validator.umm.bcv
             {
                 int countProtocols = 0;
                 //Get the number of BusinessCollaborationProtocols
-                foreach (EA.Element e in bcv.Elements)
+                foreach (Element e in bcv.Elements)
                 {
                     if (e.Stereotype == UMM.bCollaborationProtocol.ToString() && e.ParentID == bcuc.ElementID)
                     {
@@ -378,10 +379,10 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC64(IValidationContext context, EA.Package bcv)
+        private void checkC64(IValidationContext context, Package bcv)
         {
             //Get the BusinessCollaborationProtocol
-            EA.Element bcpr = Utility.getElementFromPackage(bcv, UMM.bCollaborationProtocol.ToString());
+            Element bcpr = Utility.getElementFromPackage(bcv, UMM.bCollaborationProtocol.ToString());
             if (bcpr == null)
             {
                 context.AddValidationMessage(new ValidationMessage("Violation of constraint C64.",
@@ -393,7 +394,7 @@ namespace VIENNAAddIn.validator.umm.bcv
             {
                 int countAction = 0;
                 //Iterate over the elements and get all subelements of the business collaboration protocol
-                foreach (EA.Element el in bcv.Elements)
+                foreach (Element el in bcv.Elements)
                 {
                     //Count the included BusinessCollaborationActions and BusinessTransactionActions
                     if (el.ParentID == bcpr.ElementID)
@@ -421,17 +422,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC65(IValidationContext context, EA.Package bcv)
+        private void checkC65(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bTransactionAction.ToString());
+            IList<Element> btas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bTransactionAction.ToString());
 
             if (btas != null && btas.Count != 0)
             {
-                foreach (EA.Element bta in btas)
+                foreach (Element bta in btas)
                 {
-                    EA.Element classifier = null;
+                    Element classifier = null;
 
                     if (bta.ClassifierID != 0)
                         classifier = context.Repository.GetElementByID(bta.ClassifierID);
@@ -463,17 +464,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC66(IValidationContext context, EA.Package bcv)
+        private void checkC66(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bTransactionAction.ToString());
+            IList<Element> btas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bTransactionAction.ToString());
 
             if (btas != null && btas.Count != 0)
             {
-                foreach (EA.Element bta in btas)
+                foreach (Element bta in btas)
                 {
-                    EA.Element classifier = null;
+                    Element classifier = null;
 
                     if (bta.ClassifierID != 0)
                         classifier = context.Repository.GetElementByID(bta.ClassifierID);
@@ -490,9 +491,9 @@ namespace VIENNAAddIn.validator.umm.bcv
                     else
                     {
                         //Get the business transaction use case under which the business transaction is placed
-                        EA.Package btv = context.Repository.GetPackageByID(classifier.PackageID);
-                        EA.Element btuc = null;
-                        foreach (EA.Element e in btv.Elements)
+                        Package btv = context.Repository.GetPackageByID(classifier.PackageID);
+                        Element btuc = null;
+                        foreach (Element e in btv.Elements)
                         {
                             if (e.Stereotype == UMM.bTransactionUC.ToString())
                             {
@@ -513,7 +514,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                         else
                         {
                             //Get the BusinessCollaborationUseCase of this package
-                            EA.Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
+                            Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
                             if (bcuc == null)
                             {
                                 context.AddValidationMessage(new ValidationMessage("Violation of constraint C66.",
@@ -527,12 +528,12 @@ namespace VIENNAAddIn.validator.umm.bcv
                             {
                                 //Does the BusinessCollaborationUseCase include the BTUC
                                 bool found = false;
-                                foreach (EA.Connector con in bcuc.Connectors)
+                                foreach (Connector con in bcuc.Connectors)
                                 {
                                     if (con.Stereotype == UMM.include.ToString())
                                     {
-                                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                                        Element client = context.Repository.GetElementByID(con.ClientID);
+                                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
                                         if (client.ElementID == bcuc.ElementID &&
                                             supplier.ElementID == btuc.ElementID)
@@ -567,17 +568,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC67(IValidationContext context, EA.Package bcv)
+        private void checkC67(IValidationContext context, Package bcv)
         {
             //Get all BusinessCollaborationActions
-            IList<EA.Element> bcas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bCollaborationAction.ToString());
+            IList<Element> bcas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bCollaborationAction.ToString());
 
             if (bcas != null && bcas.Count != 0)
             {
-                foreach (EA.Element bca in bcas)
+                foreach (Element bca in bcas)
                 {
-                    EA.Element classifier = null;
+                    Element classifier = null;
 
                     if (bca.ClassifierID != 0)
                         classifier = context.Repository.GetElementByID(bca.ClassifierID);
@@ -594,9 +595,9 @@ namespace VIENNAAddIn.validator.umm.bcv
                     else
                     {
                         //Get the business collaboration use case under which the business collaboration protocol is placed
-                        EA.Package bcv1 = context.Repository.GetPackageByID(classifier.PackageID);
-                        EA.Element includedBCUC = null;
-                        foreach (EA.Element e in bcv1.Elements)
+                        Package bcv1 = context.Repository.GetPackageByID(classifier.PackageID);
+                        Element includedBCUC = null;
+                        foreach (Element e in bcv1.Elements)
                         {
                             if (e.Stereotype == UMM.bCollaborationUC.ToString())
                             {
@@ -617,7 +618,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                         else
                         {
                             //Get the BusinessCollaborationUseCase of this package
-                            EA.Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
+                            Element bcuc = Utility.getElementFromPackage(bcv, UMM.bCollaborationUC.ToString());
                             if (bcuc == null)
                             {
                                 context.AddValidationMessage(new ValidationMessage("Violation of constraint C67.",
@@ -631,12 +632,12 @@ namespace VIENNAAddIn.validator.umm.bcv
                             {
                                 //Does the BusinessCollaborationUseCase include the BTUC
                                 bool found = false;
-                                foreach (EA.Connector con in bcuc.Connectors)
+                                foreach (Connector con in bcuc.Connectors)
                                 {
                                     if (con.Stereotype == UMM.include.ToString())
                                     {
-                                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                                        Element client = context.Repository.GetElementByID(con.ClientID);
+                                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
                                         if (client.ElementID == bcuc.ElementID &&
                                             supplier.ElementID == includedBCUC.ElementID)
@@ -671,10 +672,10 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC68(IValidationContext context, EA.Package bcv)
+        private void checkC68(IValidationContext context, Package bcv)
         {
             //Get the BusinessCollaborationProtocol
-            EA.Element bcpr = Utility.getElementFromPackage(bcv, UMM.bCollaborationProtocol.ToString());
+            Element bcpr = Utility.getElementFromPackage(bcv, UMM.bCollaborationProtocol.ToString());
 
             if (bcpr == null)
             {
@@ -687,7 +688,7 @@ namespace VIENNAAddIn.validator.umm.bcv
             {
                 int countPartitions = 0;
 
-                foreach (EA.Element e in bcv.Elements)
+                foreach (Element e in bcv.Elements)
                 {
                     if (e.ParentID == bcpr.ElementID && e.Stereotype == UMM.bCPartition.ToString())
                     {
@@ -712,14 +713,14 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC69(IValidationContext context, EA.Package bcv)
+        private void checkC69(IValidationContext context, Package bcv)
         {
             //Get the number of partitions
-            IList<EA.Element> partitions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                  UMM.bCPartition.ToString());
+            IList<Element> partitions = Utility.getAllElements(bcv, new List<Element>(),
+                                                               UMM.bCPartition.ToString());
             //Get the number of Authorized Roles
-            IList<EA.Element> authorizedRoles = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                       UMM.AuthorizedRole.ToString());
+            IList<Element> authorizedRoles = Utility.getAllElements(bcv, new List<Element>(),
+                                                                    UMM.AuthorizedRole.ToString());
 
             if (partitions.Count != authorizedRoles.Count)
             {
@@ -734,7 +735,7 @@ namespace VIENNAAddIn.validator.umm.bcv
             }
 
             //Get the BusinessCollaborationProtocol
-            EA.Element bcpr = Utility.getElementFromPackage(bcv, UMM.bCollaborationProtocol.ToString());
+            Element bcpr = Utility.getElementFromPackage(bcv, UMM.bCollaborationProtocol.ToString());
 
             if (bcpr == null)
             {
@@ -747,7 +748,7 @@ namespace VIENNAAddIn.validator.umm.bcv
             {
                 //Check if all the partitions are located underneath the BusinessCollaboration Protocol
                 int countPartitions = 0;
-                foreach (EA.Element e in bcv.Elements)
+                foreach (Element e in bcv.Elements)
                 {
                     if (e.ParentID == bcpr.ElementID && e.Stereotype == UMM.bCPartition.ToString())
                     {
@@ -773,19 +774,19 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC70(IValidationContext context, EA.Package bcv)
+        private void checkC70(IValidationContext context, Package bcv)
         {
             //Get all Authorized Roles
-            IList<EA.Element> ar = Utility.getAllElements(bcv, new List<EA.Element>(), UMM.AuthorizedRole.ToString());
+            IList<Element> ar = Utility.getAllElements(bcv, new List<Element>(), UMM.AuthorizedRole.ToString());
             //Get all Partitions
-            IList<EA.Element> partitions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                  UMM.bCPartition.ToString());
+            IList<Element> partitions = Utility.getAllElements(bcv, new List<Element>(),
+                                                               UMM.bCPartition.ToString());
 
             //Check for each AR if it is assigned to a partitions
-            foreach (EA.Element arole in ar)
+            foreach (Element arole in ar)
             {
                 bool found = false;
-                foreach (EA.Element partition in partitions)
+                foreach (Element partition in partitions)
                 {
                     if (partition.ClassifierID == arole.ElementID)
                     {
@@ -813,19 +814,19 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC71(IValidationContext context, EA.Package bcv)
+        private void checkC71(IValidationContext context, Package bcv)
         {
             //Get all Authorized Roles
-            IList<EA.Element> ar = Utility.getAllElements(bcv, new List<EA.Element>(), UMM.AuthorizedRole.ToString());
+            IList<Element> ar = Utility.getAllElements(bcv, new List<Element>(), UMM.AuthorizedRole.ToString());
             //Get all Partitions
-            IList<EA.Element> partitions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                  UMM.bCPartition.ToString());
+            IList<Element> partitions = Utility.getAllElements(bcv, new List<Element>(),
+                                                               UMM.bCPartition.ToString());
 
             //Check if each partition is classified by excactly one Authorized role
-            foreach (EA.Element partition in partitions)
+            foreach (Element partition in partitions)
             {
                 bool found = false;
-                foreach (EA.Element arole in ar)
+                foreach (Element arole in ar)
                 {
                     if (partition.ClassifierID == arole.ElementID)
                     {
@@ -849,15 +850,15 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC72(IValidationContext context, EA.Package bcv)
+        private void checkC72(IValidationContext context, Package bcv)
         {
             //Get the BusinessCollaborationPartitions            
-            IList<EA.Element> partitions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                  UMM.bCPartition.ToString());
+            IList<Element> partitions = Utility.getAllElements(bcv, new List<Element>(),
+                                                               UMM.bCPartition.ToString());
 
-            foreach (EA.Element e in bcv.Elements)
+            foreach (Element e in bcv.Elements)
             {
-                foreach (EA.Element partition in partitions)
+                foreach (Element partition in partitions)
                 {
                     if (e.ParentID == partition.ElementID)
                     {
@@ -880,25 +881,25 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC73(IValidationContext context, EA.Package bcv)
+        private void checkC73(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
-            foreach (EA.Element e in btactions)
+            foreach (Element e in btactions)
             {
                 int countInitialFlows = 0;
 
                 //Each BusinessTransactionAction MUST be the target of exactly one IntialFlow which source
                 //MUST be a BusinessCollaborationPartition
-                foreach (EA.Connector con in e.Connectors)
+                foreach (Connector con in e.Connectors)
                 {
                     if (con.Stereotype == UMM.initFlow.ToString())
                     {
-                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                        Element client = context.Repository.GetElementByID(con.ClientID);
+                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
 
                         //The business transaction action must be the supplier
@@ -955,25 +956,25 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC74(IValidationContext context, EA.Package bcv)
+        private void checkC74(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
-            foreach (EA.Element e in btactions)
+            foreach (Element e in btactions)
             {
                 int countInitialFlows = 0;
 
                 //Each BusinessTransactionAction must be the source of exactly one INtital Flow which target
                 //MUSt be either a business collaboration partition or a neseted business collaboration
-                foreach (EA.Connector con in e.Connectors)
+                foreach (Connector con in e.Connectors)
                 {
                     if (con.Stereotype == UMM.initFlow.ToString())
                     {
-                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                        Element client = context.Repository.GetElementByID(con.ClientID);
+                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
 
                         //The business transaction action must be the supplier
@@ -1020,26 +1021,26 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC75(IValidationContext context, EA.Package bcv)
+        private void checkC75(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
-            foreach (EA.Element e in btactions)
+            foreach (Element e in btactions)
             {
-                EA.Element supplierPartition = null;
-                EA.Element clientPartition = null;
+                Element supplierPartition = null;
+                Element clientPartition = null;
 
                 //Each BusinessTransactionAction must be the source of exactly one INtital Flow which target
                 //MUSt be either a business collaboration partition or a neseted business collaboration
-                foreach (EA.Connector con in e.Connectors)
+                foreach (Connector con in e.Connectors)
                 {
                     if (con.Stereotype == UMM.initFlow.ToString())
                     {
-                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                        Element client = context.Repository.GetElementByID(con.ClientID);
+                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
                         //The BusinessTransactionAction is the Client                       
                         if (client.ElementID == e.ElementID)
@@ -1084,18 +1085,18 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC76(IValidationContext context, EA.Package bcv)
+        private void checkC76(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
             //Get the calling BusinessTransactions
-            foreach (EA.Element btaction in btactions)
+            foreach (Element btaction in btactions)
             {
                 //Get the business transaction
-                EA.Element bt = null;
+                Element bt = null;
                 if (btaction.ClassifierID != 0)
                 {
                     bt = context.Repository.GetElementByID(btaction.ClassifierID);
@@ -1112,7 +1113,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                 }
 
                 bool twoWay = false;
-                foreach (EA.TaggedValue tvalue in bt.TaggedValues)
+                foreach (TaggedValue tvalue in bt.TaggedValues)
                 {
                     if (tvalue.Name == "businessTransactionType")
                     {
@@ -1132,10 +1133,10 @@ namespace VIENNAAddIn.validator.umm.bcv
                     //Go through the connectors and check, if this business transaction action is the source of
                     //exactly one repsonding flow which target must be a businessdollaboration patrtition
                     int countReFlow = 0;
-                    foreach (EA.Connector con in btaction.Connectors)
+                    foreach (Connector con in btaction.Connectors)
                     {
-                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                        Element client = context.Repository.GetElementByID(con.ClientID);
+                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
                         if (con.Stereotype == UMM.reFlow.ToString())
                         {
@@ -1177,18 +1178,18 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC77(IValidationContext context, EA.Package bcv)
+        private void checkC77(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
             //Get the calling BusinessTransactions
-            foreach (EA.Element btaction in btactions)
+            foreach (Element btaction in btactions)
             {
                 //Get the business transaction
-                EA.Element bt = null;
+                Element bt = null;
                 if (btaction.ClassifierID != 0)
                 {
                     bt = context.Repository.GetElementByID(btaction.ClassifierID);
@@ -1205,7 +1206,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                 }
 
                 bool twoWay = false;
-                foreach (EA.TaggedValue tvalue in bt.TaggedValues)
+                foreach (TaggedValue tvalue in bt.TaggedValues)
                 {
                     if (tvalue.Name == "businessTransactionType")
                     {
@@ -1225,10 +1226,10 @@ namespace VIENNAAddIn.validator.umm.bcv
                     //Go through the connectors of the business transaction action and check if it the target of exactly
                     //one responding flow which source must be either a business collaboration partition of a nestedpartition
                     int countReFlow = 0;
-                    foreach (EA.Connector con in btaction.Connectors)
+                    foreach (Connector con in btaction.Connectors)
                     {
-                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                        Element client = context.Repository.GetElementByID(con.ClientID);
+                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
                         if (con.Stereotype == UMM.reFlow.ToString())
                         {
@@ -1271,26 +1272,26 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC78(IValidationContext context, EA.Package bcv)
+        private void checkC78(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
-            foreach (EA.Element e in btactions)
+            foreach (Element e in btactions)
             {
-                EA.Element supplierPartition = null;
-                EA.Element clientPartition = null;
+                Element supplierPartition = null;
+                Element clientPartition = null;
 
                 //Each BusinessTransactionAction must be the source of exactly one INtital Flow which target
                 //MUSt be either a business collaboration partition or a neseted business collaboration
-                foreach (EA.Connector con in e.Connectors)
+                foreach (Connector con in e.Connectors)
                 {
                     if (con.Stereotype == UMM.reFlow.ToString())
                     {
-                        EA.Element client = context.Repository.GetElementByID(con.ClientID);
-                        EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                        Element client = context.Repository.GetElementByID(con.ClientID);
+                        Element supplier = context.Repository.GetElementByID(con.SupplierID);
 
                         //The BusinessTransactionAction is the Client                       
                         if (client.ElementID == e.ElementID)
@@ -1335,18 +1336,18 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC79(IValidationContext context, EA.Package bcv)
+        private void checkC79(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
             //Get the calling BusinessTransactions
-            foreach (EA.Element btaction in btactions)
+            foreach (Element btaction in btactions)
             {
                 //Get the business transaction
-                EA.Element bt = null;
+                Element bt = null;
                 if (btaction.ClassifierID != 0)
                 {
                     bt = context.Repository.GetElementByID(btaction.ClassifierID);
@@ -1363,7 +1364,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                 }
 
                 bool oneWay = false;
-                foreach (EA.TaggedValue tvalue in bt.TaggedValues)
+                foreach (TaggedValue tvalue in bt.TaggedValues)
                 {
                     if (tvalue.Name == "businessTransactionType")
                     {
@@ -1380,7 +1381,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                 if (oneWay)
                 {
                     //Since the Business Transaction is a Onw way one, There must not be any reflows
-                    foreach (EA.Connector con in btaction.Connectors)
+                    foreach (Connector con in btaction.Connectors)
                     {
                         if (con.Stereotype == UMM.reFlow.ToString())
                         {
@@ -1401,21 +1402,21 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC80(IValidationContext context, EA.Package bcv)
+        private void checkC80(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
             //Get the calling BusinessTransactions
-            foreach (EA.Element btaction in btactions)
+            foreach (Element btaction in btactions)
             {
                 int respondingClient = 0;
                 int initSupplier = 0;
 
                 //Is there a responding flow targeting this business transaction action?
-                foreach (EA.Connector con in btaction.Connectors)
+                foreach (Connector con in btaction.Connectors)
                 {
                     if (con.Stereotype == UMM.reFlow.ToString())
                     {
@@ -1454,21 +1455,21 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC81(IValidationContext context, EA.Package bcv)
+        private void checkC81(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btactions = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                                 UMM.bTransactionAction.ToString());
+            IList<Element> btactions = Utility.getAllElements(bcv, new List<Element>(),
+                                                              UMM.bTransactionAction.ToString());
 
 
             //Get the calling BusinessTransactions
-            foreach (EA.Element btaction in btactions)
+            foreach (Element btaction in btactions)
             {
                 int respondingSupplier = 0;
                 int initClient = 0;
 
                 //Is there a responding flow starting from the business transaction
-                foreach (EA.Connector con in btaction.Connectors)
+                foreach (Connector con in btaction.Connectors)
                 {
                     if (con.Stereotype == UMM.reFlow.ToString())
                     {
@@ -1507,17 +1508,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC82(IValidationContext context, EA.Package bcv)
+        private void checkC82(IValidationContext context, Package bcv)
         {
             //Get all NestedBusinesscollaborations (if any)
-            IList<EA.Element> nestedC = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                               UMM.bNestedCollaboration.ToString());
+            IList<Element> nestedC = Utility.getAllElements(bcv, new List<Element>(),
+                                                            UMM.bNestedCollaboration.ToString());
 
             //A NestedBusinessCollaboration MUST be the target of exactly one InitialFlow
-            foreach (EA.Element nc in nestedC)
+            foreach (Element nc in nestedC)
             {
                 int countCons = 0;
-                foreach (EA.Connector con in nc.Connectors)
+                foreach (Connector con in nc.Connectors)
                 {
                     if (con.Stereotype == UMM.initFlow.ToString())
                     {
@@ -1546,17 +1547,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// A NestedBusinessCollaboration MAY be the source of a RespondingFlow, but MUST NOT be the source of more than one RespondingFlow.
         /// </summary>
         /// <param name="bcv"></param>
-        private void checkC83(IValidationContext context, EA.Package bcv)
+        private void checkC83(IValidationContext context, Package bcv)
         {
             //Get all NestedBusinesscollaborations (if any)
-            IList<EA.Element> nestedC = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                               UMM.bNestedCollaboration.ToString());
+            IList<Element> nestedC = Utility.getAllElements(bcv, new List<Element>(),
+                                                            UMM.bNestedCollaboration.ToString());
 
-            foreach (EA.Element nbc in nestedC)
+            foreach (Element nbc in nestedC)
             {
                 //MUST NOT be the source of more than one RespondingFlow.
                 int countCons = 0;
-                foreach (EA.Connector con in nbc.Connectors)
+                foreach (Connector con in nbc.Connectors)
                 {
                     if (con.Stereotype == UMM.reFlow.ToString() && con.ClientID == nbc.ElementID)
                     {
@@ -1582,17 +1583,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         ///  A BusinessCollaborationAction MUST be the target of two to many InformationFlows (UML standard: <<flow>>). 
         /// </summary>
         /// <param name="bcv"></param>
-        private void checkC84(IValidationContext context, EA.Package bcv)
+        private void checkC84(IValidationContext context, Package bcv)
         {
             //Get all BusinessCollaborationActions
-            IList<EA.Element> bcas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bCollaborationAction.ToString());
+            IList<Element> bcas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bCollaborationAction.ToString());
 
 
-            foreach (EA.Element bca in bcas)
+            foreach (Element bca in bcas)
             {
                 int countFlows = 0;
-                foreach (EA.Connector con in bca.Connectors)
+                foreach (Connector con in bca.Connectors)
                 {
                     if (con.SupplierID == bca.ElementID && con.Type == "InformationFlow" && con.Stereotype == "flow")
                     {
@@ -1622,17 +1623,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC85(IValidationContext context, EA.Package bcv)
+        private void checkC85(IValidationContext context, Package bcv)
         {
             //Get all BusinessCollaborationActions
-            IList<EA.Element> bcas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bCollaborationAction.ToString());
+            IList<Element> bcas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bCollaborationAction.ToString());
 
 
-            foreach (EA.Element bca in bcas)
+            foreach (Element bca in bcas)
             {
                 int countFlows = 0;
-                foreach (EA.Connector con in bca.Connectors)
+                foreach (Connector con in bca.Connectors)
                 {
                     if (con.Type == "InformationFlow" && con.ClientID == bca.ElementID)
                     {
@@ -1660,17 +1661,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC86(IValidationContext context, EA.Package bcv)
+        private void checkC86(IValidationContext context, Package bcv)
         {
             //Get all BusinessCollaborationActions
-            IList<EA.Element> bcas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bCollaborationAction.ToString());
+            IList<Element> bcas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bCollaborationAction.ToString());
 
 
-            foreach (EA.Element bca in bcas)
+            foreach (Element bca in bcas)
             {
                 int countFlows = 0;
-                foreach (EA.Connector con in bca.Connectors)
+                foreach (Connector con in bca.Connectors)
                 {
                     if (con.Stereotype == UMM.initFlow.ToString())
                     {
@@ -1700,17 +1701,17 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC87(IValidationContext context, EA.Package bcv)
+        private void checkC87(IValidationContext context, Package bcv)
         {
             //Get all BusinessCollaborationActions
-            IList<EA.Element> bcas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bCollaborationAction.ToString());
+            IList<Element> bcas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bCollaborationAction.ToString());
 
 
-            foreach (EA.Element bca in bcas)
+            foreach (Element bca in bcas)
             {
                 int countFlows = 0;
-                foreach (EA.Connector con in bca.Connectors)
+                foreach (Connector con in bca.Connectors)
                 {
                     if (con.Stereotype == UMM.reFlow.ToString())
                     {
@@ -1739,18 +1740,18 @@ namespace VIENNAAddIn.validator.umm.bcv
         ///A BusinessTransactionAction MUST not be the source and MUST not be the target of an InformationFlow (<<flow>>) that is neither stereotyped as InitialFlow nor as RespondingFlow.  
         /// </summary>
         /// <param name="bcv"></param>
-        private void checkC88(IValidationContext context, EA.Package bcv)
+        private void checkC88(IValidationContext context, Package bcv)
         {
             //Get all BusinessTransactionActions
-            IList<EA.Element> btas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bTransactionAction.ToString());
+            IList<Element> btas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bTransactionAction.ToString());
 
 
-            foreach (EA.Element bta in btas)
+            foreach (Element bta in btas)
             {
                 int count = 0;
                 //There must not be any InformationFlow from/to but InitFlow and ReFlow
-                foreach (EA.Connector con in bta.Connectors)
+                foreach (Connector con in bta.Connectors)
                 {
                     if (con.Type == "InformationFlow")
                     {
@@ -1783,16 +1784,16 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC89(IValidationContext context, EA.Package bcv)
+        private void checkC89(IValidationContext context, Package bcv)
         {
             //Get all NestedBusinessCollaboration
-            IList<EA.Element> nbcs = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bNestedCollaboration.ToString());
+            IList<Element> nbcs = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bNestedCollaboration.ToString());
 
 
-            foreach (EA.Element nbc in nbcs)
+            foreach (Element nbc in nbcs)
             {
-                foreach (EA.Connector con in nbc.Connectors)
+                foreach (Connector con in nbc.Connectors)
                 {
                     if (con.Type == "InformationFlow")
                     {
@@ -1800,7 +1801,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                         if (con.ClientID == nbc.ElementID)
                         {
                             //the supplier must not be a businesscollaborationaction
-                            EA.Element supplier = context.Repository.GetElementByID(con.SupplierID);
+                            Element supplier = context.Repository.GetElementByID(con.SupplierID);
                             if (supplier.Stereotype == UMM.bCollaborationAction.ToString())
                             {
                                 //Raise an error
@@ -1816,7 +1817,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                         else
                         {
                             //the client must not be a businesscollaborationaction
-                            EA.Element client = context.Repository.GetElementByID(con.ClientID);
+                            Element client = context.Repository.GetElementByID(con.ClientID);
                             if (client.Stereotype == UMM.bCollaborationAction.ToString())
                             {
                                 //Raise an error
@@ -1841,16 +1842,16 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="bcv"></param>
-        private void checkC90(IValidationContext context, EA.Package bcv)
+        private void checkC90(IValidationContext context, Package bcv)
         {
             //Get all BusinessCollaborationActions
-            IList<EA.Element> bcas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bCollaborationAction.ToString());
+            IList<Element> bcas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bCollaborationAction.ToString());
 
-            foreach (EA.Element bca in bcas)
+            foreach (Element bca in bcas)
             {
                 //Get the business collaboration
-                EA.Element bc = null;
+                Element bc = null;
                 if (bca.ClassifierID != 0)
                 {
                     bc = context.Repository.GetElementByID(bca.ClassifierID);
@@ -1868,9 +1869,9 @@ namespace VIENNAAddIn.validator.umm.bcv
                 {
                     //Got the business collaboration - get the package and count
                     //the number of BusinessCollaborationPartitions
-                    EA.Package bcPackage = context.Repository.GetPackageByID(bc.PackageID);
+                    Package bcPackage = context.Repository.GetPackageByID(bc.PackageID);
                     int countPartitions = 0;
-                    foreach (EA.Element e in bcPackage.Elements)
+                    foreach (Element e in bcPackage.Elements)
                     {
                         if (e.Stereotype == UMM.bCPartition.ToString())
                         {
@@ -1881,7 +1882,7 @@ namespace VIENNAAddIn.validator.umm.bcv
                     //Get the number of InformationFlows targeting the BusinessCollaborationAction
                     int numberOfFlows = 0;
 
-                    foreach (EA.Connector con in bca.Connectors)
+                    foreach (Connector con in bca.Connectors)
                     {
                         if (con.Type == "InformationFlow" && con.Stereotype == "flow")
                         {
@@ -1925,27 +1926,26 @@ namespace VIENNAAddIn.validator.umm.bcv
         ///
         /// </summary>
         /// <param name="bcv"></param>
-        private void checkC91(IValidationContext context, EA.Package bcv)
+        private void checkC91(IValidationContext context, Package bcv)
         {
             //Check if there are any BusinesscollaborationActions
-            IList<EA.Element> bcas = Utility.getAllElements(bcv, new List<EA.Element>(),
-                                                            UMM.bCollaborationAction.ToString());
+            IList<Element> bcas = Utility.getAllElements(bcv, new List<Element>(),
+                                                         UMM.bCollaborationAction.ToString());
 
 
             if (bcas != null && bcas.Count != 0)
             {
-                foreach (EA.Element bca in bcas)
+                foreach (Element bca in bcas)
                 {
-                    List<EA.Element> authorizedRolesofCalledCollaboration = new List<EA.Element>();
+                    var authorizedRolesofCalledCollaboration = new List<Element>();
 
                     //Get the BusinessCollaboration which the BusinessCollaborationAction is calling
-                    EA.Element bc = null;
 
                     if (bca.ClassfierID != 0)
                     {
-                        EA.Element cf = context.Repository.GetElementByID(bca.ClassifierID);
-                        EA.Package cfpackage = context.Repository.GetPackageByID(cf.PackageID);
-                        foreach (EA.Element el in cfpackage.Elements)
+                        Element cf = context.Repository.GetElementByID(bca.ClassifierID);
+                        Package cfpackage = context.Repository.GetPackageByID(cf.PackageID);
+                        foreach (Element el in cfpackage.Elements)
                         {
                             if (el.Stereotype == UMM.AuthorizedRole.ToString())
                             {
@@ -1955,27 +1955,27 @@ namespace VIENNAAddIn.validator.umm.bcv
                     }
 
 
-                    List<Int32> analyzed = new List<Int32>();
+                    var analyzed = new List<Int32>();
 
-                    foreach (EA.Connector con in bca.Connectors)
+                    foreach (Connector con in bca.Connectors)
                     {
                         if (con.SupplierID == bca.ElementID)
                         {
                             if (con.Type == "InformationFlow" && con.Stereotype == "flow")
                             {
                                 //Get the partition where the flow is coming from
-                                EA.Element partition = context.Repository.GetElementByID(con.ClientID);
+                                Element partition = context.Repository.GetElementByID(con.ClientID);
                                 if (partition.Stereotype == UMM.bCPartition.ToString())
                                 {
                                     if (partition.ClassfierID != 0)
                                     {
                                         //Get the Authorized Role, whcih is classifying the partition
-                                        EA.Element classifier = context.Repository.GetElementByID(partition.ClassfierID);
+                                        Element classifier = context.Repository.GetElementByID(partition.ClassfierID);
 
                                         if (!analyzed.Contains(classifier.ElementID))
                                         {
                                             bool found = false;
-                                            foreach (EA.Element e in authorizedRolesofCalledCollaboration)
+                                            foreach (Element e in authorizedRolesofCalledCollaboration)
                                             {
                                                 if (classifier.Name == e.Name)
                                                 {
@@ -2012,21 +2012,21 @@ namespace VIENNAAddIn.validator.umm.bcv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
-        private void checkTV_BusinessCollaborationView(IValidationContext context, EA.Package p)
+        private void checkTV_BusinessCollaborationView(IValidationContext context, Package p)
         {
             //Check the TaggedValues of the BusinessCollaborationView package
             new TaggedValueValidator().validatePackage(context, p);
 
             //Check the TaggedValues of the BusinessCollaborationUseCase
-            IList<EA.Element> bcucs = Utility.getAllElements(p, new List<EA.Element>(), UMM.bCollaborationUC.ToString());
-            foreach (EA.Element bcuc in bcucs)
+            IList<Element> bcucs = Utility.getAllElements(p, new List<Element>(), UMM.bCollaborationUC.ToString());
+            foreach (Element bcuc in bcucs)
             {
                 new TaggedValueValidator().validateElement(context, bcuc);
             }
 
             //Check the TaggedValues of the BusinessTransactionActions
-            IList<EA.Element> btas = Utility.getAllElements(p, new List<EA.Element>(), UMM.bTransactionAction.ToString());
-            foreach (EA.Element bta in btas)
+            IList<Element> btas = Utility.getAllElements(p, new List<Element>(), UMM.bTransactionAction.ToString());
+            foreach (Element bta in btas)
             {
                 new TaggedValueValidator().validateElement(context, bta);
             }

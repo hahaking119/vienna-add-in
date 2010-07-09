@@ -15,9 +15,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using EA;
 using VIENNAAddIn.common.logging;
+using VIENNAAddIn.ErrorReporter;
 using VIENNAAddIn.menu;
 using Attribute=EA.Attribute;
-using VIENNAAddIn.ErrorReporter;
 
 namespace VIENNAAddIn.validator
 {
@@ -26,7 +26,7 @@ namespace VIENNAAddIn.validator
         private static ValidatorForm form;
 
         //The repository upon which the validator validates
-        private Repository repository;
+        private readonly Repository repository;
 
         private String scope;
 
@@ -50,7 +50,7 @@ namespace VIENNAAddIn.validator
             progressBar.Step = 1;
 
             // initialize timer ...
-            progressTimer.Tick += new EventHandler(progressTimer_Tick);
+            progressTimer.Tick += progressTimer_Tick;
         }
 
         public static void ShowValidator(AddInContext context)
@@ -121,16 +121,16 @@ namespace VIENNAAddIn.validator
                 ObjectType otype = repository.GetTreeSelectedItem(out obj);
 
                 //Now otype could be determined - show an error
-                if (!Enum.IsDefined(typeof(ObjectType), otype))
+                if (!Enum.IsDefined(typeof (ObjectType), otype))
                 {
                     //Should not occur
                     const string error = "Unable to determine object type of element.";
                     MessageBox.Show(error, "Error");
                 }
-                //The user clicked on a package - try to determine the stereotype
+                    //The user clicked on a package - try to determine the stereotype
                 else if (otype == ObjectType.otPackage)
                 {
-                    var p = (Package)obj;
+                    var p = (Package) obj;
                     //If the package has no superpackage, it must be the very top package
                     //-> if the very top package is clicked, ALL will be validated
                     bool hasParent = false;
@@ -147,7 +147,7 @@ namespace VIENNAAddIn.validator
 
                     if (!hasParent)
                     {
-                        int rootModelPackageID = ((Package)(repository.Models.GetAt(0))).PackageID;
+                        int rootModelPackageID = ((Package) (repository.Models.GetAt(0))).PackageID;
                         s = "" + rootModelPackageID;
                     }
                     else
@@ -155,20 +155,20 @@ namespace VIENNAAddIn.validator
                         s = "" + p.PackageID;
                     }
                 }
-                //In the treeview apart from a package the user can click on 
-                // an element, a diagram, an attribute or a method
-                //All of these cases are handled here
+                    //In the treeview apart from a package the user can click on 
+                    // an element, a diagram, an attribute or a method
+                    //All of these cases are handled here
                 else
                 {
                     int packageID = 0;
 
                     if (otype == ObjectType.otElement)
-                        packageID = ((Element)obj).PackageID;
+                        packageID = ((Element) obj).PackageID;
                     else if (otype == ObjectType.otDiagram)
-                        packageID = ((Diagram)obj).PackageID;
+                        packageID = ((Diagram) obj).PackageID;
                     else if (otype == ObjectType.otAttribute)
                     {
-                        var att = (Attribute)obj;
+                        var att = (Attribute) obj;
                         //Get the element that this attribute is part of
                         Element el = repository.GetElementByID(att.ParentID);
                         //Get the package, where this element is located in
@@ -176,7 +176,7 @@ namespace VIENNAAddIn.validator
                     }
                     else if (otype == ObjectType.otMethod)
                     {
-                        var meth = (Method)obj;
+                        var meth = (Method) obj;
                         //Get the the element, that this attribute is part of
                         Element el = repository.GetElementByID(meth.ParentID);
                         //Get the package, where this element is located in
@@ -188,8 +188,8 @@ namespace VIENNAAddIn.validator
                     s = "" + p.PackageID;
                 }
             }
-            //If the users clicks into a diagram we must determine to which package
-            //the diagram belongs
+                //If the users clicks into a diagram we must determine to which package
+                //the diagram belongs
             else if (menulocation == MenuLocation.Diagram)
             {
                 int packageID = 0;
@@ -198,9 +198,9 @@ namespace VIENNAAddIn.validator
                     Object obj;
                     ObjectType o = repository.GetContextItem(out obj);
                     if (o == ObjectType.otDiagram)
-                        packageID = ((Diagram)obj).PackageID;
+                        packageID = ((Diagram) obj).PackageID;
                     else if (o == ObjectType.otElement)
-                        packageID = ((Element)obj).PackageID;
+                        packageID = ((Element) obj).PackageID;
                 }
                 catch (Exception e)
                 {
@@ -241,10 +241,10 @@ namespace VIENNAAddIn.validator
             // If so, the exception is returned via the Result field
             if (e.Result != null)
             {
-                Exception execption = (Exception)e.Result;
+                var execption = (Exception) e.Result;
 
                 new ErrorReporterForm(execption.Message + "\n" + execption.StackTrace, repository.LibraryVersion);
-                
+
                 progressBar.Value = 1;
             }
             else if (e.Cancelled)
@@ -295,15 +295,13 @@ namespace VIENNAAddIn.validator
             }
             catch (Exception ex)
             {
-                               
                 Logger.Log(ex.Message, LogType.ERROR);
                 // stop worker ...
-                bworker.CancelAsync();                
+                bworker.CancelAsync();
                 //Set the Excpetion as Result
                 e.Result = ex;
-                               
+
                 progressTimer.Stop();
-                              
             }
         }
 
@@ -333,10 +331,10 @@ namespace VIENNAAddIn.validator
         /// <summary>
         /// Reset the validatorForm
         /// </summary>
-        public void resetValidatorForm(String scope)
+        public void resetValidatorForm(String newScope)
         {
             setStatusText("Selected validation scope: " + getScopeInStatusBar(repository, scope));
-            this.scope = scope;
+            scope = newScope;
 
             //Delete the old validation messages
             foreach (ListViewItem item in validationMessagesListView.Items)
@@ -349,36 +347,27 @@ namespace VIENNAAddIn.validator
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            
-                //If a top-down validation of the whole model is initialized, the intervall must be higher
-                if (scope == "ROOT")
-                {
-                    progressTimer.Interval = 800;
-                }
-                else
-                {
-                    progressTimer.Interval = 400;
-                }
+            //If a top-down validation of the whole model is initialized, the intervall must be higher
+            progressTimer.Interval = scope == "ROOT" ? 800 : 400;
 
-                //Set back the list view
-                //Delete the old validation messages
-                foreach (ListViewItem item in validationMessagesListView.Items)
-                {
-                    validationMessagesListView.Items.Remove(item);
-                }
-                //Reset the progress bar
-                progressBar.Value = progressBar.Minimum;
-                //Reset the message detail box
-                detailsBox.Clear();
+            //Set back the list view
+            //Delete the old validation messages
+            foreach (ListViewItem item in validationMessagesListView.Items)
+            {
+                validationMessagesListView.Items.Remove(item);
+            }
+            //Reset the progress bar
+            progressBar.Value = progressBar.Minimum;
+            //Reset the message detail box
+            detailsBox.Clear();
 
-                startButton.Enabled = false;
-                progressTimer.Start();
+            startButton.Enabled = false;
+            progressTimer.Start();
 
-                if (bworker.IsBusy)
-                    bworker.CancelAsync();
+            if (bworker.IsBusy)
+                bworker.CancelAsync();
 
-                bworker.RunWorkerAsync(validationMessages);
-
+            bworker.RunWorkerAsync(validationMessages);
         }
 
         /// <summary>
@@ -457,8 +446,8 @@ namespace VIENNAAddIn.validator
 
             //Add a new ListViewItem with the appropriate format
             //Add the error level
-            var item = new ListViewItem(new String[] {message.ErrorLevel.ToString()}, 0, Color.Black, c, normalFont);
-            item.UseItemStyleForSubItems = false;
+            var item = new ListViewItem(new[] {message.ErrorLevel.ToString()}, 0, Color.Black, c, normalFont)
+                           {UseItemStyleForSubItems = false};
             //Add the affectedView
             item.SubItems.Add(affectedView, Color.Black, c, normalFont);
             //Add the message
@@ -475,7 +464,7 @@ namespace VIENNAAddIn.validator
         /// </summary>
         /// <param name="level"></param>
         /// <returns></returns>
-        private Color getColor(ValidationMessage.errorLevelTypes level)
+        private static Color getColor(ValidationMessage.errorLevelTypes level)
         {
             Color c = Color.White;
 
@@ -520,10 +509,9 @@ namespace VIENNAAddIn.validator
         {
             //Get the message id from the list
             //Through the message id, we can set the text of the detail message
-            String s = "";
             try
             {
-                s = validationMessagesListView.SelectedItems[0].SubItems[3].Text;
+               var s = validationMessagesListView.SelectedItems[0].SubItems[3].Text;
 
                 if (s != null)
                 {
@@ -533,7 +521,7 @@ namespace VIENNAAddIn.validator
                         {
                             detailsBox.Clear();
                             setStatusText("Message selected.");
-                            if (vmsg.MessageDetail == null || vmsg.MessageDetail == "")
+                            if (string.IsNullOrEmpty(vmsg.MessageDetail))
                             {
                                 detailsBox.AppendText("No message detail.");
                             }
@@ -546,10 +534,10 @@ namespace VIENNAAddIn.validator
                     }
                 }
             }
-            catch (Exception exe)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
             }
-            
         }
 
         /// <summary>
@@ -558,11 +546,11 @@ namespace VIENNAAddIn.validator
         /// <param name="repository"></param>
         /// <param name="scope"></param>
         /// <returns></returns>
-        private String getScopeInStatusBar(Repository repository, String scope)
+        private static String getScopeInStatusBar(Repository repository, String scope)
         {
-            String s = "";
+            string s;
 
-            if (scope == null || scope == "")
+            if (string.IsNullOrEmpty(scope))
             {
                 s = "No scope determined.";
             }
@@ -583,7 +571,7 @@ namespace VIENNAAddIn.validator
                     s = "<<" + p.Element.Stereotype + ">> ";
                     s += p.Name;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     s = "Illegal scope detected. Please restart valdiator.";
                 }
@@ -601,8 +589,9 @@ namespace VIENNAAddIn.validator
             {
                 messageID = validationMessagesListView.SelectedItems[0].SubItems[3].Text;
             }
-            catch (Exception exe)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
             }
 
             if (messageID != null && validationMessages != null)
@@ -626,7 +615,7 @@ namespace VIENNAAddIn.validator
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.StackTrace.ToString());
+                        Console.WriteLine(ex.StackTrace);
                     }
                 }
                 else
@@ -639,6 +628,5 @@ namespace VIENNAAddIn.validator
                 setStatusText("There is no erroneous element associated with this message.");
             }
         }
-
     }
 }

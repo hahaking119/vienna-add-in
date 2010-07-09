@@ -21,11 +21,11 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     /// </summary>
     public partial class ExporterForm
     {
-        private const int MARGIN = 15;
+        //private const int MARGIN = 15;
         private readonly Cache cache;
         private readonly ICctsRepository cctsR;
         private readonly Dictionary<string, StackPanel> documentModels = new Dictionary<string, StackPanel>();
-        private int mouseDownPosX;
+        //private int mouseDownPosX;
         private string originalXMLSchema = "";
         private string outputDirectory = "";
         private string selectedBIVName;

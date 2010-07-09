@@ -44,7 +44,7 @@ namespace VIENNAAddIn.Utils
 		 * functionality the validator requires to pass a constraint
 		 * with every logmessage		  
 		 */
-		private ErrorMessage errorMessage;
+        //private ErrorMessage errorMessage;
 
 		
 

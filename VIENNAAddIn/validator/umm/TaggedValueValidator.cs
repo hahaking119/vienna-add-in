@@ -776,7 +776,7 @@ namespace VIENNAAddIn.validator.umm
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        private bool isPositiveInteger(String s)
+        private static bool isPositiveInteger(String s)
         {
             if (s == null || s.ToLower() == "null")
                 return true;
@@ -791,7 +791,7 @@ namespace VIENNAAddIn.validator.umm
             }
             catch (Exception e)
             {
-                
+                Console.WriteLine(e.StackTrace);
             }
 
             return false;

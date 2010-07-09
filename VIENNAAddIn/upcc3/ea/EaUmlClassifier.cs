@@ -70,6 +70,16 @@ namespace VIENNAAddIn.upcc3.ea
                 }
             }
         }
+        public IEnumerable<IUmlClass> GetClassesByStereotype(string stereotype)
+        {
+            foreach (Element element in eaElement.Elements)
+            {
+                if(element.Stereotype.Equals(stereotype))
+                {
+                    yield return new EaUmlClassifier(eaRepository, element);
+                }
+            }
+        }
 
         public IUmlDependency GetFirstDependencyByStereotype(string stereotype)
         {
