@@ -18,6 +18,7 @@ using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.ea;
 using VIENNAAddIn.upcc3.uml;
+using VIENNAAddInWpfUserControls;
 
 namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 {
@@ -32,6 +33,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private IUmlPackage currentCollaborationView;
         private string outputDirectory;
         private ServiceDescription serviceDescription;
+        private bool containsInnerXML;
 
         public WSDLGenerator(Repository repository)
         {
@@ -128,6 +130,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 }
             }
             checkFormState();
+
+            targetXSDs.Items.Clear();
+            foreach (var keyValuePair in retrieveMessageNames())
+            {
+                targetXSDs.Items.Add(new RetrievedMessage(keyValuePair.Key, "", ""));
+            }
         }
 
         /// <summary>
@@ -148,14 +156,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         /// <param name="e"></param>
         private void buttonGenerate_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var bcollaborationUC in currentCollaborationView.GetClassesByStereotype("bCollaborationUC"))
-            {
-                foreach (
-                    var bcollaborationprotocol in
-                        bcollaborationUC.GetClassesByStereotype("bCollaborationProtocol"))
-                {
-                    foreach (var bcPartition in bcollaborationprotocol.GetClassesByStereotype("bCPartition"))
-                    {
+            containsInnerXML = false;
+            foreach(var bcPartition in getbcPartitions()){
                         serviceDescription = new ServiceDescription();
                         var collaborationRoleName =
                             removeWhiteSpaces(repo.GetElementByID(repo.GetElementByID(bcPartition.Id).ClassifierID).Name);
@@ -209,25 +211,21 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                                 removeWhiteSpaces(repo.GetElementByID(pins[0].ClassfierID).Name);
 
                                             //this is the input message
-                                            var inputMessage = assembleInputMessage(inputMessageValue,
-                                                                                                 collaborationRoleName);
+                                            var inputMessage = assembleInputMessage(inputMessageValue);
+                                            
                                             operation.Messages.Add(inputMessage);
-                                            serviceDescription.Messages.Add(
-                                                new Message
-                                                    {
-                                                        Name = inputMessageValue
-                                                    });
+                                            serviceDescription.Messages.Add(assembleMessageWithPart(inputMessageValue));
                                         }
                                             //otherwise we have to create a inner XML schema to enable a XSD Choice of the actual data transmitted
                                         else
                                         {
                                             serviceDescription.Types.Schemas.Add(generateInnerXmlSchema(pins,
                                                                                                         action.Name));
+                                            containsInnerXML = true;
                                             var inputMessage =
-                                                assembleInputMessage(removeWhiteSpaces(action.Name) + "Response",
-                                                                     collaborationRoleName);
+                                                assembleInputMessage(removeWhiteSpaces(action.Name) + "Response");
                                             operation.Messages.Add(inputMessage);
-                                            serviceDescription.Messages.Add(assembleMessageWithPart(action.Name));
+                                            serviceDescription.Messages.Add(assembleMessageWithPartForInnerXml(action.Name));
                                         }
                                         portType.Operations.Add(operation);
                                         portType = addDefaultOperations(portType, collaborationRoleName);
@@ -291,16 +289,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                                                              "http://" + collaborationRoleName);
                                                     operation.Messages.Add(outputMessage);
                                                     serviceDescription.Messages.Add(
-                                                        new Message
-                                                            {
-                                                                Name = outputMessageValue
-                                                            });
+                                                        assembleMessageWithPart(outputMessageValue));
                                                 }
                                                 else
                                                 {
                                                     serviceDescription.Types.Schemas.Add(generateInnerXmlSchema(pins,
                                                                                                                 action.
                                                                                                                     Name));
+                                                    containsInnerXML = true;
                                                     var outputMessage =
                                                         (OperationMessage) new OperationOutput();
                                                     outputMessage.Message =
@@ -308,7 +304,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                                             removeWhiteSpaces(action.Name) + "Response",
                                                             "http://" + collaborationRoleName);
                                                     operation.Messages.Add(outputMessage);
-                                                    serviceDescription.Messages.Add(assembleMessageWithPart(action.Name));
+                                                    serviceDescription.Messages.Add(assembleMessageWithPartForInnerXml(action.Name));
                                                 }
                                                 pins =
                                                     new List<Element>(getElementsByStereoType(action.Elements,
@@ -320,13 +316,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
                                                     //this is the input message
                                                     var inputMessage =
-                                                        assembleInputMessage(inputMessageValue, collaborationRoleName);
+                                                        assembleInputMessage(inputMessageValue);
                                                     operation.Messages.Add(inputMessage);
                                                     serviceDescription.Messages.Add(
-                                                        new Message
-                                                            {
-                                                                Name = inputMessageValue
-                                                            });
+                                                        assembleMessageWithPart(inputMessageValue));
 
                                                     portType.Operations.Add(operation);
                                                 }
@@ -335,12 +328,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                                     serviceDescription.Types.Schemas.Add(generateInnerXmlSchema(pins,
                                                                                                                 action.
                                                                                                                     Name));
+                                                    containsInnerXML = true;
                                                     var inputMessage =
                                                         assembleInputMessage(
-                                                            removeWhiteSpaces(action.Name + "Response"),
-                                                            collaborationRoleName);
+                                                            removeWhiteSpaces(action.Name + "Response"));
                                                     operation.Messages.Add(inputMessage);
-                                                    serviceDescription.Messages.Add(assembleMessageWithPart(action.Name));
+                                                    serviceDescription.Messages.Add(assembleMessageWithPartForInnerXml(action.Name));
                                                 }
                                             }
                                         }
@@ -355,8 +348,64 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                         #endregion
                         finalizeAndWriteServiceDescription(collaborationRoleName);
                     }
+        }
+
+        private IEnumerable<IUmlClass> getbcPartitions()
+        {
+            foreach (var bcollaborationUC in currentCollaborationView.GetClassesByStereotype("bCollaborationUC"))
+            {
+                foreach (
+                    var bcollaborationprotocol in
+                        bcollaborationUC.GetClassesByStereotype("bCollaborationProtocol"))
+                {
+                    foreach (var bcPartition in bcollaborationprotocol.GetClassesByStereotype("bCPartition"))
+                    {
+                        yield return bcPartition;
+                    }
                 }
             }
+        }
+
+        private Dictionary<string,string> retrieveMessageNames()
+        {
+            var returnSet = new Dictionary<string,string>();
+            foreach (var bcPartition in getbcPartitions())
+            {
+                var flow = (Connector) repo.GetElementByID(bcPartition.Id).Connectors.GetAt(0);
+
+                if (flow.ClientID.Equals(bcPartition.Id))
+                {
+                    var visitedTransactions = new List<int>();
+                    foreach (
+                        Connector connector in repo.GetElementByID(bcPartition.Id).Connectors)
+                    {
+                        if (connector.ClientID.Equals(bcPartition.Id)) continue;
+                        if (visitedTransactions.Contains(connector.ClientID)) continue;
+                        visitedTransactions.Add(connector.ClientID);
+                        var targetTransaktion = repo.GetElementByID(connector.ClientID);
+                        var realTransaktion =
+                            repo.GetElementByID(targetTransaktion.ClassfierID);
+
+                        //every transaction is a portType in the WSDL
+                        foreach (var child in getElementsByStereoType(realTransaktion.Elements, "bTPartition"))
+                        {
+                            if (!isInitiator(child)) continue;
+                            foreach (var action in getElementsByStereoType(child.Elements, "ReqAction"))
+                            {
+                                var pins =
+                                    new List<Element>(getElementsByStereoType(action.Elements, "ResInfPin"));
+                                pins.AddRange(getElementsByStereoType(action.Elements,"ReqInfPin"));
+                                foreach (var pin in pins)
+                                {
+                                    var message = repo.GetElementByID(pin.ClassfierID);
+                                    returnSet.Add(removeWhiteSpaces(message.Name.Replace("Envelope", "")), "");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return returnSet;
         }
 
         /// <summary>
@@ -391,22 +440,27 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         /// Assemble an input message for an operationMessage in the WSDL syntax
         /// </summary>
         /// <param name="name">The name of the resulting input message</param>
-        /// <param name="nameSpace">The target namespace without http:// prefix</param>
         /// <returns>An input message with the given name and namespace.</returns>
-        private static OperationMessage assembleInputMessage(string name, string nameSpace)
+        private OperationMessage assembleInputMessage(string name)
         {
             //reportStatus("input messsage:" + inputMessageValue);
             var inputMessage = (OperationMessage) new OperationInput();
-            inputMessage.Message = new XmlQualifiedName(name, "http://" + nameSpace);
+            foreach (RetrievedMessage message in targetXSDs.Items)
+            {
+                if(message.messageName.Equals(name))
+                {
+                    inputMessage.Message = new XmlQualifiedName(name, message.targetNamespace);
+                }
+            }
             return inputMessage;
         }
 
         /// <summary>
         /// Assemble a WSDL message containing a Part referring to the generated inner XML Schema.
         /// </summary>
-        /// <param name="messageName">The name of the resulting input message</param>
+        /// <param name="messageName">The name of the resulting message</param>
         /// <returns>A WSDL message containing a Part referring to the generated inner XML Schema.</returns>
-        private static Message assembleMessageWithPart(string messageName)
+        private static Message assembleMessageWithPartForInnerXml(string messageName)
         {
             string inputMessageValue = removeWhiteSpaces(messageName) + "Response";
             var concreteMessage = new Message {Name = inputMessageValue};
@@ -416,8 +470,37 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                       Element =
                                           new XmlQualifiedName(
                                           removeWhiteSpaces(messageName) +
-                                          "ResponseMessage")
+                                          "Response","http://inline")
                                   };
+            //TODO: once the namespaces and schema imports all work, the correct namespace has to be added to the Elements qualified Name!
+            concreteMessage.Parts.Add(messagePart);
+
+            return concreteMessage;
+        }
+
+        /// <summary>
+        /// Assemble a WSDL message containing a Part referring to the imported XML Schema.
+        /// </summary>
+        /// <param name="messageName">The name of the resulting  message</param>
+        /// <returns>A WSDL message containing a Part referring to the imported XML Schema.</returns>
+        private Message assembleMessageWithPart(string messageName)
+        {
+            string inputMessageValue = removeWhiteSpaces(messageName);
+            var concreteMessage = new Message { Name = inputMessageValue };
+            var nameSpace = "";
+            foreach (RetrievedMessage message in targetXSDs.Items)
+            {
+                if(message.messageName.Equals(inputMessageValue.Replace("Envelope","")))
+                {
+                    nameSpace = message.targetNamespace;
+                }
+            }
+            var messagePart = new MessagePart
+                                  {
+                                      Name = "body",
+                                      Element =
+                                          new XmlQualifiedName(inputMessageValue,nameSpace)
+            };
             //TODO: once the namespaces and schema imports all work, the correct namespace has to be added to the Elements qualified Name!
             concreteMessage.Parts.Add(messagePart);
 
@@ -450,25 +533,50 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         /// <returns>An XML Schema to be used inside the final WSDL containing a XmlChoice element.</returns>
         private XmlSchema generateInnerXmlSchema(IEnumerable<Element> pins, string actionName)
         {
-            var schema = new XmlSchema();
-            schema.Includes.Add(new XmlSchemaImport {SchemaLocation = "invoice.xsd", Namespace = "http://invoice"});
+            var schema = new XmlSchema {TargetNamespace = "http://inline"};
+            var i = 1;
+
+            foreach (RetrievedMessage message in targetXSDs.Items)
+            {
+                if (!message.filePath.Equals(string.Empty))
+                {
+                    schema.Includes.Add(new XmlSchemaImport { SchemaLocation = message.filePath, Namespace = message.targetNamespace });
+                    if (message.prefix.Equals(string.Empty))
+                    {
+                        message.prefix = "xsd" + i;
+                    }
+                    schema.Namespaces.Add(message.prefix, message.targetNamespace);
+
+                    i++;
+                }
+            }
+
             var xmlSchemaElement = new XmlSchemaElement
                                        {
                                            Name =
                                                removeWhiteSpaces(actionName) +
-                                               "ResponseMessage"
+                                               "Response"
                                        };
             var xmlSchemaComplexType = new XmlSchemaComplexType();
             var xmlSchemaChoice = new XmlSchemaChoice();
-            foreach (Element pin in pins)
+            foreach (var pin in pins)
             {
-                var xmlSchemaChoiceElement = new XmlSchemaElement
-                                                 {
-                                                     Name = removeWhiteSpaces(repo.GetElementByID(
-                                                                                  pin.ClassfierID).Name)
-                                                 };
+                XmlSchemaElement xmlSchemaChoiceElement = null;
+                foreach (RetrievedMessage message in targetXSDs.Items)
+                {
+                    if(message.messageName.Equals(removeWhiteSpaces(repo.GetElementByID(
+                                                                                  pin.ClassfierID).Name).Replace("Envelope","")))
+                    {
+                        xmlSchemaChoiceElement = new XmlSchemaElement
+                        {
+                            RefName = new XmlQualifiedName(message.messageName, message.targetNamespace)
+                        };
+                    }
+                }
+                
                 xmlSchemaChoice.Items.Add(xmlSchemaChoiceElement);
             }
+
 
             xmlSchemaComplexType.Particle = xmlSchemaChoice;
             xmlSchemaElement.SchemaType = xmlSchemaComplexType;
@@ -482,10 +590,44 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         /// <param name="collaborationRoleName">The collaborationRolename retrieved from the UMM model.</param>
         private void finalizeAndWriteServiceDescription(string collaborationRoleName)
         { 
+            //Imports
+            var defaultMessagesImport = new Import {Namespace = "http://bas", Location = "bas.xsd"};
+            serviceDescription.Imports.Add(defaultMessagesImport);
+
+            if (!containsInnerXML)
+            {
+                foreach (RetrievedMessage message in targetXSDs.Items)
+                {
+                    if (!message.filePath.Equals(string.Empty))
+                    {
+                        serviceDescription.Imports.Add(new Import
+                                                           {
+                                                               Namespace = message.targetNamespace,
+                                                               Location = message.filePath
+                                                           });
+                    }
+                }
+            }
+
             //Messages
-            serviceDescription.Messages.Add(new Message { Name = "BusinessSignalAckReceipt" });
-            serviceDescription.Messages.Add(new Message { Name = "BusinessSignalAckProcessing" });
-            serviceDescription.Messages.Add(new Message { Name = "BusinessSignalControlFailure" });
+            var ackReceiptMessagePart = new MessagePart
+                                  {
+                                      Name = "parameters",
+                                      Element = new XmlQualifiedName("Acknowledgement","http://bas")
+                                  };
+            var ackReceiptMessage = new Message {Name = "Acknowledgement"};
+            ackReceiptMessage.Parts.Add(ackReceiptMessagePart);
+            serviceDescription.Messages.Add(ackReceiptMessage);
+
+
+            var controlFailureMessagePart = new MessagePart
+            {
+                Name = "parameters",
+                Element = new XmlQualifiedName("ControlFailure", "http://bas")
+            };
+            var controlFailureMessage = new Message { Name = "BusinessSignalControlFailure" };
+            controlFailureMessage.Parts.Add(controlFailureMessagePart);
+            serviceDescription.Messages.Add(controlFailureMessage);
 
             //TargetNamespace
             serviceDescription.TargetNamespace = "http://" + collaborationRoleName;
@@ -494,7 +636,29 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             serviceDescription.Namespaces.Add("wsdl", "http://schemas.xmlsoap.org/wsdl/");
             serviceDescription.Namespaces.Add("xsd", "http://www.w3.org/2001/XMLSchema");
             serviceDescription.Namespaces.Add("soap", "http://schemas.xmlsoap.org/wsdl/soap/");
+            serviceDescription.Namespaces.Add("bas","http://bas");
             serviceDescription.Namespaces.Add("tns", "http://" + collaborationRoleName);
+
+            if(!containsInnerXML)
+            {
+                var i = 1;
+                foreach (RetrievedMessage message in targetXSDs.Items)
+                {
+                    if (!message.filePath.Equals(string.Empty))
+                    {
+                        if(message.prefix.Equals(string.Empty))
+                        {
+                            message.prefix = "xsd" + i;
+                        }
+                        serviceDescription.Namespaces.Add(message.prefix, message.targetNamespace);
+                        i++;
+                    }
+                }
+            }
+            else
+            {
+                serviceDescription.Namespaces.Add("il","http://inline");
+            }
 
             serviceDescription.Write(outputDirectory + "\\" + collaborationRoleName + ".wsdl");
         }
@@ -508,20 +672,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private static PortType addDefaultOperations(PortType inputPortType, string nameSpace)
         {
             //Create AckReceipt operation
-            var ackReceiptOperation = new Operation {Name = "AckReceipt"};
+            var ackReceiptOperation = new Operation {Name = "receiveAck"};
             var ackReceiptInputMessage = (OperationMessage) new OperationInput();
-            ackReceiptInputMessage.Message = new XmlQualifiedName("BusinessSignalAckReceipt", "http://" + nameSpace);
+            ackReceiptInputMessage.Message = new XmlQualifiedName("Acknowledgement", "http://" + nameSpace);
             ackReceiptOperation.Messages.Add(ackReceiptInputMessage);
 
             inputPortType.Operations.Add(ackReceiptOperation);
-
-            //Create AckProcessing operation
-            var ackProcessOperation = new Operation {Name = "AckProcessing"};
-            var ackProcessInputMessage = (OperationMessage) new OperationInput();
-            ackProcessInputMessage.Message = new XmlQualifiedName("BusinessSignalAckProcessing", "http://" + nameSpace);
-            ackProcessOperation.Messages.Add(ackProcessInputMessage);
-
-            inputPortType.Operations.Add(ackProcessOperation);
 
             //Create ControlFailure operation
 
@@ -534,6 +690,57 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             inputPortType.Operations.Add(controlFailureOperation);
 
             return inputPortType;
+        }
+
+        private void FileSelector_DirectoryNameChanged(object sender, RoutedEventArgs e)
+        {
+            var senderCast = (FileSelector) sender;
+            var stackpanel = (StackPanel) senderCast.Parent;
+            var textblock = (TextBlock) stackpanel.Children[0];
+
+            foreach (RetrievedMessage item in targetXSDs.Items)
+            {
+                if(item.messageName.Equals(textblock.Text))
+                {
+                    item.filePath = senderCast.FileName;
+                    item.targetNamespace = retrieveTargetNamespace(senderCast.FileName);
+                }
+            }
+
+            targetXSDs.Items.Refresh();
+        }
+
+        private static string retrieveTargetNamespace(string fileName)
+        {
+            var schema = XmlSchema.Read(XmlReader.Create(fileName),null);
+            return schema.TargetNamespace;
+        }
+
+        public class RetrievedMessage
+        {
+            public string messageName
+            {
+                get; set;
+            }
+            public string targetNamespace
+            {
+                get; set;
+            }
+            public string filePath
+            {
+                get; set;
+            }
+            public string prefix
+            {
+                get; set;
+            }
+            public RetrievedMessage(string _messageName, string _targetNamespace, string _filePath)
+            {
+                messageName = _messageName;
+                targetNamespace = _targetNamespace;
+                filePath = _filePath;
+                prefix = "";
+            }
         }
     }
 }
