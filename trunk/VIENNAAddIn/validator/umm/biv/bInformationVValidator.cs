@@ -35,16 +35,16 @@ namespace VIENNAAddIn.validator.umm.biv
         /// any other document modeling artifacts.
         /// 
         /// </summary>
-        private void checkC100(IValidationContext context, EA.Package biv)
+        private static void checkC100(IValidationContext context, EA.Package biv)
         {
-            IList<EA.Element> informationEnvelopes = Utility.getAllClasses(biv, new List<EA.Element>());
+            var informationEnvelopes = Utility.getAllClasses(biv, new List<EA.Element>());
 
-            bool informationEnvelopeFound = false;
+            var informationEnvelopeFound = false;
 
-            foreach (EA.Element e in informationEnvelopes)
+            foreach (var e in informationEnvelopes)
             {
                 //Is the classifier of type InformationEnvelope?
-                if (e.Stereotype == UMM.bInformation.ToString())
+                if (e.Stereotype == UMM.InfEnvelope.ToString())
                 {
                     informationEnvelopeFound = true;
                 }
@@ -53,7 +53,7 @@ namespace VIENNAAddIn.validator.umm.biv
                 {
                     foreach (EA.Element el in e.BaseClasses)
                     {
-                        if (el.Stereotype == UMM.bInformation.ToString())
+                        if (el.Stereotype == UMM.InfEnvelope.ToString())
                         {
                             informationEnvelopeFound = true;
                             break;
@@ -76,7 +76,7 @@ namespace VIENNAAddIn.validator.umm.biv
         /// </summary>
         /// <param name="context"></param>
         /// <param name="p"></param>
-        private void checkTV_BusinessInformationView(IValidationContext context, EA.Package p)
+        private static void checkTV_BusinessInformationView(IValidationContext context, EA.Package p)
         {
             new TaggedValueValidator().validatePackage(context, p);
         }
