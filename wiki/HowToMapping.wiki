@@ -48,7 +48,7 @@ This guide shows how to create a very simple MapForce mapping with Altova MapFor
     http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_drawmapping.png
   # The final mapping looks like this:
     http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_mapping.png
-  # Saving this mapping results into a *.mfd file which can be used for the [XmlSchemaImporter Xml Schema Importer].
+  # Saving this mapping results into a mfd file which can be used for the [XmlSchemaImporter Xml Schema Importer].
 
 =References=
 (1) UMM Development Site http://umm-dev.org/
