@@ -3,7 +3,8 @@
 
 =How to create a basic mapping=
 The simple Xml Schema below will be used to create a Mapforce mapping to CCTS:
- <?xml version="1.0" encoding="UTF-8"?>
+
+{{{ <?xml version="1.0" encoding="UTF-8"?>
  <xs:schema xmlns="http://www.ebinterface.at/schema/3p0/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.ebinterface.at/schema/3p0/" elementFormDefault="qualified" attributeFormDefault="unqualified">
  	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
  	<xs:annotation>
@@ -36,3 +37,4 @@ The simple Xml Schema below will be used to create a Mapforce mapping to CCTS:
  		<xs:attribute name="GeneratingSystem" type="xs:string" use="required"/>
  	</xs:complexType>
  </xs:schema>
+}}}
