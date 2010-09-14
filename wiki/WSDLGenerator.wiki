@@ -1,0 +1,35 @@
+#summary XML Schema Importer Documentation
+The XML Schema Importer can be used to import an XML Schema into an existing model. 
+    
+=Import an XML Schema=
+  # Prepare a UMM2 model in Enterprise Architect
+  # Select _Add-Ins / VIENNAAddIn / Wizards / WSDL Generator_ from the main menu:
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_EAmenuentry.png
+  # After launching the WSDL Generator, an empty form in which the target Business Choreography can be chosen is presented.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_startscreen.png
+  # First the Business Choreography View can be selected from the available drop down list.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_bchview.png
+  # After selecting the Business Choreography View, a corresponding Business Collaboration View can be chosen.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_bcollview.png
+  # The directory where the final generated WSDL files will be saved to is set using a standard Windows folder selection dialog.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_selectoutputdir.png
+  # After setting the output directory Message Names have to be assigned to the corresponding XML Schemas. These Schemas have to be generated in advance using the [XmlSchemaGenerator XML Schema Generator].
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_outputdirset.png
+  # When an Xml Schema is assigned to a Message Name it's target namespace is also displayed.
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_xmlschemaselected.png
+  # After clicking the "Generate WSDL" button, you can follow the generation process in the status bar.
+	http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_finished.png
+
+=References=
+(1) UMM Development Site http://umm-dev.org/
+
+(2) CCTS standard http://www.untmg.org/wp-content/uploads/2008/06/specification_ccts3p0odp620080207.pdf
+
+(3) W3C XML Schema http://www.w3.org/XML/Schema.html
+
+=Related Tasks=
+[CreateaModelinEA Create a model in Enterprise Architect]: This page explains how to open a project file and create a model in Enterprise Architect
+
+[GettingStartedVideos Getting Started Videos]: This page contains a few videos explaining common tasks using the VIENNA Add-In
+
+[XmlSchemaGenerator Generate an XML Schema]: This page explains how to generate an XML Schema using the _XML Schema Generator_

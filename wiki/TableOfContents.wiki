@@ -13,6 +13,7 @@
       * [TransformerWizard Transform a Model]
       * [SubsettingWizard Create a subset of an existing model]
       * [XmlSchemaGenerator Export a model to an XML Schema]
+	  * [WSDLGenerator Generate WSDL files out of a UMM model]
       * [GettingStartedVideos Getting Started Videos] 
     * Sample Scenarios
       * [PassportModelStep0 Passport Modeling Example]
