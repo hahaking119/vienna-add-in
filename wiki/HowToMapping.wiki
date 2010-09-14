@@ -42,8 +42,18 @@ This guide shows how to create a very simple MapForce mapping with Altova MapFor
 
   # On the other hand we will use the Address Core Component from the current CCL (find it [http://code.google.com/p/vienna-add-in/wiki/files_mapping/CoreComponent_1.xsd here]).
 
-  # Adding these Schemas to Altova MapForce will result in the following screen:
-    http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_startscreen.png
+  # Inside Altova MapForce go to _Insert / Xml-Schema/File..._
+    http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_loadxsd.png
+  # Selecting the Invoice Schema above will show a informative message which can be skipped.
+    http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_skipinfoscreen.png
+  # Select _Address_ as document root.
+    http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_chooseAddress.png
+  # The Xml Schema should now be visualized within Altova MapForce.
+    http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_invoice.png
+  # Proceed with the previous steps for the core component Xml Schema and choose Address as document root again.
+    http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_chooseAddressforcc.png
+  # Now both Xml schemas should be displayed within MapForce.
+    http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_invoice+corecomponent.png
   # A mapping between two elements or attributes can be defined by draging a connection between the white triangles next to their name.
     http://vienna-add-in.googlecode.com/svn/wiki/files_mapping/MapForce_drawmapping.png
   # The final mapping looks like this:
