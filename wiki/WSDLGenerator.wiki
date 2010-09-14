@@ -1,7 +1,8 @@
-#summary XML Schema Importer Documentation
-The XML Schema Importer can be used to import an XML Schema into an existing model. 
-    
-=Import an XML Schema=
+#summary WSDL Generator Documentation
+The WSDL Generator can be used to generate WSDL files out of a UMM model.
+Please note that the sample models from http://umm-dev.org/ will not work with the _WSDL Generator_. We are going to publish a guideline on designing compatible UMM models soon.
+
+=Generate WSDL files=
   # Prepare a UMM2 model in Enterprise Architect
   # Select _Add-Ins / VIENNAAddIn / Wizards / WSDL Generator_ from the main menu:
     http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_EAmenuentry.png
