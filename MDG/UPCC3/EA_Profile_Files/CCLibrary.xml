@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="1418D321-F" name="UPCC3 - CCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CCLibrary Abstract Syntax"/>
+	<Documentation id="32929252-F" name="UPCC3 - CCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CCLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
 			<Stereotype name="ACC" notes="" cx="170" cy="132" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -21,8 +21,13 @@
 			</Stereotype>
 			<Stereotype name="ASCC" notes="" cx="175" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="Aggregation">
-						<Property name="direction" value="Source -&gt; Destination"/>
+					<Apply type="AssociationRole">
+						<Property name="aggregation" value="none"/>
+						<Property name="default" value=""/>
+						<Property name="isComposite" value=""/>
+						<Property name="isDerived" value="false"/>
+						<Property name="isDerivedUnion" value="false"/>
+						<Property name="isReadOnly" value="false"/>
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
@@ -38,7 +43,7 @@
 			</Stereotype>
 			<Stereotype name="BCC" notes="" cx="169" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="Attribute"/>
+					<Apply type="Property"/>
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
@@ -50,13 +55,6 @@
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
-			</Stereotype>
-			<Stereotype name="isEquivalentTo" notes="" cx="160" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Dependency">
-						<Property name="direction" value="Source -&gt; Destination"/>
-					</Apply>
-				</AppliesTo>
 			</Stereotype>
 		</Stereotypes>
 		<TaggedValueTypes/>

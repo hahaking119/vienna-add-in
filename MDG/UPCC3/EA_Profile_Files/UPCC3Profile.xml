@@ -209,7 +209,7 @@
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="1418D321-F" name="UPCC3 - CCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CCLibrary Abstract Syntax"/>
+			<Documentation id="32929252-F" name="UPCC3 - CCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CCLibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
 					<Stereotype name="ACC" notes="" cx="170" cy="132" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -230,8 +230,13 @@
 					</Stereotype>
 					<Stereotype name="ASCC" notes="" cx="175" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
-							<Apply type="Aggregation">
-								<Property name="direction" value="Source -&gt; Destination"/>
+							<Apply type="AssociationRole">
+								<Property name="aggregation" value="none"/>
+								<Property name="default" value=""/>
+								<Property name="isComposite" value=""/>
+								<Property name="isDerived" value="false"/>
+								<Property name="isDerivedUnion" value="false"/>
+								<Property name="isReadOnly" value="false"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
@@ -247,7 +252,7 @@
 					</Stereotype>
 					<Stereotype name="BCC" notes="" cx="169" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 						<AppliesTo>
-							<Apply type="Attribute"/>
+							<Apply type="Property"/>
 						</AppliesTo>
 						<TaggedValues>
 							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
@@ -259,13 +264,6 @@
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="isEquivalentTo" notes="" cx="160" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Dependency">
-								<Property name="direction" value="Source -&gt; Destination"/>
-							</Apply>
-						</AppliesTo>
 					</Stereotype>
 				</Stereotypes>
 				<TaggedValueTypes/>
@@ -410,10 +408,10 @@
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="49AA3A7C-6" name="UPCC3 - Model Management Abstract Syntax" version="1.0" notes="UPCC3 - Model Management Abstract Syntax"/>
+			<Documentation id="B4E9032E-0" name="UPCC3 - Model Management Abstract Syntax" version="1.0" notes="UPCC3 - Model Management Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="bLibrary" notes="" cx="741" cy="126" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="bLibrary" notes="" cx="741" cy="132" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 						<AppliesTo>
 							<Apply type="Package"/>
 						</AppliesTo>
@@ -427,46 +425,33 @@
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="BIELibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
+					<Stereotype name="BIELibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="UPCCLibrary" baseStereotypes="UPCCLibrary"/>
+					<Stereotype name="CDTLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="UPCCLibrary" baseStereotypes="UPCCLibrary"/>
+					<Stereotype name="BDTLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="UPCCLibrary" baseStereotypes="UPCCLibrary"/>
+					<Stereotype name="DOCLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="UPCCLibrary" baseStereotypes="UPCCLibrary"/>
+					<Stereotype name="PRIMLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="UPCCLibrary" baseStereotypes="UPCCLibrary"/>
+					<Stereotype name="ENUMLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="UPCCLibrary" baseStereotypes="UPCCLibrary"/>
+					<Stereotype name="CCLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="UPCCLibrary" baseStereotypes="UPCCLibrary"/>
+					<Stereotype name="basedOn" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Dependency">
+								<Property name="direction" value="Source -&gt; Destination"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="equivalentTo" notes="" cx="102" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+						<AppliesTo>
+							<Apply type="Dependency">
+								<Property name="direction" value="Source -&gt; Destination"/>
+							</Apply>
+						</AppliesTo>
+					</Stereotype>
+					<Stereotype name="UPCCLibrary" notes="" cx="741" cy="90" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary" baseStereotypes="bLibrary">
 						<TaggedValues>
 							<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
 							<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="CDTLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
-						<TaggedValues>
-							<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
-							<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="BDTLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
-						<TaggedValues>
-							<Tag name=" baseURN" type="String" description="" unit="" values="" default=""/>
-							<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="DOCLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
-						<TaggedValues>
-							<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
-							<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="PRIMLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
-						<TaggedValues>
-							<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
-							<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="ENUMLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
-						<TaggedValues>
-							<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
-							<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
-						</TaggedValues>
-					</Stereotype>
-					<Stereotype name="CCLibrary" notes="" cx="170" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="bLibrary">
-						<TaggedValues>
-							<Tag name="baseURN" type="String" description="" unit="" values="" default=""/>
-							<Tag name="namespacePrefix" type="String" description="" unit="" values="" default=""/>
+							<Tag name="minorVersionIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="revisionIdentifier" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 				</Stereotypes>
