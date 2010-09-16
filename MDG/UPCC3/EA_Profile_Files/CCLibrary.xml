@@ -21,13 +21,8 @@
 			</Stereotype>
 			<Stereotype name="ASCC" notes="" cx="175" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="AssociationRole">
-						<Property name="aggregation" value="none"/>
-						<Property name="default" value=""/>
-						<Property name="isComposite" value=""/>
-						<Property name="isDerived" value="false"/>
-						<Property name="isDerivedUnion" value="false"/>
-						<Property name="isReadOnly" value="false"/>
+					<Apply type="Aggregation">
+						<Property name="direction" value="Source -&gt; Destination"/>
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
@@ -43,7 +38,7 @@
 			</Stereotype>
 			<Stereotype name="BCC" notes="" cx="169" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="Property"/>
+					<Apply type="Attribute"/>
 				</AppliesTo>
 				<TaggedValues>
 					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="BED9367E-A" name="UPCC3 - CDTLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CDTLibrary Abstract Syntax"/>
+	<Documentation id="465E6C1D-1" name="UPCC3 - CDTLibrary Abstract Syntax" version="1.0" notes="UPCC3 - CDTLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="CDT" notes="" cx="166" cy="124" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="CDT" notes="" cx="166" cy="132" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
@@ -19,7 +19,9 @@
 					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="SUP" notes="" cx="213" cy="137" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="SUP" notes="" cx="134" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="CDTProperty" baseStereotypes="CDTProperty"/>
+			<Stereotype name="CON" notes="" cx="134" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="CDTProperty" baseStereotypes="CDTProperty"/>
+			<Stereotype name="CDTProperty" notes="" cx="213" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<AppliesTo>
 					<Apply type="Attribute"/>
 				</AppliesTo>
@@ -30,29 +32,7 @@
 					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
-					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
-				</TaggedValues>
-			</Stereotype>
-			<Stereotype name="isEquivalentTo" notes="" cx="120" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Dependency">
-						<Property name="direction" value="Source -&gt; Destination"/>
-					</Apply>
-				</AppliesTo>
-			</Stereotype>
-			<Stereotype name="CON" notes="" cx="213" cy="137" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Attribute"/>
-				</AppliesTo>
-				<TaggedValues>
-					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
-					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
+					<Tag name="userRule" type="String" description="" unit="" values="" default=""/>
 					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 				</TaggedValues>
 			</Stereotype>
