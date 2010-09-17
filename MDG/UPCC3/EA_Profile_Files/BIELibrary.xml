@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="EE00735F-9" name="UPCC3 - BIELibrary Abstract Syntax" version="1.0" notes="UPCC3 - BIELibrary Abstract Syntax"/>
+	<Documentation id="47F17FB5-2" name="UPCC3 - BIELibrary Abstract Syntax" version="1.0" notes="UPCC3 - BIELibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="ABIE" notes="" cx="159" cy="127" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Class">
-						<Property name="isActive" value=""/>
-					</Apply>
-				</AppliesTo>
+			<Stereotype name="BIE" notes="" cx="159" cy="127" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<TaggedValues>
 					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
@@ -19,21 +14,14 @@
 					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="ASBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="ASBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="BIE" baseStereotypes="BIE">
 				<AppliesTo>
 					<Apply type="Composition">
 						<Property name="direction" value="Source -&gt; Destination"/>
 					</Apply>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="sequencingKey" type="String" description="" unit="" values="" default=""/>
-					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
-					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="BBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -51,17 +39,10 @@
 					<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="basedOn" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="ABIE" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="BIE" baseStereotypes="BIE">
 				<AppliesTo>
-					<Apply type="Dependency">
-						<Property name="direction" value="Source -&gt; Destination"/>
-					</Apply>
-				</AppliesTo>
-			</Stereotype>
-			<Stereotype name="isEquivalentTo" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-				<AppliesTo>
-					<Apply type="Dependency">
-						<Property name="direction" value="Source -&gt; Destination"/>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
 					</Apply>
 				</AppliesTo>
 			</Stereotype>

@@ -87,15 +87,10 @@
 			</Content>
 		</UMLProfile>
 		<UMLProfile profiletype="uml2">
-			<Documentation id="EE00735F-9" name="UPCC3 - BIELibrary Abstract Syntax" version="1.0" notes="UPCC3 - BIELibrary Abstract Syntax"/>
+			<Documentation id="47F17FB5-2" name="UPCC3 - BIELibrary Abstract Syntax" version="1.0" notes="UPCC3 - BIELibrary Abstract Syntax"/>
 			<Content>
 				<Stereotypes>
-					<Stereotype name="ABIE" notes="" cx="159" cy="127" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Class">
-								<Property name="isActive" value=""/>
-							</Apply>
-						</AppliesTo>
+					<Stereotype name="BIE" notes="" cx="159" cy="127" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 						<TaggedValues>
 							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
@@ -106,21 +101,14 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="ASBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ASBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="BIE" baseStereotypes="BIE">
 						<AppliesTo>
 							<Apply type="Composition">
 								<Property name="direction" value="Source -&gt; Destination"/>
 							</Apply>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="sequencingKey" type="String" description="" unit="" values="" default=""/>
-							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
-							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
-							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 					<Stereotype name="BBIE" notes="" cx="159" cy="146" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -138,17 +126,10 @@
 							<Tag name="usageRule" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="basedOn" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ABIE" notes="" cx="90" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="BIE" baseStereotypes="BIE">
 						<AppliesTo>
-							<Apply type="Dependency">
-								<Property name="direction" value="Source -&gt; Destination"/>
-							</Apply>
-						</AppliesTo>
-					</Stereotype>
-					<Stereotype name="isEquivalentTo" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
-						<AppliesTo>
-							<Apply type="Dependency">
-								<Property name="direction" value="Source -&gt; Destination"/>
+							<Apply type="Class">
+								<Property name="isActive" value=""/>
 							</Apply>
 						</AppliesTo>
 					</Stereotype>
@@ -340,42 +321,40 @@
 							<Tag name="status" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="ENUM" notes="This stereotype is used for profile generation" cx="213" cy="215" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="ENUM" notes="This stereotype is used for profile generation" cx="213" cy="148" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ValueDomain" baseStereotypes="ValueDomain">
 						<AppliesTo>
 							<Apply type="Enumeration"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-							<Tag name="restrictedPrimitive" type="String" description="" unit="" values="" default=""/>
-							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
+							<Tag name="restrictedPrimitive" type="enumeration" description="" unit="" values="Integer,String" default=""/>
 							<Tag name="codeListAgencyIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="codeListAgencyName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="codeListIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="codeListName" type="String" description="" unit="" values="" default=""/>
-							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="enumerationURI" type="String" description="" unit="" values="" default=""/>
 							<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 							<Tag name="status" type="String" description="" unit="" values="" default=""/>
-							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
-							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
-					<Stereotype name="IDSCHEME" notes="This stereotype is for profile generation purposes" cx="249" cy="163" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+					<Stereotype name="IDSCHEME" notes="This stereotype is for profile generation purposes" cx="249" cy="95" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ValueDomain" baseStereotypes="ValueDomain">
 						<AppliesTo>
 							<Apply type="DataType"/>
 						</AppliesTo>
 						<TaggedValues>
-							<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
-							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
-							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="identifierSchemeAgencyIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="identifierSchemeAgencyName" type="String" description="" unit="" values="" default=""/>
 							<Tag name="pattern" type="String" description="" unit="" values="" default=""/>
 							<Tag name="restrictedPrimitive" type="String" description="" unit="" values="" default=""/>
-							<Tag name="unqiueIdentifier" type="String" description="" unit="" values="" default=""/>
-							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 							<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
+						</TaggedValues>
+					</Stereotype>
+					<Stereotype name="ValueDomain" notes="" cx="623" cy="85" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
+						<TaggedValues>
+							<Tag name="definition" type="String" description="" unit="" values="" default=""/>
+							<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
+							<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+							<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 						</TaggedValues>
 					</Stereotype>
 				</Stereotypes>
