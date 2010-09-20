@@ -46,6 +46,19 @@
 					<Tag name="revisionIdentifier" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
+			<Stereotype name="UsageRule" notes="" cx="169" cy="90" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+				<AppliesTo>
+					<Apply type="Class">
+						<Property name="isActive" value=""/>
+					</Apply>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="conditionType" type="String" description="" unit="" values="" default=""/>
+					<Tag name="constraint" type="String" description="" unit="" values="" default=""/>
+					<Tag name="constraintType" type="String" description="" unit="" values="" default=""/>
+					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
+				</TaggedValues>
+			</Stereotype>
 		</Stereotypes>
 		<TaggedValueTypes/>
 	</Content>
