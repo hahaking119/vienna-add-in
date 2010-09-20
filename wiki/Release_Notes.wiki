@@ -1,5 +1,11 @@
 #summary Release Notes.
 
+= VIENNAAddIn_0.1.0 =
+
+ * WSDL Generator
+ * Bug fixes (C100 constraint fix!)
+
+
 = VIENNAAddIn_0.0.9 =
 
  * Transformer Wizard
