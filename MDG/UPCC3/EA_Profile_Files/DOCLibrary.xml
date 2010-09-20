@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="A098C9B2-4" name="UPCC3 - DOCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - DOCLibrary Abstract Syntax"/>
+	<Documentation id="8A3D7940-A" name="UPCC3 - DOCLibrary Abstract Syntax" version="1.0" notes="UPCC3 - DOCLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="MA" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="MA" notes="" cx="196" cy="76" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
 					</Apply>
 				</AppliesTo>
+				<TaggedValues>
+					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="minorVersionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="revisionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="ASMA"/>
+				</TaggedValues>
 			</Stereotype>
 			<Stereotype name="ASMA" notes="" cx="110" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
-					<Apply type="Composition">
+					<Apply type="Aggregation">
 						<Property name="direction" value="Source -&gt; Destination"/>
+						<Property name="SourceRole.Aggregation" value="shared"/>
 					</Apply>
 				</AppliesTo>
 			</Stereotype>
 		</Stereotypes>
-		<TaggedValueTypes/>
+		<TaggedValueTypes>
+			<TaggedValueType property="ASMA" description="" notes="Type=Classifier;Stereotypes=MA;"/>
+		</TaggedValueTypes>
 	</Content>
 </UMLProfile>

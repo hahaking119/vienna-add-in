@@ -3,7 +3,7 @@
 	<Documentation id="47A919F5-7" name="UPCC3 - ENUMLibrary Abstract Syntax" version="1.0" notes="UPCC3 - ENUMLibrary Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
-			<Stereotype name="CodelistEntry" notes="" cx="113" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="CodelistEntry" notes="" cx="145" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Attribute"/>
 				</AppliesTo>
@@ -12,40 +12,45 @@
 					<Tag name="status" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="ENUM" notes="This stereotype is used for profile generation" cx="213" cy="148" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ValueDomain" baseStereotypes="ValueDomain">
+			<Stereotype name="ENUM" notes="This stereotype is used for profile generation" cx="243" cy="175" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ValueDomain" baseStereotypes="ValueDomain">
 				<AppliesTo>
 					<Apply type="Enumeration"/>
 				</AppliesTo>
 				<TaggedValues>
-					<Tag name="restrictedPrimitive" type="enumeration" description="" unit="" values="Integer,String" default=""/>
+					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
 					<Tag name="codeListAgencyIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="codeListAgencyName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="codeListIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="codeListName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="enumerationURI" type="String" description="" unit="" values="" default=""/>
+					<Tag name="restrictedPrimitive" type="enumeration" description="" unit="" values="Integer,String,Binary,Boolean,Decimal,Double,Float,NormalizedString,TimeDuration,TimePoint,Token" default=""/>
 					<Tag name="languageCode" type="String" description="" unit="" values="" default=""/>
 					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 					<Tag name="status" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="IDSCHEME" notes="This stereotype is for profile generation purposes" cx="249" cy="95" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ValueDomain" baseStereotypes="ValueDomain">
+			<Stereotype name="IDSCHEME" notes="This stereotype is for profile generation purposes" cx="249" cy="118" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ValueDomain" baseStereotypes="ValueDomain">
 				<AppliesTo>
 					<Apply type="DataType"/>
 				</AppliesTo>
 				<TaggedValues>
+					<Tag name="businessTerm" type="String" description="" unit="" values="" default=""/>
 					<Tag name="identifierSchemeAgencyIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="identifierSchemeAgencyName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="pattern" type="String" description="" unit="" values="" default=""/>
-					<Tag name="restrictedPrimitive" type="String" description="" unit="" values="" default=""/>
+					<Tag name="restrictedPrimitive" type="enumeration" description="" unit="" values="Integer,String,Binary,Boolean,Decimal,Double,Float,NormalizedString,TimeDuration,TimePoint,Token" default=""/>
 					<Tag name="modificationAllowedIndicator" type="boolean" description="" unit="" values="true,false" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="ValueDomain" notes="" cx="623" cy="85" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
+			<Stereotype name="ValueDomain" notes="" cx="664" cy="132" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<TaggedValues>
 					<Tag name="definition" type="String" description="" unit="" values="" default=""/>
 					<Tag name="dictionaryEntryName" type="String" description="" unit="" values="" default=""/>
 					<Tag name="uniqueIdentifier" type="String" description="" unit="" values="" default=""/>
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="minorVersionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="revisionIdentifier" type="String" description="" unit="" values="" default=""/>
+					<Tag name="usageRule" type="Classifier:usageRule" description="" unit="UsageRule" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
 		</Stereotypes>

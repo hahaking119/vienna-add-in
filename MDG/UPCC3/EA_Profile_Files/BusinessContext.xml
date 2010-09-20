@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <UMLProfile profiletype="uml2">
-	<Documentation id="0CA5AE61-2" name="UPCC3 - BusinessContext Abstract Syntax" version="1.0" notes="UPCC3 - BusinessContext Abstract Syntax"/>
+	<Documentation id="7F76ABB4-7" name="UPCC3 - BusinessContext Abstract Syntax" version="1.0" notes="UPCC3 - BusinessContext Abstract Syntax"/>
 	<Content>
 		<Stereotypes>
 			<Stereotype name="BusinessContext" notes="" cx="140" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
@@ -14,15 +14,15 @@
 					<Tag name="versionIdentifier" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="BusinessProcessContextValue" notes="" cx="180" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="BusinessProcessRoleContextValue" notes="" cx="202" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="GeopoliticalContextValue" notes="" cx="152" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="IndustryClassificationContextValue" notes="" cx="199" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="OfficialConstraintsContextValue" notes="" cx="184" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="ProductClassificationContextValue" notes="" cx="198" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="SupportingRoleContextValue" notes="" cx="168" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="SystemCapabilitiesContextValue" notes="" cx="187" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue"/>
-			<Stereotype name="ClassificationScheme" notes="" cx="142" cy="98" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
+			<Stereotype name="BusinessProcessContextValue" notes="" cx="199" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="BusinessProcessRoleContextValue" notes="" cx="225" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="GeopoliticalContextValue" notes="" cx="174" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="IndustryClassificationContextValue" notes="" cx="227" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="OfficialConstraintsContextValue" notes="" cx="210" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="ProductClassificationContextValue" notes="" cx="225" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="SupportingRoleContextValue" notes="" cx="192" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="SystemCapabilitiesContextValue" notes="" cx="214" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" generalizes="ContextValue" baseStereotypes="ContextValue"/>
+			<Stereotype name="ClassificationScheme" notes="" cx="151" cy="104" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
@@ -36,7 +36,7 @@
 					<Tag name="primitiveType" type="String" description="" unit="" values="" default=""/>
 				</TaggedValues>
 			</Stereotype>
-			<Stereotype name="ContextValue" notes="" cx="806" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
+			<Stereotype name="ContextValue" notes="" cx="869" cy="70" bgcolor="-1" fontcolor="-1" bordercolor="-1" borderwidth="-1" hideicon="0" isAbstract="true">
 				<AppliesTo>
 					<Apply type="Class">
 						<Property name="isActive" value=""/>
