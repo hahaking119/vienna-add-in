@@ -26,3 +26,5 @@ The standard Core Component Library importer will download the standard CC libra
 Both dialogs look the same and provide the same functionality. They allow you to choose the desired version of the CCL from two drop-down lists. After that, detailed information to the selected version is shown in the "Comments" field.
 
 After clicking "Import" (or "Generate Default Model" in the "Generate default UPCC Model" dialog), the Add-In will download the CC libraries as XMI files and import them into the current project.
+
+<wiki:gadget url="http://www.ohloh.net/p/gwt/widgets/project_languages.xml" width="340" height="200" border="1" />
