@@ -3,7 +3,7 @@
 =Publications=
 
 Conference and Workshop Papers
-  * P. Liegl, M. Zapletal, C. Pichler, and M. Strommer. State-of-the-art in business document standards. In Proceedings of the 8th IEEE International Conference on Industrial Informatics (INDIN2010), July 14-16, Osaka, Japan, 2010. (to appear)
+  * P. Liegl, M. Zapletal, C. Pichler, and M. Strommer. State-of-the-art in business document standards. In Proceedings of the 8th IEEE International Conference on Industrial Informatics (INDIN2010), July 14-16, Osaka, Japan, 2010. (to appear) ([http://publik.tuwien.ac.at/files/PubDat_186928.pdf download])
   * C. Pichler, M. Strommer, and C. Huemer. Size Matters!? Measuring the Complexity of XML Schema Mapping Models. In Proceedings of the International Workshop on Service Computing for B2B (SC4B2B), July 5 -10, Miami, Florida, 2010. (to appear)
   * C. Pichler, M. Seidl, and C. Huemer. Managing Variability and Evolution of Business Document Models. In 2nd International Workshop on Model-Driven Product Line Engineering (MDPLE), June 15 - 18, Paris, France, 2010. (to appear)
   * C. Pichler. A Framework for Handling Variants of Software Models. In Proceedings of the International Conference on Software Engineering (ICSE), May 2 - 8, Cape Town, South Africa, pages 345-346. ACM/IEEE, 2010
