@@ -2,4 +2,4 @@
 
 = Use Cases=
 
-  * [publications/xmlschema2ccts.pdf Mapping XML Schema to CCTS Whitepaper]
+  * [./publications/xmlschema2ccts.pdf Mapping XML Schema to CCTS Whitepaper]
