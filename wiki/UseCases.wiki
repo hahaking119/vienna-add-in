@@ -2,4 +2,4 @@
 
 = Use Cases=
 
-  * [http://vienna-add-in.googlecode.com/svn/wiki/publications/xmlschema2ccts.pdf Mapping XML Schema to CCTS Whitepaper]
+  * [Media:http://vienna-add-in.googlecode.com/svn/wiki/publications/xmlschema2ccts.pdf Mapping XML Schema to CCTS Whitepaper]
