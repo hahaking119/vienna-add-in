@@ -38,5 +38,5 @@
   * [UseCases Use Cases]
   * [PublicationsPPI Publications]
   * [Education Education]
-    * [Trainer Trainer]
+    * [Training Training]
     * [TrainTheTrainer Train-the-Trainer]
