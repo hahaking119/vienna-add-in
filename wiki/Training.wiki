@@ -1,6 +1,6 @@
 = Introduction =
 
-  * Introduction to [http://vienna-add-in.googlecode.com/files/E61_1_Introduction_to_Service_Engineering.pdf Service Engineering]
+  * Introduction to [http://vienna-add-in.googlecode.com/files/E61_1_Introduction_to_Service_Engineering.pdf Service Engineering]: Successful introduction of Service-Oriented Architectures (SOA) using Business Process Choreographies and Business Document Standards
   * [http://code.google.com/p/vienna-add-in/downloads/detail?name=2_Core_Components.pdf Core Components]
   * A UML Profile for Core Components ([http://vienna-add-in.googlecode.com/files/3_UPCC.pdf UPCC 3.0])
   * UN/CEFACT's Modeling Methodology ([http://vienna-add-in.googlecode.com/files/4_UMM.pdf UMM])
