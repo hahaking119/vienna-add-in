@@ -2,13 +2,18 @@
 Successful introduction of Service-Oriented Architectures (SOA) using Business Process Choreographies and Business Document Standards
 
 = [http://code.google.com/p/vienna-add-in/downloads/detail?name=2_Core_Components.pdf Core Components] =
+Towards seamless document interoperability
 
 = A UML Profile for Core Components ([http://vienna-add-in.googlecode.com/files/3_UPCC.pdf UPCC 3.0]) =
+Modeling Core Components using UML
 
 = UN/CEFACT's Modeling Methodology ([http://vienna-add-in.googlecode.com/files/4_UMM.pdf UMM])= 
+Capturing the collaborative space between enterprises
 
 = UN/CEFACT's Core Component Library ([http://vienna-add-in.googlecode.com/files/5_CCL.pdf CCL]) =
 
 = UN/CEFACT Naming and Design Rules ([http://vienna-add-in.googlecode.com/files/6_NDR.pdf NDR]) =
+From Core Component Models to XML Schema artifacts
 
-= The [http://vienna-add-in.googlecode.com/files/7_VIENNAAddIn.pdf ViennaAddIn] =
+= The [http://vienna-add-in.googlecode.com/files/7_VIENNAAddIn.pdf VIENNA Add-In] =
+Visualizing Inter-ENterprise Network Architectures
