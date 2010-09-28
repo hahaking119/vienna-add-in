@@ -5,16 +5,16 @@ Successful introduction of Service-Oriented Architectures (SOA) using Business P
 Towards seamless document interoperability. Subsequent to the previous part the motivation for a common business document exchange format is presented. The UN/CEFACT's Core Components Technical Specification is introduced as a possible solution, describing the concept of Core Components and Business Information Entities in detail.
 
   # A UML Profile for Core Components ([http://vienna-add-in.googlecode.com/files/3_UPCC.pdf UPCC 3.0])
-  Starting with an introduction to modeling Core Components using UML, the idea behind a UML Profile is explained. The different views of the UPCC together with the transformation of UML to XML leads over to an guide on configuring IT systems with generated XML information.
+Starting with an introduction to modeling Core Components using UML, the idea behind a UML Profile is explained. The different views of the UPCC together with the transformation of UML to XML leads over to an guide on configuring IT systems with generated XML information.
 
   # UN/CEFACT's Modeling Methodology ([http://vienna-add-in.googlecode.com/files/4_UMM.pdf UMM])
-  Capturing the collaborative space between enterprises. This Part gives an introduction to the Business Requirements View (BRV), the Business Choreography View (BCV) and the Business Information View (BIV).
+Capturing the collaborative space between enterprises. This Part gives an introduction to the Business Requirements View (BRV), the Business Choreography View (BCV) and the Business Information View (BIV).
 
   # UN/CEFACT's Core Component Library ([http://vienna-add-in.googlecode.com/files/5_CCL.pdf CCL])
-  In this part the Core Component Library and the federated registry approach are introduced briefly.
+In this part the Core Component Library and the federated registry approach are introduced briefly.
 
   # UN/CEFACT Naming and Design Rules ([http://vienna-add-in.googlecode.com/files/6_NDR.pdf NDR])
-  In order to understand the naming and design rules a Motivation for the transformation from Core Component Models to XML Schema artifacts is given. Together with a brief introduction to XML Schema, the Naming and Design Rules are described in detail.
+In order to understand the naming and design rules a Motivation for the transformation from Core Component Models to XML Schema artifacts is given. Together with a brief introduction to XML Schema, the Naming and Design Rules are described in detail.
 
   # The [http://vienna-add-in.googlecode.com/files/7_VIENNAAddIn.pdf VIENNA Add-In]
-  Visualizing Inter-ENterprise Network Architectures. The last part of this training introduces the VIENNA Add-In. The features of the VIENNA Add-In are described and a Demo is given.
+Visualizing Inter-ENterprise Network Architectures. The last part of this training introduces the VIENNA Add-In. The features of the VIENNA Add-In are described and a Demo is given.
