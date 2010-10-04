@@ -6,5 +6,5 @@ The Train-the-Trainer education offers an in-depth introduction to the usage of 
   # Using the [http://umm-dev.org/wp-content/videos/tool-demo-2.htm toolbox] to create UPCC artifacts
   # Using the [http://umm-dev.org/wp-content/videos/passport_part_2.htm DOC Library] to assemble BIEs to a actual model
   # Subsetting Wizard (tbd)
-  # Importing UMM & UPCC into EA (tbd)
-  # Importing a MapForce mapping file (tbd)
+  # Setting up UMM & UPCC environment in Enterprise Architect (tbd)
+  # Importing a Map Force mapping file (tbd)
