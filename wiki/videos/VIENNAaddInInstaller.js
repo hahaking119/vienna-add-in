@@ -7,4 +7,4 @@ function createFlashMarkup(width,height,uri){
 
  document.body.appendChild(embed); 
 }
-createFlashMarkup('550','400','http://vienna-add-in.googlecode.com/svn/wiki/videos/VIENNAaddInInstaller.swf');
+createFlashMarkup('800','600','http://vienna-add-in.googlecode.com/svn/wiki/videos/VIENNAaddInInstaller.swf');
