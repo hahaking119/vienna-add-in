@@ -1,1 +1,1 @@
-<wiki:gadget url="http://hosting.gmodules.com/ig/gadgets/file/113501407083818715381/jsLoader.xml" up_me="0" up_u1="http://vienna-add-in.googlecode.com/svn/wiki/videos/test.js" />
+<wiki:gadget url="http://hosting.gmodules.com/ig/gadgets/file/113501407083818715381/jsLoader.xml" up_me="0" up_u1="http://vienna-add-in.googlecode.com/svn/wiki/videos/test.js" width="550" height="400"/>
