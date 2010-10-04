@@ -8,4 +8,6 @@ function createFlashMarkup(width,height,uri,replaceid){
  var div = document.getElementById(replaceid);
  document.getElementsByTagName('body')[0].replaceChild(embed,div); 
 }
+window.onload = function(){
 createFlashMarkup('550','400','VIENNAaddInInstaller.swf','replaced-by-flash');
+}
