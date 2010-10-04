@@ -1,13 +1,12 @@
-function createFlashMarkup(width,height,uri,replaceid){
+function createFlashMarkup(width,height,uri){
 
  var embed = document.createElement('embed');
  embed.setAttribute('width',width);
  embed.setAttribute('height',height);
  embed.setAttribute('src',uri);
 
- var div = document.getElementById(replaceid);
- document.getElementsByTagName('body')[0].replaceChild(embed,div); 
+ document.body.appendChild(embed); 
 }
 window.onload = function(){
-createFlashMarkup('550','400','VIENNAaddInInstaller.swf','replaced-by-flash');
+createFlashMarkup('550','400','http://vienna-add-in.googlecode.com/svn/wiki/videos/VIENNAaddInInstaller.swf');
 }
