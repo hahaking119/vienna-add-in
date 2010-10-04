@@ -1,8 +1,3 @@
-var div = document.createElement('div');
-div.style.background="00000";
-div.style.width="150px";
-div.style.height="100px";
-document.body.appendChild(div);
 function createFlashMarkup(width,height,uri){
 
  var embed = document.createElement('embed');
