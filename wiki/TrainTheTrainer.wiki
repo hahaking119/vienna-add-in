@@ -7,4 +7,4 @@ The Train-the-Trainer education offers an in-depth introduction to the usage of 
   # Create ABIEs using the [http://umm-dev.org/wp-content/videos/passport_part_2.htm ABIE Editor]
   # Using the [http://umm-dev.org/wp-content/videos/passport_part_2.htm DOC Library] to assemble BIEs to a actual model
   # Create a model subset using the [SubSettingWizardVideo Subsetting Wizard]
-  # Using Map Force mapping files with the [XMLSchemaImporterVideo XML Schema Importer]
+  # Using Map Force mapping files with the [XmlSchemaImporterVideo XML Schema Importer]
