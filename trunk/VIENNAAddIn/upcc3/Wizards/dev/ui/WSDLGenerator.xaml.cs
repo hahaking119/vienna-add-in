@@ -350,6 +350,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                     }
         }
 
+        /// <summary>
+        /// Retrieve the bCPartitions from a Business CollaborationView.
+        /// </summary>
+        /// <returns>A enumerable List of bCPartitions in the CollaborationView.</returns>
         private IEnumerable<IUmlClass> getbcPartitions()
         {
             foreach (var bcollaborationUC in currentCollaborationView.GetClassesByStereotype("bCollaborationUC"))
@@ -366,6 +370,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
         }
 
+        /// <summary>
+        /// Retrieve the Names of the Messages exchanged in a Business Colaboration View.
+        /// </summary>
+        /// <returns>A dictionary containing the retrieved Messages and a blank placeholder for the target Namespace.</returns>
         private Dictionary<string,string> retrieveMessageNames()
         {
             var returnSet = new Dictionary<string,string>();
@@ -472,7 +480,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                           removeWhiteSpaces(messageName) +
                                           "Response","http://inline")
                                   };
-            //TODO: once the namespaces and schema imports all work, the correct namespace has to be added to the Elements qualified Name!
             concreteMessage.Parts.Add(messagePart);
 
             return concreteMessage;
@@ -501,7 +508,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                       Element =
                                           new XmlQualifiedName(inputMessageValue,nameSpace)
             };
-            //TODO: once the namespaces and schema imports all work, the correct namespace has to be added to the Elements qualified Name!
             concreteMessage.Parts.Add(messagePart);
 
             return concreteMessage;
@@ -692,6 +698,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             return inputPortType;
         }
 
+        /// <summary>
+        /// This method is called whenever a Directory Name in the Fileselecter has changed.
+        /// It also adds the filepath and the target Namespace of the chosen XML File to the corresponding message.
+        /// </summary>
+        /// <param name="sender">The initiator of the method call.</param>
+        /// <param name="e">Arguments which may be processed in other usage scenarios.</param>
         private void FileSelector_DirectoryNameChanged(object sender, RoutedEventArgs e)
         {
             var senderCast = (FileSelector) sender;
@@ -710,12 +722,20 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             targetXSDs.Items.Refresh();
         }
 
+        /// <summary>
+        /// Help method to retrieve the Target Namespace from a XML Schema file.
+        /// </summary>
+        /// <param name="fileName">The file path of the target XML Schema file.</param>
+        /// <returns>The value of the target Namespace of the XML Schema File in String format.</returns>
         private static string retrieveTargetNamespace(string fileName)
         {
             var schema = XmlSchema.Read(XmlReader.Create(fileName),null);
             return schema.TargetNamespace;
         }
 
+        /// <summary>
+        /// This is a inner Class which helps capsulating information retrieved from the graphical user interface.
+        /// </summary>
         public class RetrievedMessage
         {
             public string messageName
