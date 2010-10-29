@@ -14,6 +14,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.util
         public enum AbieEditorModes
         {
             Create,
+            CreateFromAcc,
             Update
         }  
     }
