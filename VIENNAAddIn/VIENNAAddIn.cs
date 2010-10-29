@@ -10,16 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Windows.Input;
 using EA;
 using VIENNAAddIn.ErrorReporter;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.Settings;
 using VIENNAAddIn.upcc3.otf;
-using VIENNAAddIn.upcc3.Wizards;
 using VIENNAAddIn.upcc3.Wizards.dev.ui;
 using VIENNAAddIn.Utils;
 using VIENNAAddIn.validator;
-using VIENNAAddIn.workflow;
+using Cursors=System.Windows.Input.Cursors;
 using MenuItem=VIENNAAddIn.menu.MenuItem;
 using Stereotype=VIENNAAddIn.upcc3.Stereotype;
 
@@ -307,6 +307,34 @@ namespace VIENNAAddIn
         ///<param name="id"></param>
         public void EA_OnOutputItemDoubleClicked(Repository repository, string tabName, string text, int id)
         {
+        }
+
+        public bool EA_OnPreNewDiagramObject(Repository repository, EventProperties info)
+        {
+            var elementId = 0;
+            var diagramId = 0;
+            foreach (EventProperty eventProperty in info)
+            {
+                if (eventProperty.Name == "ID")
+                {
+                    elementId = int.Parse(eventProperty.Value.ToString());
+
+                }
+                if(eventProperty.Name=="DiagramID")
+                {
+                    diagramId = int.Parse(eventProperty.Value.ToString());
+                }
+            }
+            var element = repository.GetElementByID(elementId);
+            var diagram = repository.GetDiagramByID(diagramId);
+            var diagramLibrary = repository.GetPackageByID(diagram.PackageID);
+            var elementLibrary = repository.GetPackageByID(element.PackageID);
+            if (element.Stereotype == "ACC" && diagramLibrary.StereotypeEx =="BIELibrary")
+            {
+                new AbieEditor(elementLibrary.Name, element.Name, diagramLibrary.Name, repository).ShowDialog();
+                return false;
+            }
+            return true;
         }
 
         ///<summary>

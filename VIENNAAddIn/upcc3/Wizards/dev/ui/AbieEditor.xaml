@@ -16,7 +16,7 @@
         <DockPanel Margin="2,5,5,5" Canvas.Bottom="0" Canvas.Left="0" Canvas.Right="0" Canvas.Top="0" Width="{Binding ElementName=canvas, Path=ActualWidth}" Height="{Binding ElementName=canvas, Path=ActualHeight}">
             <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelCcLibrariess">Choose CC Library containing ACCs:</Label>
-                <ComboBox ItemsSource="{Binding Path=Model.CandidateCcLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCcLibraries" SelectionChanged="comboboxCcLibraries_SelectionChanged"></ComboBox>
+                <ComboBox ItemsSource="{Binding Path=Model.CandidateCcLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCcLibraries" SelectionChanged="comboboxCcLibraries_SelectionChanged" Loaded="comboboxCcLibraries_Loaded"></ComboBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="1,1,1,1">
                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelAccs">Choose ACC used to generate the ABIE:</Label>
@@ -28,11 +28,11 @@
             </StackPanel>
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBieLibraries">BIE Library used to store the ABIE:</Label>
-                <ComboBox ItemsSource="{Binding Path=Model.CandidateBieLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxBieLibraries" SelectionChanged="comboboxBieLibraries_SelectionChanged"></ComboBox>
+                <ComboBox ItemsSource="{Binding Path=Model.CandidateBieLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxBieLibraries" SelectionChanged="comboboxBieLibraries_SelectionChanged" Loaded="comboboxBieLibraries_Loaded"></ComboBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelBdtLibraries">BDT Library used to store the BDTs:</Label>
-                <ComboBox ItemsSource="{Binding Path=Model.CandidateBdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxBdtLibraries" SelectionChanged="comboboxBdtLibraries_SelectionChanged"></ComboBox>
+                <ComboBox ItemsSource="{Binding Path=Model.CandidateBdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxBdtLibraries" SelectionChanged="comboboxBdtLibraries_SelectionChanged" Loaded="comboboxBdtLibraries_Loaded"></ComboBox>
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="1,1,1,1">
                 <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="220" Name="labelAbieName">Name of the generated ABIE:</Label>

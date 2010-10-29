@@ -27,6 +27,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private readonly IAbie abieToBeUpdated;
         private string bbieNameBeforeRename;
         private string bdtNameBeforeRename;
+        private string presetCcLib;
+        private string presetAcc;
+        private string presetBieLib;
         //private readonly BackgroundWorker backgroundWorker;
 
 
@@ -51,6 +54,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             SelectDefaultLibraries();
 
+            UpdateFormState();
+        }
+        public AbieEditor(string cclibName, string accName, string bieLibName, Repository repository)
+        {
+            InitializeComponent();
+            AbieEditorMode = EditorModes.AbieEditorModes.CreateFromAcc;
+            abieToBeUpdated = null;
+            presetCcLib = cclibName;
+            presetAcc = accName;
+            presetBieLib = bieLibName;
+            Model = new TemporaryAbieModel(CctsRepositoryFactory.CreateCctsRepository(repository));
+            DataContext = this;
+            
             UpdateFormState();
         }
 
@@ -136,7 +152,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             // ---------------------------------------------------------------
             Model.SetSelectedCandidateAcc(comboboxAccs.SelectedItem.ToString());
 
-            if (AbieEditorMode == EditorModes.AbieEditorModes.Create)
+            if (AbieEditorMode == EditorModes.AbieEditorModes.Create || AbieEditorMode==EditorModes.AbieEditorModes.CreateFromAcc)
             {
                 // The value of Model.AbiePrefix was already set in the constructor of the 
                 // TemporaryAbieModel. For more information refer to the constructor
@@ -527,7 +543,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             // Disable the "Create Button"/"Update Button" while the ABIE is created
             buttonCreateOrUpdate.IsEnabled = false;
 
-            if (AbieEditorMode == EditorModes.AbieEditorModes.Create)
+            if (AbieEditorMode == EditorModes.AbieEditorModes.Create || AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
             {
                 try
                 {
@@ -874,7 +890,38 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             if (AbieEditorMode == EditorModes.AbieEditorModes.Update)
             {
                 SelectFirstAcc();    
-            }            
+            }
+            if(AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxAccs.SelectedIndex = comboboxAccs.Items.IndexOf(presetAcc);
+                //Model.SetSelectedCandidateAcc(presetAcc);
+            }
+        }
+
+        private void comboboxCcLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxCcLibraries.SelectedIndex = comboboxCcLibraries.Items.IndexOf(presetCcLib);
+                //Model.SetSelectedCandidateCcLibrary(presetCcLib);
+            }
+        }
+
+        private void comboboxBieLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxBieLibraries.SelectedIndex = comboboxBieLibraries.Items.IndexOf(presetBieLib);
+                //Model.SetSelectedCandidateBieLibrary(presetBieLib);
+            }
+        }
+
+        private void comboboxBdtLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxBdtLibraries.SelectedIndex = 0;
+            }
         }
     }
 }

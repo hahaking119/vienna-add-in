@@ -258,7 +258,6 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.abiemodel
 
         }
 
-
         #region Binding Properties
 
         public string AbieName
