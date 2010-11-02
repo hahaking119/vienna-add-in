@@ -3,7 +3,8 @@
 =Aggregate Business Information Entities=
 
 Every Aggregate Business Information Entity (ABIE) is based on an Aggregated Core Component (ACC). When creating a new ABIE, this ABIE is derivated from an ACC by specifying which attributes and associations of the ACC should be inherited by the ABIE. The VIENNA Add-In provides the _ABIE Editor_ dialog for creating new ABIEs based on specific ACCs.
-*Update*: The current version of the VIENNA Add-In provides on-the-fly creation of ABIEs by dragging the desired ACC into any BIE Library. A screencast is available [HowToCreateNewAbieAlternativeVideo here].
+
+*Update:* The current version of the VIENNA Add-In provides on-the-fly creation of ABIEs by dragging the desired ACC into any BIE Library. A screencast describing the procedure is available [HowToCreateNewAbieAlternativeVideo here].
 
 =Create ABIEs=
 
