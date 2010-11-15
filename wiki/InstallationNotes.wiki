@@ -1,4 +1,4 @@
-#summary Installation notes for the UMM 2 Add-In
+#summary Installation notes for the VIENNA Add-In
 
 = Requirements =
 
