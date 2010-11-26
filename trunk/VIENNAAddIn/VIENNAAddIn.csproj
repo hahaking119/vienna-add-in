@@ -1229,6 +1229,9 @@
     <Resource Include="Resources\arrow_outgoing.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="upcc3\export\mapping\resources\iso_svrl_for_xslt2.xsl" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="doc\" />
     <Folder Include="images\" />
   </ItemGroup>

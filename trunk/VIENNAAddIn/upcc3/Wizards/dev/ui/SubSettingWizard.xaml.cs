@@ -7,7 +7,6 @@
 // http://vienna-add-in.googlecode.com
 // *******************************************************************************
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
@@ -314,12 +313,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: Button Create / Button Update
         private void buttonCreateSubSet_Click(object sender, RoutedEventArgs e)
         {
-            doWorkEventHandler = backgroundworkerCreateSubset_DoWork;
-            backgroundworker.DoWork += doWorkEventHandler;
-            backgroundworker.RunWorkerCompleted += backgroundworkerCreateSubset_RunWorkerCompleted;
-            ShowShield(true);
+            if (schematronCheckBox.IsChecked == true && (namespacePrefix.Text.Equals(string.Empty) || targetNamespace.Text.Equals(string.Empty) || textboxOutputDirectory.DirectoryName==null))
+            {
+                MessageBox.Show("The definition of a Namespace Prefix, Target Namespace and Output Directory are required to generate Schematron Rules!","Warning!");
+            }
+            else
+            {
+                Model.namespacePrefix = namespacePrefix.Text;
+                Model.targetNamespace = targetNamespace.Text;
+                Model.outputDirectory = textboxOutputDirectory.DirectoryName;
+                doWorkEventHandler = backgroundworkerCreateSubset_DoWork;
+                backgroundworker.DoWork += doWorkEventHandler;
+                backgroundworker.RunWorkerCompleted += backgroundworkerCreateSubset_RunWorkerCompleted;
+                ShowShield(true);
 
-            backgroundworker.RunWorkerAsync(Model);
+                backgroundworker.RunWorkerAsync(Model);
+            }
         }
 
         // ------------------------------------------------------------------------------------

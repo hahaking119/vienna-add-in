@@ -25,17 +25,18 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class AbieEditor
     {
         private readonly IAbie abieToBeUpdated;
+        private readonly int DiagramId;
+        private readonly string presetAcc;
+        private readonly string presetBieLib;
+        private readonly string presetCcLib;
+        private readonly Repository Repository;
         private string bbieNameBeforeRename;
         private string bdtNameBeforeRename;
-        private string presetCcLib;
-        private string presetAcc;
-        private string presetBieLib;
-        //private readonly BackgroundWorker backgroundWorker;
 
-
-        public TemporaryAbieModel Model { get; set; }
-        private EditorModes.AbieEditorModes AbieEditorMode { get; set; }
-
+        /// <summary>
+        /// This is the default ABIE Editor constructor. It should be used anytime an ABIE is build up from scratch.
+        /// </summary>
+        /// <param name="cctsRepository">An implementation of the ICctsRepository interface containing the target libraries / Core Components</param>
         public AbieEditor(ICctsRepository cctsRepository)
         {
             //backgroundWorker = new BackgroundWorker
@@ -49,14 +50,22 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             abieToBeUpdated = null;
 
             Model = new TemporaryAbieModel(cctsRepository);
-
             DataContext = this;
 
             SelectDefaultLibraries();
 
             UpdateFormState();
         }
-        public AbieEditor(string cclibName, string accName, string bieLibName, Repository repository)
+
+        /// <summary>
+        /// This constructor should only be used when an ACC is dragged into an BIE library.
+        /// </summary>
+        /// <param name="cclibName">The name of the CC library containing the selected ACC</param>
+        /// <param name="accName">The name of the selected ACC</param>
+        /// <param name="bieLibName">The name of the target BIE library (drag target)</param>
+        /// <param name="diagramID">The ID of the target BIE library diagram (needed for EA workaround)</param>
+        /// <param name="repository">The EA repository which contains all previous elements</param>
+        public AbieEditor(string cclibName, string accName, string bieLibName, int diagramID, Repository repository)
         {
             InitializeComponent();
             AbieEditorMode = EditorModes.AbieEditorModes.CreateFromAcc;
@@ -65,11 +74,19 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             presetAcc = accName;
             presetBieLib = bieLibName;
             Model = new TemporaryAbieModel(CctsRepositoryFactory.CreateCctsRepository(repository));
+            Repository = repository;
+            DiagramId = diagramID;
             DataContext = this;
-            
+
             UpdateFormState();
         }
 
+        /// <summary>
+        /// The ABIE Editor in update mode is used to edit an existing ABIE.
+        /// Please note that this will load all data available from the target ABIE (including associations) which could lead to timeouts!
+        /// </summary>
+        /// <param name="cctsRepository">An implementation of the ICctsRepository interface containing the target libraries / Core Components</param>
+        /// <param name="idOfAbieToBeUpdated">The element ID of the ABIE to edit.</param>
         public AbieEditor(ICctsRepository cctsRepository, int idOfAbieToBeUpdated)
         {
             //backgroundWorker = new BackgroundWorker
@@ -90,9 +107,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             DataContext = this;
 
             SelectDefaultLibraries();
-            
+
             UpdateFormState();
         }
+
+        public TemporaryAbieModel Model { get; set; }
+        private EditorModes.AbieEditorModes AbieEditorMode { get; set; }
 
         public static void ShowCreateDialog(AddInContext context)
         {
@@ -101,9 +121,47 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         public static void ShowUpdateDialog(AddInContext context)
         {
-            new AbieEditor(context.CctsRepository, ((Element)context.SelectedItem).ElementID).ShowDialog();
+            new AbieEditor(context.CctsRepository, ((Element) context.SelectedItem).ElementID).ShowDialog();
         }
 
+        private void comboboxAccs_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AbieEditorMode == EditorModes.AbieEditorModes.Update)
+            {
+                SelectFirstAcc();
+            }
+            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxAccs.SelectedIndex = comboboxAccs.Items.IndexOf(presetAcc);
+                //Model.SetSelectedCandidateAcc(presetAcc);
+            }
+        }
+
+        private void comboboxCcLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxCcLibraries.SelectedIndex = comboboxCcLibraries.Items.IndexOf(presetCcLib);
+                //Model.SetSelectedCandidateCcLibrary(presetCcLib);
+            }
+        }
+
+        private void comboboxBieLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxBieLibraries.SelectedIndex = comboboxBieLibraries.Items.IndexOf(presetBieLib);
+                //Model.SetSelectedCandidateBieLibrary(presetBieLib);
+            }
+        }
+
+        private void comboboxBdtLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                comboboxBdtLibraries.SelectedIndex = 0;
+            }
+        }
 
         #region Methods for handling Control Events
 
@@ -144,22 +202,20 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             //MessageBox.Show("selection changed von accs");
 
 
-
-
-
             // ---------------------------------------------------------------
             // ALTER CODE OHNE ZAHNRAD
             // ---------------------------------------------------------------
             Model.SetSelectedCandidateAcc(comboboxAccs.SelectedItem.ToString());
 
-            if (AbieEditorMode == EditorModes.AbieEditorModes.Create || AbieEditorMode==EditorModes.AbieEditorModes.CreateFromAcc)
+            if (AbieEditorMode == EditorModes.AbieEditorModes.Create ||
+                AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
             {
                 // The value of Model.AbiePrefix was already set in the constructor of the 
                 // TemporaryAbieModel. For more information refer to the constructor
                 // of the TemporaryAbieModel.
-                Model.AbieName = Model.AbiePrefix + "_" + comboboxAccs.SelectedItem;                    
+                Model.AbieName = Model.AbiePrefix + "_" + comboboxAccs.SelectedItem;
             }
-            
+
             UpdateFormState();
 
             SetSelectedItemForBccListBox();
@@ -199,9 +255,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: Checkbox BCCs
         private void checkboxBccs_Checked(object sender, RoutedEventArgs e)
         {
-            string selectedItemText = ((CheckableItem)listboxBccs.SelectedItem).Text;
+            string selectedItemText = ((CheckableItem) listboxBccs.SelectedItem).Text;
 
-            Model.SetCheckedForAllCandidateBccs((bool)((CheckBox)sender).IsChecked);
+            Model.SetCheckedForAllCandidateBccs((bool) ((CheckBox) sender).IsChecked);
 
             listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, selectedItemText);
 
@@ -246,13 +302,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox BCCs
         private void listboxBccs_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            CheckableItem checkableItem = (CheckableItem)listboxBccs.SelectedItem;
+            var checkableItem = (CheckableItem) listboxBccs.SelectedItem;
             Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
 
             // The following code only keeps the UI in sync with the TemporaryAbieModel since 
             // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
             // not select the current item in the ListBox.
-            listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, (CheckBox)sender);
+            listboxBccs.SelectedItem = GetSelectedCheckableItemforListbox(listboxBccs, (CheckBox) sender);
 
             SetSelectedItemForBbieListBox();
 
@@ -263,7 +319,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (listboxBccs.SelectedItem != null)
             {
-                CheckableItem checkableItem = (CheckableItem)listboxBccs.SelectedItem;
+                var checkableItem = (CheckableItem) listboxBccs.SelectedItem;
                 Model.SetSelectedAndCheckedCandidateBcc(checkableItem.Text, checkableItem.Checked);
 
                 SetSelectedItemForBbieListBox();
@@ -286,13 +342,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox BBIEs
         private void listboxBbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            var checkableItem = (CheckableItem)listboxBbies.SelectedItem;
+            var checkableItem = (CheckableItem) listboxBbies.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
 
             // The following code only keeps the UI in sync with the TemporaryAbieModel since 
             // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
             // not select the current item in the ListBox.
-            listboxBbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxBbies, (CheckBox)sender);
+            listboxBbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxBbies, (CheckBox) sender);
 
             SetSelectedItemForBdtListBox();
 
@@ -303,7 +359,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (listboxBbies.SelectedItem != null)
             {
-                var checkableItem = (CheckableItem)listboxBbies.SelectedItem;
+                var checkableItem = (CheckableItem) listboxBbies.SelectedItem;
 
                 Model.SetSelectedAndCheckedPotentialBbie(checkableItem.Text, checkableItem.Checked);
 
@@ -319,9 +375,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             // in the listbox is not selected causing the rename of a BBIE to fail. Therefore,
             // we need to use the following workaround which ensures that the item in the 
             // ListBox having the focus is also selected. 
-            listboxBbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxBbies, (TextBox)sender);
+            listboxBbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxBbies, (TextBox) sender);
 
-            var checkableItem = (CheckableItem)listboxBbies.SelectedItem;
+            var checkableItem = (CheckableItem) listboxBbies.SelectedItem;
 
             // We need to store the original name of the BBIE before it is changed as part of a
             // rename process. The reason for doing so is that in case the BBIE is renamed to 
@@ -337,7 +393,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void listboxBbies_ItemTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            var checkableItem = (CheckableItem)listboxBbies.SelectedItem;
+            var checkableItem = (CheckableItem) listboxBbies.SelectedItem;
 
             try
             {
@@ -351,7 +407,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 ShowWarningMessage(tame.Message);
 
                 checkableItem.Text = bbieNameBeforeRename;
-                ((TextBox)sender).Text = bbieNameBeforeRename;
+                ((TextBox) sender).Text = bbieNameBeforeRename;
             }
         }
 
@@ -370,9 +426,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox BDTs
         private void listboxBdts_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (CheckBox)sender);
+            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (CheckBox) sender);
 
-            var checkableItem = (CheckableItem)listboxBdts.SelectedItem;
+            var checkableItem = (CheckableItem) listboxBdts.SelectedItem;
             Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, checkableItem.Checked);
 
             SetSelectedItemForBdtListBox();
@@ -384,7 +440,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (listboxBdts.SelectedItem != null)
             {
-                var checkableItem = (CheckableItem)listboxBdts.SelectedItem;
+                var checkableItem = (CheckableItem) listboxBdts.SelectedItem;
                 Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, null);
             }
         }
@@ -397,9 +453,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             // in the listbox is not selected causing the rename of a BBIE to fail. Therefore,
             // we need to use the following workaround which ensures that the item in the 
             // ListBox having the focus is also selected. 
-            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (TextBox)sender);
+            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (TextBox) sender);
 
-            var checkableItem = (CheckableItem)listboxBdts.SelectedItem;
+            var checkableItem = (CheckableItem) listboxBdts.SelectedItem;
 
             // We need to store the original name of the BDT before it is changed as part of a
             // rename process. The reason for doing so is that in case the BDT is renamed to 
@@ -409,12 +465,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
             Model.SetSelectedAndCheckedPotentialBdt(checkableItem.Text, null);
 
-            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (TextBox)sender);
+            listboxBdts.SelectedItem = GetSelectedCheckableItemforListbox(listboxBdts, (TextBox) sender);
         }
 
         private void listboxBdts_ItemTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            var checkableItem = ((CheckableItem)listboxBdts.SelectedItem);
+            var checkableItem = ((CheckableItem) listboxBdts.SelectedItem);
 
             try
             {
@@ -428,7 +484,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 ShowWarningMessage(tame.Message);
 
                 checkableItem.Text = bdtNameBeforeRename;
-                ((TextBox)sender).Text = bdtNameBeforeRename;
+                ((TextBox) sender).Text = bdtNameBeforeRename;
             }
         }
 
@@ -437,13 +493,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox ABIEs
         private void listboxAbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            var checkableItem = (CheckableItem)listboxAbies.SelectedItem;
+            var checkableItem = (CheckableItem) listboxAbies.SelectedItem;
             Model.SetSelectedAndCheckedCandidateAbie(checkableItem.Text, checkableItem.Checked);
 
             // The following code only keeps the UI in sync with the TemporaryAbieModel since 
             // clicking the CheckBox only triggers an update in the TemporaryAbieModel but does
             // not select the current item in the ListBox.
-            listboxAbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxAbies, (CheckBox)sender);
+            listboxAbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxAbies, (CheckBox) sender);
 
             SetSelectedItemForAsbieListBox();
         }
@@ -452,7 +508,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             if (listboxAbies.SelectedItem != null)
             {
-                var checkableItem = (CheckableItem)listboxAbies.SelectedItem;
+                var checkableItem = (CheckableItem) listboxAbies.SelectedItem;
                 Model.SetSelectedAndCheckedCandidateAbie(checkableItem.Text, checkableItem.Checked);
 
                 SetSelectedItemForAsbieListBox();
@@ -468,17 +524,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         // Event handler: ListBox ASBIEs
         private void listboxAsbies_ItemCheckBoxChecked(object sender, RoutedEventArgs e)
         {
-            var checkableItem = (CheckableItem)listboxAsbies.SelectedItem;
+            var checkableItem = (CheckableItem) listboxAsbies.SelectedItem;
             Model.SetSelectedAndCheckedPotentialAsbie(checkableItem.Text, checkableItem.Checked);
 
-            listboxAsbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxAsbies, (CheckBox)sender);
+            listboxAsbies.SelectedItem = GetSelectedCheckableItemforListbox(listboxAsbies, (CheckBox) sender);
         }
 
         private void listboxAsbies_ItemSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (listboxAsbies.SelectedItem != null)
             {
-                var checkableItem = (CheckableItem)listboxAsbies.SelectedItem;
+                var checkableItem = (CheckableItem) listboxAsbies.SelectedItem;
 
                 Model.SetSelectedAndCheckedPotentialAsbie(checkableItem.Text, checkableItem.Checked);
             }
@@ -490,7 +546,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void textboxAbiePrefix_TextChanged(object sender, TextChangedEventArgs e)
         {
             Model.AbiePrefix = textboxPrefix.Text;
-            
+
             if (string.IsNullOrEmpty(Model.AbiePrefix))
             {
                 textboxAbieName.Text = Model.AbieName;
@@ -498,17 +554,17 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             else
             {
                 if (!string.IsNullOrEmpty(Model.AbieName))
-                {                    
+                {
                     int indexOfQualifierSeparator = Model.AbieName.IndexOf('_');
 
                     if (indexOfQualifierSeparator != -1)
                     {
-                        string newAbieName = Model.AbiePrefix + "_" + Model.AbieName.Substring(indexOfQualifierSeparator + 1);
+                        string newAbieName = Model.AbiePrefix + "_" +
+                                             Model.AbieName.Substring(indexOfQualifierSeparator + 1);
                         Model.AbieName = newAbieName;
                     }
                 }
-
-            }                        
+            }
         }
 
         // ------------------------------------------------------------------------------------
@@ -543,13 +599,31 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             // Disable the "Create Button"/"Update Button" while the ABIE is created
             buttonCreateOrUpdate.IsEnabled = false;
 
-            if (AbieEditorMode == EditorModes.AbieEditorModes.Create || AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            if (AbieEditorMode == EditorModes.AbieEditorModes.Create)
             {
                 try
                 {
                     Model.CreateAbie();
                     ShowInformativeMessage(String.Format("A new ABIE named \"{0}\" was created successfully.",
                                                          Model.AbieName));
+                }
+                catch (TemporaryAbieModelException tame)
+                {
+                    ShowWarningMessage(tame.Message);
+                }
+            }
+            else if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                try
+                {
+                    Model.CreateAbie();
+                    //Due to a bug in Enterprise Architect we need to close and reopen the current diagram in order to display the actual changes!
+                    Repository.CloseDiagram(DiagramId);
+                    Repository.OpenDiagram(DiagramId);
+                    //To improve usability we close the wizard and show the changes in the current diagram rather than displaying an info message.
+                    Close();
+                    //ShowInformativeMessage(String.Format("A new ABIE named \"{0}\" was created successfully.",
+                    //                                    Model.AbieName));
                 }
                 catch (TemporaryAbieModelException tame)
                 {
@@ -598,7 +672,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                         SetEnabledForAttributeAndAssoicationTabs(true);
                         SetEnabledForAbieProperties(true);
 
-                        if ((comboboxBieLibraries.SelectedItem != null) && (comboboxBdtLibraries.SelectedItem != null) && (Model.ContainsValidConfiguration()))
+                        if ((comboboxBieLibraries.SelectedItem != null) && (comboboxBdtLibraries.SelectedItem != null) &&
+                            (Model.ContainsValidConfiguration()))
                         {
                             SetEnabledForCreateButton(true);
                         }
@@ -618,6 +693,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             }
             else if (AbieEditorMode == EditorModes.AbieEditorModes.Update)
             {
+            }
+            else if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
+            {
+                SetEnabledForAccComboBox(false);
+                comboboxCcLibraries.IsEnabled = false;
+                comboboxBieLibraries.IsEnabled = false;
             }
         }
 
@@ -658,8 +739,8 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private void ForceTextboxToLoseFocus(object sender, KeyEventArgs e)
         {
-            var textBox = (TextBox)sender;
-            var siblingOfTextBox = (CheckBox)((StackPanel)textBox.Parent).Children[0];
+            var textBox = (TextBox) sender;
+            var siblingOfTextBox = (CheckBox) ((StackPanel) textBox.Parent).Children[0];
 
             switch (e.Key)
             {
@@ -689,14 +770,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
 
         private static CheckableItem GetSelectedCheckableItemforListbox(ListBox listBox, CheckBox checkBox)
         {
-            var parent = (StackPanel)checkBox.Parent;
+            var parent = (StackPanel) checkBox.Parent;
             string selectedItemText = "";
 
             foreach (UIElement child in parent.Children)
             {
-                if (child.GetType() == typeof(TextBox))
+                if (child.GetType() == typeof (TextBox))
                 {
-                    selectedItemText = ((TextBox)child).Text;
+                    selectedItemText = ((TextBox) child).Text;
                 }
             }
 
@@ -870,13 +951,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 Mouse.OverrideCursor = Cursors.Wait;
                 shield.Visibility = Visibility.Visible;
                 popupGenerating.Visibility = Visibility.Visible;
-                var sbdRotation = (Storyboard)FindResource("sbdRotation");
+                var sbdRotation = (Storyboard) FindResource("sbdRotation");
                 sbdRotation.Begin(this);
             }
             else
             {
                 shield.Visibility = Visibility.Collapsed;
-                var sbdRotation = (Storyboard)FindResource("sbdRotation");
+                var sbdRotation = (Storyboard) FindResource("sbdRotation");
                 sbdRotation.Stop();
                 popupGenerating.Visibility = Visibility.Collapsed;
                 Mouse.OverrideCursor = Cursors.Arrow;
@@ -884,44 +965,5 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         }
 
         #endregion
-
-        private void comboboxAccs_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (AbieEditorMode == EditorModes.AbieEditorModes.Update)
-            {
-                SelectFirstAcc();    
-            }
-            if(AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
-            {
-                comboboxAccs.SelectedIndex = comboboxAccs.Items.IndexOf(presetAcc);
-                //Model.SetSelectedCandidateAcc(presetAcc);
-            }
-        }
-
-        private void comboboxCcLibraries_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
-            {
-                comboboxCcLibraries.SelectedIndex = comboboxCcLibraries.Items.IndexOf(presetCcLib);
-                //Model.SetSelectedCandidateCcLibrary(presetCcLib);
-            }
-        }
-
-        private void comboboxBieLibraries_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
-            {
-                comboboxBieLibraries.SelectedIndex = comboboxBieLibraries.Items.IndexOf(presetBieLib);
-                //Model.SetSelectedCandidateBieLibrary(presetBieLib);
-            }
-        }
-
-        private void comboboxBdtLibraries_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (AbieEditorMode == EditorModes.AbieEditorModes.CreateFromAcc)
-            {
-                comboboxBdtLibraries.SelectedIndex = 0;
-            }
-        }
     }
 }
