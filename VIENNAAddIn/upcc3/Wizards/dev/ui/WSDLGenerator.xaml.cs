@@ -136,6 +136,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             {
                 targetXSDs.Items.Add(new RetrievedMessage(keyValuePair.Key, "", ""));
             }
+            if (targetXSDs.Items.IsEmpty)
+            {
+                MessageBox.Show("Your model either contains no messages or it does not comply to the UMM 2.0 Standard.\n"+
+                    "Please note that each bTransaction and bCollaborationProtocol must contain one InitFlow containing 'Initial' in its name.\n"+
+                    "(More information can be found at http://umm-dev.org) ","Warning! Unable to proceed.");
+                buttonGenerate.IsEnabled = false;
+            }
         }
 
         /// <summary>
@@ -522,7 +529,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             foreach (Element states in element.Elements)
             {
-                if (states.Name.Equals("Initial"))
+                if (states.Name.Contains("Initial"))
                 {
                     return true;
                 }

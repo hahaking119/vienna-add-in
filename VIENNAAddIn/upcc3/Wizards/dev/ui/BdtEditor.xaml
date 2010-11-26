@@ -7,11 +7,11 @@
             <StackPanel Orientation="Vertical">
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelCdtLibraries">Choose CDT Library containing CDTs:</Label>
-                    <ComboBox KeyboardNavigation.TabIndex="0" ItemsSource="{Binding Path=Model.CandidateCdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCdtLibraries" SelectionChanged="comboboxCdtLibraries_SelectionChanged"></ComboBox>
+                    <ComboBox KeyboardNavigation.TabIndex="0" ItemsSource="{Binding Path=Model.CandidateCdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCdtLibraries" SelectionChanged="comboboxCdtLibraries_SelectionChanged" Loaded="comboboxCdtLibraries_Loaded"></ComboBox>
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelCdts">Choose CDT used to generate the BDT:</Label>
-                    <ComboBox KeyboardNavigation.TabIndex="1" ItemsSource="{Binding Path=Model.CandidateCdtNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCdts" SelectionChanged="comboboxCdts_SelectionChanged" ></ComboBox>
+                    <ComboBox KeyboardNavigation.TabIndex="1" ItemsSource="{Binding Path=Model.CandidateCdtNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxCdts" SelectionChanged="comboboxCdts_SelectionChanged" Loaded="comboboxCdts_Loaded"></ComboBox>
                 </DockPanel>
                 <GroupBox Header="Attributes" Margin="5,1,1,4" Height="325" >
                     <TabControl TabStripPlacement="Top" Margin="2,3,2,2" Name="tabControl" IsEnabled="False">
@@ -68,7 +68,7 @@
                 </DockPanel>
                 <DockPanel HorizontalAlignment="Stretch" Margin="1,1,1,1">
                     <Label DockPanel.Dock="Left" HorizontalAlignment="Left" Height="23" Width="200" Name="labelBdtLibraries">BDT Library used to store the BDT:</Label>
-                    <ComboBox KeyboardNavigation.TabIndex="7" ItemsSource="{Binding Path=Model.CandidateBdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxBdtLibraries" SelectionChanged="comboboxBdtLibraries_SelectionChanged"></ComboBox>
+                    <ComboBox KeyboardNavigation.TabIndex="7" ItemsSource="{Binding Path=Model.CandidateBdtLibraryNames}" HorizontalAlignment="Stretch" Height="23" Name="comboboxBdtLibraries" SelectionChanged="comboboxBdtLibraries_SelectionChanged" Loaded="comboboxBdtLibraries_Loaded"></ComboBox>
                 </DockPanel>
             </StackPanel>
         </GroupBox>

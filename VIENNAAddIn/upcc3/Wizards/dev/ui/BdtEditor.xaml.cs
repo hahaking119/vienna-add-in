@@ -11,6 +11,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using CctsRepository;
+using EA;
 using VIENNAAddIn.menu;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel;
 using VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.bdtmodel.exceptions;
@@ -21,13 +22,37 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     public partial class BdtEditor
     {
         private bool checkstateCallFromSup;
+        private readonly Repository Repository;
+        private readonly string CdtLibraryName;
+        private readonly string CdtName;
+        private readonly string BdtLibraryName;
+        private readonly int DiagramId;
+        private readonly string EditorMode;
+
         public BdtEditor(ICctsRepository cctsRepository)
         {
             InitializeComponent();
             Model = new TemporaryBdtModel(cctsRepository);
             DataContext = this;
+            EditorMode = "create";
             comboboxBdtLibraries.SelectedIndex = 0;
             comboboxCdtLibraries.SelectedIndex = 0;
+        }
+
+        public BdtEditor(string cdtLibrary, string cdtName, string bdtLibrary, int diagramId, Repository repository)
+        {
+            InitializeComponent();
+            EditorMode = "createFromCDT";
+            CdtLibraryName = cdtLibrary;
+            CdtName = cdtName;
+            BdtLibraryName = bdtLibrary;
+            DiagramId = diagramId;
+            Repository = repository;
+            Model = new TemporaryBdtModel(CctsRepositoryFactory.CreateCctsRepository(repository));
+            DataContext = this;
+            comboboxCdts.IsEnabled = false;
+            comboboxCdtLibraries.IsEnabled = false;
+            comboboxBdtLibraries.IsEnabled = false;
         }
 
         public TemporaryBdtModel Model { get; set; }
@@ -41,18 +66,28 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         {
             buttonCreate.IsEnabled = false;
 
-            try
+            if (EditorMode.Equals("create"))
+            {
+                try
+                {
+                    Model.CreateBdt();
+                    ShowInformativeMessage(String.Format("A new BDT named \"{0}\" was created successfully.", Model.Name));
+                    Model.Reset();
+                    UpdateLayout();
+                }
+                catch (TemporaryBdtModelException tbme)
+                {
+                    ShowWarningMessage(tbme.Message);
+                }
+            UpdateFormState();
+            }
+            else if (EditorMode.Equals("createFromCDT"))
             {
                 Model.CreateBdt();
-                ShowInformativeMessage(String.Format("A new BDT named \"{0}\" was created successfully.", Model.Name));
-                Model.Reset();
-                UpdateLayout();
+                Repository.CloseDiagram(DiagramId);
+                Repository.OpenDiagram(DiagramId);
+                Close();
             }
-            catch (TemporaryBdtModelException tbme)
-            {
-                ShowWarningMessage(tbme.Message);
-            }
-            UpdateFormState();
         }
 
         #region Methods for supporting the User Interaction
@@ -162,6 +197,30 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 buttonCreate.IsEnabled = false;
                 tabControl.IsEnabled = true;
                 textboxBdtPrefix.IsEnabled = true;
+            }
+        }
+
+        private void comboboxCdtLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(EditorMode == "createFromCDT")
+            {
+                comboboxCdtLibraries.SelectedIndex = comboboxCdtLibraries.Items.IndexOf(CdtLibraryName);
+            }
+        }
+
+        private void comboboxCdts_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (EditorMode == "createFromCDT")
+            {
+                comboboxCdts.SelectedIndex = comboboxCdts.Items.IndexOf(CdtName);
+            }
+        }
+
+        private void comboboxBdtLibraries_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (EditorMode == "createFromCDT")
+            {
+                comboboxBdtLibraries.SelectedIndex = comboboxBdtLibraries.Items.IndexOf(BdtLibraryName);
             }
         }
     }

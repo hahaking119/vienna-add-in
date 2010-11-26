@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Xml;
 using CctsRepository;
 using CctsRepository.BieLibrary;
 using CctsRepository.DocLibrary;
@@ -42,6 +43,9 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
         private readonly List<CandidateDocLibrary> mCandidateDocLibraries;
         private int idCounter;
         private CandidateRootElement rootElement;
+        public string namespacePrefix { get; set; }
+        public string targetNamespace { get; set; }
+        public string outputDirectory { get; set; }
 
         #endregion
 
@@ -58,7 +62,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                 new List<string>(mCandidateDocLibraries.ConvertAll(doclib => doclib.OriginalDocLibrary.Name));
             // Populate the model with the appropriate DOC library which contains the root MA.
         }
-
+        
         #region Binding Properties
 
         public string currentDocLibrary;
@@ -362,9 +366,12 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                         return abie;
                     }
                     returnAbie = FindSelectedAbie(abie.PotentialAbies);
-                    if (returnAbie.Selected)
+                    if (returnAbie != null)
                     {
-                        return returnAbie;
+                        if (returnAbie.Selected)
+                        {
+                            return returnAbie;
+                        }
                     }
                 }
             }
@@ -507,6 +514,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
 
         public void createSubSet()
         {
+            var abiesToRemove = new List<String>();
+            var bbiesToRemove = new Dictionary<String, List<String>>();
+            var asbiesToRemove = new Dictionary<String, List<String>>();
+
             followAsmasAndRemoveUnused(rootElement.OriginalMa);
             foreach (IBieLibrary bieLibrary in ccCache.GetBieLibraries())
             {
@@ -516,12 +527,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                     List<CheckableTreeViewItem> result = findCheckableTreeViewItems(abie.Name, mCandidateAbieItems);
                     if (result.Count == 0)
                     {
+                        abiesToRemove.Add(abie.Name);
                         bieLibrary.RemoveAbie(abie);
                     }
                     else
                     {
                         if (testIfAllCheckableTreeViewItemsAreUnchecked(result))
                         {
+                            abiesToRemove.Add(abie.Name);
                             bieLibrary.RemoveAbie(abie);
                         }
                         else
@@ -540,6 +553,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                                         {
                                             //remove unchecked Bbies, only if the item is not unchecked!
                                             var actualBbies = new List<IBbie>(abie.Bbies);
+                                            var tempBbies = new List<String>();
                                             if (candidateAbie.PotentialBbies != null)
                                             {
                                                 foreach (IBbie bbie in actualBbies)
@@ -550,25 +564,30 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                                                         {
                                                             if (!potentialBbie.Checked)
                                                             {
+                                                                tempBbies.Add(bbie.Name + bbie.Bdt.Name);
                                                                 abie.RemoveBbie(bbie);
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
+                                            bbiesToRemove.Add(abie.Name,tempBbies);
                                         }
                                         //examine children to find obsolete asbies
                                         foreach (CheckableTreeViewItem child in checkableTreeViewItem.Children)
                                         {
                                             if (!child.Checked)
                                             {
+                                                var tmpAsbies = new List<String>();
                                                 foreach (IAsbie asbie in candidateAbie.OriginalAbie.Asbies)
                                                 {
                                                     if (asbie.AssociatedAbie.Name.Equals(child.Text))
                                                     {
+                                                        tmpAsbies.Add(asbie.Name);
                                                         candidateAbie.OriginalAbie.RemoveAsbie(asbie);
                                                     }
                                                 }
+                                                asbiesToRemove.Add(abie.Name,tmpAsbies);
                                             }
                                         }
                                     }
@@ -576,6 +595,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                                 else
                                 {
                                     IEnumerable<IAsbie> originalAsbies = candidateAbie.OriginalAbie.Asbies;
+                                    var tmpAsbies = new List<String>();
                                     foreach (IAsbie asbie in originalAsbies)
                                     {
                                         foreach (PotentialAsbie potentialAsbie in candidateAbie.PotentialAsbies)
@@ -584,17 +604,88 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.temporarymodel.subsettingmodel
                                             {
                                                 if (!potentialAsbie.Checked)
                                                 {
+                                                    tmpAsbies.Add(asbie.Name);
                                                     candidateAbie.OriginalAbie.RemoveAsbie(asbie);
                                                 }
                                             }
                                         }
                                     }
+                                    asbiesToRemove.Add(abie.Name,tmpAsbies);
                                 }
                             }
                         }
                     }
                 }
             }
+            if (!namespacePrefix.Equals(String.Empty) && !targetNamespace.Equals(String.Empty))
+            {
+                writeSchematronRules(abiesToRemove, bbiesToRemove, asbiesToRemove);
+            }
+        }
+
+        public void writeSchematronRules(List<String> abiesToRemove, Dictionary<String, List<String>> bbiesToRemove, Dictionary<String, List<String>> asbiesToRemove)
+        {
+            var schematronRulesFile = new XmlDocument();
+            var xmldecl = schematronRulesFile.CreateXmlDeclaration("1.0", null, null);
+            xmldecl.Encoding = "UTF-8";
+            var root = schematronRulesFile.CreateElement("iso", "schema", "http://purl.oclc.org/dsdl/schematron");
+            root.SetAttribute("xmlns", "http://purl.oclc.org/dsdl/schematron");
+            root.SetAttribute("xmlns:iso", "http://purl.oclc.org/dsdl/schematron");
+            root.SetAttribute("xmlns:sch", "http://www.ascc.net/xml/schematron");
+            root.SetAttribute("schemaVersion", "ISO19757-3");
+            
+            var ns = schematronRulesFile.CreateElement("iso", "ns", "http://purl.oclc.org/dsdl/schematron");
+            ns.SetAttribute("prefix", namespacePrefix);
+            ns.SetAttribute("uri", targetNamespace);
+            root.AppendChild(ns);
+
+            var title = schematronRulesFile.CreateElement("iso", "title", "http://purl.oclc.org/dsdl/schematron");
+            title.AppendChild(schematronRulesFile.CreateTextNode("Test ISO schematron file. Introduction mode"));
+            root.AppendChild(title);
+            
+            var abiePattern = schematronRulesFile.CreateElement("iso", "pattern", "http://purl.oclc.org/dsdl/schematron");
+            abiePattern.SetAttribute("id", "abie.restrictions");
+            var insideTitle = schematronRulesFile.CreateElement("iso", "title", "http://purl.oclc.org/dsdl/schematron");
+            insideTitle.AppendChild(schematronRulesFile.CreateTextNode("Checking for ABIE restrictions derived from Subsetting..."));
+            abiePattern.AppendChild(insideTitle);
+
+            var abieRule = schematronRulesFile.CreateElement("iso", "rule", "http://purl.oclc.org/dsdl/schematron");
+            abieRule.SetAttribute("context", "*");
+            foreach (var abieName in abiesToRemove)
+            {
+                var report = schematronRulesFile.CreateElement("iso", "report", "http://purl.oclc.org/dsdl/schematron");
+                report.SetAttribute("test", namespacePrefix+":"+abieName);
+                report.AppendChild(schematronRulesFile.CreateTextNode("Element "+abieName+" has been removed during Subsetting and is therefor not allowed to be used here."));
+                abieRule.AppendChild(report);
+            }
+            abiePattern.AppendChild(abieRule);
+            root.AppendChild(abiePattern);
+
+            var bbiePattern = schematronRulesFile.CreateElement("iso", "pattern", "http://purl.oclc.org/dsdl/schematron");
+            bbiePattern.SetAttribute("id", "bbie.restrictions");
+            var bbieTitle = schematronRulesFile.CreateElement("iso", "title", "http://purl.oclc.org/dsdl/schematron");
+            bbieTitle.AppendChild(schematronRulesFile.CreateTextNode("Checking for BBIE restrictions derived from Subsetting..."));
+            bbiePattern.AppendChild(bbieTitle);
+
+            foreach (KeyValuePair<string, List<string>> keyValuePair in bbiesToRemove)
+            {
+                var bbieRule = schematronRulesFile.CreateElement("iso", "rule", "http://purl.oclc.org/dsdl/schematron");
+                bbieRule.SetAttribute("context", namespacePrefix + ":" + keyValuePair.Key);
+                foreach (var bbieName in keyValuePair.Value)
+                {
+                    var report = schematronRulesFile.CreateElement("iso", "report", "http://purl.oclc.org/dsdl/schematron");
+                    report.SetAttribute("test", namespacePrefix + ":" + bbieName);
+                    report.AppendChild(schematronRulesFile.CreateTextNode("Attribute " + bbieName + " has been removed during Subsetting and is therefor not allowed to be used here."));
+                    bbieRule.AppendChild(report);
+                }
+                bbiePattern.AppendChild(bbieRule);
+            }
+            
+            root.AppendChild(bbiePattern);
+
+            schematronRulesFile.AppendChild(root);
+            schematronRulesFile.InsertBefore(xmldecl, root);
+            schematronRulesFile.Save(@outputDirectory+"\\"+RootElement+".sch");
         }
 
         private static bool testIfAllCheckableTreeViewItemsAreUnchecked(IEnumerable<CheckableTreeViewItem> listToSearch)
