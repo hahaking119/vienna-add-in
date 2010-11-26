@@ -21,6 +21,13 @@ Please note that the sample models from http://umm-dev.org/ will not work with t
   # After clicking the "Generate WSDL" button, you can follow the generation process in the status bar.
 	http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/wsdlgenerator_finished.png
 
+=Troubleshooting=
+  * *Problem:* I can not generate wsdl files, the WSDL Generator either displays no Messages or shows an error message (depends on actual version). 
+  * *Solution:* Every bTransaction and bCollaboration must include an initial Activity with an InitFlow to the desired Initiator. An example from the official UMM 2.0 Specification is shown below:
+    http://vienna-add-in.googlecode.com/svn/wiki/images_wsdlgenerator/UMM_Spec_Initial.png
+  * *Problem:* Certain bTransactions are missing in the final wsdl files
+  * *Solution:* Please check if every desired bTransaction has an initial Activity and InitFlow. Otherwise it will not be included in the final wsdl file.
+
 =References=
 (1) UMM Development Site http://umm-dev.org/
 
