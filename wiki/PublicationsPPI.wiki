@@ -1,6 +1,10 @@
 =Publications=
 
 Conference and Workshop Papers
+  * C. Pichler, M. Wimmer. *Model-Driven Business Document Evolution*. In Proceedings of the 15th European Conference on Software Maintenance and Reengineering (CSMR), March 1-4, Oldenburg, Germany, 2011.(to appear)
+  * C. Pichler, P. Langer, M. Wimmer, C. Huemer, B. Hofreiter. *Registry Support for Core Component Evolution*. In Proceedings of the IEEE International Conference on Service-Oriented Computing and Applications (SOCA), December 13-15, Perth, Australia, IEEE, 2010.(to appear)
+  * M. Strommer, C. Pichler, P. Liegl. *A Document Management Framework based on Core Components*. In Proceedings of the 12th IEEE Conference on Commerce and Enterprise Computing (CEC), November 10-12, Shanghai, China, IEEE, 2010.([http://publik.tuwien.ac.at/files/PubDat_189060.pdf])
+  * P. Liegl, C. Huemer, C. Pichler. *A bottom-up approach to build XML business document standards*. In Proceedings of the 7th IEEE International Conference on e-Business Engineering (ICEBE), November 10-12, Shanghai, China, IEEE, 2010.([http://publik.tuwien.ac.at/files/PubDat_189059.pdf])
   * P. Liegl, M. Zapletal, C. Pichler, and M. Strommer. *State-of-the-art in business document standards*. In Proceedings of the 8th IEEE International Conference on Industrial Informatics (INDIN2010), July 14-16, Osaka, Japan, 2010.([http://publik.tuwien.ac.at/files/PubDat_186928.pdf pdf])
   * C. Pichler, M. Strommer, and C. Huemer. *Size Matters!? Measuring the Complexity of XML Schema Mapping Models*. In Proceedings of the International Workshop on Service Computing for B2B (SC4B2B), July 5 -10, Miami, Florida, 2010. (to appear)
   * C. Pichler, M. Seidl, and C. Huemer. *Managing Variability and Evolution of Business Document Models*. In 2nd International Workshop on Model-Driven Product Line Engineering (MDPLE), June 15 - 18, Paris, France, 2010. ([http://ceur-ws.org/Vol-625/MDPLE2010-paper6-Pichler.pdf pdf])
