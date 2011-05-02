@@ -1,5 +1,10 @@
 #summary How to create a MapForce Mapping Documentation
-This guide shows how to create a very simple MapForce mapping with Altova MapForce which can be used with the [XmlSchemaImporter Xml Schema Importer].
+This guide shows how to create a very simple MapForce mapping with Altova MapForce 2009 SP1 which can be used with the [XmlSchemaImporter Xml Schema Importer]. Please be aware that the VIENNA Add-In currently only supports MapForce mappings created with version 2009 SP1.
+You can check the version of an existing MapForce mapping file by opening it with your favorite Text Editor instead of MapForce.
+{{{
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="12">
+}}}
+The version attribute represents the MapForce version - 12 corresponds to MapForce 2009 SP1.
 
 =How to create a basic mapping=
   # The simple Xml Schema below will be used to create a MapForce mapping to CCTS:
