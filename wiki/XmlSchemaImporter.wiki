@@ -11,7 +11,7 @@ The XML Schema Importer can be used to import an XML Schema into an existing mod
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_importxsdselected.png
   # For a successfull import MapForce mapping files have to be supplied in the following step. These can be added or removed at any time. A guideline for creating MapForce mapping files can be found [HowToMapping here].
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_mappingfilesselected.png
-  # Switching to the CCTS tab, there is only the root XML schema which has to be selected.
+  # ~~Switching to the CCTS tab, there is only the root XML schema which has to be selected.~~ The CCTS import feature is disabled in the current build.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_selectCctsRoot.png
   # You can select a file again using the Windows file selection dialog.
     http://vienna-add-in.googlecode.com/svn/wiki/images_xmlschemaimporter/xmlschemaimporter_CctsRootSelected.png
