@@ -49,7 +49,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
                 ComplexTypeMapping relevantMapping = GetComplexTypeMappingWithMostChildren(pair.Value);
                 if (relevantMapping is ComplexTypeToMaMapping)
                 {
-                    relevantMapping = CreateComplexTypeMappingForChildMappings(relevantMapping.Children, complexTypeName);
+                    relevantMapping = CreateComplexTypeMappingForChildMappings(relevantMapping.Children, complexTypeName,relevantMapping.SourceElementName);
                 }
                 if (relevantMapping != null)
                 {
@@ -63,7 +63,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
                 if (elementMapping is AsmaMapping)
                 {
                     AsmaMapping asmaMapping = (AsmaMapping) elementMapping;
-                    ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(asmaMapping.TargetMapping.Children, asmaMapping.TargetMapping.ComplexTypeName);
+                    ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(asmaMapping.TargetMapping.Children, asmaMapping.TargetMapping.ComplexTypeName, asmaMapping.TargetMapping.SourceElementName);
                     asmaMapping.TargetMapping = complexTypeMapping;
                 }
             }
@@ -299,7 +299,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
                 List<ElementMapping> childMappings = GetChildMappings(sourceElement, parentComplexTypeNames,
                                                                       qualifiedComplexTypeName, path);
 
-                ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(childMappings, sourceElement.XsdTypeName);
+                ComplexTypeMapping complexTypeMapping = CreateComplexTypeMappingForChildMappings(childMappings, sourceElement.XsdTypeName,sourceElement.Name);
 
                 if (complexTypeMapping != null)
                 {
@@ -308,7 +308,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
             }
         }
 
-        private static ComplexTypeMapping CreateComplexTypeMappingForChildMappings(IEnumerable<ElementMapping> childMappings, string complexTypeName)
+        private static ComplexTypeMapping CreateComplexTypeMappingForChildMappings(IEnumerable<ElementMapping> childMappings, string complexTypeName, string sourceElementName)
         {
             IAcc targetAcc = null;
             bool hasAsmaMapping = false;
@@ -363,12 +363,12 @@ namespace VIENNAAddIn.upcc3.import.mapping
             if ((hasAccMapping) && (!hasMultipleAccMappings) && (!hasAsmaMapping))
             {
                 // ACC
-                return new ComplexTypeToAccMapping(complexTypeName, childMappings);
+                return new ComplexTypeToAccMapping(sourceElementName, complexTypeName, childMappings);
             }
             if ((!hasMultipleAccMappings && hasAsmaMapping) || ((hasAccMapping) && hasMultipleAccMappings))
             {
                 // MA
-                return new ComplexTypeToMaMapping(complexTypeName, childMappings);
+                return new ComplexTypeToMaMapping(sourceElementName, complexTypeName, childMappings);
             }
             throw new MappingError("Unexpected Mapping Error #375. Complex Type Name: " + complexTypeName);
         }
@@ -399,7 +399,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
                     }
                 }
 
-                complexTypeMapping = new ComplexTypeToCdtMapping(complexTypeName, childMappings);
+                complexTypeMapping = new ComplexTypeToCdtMapping(sourceElement.Name,complexTypeName, childMappings);
                 complexTypeMappings.GetAndCreate(complexTypeName + ((IBcc)GetTargetElement(sourceElement)).Cdt.Name).Add(complexTypeMapping);
 
                 return;
@@ -407,7 +407,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
 
             targetCdt = ((IBcc)GetTargetElement(sourceElement)).Cdt;
 
-            complexTypeMapping = new ComplexTypeToCdtMapping(complexTypeName, childMappings) { TargetCdt = targetCdt };
+            complexTypeMapping = new ComplexTypeToCdtMapping(sourceElement.Name,complexTypeName, childMappings) { TargetCdt = targetCdt };
 
             complexTypeMappings.GetAndCreate(complexTypeName + ((IBcc)GetTargetElement(sourceElement)).Cdt.Name).Add(complexTypeMapping);
         }

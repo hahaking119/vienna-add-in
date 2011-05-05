@@ -4,7 +4,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class NullComplexTypeMapping: ComplexTypeMapping, IEquatable<NullComplexTypeMapping>
     {
-        public NullComplexTypeMapping() : base(string.Empty, new ElementMapping[0])
+        public NullComplexTypeMapping() : base(string.Empty, string.Empty, new ElementMapping[0])
         {
         }
 
