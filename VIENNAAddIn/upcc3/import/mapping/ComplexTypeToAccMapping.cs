@@ -6,7 +6,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
 {
     public class ComplexTypeToAccMapping : ComplexTypeMapping, IEquatable<ComplexTypeToAccMapping>
     {
-        public ComplexTypeToAccMapping(string complexTypeName, IEnumerable<ElementMapping> childMappings) : base(complexTypeName, childMappings)
+        public ComplexTypeToAccMapping(string sourceElementName, string complexTypeName, IEnumerable<ElementMapping> childMappings) : base(sourceElementName,complexTypeName, childMappings)
         {            
         }
 

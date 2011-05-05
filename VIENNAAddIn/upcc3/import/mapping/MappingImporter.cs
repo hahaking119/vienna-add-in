@@ -19,6 +19,7 @@ namespace VIENNAAddIn.upcc3.import.mapping
         private readonly string qualifier;
         private readonly string rootElementName;
         private ICctsRepository cctsRepository;
+        public SchemaMapping mappings { get; private set; }
 
         /// <summary>
         /// </summary>
@@ -51,13 +52,13 @@ namespace VIENNAAddIn.upcc3.import.mapping
         {
             var mapForceMapping = LinqToXmlMapForceMappingImporter.ImportFromFiles(mapForceMappingFiles);
 
-            XmlSchemaSet xmlSchemaSet = new XmlSchemaSet();
+            var xmlSchemaSet = new XmlSchemaSet();
             foreach (string xmlSchema in xmlSchemaFiles)
             {
                 xmlSchemaSet.Add(XmlSchema.Read(XmlReader.Create(xmlSchema), null));    
             }
 
-            var mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccLibrary, cctsRepository);
+            mappings = new SchemaMapping(mapForceMapping, xmlSchemaSet, ccLibrary, cctsRepository);
             var mappedLibraryGenerator = new MappedLibraryGenerator(mappings, bLibrary, docLibraryName, bieLibraryName, bdtLibraryName, qualifier, rootElementName);
             mappedLibraryGenerator.GenerateLibraries();
         }

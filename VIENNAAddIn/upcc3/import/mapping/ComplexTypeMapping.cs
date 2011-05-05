@@ -21,11 +21,13 @@ namespace VIENNAAddIn.upcc3.import.mapping
 
         private readonly List<ElementMapping> children;
         
-        protected ComplexTypeMapping(string complexTypeName, IEnumerable<ElementMapping> children)
+        protected ComplexTypeMapping(string sourceElementName, string complexTypeName, IEnumerable<ElementMapping> children)
         {
             ComplexTypeName = complexTypeName;
+            SourceElementName = sourceElementName;
             this.children = new List<ElementMapping>(children);
         }
+        public string SourceElementName {get; set; }
 
         public LibraryType Library
         {

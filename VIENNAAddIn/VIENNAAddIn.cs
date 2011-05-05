@@ -78,8 +78,9 @@ namespace VIENNAAddIn
                                       + modifyAbie
                                       + createBDT
                                       //+ "Generate &XML Schema (old)".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
-                                      + "Generate XML Schema".OnClick(ExporterForm.ShowForm)
+                                      + "&Generate XML Schema".OnClick(ExporterForm.ShowForm)
                                       + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
+                                      + "&XSLT Generator".OnClick(XsltGeneratorForm.ShowForm)
                                       //+ "Import XML Schemas (old)".OnClick(ImporterWizardFormOld.ShowImporterWizard)
                                       + _____
                                       + "&Transformer Wizard".OnClick(TransformerWizard.ShowForm)

@@ -107,6 +107,7 @@
     <Compile Include="upcc3\ea\CdtLibraryTests.cs" />
     <Compile Include="upcc3\ea\EaUmlRepositoryTest.cs" />
     <Compile Include="upcc3\ea\EaCollectionTests.cs" />
+    <Compile Include="upcc3\export\mapping\SchematronRulesTest.cs" />
     <Compile Include="upcc3\export\transformer\TransformerTest.cs" />
     <Compile Include="upcc3\export\mapping\SubsetExporterTest.cs" />
     <Compile Include="upcc3\import\cctsndr\BDTXsdImporterTests.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditorFormTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\XsltGeneratorTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\WSDLGeneratorTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\SubSettingWizardTest.cs" />
     <Compile Include="upcc3\Wizards\dev\ui\ExporterFormTest.cs" />
