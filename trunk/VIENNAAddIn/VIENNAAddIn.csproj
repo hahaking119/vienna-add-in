@@ -588,6 +588,9 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\ITSVEditor.xaml.cs">
+      <DependentUpon>ITSVEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\XsltGeneratorForm.xaml.cs">
       <DependentUpon>XsltGeneratorForm.xaml</DependentUpon>
     </Compile>
@@ -617,6 +620,12 @@
     </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\UmmInitialPackageStructureCreator.xaml.cs">
       <DependentUpon>UmmInitialPackageStructureCreator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\StereoTypeTransformer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\StereoTypeTransformer.Designer.cs">
+      <DependentUpon>StereoTypeTransformer.cs</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\util\XsltGenerator.cs" />
     <Compile Include="upcc3\Wizards\dev\util\IOConnectionItem.cs" />
@@ -1057,6 +1066,10 @@
       <DependentUpon>BDTWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="upcc3\Wizards\dev\ui\StereoTypeTransformer.resx">
+      <DependentUpon>StereoTypeTransformer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="upcc3\Wizards\GeneratorWizardForm.resx">
       <DependentUpon>GeneratorWizardForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1137,6 +1150,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\BdtEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="upcc3\Wizards\dev\ui\ITSVEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
