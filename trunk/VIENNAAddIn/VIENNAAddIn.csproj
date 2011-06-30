@@ -594,6 +594,9 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="upcc3\Wizards\dev\ui\UmlClassCustomizer.xaml.cs">
+      <DependentUpon>UmlClassCustomizer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\XsltGeneratorForm.xaml.cs">
       <DependentUpon>XsltGeneratorForm.xaml</DependentUpon>
     </Compile>
@@ -608,11 +611,6 @@
     </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\SubSettingWizard.xaml.cs">
       <DependentUpon>SubSettingWizard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="upcc3\Wizards\dev\ui\test\Animal.cs" />
-    <Compile Include="upcc3\Wizards\dev\ui\test\AnimalCategory.cs" />
-    <Compile Include="upcc3\Wizards\dev\ui\test\Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\TransformerUI.xaml.cs">
       <DependentUpon>TransformerUI.xaml</DependentUpon>
@@ -1150,6 +1148,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="upcc3\Wizards\dev\ui\UmlClassCustomizer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="upcc3\Wizards\dev\ui\XsltGeneratorForm.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1165,10 +1167,6 @@
     <Page Include="upcc3\Wizards\dev\ui\SubSettingWizard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="upcc3\Wizards\dev\ui\test\Window1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\ExporterForm.xaml">
       <Generator>MSBuild:Compile</Generator>
