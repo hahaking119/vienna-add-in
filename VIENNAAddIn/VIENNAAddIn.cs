@@ -78,6 +78,7 @@ namespace VIENNAAddIn
                                       + createABIE
                                       + modifyAbie
                                       + createBDT
+                                      + "&Uml Class Customizer".OnClick(UmlClassCustomizer.ShowCreateDialog)
                                       //+ "Generate &XML Schema (old)".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                                       + "&Generate XML Schema".OnClick(ExporterForm.ShowForm)
                                       + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
