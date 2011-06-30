@@ -39,6 +39,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             _eaRepo.Stereotypes.AddNew("CCLibrary", "Package");
             _eaRepo.Stereotypes.AddNew("BIELibrary", "Package");
             _eaRepo.Stereotypes.AddNew("CDTLibrary", "Package");
+            _eaRepo.Stereotypes.AddNew("BDTLibrary", "Package");
             _eaRepo.Stereotypes.Refresh();
             foreach (Package model in _eaRepo.Models)
             {
@@ -56,6 +57,10 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 var cdtLibrary = (Package) model.Packages.AddNew("CDTLibrary", "Package");
                 cdtLibrary.Update();
                 cdtLibrary.Element.Stereotype = "CDTLibrary";
+                var bdtLibrary = (Package)model.Packages.AddNew("BDTLibrary", "Package");
+                bdtLibrary.Update();
+                bdtLibrary.Element.Stereotype = "BDTLibrary";
+                bdtLibrary.Update();
                 bieLibrary.Update();
                 ccLibrary.Update();
                 cdtLibrary.Update();
@@ -79,42 +84,52 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
         private void AddConnectors(Package model)
         {
             var ccLibrary = (Package) model.Packages.GetByName("CCLibrary");
+            var existingConnectors = new Dictionary<int, List<int>>();
             foreach (Element element in ccLibrary.Elements)
             {
-                List<Element> originalElements = GetClassElementsByName(element.Name, (Package)model.Packages.GetByName("Class"), new List<Element>());
+                List<Element> originalElements = GetClassElementsByName(element.Name,
+                                                                        (Package) model.Packages.GetByName("Class"),
+                                                                        new List<Element>());
                 foreach (Element originalElement in originalElements)
                 {
-                    var existingConnectors = new Dictionary<int, List<int>>();
                     foreach (Connector originalConnector in originalElement.Connectors)
                     {
-                        List<Element> targetElements =
+                        Element targetElement =
                             GetClassElementsByName(_eaRepo.GetElementByID(originalConnector.SupplierID).Name,
-                                                   ccLibrary, new List<Element>());
-                        foreach (Element targetElement in targetElements)
+                                                   ccLibrary, new List<Element>())[0];
+                        Element sourceElement =
+                            GetClassElementsByName(_eaRepo.GetElementByID(originalConnector.ClientID).Name,
+                                                   ccLibrary, new List<Element>())[0];
+
+                        List<int> output;
+                        existingConnectors.TryGetValue(sourceElement.ElementID, out output);
+                        if (output == null)
                         {
-                            List<int> output;
-                            existingConnectors.TryGetValue(element.ElementID, out output);
-                            if (output == null)
+                            output = new List<int>();
+                            var connector =
+                                (Connector)
+                                ccLibrary.Connectors.AddNew(originalConnector.Name, originalConnector.Type);
+                            connector.StereotypeEx = originalConnector.Stereotype;
+                            connector.Stereotype = "ASCC";
+                            connector.ClientID = sourceElement.ElementID;
+                            connector.SupplierID = targetElement.ElementID;
+                            output.Add(targetElement.ElementID);
+                            existingConnectors.Add(sourceElement.ElementID, output);
+                            connector.Update();
+                        }
+                        else
+                        {
+                            if (!output.Contains(targetElement.ElementID))
                             {
-                                output = new List<int>();
                                 var connector =
                                     (Connector)
-                                    element.Connectors.AddNew(originalConnector.Name, originalConnector.Type);
+                                    ccLibrary.Connectors.AddNew(originalConnector.Name, originalConnector.Type);
+                                connector.StereotypeEx = originalConnector.Stereotype;
                                 connector.Stereotype = "ASCC";
+                                connector.ClientID = sourceElement.ElementID;
                                 connector.SupplierID = targetElement.ElementID;
                                 output.Add(targetElement.ElementID);
-                                existingConnectors.Add(element.ElementID, output);
-                                connector.Update();
-                            }
-                            else if (!output.Contains(targetElement.ElementID))
-                            {
-                                var connector =
-                                    (Connector)
-                                    element.Connectors.AddNew(originalConnector.Name, originalConnector.Type);
-                                connector.Stereotype = "ASCC";
-                                connector.SupplierID = targetElement.ElementID;
-                                output.Add(targetElement.ElementID);
-                                existingConnectors[element.ElementID] = output;
+                                existingConnectors[sourceElement.ElementID] = output;
                                 connector.Update();
                             }
                         }
@@ -165,11 +180,13 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                     {
                         status_update("adding ACC: " + originalElement.Name);
                         var acc = (Element) ccLibrary.Elements.AddNew(originalElement.Name, "Class");
+                        acc.StereotypeEx = originalElement.Stereotype;
                         acc.Stereotype = "ACC";
                         foreach (Attribute originalAttribute in originalElement.Attributes)
                         {
                             var attribute =
                                 (Attribute) acc.Attributes.AddNew(originalAttribute.Name, originalAttribute.Type);
+                            attribute.StereotypeEx = originalAttribute.Stereotype;
                             attribute.Stereotype = "BCC";
                             //attribute. = originalAttribute.Type;
                             try

@@ -121,7 +121,13 @@
     <Compile Include="ErrorReporter\ErrorReporterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\menu\AddInContext.cs" />
+    <Compile Include="menu\AddInContext.cs" />
+    <Compile Include="menu\AddInContextPredicateExtensions.cs" />
+    <Compile Include="menu\MenuAction.cs" />
+    <Compile Include="menu\MenuItem.cs" />
+    <Compile Include="menu\MenuLocation.cs" />
+    <Compile Include="menu\MenuManager.cs" />
+    <Compile Include="menu\MenuStringExtensions.cs" />
     <Compile Include="Settings\SynchTaggedValues.cs" />
     <Compile Include="Settings\SynchTaggedValuesGenerated.cs">
       <AutoGen>True</AutoGen>
@@ -588,9 +594,6 @@
     <Compile Include="upcc3\Wizards\dev\ui\BdtEditor.xaml.cs">
       <DependentUpon>BdtEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="upcc3\Wizards\dev\ui\ITSVEditor.xaml.cs">
-      <DependentUpon>ITSVEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="upcc3\Wizards\dev\ui\XsltGeneratorForm.xaml.cs">
       <DependentUpon>XsltGeneratorForm.xaml</DependentUpon>
     </Compile>
@@ -692,12 +695,6 @@
     <Compile Include="upcc3\import\cctsndr\ImporterContext.cs" />
     <Compile Include="upcc3\import\util\CustomSchemaReader.cs" />
     <Compile Include="Utils\DictionaryExtensions.cs" />
-    <Compile Include="Settings\menu\MenuAction.cs" />
-    <Compile Include="Settings\menu\MenuItem.cs" />
-    <Compile Include="Settings\menu\MenuLocation.cs" />
-    <Compile Include="Settings\menu\MenuManager.cs" />
-    <Compile Include="Settings\menu\MenuStringExtensions.cs" />
-    <Compile Include="Settings\menu\AddInContextPredicateExtensions.cs" />
     <Compile Include="Settings\AddInSettings.cs" />
     <None Include="Settings\SynchTaggedValuesGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1150,10 +1147,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="upcc3\Wizards\dev\ui\BdtEditor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="upcc3\Wizards\dev\ui\ITSVEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
