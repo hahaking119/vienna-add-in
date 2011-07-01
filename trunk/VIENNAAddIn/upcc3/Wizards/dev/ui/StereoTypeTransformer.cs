@@ -10,6 +10,7 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
     internal partial class StereoTypeTransformer : Form
     {
         private readonly Repository _eaRepo;
+        private readonly Dictionary<string,int> PrimList = new Dictionary<string, int>();
 
         public StereoTypeTransformer(Repository repository)
         {
@@ -35,11 +36,14 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
             _eaRepo.Stereotypes.AddNew("BCC", "Attribute");
             _eaRepo.Stereotypes.AddNew("CDT", "Class");
             _eaRepo.Stereotypes.AddNew("ABIE", "Class");
+            _eaRepo.Stereotypes.AddNew("PRIM", "Class");
+            _eaRepo.Stereotypes.AddNew("CON", "Attribute");
             _eaRepo.Stereotypes.AddNew("ASCC", "Connector");
             _eaRepo.Stereotypes.AddNew("CCLibrary", "Package");
             _eaRepo.Stereotypes.AddNew("BIELibrary", "Package");
             _eaRepo.Stereotypes.AddNew("CDTLibrary", "Package");
             _eaRepo.Stereotypes.AddNew("BDTLibrary", "Package");
+            _eaRepo.Stereotypes.AddNew("PRIMLibrary", "Package");
             _eaRepo.Stereotypes.Refresh();
             foreach (Package model in _eaRepo.Models)
             {
@@ -61,12 +65,40 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                 bdtLibrary.Update();
                 bdtLibrary.Element.Stereotype = "BDTLibrary";
                 bdtLibrary.Update();
+                var primLibrary = (Package) model.Packages.AddNew("PRIMLibrary", "Package");
+                primLibrary.Update();
+                primLibrary.Element.Stereotype = "PRIMLibrary";
                 bieLibrary.Update();
                 ccLibrary.Update();
                 cdtLibrary.Update();
                 ccLibrary.Diagrams.Refresh();
                 bieLibrary.Diagrams.Refresh();
                 model.Packages.Refresh();
+                var primBinary = (Element)primLibrary.Elements.AddNew("Binary", "Class");
+                primBinary.Stereotype = "PRIM";
+                primBinary.Update();
+                PrimList.Add(primBinary.Name,primBinary.ElementID);
+                var primBoolean = (Element)primLibrary.Elements.AddNew("Boolean", "Class");
+                primBoolean.Stereotype = "PRIM";
+                primBoolean.Update();
+                PrimList.Add(primBoolean.Name, primBoolean.ElementID);
+                var primDate = (Element)primLibrary.Elements.AddNew("Date", "Class");
+                primDate.Stereotype = "PRIM";
+                primDate.Update();
+                PrimList.Add(primDate.Name, primDate.ElementID);
+                var primDecimal = (Element)primLibrary.Elements.AddNew("Decimal", "Class");
+                primDecimal.Stereotype = "PRIM";
+                primDecimal.Update();
+                PrimList.Add(primDecimal.Name, primDecimal.ElementID);
+                var primInteger = (Element)primLibrary.Elements.AddNew("Integer", "Class");
+                primInteger.Stereotype = "PRIM";
+                primInteger.Update();
+                PrimList.Add(primInteger.Name, primInteger.ElementID);
+                var primString = (Element)primLibrary.Elements.AddNew("String", "Class");
+                primString.Stereotype = "PRIM";
+                primString.Update();
+                PrimList.Add(primString.Name, primString.ElementID);
+                primLibrary.Elements.Refresh();
                 foreach (Package package in model.Packages)
                 {
                     if (package.Name.Equals("Class"))
@@ -206,7 +238,76 @@ namespace VIENNAAddIn.upcc3.Wizards.dev.ui
                                 {
                                     var cdt = (Element) cdtLibrary.Elements.AddNew(originalAttribute.Type, "Class");
                                     cdt.Stereotype = "CDT";
+                                    var con = (Attribute)cdt.Attributes.AddNew("Content", "Attribute");
+                                    con.Stereotype = "CON";
+                                    //Mapping of custom types to CCTS Prims
+                                    switch (originalAttribute.Type)
+                                    {
+                                        case "TDBigDecimal":
+                                            con.Type = "Decimal";
+                                            con.ClassifierID = PrimList["Decimal"];
+                                            break;
+                                        case "TDBlob":
+                                            con.Type = "Binary";
+                                            con.ClassifierID = PrimList["Binary"];
+                                            break;
+                                        case "TDBoolean":
+                                            con.Type = "Boolean";
+                                            con.ClassifierID = PrimList["Boolean"];
+                                            break;
+                                        case "TDChar":
+                                            con.Type = "String";
+                                            con.ClassifierID = PrimList["String"];
+                                            break;
+                                        case "TDClob":
+                                            con.Type = "Binary";
+                                            con.ClassifierID = PrimList["Binary"];
+                                            break;
+                                        case "TDDate":
+                                            con.Type = "Date";
+                                            con.ClassifierID = PrimList["Date"];
+                                            break;
+                                        case "TDDatetime":
+                                            con.Type = "Date";
+                                            con.ClassifierID = PrimList["Date"];
+                                            break;
+                                        case "TDDouble":
+                                            con.Type = "Decimal";
+                                            con.ClassifierID = PrimList["Decimal"];
+                                            break;
+                                        case "TDInteger":
+                                            con.Type = "Integer";
+                                            con.ClassifierID = PrimList["Integer"];
+                                            break;
+                                        case "TDList":
+                                            con.Type = "String";
+                                            con.ClassifierID = PrimList["String"];
+                                            break;
+                                        case "TDLong":
+                                            con.Type = "Decimal";
+                                            con.ClassifierID = PrimList["Decimal"];
+                                            break;
+                                        case "TDLongRaw":
+                                            con.Type = "Decimal";
+                                            con.ClassifierID = PrimList["Decimal"];
+                                            break;
+                                        case "TDSet":
+                                            con.Type = "String";
+                                            con.ClassifierID = PrimList["String"];
+                                            break;
+                                        case "TDShort":
+                                            con.Type = "Integer";
+                                            con.ClassifierID = PrimList["Integer"];
+                                            break;
+                                        default:
+                                            con.Type = "String";
+                                            con.ClassifierID = PrimList["String"];
+                                            break;
+                                    }
+                                    con.Update();
+                                    cdt.Attributes.Refresh();
                                     cdt.Update();
+
                                     cdtLibrary.Elements.Refresh();
                                     attribute.ClassifierID = cdt.ElementID;
                                     attribute.Update();
