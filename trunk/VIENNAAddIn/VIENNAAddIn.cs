@@ -72,13 +72,15 @@ namespace VIENNAAddIn
                                    + _____
                                    + ("Maintenance"
                                       + "Synchronize &Tagged Values...".OnClick(SynchStereoTypes.ShowForm)
-                                      + "Set Stereo Types...".OnClick(StereoTypeTransformer.ShowForm)
+                                      // TODO: revert this to reenable UML Class Customizer
+                                      //+ "Set Stereo Types...".OnClick(StereoTypeTransformer.ShowForm)
                                      )
                                    + ("Wizards"
                                       + createABIE
                                       + modifyAbie
                                       + createBDT
-                                      + "&Uml Class Customizer".OnClick(UmlClassCustomizer.ShowCreateDialog)
+                                      // TODO: revert this to reenable UML Class Customizer
+                                      //+ "&Uml Class Customizer".OnClick(UmlClassCustomizer.ShowCreateDialog)
                                       //+ "Generate &XML Schema (old)".OnClick(GeneratorWizardForm.ShowGeneratorWizard)
                                       + "&Generate XML Schema".OnClick(ExporterForm.ShowForm)
                                       + "&Import XML Schemas".OnClick(XsdImporterForm.ShowForm)
