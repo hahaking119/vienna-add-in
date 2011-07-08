@@ -1,4 +1,5 @@
   * [VIENNAAddInOverview About the VIENNA AddIn]
+    * [Release_Notes Release Notes]
   * [ForUsers User infos]
     * [InstallationNotes Installation Notes]
     * [GettingStarted Getting Started]
@@ -22,7 +23,6 @@
         * [PassportModelStep3 Step 3 - Model associations]
         * [PassportModelStep4 What's next]
     * [Troubleshooting Troubleshooting]
-    * [Release_Notes Release Notes]
     * [EnterpriseArchitect The Enterprise Architect]
   * [ForDevelopers Developer infos]
     * [CheckoutfromSVN Check out from SVN]
