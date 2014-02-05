@@ -1,7 +1,7 @@
 <#@ template language="C#v3.5" hostspecific="True" debug="True" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="Upcc.dll" #>
-<#@ assembly name="VIENNAAddInUtils.dll" #>
+<#@ assembly name="$(SolutionDir)/UpccModel/bin/Debug/Upcc.dll" #>
+<#@ assembly name="$(SolutionDir)/VIENNAAddInUtils/bin/Debug/VIENNAAddInUtils.dll" #>
 <#@ assembly name="System.Core.dll" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>

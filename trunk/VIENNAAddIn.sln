@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VIENNAAddIn", "VIENNAAddIn\VIENNAAddIn.csproj", "{5642201A-D4A3-4F3B-9BC5-71C3A0DB7EA3}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VIENNAAddInInstaller", "VIENNAInstaller\UMM2AddInInstaller.vdproj", "{FD562D52-9DC7-4D71-AE95-0573FC87FDE9}"

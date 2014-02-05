@@ -174,12 +174,12 @@ namespace VIENNAAddIn.Settings
         private void FixDocLibrary(Path path, Package package)
         {
             AddMissingTaggedValues(path, package, "businessTerm", "copyright", "owner", "reference", "status", "uniqueIdentifier", "versionIdentifier", "baseURN", "namespacePrefix");
-            //foreach (Element element in package.Elements)
-            //{
-            //    switch (element.Stereotype)
-            //    {
-            //    }
-            //}
+            foreach (Element element in package.Elements)
+            {
+                switch (element.Stereotype)
+                {
+                }
+            }
         }
 
         private void FixEnumLibrary(Path path, Package package)

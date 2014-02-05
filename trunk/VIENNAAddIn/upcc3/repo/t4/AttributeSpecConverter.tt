@@ -1,4 +1,4 @@
-<#@ assembly name="VIENNAAddInUtils.dll" #>
+<#@ assembly name="$(SolutionDir)/VIENNAAddInUtils/bin/Debug/VIENNAAddInUtils.dll" #>
 <#@ assembly name="System.Core.dll" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="VIENNAAddInUtils"#>
