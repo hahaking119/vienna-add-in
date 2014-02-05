@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="VIENNAAddIn">
+</Property><Property Name="Projektmappendatei" Value="D:\work_vienna_ut\vienna-addin\vienna-add-in\VIENNAAddIn.sln">
+</Property><Property Name="Date" Value="Mittwoch, 05. Februar 2014">
+</Property><Property Name="Time" Value="12:15">
+</Property></Properties><Event ErrorLevel="0" Project="VIENNAAddIn" Source="VIENNAAddIn\VIENNAAddIn.csproj" Description="Projekt erfolgreich konvertiert">
+</Event><Event ErrorLevel="3" Project="VIENNAAddIn" Source="VIENNAAddIn\VIENNAAddIn.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="VIENNAAddInUnitTests" Source="VIENNAAddInUnitTests\VIENNAAddInUnitTests.csproj" Description="Projekt erfolgreich konvertiert">
+</Event><Event ErrorLevel="3" Project="VIENNAAddInUnitTests" Source="VIENNAAddInUnitTests\VIENNAAddInUnitTests.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CCLConverter" Source="CCLConverter\CCLConverter.csproj" Description="Projekt erfolgreich konvertiert">
+</Event><Event ErrorLevel="3" Project="CCLConverter" Source="CCLConverter\CCLConverter.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="VIENNAAddInUtils" Source="VIENNAAddInUtils\VIENNAAddInUtils.csproj" Description="Projekt erfolgreich konvertiert">
+</Event><Event ErrorLevel="3" Project="VIENNAAddInUtils" Source="VIENNAAddInUtils\VIENNAAddInUtils.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="VIENNAAddInWpfUserControls" Source="VIENNAAddInWpfUserControls\VIENNAAddInWpfUserControls.csproj" Description="Projekt erfolgreich konvertiert">
+</Event><Event ErrorLevel="3" Project="VIENNAAddInWpfUserControls" Source="VIENNAAddInWpfUserControls\VIENNAAddInWpfUserControls.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="CctsRepository" Source="CctsRepository\CctsRepository.csproj" Description="Projekt erfolgreich konvertiert">
+</Event><Event ErrorLevel="3" Project="CctsRepository" Source="CctsRepository\CctsRepository.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Upcc" Source="UpccModel\Upcc.csproj" Description="Projekt erfolgreich konvertiert">
+</Event><Event ErrorLevel="3" Project="Upcc" Source="UpccModel\Upcc.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="VIENNAAddIn.sln" Description="Die Projektmappe wurde erfolgreich konvertiert.">
+</Event><Event ErrorLevel="3" Project="" Source="VIENNAAddIn.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="VIENNAAddIn" Source="VIENNAAddIn\VIENNAAddIn.csproj" Description="Überprüfung abgeschlossen: Upgrade der Projektdateien nicht erforderlich.">
+</Event><Event ErrorLevel="0" Project="VIENNAAddInUnitTests" Source="VIENNAAddInUnitTests\VIENNAAddInUnitTests.csproj" Description="Überprüfung abgeschlossen: Upgrade der Projektdateien nicht erforderlich.">
+</Event><Event ErrorLevel="0" Project="CCLConverter" Source="CCLConverter\CCLConverter.csproj" Description="Überprüfung abgeschlossen: Upgrade der Projektdateien nicht erforderlich.">
+</Event><Event ErrorLevel="0" Project="VIENNAAddInUtils" Source="VIENNAAddInUtils\VIENNAAddInUtils.csproj" Description="Überprüfung abgeschlossen: Upgrade der Projektdateien nicht erforderlich.">
+</Event><Event ErrorLevel="0" Project="VIENNAAddInWpfUserControls" Source="VIENNAAddInWpfUserControls\VIENNAAddInWpfUserControls.csproj" Description="Überprüfung abgeschlossen: Upgrade der Projektdateien nicht erforderlich.">
+</Event><Event ErrorLevel="0" Project="CctsRepository" Source="CctsRepository\CctsRepository.csproj" Description="Überprüfung abgeschlossen: Upgrade der Projektdateien nicht erforderlich.">
+</Event><Event ErrorLevel="0" Project="Upcc" Source="UpccModel\Upcc.csproj" Description="Überprüfung abgeschlossen: Upgrade der Projektdateien nicht erforderlich.">
+</Event></UpgradeLog>
