@@ -1,0 +1,1 @@
+The Quick Linker provides a simple and fast way to create new elements and connectors on a diagram. Get more information about the Quick Linker at http://www.sparxsystems.com/EAUserGuide/index.html?quick_links.htm
